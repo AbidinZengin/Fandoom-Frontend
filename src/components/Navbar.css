@@ -1,0 +1,127 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 8px clamp(20px, 4vw, 56px);
+  background: rgba(5, 5, 5, 0.72);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 34px);
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar__item {
+  position: relative;
+}
+
+.navbar__link {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  padding: 8px 2px;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.navbar__link:hover {
+  color: var(--fg);
+}
+
+.navbar__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  min-width: 190px;
+  padding: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+.navbar__dropdown-link {
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+
+.navbar__dropdown-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.navbar__search {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: var(--fg);
+  font-size: 13px;
+  width: 190px;
+  transition: width 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar__search:focus {
+  outline: none;
+  width: 240px;
+  border-color: var(--accent);
+}
+
+.navbar__search::placeholder {
+  color: var(--fg-muted);
+}
+
+.navbar__icon {
+  color: var(--fg-dim);
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.navbar__icon:hover {
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 900px) {
+  .navbar__links {
+    display: none;
+  }
+  .navbar__search {
+    width: 140px;
+  }
+}
