@@ -1,0 +1,303 @@
+/* Sayfa doğrudan URL'den açılırsa GameOfThrones.module.css hiç
+   yüklenmeyebilir — @font-face burada da tanımlı olmalı (aynı @font-face
+   birden fazla yerde register edilmesi zararsızdır, bkz. SeasonEpisodes). */
+@font-face {
+  font-family: 'Game of Thrones';
+  src: url('/fonts/game-of-thrones.ttf') format('truetype');
+  font-display: swap;
+}
+
+.notfound {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notfound__title {
+  font-size: var(--text-h1);
+  color: var(--fg-muted);
+  font-weight: 700;
+}
+
+.hero {
+  /* Yapımın display fontu yalnız HARF taşıyan öğelerde kullanılır (roman
+     rakamı, başlık) — glyph seti rakam/noktalama içermez (bkz.
+     GameOfThrones.module.css yorumu); bölüm numaraları bu yüzden gövde
+     fontunda kalır. */
+  --font-got: 'Game of Thrones', 'Cinzel', serif;
+
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* overflow:hidden YOK (kasıtlı) — hero__media navbar'ın sticky boşluğuna
+     doğru yukarı taşıyor (bkz. aşağıki yorum), kırpılırsa o boşluk açığa
+     çıkar. */
+  padding: var(--space-3xl) var(--space-page-x);
+  text-align: center;
+}
+
+/* Navbar `position: sticky` olduğu için transform ile gizlenince bile
+   72px'lik (logo 56px + 8px dikey padding) layout alanını bırakmaz — arka
+   plan bu boşluğu da kaplayacak şekilde yukarı taşıyor, navbar tekrar
+   görününce üstüne biner (yarı-saydam zemininin arkasında hafif görünür,
+   kasıtlı "cam nav" hissi). Navbar gizliyken siyah boşluk kalmasın diye. */
+.hero__media {
+  position: absolute;
+  top: -72px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  background: var(--bg);
+  /* Hero sert bir kenarla bitip alttaki künye bloğuna çarpmasın: Intro'daki
+     sis erimesinin DİKEY karşılığı. Rampa uzun ve çok duraklı (1 → 0.78 →
+     0.38 → 0) — learned-rules gereği algılanabilir geometrik sınır olmamalı,
+     sis gibi organik sönmeli. Maske .hero__content'i etkilemez (kardeş
+     katman), metin net kalır; alt bölgede koyulaşma okunabilirliği de
+     artırır. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.78) 76%,
+    rgba(0, 0, 0, 0.38) 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.78) 76%,
+    rgba(0, 0, 0, 0.38) 88%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* Kenarlarda + merkezde okunabilirlik için katmanlı karartma — referansın
+   kenar çizgi çerçevesi/HBO şeridi kullanıcı kararıyla dışarıda bırakıldı. */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 55%, rgba(0, 0, 0, 0.55) 0%, transparent 70%),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.35) 0%,
+      rgba(0, 0, 0, 0.2) 30%,
+      rgba(0, 0, 0, 0.35) 65%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  width: min(640px, 100%);
+}
+
+.hero__label {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.hero__label:not(:first-child) {
+  margin-top: var(--space-sm);
+}
+
+.hero__seasonNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.hero__seasonNumber {
+  min-width: 2.4ch;
+  font-family: var(--font-got);
+  font-weight: 400; /* tek ağırlıklı display font — faux-bold yok */
+  font-size: var(--text-h2);
+  color: var(--fg);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.55),
+    0 0 32px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.hero__arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 44px — dokunmatik hedef tabanı (önceki 32px hem WCAG 2.5.8'in
+     üstündeydi ama sektör tabanının altındaydı). */
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: var(--fg-muted);
+  transition: color var(--duration-fast) ease, opacity var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .hero__arrow:not(:disabled):hover {
+    color: var(--accent);
+  }
+}
+
+.hero__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.hero__ornament {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: min(220px, 60%);
+  margin: var(--space-xs) 0;
+}
+
+.hero__ornamentLine {
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--fg) 25%, transparent);
+}
+
+.hero__ornamentDot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, var(--fg));
+}
+
+.hero__title {
+  margin: 0;
+  max-width: 20ch;
+  font-family: var(--font-got);
+  font-weight: 400; /* tek ağırlıklı display font — faux-bold yok */
+  font-size: var(--text-h1);
+  line-height: 1.15;
+  color: var(--fg);
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.6),
+    0 0 44px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.hero__episodeStrip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  max-width: 100%;
+}
+
+.hero__episodeList {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 0 var(--space-2xs);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.hero__episodeList::-webkit-scrollbar {
+  display: none;
+}
+
+/* Dokunma hedefi görsel görünümü DEĞİŞTİRMEDEN büyütülür: padding vermek
+   aktif durumun alt çizgisini metinden koparırdı, bu yüzden alan sözde
+   elemanla genişletilir. Dikeyde komşu yok → 44px'e çıkılır; yatayda
+   pill'ler arası boşluk 16px olduğu için kenar başına en fazla 8px
+   büyütülebilir (fazlası komşunun alanıyla çakışıp yanlış bölüme
+   tıklanmasına yol açardı) — bu hâliyle ~36px, WCAG 2.5.8'in 24px
+   tabanının rahat üstünde. */
+.hero__episodePill {
+  position: relative;
+  flex-shrink: 0;
+  padding: var(--space-2xs) 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-faint);
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .hero__episodePill:not([data-active]):hover {
+    color: var(--fg-dim);
+  }
+}
+
+.hero__episodePill::after {
+  content: '';
+  position: absolute;
+  inset: -13px -8px;
+}
+
+.hero__episodePill[data-active] {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+
+/* Dekoratif ipucu değil, künye bloğuna götüren gerçek buton. */
+.hero__explore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xl);
+  padding: var(--space-xs) var(--space-md);
+  background: none;
+  border: none;
+  transition: color var(--duration-fast) ease;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.hero__exploreChevron {
+  font-size: var(--text-md);
+  color: var(--accent);
+}
+
+@media (hover: hover) {
+  .hero__explore:hover {
+    color: var(--fg);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__title {
+    font-size: var(--text-h2);
+  }
+
+  .hero__episodeList {
+    justify-content: flex-start;
+  }
+}

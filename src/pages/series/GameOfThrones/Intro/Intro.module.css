@@ -1,0 +1,326 @@
+/* Dragon Journey intro — AKAN SAHNELER mimarisi (kullanıcı kararı v3,
+   "sayfa gerçekten kaysın"): pin YOK; sahneler doğal akışta ~100svh
+   bantlar, bantlar ARASINDA ~100svh salt siyah boşluk (siyah nefes
+   ekranı). Giriş/çıkış süzülmesi ve yöne duyarlı snap JS'te (GSAP).
+   Sis: özneye merkezli ÇOK YUMUŞAK asimetrik radial erime, SİYAHLA
+   karışık zemin (learned-rules). Katman düzeni (sahne içi): z0 still
+   (maske altında zoom) + tint → z2 metin. */
+
+.intro {
+  /* Sayfa-yerel display font token'ı — @font-face sayfa kökünde
+     (GameOfThrones.module.css); yalnız harfli vurgu metinlerinde. */
+  --font-got: 'Game of Thrones', 'Cinzel', serif;
+
+  /* Sis zemini SİYAHLA karışıktır (kullanıcı düzeltmesi: tema
+     kahvesine kaçmasın) — görsel tonu ::before ambient tint verir. */
+  --intro-bg: color-mix(in srgb, var(--bg) 30%, black);
+
+  position: relative;
+  background: var(--intro-bg);
+}
+
+/* Sahne bandı: doğal akışta ~1 viewport; elemanları JS süzülmeyle
+   girer/çıkar. Bantlar arasındaki boşluk zeminin kendisidir → scroll
+   sırasında tam siyah nefes ekranı oluşur. */
+.intro__scene {
+  position: relative;
+  min-height: 100svh;
+}
+
+.intro__scene + .intro__scene {
+  /* Siyah nefes — kullanıcı ayarı: tam viewport (100svh) fazla bulundu */
+  margin-top: 50svh;
+}
+
+/* --- Sahne 0: açılış / premise + künye --- */
+.intro__opening {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-page-x);
+  text-align: center;
+}
+
+.intro__openingInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.intro__eyebrow {
+  margin: 0;
+  font-family: var(--font-got);
+  font-size: var(--text-sm);
+  font-weight: 400; /* tek ağırlıklı display font — faux-bold yok */
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Hero logosu burada TEKRARLANMAZ (learned-rules) — açılış premise cümlesi */
+.intro__headline {
+  margin: 0;
+  max-width: 24ch;
+  font-size: clamp(30px, 4.6vw, 64px); /* token üstü — açılış premise */
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--fg);
+}
+
+.intro__stats {
+  list-style: none;
+  margin: var(--space-2xl) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xl) var(--space-2xl);
+}
+
+.intro__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.intro__statValue {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.intro__statLabel {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* --- Hikâye sahnesi: still + metin --- */
+.intro__beat {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden; /* zoom bleed'ini kırpar */
+}
+
+/* Ambient HAFİF tint: yalnız görsel tarafında düşük opak radial —
+   still'in tonunu zemine yumuşak taşıyan ipucu. */
+.intro__beat::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 72% at var(--tint-x, 63%) 50%,
+    color-mix(in srgb, var(--wp-ambient, var(--accent)) 12%, transparent),
+    transparent 72%
+  );
+}
+
+.intro__beat--left::before {
+  --tint-x: 37%;
+}
+
+/* Still: kareye tam yayılır; özneye merkezli ÇOK YUMUŞAK radial erime
+   ile zemine karışır. Rampa uzun ve çok duraklı → algılanabilir
+   geometrik sınır (keskin oval) YOK, sis gibi organik bir sönme
+   (kullanıcı düzeltmesi). Metin tarafına doğru erken söner → yazıya
+   koyu alan kalır. Maske sarmalayıcıda SABİT durur; zoom içteki img'i
+   altında büyütür → kamera hareketi net okunur. */
+.intro__beatMedia {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 58% at var(--oval-x, 50%) 50%,
+    #000 20%,
+    rgba(0, 0, 0, 0.72) 46%,
+    rgba(0, 0, 0, 0.34) 66%,
+    transparent 92%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 58% at var(--oval-x, 50%) 50%,
+    #000 20%,
+    rgba(0, 0, 0, 0.72) 46%,
+    rgba(0, 0, 0, 0.34) 66%,
+    transparent 92%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.intro__beat--right .intro__beatMedia {
+  --oval-x: 63%;
+}
+
+.intro__beat--left .intro__beatMedia {
+  --oval-x: 37%;
+}
+
+.intro__beatImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+  transform-origin: 50% 50%; /* zoom merkezden — "sahneye girme" hissi */
+  /* Koyu sayfaya oturma grade'i — görsel atmosfer olarak görünür kalır */
+  filter: saturate(0.9) brightness(0.82);
+}
+
+/* Metin — sert kolon DEĞİL: erimenin yumuşak bölgesinin İÇİNE taşar.
+   Başlık görsele doğru kayar, gövde kolonda kalır → tek düz dikey
+   hiza çizgisi kırılır (kullanıcı düzeltmesi). Üst bölgeden başlar
+   (referans: başlık üstte, gövde onu izler). */
+.intro__beatBody {
+  position: relative;
+  z-index: 2;
+  width: min(48ch, 46%);
+  /* Üst boşluk viewport-oranlı — skalada karşılığı yok, teslim notunda. */
+  padding-top: clamp(80px, 14svh, 180px);
+  padding-inline: var(--space-page-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.intro__beat--left .intro__beatBody {
+  margin-left: auto; /* image sol → metin sağa */
+}
+
+/* Başlık erime bölgesine, görsele DOĞRU taşar — kolon çizgisini kırar */
+.intro__beat--left .intro__beatTitle {
+  margin-inline-start: calc(-1 * var(--space-3xl));
+}
+
+.intro__beat--right .intro__beatTitle {
+  align-self: flex-end;
+  text-align: right;
+  margin-inline-end: calc(-1 * var(--space-3xl));
+}
+
+/* Gövde hafif karşı yönde nefes alır — başlıkla aynı hizada durmaz */
+.intro__beat--left .intro__beatText {
+  margin-inline-start: var(--space-xl);
+}
+
+.intro__beat--right .intro__beatText {
+  margin-inline-end: var(--space-xl);
+}
+
+.intro__beatTitle {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-got);
+  font-size: var(--text-h1);
+  font-weight: 400; /* tek ağırlıklı display font — faux-bold yok */
+  line-height: 1.2;
+  color: var(--fg);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.55),
+    0 0 44px color-mix(in srgb, var(--wp-ambient, var(--accent)) 45%, transparent);
+}
+
+.intro__beatText {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: 1.75;
+  color: var(--fg-dim);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Kapanış sahnesi --- */
+.intro__closing {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--space-page-x);
+}
+
+.intro__closingText {
+  margin: 0;
+  max-width: 24ch;
+  text-align: center;
+  font-size: clamp(26px, 3.6vw, 52px); /* token üstü — kapanış sahnesi */
+  font-weight: 300;
+  line-height: 1.3;
+  color: var(--fg);
+}
+
+/* --- Responsive: mobil eşit öncelik (learned-rules) ---
+   Yan düzen dikeye iner: still üst bölgeyi doldurur, alta erir; metin
+   önde, alt yarıda durur (Netflix hero blend). */
+@media (max-width: 900px) {
+  .intro__beat {
+    align-items: flex-end;
+  }
+
+  .intro__beat--right .intro__beatMedia,
+  .intro__beat--left .intro__beatMedia {
+    --oval-x: 50%;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 46%,
+      transparent 96%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 46%,
+      transparent 96%
+    );
+  }
+
+  /* Metin bölgesi (alt yarı) zeminden koyulaşır — okunabilirlik */
+  .intro__beat::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 38%,
+      color-mix(in srgb, var(--intro-bg) 82%, transparent) 66%,
+      var(--intro-bg) 98%
+    );
+  }
+
+  .intro__beatBody {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: var(--space-2xl);
+  }
+
+  .intro__beat--left .intro__beatBody {
+    margin-left: 0;
+  }
+
+  /* Masaüstü taşma ofsetleri mobilde sıfırlanır — dar ekranda tek akış */
+  .intro__beat--left .intro__beatTitle,
+  .intro__beat--right .intro__beatTitle {
+    margin-inline: 0;
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  .intro__beat--left .intro__beatText,
+  .intro__beat--right .intro__beatText {
+    margin-inline: 0;
+  }
+}
+
+/* --- Reduced-motion: ek CSS gerekmez — düzen zaten doğal akış; tüm
+   süzülme/zoom/snap JS'te matchMedia ile no-preference'a kilitli,
+   reduce modunda hiç kurulmaz ve tüm içerik görünür kalır. --- */

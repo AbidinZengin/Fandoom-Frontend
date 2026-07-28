@@ -34,7 +34,41 @@
   --font-display: 'Montserrat', sans-serif;
   --font-body: 'Montserrat', sans-serif;
 
-  --theme-transition: 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  --theme-transition: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Spacing scale — mevcut kullanımdan türetildi (8px taban ritmi) */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-page-x: clamp(20px, 4vw, 56px); /* sayfa yatay padding deseni */
+
+  /* Radius scale */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-round: 50%;
+  --radius-pill: 999px;
+
+  /* Typography scale */
+  --text-2xs: 10px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 16px;
+  --text-lg: 22px;
+  --text-h2: clamp(24px, 3vw, 36px);
+  --text-h1: clamp(32px, 5vw, 56px);
+
+  /* Motion durations (CSS transition'lar için; GSAP süreleri JS'te) */
+  --duration-micro: 0.2s;
+  --duration-fast: 0.3s;
+  --duration-base: 0.6s;
+  --duration-slow: 0.9s;
 }
 
 * {

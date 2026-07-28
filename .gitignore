@@ -22,3 +22,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Claude scratchpad (screenshot doğrulama çıktıları)
+.claude/scratchpad/
+
+# Claude git worktree checkout'ları (yerel, repoya girmez)
+.claude/worktrees/
+
+# Python bytecode cache (skill script'leri)
+__pycache__/
+*.pyc
+
+# 3. taraf Behance referans medyası (indirilen video/görsel, telifli — sadece
+# yerel ilham kaynağı; damıtılmış analiz ANALIZ.md commit'e girer, medya girmez)
+docs/references/behance/got/
+docs/references/behance/hobbit/
+docs/references/behance/player/
+
+# scripts/ tek seferlik asset araçlarının çıktısı (bkz. scripts/README.md)
+scripts/output/

@@ -1,0 +1,270 @@
+/* Sinematik süzülme reveal (3D helix reddedildi — kullanıcı kararı). Pin yok:
+   uzun stage, sticky merkez eksen, kartlar eksenin sağ/solunda alternating ve
+   alttan yumuşak süzülerek merkeze oturur. Zemin SİYAHLA karışıktır: tema
+   kahvesi geniş yüzeye işlemez (Intro'yla aynı desen, learned-rules). */
+.stepper {
+  --stepper-bg: color-mix(in srgb, var(--bg) 30%, black);
+
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  isolation: isolate;
+  background: var(--stepper-bg);
+}
+
+/* Path kuyruğu: eksen çizgisi bölüm sonunda kesilmez — bir sonraki
+   component'in başlığına doğru uzayıp erir (referans: bölümler arası
+   ince dikey bağlantı çizgisi; z-index bunun için). */
+.stepper::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -14vh;
+  width: 1px;
+  height: 26vh;
+  background: linear-gradient(180deg, var(--border), transparent);
+  pointer-events: none;
+}
+
+/* Üst padding 36vh: dot, ilk kart gelmeden yolun bir kısmını tek başına
+   alır (kullanıcı isteği — elementlerden önce path'te mesafe). */
+.stepper__stage {
+  position: relative;
+  z-index: 1;
+  padding: 80vh 0 24vh;
+}
+
+/* --- Sticky merkez eksen: taban çizgi + dolan rail + gezen dot --- */
+/* Track akış dışıdır (absolute) ve sticky'nin sınır kutusudur: bottom
+   12vh → dot bölüm sonundaki 24vh'lik boşluğun ortasında durur, path
+   kuyruğu (::after) tam o noktadan devralır. Önceki negatif-margin
+   akış hilesi sticky sınırını bölüm dışına genişletiyordu — kaldırıldı. */
+.stepper__axis-track {
+  position: absolute;
+  top: 24vh;
+  bottom: 12vh;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.stepper__axis {
+  position: sticky;
+  top: 13vh;
+  width: 1px;
+  height: 74vh;
+  margin-left: 50%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--border) 8%,
+    var(--border) 92%,
+    transparent
+  );
+}
+
+/* Dolan kısım — BEYAZ (referans ornament dili; brand accent bu
+   bölümde kullanılmaz — kullanıcı düzeltmesi) */
+.stepper__axis-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 3px;
+  background: #fff;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.45);
+  transform-origin: top center;
+}
+
+/* Gezen dot BEYAZDIR (referans ornament dili — brand-pink reddedildi) */
+.stepper__axis-dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  display: block;
+  width: 11px;
+  height: 11px;
+  border: 1px solid #fff;
+  border-radius: var(--radius-round);
+  background: #fff;
+  box-shadow:
+    0 0 0 5px rgba(255, 255, 255, 0.12),
+    0 0 22px rgba(255, 255, 255, 0.7);
+  transform: translateX(-50%);
+}
+
+/* --- Kartlar --- */
+.stepper__card {
+  position: relative;
+  left: 50%;
+  z-index: 2;
+  width: min(39vw, 480px);
+  min-height: 84vh;
+  display: flex;
+  align-items: center;
+  will-change: transform, opacity;
+}
+
+/* Sol kart: GSAP xPercent -100 + x -38 ile eksenin soluna oturur; statik
+   (reduced-motion) düzende de aynı tarafta dursun diye margin ile çekilir */
+.stepper__card--left {
+  margin-left: -38px;
+}
+
+.stepper__card--right {
+  margin-left: 38px;
+}
+
+.stepper__number {
+  position: absolute;
+  z-index: 3;
+  top: calc(50% - 42vh + var(--space-md));
+  left: 0;
+  color: var(--fg-muted);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.stepper__card--right .stepper__number {
+  right: 0;
+  left: auto;
+}
+
+.stepper__frame {
+  display: block; /* Link olarak render edilince <a> varsayılan inline'ı kırar */
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.28;
+  overflow: hidden;
+  background: var(--stepper-bg);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.42);
+}
+
+.stepper__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: filter, transform;
+}
+
+.stepper__media--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--fg-faint);
+}
+
+/* Metin okunabilirliği: alta koyulaşan scrim (referans mediaShade) */
+.stepper__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.08) 15%,
+    transparent 44%,
+    rgba(0, 0, 0, 0.83) 100%
+  );
+  pointer-events: none;
+}
+
+/* --- Copy: görselin içinde, alt bantta --- */
+.stepper__copy {
+  position: absolute;
+  z-index: 2;
+  right: clamp(22px, 4vw, 52px);
+  bottom: clamp(24px, 4.3vw, 54px);
+  left: clamp(22px, 4vw, 52px);
+  color: var(--fg);
+  will-change: transform, opacity;
+}
+
+.stepper__cardTitle {
+  margin: 0;
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.stepper__desc {
+  max-width: 30ch;
+  margin: var(--space-lg) 0 0;
+  color: var(--fg-dim);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+/* --- Mobil (kırılım: 800px): eksen merkezde kalır, kartlar alternating
+   yerine MERKEZ KOLONDA eksenin üstünden akar (dar ekranda sağ/sol
+   yerleşim viewport dışına taşıyordu) — dot kart aralıklarında görünür,
+   süzülme/blur/snap deneyimi masaüstüyle aynıdır. Yatay GSAP set'i
+   yalnız masaüstünde uygulanır (JSX matchMedia koşulu). --- */
+@media (max-width: 800px) {
+  .stepper__stage {
+    padding-top: 70vh;
+  }
+
+  .stepper__axis-track {
+    top: 23vh;
+  }
+
+  .stepper__axis {
+    top: 16vh;
+    height: 68vh;
+  }
+
+  .stepper__card,
+  .stepper__card--left,
+  .stepper__card--right {
+    left: auto;
+    width: min(88vw, 420px);
+    min-height: 80vh;
+    margin-inline: auto;
+  }
+
+  /* Kart min-height 80vh → üst kenar 50% - 40vh; numara kart üstüne oturur */
+  .stepper__number {
+    top: calc(50% - 40vh + var(--space-md));
+  }
+
+  .stepper__frame {
+    aspect-ratio: 0.88;
+  }
+
+  .stepper__copy {
+    right: 22px;
+    bottom: 22px;
+    left: 22px;
+  }
+
+  .stepper__desc {
+    margin-top: var(--space-md);
+  }
+}
+
+/* --- Reduced-motion: JS çalışmaz, kartlar statik akışta merkez kolonda --- */
+@media (prefers-reduced-motion: reduce) {
+  .stepper__card,
+  .stepper__card--left,
+  .stepper__card--right {
+    left: auto;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: auto;
+    padding: var(--space-2xl) 0;
+  }
+
+  .stepper__axis-track,
+  .stepper::after {
+    display: none;
+  }
+}

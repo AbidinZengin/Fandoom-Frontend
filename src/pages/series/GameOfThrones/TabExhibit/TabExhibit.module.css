@@ -1,0 +1,172 @@
+/* Tab + sabit sergi bölümü. Mobil-öncelikli: başlık, sonra tab listesi, sonra
+   sergi (tek kolon). Masaüstünde solda tab kolonu + sağda sergi yan yana.
+   Zemin SİYAHLA karışıktır — tema kahvesi geniş yüzeye işlemez
+   (Intro/ScrollStepper'la aynı desen, learned-rules). */
+.exhibit {
+  --exhibit-bg: color-mix(in srgb, var(--bg) 30%, black);
+
+  position: relative;
+  background: var(--exhibit-bg);
+  padding: var(--space-3xl) var(--space-page-x);
+}
+
+/* --- Ana başlık (ornament pill) --- */
+.exhibit__head {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-2xl);
+}
+
+/* Düz tipografi — pill/kutu zemin reddedildi (kullanıcı düzeltmesi) */
+.exhibit__title {
+  margin: 0;
+  font-size: var(--text-h2);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--fg);
+}
+
+/* Merkez kolona sıkışır — sergi full-width'te çok yayvan durdu
+   (kullanıcı düzeltmesi) */
+.exhibit__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  width: min(1120px, 100%);
+  margin-inline: auto;
+}
+
+/* --- Sol: dikey tab menüsü --- */
+.exhibit__tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.exhibit__tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-muted);
+  transition: color var(--duration-fast) ease;
+}
+
+/* Öğe önündeki kısa çizgi — aktif/hover'da uzar + brand accent alır */
+.exhibit__tab-line {
+  flex: none;
+  width: var(--space-lg);
+  height: 1px;
+  background: var(--fg-faint);
+  transition:
+    width var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
+}
+
+.exhibit__tab-label {
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.exhibit__tab[data-active] {
+  color: var(--fg);
+}
+
+/* Aktif gösterge BEYAZ — pembe accent bu bölümde reddedildi */
+.exhibit__tab[data-active] .exhibit__tab-line {
+  width: var(--space-2xl);
+  background: #fff;
+}
+
+@media (hover: hover) {
+  .exhibit__tab:hover {
+    color: var(--fg);
+  }
+}
+
+/* --- Sağ: sabit sergi alanı --- */
+.exhibit__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+/* Görsel katmanları — hepsi üst üste, aktif olan crossfade ile görünür */
+.exhibit__layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+
+.exhibit__layer[data-active] {
+  opacity: 1;
+}
+
+.exhibit__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.exhibit__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--fg-faint);
+}
+
+/* Altta ince ghost watermark (referans dili — derinlik katmanı) */
+.exhibit__ghost {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-lg);
+  transform: translateX(-50%);
+  font-size: var(--text-xs);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  opacity: 0.5;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* --- Masaüstü: tab kolonu + sergi yan yana --- */
+@media (min-width: 901px) {
+  .exhibit__layout {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--space-3xl);
+  }
+
+  .exhibit__tabs {
+    flex: none;
+    width: clamp(200px, 22vw, 280px);
+    justify-content: center;
+  }
+
+  .exhibit__stage {
+    flex: 1;
+    aspect-ratio: auto;
+  }
+}
+
+/* Reduced-motion: crossfade anlık olur */
+@media (prefers-reduced-motion: reduce) {
+  .exhibit__layer,
+  .exhibit__tab,
+  .exhibit__tab-line {
+    transition: none;
+  }
+}

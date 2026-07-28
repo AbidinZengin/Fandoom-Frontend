@@ -1,0 +1,93 @@
+/* Referans (IMDb konsepti): tam yükseklikte sahne — ortalanmış ince dikey
+   posterler, arkada kesilmiş dev tipografi. Kart düz posterdir: radius yok,
+   çerçeve yok, metin overlay yok. */
+.featured {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-3xl) var(--space-page-x);
+}
+
+/* Bölüm başlığı: kartların üstünde, büyük ve sola hizalı (kullanıcı
+   kararı — dev arka plan tipografisi kaldırıldı). Ölçek --text-h1'in
+   üstünde, lokal değer; teslim notunda bildirildi. */
+.featured__heading {
+  margin: 0 0 var(--space-xl);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.featured__row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Dikey padding hover uzamasının payı: kart üstten+alttan %7 taşar;
+     overflow-x:auto dikey taşmayı kırptığı için alan satır içinde ayrılır. */
+  padding-block: 36px;
+}
+
+.featured__row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Sığdığında ortala, taştığında düzgün scroll et — justify-content: center
+   overflow ile sol ucu erişilmez bırakır, auto margin ikisini de çözer. */
+.featured__card:first-child {
+  margin-left: auto;
+}
+
+.featured__card:last-child {
+  margin-right: auto;
+}
+
+/* Dikey dilim — referans oranından (1:3.3) daha dolgun tutuldu (kullanıcı
+   kararı: "biraz fazla ince"). Kartın kutusu sabit kalır (komşular
+   kaymaz); hover'da içteki medya katmanı üstten+alttan taşarak uzar. */
+.featured__card {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(124px, 11.5vw, 168px);
+  aspect-ratio: 1 / 2.7;
+  scroll-snap-align: start;
+}
+
+.featured__card-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* Poster'i olmayan yapımlar: görsel gelene dek koyu zemin
+     (theme'de yüzey token'ı yok — teslim notunda bildirildi). */
+  background: rgba(255, 255, 255, 0.04);
+  transition: inset 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: inset;
+}
+
+.featured__card:hover .featured__card-media,
+.featured__card:focus-visible .featured__card-media {
+  inset: -7% 0;
+}
+
+.featured__card-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Referans: posterler sönük grayscale bekler, hover'da renklenir. */
+  filter: grayscale(1) brightness(0.75);
+  transition: filter 0.35s ease;
+}
+
+.featured__card:hover .featured__card-poster,
+.featured__card:focus-visible .featured__card-poster {
+  filter: none;
+}
