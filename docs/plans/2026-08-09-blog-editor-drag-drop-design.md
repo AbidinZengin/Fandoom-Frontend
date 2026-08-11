@@ -1,8 +1,14 @@
 # Blog Editör Paneli — Sürükle-Bırak Blok Editörü
 
-**Durum:** Tasarım onaylandı, uygulama başlamadı. Backend bağımlılıkları
-(bkz. "Backend bağımlılıkları") tamamlandı — frontend implementasyonu
-artık hiçbir eksik/geçici varsayıma dayanmadan baştan sona başlayabilir.
+**Durum:** Uygulandı (iskelet + canlı test edildi), TEK istisnayla: bu
+dosyanın aşağıdaki "State & veri akışı" ve pozisyon modeli bölümleri
+ESKİ col/row tasarımını anlatıyor — 2026-08-09'da kullanıcı düzeltmesiyle
+("row col yeterli gelmedi, kendimiz ayarlayabiliyor olalım, bağımsız
+olsun") serbest x/y/width/height canvas modeline geçildi. GÜNCEL doğru
+kaynak `learned-rules` `[blog-blok-pozisyon]` kurallarıdır — bu dosya
+artık sadece tarihsel iz (component listesi, backend auth/status
+handoff'ları hâlâ geçerli). dnd-kit paketi bu pivotla birlikte
+KALDIRILDI — sürükle/boyutlandır artık ham pointer event'leriyle.
 
 ## Amaç
 

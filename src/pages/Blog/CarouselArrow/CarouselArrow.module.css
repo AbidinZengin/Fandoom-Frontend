@@ -1,0 +1,40 @@
+/* RelatedContent.related__arrow ile aynı sözleşme (44px dokunma hedefi,
+   glyph okları) — bu sayfanın kendi carousel'leri için scoped kopya. */
+.arrow {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  font-size: var(--text-h2);
+  line-height: 1;
+  color: var(--fg);
+  background: none;
+  transition:
+    color var(--duration-micro) ease,
+    transform var(--duration-micro) ease;
+}
+
+@media (hover: hover) {
+  .arrow:hover {
+    color: var(--accent);
+    transform: scale(1.12);
+  }
+}
+
+.arrow:active {
+  transform: scale(0.94);
+}
+
+.arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+}

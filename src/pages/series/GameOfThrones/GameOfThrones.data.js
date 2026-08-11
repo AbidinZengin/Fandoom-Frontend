@@ -3,6 +3,7 @@
 // backend'de hiç karşılığı olmayan, salt frontend'e ait sunum verisidir —
 // API'den gelmez, burada sabit kalır.
 export { fetchProductionDetail } from '../../../shared/api/productions';
+export { resolveGenreNames } from '../../../shared/api/genres';
 
 export const theme = {
   bg: '#050505',

@@ -1,0 +1,374 @@
+/* "You Might Also Like" içerik carousel'i — bölüm sayfasının son bölümü.
+   ÖLÇÜ NOTU: kullanıcı wireframe'i 1002px tuvalde ölçüldü.
+     başlık sol x=48        → var(--space-page-x) (bu genişlikte ~40px)
+     başlık → kart arası 50 → var(--space-2xl)
+     kart 183x282           → 2:3 dikey (0.649 ≈ 0.667)
+     kartlar arası 24       → var(--space-lg)
+     kart → kontrol 30      → var(--space-xl)
+     "IMAGE" etiketi y=257, kart 143-425 arası → görsel bandı 143-371
+     (merkezi tam 257), başlık bandı 371-425. Yani başlık görselin ÜSTÜNDE
+     overlay DEĞİL, kartın altındaki ayrı bant — görsel 4:5, altında başlık.
+     5. kart sağ kenarda kırpılı → şerit viewport kenarına taşar (peek). */
+
+/* ScrollTrigger pin hedefi — bkz. RelatedContent.jsx: carousel'in altına
+   scroll edildiğinde aktif kart bu boşluk kadar (1 viewport) tam ekrana
+   büyür. Görünür bir yükseklik değil, yalnız pin'in tutunacağı bir nokta. */
+.expandTrigger {
+  height: 1px;
+}
+
+/* Büyütme tam genişleyince (bkz. RelatedContent.jsx onUpdate) kutunun
+   ALTINDA beliren açıklama — document.body'ye doğrudan DOM ile ekleniyor
+   (React dışı, klonla aynı yaşam döngüsü), bu yüzden stiller className
+   üzerinden CSS Modules hash'iyle burada tanımlı. Konum/genişlik JS'ten
+   inline gelir (kutunun gerçek alt kenarına göre), burada yalnız tipografi.
+   */
+.expandDescription {
+  text-align: center;
+  pointer-events: none;
+}
+
+.expandTitle {
+  margin: 0 0 var(--space-sm);
+  font-family: 'Game of Thrones', 'Cinzel', serif;
+  font-weight: 400;
+  font-size: var(--text-h2);
+  color: var(--fg);
+}
+
+.expandBody {
+  margin: 0;
+  max-width: 68ch;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--fg-dim);
+}
+
+.related {
+  /* Sayfanın display fontu — EpisodeBrief/EpisodeStory ile aynı tanım. */
+  --font-got: 'Game of Thrones', 'Cinzel', serif;
+
+  padding-block: var(--space-3xl);
+  background: var(--bg);
+}
+
+.related__inner {
+  padding-inline: var(--space-page-x);
+}
+
+/* Bölüm başlığı — TİP DEĞİŞTİ (kullanıcı isteği): ince uppercase sans yerine
+   sayfanın GoT display fontu, normal-case ve h2 puntosunda. Böylece şerit
+   EpisodeBrief/EpisodeStory başlıklarıyla aynı tipografik aileye girer;
+   `[tipografi]` kuralının "tam-uppercase afiş başlığı yok" maddesine de
+   uyar. */
+/* Alt boşluk --space-2xl'den --space-md'ye indi: hover uzamasının payı olarak
+   track'e eklenen --space-xl padding-top farkı kapatıyor, başlık ↔ kart
+   aralığı ölçülen ~50px'de kalıyor (16 + 32 = 48). */
+.related__heading {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-got);
+  font-size: var(--text-h2);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+}
+
+/* Şerit sayfa padding'inden BAŞLAR ama scroll alanı viewport kenarına kadar
+   uzar — negatif margin + eşit padding: sağdaki kart kesilerek "devamı var"
+   sinyalini verir (wireframe'deki kırpılı 5. kart). */
+.related__viewport {
+  margin-inline: calc(-1 * var(--space-page-x));
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  /* Gutter padding TRACK'te, burada değil: scroller'ın kendi padding'i
+     olduğunda `scroll-snap-align: start` kartı padding'in ÖNÜNE kilitliyor
+     (ölçüldü: scrollLeft rest hâlinde 0 değil 56'ya snap'liyordu) ve 1. kart
+     başlıkla hizasını kaybedip ekran kenarına yapışıyordu. `scroll-padding`
+     snapport'u içe alarak scrollLeft:0'ı geçerli bir snap noktası yapar. */
+  scroll-padding-inline: var(--space-page-x);
+  scroll-snap-type: x mandatory;
+  /* Demo: `touch-action: pan-x` — dokunmatik yatay kaydırma native kalır. */
+  touch-action: pan-x;
+  /* Sürüklenebilir olduğu imleçten anlaşılsın (demoda yok, keşfedilebilirlik
+     için eklendi). */
+  cursor: grab;
+  /* Şerit kendi çubuğunu göstermez — oklar + sürükleme + native swipe. */
+  scrollbar-width: none;
+}
+
+/* Demodaki `.slides:not(.dragging) { scroll-snap-type }` karşılığı: sürükleme
+   sırasında snap kapanır, yoksa parmak/imleç hareketiyle snap kavga eder ve
+   şerit kasar. */
+.related__viewport[data-dragging] {
+  scroll-snap-type: none;
+  cursor: grabbing;
+}
+
+.related__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.related__track {
+  display: flex;
+  gap: var(--space-lg);
+  margin: 0;
+  padding-inline: var(--space-page-x);
+  /* Hover uzamasının ÜST payı: medya katmanı kart kutusunun %7'si kadar
+     yukarı taşıyor (245px'lik kartta ~28px). Scroller'ın overflow-x: auto'su
+     dikey ekseni de `auto`ya çevirdiği için pay burada ayrılmazsa taşan kenar
+     kırpılırdı. ALT pay ayrıca gerekmiyor: aşağı doğru uzama kartın kendi
+     görsel↔başlık boşluğunun içinde kalıyor (bkz. `.card` gap). */
+  padding-block-start: var(--space-xl);
+  list-style: none;
+}
+
+/* Kart genişliği 245 → 280 (kullanıcı: "kapakları biraz daha büyült").
+   1440px ekranda şeridin görünen alanı 1440 - 56 = 1384px:
+   4 × 280 + 3 × 24 = 1192px → 4 kart tam, 5.'si 168px kırpılı sızar.
+   ÖNCEKİ "tam 5 kart" ölçüsü bu büyütmeyle geçersiz — büyütmenin kaçınılmaz
+   sonucu, kaydırma payı zaten öğe sayısından geliyor (9 kart × 280 + 8 × 24
+   = 2712px şerit, ~1330px pay). */
+.related__item {
+  flex: 0 0 auto;
+  width: clamp(170px, 19.5vw, 280px);
+  /* Demo `center` kullanıyor; burada `start` — wireframe kartların sol sayfa
+     gutter'ına hizalı başlamasını gösteriyor, `center` ilk kartı içe kaydırıp
+     o hizayı bozuyor. */
+  scroll-snap-align: start;
+}
+
+/* ---------- Kart ---------- */
+
+/* KESKİN köşe — radius ve çerçeve YOK (kullanıcı kararı: "radius olmasın,
+   kare olsun"). Kartın altındaki GRİ YAZI BANDI da kaldırıldı (kullanıcı:
+   "alttaki yazı kısmı çirkin duruyor") — başlık artık kendi zemini olmadan,
+   doğrudan bölüm zemininde görselin altında durur. */
+/* Kartın kendisinde hover geçişi YOK: uzama içteki `.card__frame`'e ait
+   (learned-rules [imza-uzama]). Görsel ↔ başlık boşluğu --space-sm'den
+   --space-xl'e çıktı — aşağı doğru uzayan medya katmanının payı bu:
+   280px kartta taşma ~%7 × 392 = 28px, 32px boşluk onu başlığa değdirmeden
+   yutuyor. */
+/* Kart TIKLANABİLİR (kullanıcı kararı): tıklama büyütme animasyonunu başlatır
+   ve Content Drops'a devreder. Ortalanmış kart hafifçe büyüyerek "sıradaki"
+   olduğunu gösterir — seçim tıklamayla yapıldığı için bu artık salt konum
+   işaretidir. */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--duration-fast) ease;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.card[data-active] {
+  transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}
+
+/* Görsel bandının SABİT kutusu: yerleşimi (yükseklik, komşuların yeri) bu
+   belirler ve hover'da kımıldamaz. Oran 1 / 1.4 = demonun
+   `--slide-height: calc(--slide-width * 1.4)` ölçüsü. KIRPMAZ — kırpma bir
+   alttaki `.card__frame`'in işi, burada `overflow` olsaydı taşan uzama
+   görünmezdi. */
+.card__media {
+  position: relative;
+  aspect-ratio: 1 / 1.4;
+}
+
+/* Hover'da üstten+alttan taşan medya katmanı — FeaturedCarousel'in
+   `.featured__card-media`'sıyla birebir aynı desen ve aynı değerler
+   (learned-rules [imza-uzama]: `inset: 0 → -7% 0`, `0.35s
+   cubic-bezier(0.33, 1, 0.68, 1)`). Kutu sabit kaldığı için komşu kartlar
+   kaymaz, sadece görsel dikeyde açılır.
+
+   `overflow: clip` — `hidden` DEĞİL. Demonun kaynağında birebir şu yorum var:
+   "Use clip, not hidden!". Sebebi: `hidden` elemanı scroll container yapar,
+   `view(x)` de timeline'ı EN YAKIN scroll container'a bağlar — burada hidden
+   olsaydı parallax carousel'e değil bu (hiç kaymayan) kutuya bağlanır ve
+   animasyon hiç oynamazdı. `clip` scroll container YARATMADIĞI için kırpma
+   korunur, timeline da doğru yere bağlanır.
+
+   Görsel geç yüklense de arkada koyu zemin durur (skeleton/shimmer yok). */
+.card__frame {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  background: color-mix(in srgb, var(--bg) 70%, black);
+  /* 0.35s tema skalasında yok (--duration-fast 0.3s): [imza-uzama] kuralı
+     "değerler birebir korunur" dediği için Home'daki süre aynen alındı. */
+  transition: inset 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: inset;
+}
+
+.card:hover .card__frame {
+  inset: -7% 0;
+}
+
+/* Demodaki `.slide > img` birebir: absolute, çerçeveyi doldurur, sağ kenara
+   yapışık başlar ("Stick 'm to the right of their frame"). */
+.card__image {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 100% 0;
+}
+
+/* Bant yok: zemin/padding kaldırıldı, başlık görselin altında serbest durur.
+   Sola hizalı — ortalanmış başlık bantla birlikte gidince dağınık duruyordu
+   ve editöryel kart dili sol hizadır. */
+.card__title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 500;
+  line-height: 1.3;
+  text-wrap: balance;
+  color: var(--fg);
+}
+
+/* ---------- Kontroller (ortalanmış: ok · noktalar · ok) ---------- */
+
+.related__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3xl);
+  margin-top: var(--space-xl);
+}
+
+.related__arrow {
+  display: grid;
+  place-items: center;
+  /* Dokunma hedefi 44px — glyph'ten bağımsız (a11y). */
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  font-size: var(--text-h2);
+  line-height: 1;
+  color: var(--fg);
+  background: none;
+  cursor: pointer;
+  transition:
+    opacity var(--duration-micro) ease,
+    transform var(--duration-micro) ease;
+}
+
+.related__arrow:hover:not(:disabled) {
+  transform: scale(1.12);
+}
+
+.related__arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+/* Noktalar arası açıldı (kullanıcı isteği): 4px → 12px, nokta çapının 3 katı. */
+.related__dots {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.related__dot {
+  width: var(--space-2xs);
+  height: var(--space-2xs);
+  border-radius: var(--radius-round);
+  background: var(--fg-faint);
+  transition: background var(--duration-micro) ease;
+}
+
+.related__dot[data-active] {
+  background: var(--accent);
+}
+
+/* ---------- Responsive (learned-rules: mobil eşit öncelikli) ---------- */
+
+/* Tablet: iki kart + peek. */
+@media (max-width: 900px) {
+  .related__item {
+    width: clamp(180px, 38vw, 250px);
+  }
+
+  .related__controls {
+    gap: var(--space-2xl);
+  }
+}
+
+/* Mobil: tek kart + peek — noktalar burada tam anlamlı çalışır. */
+@media (max-width: 600px) {
+  .related__item {
+    width: 74vw;
+  }
+
+  .related__heading {
+    margin-bottom: var(--space-sm);
+  }
+}
+
+/* Dokunmatikte hover'a bağlı efektler devreden çıkar (genişlik değil hover
+   yeteneği ölçülür). */
+@media (hover: none) {
+  .card:hover .card__frame {
+    inset: 0;
+  }
+
+  .related__arrow:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* ---------- Parallax (CSS scroll-driven) ----------
+
+   Uyarlama: scroll-driven-animations.style "Parallax Carousel", Apache-2.0
+   (hero dönüşümüyle aynı kaynak). Demonun tekniği birebir: kart şeritte
+   ilerlerken GÖRSEL kendi çerçevesi içinde `object-position` ile kayar —
+   kart/kutu hareket etmez, sadece içerideki kadraj sürüklenir. Timeline
+   `view(x)` yani elemanın YATAY scrollport'taki kendi görünürlük ilerlemesi;
+   `animation-range` verilmez, varsayılan `cover 0% → cover 100%` (karta
+   girişten çıkışına kadar) tam ihtiyacımız olan aralık.
+
+   Keyframe değerleri demonun BİREBİR aynısı: 100% → 0% tam pan (kullanıcı
+   kararı). Geometri notu: demodaki kaynak 700x600 (~1.17) iken bizde 16:9
+   still var ve kutu 4:5. `cover` yüksekliğe göre ölçeklendiği için görselin
+   TAMAMI dikeyde görünür, yatayda kutu genişliğinin ~1.22 katı taşma olur —
+   yani aynı keyframe bizde demodan belirgin daha uzun bir kayma üretir ve
+   şeridin iki ucundaki kartlarda özne merkezden epeyce kayar. Etki
+   yumuşatılmak istenirse tek yer burasıdır (ör. 80% → 20%).
+
+   Dikey eksen (`0`) etkisiz: dikeyde taşma olmadığı için Y değeri kadrajı
+   değiştirmez, demoyla aynı biçimde yazıldı.
+
+   Taban `object-position: 100% 0` da demoyla birebir (bkz. `.card__image`) —
+   desteklenmeyen tarayıcıda kartlar görselin sağ kenarını gösterir. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    @keyframes card-image-pan {
+      0% {
+        object-position: 100% 0;
+      }
+
+      100% {
+        object-position: 0 0;
+      }
+    }
+
+    .card__image {
+      animation: card-image-pan linear both;
+      animation-timeline: view(x);
+    }
+  }
+}

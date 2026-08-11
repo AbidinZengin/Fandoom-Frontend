@@ -42,8 +42,10 @@
   transition: color 0.2s ease;
 }
 
-.navbar__link:hover {
-  color: var(--fg);
+@media (hover: hover) {
+  .navbar__link:hover {
+    color: var(--fg);
+  }
 }
 
 .navbar__dropdown {
@@ -69,9 +71,11 @@
   white-space: nowrap;
 }
 
-.navbar__dropdown-link:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--fg);
+@media (hover: hover) {
+  .navbar__dropdown-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--fg);
+  }
 }
 
 .navbar__actions {
@@ -111,16 +115,120 @@
   transition: color 0.2s ease, background 0.2s ease;
 }
 
-.navbar__icon:hover {
-  color: var(--fg);
+@media (hover: hover) {
+  .navbar__icon:hover {
+    color: var(--fg);
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* --- Mobil menü (≤900px) --- */
+
+/* Zemini şeffaf olduğu için görsel olarak sadece ikon okunur; min-* değerleri
+   yalnız dokunma hedefini rahat parmak boyutuna çıkarır. */
+.navbar__burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  border-radius: var(--radius-round);
+  background: none;
+  color: var(--fg-dim);
+}
+
+.navbar__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: var(--space-xs) var(--space-page-x) var(--space-2xl);
+  /* Neredeyse tam opak koyu zemin — arkadaki sayfa okunmaz olmalı. */
+  background: rgba(5, 5, 5, 0.97);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.navbar__overlay-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.navbar__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  border-radius: var(--radius-round);
+  background: none;
+  color: var(--fg-dim);
+}
+
+.navbar__overlay-search {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-base);
+  flex-shrink: 0;
+}
+
+.navbar__overlay-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.navbar__overlay-search::placeholder {
+  color: var(--fg-muted);
+}
+
+.navbar__overlay-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.navbar__overlay-link {
+  display: block;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+}
+
+.navbar__overlay-sub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding-left: var(--space-md);
+  border-left: 1px solid var(--border);
+}
+
+.navbar__overlay-sublink {
+  font-size: var(--text-base);
+  color: var(--fg-muted);
 }
 
 @media (max-width: 900px) {
-  .navbar__links {
+  /* Yatay şerit ve navbar araması overlay'e devreder — ikisi de burada
+     kalkar, gezinmenin tamamı hamburger'ın arkasındadır. */
+  .navbar__links,
+  .navbar__search {
     display: none;
   }
-  .navbar__search {
-    width: 140px;
+
+  .navbar__burger {
+    display: flex;
   }
 }

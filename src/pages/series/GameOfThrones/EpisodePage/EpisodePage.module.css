@@ -20,6 +20,18 @@
   font-weight: 700;
 }
 
+/* Sis rampasının ilk durağı. Dönüşüm boyunca 100%'e sürülünce maskenin tüm
+   durakları kutunun dışına taşar, yani maske tamamen opak olur — sis erimesi
+   YALNIZ tam ekran hero'ya aittir, 64px'lik header net kenarlı olmalı.
+   Duraklar arası mesafe (14/26/38) orijinal rampayla birebir aynı, tek
+   registered property ile sürülüyor. inherits: true — animasyon .hero'da
+   tanımlı, maskeyi kullanan .hero__media çocuğu. */
+@property --fog-start {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 62%;
+}
+
 .hero {
   /* Yapımın display fontu yalnız HARF taşıyan öğelerde kullanılır (roman
      rakamı, başlık) — glyph seti rakam/noktalama içermez (bkz.
@@ -27,29 +39,53 @@
      fontunda kalır. */
   --font-got: 'Game of Thrones', 'Cinzel', serif;
 
+  /* Navbar (8px dikey padding + 56px logo) header'ın ÜSTÜNDE yüzer; kartın
+     GÖRÜNEN şeridi bu yüksekliğin altında kalan 40px'tir (72 + 40 = 112).
+     Olabildiğince ince tutuldu (kullanıcı isteği): header'da yalnız başlık
+     kalıyor (iki satır × 13px × 1.15 ≈ 30) + 4px alt padding; gezinme
+     kartın kenarlarındaki braketlerde. Başlık bunun için --text-sm'e
+     kadar küçülür. */
+  --navbar-h: 72px;
+  /* Header'da navbar payı BIRAKILMAZ (kullanıcı: "üstteki boşluk tamamen
+     kalksın") — bar yalnız içeriği kadar yüksektir ve boyunu 48px'e büyüyen
+     oklar belirler. Navbar aşağı scroll'da zaten geri çekili; yukarı
+     scroll'da geri gelirken dönüşüm de ters sarıp kartı büyüttüğü için iki
+     katman pratikte çakışmaz. */
+  --hero-h-collapsed: 56px;
+  /* Şerit satırı düzleşince oklar başlığın ALTINDA asılı kalıyor; bu kadar
+     yukarı çekilince merkezleri başlığın merkeziyle çakışıyor. Geometri
+     telafisi (tasarım ölçeğinden gelen bir değer değil). */
+  --arrow-rise: 15px;
+  /* Okların header'daki yatay hedefi: viewport merkezinden ~28vw uzakta —
+     kartın en kenarı DEĞİL (orası fazla dağınık bulundu), başlığın belirgin
+     şekilde dışında bir konum. Dar ekranda oran kendiliğinden küçülür. */
+  --strip-shift: 28vw;
+  /* Dönüşümün scroll mesafesi. `hero__spacer` SABİT 100svh kalır (animasyonlu
+     yapmak scroll(root) timeline'ının kendi kaynağı olan doküman yüksekliğini
+     değiştirip döngüsel bir bağımlılık yaratıyor, scroll'u kararsızlaştırdı —
+     denendi, geri alındı). Bunun yerine bitiş noktası --hero-h-collapsed'e
+     göre HESAPLANIR: spacer(100vh) - bitiş = collapsed yükseklik olmalı ki
+     header ile altındaki içerik arasında boşluk/örtüşme kalmasın (demonun
+     100vh/90vh/10vh üçlüsünün birebir aynı kısıtı — orada 100-90=10 hero'nun
+     10vh'lik bitiş yüksekliğine eşit olduğu için boşluksuzdu). Fixed px bir
+     bitiş (90vh gibi) yerine bu, hero-h-collapsed hangi değere çekilirse
+     çekilsin ve ekran yüksekliği ne olursa olsun kısıtı otomatik sağlar. */
+  --collapse-end: calc(100vh - var(--hero-h-collapsed));
+
   position: relative;
   min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* overflow:hidden YOK (kasıtlı) — hero__media navbar'ın sticky boşluğuna
-     doğru yukarı taşıyor (bkz. aşağıki yorum), kırpılırsa o boşluk açığa
-     çıkar. */
-  padding: var(--space-3xl) var(--space-page-x);
+  /* Üst padding navbar alanını boş bırakır — içerik her iki durumda da
+     navbar'ın altında kalır. */
+  padding: var(--navbar-h) var(--space-page-x) var(--space-3xl);
   text-align: center;
 }
 
-/* Navbar `position: sticky` olduğu için transform ile gizlenince bile
-   72px'lik (logo 56px + 8px dikey padding) layout alanını bırakmaz — arka
-   plan bu boşluğu da kaplayacak şekilde yukarı taşıyor, navbar tekrar
-   görününce üstüne biner (yarı-saydam zemininin arkasında hafif görünür,
-   kasıtlı "cam nav" hissi). Navbar gizliyken siyah boşluk kalmasın diye. */
 .hero__media {
   position: absolute;
-  top: -72px;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: 0;
   background: var(--bg);
   /* Hero sert bir kenarla bitip alttaki künye bloğuna çarpmasın: Intro'daki
@@ -61,21 +97,39 @@
   -webkit-mask-image: linear-gradient(
     to bottom,
     #000 0%,
-    #000 62%,
-    rgba(0, 0, 0, 0.78) 76%,
-    rgba(0, 0, 0, 0.38) 88%,
-    transparent 100%
+    #000 var(--fog-start),
+    rgba(0, 0, 0, 0.78) calc(var(--fog-start) + 14%),
+    rgba(0, 0, 0, 0.38) calc(var(--fog-start) + 26%),
+    transparent calc(var(--fog-start) + 38%)
   );
   mask-image: linear-gradient(
     to bottom,
     #000 0%,
-    #000 62%,
-    rgba(0, 0, 0, 0.78) 76%,
-    rgba(0, 0, 0, 0.38) 88%,
-    transparent 100%
+    #000 var(--fog-start),
+    rgba(0, 0, 0, 0.78) calc(var(--fog-start) + 14%),
+    rgba(0, 0, 0, 0.38) calc(var(--fog-start) + 26%),
+    transparent calc(var(--fog-start) + 38%)
   );
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+}
+
+/* Kart küçüldükçe koyulaşan katman — demodaki `background-color: #0b1584`
+   geçişinin karşılığı, ama yapımın sıcak tonuna DEĞİL sitenin standart
+   siyahına gider (learned-rules: yapım rengi zemine yayılmaz). Header
+   hâlinde navbar'ın kendi zeminiyle aynı dilde koyu bir şerit bırakır. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.72);
+  opacity: 0;
+}
+
+/* Hero akıştan çıkınca (position: fixed) altındaki içeriğin yukarı
+   sıçramaması için yerini tutar — demodaki `body { padding-top: 100vh }`
+   karşılığı. Efekt devre dışıysa hero normal akışta kaldığı için gizli. */
+.hero__spacer {
+  display: none;
 }
 
 .hero__image {
@@ -83,6 +137,11 @@
   height: 100%;
   object-fit: cover;
   object-position: center 20%;
+  /* Dönüşümün başlangıç kadrajı YAKIN durur; kart küçülürken scale 1'e
+     inerek görsel geri çekilir (bkz. hero-image-pan). Kutu `overflow:hidden`
+     olduğu için taşan kısım kırpılır. */
+  transform: scale(1.25);
+  transform-origin: center 20%;
 }
 
 /* Kenarlarda + merkezde okunabilirlik için katmanlı karartma — referansın
@@ -107,6 +166,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Dikey hizalama İÇİN gerekli: column yönünde align-items yalnız YATAY
+     ekseni ortalar, dikey eksen justify-content'e bağlıdır. Bu tanımsız
+     kalınca sönen elemanlar (label/ornament/strip) tam 0 yüksekliğe
+     inemediğinde başlık üstte kalıp altında boşluk bırakıyordu — header'da
+     başlık gerçekten dikey ortalansın diye eklendi. */
+  justify-content: center;
   gap: var(--space-md);
   width: min(640px, 100%);
 }
@@ -128,17 +193,6 @@
   display: flex;
   align-items: center;
   gap: var(--space-lg);
-}
-
-.hero__seasonNumber {
-  min-width: 2.4ch;
-  font-family: var(--font-got);
-  font-weight: 400; /* tek ağırlıklı display font — faux-bold yok */
-  font-size: var(--text-h2);
-  color: var(--fg);
-  text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.55),
-    0 0 32px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .hero__arrow {
@@ -167,6 +221,17 @@
 .hero__arrow:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+.hero__seasonNumber {
+  min-width: 2.4ch;
+  font-family: var(--font-got);
+  font-weight: 400; /* tek ağırlıklı display font — faux-bold yok */
+  font-size: var(--text-h2);
+  color: var(--fg);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.55),
+    0 0 32px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .hero__ornament {
@@ -209,6 +274,9 @@
   align-items: center;
   gap: var(--space-sm);
   max-width: 100%;
+  /* Header'da şeridin yüksekliği 0'a iner ama okların GÖRÜNMESİ gerekir —
+     kutudan taşarak başlık hizasına çekilirler (bkz. hero-strip-flatten). */
+  overflow: visible;
 }
 
 .hero__episodeList {
@@ -289,6 +357,237 @@
 @media (hover: hover) {
   .hero__explore:hover {
     color: var(--fg);
+  }
+}
+
+/* Header'a SIĞMAYAN öğeler (label'lar, sezon navigasyonu, ornament, Explore).
+   Sönerken yer de bırakmamaları gerekir — salt opacity 64px'lik şeritte
+   görünmez ama yer kaplayan boşluklar bırakırdı. max-height interpolable
+   olduğu için sıkışma animasyonun parçası olabiliyor; 80px hepsinin gerçek
+   yüksekliğinin üstünde bir tavan (kutu o değere kadar zaten serbest). */
+.hero__collapsible {
+  max-height: 80px;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   Cover card → fixed header dönüşümü.
+
+   Uyarlandığı kaynak: scroll-driven-animations.style "Full-Height Cover Card
+   to Fixed Header" demosu — Apache License 2.0
+   (https://www.apache.org/licenses/LICENSE-2.0.txt).
+
+   Demodan AYRILAN noktalar ve nedenleri:
+   - Demo tek bir div'i `background-image` ile sürüyor; burada responsive
+     <img> (srcset/sizes/fetchPriority) korunduğu için parallax pan
+     `background-position` yerine `object-position` ile yapılır.
+   - `animation-timeline: scroll()` yerine `scroll(root)`: theme.css'teki
+     `body { overflow-x: hidden }` body'yi de bir scroll container'a
+     çevirdiğinden isimsiz `scroll()` yanlış scroller'a bağlanabilirdi.
+   - Bitiş rengi demonun mavisi değil sitenin standart siyahı (bkz.
+     .hero__scrim yorumu).
+
+   Mekanik demoyla aynı: hero `position: fixed` (sticky DEĞİL — yükseklik
+   animasyonu document yüksekliğini kısaltıp scroll mesafesini bozardı),
+   scroll(root) timeline'ına bağlı keyframe'ler 0 → 90vh aralığında kutuyu ve
+   başlık puntosunu küçültür. `@supports` guard'ı fallback'i kendiliğinden
+   verir: destek yoksa hero normal akışta tam ekran statik kalır.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-range: 0vh 90vh) {
+    .hero {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      /* Navbar (z-index 50) header'ın ÜSTÜNDE kalır — kartın görünen şeridi
+         navbar'ın altındaki bölümdür. Navbar aşağı scroll'da gizlenince
+         açığa çıkan alan boşluk değil, görselin devamıdır. */
+      z-index: 40;
+      min-height: 0;
+      height: 100svh;
+      /* Kutu küçülürken içerik dışarı sarkmasın. Tam ekran hâlde kırpacak
+         bir şey yok (kutu zaten viewport kadar) — eski `top: -72px` taşması
+         kaldırıldığı için learned-rules'un "hero'da overflow:hidden yasak"
+         gerekçesi (siyah şerit açığa çıkması) ortadan kalktı. */
+      overflow: hidden;
+      animation: hero-collapse linear forwards;
+      animation-timeline: scroll(root);
+      animation-range: 0 var(--collapse-end);
+    }
+
+    .hero__spacer {
+      display: block;
+      height: 100svh;
+    }
+
+    .hero__content,
+    .hero__title,
+    .hero__image,
+    .hero__scrim,
+    .hero__collapsible {
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      animation-timeline: scroll(root);
+      animation-range: 0 var(--collapse-end);
+    }
+
+    .hero__content {
+      animation-name: hero-content-tighten;
+    }
+
+    .hero__title {
+      animation-name: hero-title-shrink;
+    }
+
+    .hero__image {
+      animation-name: hero-image-pan;
+    }
+
+    .hero__scrim {
+      animation-name: hero-scrim-in;
+    }
+
+    /* Sığmayan öğeler dönüşümün TAMAMINI beklemez — kutu daralmadan önce
+       yerlerini boşaltmaları gerekir, yoksa son fazda içerik kutuya
+       sığmayıp kırpılmış görünür. */
+    .hero__collapsible {
+      animation-name: hero-item-collapse;
+      /* Ana aralığın (--collapse-end) ~%61'i — oran demoyla aynı (55/90) */
+      animation-range: 0 calc(var(--collapse-end) * 0.611);
+    }
+
+    /* Şeridin ORTASI (pill listesi) söner; okları ise kartın kenarlarına
+       doğru açılır — böylece "01 02 03…" kaybolurken ‹ › sağa/sola kayarak
+       header'daki son konumlarını alır (kullanıcı kararı).
+       Kayma mesafesi: içerik kolonu 640px'te ortalı olduğu için her okun
+       kenara olan uzaklığı (100vw - kolon) / 2; sayfa padding'i kadar içeride
+       durması için --space-page-x geri alınır. Kolon dar ekranda 100vw'ye
+       düştüğünde ifade 0'a indiği için mobilde kayma kendiliğinden kalkar. */
+    .hero__episodeList,
+    .hero__episodeStrip,
+    .hero__arrowPrev,
+    .hero__arrowNext {
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      animation-timeline: scroll(root);
+      animation-range: 0 var(--collapse-end);
+    }
+
+    .hero__episodeList {
+      animation-name: hero-list-collapse;
+    }
+
+    /* Şerit satırı akışta yer kaplamayı bırakır; oklar `overflow: visible`
+       sayesinde taşıp görünmeye devam eder ve translateY ile başlığın
+       hizasına çekilir. Böylece header yalnız başlık yüksekliği kadar
+       kalır. */
+    .hero__episodeStrip {
+      animation-name: hero-strip-flatten;
+    }
+
+    @keyframes hero-strip-flatten {
+      to {
+        max-height: 0;
+      }
+    }
+
+    .hero__arrowPrev {
+      animation-name: hero-arrow-out-left;
+    }
+
+    .hero__arrowNext {
+      animation-name: hero-arrow-out-right;
+    }
+
+    @keyframes hero-list-collapse {
+      to {
+        opacity: 0;
+        max-width: 0;
+        padding: 0;
+      }
+    }
+
+    /* Oklar kenara kayarken BÜYÜR (kullanıcı isteği) ve `--arrow-rise` kadar
+       yukarı çekilerek başlığın dikey hizasına oturur — şerit satırı
+       düzleştiği için aksi hâlde başlığın altında asılı kalırlardı. */
+    @keyframes hero-arrow-out-left {
+      to {
+        transform: translate(calc(-1 * var(--strip-shift)), calc(-1 * var(--arrow-rise)));
+        width: 48px;
+        height: 48px;
+        font-size: var(--text-h2);
+      }
+    }
+
+    @keyframes hero-arrow-out-right {
+      to {
+        transform: translate(var(--strip-shift), calc(-1 * var(--arrow-rise)));
+        width: 48px;
+        height: 48px;
+        font-size: var(--text-h2);
+      }
+    }
+
+
+    @keyframes hero-collapse {
+      to {
+        height: var(--hero-h-collapsed);
+        /* Üstteki navbar payı da kapanır — bkz. --hero-h-collapsed yorumu. */
+        padding-top: var(--space-2xs);
+        padding-bottom: var(--space-2xs);
+        --fog-start: 100%;
+      }
+    }
+
+    /* Gap TAMAMEN kapanır: düzleşen şerit satırı (max-height 0) altta hâlâ
+       bir gap kadar yer tutuyor ve başlığı yukarı itip barın üst kenarına
+       yapıştırıyordu. Gap sıfırlanınca başlık, üst ve alt padding arasında
+       gerçekten ortalanır. */
+    @keyframes hero-content-tighten {
+      to {
+        gap: 0;
+      }
+    }
+
+    /* Yalnız punto küçülür — `max-width` 20ch'te SABİT kalır (kullanıcı:
+       "başlık şekil değiştirmesin, olduğu gibi küçülsün"). ch birimi
+       font-size'a bağlı olduğu için sınır da oransal daralır ve satır
+       kırılımı dönüşüm boyunca değişmez; başlık iki satırsa iki satır
+       kalarak küçülür. */
+    @keyframes hero-title-shrink {
+      to {
+        font-size: var(--text-sm);
+      }
+    }
+
+    /* Demodaki `background-position: 50% 0 → 50% 100%` pan'ının object-fit
+       karşılığı, ÜSTÜNE zoom-out (kullanıcı: "görsel de yazıya dahil olsun").
+       Demoda görsel yalnız kırpılıyordu — kutu daralırken kendisi
+       küçülmüyordu; scale 1.25 → 1 başlığın punto küçülmesine görsel bir
+       karşılık verir, kart geri çekilerek header'a oturur. Bitiş kadrajı
+       ortaya yakın seçildi ki header'da sahne boşa düşmesin. */
+    @keyframes hero-image-pan {
+      to {
+        object-position: center 65%;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes hero-scrim-in {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes hero-item-collapse {
+      to {
+        opacity: 0;
+        max-height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
   }
 }
 

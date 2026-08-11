@@ -53,3 +53,130 @@ export function armInPageNav() {
 export function isInPageNavArmed() {
   return inPageNavAt > 0 && performance.now() - inPageNavAt < ARM_WINDOW_MS;
 }
+
+// ---------------------------------------------------------------------------
+// Dive Deeper (RelatedContent) → /blog/:slug "kesintisiz devir" geçişi.
+//
+// Mekanik: büyüyen görsel React'in DIŞINDA, document.body'ye eklenmiş bir
+// klondur — bu yüzden route değişiminde UNMOUNT OLMAZ, ekranda durmaya devam
+// eder. Genişleme tamamlanınca navigate edilir; BlogPost mount olup kendi
+// kutusunu TAM AYNI geometride çizer ve klonu kaldırır. İki kare arasında
+// görsel fark olmadığı için sayfa değişimi hiç algılanmaz.
+// ---------------------------------------------------------------------------
+
+/**
+ * Genişlemiş kutunun ölçüsü — referans component'in birebir formülü
+ * (300+1250 / 400+400, %95vw / %85vh tavanlı). İKİ TARAF da bunu kullanır:
+ * kaynak (RelatedContent) buraya büyütür, hedef (BlogPost) buradan devralır.
+ * Tek kaynak olmazsa iki sayfa arasında birkaç piksellik sıçrama olur.
+ */
+export function blogExpandedBox() {
+  const isMobile = window.innerWidth <= 900;
+  return {
+    width: Math.min(window.innerWidth * 0.95, 300 + (isMobile ? 650 : 1250)),
+    height: Math.min(window.innerHeight * 0.85, 400 + (isMobile ? 200 : 400)),
+  };
+}
+
+let blogFlip = null;
+let blogFlipArmedAt = 0;
+
+/**
+ * Genişleme tamamlanıp navigate edilmeden hemen önce çağrılır.
+ * @param {{imageUrl: string, originRect: {top,left,width,height}, returnPath: string}} payload
+ *   originRect GERİ DÖNÜŞ için: kullanıcı Blog'da en üstte yukarı scroll
+ *   edince kutu tam bu dikdörtgene geri küçülür. Rect pin aralığı boyunca
+ *   GEÇERLİDİR — pin görüntüyü dondurduğu için kart, aralığın başında da
+ *   sonunda da ekranda aynı yerdedir.
+ */
+export function armBlogFlip(payload) {
+  blogFlip = payload;
+  blogFlipArmedAt = performance.now();
+}
+
+/** PageTransition: bu geçiş bir devir mi (genel sayfa fade'i ATLANMALI)? */
+export function isBlogFlipArmed() {
+  return blogFlipArmedAt > 0 && performance.now() - blogFlipArmedAt < ARM_WINDOW_MS;
+}
+
+/** BlogPost mount'unda: kutuyu devralıyor muyuz, hangi verilerle? */
+export function readBlogFlip() {
+  return isBlogFlipArmed() ? blogFlip : null;
+}
+
+// Geri dönüş (Blog → bölüm sayfası). BlogPost klonu küçültmeye başlar ve
+// AYNI ANDA navigate eder. Kaynak sayfa açılınca RelatedContent kendi
+// ScrollTrigger'ını kurup scroll'u pin aralığının BAŞINA taşır — kart orada
+// klonun ineceği rect'te durur ve progress 0 olduğu için rakip bir klon
+// kurulmaz (aralığın SONUNA dönmek progress≈1 verip ikinci klon yaratıyordu).
+let blogReturnArmedAt = 0;
+let blogReturnPayload = null;
+
+/**
+ * Geri dönüş başlarken, navigate'ten hemen önce çağrılır.
+ * @param {{scrollLeft: number, scrollY: number, originRect: {top,left,width,height}}} payload
+ *   scrollLeft/scrollY: kaynak sayfanın bırakıldığı hâli — remount olduğu
+ *   için ikisi de elle geri konur, yoksa "sıfırdan yüklenmiş" gibi görünür.
+ *   originRect: küçülmenin ineceği kart dikdörtgeni. Küçülme Blog sayfasında
+ *   DEĞİL, kaynak sayfa yerine oturduktan SONRA orada oynatılır — ancak
+ *   böylece açılışın tam aynası olur (perde kaynak sayfayı açarak sönerken
+ *   kutu kartına iner).
+ */
+export function armBlogReturn(payload) {
+  blogReturnPayload = payload ?? null;
+  blogReturnArmedAt = performance.now();
+}
+
+/** Kaynak sayfa: geri dönüş verisi (yoksa null). */
+export function readBlogReturn() {
+  return isBlogReturnArmed() ? blogReturnPayload : null;
+}
+
+/**
+ * Kaynak sayfa: bu açılış bir geri dönüş mü? Diğer bayraklarla AYNI desen —
+ * tüketilmez, yalnız zaman penceresiyle sönümlenir (StrictMode effect'i iki
+ * kez çağırıyor; tüketilse hayatta kalan ikinci örnek yanlış negatif görür).
+ */
+export function isBlogReturnArmed() {
+  return blogReturnArmedAt > 0 && performance.now() - blogReturnArmedAt < ARM_WINDOW_MS;
+}
+
+// ---------------------------------------------------------------------------
+// Blog → blog zinciri (A'nın Dive Deeper şeridinden B açılır).
+//
+// `blogFlip` TEK SLOTLUK modül değişkeni — B açılırken A'nın kendi köken
+// bilgisi (originRect/returnPath: Episode sayfasına döner) bu slotun
+// ÜSTÜNE yazılır ve kaybolur. B'den A'ya dönüldüğünde A yeniden mount olur
+// (App.jsx key={slug}) ama artık KENDİ kökenini bilmez — A'da tekrar yukarı
+// scroll ile geri dönüş çalışmaz (kullanıcı raporu). Çözüm: her sayfa kendi
+// köken bilgisini AÇILDIĞINDA slug'ına göre kalıcı olarak (sessionStorage)
+// saklar; zaman-pencereli bayrakların aksine bu TÜKETİLMEZ ve navigasyonlar
+// arası hayatta kalır.
+// ---------------------------------------------------------------------------
+
+const ORIGIN_STORAGE_KEY = 'fandoom:blogOrigin';
+
+function readOriginMap() {
+  try {
+    return JSON.parse(sessionStorage.getItem(ORIGIN_STORAGE_KEY) ?? '{}');
+  } catch {
+    return {};
+  }
+}
+
+/** Bir blog sayfası açılırken (mount'ta) kendi köken payload'ını kaydeder. */
+export function rememberBlogOrigin(slug, payload) {
+  try {
+    const map = readOriginMap();
+    map[slug] = payload;
+    sessionStorage.setItem(ORIGIN_STORAGE_KEY, JSON.stringify(map));
+  } catch {
+    // sessionStorage kapalı/dolu olabilir — zincirde geri-scroll o oturumda
+    // ilk hopdan sonra sessizce kısalır, kritik bir işlev değil.
+  }
+}
+
+/** Bir blog sayfası mount olurken kendi kayıtlı kökenini okur. */
+export function recallBlogOrigin(slug) {
+  return readOriginMap()[slug] ?? null;
+}

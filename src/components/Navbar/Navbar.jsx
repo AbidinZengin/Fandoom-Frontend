@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FandoomLogo } from '../FandoomLogo/FandoomLogo';
@@ -27,7 +27,55 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
+  const overlayRef = useRef(null);
+  const { pathname } = useLocation();
+
+  // Menüden bir linke gidilince overlay kendi kendine kapanır.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  // Overlay açıkken arkadaki sayfa kaymaz; Escape kapatır.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [menuOpen]);
+
+  // Menü öğeleri kademeli girer — utility register (0.35s), Hero/Intro'nun
+  // sinematik temposu değil: menü gezinme aracıdır, sahne değil.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.from('[data-menu-item]', {
+          opacity: 0,
+          y: 24,
+          duration: 0.35,
+          ease: 'power2.out',
+          stagger: 0.06,
+        });
+      });
+    }, overlayRef);
+
+    return () => ctx.revert();
+  }, [menuOpen]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -98,49 +146,119 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className={styles.navbar} ref={navRef}>
-      <Link to="/" className={styles.navbar__logo} aria-label="Fandoom home">
-        <FandoomLogo showTagline={false} scale={0.16} />
-      </Link>
-
-      <nav className={styles.navbar__links}>
-        {NAV_LINKS.map((item) => (
-          <div
-            key={item.label}
-            className={styles.navbar__item}
-            onMouseEnter={() => item.dropdown && setOpenDropdown(item.label)}
-            onMouseLeave={() => item.dropdown && setOpenDropdown(null)}
-          >
-            {item.to ? (
-              <Link to={item.to} className={styles.navbar__link}>
-                {item.label}
-              </Link>
-            ) : (
-              <span className={styles.navbar__link}>{item.label}</span>
-            )}
-
-            {item.dropdown && openDropdown === item.label && (
-              <div className={styles.navbar__dropdown}>
-                {item.dropdown.map((sub) => (
-                  <Link key={sub.label} to={sub.to} className={styles['navbar__dropdown-link']}>
-                    {sub.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </nav>
-
-      <div className={styles.navbar__actions}>
-        <input className={styles.navbar__search} type="search" placeholder="Search titles, theories..." />
-        <Link to="/account" className={styles.navbar__icon} aria-label="Account">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6">
-            <circle cx="12" cy="8" r="3.4" />
-            <path d="M4.5 19.5c1.6-3.3 4.4-5 7.5-5s5.9 1.7 7.5 5" strokeLinecap="round" />
-          </svg>
+    <>
+      <header className={styles.navbar} ref={navRef}>
+        <Link to="/" className={styles.navbar__logo} aria-label="Fandoom home">
+          <FandoomLogo showTagline={false} scale={0.16} />
         </Link>
-      </div>
-    </header>
+
+        <nav className={styles.navbar__links}>
+          {NAV_LINKS.map((item) => (
+            <div
+              key={item.label}
+              className={styles.navbar__item}
+              onMouseEnter={() => item.dropdown && setOpenDropdown(item.label)}
+              onMouseLeave={() => item.dropdown && setOpenDropdown(null)}
+            >
+              {item.to ? (
+                <Link to={item.to} className={styles.navbar__link}>
+                  {item.label}
+                </Link>
+              ) : (
+                <span className={styles.navbar__link}>{item.label}</span>
+              )}
+
+              {item.dropdown && openDropdown === item.label && (
+                <div className={styles.navbar__dropdown}>
+                  {item.dropdown.map((sub) => (
+                    <Link key={sub.label} to={sub.to} className={styles['navbar__dropdown-link']}>
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </nav>
+
+        <div className={styles.navbar__actions}>
+          <input className={styles.navbar__search} type="search" placeholder="Search titles, theories..." />
+          <Link to="/account" className={styles.navbar__icon} aria-label="Account">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <circle cx="12" cy="8" r="3.4" />
+              <path d="M4.5 19.5c1.6-3.3 4.4-5 7.5-5s5.9 1.7 7.5 5" strokeLinecap="round" />
+            </svg>
+          </Link>
+
+          {/* Yalnız ≤900px'te görünür — masaüstünde yatay link şeridi zaten var. */}
+          <button
+            type="button"
+            className={styles.navbar__burger}
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      {/* Overlay header'ın DIŞINDA: navbar'a GSAP transform uygulanıyor ve
+          transform'lu bir ata, position:fixed çocuğun konum referansını
+          kendisi olarak ezer — içeride kalsa tam ekran kaplamazdı. */}
+      {menuOpen && (
+        <div className={styles.navbar__overlay} ref={overlayRef}>
+          <div className={styles['navbar__overlay-head']}>
+            <Link to="/" className={styles.navbar__logo} aria-label="Fandoom home">
+              <FandoomLogo showTagline={false} scale={0.16} />
+            </Link>
+            <button
+              type="button"
+              className={styles.navbar__close}
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+
+          <input
+            className={styles['navbar__overlay-search']}
+            type="search"
+            placeholder="Search titles, theories..."
+            data-menu-item
+          />
+
+          <nav className={styles['navbar__overlay-nav']}>
+            {NAV_LINKS.map((item) => (
+              <div key={item.label} data-menu-item>
+                <Link to={item.to} className={styles['navbar__overlay-link']}>
+                  {item.label}
+                </Link>
+
+                {/* Mobilde dropdown yok — alt linkler açık liste olarak durur. */}
+                {item.dropdown && (
+                  <div className={styles['navbar__overlay-sub']}>
+                    {item.dropdown.map((sub) => (
+                      <Link
+                        key={sub.label}
+                        to={sub.to}
+                        className={styles['navbar__overlay-sublink']}
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+        </div>
+      )}
+    </>
   );
 }

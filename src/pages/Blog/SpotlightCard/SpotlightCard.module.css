@@ -1,0 +1,134 @@
+.spotlight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.spotlight__content {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Görsel yuvası — BlogPost'un hero__box/story__figure imzasıyla BİREBİR aynı
+   derinlik (radius-lg + siyah blur glow + fg-tint border), site genelinde
+   fotoğraf kartlarının tanıdık kimliği. */
+.spotlight__cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.35);
+  background: var(--bg-soft);
+  transition: transform var(--duration-fast) ease;
+}
+
+/* Gerçek veri gelene kadar (learned-rules [veri]) kesik çerçeve + accent
+   bloom — "buraya görsel gelecek", sahte fotoğraf değil. */
+.spotlight__cover[data-pending] {
+  border-style: dashed;
+  background:
+    radial-gradient(
+      65% 90% at 70% 30%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 65%
+    ),
+    var(--bg-soft);
+}
+
+.spotlight__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (hover: hover) {
+  .spotlight__content:hover .spotlight__cover {
+    transform: scale(1.01);
+  }
+}
+
+/* Kullanıcı isteği: metin görselin ÜSTÜNDE, alt kenara gömülü — BlogPost'un
+   story__figcaption[data-caption-pos='center'] / TopBlogsRow.row__caption
+   ile AYNI aile. Ayrı zeminli bant değil, görselin içine gömülü blok. */
+.spotlight__caption {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-3xl) var(--space-xl) var(--space-xl);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+}
+
+/* Kullanıcı isteği: başlık büyük — BlogPost hero__title'a yakın ölçek. */
+.spotlight__title {
+  margin: 0;
+  font-size: clamp(32px, 3.6vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--fg);
+}
+
+.spotlight__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.spotlight__meta {
+  font-size: var(--text-base);
+  color: var(--fg-dim);
+}
+
+.spotlight__link {
+  flex: 0 0 auto;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* --- Skeleton bar'lar (veri gelmeden önce) --- */
+
+.bar {
+  display: block;
+  height: 1em;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--fg) 18%, transparent);
+}
+
+.bar--title {
+  width: 80%;
+  height: 1.6em;
+}
+
+.bar--titleShort {
+  width: 52%;
+}
+
+.bar--meta {
+  width: 140px;
+  height: 0.8em;
+  margin-top: var(--space-xs);
+  background: color-mix(in srgb, var(--fg) 12%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight__cover {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .spotlight__caption {
+    padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  }
+}

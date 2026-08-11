@@ -1,0 +1,25 @@
+.comments {
+  --font-got: 'Game of Thrones', 'Cinzel', serif;
+
+  max-width: 1360px;
+  margin-inline: auto;
+  padding: 0 var(--space-page-x) var(--space-3xl);
+}
+
+.comments__heading {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-got);
+  font-weight: 400;
+  font-size: var(--text-h2);
+  color: var(--fg);
+}
+
+.comments__empty {
+  margin: 0;
+  padding: var(--space-xl);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  text-align: center;
+}

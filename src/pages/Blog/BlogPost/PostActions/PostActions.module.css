@@ -1,0 +1,65 @@
+/* Makale sonunda yatay sıra (kullanıcı kararı) — eskiden hero'nun resim
+   üzerinde yüzen absolute dikey bir raydı, .storyActions (kapsayıcı,
+   BlogPost.module.css) artık konumu/genişliği yönetiyor. */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.actionWrap {
+  position: relative;
+}
+
+.action {
+  display: grid;
+  place-items: center;
+  /* 44px dokunma hedefi tabanı (a11y) — RelatedContent .related__arrow ile
+     aynı ölçü. */
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-round);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--fg-dim);
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    transform var(--duration-micro) ease;
+}
+
+.action svg {
+  width: 20px;
+  height: 20px;
+}
+
+.action[data-active] {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+@media (hover: hover) {
+  .action:hover {
+    color: var(--fg);
+    transform: scale(1.08);
+  }
+
+  .action[data-active]:hover {
+    color: var(--accent);
+  }
+}
+
+/* Yatay sırada butonun SOLUNDA yer yok (komşu ikonla çakışır) — üstte belirir. */
+.toast {
+  position: absolute;
+  bottom: calc(100% + var(--space-sm));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.75);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+  pointer-events: none;
+}

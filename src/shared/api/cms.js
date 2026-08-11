@@ -5,7 +5,13 @@ import { apiClient } from './client';
 // entity'nin id'sidir (ör. bir Series kaydının id'si) — gerçek bir FK değil,
 // sadece "hangi sayfa örneği" sorusuna cevap veren bir referans.
 // Her öğe: { id, page, entityId, section, contentType: 'IMAGE'|'TEXT',
-//            contentValue, linkUrl, altText, active, orderIndex }
+//            contentValue, linkUrl, altText, active, orderIndex, col, row }
+// col/row (2026-08 backend güncellemesi): opsiyonel CSS grid shorthand,
+// şu an tüm kayıtlarda null. Section-bazlı sabit yerleşimli component'ler
+// (Hero/Intro/ScrollStepper/Highlights) bunları henüz OKUMUYOR — burada
+// tüketilen içerik serbest bir blok listesi değil, isme göre eşlenen sabit
+// alanlar; genel bir grid render'ı olmadığından bağlanacak bir yer yok
+// (BlogPost'taki blocks[] col/row kullanımıyla KARIŞTIRILMASIN).
 export async function fetchPageContent(pageName, entityId) {
   const query = entityId != null ? `?entityId=${entityId}` : '';
   return apiClient.get(`/cms/pages/${pageName}${query}`);

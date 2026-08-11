@@ -1,0 +1,89 @@
+.metaPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.metaPanel__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: flex-end;
+}
+
+.metaPanel__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  flex: 1;
+  min-width: 160px;
+}
+
+.metaPanel__label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
+.metaPanel__input {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--fg);
+  font-size: var(--text-base);
+  font-family: inherit;
+}
+
+.metaPanel__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+}
+
+.metaPanel__tags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.metaPanel__tagRow {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.metaPanel__tagSelect,
+.metaPanel__tagInput {
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  width: 100px;
+}
+
+.metaPanel__tagRemove {
+  border: none;
+  background: none;
+  color: var(--fg-muted);
+  font-size: var(--text-lg);
+  line-height: 1;
+  padding: 0 var(--space-xs);
+}
+
+.metaPanel__tagAdd {
+  align-self: flex-start;
+  border: 1px dashed var(--border);
+  background: none;
+  color: var(--fg-muted);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2xs) var(--space-sm);
+  font-size: var(--text-sm);
+}

@@ -1,0 +1,83 @@
+.imageField {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+
+.imageField__preview {
+  position: relative;
+  width: 160px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageField__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageField__preview[data-empty] {
+  color: var(--fg-faint);
+  font-size: var(--text-xs);
+}
+
+.imageField__spinner {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.imageField__controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.imageField__fileInput {
+  display: none;
+}
+
+.imageField__button {
+  align-self: flex-start;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--fg);
+  font-size: var(--text-sm);
+}
+
+.imageField__error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--brand-red);
+  font-size: var(--text-xs);
+}
+
+.imageField__error button {
+  background: none;
+  border: none;
+  color: var(--fg);
+  text-decoration: underline;
+  font-size: var(--text-xs);
+  padding: 0;
+}
+
+.imageField__altInput {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--fg);
+  font-size: var(--text-sm);
+}

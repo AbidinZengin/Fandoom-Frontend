@@ -1,0 +1,162 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+/* Gerçek scroll-carousel (RelatedContent.related__viewport ile aynı desen):
+   native scroll + CSS scroll-snap, smooth-scroll kütüphanesi YOK. */
+.row__viewport {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+  cursor: grab;
+  scrollbar-width: none;
+}
+
+.row__viewport[data-dragging] {
+  scroll-snap-type: none;
+  cursor: grabbing;
+}
+
+.row__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.row__track {
+  display: flex;
+  gap: var(--space-xl);
+  margin: 0;
+  padding: 0;
+  padding-block-start: var(--space-sm);
+  list-style: none;
+}
+
+.row__card {
+  position: relative;
+  flex: 0 0 auto;
+  /* Kullanıcı isteği: aynı anda ~2.5 kart görünsün (son kart kırpılı sızar —
+     RelatedContent'teki "devamı var" sinyaliyle aynı ilke). Yüzde,
+     viewport'un (row__viewport) görünen genişliğine göre hesaplanır. */
+  width: calc((100% - 2 * var(--space-xl)) / 2.5);
+  scroll-snap-align: start;
+}
+
+/* "Top 10" rütbe rakamı — brand-gradient yalnız TEKİL vurgu noktalarında
+   kullanılır (learned-rules [renk]); burada birkaç kartlık ince bir vurgu,
+   geniş yüzeye yayılmaz. */
+.row__rank {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 2;
+  font-size: var(--text-h2);
+  font-weight: 800;
+  line-height: 1;
+  background: var(--brand-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+}
+
+/* Katalog kartı — learned-rules: dikey poster (2:3). BlogPost'un
+   hero__box/story__figure imzasıyla aynı derinlik (radius-lg + siyah blur
+   glow + fg-tint border). Ortadaki (aktif) kart RelatedContent'teki gibi
+   hafifçe büyür. */
+.row__thumb {
+  display: block;
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
+  background: var(--bg-soft);
+  transition: transform var(--duration-fast) ease;
+}
+
+.row__card[data-active] .row__thumb {
+  transform: scale(1.04);
+}
+
+/* Gerçek veri gelene kadar (learned-rules [veri]) kesik çerçeve + accent
+   bloom. */
+.row__thumb[data-pending] {
+  border-style: dashed;
+  background:
+    radial-gradient(
+      65% 90% at 70% 30%,
+      color-mix(in srgb, var(--accent) 20%, transparent),
+      transparent 65%
+    ),
+    var(--bg-soft);
+}
+
+.row__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Başlık görselin ÜSTÜNDE, alt kenara gömülü blok — BlogPost'un
+   story__figcaption[data-caption-pos='center'] ile BİREBİR aynı desen
+   (kullanıcı isteği: ayrı zeminli bant değil, görselin içine gömülü). */
+.row__caption {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.4) 65%, transparent 100%);
+}
+
+.row__title {
+  display: -webkit-box;
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--fg);
+  /* Kullanıcı isteği: başlığın "hook"u (tam ilk cümle) görünsün — kartlar
+     büyüdüğü için 2 yerine 3 satıra kadar kesilmeden sığar. */
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.row__thumb:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.bar {
+  display: block;
+  height: 0.8em;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--fg) 30%, transparent);
+}
+
+.bar--title {
+  width: 85%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row__thumb,
+  .row__card[data-active] .row__thumb {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Mobil: kullanıcı isteği (masaüstüyle aynı büyütme yönü) — kartlar ~1.2
+   görünür büyüklükte, dokunmatik swipe zaten native gelir. */
+@media (max-width: 640px) {
+  .row__card {
+    width: calc((100% - var(--space-md)) / 1.2);
+  }
+}

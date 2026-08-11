@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { Footer } from '../../components/Footer/Footer';
 import { UniverseBrowse } from './UniverseBrowse/UniverseBrowse';
@@ -13,8 +13,18 @@ import styles from './Community.module.css';
 // [[topluluk-görsel]]) — Hero/Intro'nun sinematik 0.8-1.2s'inden kısa/hızlı.
 export default function Community() {
   const surfaceHighlights = getSurfaceHighlights();
-  const universeCards = getUniverseCards();
+  const [universeCards, setUniverseCards] = useState([]);
   const headRef = useRef(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getUniverseCards().then((cards) => {
+      if (!cancelled) setUniverseCards(cards);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

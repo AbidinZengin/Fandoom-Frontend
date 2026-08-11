@@ -215,6 +215,13 @@
   color: var(--fg);
 }
 
+.episode__synopsis {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--fg-dim);
+}
+
 .episode__meta {
   margin: 0;
   font-size: var(--text-xs);

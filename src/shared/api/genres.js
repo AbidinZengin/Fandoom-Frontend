@@ -11,6 +11,13 @@ function loadGenres() {
   return genresPromise;
 }
 
+// Blog filter paneli (FilterPanel) gibi ham listeye ihtiyaç duyan
+// çağıranlar için — resolveGenreNames'in id->isim çözümlemesinin aksine
+// tam {id, name} dizisini döner.
+export async function fetchAllGenres() {
+  return loadGenres();
+}
+
 export async function resolveGenreNames(genreIds) {
   if (!genreIds?.length) return [];
   const genres = await loadGenres();

@@ -3,7 +3,8 @@ import { Footer } from '../../../components/Footer/Footer';
 import { Hero } from './Hero/Hero';
 import { Intro } from './Intro/Intro';
 import { ScrollStepper } from './ScrollStepper/ScrollStepper';
-import { TabExhibit } from './TabExhibit/TabExhibit';
+import { SkipIntro } from './SkipIntro/SkipIntro';
+import { Highlights } from './Highlights/Highlights';
 import { fetchProductionDetail, theme } from './GameOfThrones.data';
 import styles from './GameOfThrones.module.css';
 
@@ -61,9 +62,10 @@ export default function GameOfThrones() {
   return (
     <>
       <Hero entityId={series.id} title={series.title} synopsis={series.synopsis} />
+      <SkipIntro />
       <Intro entityId={series.id} />
       <ScrollStepper entityId={series.id} />
-      <TabExhibit entityId={series.id} />
+      <Highlights entityId={series.id} />
       <Footer />
     </>
   );

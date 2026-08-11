@@ -1,0 +1,191 @@
+/* Hane paleti geçişi: --house-primary/secondary'yi gerçek animasyonlanabilir
+   değer olarak KAYDEDER — böylece aşağıdaki color-mix() tüketen her yer
+   (banner gradient'i, rozet çerçevesi, monogram rengi) hane değişince ANLIK
+   atlamaz, tek seferde tanımlı transition boyunca birlikte yumuşak geçer. */
+@property --house-primary {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #8a94a6;
+}
+
+@property --house-secondary {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e7ecf0;
+}
+
+.houses {
+  padding-block: var(--space-3xl);
+  background: var(--bg);
+  transition: --house-primary var(--duration-slow) ease, --house-secondary var(--duration-slow) ease;
+}
+
+.houses__inner {
+  padding-inline: var(--space-page-x);
+  text-align: center;
+}
+
+.houses__kicker {
+  display: block;
+  margin-bottom: var(--space-lg);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.houses__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3xl);
+}
+
+.houses__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(220px, 22vw, 300px);
+}
+
+.houses__count {
+  margin-bottom: var(--space-md);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
+/* ---------- Poster ---------- */
+/* Kaynak set kendi başlık+motto'sunu gömülü taşıyor (bkz. component üstü
+   yorum) — banner sadece posteri gösterir, ekstra çerçeve/sancak şekli
+   posterin kendi süslü kenarlığının üstüne binmesin diye YOK. Kullanıcı
+   kararı: kart hissi veren ambient glow kaldırıldı — banner arka planla
+   aynı zeminde çıplak durur. */
+.banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  display: grid;
+  place-items: center;
+}
+
+.banner__image {
+  width: 100%;
+  height: 100%;
+  object-fit: var(--banner-fit, contain);
+}
+
+.banner__fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  height: 100%;
+  padding: var(--space-lg);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--house-primary) 20%, var(--card-bg)) 0%,
+    color-mix(in srgb, var(--house-secondary) 18%, black) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--house-primary) 50%, transparent);
+}
+
+.banner__monogram {
+  display: grid;
+  place-items: center;
+  width: 25%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-round);
+  border: 2px solid color-mix(in srgb, var(--house-primary) 70%, white 15%);
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 800;
+  color: color-mix(in srgb, var(--house-primary) 60%, white 40%);
+}
+
+.houses__name {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.houses__motto {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ---------- Prev/Next ---------- */
+
+.houses__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: color var(--duration-fast) ease;
+}
+
+.houses__nav:hover {
+  color: var(--fg);
+}
+
+.houses__navArrow {
+  font-size: var(--text-h2);
+  line-height: 1;
+  transition: transform var(--duration-micro) ease;
+}
+
+.houses__nav:hover .houses__navArrow {
+  transform: scale(1.12);
+}
+
+.houses__navLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (hover: none) {
+  .houses__nav:hover .houses__navArrow {
+    transform: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .houses__stage {
+    gap: var(--space-lg);
+  }
+
+  .houses__navLabel {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .houses__stage {
+    gap: var(--space-md);
+  }
+
+  .houses__center {
+    width: clamp(150px, 50vw, 200px);
+  }
+}

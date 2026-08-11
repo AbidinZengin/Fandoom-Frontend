@@ -1,6 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { getProductionBySlug, posterBySlug } from './ContentSection.data';
+import {
+  resolveProductionBySlug,
+  fetchProductionDetail,
+  resolveGenreNames,
+  getProductionAccent,
+  posterBySlug,
+} from './ContentSection.data';
 import styles from './ContentSection.module.css';
 
 // Yarım-ekran sinematik split: bir yarı lead yapımın afişi (yoksa posterGradient
@@ -12,8 +18,46 @@ export function ContentSection({ kicker, heading, items, renderMeta, mirror = fa
   const fillRef = useRef(null);
 
   const [lead, ...rest] = items;
-  const leadProduction = getProductionBySlug(lead.productionSlug);
   const leadPoster = posterBySlug[lead.productionSlug];
+
+  // slug -> { title, type } — üretim özet bilgisi API'den, poster/accent
+  // yerel presentational haritadan gelir (CSS zaten var(--x, fallback) ile
+  // veri gelene kadar nötr bir zemin gösteriyor — ayrı bir skeleton'a gerek yok).
+  const [productions, setProductions] = useState({});
+  // Genre yalnız lead için gösteriliyor — bu yüzden N+1 detay isteği sadece
+  // lead'e atılır, rest listesindeki her item için değil.
+  const [leadGenre, setLeadGenre] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const slugs = [lead.productionSlug, ...rest.map((r) => r.productionSlug)];
+
+    Promise.all(slugs.map((slug) => resolveProductionBySlug(slug))).then((results) => {
+      if (cancelled) return;
+      const map = {};
+      results.forEach((p, i) => {
+        if (!p) return;
+        map[slugs[i]] = { title: p.title, type: p.type, ...getProductionAccent(slugs[i]) };
+      });
+      setProductions(map);
+
+      const leadType = map[lead.productionSlug]?.type;
+      if (!leadType) return;
+      fetchProductionDetail(leadType.toLowerCase(), lead.productionSlug)
+        .then((detail) => resolveGenreNames(detail.genreIds))
+        .then((names) => {
+          if (!cancelled) setLeadGenre(names?.[0] ?? null);
+        })
+        .catch(() => {});
+    });
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- items içeriği (slug'lar) belirleyici, referansı değil
+  }, [lead.productionSlug, rest.map((r) => r.productionSlug).join(',')]);
+
+  const leadProduction = productions[lead.productionSlug];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -70,7 +114,7 @@ export function ContentSection({ kicker, heading, items, renderMeta, mirror = fa
           ref={fillRef}
           style={{
             '--poster': leadProduction?.posterGradient,
-            '--prod-accent': leadProduction?.theme.accent,
+            '--prod-accent': leadProduction?.accent,
           }}
         >
           {leadPoster && (
@@ -105,12 +149,12 @@ export function ContentSection({ kicker, heading, items, renderMeta, mirror = fa
             </p>
             <div
               className={styles['content-band__meta']}
-              style={{ '--prod-accent': leadProduction?.theme.accent }}
+              style={{ '--prod-accent': leadProduction?.accent }}
               data-reveal
             >
               <span className={styles['content-band__meta-tag']}>
                 {leadProduction?.title}
-                {leadProduction?.genre?.[0] && ` · ${leadProduction.genre[0]}`}
+                {leadGenre && ` · ${leadGenre}`}
               </span>
               <span className={styles['content-band__meta-sep']}>·</span>
               {renderMeta(lead)}
@@ -119,12 +163,12 @@ export function ContentSection({ kicker, heading, items, renderMeta, mirror = fa
 
           <ul className={styles['content-band__list']}>
             {rest.map((item) => {
-              const production = getProductionBySlug(item.productionSlug);
+              const production = productions[item.productionSlug];
               return (
                 <li key={item.id} className={styles['content-band__list-item']} data-reveal>
                   <span
                     className={styles['content-band__list-tag']}
-                    style={{ '--prod-accent': production?.theme.accent }}
+                    style={{ '--prod-accent': production?.accent }}
                   >
                     {production?.title}
                   </span>

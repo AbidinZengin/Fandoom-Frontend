@@ -48,8 +48,10 @@
   transition: color 0.2s ease;
 }
 
-.footer__col a:hover {
-  color: var(--fg);
+@media (hover: hover) {
+  .footer__col a:hover {
+    color: var(--fg);
+  }
 }
 
 .footer__bottom {

@@ -1,0 +1,349 @@
+.blockItem {
+  position: absolute;
+  border-radius: var(--radius-sm);
+  outline: 1px solid transparent;
+  outline-offset: var(--space-2xs);
+  transition: outline-color var(--duration-micro) ease;
+  cursor: grab;
+}
+
+.blockItem:hover,
+.blockItem:focus-within {
+  outline-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* Komşu bir bloğun alanına girildiğinde görsel sinyal — otomatik itme/reflow
+   YOK (kullanıcı isteği: kısıtlayıcı olmasın), sadece uyarı rengi. */
+.blockItem[data-colliding] {
+  outline: 1px dashed var(--brand-red);
+  outline-offset: var(--space-2xs);
+}
+
+/* Butonlar önceden 26px + var(--space-2xs) (4px) aralıkla çok sıkışıktı —
+   gerçek fare tıklamasında komşu butona basılabiliyordu (kullanıcı raporu:
+   "sağa ortaya sola yatık kısmı bozuk" — kendi testimizde de doğrulandı:
+   sağa yaslamak istenirken ortala tetiklendi). Tutamaç boyutu ve aralık
+   büyütüldü, hizalama üçlüsü GÖRSEL OLARAK ayrı bir grup (ortak zemin)
+   içine alındı ki gear/sil'den de kazayla karışmasın. */
+.blockItem__overlay {
+  position: absolute;
+  top: calc(-1 * var(--space-xl));
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  opacity: 0;
+  transition: opacity var(--duration-micro) ease;
+  z-index: 2;
+}
+
+.blockItem:hover .blockItem__overlay,
+.blockItem:focus-within .blockItem__overlay {
+  opacity: 1;
+}
+
+.blockItem__alignGroup {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.blockItem__align,
+.blockItem__gear,
+.blockItem__remove {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.blockItem__alignGroup .blockItem__align {
+  border: none;
+  border-radius: var(--radius-sm);
+}
+
+.blockItem__align[data-active] {
+  color: var(--fg);
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.blockItem__confirmRemove {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+.blockItem__confirmRemove button {
+  border: none;
+  background: none;
+  color: var(--brand-red);
+  text-decoration: underline;
+  font-size: var(--text-xs);
+  padding: 0;
+  cursor: pointer;
+}
+
+/* bottom: 100%+gap (top yerine) — panel içeriği (font/boyut/z-sırası/
+   çoğalt) büyüdükçe sabit bir negatif top değeri viewport dışına taşardı;
+   bottom-anchor içerik boyundan bağımsız her zaman dişlinin hemen üstünde
+   durur. */
+.blockItem__advanced {
+  position: absolute;
+  bottom: calc(100% + var(--space-sm));
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  z-index: 3;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  min-width: 180px;
+}
+
+.blockItem__advancedRow {
+  display: flex;
+  gap: var(--space-2xs);
+  padding-top: var(--space-2xs);
+  border-top: 1px solid var(--border);
+}
+
+.blockItem__advancedRow button {
+  flex: 1;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--fg-muted);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.blockItem__advancedRow button:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+
+.blockItem__advanced label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+.blockItem__advanced select {
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--fg);
+  font-size: var(--text-sm);
+}
+
+.blockItem__advanced input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.blockItem__advanced .blockItem__checkboxLabel {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+}
+
+.blockItem__checkboxLabel input[type='checkbox'] {
+  accent-color: var(--accent);
+}
+
+.fontGot {
+  font-family: 'Game of Thrones', 'Cinzel', serif;
+}
+
+.fontFraunces {
+  font-family: 'Fraunces', serif;
+}
+
+.fontMontserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.blockItem__quoteText {
+  font: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+/* .story__figure/.story__quote'un grid varsayımları serbest canvas'ta
+   geçersiz — kutu zaten .blockItem'ın kendi width/height'iyle boyutlanıyor,
+   içerik onu TAM doldurmalı. quote için box-sizing:border-box + width/
+   height:100% eklenmesi kullanıcının bildirdiği "kenarları bozuk" sorununu
+   gideriyor (blockquote'un varsayılan blok davranışına güvenmek yerine
+   explicit boyut). Belgelenmiş, tek istisna çifti. */
+.blockItem__figure {
+  width: 100% !important;
+  height: 100%;
+}
+
+.blockItem__quote {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.blockItem__imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-faint);
+  font-size: var(--text-sm);
+  background: var(--card-bg);
+  border-radius: inherit;
+}
+
+.blockItem__spinner {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: inherit;
+}
+
+.blockItem__fileInput {
+  display: none;
+}
+
+.blockItem__imageChange {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  transition: opacity var(--duration-micro) ease;
+  cursor: pointer;
+}
+
+.blockItem[data-type='IMAGE']:hover .blockItem__imageChange,
+.blockItem[data-type='IMAGE']:focus-within .blockItem__imageChange {
+  opacity: 1;
+}
+
+.blockItem__captionInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  font: inherit;
+  font-style: inherit;
+}
+
+.blockItem__error {
+  position: absolute;
+  bottom: var(--space-sm);
+  left: var(--space-sm);
+  color: var(--brand-red);
+  font-size: var(--text-xs);
+  background: rgba(0, 0, 0, 0.6);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+}
+
+/* 8 yönlü boyutlandırma tutamaçları — hover'da belirir, köşe+kenar. */
+.blockItem__resizeHandle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-round);
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  opacity: 0;
+  transition: opacity var(--duration-micro) ease;
+  z-index: 2;
+}
+
+.blockItem:hover .blockItem__resizeHandle,
+.blockItem:focus-within .blockItem__resizeHandle {
+  opacity: 1;
+}
+
+.blockItem__resizeHandle--n {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.blockItem__resizeHandle--s {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.blockItem__resizeHandle--e {
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.blockItem__resizeHandle--w {
+  top: 50%;
+  left: -5px;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.blockItem__resizeHandle--ne {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+
+.blockItem__resizeHandle--nw {
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+
+.blockItem__resizeHandle--se {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}
+
+.blockItem__resizeHandle--sw {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}

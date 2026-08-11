@@ -64,6 +64,20 @@
   --text-h2: clamp(24px, 3vw, 36px);
   --text-h1: clamp(32px, 5vw, 56px);
 
+  /* Label/value mikro-tipografi konvansiyonu (Behance ortak-desen analizi,
+     2026-08): all-caps mikro etiket + geniş harf aralığı — bilgi bloğu
+     etiketleri (CHARACTER BIO gibi) için --text-2xs/--text-xs üstüne. */
+  --tracking-label: 0.14em;
+
+  /* Kırılım skalası — SADECE KONVANSİYON, token DEĞİL: CSS custom
+     property'ler @media sorgusunda çalışmaz, o yüzden aşağıdaki iki değer
+     her .module.css'e elle yazılır. Yeni kırılım icat edilmez:
+       900px → tablet/mobil sınırı (mobil gezinme, tek kolona düşen grid'ler)
+       640px → küçük mobil ince ayarı
+     Mobile-first yazılan dosyalar 900'ün karşılığı olarak min-width:901px
+     kullanır. Bir kırılım JS tarafında da varsa (gsap.matchMedia) ikisi
+     ÇİFTTİR, birlikte değişir. */
+
   /* Motion durations (CSS transition'lar için; GSAP süreleri JS'te) */
   --duration-micro: 0.2s;
   --duration-fast: 0.3s;

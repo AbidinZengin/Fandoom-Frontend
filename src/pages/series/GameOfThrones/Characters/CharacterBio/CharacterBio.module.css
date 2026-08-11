@@ -1,0 +1,264 @@
+/* Ortalanmış KART overlay — tam-viewport panel DEĞİL (kullanıcı kararı).
+   Grid'in üstüne biner, sayfa/route değişmez. Navbar'ın üstünde durur. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  transition: opacity var(--duration-slow) ease;
+}
+
+.overlay[data-visible] {
+  opacity: 1;
+}
+
+.card {
+  --card-bg: #0a0908;
+  /* EpisodeStory/RelatedContent ile aynı tanım — kullanıcı referansı
+     (EpisodeStory "THE CLOSING TURN" ekran görüntüsü). */
+  --font-got: 'Game of Thrones', 'Cinzel', serif;
+
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  margin: auto;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Aynı görselin çok bulanık+karanlık kopyası — kartın arkasında ince bir
+   atmosfer katmanı (learned-rules: bg her zaman siyahla karışık). */
+.card__ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(60px) brightness(0.15) saturate(0.5);
+  transform: scale(1.15);
+}
+
+/* Grid kartıyla AYNI oran (bkz. Characters.module.css .characters__frame,
+   1/1.4) — mobilde flip animasyonu origin/hedef arası transform-scale
+   yaptığı için oranlar uyuşmazsa görsel gerilip sıkışıyordu (kullanıcı
+   raporu: "mobil kötü gözüküyor animasyonda"); aynı oran = distorsiyonsuz
+   uniform scale, ayrıca portre karakter görseli için daha doğru kırpma. */
+.card__media {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1 / 1.4;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Odak burada: görsel kartın kenarlarında SİYAHA erir, ama karakterin
+   silüeti (merkez) aydınlık/net kalır — radial vinyet, kenara doğru
+   duraklı koyulaşma. Tek katman: merkez şeffaf, kenarlar `--card-bg`'ye
+   erir (learned-rules ATMOSFER erime dilinin bu karta uyarlanmış hâli). */
+.card__meltInner {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 75% 70% at 50% 38%,
+    transparent 45%,
+    rgba(10, 9, 8, 0.55) 75%,
+    var(--card-bg) 100%
+  );
+}
+
+/* Üst/alt ve panele bakan iç kenar — kart geçişlerinde kadraj kesin dursun
+   diye ayrı, yönlü ikinci katman. */
+.card__meltEdges {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+      to bottom,
+      var(--card-bg) 0%,
+      transparent 12%,
+      transparent 88%,
+      var(--card-bg) 100%
+    );
+}
+
+.card__panel {
+  position: relative;
+  z-index: 2;
+  background: var(--card-bg);
+  padding: var(--space-xl) var(--space-page-x) var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.card__back {
+  align-self: flex-start;
+  margin-bottom: var(--space-lg);
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+@media (hover: hover) {
+  .card__back:hover {
+    color: var(--fg);
+  }
+}
+
+.card__body {
+  flex: 1;
+}
+
+.card__label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.card__name {
+  margin: 0;
+  font-family: var(--font-got);
+  font-size: var(--text-h1);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--fg);
+}
+
+.card__divider {
+  height: 1px;
+  margin: var(--space-lg) 0;
+  background: linear-gradient(to right, var(--accent), transparent);
+}
+
+.card__text {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--text-base);
+  line-height: 1.75;
+  color: var(--fg-dim);
+  white-space: pre-line;
+}
+
+/* EpisodeStory'nin .scene__quote/.scene__quoteRule ile birebir aynı desen
+   (kullanıcı referansı, "THE CLOSING TURN" ekran görüntüsü): çizgi ÜSTTE,
+   accent renkli büyük punto, italik DEĞİL. */
+.card__quote {
+  margin: var(--space-xl) 0 0;
+  max-width: 46ch;
+}
+
+.card__quote p {
+  margin: 0;
+  font-size: var(--text-h2);
+  font-weight: 300;
+  line-height: 1.25;
+  color: var(--accent);
+}
+
+.card__quoteRule {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: 3px;
+  margin-bottom: var(--space-lg);
+  background: var(--accent);
+}
+
+.card__quote cite {
+  display: block;
+  margin-top: var(--space-sm);
+  font-size: var(--text-2xs);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.card__switcher {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.card__arrow {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: var(--fg-muted);
+}
+
+@media (hover: hover) {
+  .card__arrow:hover {
+    color: var(--fg);
+  }
+}
+
+.card__switcherName {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* --- Masaüstü: yan yana (referans: CharacterBlock.tsx) --- */
+@media (min-width: 901px) {
+  .card {
+    flex-direction: row;
+    min-height: 600px;
+  }
+
+  .card__media {
+    width: 46%;
+    height: auto;
+    aspect-ratio: auto;
+  }
+
+  .card__panel {
+    flex: 1;
+    justify-content: center;
+    padding: clamp(48px, 5vw, 80px) clamp(40px, 5vw, 64px);
+  }
+
+  /* Karakterden karaktere ALTERNATE eder (learned-rules: karakter-detay) —
+     görsel yön değişince erimenin panele bakan kenarı da dönmeli. */
+  .card[data-side='right'] {
+    flex-direction: row-reverse;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    transition: none;
+  }
+}

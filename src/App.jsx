@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useParams } from 'react-router-dom';
 import gsap from 'gsap';
 import { Navbar } from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
@@ -8,10 +8,24 @@ import Community from './pages/Community/Community';
 import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
 import EpisodePage from './pages/series/GameOfThrones/EpisodePage/EpisodePage';
+import Characters from './pages/series/GameOfThrones/Characters/Characters';
+import WesterosMap from './pages/series/GameOfThrones/WorldMap/WorldMap';
+import History from './pages/series/GameOfThrones/History/History';
 import ProductionDetail from './pages/ProductionDetail/ProductionDetail';
+import Blog from './pages/Blog/Blog';
+import BlogPost from './pages/Blog/BlogPost/BlogPost';
+import Login from './pages/Admin/Login/Login';
+import BlogList from './pages/Admin/BlogList/BlogList';
+import BlogEditor from './pages/Admin/BlogEditor/BlogEditor';
+import { RequireAuth } from './pages/Admin/RequireAuth';
 import Placeholder from './pages/Placeholder/Placeholder';
 import { initMotion } from './motion/setup';
-import { isCinematicArmed, isInPageNavArmed } from './motion/cinematic';
+import {
+  isCinematicArmed,
+  isInPageNavArmed,
+  isBlogFlipArmed,
+  isBlogReturnArmed,
+} from './motion/cinematic';
 
 // Route değişiminde: sayfa anında en üste döner (useLayoutEffect — eski scroll
 // pozisyonu tek frame bile görünmesin) ve yeni sayfa app zemininden (--bg)
@@ -22,6 +36,10 @@ function PageTransition({ children }) {
   const pageRef = useRef(null);
 
   useLayoutEffect(() => {
+    // Blog'dan geri dönüşte scroll'u RelatedContent kendisi geri yükler
+    // (bırakılan konum) — burada başa sarmak küçülen klonun ineceği kartı
+    // ekrandan çıkarırdı.
+    if (isBlogReturnArmed()) return;
     // Sayfa içi bölüm/sezon değişiminde sayfa yerinde durur — başa sarmak
     // kullanıcıyı yerinden oynatır.
     if (!isInPageNavArmed()) window.scrollTo(0, 0);
@@ -36,7 +54,16 @@ function PageTransition({ children }) {
     // üstüne binip şeridi soluklaştırırdı. Sayfa içi param değişiminde
     // (bölüm/sezon) ise sayfa yerinde kalır — tüm sayfayı 0'dan fade'lemek
     // yanıp sönme yaratır ve component'in kendi crossfade'iyle çakışır.
-    if (isCinematicArmed() || isInPageNavArmed()) return undefined;
+    // Blog devri/geri dönüşü kendi klonuyla kesintisiz akar — üstüne bir de
+    // sayfa fade'i binerse geçiş "yanıp söner".
+    if (
+      isCinematicArmed() ||
+      isInPageNavArmed() ||
+      isBlogFlipArmed() ||
+      isBlogReturnArmed()
+    ) {
+      return undefined;
+    }
 
     const mm = gsap.matchMedia();
 
@@ -54,9 +81,27 @@ function PageTransition({ children }) {
   return <div ref={pageRef}>{children}</div>;
 }
 
+// Blog'dan blog'a geçiş AYNI route'u eşler (yalnız :slug değişir) — React
+// Router bu durumda component instance'ını KORUR, remount etmez. BlogPost'un
+// giriş/flip mantığı ise mount-zamanlı (useState initializer +
+// useLayoutEffect), o yüzden slug değişince elle remount tetiklenir: her
+// açılış "sıfırdan" gibi davranır (learned-rules: her girişte AYNI animasyon
+// oynar).
+function BlogPostRoute() {
+  const { slug } = useParams();
+  return <BlogPost key={slug} />;
+}
+
 function App() {
   useEffect(() => {
     initMotion();
+    // Scroll'u zaten PageTransition elle yönetiyor (her route değişiminde
+    // başa sarar). Tarayıcının kendi geri-yüklemesi buna ASENKRON olarak
+    // müdahale ediyor: Blog'dan geri dönüşte kendi konumlandırmamızı
+    // (pin başı) ezip eski pozisyona sıçratıyordu.
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
   }, []);
 
   return (
@@ -72,6 +117,9 @@ function App() {
             path="/series/game-of-thrones/seasons/:seasonNumber/episodes/:episodeNumber"
             element={<EpisodePage />}
           />
+          <Route path="/series/game-of-thrones/characters" element={<Characters />} />
+          <Route path="/series/game-of-thrones/westeros" element={<WesterosMap />} />
+          <Route path="/series/game-of-thrones/history" element={<History />} />
           <Route path="/series/:slug" element={<ProductionDetail type="series" />} />
           <Route path="/series" element={<Placeholder title="Series" />} />
           <Route path="/movies/:slug" element={<ProductionDetail type="movie" />} />
@@ -81,7 +129,33 @@ function App() {
           <Route path="/community/theories" element={<Placeholder title="Theories" />} />
           <Route path="/community/fan-art" element={<Placeholder title="Fan Art" />} />
           <Route path="/news" element={<News />} />
-          <Route path="/blog" element={<Placeholder title="Blog" />} />
+          <Route path="/blog/:slug" element={<BlogPostRoute />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/admin/login" element={<Login />} />
+          <Route
+            path="/admin/blogs"
+            element={
+              <RequireAuth>
+                <BlogList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/blogs/new"
+            element={
+              <RequireAuth>
+                <BlogEditor />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/blogs/:id"
+            element={
+              <RequireAuth>
+                <BlogEditor />
+              </RequireAuth>
+            }
+          />
           <Route path="/support" element={<Placeholder title="Support" />} />
           <Route path="/coming-soon" element={<Placeholder title="Coming Soon" />} />
           <Route path="/shop" element={<Placeholder title="Shop" />} />

@@ -36,14 +36,15 @@ export function ScrollStepper({ entityId }) {
       const mm = gsap.matchMedia();
 
       // Tek kurulum, iki koşul: reduced-motion açıksa hiç kurulmaz (kartlar
-      // statik akışta görünür); mobilde (≤800px) kartlar CSS ile merkez
+      // statik akışta görünür); mobilde (≤900px) kartlar CSS ile merkez
       // kolondadır — yatay alternating yerleşimi yalnız masaüstünde set
-      // edilir, süzülme/blur/snap her iki kırılımda aynıdır. 800px eşiği
+      // edilir, süzülme/blur/snap her iki kırılımda aynıdır. 900px eşiği
       // geçilince matchMedia context'i revert edip yeniden kurar.
+      // (Eşik ScrollStepper.module.css'teki max-width:900px ile ÇİFTTİR.)
       mm.add(
         {
           motionOk: '(prefers-reduced-motion: no-preference)',
-          desktop: '(min-width: 801px)',
+          desktop: '(min-width: 901px)',
         },
         (mmCtx) => {
           const { motionOk, desktop } = mmCtx.conditions;
@@ -168,7 +169,7 @@ export function ScrollStepper({ entityId }) {
     <section className={styles.stepper} aria-label="Story sections" ref={sectionRef}>
       <div className={styles.stepper__stage}>
         {/* Track: sticky eksenin kayabileceği alanı sınırlar — alt sınırı
-            bölüm sonundaki boşluğun içinde biter, parlak dot TabExhibit'e
+            bölüm sonundaki boşluğun içinde biter, parlak dot Highlights'a
             taşamaz (negatif margin hilesi sticky sınırını aşağı genişletiyordu). */}
         <div className={styles['stepper__axis-track']} aria-hidden="true">
           <div className={styles.stepper__axis} ref={axisRef}>

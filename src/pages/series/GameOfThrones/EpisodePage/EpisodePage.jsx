@@ -1,12 +1,14 @@
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Footer } from '../../../../components/Footer/Footer';
-import { armInPageNav, hideNavbar } from '../../../../motion/cinematic';
-import { theme } from '../GameOfThrones.data';
+import { RelatedContent } from '../../../../components/RelatedContent/RelatedContent';
+import { armInPageNav, hideNavbar, isBlogReturnArmed } from '../../../../motion/cinematic';
+import { theme, resolveGenreNames } from '../GameOfThrones.data';
 import { fetchProductionDetail, fetchSeasonDetail, still, stillSrcSet } from './EpisodePage.data';
 import { EpisodeBrief } from './EpisodeBrief/EpisodeBrief';
+import { EpisodeBlocks } from './EpisodeBlocks/EpisodeBlocks';
+import { getRelatedBlogs } from './RelatedContent/RelatedContent.data';
 import styles from './EpisodePage.module.css';
 
 const ROMAN_MAP = [
@@ -26,8 +28,6 @@ function toRoman(num) {
   }
   return result;
 }
-
-gsap.registerPlugin(ScrollTrigger);
 
 const pad2 = (n) => String(n).padStart(2, '0');
 
@@ -51,6 +51,13 @@ export default function EpisodePage() {
   const [series, setSeries] = useState(null);
   const [episodes, setEpisodes] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  // Bölümün kendi genre alanı şemada YOK — EpisodeBrief'teki genre pill'leri
+  // dizinin (production) genreId'lerinden çözülür (ProductionDetail.jsx'teki
+  // resolveGenreNames deseninin aynısı).
+  const [genreNames, setGenreNames] = useState([]);
+  // Bölüm sayfasının altındaki "Dive Deeper" şeridi — backend'den asenkron
+  // gelir; null iken RelatedContent boş şeridi hiç basmaz (bkz. component).
+  const [relatedBlogs, setRelatedBlogs] = useState(null);
 
   const heroRef = useRef(null);
   const mediaRef = useRef(null);
@@ -97,6 +104,19 @@ export default function EpisodePage() {
     };
   }, []);
 
+  // Dizi verisi gelince genre isimleri bir kez çözülür — bölüm değiştikçe
+  // tekrar tekrar tetiklenmez (genre sezon/bölüme değil diziye bağlı).
+  useEffect(() => {
+    if (!series) return undefined;
+    let cancelled = false;
+    resolveGenreNames(series.genreIds).then((names) => {
+      if (!cancelled) setGenreNames(names);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [series]);
+
   // Doğrudan URL'den açılış / tarayıcı geri-ileri navigasyonu için
   // fallback fetch — düğmeyle sezon değişimi kendi verisini goToSeason
   // içinde önceden çekip navigate ettiği için burada tekrar tetiklenmez.
@@ -121,11 +141,29 @@ export default function EpisodePage() {
 
   const currentSeason = series?.seasons.find((s) => s.seasonNumber === seasonNumber) ?? null;
   const currentEpisode = episodes?.find((ep) => ep.episodeNumber === episodeNumber) ?? null;
-  const hasEpisode = Boolean(currentEpisode);
 
   useEffect(() => {
     if (episodes && !currentEpisode) setNotFound(true);
   }, [episodes, currentEpisode]);
+
+  // Bölüm değişince şeridi yeniden çeker — GET /api/blogs/related.
+  // Backend'de şu an her bölüm için gerçek kayıt YOK; boş dönerse
+  // RelatedContent kendi kararıyla hiçbir şey render etmez.
+  useEffect(() => {
+    if (!currentEpisode) return undefined;
+    let cancelled = false;
+    setRelatedBlogs(null);
+    getRelatedBlogs({ seasonNumber, episodeNumber: currentEpisode.episodeNumber })
+      .then((items) => {
+        if (!cancelled) setRelatedBlogs(items);
+      })
+      .catch(() => {
+        if (!cancelled) setRelatedBlogs([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [seasonNumber, currentEpisode]);
 
   // GoT tema rengini basar (learned-rules: "Yapım sayfaları TAM TEMA kurar")
   // — SeasonEpisodes/GameOfThrones.jsx ile aynı davranış.
@@ -163,6 +201,12 @@ export default function EpisodePage() {
     // Senkron, animasyon başlamadan — crossfade effect'i aynı commit'te
     // hemen ardından çalışır ve bu değeri okur (yukarıdaki ref yorumu).
     enteredSrcRef.current = currentEpisode.stillImageUrl;
+
+    // Blog'dan geri dönüşte giriş animasyonu OYNAMAZ: sayfa teknik olarak
+    // yeniden mount oluyor ama kullanıcı için bu bir "açılış" değil, terk
+    // ettiği sayfaya dönüş. Oynarsa bölüm karesi merkezden büyüyerek tekrar
+    // gösteriliyor ve dönüş geçişinin üstüne biniyor.
+    if (isBlogReturnArmed()) return undefined;
 
     // Perde/klon React'in DIŞINDA document.body'ye eklenir; ctx.revert()
     // tween'leri öldürür ama bu DOM düğümlerini KALDIRMAZ. Animasyon
@@ -265,35 +309,6 @@ export default function EpisodePage() {
     // episode/season değişimleri aşağıdaki crossfade effect'ine ait.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Boolean(currentEpisode)]);
-
-  // Hero metinleri scroll'a BAĞLI olarak söner ve yukarı dönünce geri gelir
-  // (scrub → çift yönlü). Hedef contentRef'in KENDİSİ; giriş animasyonu ise
-  // children'ın opacity'siyle oynuyor — ayrı katmanlar olduğu için ikisi
-  // çakışmaz, opacity'ler çarpışır. ease:'none': scrub'a bağlı tween kendi
-  // eğrisini scroll ilerlemesinin üstüne bindirmemeli.
-  useLayoutEffect(() => {
-    if (!heroRef.current || !contentRef.current) return undefined;
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.to(contentRef.current, {
-          opacity: 0,
-          y: -24,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: '+=50%',
-            scrub: true,
-          },
-        });
-      });
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, [hasEpisode]);
 
   // Route yeni bir bölüme işaret ettiğinde: görseli ÖNCE arka planda decode
   // et, ancak hazır olunca ekrandakini değiştir. Böylece tıklama ile yeni
@@ -406,26 +421,42 @@ export default function EpisodePage() {
   const seasonIdx = series.seasons.findIndex((s) => s.seasonNumber === seasonNumber);
   const isFirstSeason = seasonIdx <= 0;
   const isLastSeason = seasonIdx >= series.seasons.length - 1;
-  const isFirstEpisode = episodeNumber <= 1;
-  const isLastEpisode = !episodes || episodeNumber >= episodes.length;
+  // Bölüm okları yalnız DİZİNİN uçlarında kapanır — sezonun ucu artık ölü
+  // son değil, komşu sezona geçiştir (bkz. goToEpisode).
+  const isFirstEpisode = episodeNumber <= 1 && isFirstSeason;
+  const isLastEpisode = !episodes || (episodeNumber >= episodes.length && isLastSeason);
 
   // Yeni sezonun verisini ÖNCE çeker, episodes'u ve URL'i AYNI anda
   // günceller — aradaki tek render'da bile eski sezonun bölümüyle yeni
   // seasonNumber eşleşip yanlış içerik göstermesin diye (React 18 state
   // güncellemelerini bu .then içinde batch'ler).
-  const goToSeason = (delta) => {
+  // landOnLast: sezon sınırını GERİYE doğru aşan bölüm oku için — önceki
+  // sezona onun ilk değil SON bölümüyle girilir ki akış kesintisiz olsun.
+  const goToSeason = (delta, landOnLast = false) => {
     const target = series.seasons[seasonIdx + delta];
     if (!target) return;
     fetchSeasonDetail(target.id).then((detail) => {
       loadedSeasonIdRef.current = target.id;
       setEpisodes(detail.episodes);
       armInPageNav();
-      navigate(`/series/game-of-thrones/seasons/${target.seasonNumber}/episodes/1`);
+      const num = landOnLast ? Math.max(1, detail.episodes.length) : 1;
+      navigate(`/series/game-of-thrones/seasons/${target.seasonNumber}/episodes/${num}`);
     });
   };
 
+  // Sezon sınırını aşan ok, komşu sezonun ucuna devreder (kullanıcı isteği):
+  // son bölümden ileri → sonraki sezonun 1. bölümü, ilk bölümden geri →
+  // önceki sezonun SON bölümü. Dizinin iki ucunda butonlar zaten disabled.
   const goToEpisode = (num) => {
-    if (!episodes || num < 1 || num > episodes.length) return;
+    if (!episodes) return;
+    if (num > episodes.length) {
+      if (!isLastSeason) goToSeason(1);
+      return;
+    }
+    if (num < 1) {
+      if (!isFirstSeason) goToSeason(-1, true);
+      return;
+    }
     armInPageNav();
     navigate(`/series/game-of-thrones/seasons/${seasonNumber}/episodes/${num}`);
   };
@@ -446,11 +477,14 @@ export default function EpisodePage() {
             />
           )}
           <div className={styles.hero__overlay} />
+          {/* Kart header'a küçüldükçe belirir — bkz. .hero__scrim yorumu. */}
+          <div className={styles.hero__scrim} />
         </div>
 
+
         <div className={styles.hero__content} ref={contentRef}>
-          <p className={styles.hero__label}>Select Season</p>
-          <div className={styles.hero__seasonNav}>
+          <p className={`${styles.hero__label} ${styles.hero__collapsible}`}>Select Season</p>
+          <div className={`${styles.hero__seasonNav} ${styles.hero__collapsible}`}>
             <button
               type="button"
               className={styles.hero__arrow}
@@ -474,7 +508,10 @@ export default function EpisodePage() {
             </button>
           </div>
 
-          <div className={styles.hero__ornament} aria-hidden="true">
+          <div
+            className={`${styles.hero__ornament} ${styles.hero__collapsible}`}
+            aria-hidden="true"
+          >
             <span className={styles.hero__ornamentLine} />
             <span className={styles.hero__ornamentDot} />
             <span className={styles.hero__ornamentLine} />
@@ -484,18 +521,21 @@ export default function EpisodePage() {
             {shownEpisode.title}
           </h1>
 
-          <p className={styles.hero__label}>Select Episode</p>
+          <p className={`${styles.hero__label} ${styles.hero__collapsible}`}>Select Episode</p>
+          {/* Şerit cover'da ESKİ hâlinde (‹ 01 02 … ›). Kart küçülürken
+              ORTADAKİ liste söner, oklar ise sağa/sola kayarak kartın
+              kenarlarındaki son konumlarına gider (kullanıcı kararı). */}
           <div className={styles.hero__episodeStrip}>
             <button
               type="button"
-              className={styles.hero__arrow}
+              className={`${styles.hero__arrow} ${styles.hero__arrowPrev}`}
               onClick={() => goToEpisode(episodeNumber - 1)}
               disabled={isFirstEpisode}
               aria-label="Previous episode"
             >
               &#8249;
             </button>
-            <div className={styles.hero__episodeList}>
+            <div className={`${styles.hero__episodeList} ${styles.hero__listCollapse}`}>
               {episodes?.map((ep) => (
                 <button
                   key={ep.id}
@@ -516,7 +556,7 @@ export default function EpisodePage() {
             </div>
             <button
               type="button"
-              className={styles.hero__arrow}
+              className={`${styles.hero__arrow} ${styles.hero__arrowNext}`}
               onClick={() => goToEpisode(episodeNumber + 1)}
               disabled={isLastEpisode}
               aria-label="Next episode"
@@ -529,7 +569,7 @@ export default function EpisodePage() {
               ipucu olmaktan çıkıp odaklanabilir bir butona dönüştü. */}
           <button
             type="button"
-            className={styles.hero__explore}
+            className={`${styles.hero__explore} ${styles.hero__collapsible}`}
             onClick={() =>
               document
                 .getElementById('episode-brief')
@@ -544,7 +584,21 @@ export default function EpisodePage() {
         </div>
       </section>
 
-      <EpisodeBrief episode={shownEpisode} seasonNumber={seasonNumber} />
+      {/* Hero position:fixed'e geçince akıştan çıkar; yerini bu tutar
+          (demodaki body{padding-top:100vh} karşılığı). Efekt desteklenmiyorsa
+          CSS'te display:none kalır. */}
+      <div className={styles.hero__spacer} aria-hidden="true" />
+
+      <EpisodeBrief
+        episode={shownEpisode}
+        seasonNumber={seasonNumber}
+        genres={genreNames}
+        rating={shownEpisode.externalRating != null ? shownEpisode.externalRating.toFixed(1) : null}
+      />
+
+      <EpisodeBlocks episodeId={shownEpisode.id} />
+
+      <RelatedContent items={relatedBlogs} />
 
       <Footer />
     </>

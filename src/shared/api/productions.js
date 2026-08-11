@@ -20,3 +20,37 @@ export async function fetchProductionDetail(type, slug) {
 export async function fetchSeasonDetail(seasonId) {
   return apiClient.get(`/seasons/${seasonId}`);
 }
+
+// GET /api/episodes/:id — sezon detayındaki episodes[] öğesinin id'si (bkz.
+// fetchSeasonDetail). content: { ..., storyKicker, storyTitle, storyThesis,
+// episodeBlocks: [{ id, orderIndex, blockType, sceneKey, tone, pinned,
+// sceneKicker, content, mediaUrl, mediaAlt, mediaRatio, col, row }] }.
+export async function fetchEpisodeDetail(episodeId) {
+  return apiClient.get(`/episodes/${episodeId}`);
+}
+
+// genres.js'teki desenin aynısı: tüm katalog oturum boyunca değişmeyecek
+// kadar küçük — tek seferlik çekilip bellekte tutulur. Slug'a göre senkron-
+// benzeri çözümleme isteyen çağıranlar (ContentSection, NewsCard, Community)
+// bunun üstüne kurulur.
+let allProductionsPromise = null;
+
+export async function fetchAllProductions() {
+  if (!allProductionsPromise) {
+    allProductionsPromise = fetchProductions({ size: 100 }).then((res) => res.content);
+  }
+  return allProductionsPromise;
+}
+
+export async function resolveProductionBySlug(slug) {
+  const all = await fetchAllProductions();
+  return all.find((p) => p.slug === slug) ?? null;
+}
+
+// BlogTagResponse (subjectType/subjectId) gibi sayısal FK taşıyan
+// çapraz-kesen ilişkileri slug'a çözer — type de verilirse (MOVIE/SERIES
+// ayrı id dizileri kullanabilir) eşleşme ona göre daraltılır.
+export async function resolveProductionById(id, type) {
+  const all = await fetchAllProductions();
+  return all.find((p) => p.id === id && (!type || p.type === type)) ?? null;
+}

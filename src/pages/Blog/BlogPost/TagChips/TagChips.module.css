@@ -1,0 +1,35 @@
+/* BlogPost.module.css'teki .back butonuyla aynı yüzey dili
+   (border + pill + uppercase küçük tip) — sayfanın kendi imzası. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  padding: var(--space-2xs) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+a.chip {
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  a.chip:hover {
+    color: var(--fg);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+}

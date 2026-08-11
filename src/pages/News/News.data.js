@@ -6,4 +6,5 @@
 import { threads } from '../../shared/data/community';
 
 export const news = threads.filter((t) => t.surface === 'NEWS');
-export { getProductionBySlug } from '../../shared/data/productions';
+export { resolveProductionBySlug } from '../../shared/api/productions';
+export { getProductionAccent } from '../../shared/theme/productionAccent';

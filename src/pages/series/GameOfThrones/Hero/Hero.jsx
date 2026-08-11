@@ -141,7 +141,7 @@ export function Hero({ entityId, title, synopsis }) {
   }, []);
 
   return (
-    <section className={styles['got-hero']} ref={heroRef}>
+    <section id="got-hero" className={styles['got-hero']} ref={heroRef}>
       <div className={styles['got-hero__media']} ref={mediaRef} aria-hidden="true">
         <img
           ref={imageRef}

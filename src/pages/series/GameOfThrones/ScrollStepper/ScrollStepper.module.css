@@ -203,12 +203,14 @@
   line-height: 1.55;
 }
 
-/* --- Mobil (kırılım: 800px): eksen merkezde kalır, kartlar alternating
+/* --- Mobil (kırılım: 900px): eksen merkezde kalır, kartlar alternating
    yerine MERKEZ KOLONDA eksenin üstünden akar (dar ekranda sağ/sol
    yerleşim viewport dışına taşıyordu) — dot kart aralıklarında görünür,
    süzülme/blur/snap deneyimi masaüstüyle aynıdır. Yatay GSAP set'i
-   yalnız masaüstünde uygulanır (JSX matchMedia koşulu). --- */
-@media (max-width: 800px) {
+   yalnız masaüstünde uygulanır (JSX matchMedia koşulu — bu eşikle
+   BİRLİKTE değişmeli, ayrışırlarsa CSS mobil düzeniyle JS masaüstü
+   yerleşimi çakışır). --- */
+@media (max-width: 900px) {
   .stepper__stage {
     padding-top: 70vh;
   }

@@ -1,0 +1,69 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+/* Görsel yuvası — kesik çerçeve "beklemede" sinyali (learned-rules [veri]),
+   BlogPost'un hero__box/story__figure imzasıyla aynı derinlik dili (küçük
+   ölçeğe uyarlanmış glow). */
+.card__cover {
+  flex: 0 0 auto;
+  width: 132px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.3);
+  background:
+    radial-gradient(
+      65% 90% at 70% 30%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 65%
+    ),
+    var(--bg-soft);
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+
+.card__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.bar {
+  display: block;
+  height: 0.85em;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--fg) 14%, transparent);
+}
+
+.bar--title {
+  width: 90%;
+}
+
+.bar--titleShort {
+  width: 62%;
+}
+
+.bar--meta {
+  width: 42%;
+  height: 0.65em;
+  margin-top: var(--space-2xs);
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
+}
+
+/* learned-rules [etkileşim]: kart hover'ı hafif scale + glow. */
+@media (hover: hover) {
+  .card:hover .card__cover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 1px var(--border), 0 10px 26px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__cover {
+    transition: none;
+  }
+}

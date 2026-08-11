@@ -1,0 +1,13 @@
+/* Konumlama WorldMap.module.css'teki .worldmap__sealLayer'da — burada
+   sadece görsel boyutu. opacity/scale başlangıcı ve animasyonu GSAP'la
+   inline sürülür (WorldMap.jsx), CSS'te durum tutulmaz. */
+.seal__image {
+  width: clamp(600px, 58vw, 1080px);
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  .seal__image {
+    width: min(720px, 164vw);
+  }
+}

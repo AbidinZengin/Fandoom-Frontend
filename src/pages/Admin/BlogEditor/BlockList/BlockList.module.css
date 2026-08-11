@@ -1,0 +1,82 @@
+.canvasWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Genişlik artık akışkan (editör içeriğinin tam genişliği, 1360px'e kadar) —
+   önceden sabit 1360px'ti ve dar pencerede yatay sürükleme/scroll
+   gerektiriyordu (kullanıcı raporu: "genişliği aşağıdan sürüklemeyelim
+   zaten tam ekran gibi görünsün"). container-type: cqw tipografisi
+   (blogPostStyles) editörde de doğru oranda ölçeklensin diye — önceden
+   YOKTU, cqw birimleri context'siz 0'a düşüyordu (başlıklar hep min.
+   punto görünüyordu). Zemin BİLEREK `--bg` — sayfanın kendi zeminiyle
+   AYNI (kullanıcı düzeltmesi: "background siyah olsun, farkı arka planı
+   farklı YAPARAK gösterme" — önceki `--card-bg` denemesi canvas'ı gerçek
+   yayınlanan sayfadan farklı, "kutu içinde" gösteriyordu; WYSIWYG'nin
+   özü canvas'ın sayfayla AYNI görünmesi). Sınır SADECE ince border'la
+   belli edilir. */
+.canvas {
+  /* blogPostStyles.story__heading/quote bu değişkeni okuyor — serbest
+     canvas pivotunda .story sarmalayıcısı kaybolmuş, başlıklar sessizce
+     düz Montserrat'a düşüyordu (kullanıcı raporu: "GoT fontunda ? işareti
+     bozuk" derken fark edildi — aslında font hiç uygulanmıyordu).
+     .story'nin TAMAMINI almak yerine (max-width/padding çakışır) sadece
+     bu değişken kopyalanır. */
+  --font-got: 'Game of Thrones', 'Cinzel', serif;
+
+  position: relative;
+  width: 100%;
+  max-width: 1360px;
+  container-type: inline-size;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+/* Hizalama kılavuzları — Figma tarzı ince çizgi, sadece eşik içinde
+   (SNAP_THRESHOLD_PX) belirir; yumuşak mıknatıslama, kilit DEĞİL. */
+.guideV {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.guideH {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.canvas__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-faint);
+  font-size: var(--text-sm);
+}
+
+.canvasResize {
+  width: 100%;
+  max-width: 1360px;
+  padding: var(--space-2xs);
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--fg-faint);
+  cursor: ns-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+.canvasResize:hover {
+  color: var(--fg-muted);
+}

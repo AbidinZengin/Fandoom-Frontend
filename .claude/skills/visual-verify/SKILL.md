@@ -14,8 +14,18 @@ description: >-
 ## Araçlar
 
 ```
-npm run capture -- <route> [ad.png] [genişlik]    # kendi sayfamızdan screenshot
-npm run capture-ref -- <url> <ad.png> [genişlik]  # referans siteden screenshot
+npm run capture -- <route> [ad.png] [genişlik] [kare]  # kendi sayfamızdan screenshot
+npm run capture-ref -- <url> <ad.png> [genişlik]        # referans siteden screenshot
+```
+
+`[kare]` verilmezse tek fullPage görüntü alınır. Sayı verilirse VIEWPORT
+modu çalışır: sayfa eşit aralıklarla gezilip her durakta viewport boyunda
+ayrı kare yazılır (`<ad>-01.png`, `-02.png`...). Pinned / scroll-scrub
+bölümlerde fullPage okunamaz olduğu için (100vh'lik sahne on binlerce
+piksele çıkar) bu modu kullan:
+
+```
+npm run capture -- /series/game-of-thrones got.png 390 8
 ```
 
 - Çıktılar: `capture` → `.claude/scratchpad/screens/`,

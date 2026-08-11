@@ -1,3 +1,5 @@
+import { getStoredAuth } from './authStorage';
+
 // Ortak fetch istemcisi — backend REST API'sine (Spring Boot) tüm çağrılar
 // buradan geçer. Base path '/api', dev'de vite.config.js proxy'siyle
 // backend'e (http://localhost:8080) yönlendirilir.
@@ -18,13 +20,22 @@ export class ApiError extends Error {
 }
 
 async function request(path, options = {}) {
+  const token = getStoredAuth()?.token;
   const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options.headers,
+    },
     ...options,
   });
 
   if (!res.ok) {
     const body = await res.json().catch(() => null);
+    // Geliştirme sırasında hızlı teşhis için — DevTools Network panelinde
+    // Response gezmek yerine hata direkt konsola düşer (kullanıcı isteği).
+    // eslint-disable-next-line no-console
+    console.error(`API error ${res.status} on ${path}:`, body);
     throw new ApiError(body?.message ?? `İstek başarısız: ${res.status}`, {
       status: res.status,
       fieldErrors: body?.fieldErrors,

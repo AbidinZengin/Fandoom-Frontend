@@ -1,0 +1,63 @@
+.login {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-page-x);
+}
+
+.login__form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.login__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin: 0 0 var(--space-sm);
+}
+
+.login__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.login__field input {
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-base);
+}
+
+.login__error {
+  color: var(--brand-red);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.login__submit {
+  padding: var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--brand-gradient);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--text-base);
+}
+
+.login__submit:disabled {
+  opacity: 0.6;
+}

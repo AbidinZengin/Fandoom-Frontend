@@ -1,0 +1,67 @@
+/* Sabit (fixed) sol panel — önceden canvas'ın ALTINDAYDI, canvas
+   uzadıkça sürekli aşağı kayıyordu (kullanıcı raporu: "component
+   araçlarımız en aşağıda ve sürekli yukarıya ekleme yapıyorlar").
+   Artık scroll'dan bağımsız, her zaman erişilebilir; viewport dar
+   olduğunda sayfa içeriğiyle çakışmaması için ekrana göre pozisyon
+   ayarlanır (bkz. media query). */
+.addBlockBar {
+  position: fixed;
+  left: var(--space-lg);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 160px;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.addBlockBar__button {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px dashed var(--border);
+  background: none;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.addBlockBar__button:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+
+.addBlockBar__ghost {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 30;
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--card-bg) 85%, transparent);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .addBlockBar {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}
