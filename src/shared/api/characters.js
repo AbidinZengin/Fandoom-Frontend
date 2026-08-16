@@ -17,3 +17,18 @@ export async function fetchCharactersForMovie(movieId) {
 export async function fetchCharacterBySlug(slug) {
   return apiClient.get(`/characters/slug/${slug}`);
 }
+
+export async function fetchCharacterById(id) {
+  return apiClient.get(`/characters/${id}`);
+}
+
+// PageBuilder bağlı-veri geri yazma — backend'e iletilen generic
+// CharacterRequest isteğine göre yazıldı (bkz. productions.js'teki
+// updateProduction yorumu, aynı doğrulanmamışlık notu geçerli).
+export async function updateCharacter(id, fields) {
+  return apiClient.put(`/characters/${id}`, fields);
+}
+
+export async function createCharacter(fields) {
+  return apiClient.post('/characters', fields);
+}

@@ -4,13 +4,17 @@ import styles from './TextBlockField.module.css';
 // blogPostStyles'ın tip class'ıyla (story__heading/quote/body) birlikte
 // kullanılır — bu component SADECE textarea'yı görsel olarak "düz metin"
 // gibi gösteren resetleri taşır (border/background/padding yok), gerçek
-// tipografi caller'ın verdiği className'den gelir. Yükseklik içeriğe göre
-// otomatik büyür (autosize) — kutu değil, akan metin hissi için.
-export function TextBlockField({ className, style, value, onChange, onBlur, placeholder }) {
+// tipografi caller'ın verdiği className'den gelir. Yükseklik varsayılan
+// olarak içeriğe göre otomatik büyür (autosize) — kutu değil, akan metin
+// hissi için. `autosize={false}` (PageBuilder'ın kullanıcı N/S tutamacıyla
+// SABİT bir yükseklik verdiği TEXT block'ları için) bunu kapatır: textarea
+// artık kendi scrollHeight'ına göre büyümez, verilen kutuyu (height:100%)
+// doldurur, taşan metin textarea'nın kendi native scroll'una düşer.
+export function TextBlockField({ className, style, value, onChange, onBlur, placeholder, readOnly, autosize = true }) {
   const ref = useRef(null);
 
   const measure = () => {
-    if (!ref.current) return;
+    if (!ref.current || !autosize) return;
     ref.current.style.height = 'auto';
     ref.current.style.height = `${ref.current.scrollHeight}px`;
   };
@@ -24,24 +28,27 @@ export function TextBlockField({ className, style, value, onChange, onBlur, plac
   // durumda doğru yüksekliğe kilitler.
   useEffect(() => {
     measure();
-  }, [value]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, autosize]);
 
   useEffect(() => {
-    if (!ref.current) return undefined;
+    if (!ref.current || !autosize) return undefined;
     const observer = new ResizeObserver(() => measure());
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autosize]);
 
   return (
     <textarea
       ref={ref}
       className={`${className} ${styles.textField}`}
-      style={style}
+      style={autosize ? style : { ...style, height: '100%' }}
       placeholder={placeholder ?? 'Enter text…'}
       value={value}
       maxLength={5000}
       rows={1}
+      readOnly={readOnly}
       onChange={(e) => onChange(e.target.value)}
       onBlur={onBlur}
       // Grammarly (ve benzeri yazım eklentileri) metin alanının üzerine

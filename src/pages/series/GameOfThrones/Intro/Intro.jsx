@@ -26,10 +26,11 @@ const AMBIENTS = [
 // boşluk (siyah nefes ekranı). Sahne elemanları girerken imza-süzülmeyle
 // açığa çıkar (merkez oturuşunda tamamlanır, ScrollStepper ile aynı
 // değerler), çıkarken yukarı kayarak yok olur — üstteki kaybolurken
-// alttaki belirir. Scroll durunca yöne duyarlı snap sahne merkezine
-// kilitler (siyah boşlukta durulmaz). Görsel, sahnenin görünür ömrü
-// boyunca 1.0→1.5 zoom yapar (video-sadık); sis maskesi ve metin
-// kompozisyonu aynen korundu. Yalnız transform/opacity/filter.
+// alttaki belirir. Scroll TAMAMEN MANUEL (kullanıcı kararı 2026-08:
+// önceki yöne-duyarlı auto-snap kaldırıldı, kontrol tamamen kullanıcıda).
+// Görsel, sahnenin görünür ömrü boyunca 1.0→1.5 zoom yapar (video-sadık);
+// sis maskesi ve metin kompozisyonu aynen korundu. Yalnız
+// transform/opacity/filter.
 export function Intro({ entityId }) {
   const sectionRef = useRef(null);
   const [eyebrow, setEyebrow] = useState('');
@@ -151,44 +152,9 @@ export function Intro({ entityId }) {
             );
           }
         });
-
-        // Scroll durunca yöne duyarlı snap (learned-rules GoT deseni):
-        // siyah boşlukta DURULMAZ — aşağı iniyorsa sıradaki, yukarı
-        // çıkıyorsa önceki sahnenin merkezine akılır. İlk merkezden önce
-        // ve son merkezden sonra scroll'a karışmaz (hero/Characters
-        // sınırı çekiştirilmez).
-        let points = [];
-        ScrollTrigger.create({
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          onRefresh: (self) => {
-            const range = self.end - self.start;
-            points = scenes.map((scene) => {
-              const rect = scene.getBoundingClientRect();
-              const centerScroll =
-                rect.top + window.scrollY + rect.height / 2 - window.innerHeight / 2;
-              return gsap.utils.clamp(0, 1, (centerScroll - self.start) / range);
-            });
-          },
-          snap: {
-            snapTo: (value, self) => {
-              const last = points.length - 1;
-              if (last < 1 || value <= points[0] || value >= points[last]) return value;
-              const dir = self && self.direction > 0 ? 1 : -1;
-              for (let k = 0; k < last; k += 1) {
-                if (value > points[k] && value < points[k + 1]) {
-                  return dir > 0 ? points[k + 1] : points[k];
-                }
-              }
-              return value;
-            },
-            duration: { min: 0.35, max: 0.9 },
-            ease: 'power2.inOut',
-            delay: 0.1,
-          },
-        });
       });
+      // Scroll TAMAMEN MANUEL (kullanıcı kararı 2026-08) — auto-snap
+      // kaldırıldı, kontrol kullanıcıda kalır.
       // Reduced-motion: JS hiç kurulmaz — sahneler doğal akışta, tüm
       // içerik görünür (siyah aralıklar statik boşluk olarak kalır).
     }, sectionRef);

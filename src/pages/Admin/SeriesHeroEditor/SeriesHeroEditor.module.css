@@ -1,0 +1,136 @@
+/* Nokta-ızgara zemin — Figma/Excalidraw "sonsuz canvas" ipucu (Task 8).
+   Canvas'ın (BlockList.module.css .canvas) İÇİNE değil, editör sayfasının
+   kendisine uygulanır: canvas gerçek sayfanın WYSIWYG önizlemesi, üstüne
+   nokta çizmek gerçek görseli kirletirdi — ızgara sadece ÇEVREDEKİ
+   çalışma alanında (başlık, kenar boşlukları) görünür. */
+.seriesHeroEditor {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--fg) 10%, transparent) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+@media (min-width: 1101px) {
+  .seriesHeroEditor {
+    padding-left: 200px;
+  }
+}
+
+.seriesHeroEditor__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.seriesHeroEditor__title {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  margin: 0;
+}
+
+.seriesHeroEditor__headActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.seriesHeroEditor__historyButton {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--fg);
+  font-size: var(--text-lg);
+}
+
+.seriesHeroEditor__historyButton:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.seriesHeroEditor__save {
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--brand-gradient);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--text-base);
+  transition: background var(--duration-fast) ease;
+}
+
+/* Kullanıcı raporu: "kaydetmiyor" — aslında kaydediyordu, görünür bir onay
+   yoktu. 2s'lik yeşil dönüş net bir "oldu" sinyali verir. */
+.seriesHeroEditor__save[data-saved] {
+  background: #1a9c5c;
+}
+
+.seriesHeroEditor__save:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.seriesHeroEditor__recoverBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--fg);
+  font-size: var(--text-sm);
+}
+
+.seriesHeroEditor__recoverBanner p {
+  margin: 0;
+}
+
+.seriesHeroEditor__recoverActions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.seriesHeroEditor__recoverActions button {
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--fg);
+  font-size: var(--text-xs);
+}
+
+.seriesHeroEditor__saveError {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--brand-red);
+  background: rgba(232, 17, 45, 0.08);
+  color: var(--fg);
+  font-size: var(--text-sm);
+}
+
+.seriesHeroEditor__blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.seriesHeroEditor__status {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-3xl) var(--space-page-x);
+  text-align: center;
+  color: var(--fg-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: center;
+}

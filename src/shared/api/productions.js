@@ -15,6 +15,28 @@ export async function fetchProductionDetail(type, slug) {
   return apiClient.get(path);
 }
 
+// fetchProductionDetail'in ID'li karşılığı — PageBuilder Data sekmesinin
+// entity binding'i (entitySchemas.js) için, backend kontratında GET
+// /movies/{id} ve /series/{id} de var (bkz. FANDOOM_BACKEND_ENDPOINT_CONTRACT).
+export async function fetchProductionById(type, id) {
+  const path = type === 'movie' ? `/movies/${id}` : `/series/${id}`;
+  return apiClient.get(path);
+}
+
+// PageBuilder'ın bağlı-veri geri yazma (PUT/POST) akışı için — backend'e
+// generic {Entity}Request DTO isteği iletildi (2026-08-16), bu iki fonksiyon
+// o sözleşimi varsayarak yazıldı. Backend cevabı gelene kadar path/gövde
+// şekli DOĞRULANMADI — entityWriteback.js dışında henüz kimse çağırmıyor.
+export async function updateProduction(type, id, fields) {
+  const path = type === 'movie' ? `/movies/${id}` : `/series/${id}`;
+  return apiClient.put(path, fields);
+}
+
+export async function createProduction(type, fields) {
+  const path = type === 'movie' ? '/movies' : '/series';
+  return apiClient.post(path, fields);
+}
+
 // GET /api/seasons/:id — seasons dizisindeki id (series detail'ın seasons[].id'si,
 // series'in kendi id'si DEĞİL). content: { id, seasonNumber, title, posterUrl, episodes }.
 export async function fetchSeasonDetail(seasonId) {
@@ -27,6 +49,14 @@ export async function fetchSeasonDetail(seasonId) {
 // sceneKicker, content, mediaUrl, mediaAlt, mediaRatio, col, row }] }.
 export async function fetchEpisodeDetail(episodeId) {
   return apiClient.get(`/episodes/${episodeId}`);
+}
+
+// Episode'un POST'u YOK burada — episode'lar bir season'a nested (backend
+// route'u muhtemelen /seasons/{id}/episodes), bu PageBuilder'ın "Yeni Kayıt
+// Oluştur" akışının kapsamı dışında (sadece parent'ı olmayan düz entity'ler
+// için var — bkz. entitySchemas.js). PUT'u update-existing-only.
+export async function updateEpisode(id, fields) {
+  return apiClient.put(`/episodes/${id}`, fields);
 }
 
 // genres.js'teki desenin aynısı: tüm katalog oturum boyunca değişmeyecek

@@ -1,0 +1,103 @@
+[
+  {
+    "id": "block-image",
+    "orderIndex": 0,
+    "type": "IMAGE",
+    "x": 0,
+    "y": 0,
+    "width": 100,
+    "height": 100,
+    "content": {
+      "imageUrl": "/breaking-bad/billboard-still.jpg"
+    },
+    "styles": {
+      "borderRadius": "12px",
+      "filter": "blur(0px)"
+    },
+    "animation": null,
+    "customCss": ""
+  },
+  {
+    "id": "block-meta",
+    "orderIndex": 1,
+    "type": "META",
+    "x": 4.307097579292629,
+    "y": 46.60775129210508,
+    "width": 23.26086956521739,
+    "height": null,
+    "content": {},
+    "styles": {},
+    "animation": {
+      "preset": "fadeUpStagger",
+      "params": {
+        "duration": 0.9,
+        "delay": 0
+      }
+    },
+    "customCss": ""
+  },
+  {
+    "id": "block-synopsis",
+    "orderIndex": 2,
+    "type": "SYNOPSIS",
+    "x": 4.307097579292629,
+    "y": 64.99960654731075,
+    "width": 30,
+    "height": null,
+    "content": {
+      "textTr": "Terminal akciğer kanseri teşhisi konan lise kimya öğretmeni, ailesinin geleceğini güvence altına almak için eski bir öğrencisiyle metamfetamin üretimine başlar.",
+      "textEn": "A high school chemistry teacher diagnosed with terminal lung cancer turns to manufacturing methamphetamine with a former student to secure his family's future."
+    },
+    "styles": {
+      "fontFamily": "'Cooper BT', serif"
+    },
+    "animation": {
+      "preset": "fadeUpStagger",
+      "params": {
+        "duration": 0.9,
+        "delay": 0.12
+      }
+    },
+    "customCss": "font-family : s\n"
+  },
+  {
+    "id": "block-logo",
+    "orderIndex": 3,
+    "type": "LOGO",
+    "x": 9.307097579292629,
+    "y": 7.236265759876469,
+    "width": 25,
+    "height": null,
+    "content": {
+      "imageUrl": "/breaking-bad/logo-mark.svg"
+    },
+    "styles": {},
+    "animation": null,
+    "customCss": ""
+  },
+  {
+    "id": "7c75dbb8-7a73-4974-9054-ed60c75e777e",
+    "orderIndex": 4,
+    "type": "BUTTON",
+    "x": 77.75363148122595,
+    "y": 84.22789747267923,
+    "width": 12.10144872250764,
+    "height": null,
+    "content": {
+      "text": "Watch Trailer"
+    },
+    "styles": {
+      "borderRadius": "var(--radius-pill)",
+      "fontFamily": "'Montserrat', sans-serif",
+      "fontSize": "var(--text-sm)"
+    },
+    "animation": {
+      "preset": "fadeUpStagger",
+      "params": {
+        "duration": 0.9,
+        "delay": 0
+      }
+    },
+    "customCss": ""
+  }
+]

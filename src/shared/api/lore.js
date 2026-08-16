@@ -20,8 +20,11 @@ export async function fetchLoreCategories(type, parentId) {
   return apiClient.get(`/${parentPath(type)}/${parentId}/lore/categories`);
 }
 
-export async function createLoreCategory(type, parentId, name) {
-  return apiClient.post(`/${parentPath(type)}/${parentId}/lore/categories`, { name });
+// fields: en azından { name } — PageBuilder'ın generic yazma akışı
+// (entitySchemas.js) daha geniş bir obje de gönderebilir, bu sarmalayıcı
+// artık şekle karışmaz (eskiden hardcoded tek-alan {name} idi).
+export async function createLoreCategory(type, parentId, fields) {
+  return apiClient.post(`/${parentPath(type)}/${parentId}/lore/categories`, fields);
 }
 
 export async function fetchLoreCategory(id) {
@@ -32,8 +35,17 @@ export async function fetchLoreCategoryBySlug(slug) {
   return apiClient.get(`/lore/categories/slug/${slug}`);
 }
 
-export async function updateLoreCategory(id, name) {
-  return apiClient.put(`/lore/categories/${id}`, { name });
+export async function updateLoreCategory(id, fields) {
+  return apiClient.put(`/lore/categories/${id}`, fields);
+}
+
+// Production-nested olmayan GENERIC create — backend'e PageBuilder yazma
+// akışı için eklendi (2026-08-16), gövdede subjectType/subjectId taşıyarak
+// hangi production'a ait olduğunu belirtir (createLoreCategory'nin
+// nested-path versiyonundan FARKLI, ikisi de var — Lore admin UI ileride
+// hangisini kullanacağına göre seçer).
+export async function createLoreCategoryGeneric(fields) {
+  return apiClient.post('/lore/categories', fields);
 }
 
 export async function deleteLoreCategory(id) {
@@ -76,6 +88,13 @@ export async function updateLoreGroup(id, { customFields, ...rest }) {
 
 export async function deleteLoreGroup(id) {
   return apiClient.delete(`/lore/groups/${id}`);
+}
+
+// Generic create (bkz. createLoreCategoryGeneric yorumu) — categoryId
+// zaten subject'i belirlediği için ekstra subjectType/subjectId gerekmiyor.
+export async function createLoreGroupGeneric({ customFields, ...rest }) {
+  const group = await apiClient.post('/lore/groups', { ...rest, customFields: JSON.stringify(customFields ?? {}) });
+  return withParsedCustomFields(group);
 }
 
 // ---- GroupAssignment ----
@@ -133,6 +152,12 @@ export async function deleteLoreLocation(id) {
   return apiClient.delete(`/lore/locations/${id}`);
 }
 
+// Generic create (bkz. createLoreCategoryGeneric yorumu).
+export async function createLoreLocationGeneric({ customFields, ...rest }) {
+  const location = await apiClient.post('/lore/locations', { ...rest, customFields: JSON.stringify(customFields ?? {}) });
+  return withParsedCustomFields(location);
+}
+
 // ---- Event ----
 
 // GET listesi backend'de orderIndex sıralı döner, burada tekrar sıralanmaz.
@@ -140,22 +165,24 @@ export async function fetchLoreEvents(type, parentId) {
   return apiClient.get(`/${parentPath(type)}/${parentId}/lore/events`);
 }
 
-export async function createLoreEvent(type, parentId, { name, description, orderIndex, imageUrl, locationId }) {
-  return apiClient.post(`/${parentPath(type)}/${parentId}/lore/events`, {
-    name,
-    description,
-    orderIndex,
-    imageUrl,
-    locationId,
-  });
+// fields: eskiden hardcoded {name,description,orderIndex,imageUrl,locationId}
+// idi (PageBuilder'ın generic yazma akışı için genel objeye genişletildi,
+// bkz. createLoreCategory'deki aynı not).
+export async function createLoreEvent(type, parentId, fields) {
+  return apiClient.post(`/${parentPath(type)}/${parentId}/lore/events`, fields);
 }
 
 export async function fetchLoreEvent(id) {
   return apiClient.get(`/lore/events/${id}`);
 }
 
-export async function updateLoreEvent(id, { name, description, orderIndex, imageUrl, locationId }) {
-  return apiClient.put(`/lore/events/${id}`, { name, description, orderIndex, imageUrl, locationId });
+export async function updateLoreEvent(id, fields) {
+  return apiClient.put(`/lore/events/${id}`, fields);
+}
+
+// Generic create (bkz. createLoreCategoryGeneric yorumu).
+export async function createLoreEventGeneric(fields) {
+  return apiClient.post('/lore/events', fields);
 }
 
 export async function deleteLoreEvent(id) {

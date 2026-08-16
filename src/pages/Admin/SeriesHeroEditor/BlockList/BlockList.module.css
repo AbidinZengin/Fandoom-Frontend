@@ -1,0 +1,50 @@
+.canvasWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+/* BlogEditor/BlockList.module.css'in canvas'ı serbest yükseklikliydi
+   (uzun makale) — Hero'da GERÇEK kadraj sabit oranlıdır (Hero.module.css:
+   .hero__figure { aspect-ratio: 21/9 }), o yüzden burada da aynı oran
+   kullanılır: admin bloğu nereye koyarsa, sayfada AYNI orantıda görünür.
+   Zemin --bg — gerçek yayınlanan sayfayla AYNI (WYSIWYG). */
+.canvas {
+  position: relative;
+  width: 100%;
+  max-width: 1360px;
+  aspect-ratio: 21 / 9;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.guideV {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.guideH {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.canvas__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-faint);
+  font-size: var(--text-sm);
+}

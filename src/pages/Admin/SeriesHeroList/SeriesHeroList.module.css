@@ -1,0 +1,62 @@
+.seriesHeroList {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.seriesHeroList__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.seriesHeroList__title {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  margin: 0;
+}
+
+.seriesHeroList__status {
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+}
+
+.seriesHeroList__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.seriesHeroList__itemLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.seriesHeroList__itemLink:hover {
+  border-color: var(--accent);
+}
+
+.seriesHeroList__thumb {
+  width: 32px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.seriesHeroList__itemTitle {
+  flex: 1;
+  font-size: var(--text-base);
+  color: var(--fg);
+}

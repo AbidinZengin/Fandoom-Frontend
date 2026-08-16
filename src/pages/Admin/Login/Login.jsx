@@ -16,7 +16,7 @@ export default function Login() {
     setError(null);
     try {
       await login(username, password);
-      navigate('/admin/blogs');
+      navigate('/admin');
     } catch {
       setError('Login failed');
     } finally {

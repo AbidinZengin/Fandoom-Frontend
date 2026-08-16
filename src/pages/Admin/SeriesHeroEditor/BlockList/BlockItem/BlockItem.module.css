@@ -1,0 +1,264 @@
+.blockItem {
+  position: absolute;
+  border-radius: var(--radius-sm);
+  outline: 1px solid transparent;
+  outline-offset: var(--space-2xs);
+  transition: outline-color var(--duration-micro) ease;
+  cursor: grab;
+}
+
+.blockItem:hover {
+  outline-color: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* Seçili blok — Figma/Excalidraw tarzı: dişli/popup yerine sağdaki
+   PropertiesPanel açılır (bkz. ../../PropertiesPanel), burada sadece
+   seçili olduğunu belli eden belirgin bir outline kalır. */
+.blockItem[data-selected] {
+  outline: 2px solid var(--accent);
+  outline-offset: var(--space-2xs);
+}
+
+.blockItem[data-colliding] {
+  outline: 1px dashed var(--brand-red);
+  outline-offset: var(--space-2xs);
+}
+
+/* Sadece seçiliyken render edilir (BlockItem.jsx) — hover'a bağlı
+   opacity geçişine gerek yok, DOM'da varsa görünür. */
+.blockItem__alignGroup {
+  position: absolute;
+  top: calc(-1 * var(--space-xl));
+  right: 0;
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  z-index: 2;
+}
+
+.blockItem__align {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.blockItem__align[data-active] {
+  color: var(--fg);
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* IMAGE/LOGO görsel kutusu — Hero.jsx'teki .hero__image ile aynı mantık,
+   overflow:hidden + object-fit:cover. Blur/radius, .blockItem'ın
+   style'ından inline gelir (bkz. BlockItem.jsx). */
+.blockItem__figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.blockItem__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.blockItem__imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-faint);
+  font-size: var(--text-sm);
+  background: var(--card-bg);
+  border-radius: inherit;
+}
+
+.blockItem__spinner {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: inherit;
+}
+
+.blockItem__fileInput {
+  display: none;
+}
+
+.blockItem__imageChange {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  transition: opacity var(--duration-micro) ease;
+  cursor: pointer;
+}
+
+.blockItem[data-type='IMAGE']:hover .blockItem__imageChange,
+.blockItem[data-type='LOGO']:hover .blockItem__imageChange {
+  opacity: 1;
+}
+
+.blockItem__error {
+  position: absolute;
+  bottom: var(--space-sm);
+  left: var(--space-sm);
+  color: var(--brand-red);
+  font-size: var(--text-xs);
+  background: rgba(0, 0, 0, 0.6);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+}
+
+/* META — içerik Series'ten otomatik geldiği için burada sadece YER
+   TUTUCU önizleme (kesikli çerçeve). KRİTİK: height:100% KULLANILMAZ —
+   height:null (otomatik) ile doğar, auto yükseklikli bir ata içinde
+   height:100% çözümlenemeyip kutu 0 yüksekliğe çökerdi (kullanıcı
+   raporu: "synopsis görünmüyor"). */
+.blockItem__placeholder {
+  width: 100%;
+  height: auto;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px dashed var(--border);
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+/* TITLE/SYNOPSIS/BUTTON/BOX ortak yazılabilir-metin kabı — kullanıcı
+   kararı: "excalidraw tarzı hızlı prototip" için hepsi textTr/textEn
+   alır. height:auto — aynı 0-yükseklik nedeniyle placeholder ile aynı
+   gerekçe. Tip-özel görünüm data-text-type ile aşağıda. */
+.blockItem__text {
+  width: 100%;
+  height: auto;
+  min-height: 32px;
+  box-sizing: border-box;
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.blockItem__textField {
+  color: var(--fg);
+}
+
+/* BUTTON'ın gerçek sayfadaki hâli her zaman glassmorfik (backend/AST'de
+   ayrı bir buttonStyle alanı yok, .hero__trailer sabit camsı dolgu
+   taşıyor) — editördeki önizleme de aynı hissi versin diye gerçek
+   .hero__trailer'a yakın translucent+blur zemin kullanır. */
+.blockItem__text[data-text-type='BUTTON'] {
+  min-height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.18) 100%);
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+}
+
+.blockItem__text[data-text-type='BUTTON'] .blockItem__textField {
+  text-align: center;
+  font-weight: 600;
+}
+
+.blockItem__text[data-text-type='TITLE'] .blockItem__textField {
+  font-size: var(--text-h2);
+  font-weight: 700;
+}
+
+/* Sadece seçiliyken render edilir — her zaman görünür, hover'a bağlı
+   opacity geçişi gerekmez. */
+.blockItem__resizeHandle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-round);
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  z-index: 2;
+}
+
+.blockItem__resizeHandle--n {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.blockItem__resizeHandle--s {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.blockItem__resizeHandle--e {
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.blockItem__resizeHandle--w {
+  top: 50%;
+  left: -5px;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.blockItem__resizeHandle--ne {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+
+.blockItem__resizeHandle--nw {
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+
+.blockItem__resizeHandle--se {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}
+
+.blockItem__resizeHandle--sw {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}

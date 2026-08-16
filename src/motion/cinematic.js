@@ -180,3 +180,61 @@ export function rememberBlogOrigin(slug, payload) {
 export function recallBlogOrigin(slug) {
   return readOriginMap()[slug] ?? null;
 }
+
+// ---------------------------------------------------------------------------
+// FeaturedCarousel → yapım Hero'su "kesintisiz devir" flip'i. Dive Deeper
+// (RelatedContent → BlogPost) mekaniğinin portu: tıklanan kart görseli
+// document.body'ye eklenen bir klondur, Hero'nun gerçek kadrajına büyür,
+// navigate SONRA olur. BlogPost'un aksine hedef sayfa (Hero) klonla AYNI
+// görseli göstermez (poster ≠ hero key-art, farklı veri alanları) — o yüzden
+// devir instant değil, kısa bir crossfade'dir (bkz. Hero.jsx). Şimdilik
+// yalnız Breaking Bad (bkz. FeaturedCarousel.jsx HERO_FLIP_SLUGS); GoT kendi
+// "imza-şerit" cinematic geçişini (armCinematic) korur, karıştırılmaz.
+// Geri dönüş (Hero → Home) mekaniği İSTENMEDİ — kapsam dışı.
+// ---------------------------------------------------------------------------
+
+let heroFlipArmedAt = 0;
+
+/** Klonun büyüme animasyonu bitip navigate edilmeden hemen önce çağrılır. */
+export function armHeroFlip() {
+  heroFlipArmedAt = performance.now();
+}
+
+/** Hero mount'unda: bu açılış bir devir mi (giriş dalgası atlanmalı, klon devralınmalı)? */
+export function isHeroFlipArmed() {
+  return heroFlipArmedAt > 0 && performance.now() - heroFlipArmedAt < ARM_WINDOW_MS;
+}
+
+/** Hero mount'unda: devir bayrağını okur (payload'sız — Hero kendi still'ini kullanır). */
+export function readHeroFlip() {
+  return isHeroFlipArmed() ? true : null;
+}
+
+/**
+ * Breaking Bad Hero'sunun `.hero__figure` kutusunun mount-öncesi
+ * hesaplanmış geometrisi (viewport-relative, `position:fixed` klonla
+ * doğrudan uyumlu). Hero.module.css'in kendi formülünün JS'e çevrilmiş
+ * hâlidir — Navbar yüksekliği canlı DOM'dan ölçülür (tek her-zaman-mount
+ * global eleman), geri kalanı `--space-3xl`/`--space-page-x` sabitlerinin
+ * ve `.hero`/`.hero__figure` kurallarının (min-height:80vh, padding, flex
+ * center, aspect-ratio 21/9) matematiğidir. Hero.module.css değişirse
+ * burası da güncellenmeli (blogExpandedBox ile aynı gerekçe).
+ */
+export function breakingBadHeroBox() {
+  const navbarHeight = document.querySelector('header')?.getBoundingClientRect().height ?? 72;
+  const spacePageX = Math.min(Math.max(20, window.innerWidth * 0.04), 56);
+  const spaceXl = 64; // var(--space-3xl)
+
+  // Hero.module.css @media (max-width: 640px): .hero__figure aspect-ratio
+  // 21/9 → 4/3'e döner — burada da eşlenmezse mobilde klon yanlış (çok
+  // basık) bir kutuya büyüyüp Hero mount olunca sıçrama yapardı.
+  const isMobile = window.innerWidth <= 640;
+  const width = window.innerWidth - spacePageX * 2;
+  const height = isMobile ? (width * 3) / 4 : (width * 9) / 21;
+
+  const sectionHeight = Math.max(window.innerHeight * 0.8, height + spaceXl * 2);
+  const verticalSlack = sectionHeight - (height + spaceXl * 2);
+  const figureTop = navbarHeight + spaceXl + verticalSlack / 2;
+
+  return { top: figureTop, left: spacePageX, width, height };
+}

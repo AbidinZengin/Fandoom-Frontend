@@ -1,0 +1,71 @@
+.toolbar {
+  position: fixed;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  /* Kullanıcı düzeltmesi: "arkasını glassmorfic yap" — %94 opaklık camsı
+     hissi vermiyordu (neredeyse düz renk); gerçek cam efekti için zemin
+     belirgin şekilde saydamlaştırıldı, blur'a saturate eklendi (arkadan
+     geçen renkler canlı kalsın), üstte ince bir highlight border. */
+  background: color-mix(in srgb, var(--pb-surface) 55%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--pb-border) 70%, transparent);
+  box-shadow: var(--pb-shadow);
+}
+
+.toolbar__slot {
+  display: flex;
+  align-items: center;
+}
+
+/* Kullanıcı raporu: "simetrik durmuyor" — 5/6/7 için ayrılan boş margin
+   sol-ağırlıklı büyük bir boşluk gibi görünüyordu (4 araç solda, 2 araç
+   sağda). Geniş boş margin yerine ince, ortalanmış bir ayraç çizgisi —
+   grup ayrımı hâlâ okunuyor ama satır dengeli duruyor. */
+.toolbar__slot[data-gap-before] {
+  margin-left: var(--space-sm);
+  padding-left: var(--space-sm);
+  position: relative;
+}
+
+.toolbar__slot[data-gap-before]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: var(--pb-border);
+}
+
+.toolbar__button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: none;
+  /* Kullanıcı raporu: "renklerini aydınlat" — camsı/saydam zemine karşı
+     --pb-text-muted düşük kontrastta kalıyordu. */
+  color: var(--pb-text);
+  font-size: var(--text-lg);
+  cursor: pointer;
+}
+
+.toolbar__button:hover {
+  background: var(--pb-bg);
+}
+
+.toolbar__button[data-active] {
+  background: var(--pb-accent, var(--brand-red));
+  color: #fff;
+}

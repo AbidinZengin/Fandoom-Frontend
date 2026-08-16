@@ -1,0 +1,186 @@
+/* Bespoke sinematik sekans — tile boyutu/font ölçeği/blur yarıçapı gibi
+   değerler standart theme.css skalasına uymuyor (GoT Intro'nun kendi
+   sis/kamera efektlerinde de aynı istisna var); teslim özetinde bildirilir.
+   Not: 'Breaking Bad' özel fontu (breaking-bad.otf) referans logo karşılaştırmasında
+   Georgia serif'e devredildi — dosya/lisans notu duruyor ama bu component'te
+   artık KULLANILMIYOR (@font-face bilerek kaldırıldı, dead code). */
+
+.heroTrack {
+  position: relative;
+  min-height: 450vh;
+  background: #000;
+}
+
+.heroStage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.heroStage__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.5) 85%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  pointer-events: none;
+}
+
+.heroStage__smoke {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.smoke {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  mix-blend-mode: screen;
+}
+
+.smoke[data-variant='a'] {
+  left: -12%;
+  top: 14%;
+  width: 62vw;
+  height: 62vw;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 55%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+.smoke[data-variant='b'] {
+  right: -14%;
+  bottom: 6%;
+  width: 58vw;
+  height: 58vw;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 55%, #4a7a52) 0%,
+    transparent 68%
+  );
+}
+
+.smoke[data-variant='c'] {
+  left: 30%;
+  bottom: -18%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 40%, transparent) 0%,
+    transparent 72%
+  );
+}
+
+.floats {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* top/left artık CSS'te sabit DEĞİL — her döngüde JS'ten (Hero.jsx POSITIONS)
+   farklı bir konuma set ediliyor (kullanıcı kararı: "meth ortada çıktıysa
+   ikincide sağda üçüncüde solda çıksın"). Blur/font-size kimliğe (variant)
+   bağlı sabit kalır. */
+.float {
+  position: absolute;
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--accent) 35%, #f4efe2);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.float[data-variant='h'] {
+  font-size: clamp(70px, 8vw, 130px);
+}
+
+.float[data-variant='n'] {
+  font-size: clamp(80px, 9vw, 150px);
+}
+
+.float[data-variant='formula'] {
+  font-size: clamp(26px, 3vw, 40px);
+  letter-spacing: 0.03em;
+}
+
+.float[data-variant='weight'] {
+  font-size: clamp(18px, 2vw, 26px);
+  filter: blur(2px);
+}
+
+/* Bulanık — "meth" kelimesi sansürlenmiş gibi görünsün (kullanıcı kararı).*/
+.float[data-variant='meth'] {
+  font-size: clamp(24px, 2.6vw, 34px);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  filter: blur(6px);
+}
+
+.scene {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+}
+
+.line--second {
+  margin-left: clamp(50px, 6.5vw, 90px);
+}
+
+.element {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35em;
+  aspect-ratio: 1;
+  margin-right: 0.05em;
+  border-radius: 4px;
+  border: 2px solid color-mix(in srgb, var(--accent) 70%, white);
+  background: var(--accent);
+  box-shadow: 0 0 32px color-mix(in srgb, var(--accent) 45%, transparent);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+  color: #f4efe2;
+}
+
+.element__number {
+  position: absolute;
+  top: 0.08em;
+  right: 0.1em;
+  font-family: var(--font-body);
+  font-size: 0.24em;
+  color: #f4efe2;
+}
+
+.line__rest {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+  color: #f4efe2;
+  white-space: nowrap;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--accent) 50%, transparent);
+}

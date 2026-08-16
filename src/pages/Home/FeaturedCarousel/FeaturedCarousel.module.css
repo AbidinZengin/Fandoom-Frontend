@@ -91,3 +91,44 @@
 .featured__card:focus-visible .featured__card-poster {
   filter: none;
 }
+
+/* Yatay odak-büyüme (Breaking Bad, referans video 12s+ hareketi): kart
+   genişliği GSAP ile JS'ten tween'lenir (bkz. FeaturedCarousel.jsx
+   onFocusExpandEnter/Leave) — flex-grow/CSS-transition denendi, flex-model
+   geçişi (flex:0 0 auto → 1 1 168px) anlık sıçrama yarattığı için terk
+   edildi (kullanıcı raporu: "smooth değil"). Burada sadece o tween'in
+   ihtiyaç duyduğu statik kurallar var. */
+
+/* Yatay odak-büyüme SADECE hover yeteneği olan cihazlarda (learned-rules
+   [etkileşim]: "genişlik değil hover yeteneği ölçülür" — dokunmatikte hover
+   efektleri tamamen kapalı). Sarmalanmadan önce mobilde bu kart, sabit 25vw
+   genişlikteki poster'ı küçük kart kutusuna göre YANLIŞ kırpıp garip
+   görünüyordu (kullanıcı raporu: "mobilde kötü görünüyor") — @media
+   dışında kalınca poster diğer kartlarla AYNI varsayılan width:100%
+   object-fit:cover'a döner, dokunmatikte fark edilmez bile. */
+@media (hover: hover) {
+  /* Bu kartta imza-uzama (üstten/alttan taşma) devre dışı — büyüme yatayda
+     olduğu için medya katmanı kutuyla birebir örtüşmeli, dikeyde taşmamalı. */
+  .featured__card[data-focus-expand]:hover .featured__card-media,
+  .featured__card[data-focus-expand]:focus-visible .featured__card-media {
+    inset: 0;
+  }
+
+  /* KRİTİK — "görsel sabit, sadece görünen kısımları artıyor": width:100%
+     object-fit:cover kutuyla BİRLİKTE yeniden ölçeklenir (kullanıcı raporu:
+     kart büyüyünce görsel de büyüyor/kayıyor gibi görünüyor). Bunun yerine
+     görsel SABİT genişlikte, merkezde konumlanır; kart daralıp genişledikçe
+     SADECE üstündeki overflow:hidden penceresi (.featured__card-media)
+     küçülüp büyür — görselin kendi piksel ölçeği/konumu hiç değişmez. */
+  .featured__card[data-focus-expand] .featured__card-poster {
+    position: absolute;
+    top: 0;
+    /* left/transform = görselin sabit yatay konumu — kullanıcı kararı,
+       burada elle ayarlanır (ör. left'i %35-65 arası kaydırmak görselin
+       hangi tarafının ortada durduğunu değiştirir). */
+    left: 50%;
+    width: 25vw;
+    max-width: none;
+    transform: translateX(-50%);
+  }
+}

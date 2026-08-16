@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Footer } from '../../../../components/Footer/Footer';
+import { Approach } from './Approach/Approach';
 import { Seal } from './Seal/Seal';
 import { Explore } from './Explore/Explore';
 import { fetchProductionDetail, fetchWorldMapStops, theme } from './WorldMap.data';
@@ -452,6 +453,8 @@ export default function WorldMap() {
         <span className={styles.worldmap__kicker}>Realm</span>
         <h1 className={styles.worldmap__heading}>Westeros</h1>
       </header>
+
+      <Approach />
 
       {stops.length > 0 && (
         <section className={styles.worldmap} aria-label="World map" ref={sectionRef}>

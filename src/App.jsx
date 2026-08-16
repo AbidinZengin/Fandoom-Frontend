@@ -6,6 +6,7 @@ import Home from './pages/Home/Home';
 import News from './pages/News/News';
 import Community from './pages/Community/Community';
 import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
+import BreakingBad from './pages/series/BreakingBad/BreakingBad';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
 import EpisodePage from './pages/series/GameOfThrones/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
@@ -17,14 +18,20 @@ import BlogPost from './pages/Blog/BlogPost/BlogPost';
 import Login from './pages/Admin/Login/Login';
 import BlogList from './pages/Admin/BlogList/BlogList';
 import BlogEditor from './pages/Admin/BlogEditor/BlogEditor';
+import SeriesHeroList from './pages/Admin/SeriesHeroList/SeriesHeroList';
+import SeriesHeroEditor from './pages/Admin/SeriesHeroEditor/SeriesHeroEditor';
+import AdminHome from './pages/Admin/AdminHome/AdminHome';
+import PageBuilder from './pages/Admin/PageBuilder/PageBuilder';
 import { RequireAuth } from './pages/Admin/RequireAuth';
 import Placeholder from './pages/Placeholder/Placeholder';
+import FlameLab from './pages/FlameLab/FlameLab';
 import { initMotion } from './motion/setup';
 import {
   isCinematicArmed,
   isInPageNavArmed,
   isBlogFlipArmed,
   isBlogReturnArmed,
+  isHeroFlipArmed,
 } from './motion/cinematic';
 
 // Route değişiminde: sayfa anında en üste döner (useLayoutEffect — eski scroll
@@ -60,7 +67,8 @@ function PageTransition({ children }) {
       isCinematicArmed() ||
       isInPageNavArmed() ||
       isBlogFlipArmed() ||
-      isBlogReturnArmed()
+      isBlogReturnArmed() ||
+      isHeroFlipArmed()
     ) {
       return undefined;
     }
@@ -120,6 +128,7 @@ function App() {
           <Route path="/series/game-of-thrones/characters" element={<Characters />} />
           <Route path="/series/game-of-thrones/westeros" element={<WesterosMap />} />
           <Route path="/series/game-of-thrones/history" element={<History />} />
+          <Route path="/series/breaking-bad" element={<BreakingBad />} />
           <Route path="/series/:slug" element={<ProductionDetail type="series" />} />
           <Route path="/series" element={<Placeholder title="Series" />} />
           <Route path="/movies/:slug" element={<ProductionDetail type="movie" />} />
@@ -132,6 +141,22 @@ function App() {
           <Route path="/blog/:slug" element={<BlogPostRoute />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/admin/login" element={<Login />} />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth>
+                <AdminHome />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/page-builder"
+            element={
+              <RequireAuth>
+                <PageBuilder />
+              </RequireAuth>
+            }
+          />
           <Route
             path="/admin/blogs"
             element={
@@ -156,10 +181,28 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/admin/series-hero"
+            element={
+              <RequireAuth>
+                <SeriesHeroList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/series-hero/:seriesId"
+            element={
+              <RequireAuth>
+                <SeriesHeroEditor />
+              </RequireAuth>
+            }
+          />
           <Route path="/support" element={<Placeholder title="Support" />} />
           <Route path="/coming-soon" element={<Placeholder title="Coming Soon" />} />
           <Route path="/shop" element={<Placeholder title="Shop" />} />
           <Route path="/account" element={<Placeholder title="Account" />} />
+          {/* Geçici — alev shader'ı onaylanınca kaldırılacak */}
+          <Route path="/flame-lab" element={<FlameLab />} />
         </Routes>
       </PageTransition>
     </BrowserRouter>

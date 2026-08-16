@@ -1,0 +1,85 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.sectionLabel {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--pb-text-faint);
+  font-weight: 600;
+}
+
+.hint {
+  margin: 0;
+  color: var(--pb-text-faint);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.panel select,
+.panel input[type='text'] {
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--pb-border);
+  background: var(--pb-bg);
+  color: var(--pb-text);
+  font-size: var(--text-sm);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+.row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.row button,
+.generateButton {
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--pb-border);
+  background: var(--pb-bg);
+  color: var(--pb-text);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.generateButton {
+  margin-top: var(--space-2xs);
+  background: var(--pb-accent, var(--brand-red));
+  border-color: transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
+.panel button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.error {
+  margin: 0;
+  color: var(--brand-red);
+  font-size: var(--text-2xs);
+}
+
+.success {
+  margin: 0;
+  color: #16a34a;
+  font-size: var(--text-2xs);
+}

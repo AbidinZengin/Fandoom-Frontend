@@ -40,6 +40,12 @@ export const themeBySlug = {
     fg: '#f6ead9',
     gradient: 'linear-gradient(160deg, #120a05 0%, #2e1a0a 45%, #4a2410 100%)',
   },
+  'breaking-bad': {
+    bg: '#0a0f07',
+    accent: '#245a3e',
+    fg: '#eef2e2',
+    gradient: 'linear-gradient(160deg, #0a0f07 0%, #102818 45%, #2b2013 100%)',
+  },
 };
 
 export const defaultTheme = {

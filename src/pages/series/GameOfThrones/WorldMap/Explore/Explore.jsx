@@ -123,7 +123,7 @@ export function Explore() {
 
   return (
     <>
-      <section className={styles.explore} ref={exploreRef}>
+      <section id="got-explore" className={styles.explore} ref={exploreRef}>
         <div className={styles.explore__inner}>
           {/* Sınırlı (page padding içinde) banner — viewport kenarına
               dayanmıyor, sayfanın diğer bloklarıyla aynı hizada. İki AYRI

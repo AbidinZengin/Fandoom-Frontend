@@ -1,0 +1,62 @@
+/* Açık/koyu editör kabuğu — üretim (production) seçimine göre dinamik
+   geçiş yapar (referans: kullanıcının paylaştığı çalışan Figma Make
+   prototipi — "Fandoom" jenerik/açık, gerçek bir yapım seçilince TÜM
+   kabuk koyulaşır, sadece --pb-accent yapımın rengine döner). Bu token
+   bloğu SADECE bu alt-ağaçta geçerli (global theme.css'e dokunulmadı).
+   --pb-canvas-bg İSTİSNA: tuval İÇİNDEKİ sayfa kendi (her zaman açık)
+   arka planını korur, tema değişiminden ETKİLENMEZ — o, tasarlanan
+   sayfanın kendi zemini, editör kabuğunun değil. */
+.pageBuilder {
+  --pb-bg: #f4f4f5;
+  /* Kullanıcı düzeltmesi: "burası asla beyaz kalmasın, aynı gri olsun" —
+     panel/topbar yüzeyi artık --pb-bg ile AYNI nötr gri, saf beyaz yok;
+     ayrım --pb-border hairline'ları ile sağlanıyor. */
+  --pb-surface: #f4f4f5;
+  --pb-border: #e4e4e7;
+  --pb-text: #18181b;
+  --pb-text-muted: #71717a;
+  --pb-text-faint: #a1a1aa;
+  /* Kullanıcı düzeltmesi: mor tonu istenmedi ("mor olmasın, gri direkt") —
+     düz nötr gri, #f4f4f5'ten belirgin şekilde koyu (tuval yine SABİT/
+     tema-bağımsız kalır, sadece ton netleşti). */
+  --pb-canvas-bg: #e4e4e7;
+  --pb-canvas-text: #18181b;
+  --pb-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+  background: var(--pb-bg);
+  color: var(--pb-text);
+  font-family: var(--font-body);
+}
+
+/* Koyu mod — kullanıcı düzeltmesi: sitenin kendi --bg/--card-bg'si
+   (#050505/#101012) editör kabuğunda "çok keskin" siyah okundu; bu yüzden
+   BİLİNÇLİ olarak sitenin token'ı yeniden kullanılmıyor, PageBuilder'a
+   özel daha yumuşak koyu griler tanımlanıyor (yapıma özel renk YİNE
+   yok — sadece --pb-accent JS'ten yapıma göre set edilir). */
+.pageBuilder[data-theme='dark'] {
+  --pb-bg: #19191d;
+  --pb-surface: #232328;
+  --pb-border: rgba(255, 255, 255, 0.1);
+  --pb-text: var(--fg);
+  --pb-text-muted: var(--fg-muted);
+  --pb-text-faint: var(--fg-faint);
+  --pb-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.pageBuilder__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.pageBuilder__status {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pb-text-faint);
+  font-size: var(--text-sm);
+}

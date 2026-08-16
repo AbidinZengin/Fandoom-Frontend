@@ -1,4 +1,4 @@
-import { getStoredAuth } from './authStorage';
+import { getStoredAuth, clearStoredAuth } from './authStorage';
 
 // Ortak fetch istemcisi — backend REST API'sine (Spring Boot) tüm çağrılar
 // buradan geçer. Base path '/api', dev'de vite.config.js proxy'siyle
@@ -36,6 +36,15 @@ async function request(path, options = {}) {
     // Response gezmek yerine hata direkt konsola düşer (kullanıcı isteği).
     // eslint-disable-next-line no-console
     console.error(`API error ${res.status} on ${path}:`, body);
+
+    // Token süresi dolduğunda (JWT 1 saatlik) admin sayfada kalıp sessizce
+    // 401 alıyordu, "kaydetmiyor" gibi yanlış okunuyordu (kullanıcı raporu).
+    // Bayat token temizlenir — bir sonraki korumalı sayfa girişinde
+    // RequireAuth otomatik login'e yönlendirir; burada yönlendirme
+    // YAPILMAZ çünkü çağıran component'in kendi hata mesajını (fieldErrors
+    // vb.) göstermesine izin verilir.
+    if (res.status === 401) clearStoredAuth();
+
     throw new ApiError(body?.message ?? `İstek başarısız: ${res.status}`, {
       status: res.status,
       fieldErrors: body?.fieldErrors,

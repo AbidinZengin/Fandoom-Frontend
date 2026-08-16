@@ -1,0 +1,123 @@
+// Canvas.jsx'in hook'ları arasında paylaşılan SAF (React state'ine
+// kapanmayan) yardımcılar — snap/collision/piksel-geometri hesapları ve
+// küçük DOM/string yardımcıları. Hiçbiri React'e bağımlı değil, hepsi
+// gerekli değerleri (blocks/breakpoint/canvasRect gibi) parametre olarak
+// alır — bu yüzden herhangi bir hook'tan çağrılabilir, test edilebilir.
+import { SNAP_THRESHOLD_PX } from './Canvas.constants';
+import { resolveEffectiveLayout } from '../PageBuilder.data';
+
+export const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+
+// "34% 62%" → [34, 62] — sürükleme jestinin başlangıç noktasını okur.
+// Tanımsız/beklenmeyen bir değerde CSS'in kendi varsayılanı olan merkeze
+// (50%/50%) düşer.
+export function parseObjectPosition(value) {
+  const match = typeof value === 'string' && value.match(/^([\d.]+)%\s+([\d.]+)%$/);
+  return match ? [parseFloat(match[1]), parseFloat(match[2])] : [50, 50];
+}
+
+export function isTypingTarget(el) {
+  return el instanceof HTMLElement && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' || el.tagName === 'SELECT');
+}
+
+// TÜM sürükleme jestlerinin (block taşı/boyutlandır, referans taşı/
+// boyutlandır, tuval pan/yükseklik-uzat, marquee, yeni-block çiz) ORTAK
+// window pointermove/pointerup kayıt deseni — artık BURADA, TEK yerde.
+// Kök neden (kullanıcı raporu: "cursor taşıma modunda takılı kalıyor,
+// özellikle görsellerden sonra"): jest ortasında native bir dialog açılırsa
+// (ör. dosya seçici) veya pencere odağını kaybedersek (alt-tab), tarayıcı
+// pointerup'ı HİÇ TESLİM ETMEYEBİLİR — withGlobalCursor'ın restore'u,
+// event listener'ların temizliği hiç çalışmaz, cursor SONSUZA KADAR
+// "move"/"grab" modunda asılı kalır. `blur` da AYNI bitiş fonksiyonunu
+// (onEnd) tetikleyerek jesti güvenle sonlandırır — `done` bayrağı,
+// pointerup VE blur'ün ikisi de tetiklenirse onEnd'in İKİ KEZ çalışmasını
+// (ör. handleCanvasPointerDown'da blok İKİ KEZ eklenmesi) engeller.
+export function trackPointerGesture(onMove, onEnd) {
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', finish);
+    window.removeEventListener('blur', finish);
+    onEnd();
+  };
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', finish);
+  window.addEventListener('blur', finish);
+}
+
+export function withGlobalCursor(cursor) {
+  const prevCursor = document.body.style.cursor;
+  const prevSelect = document.body.style.userSelect;
+  document.body.style.cursor = cursor;
+  document.body.style.userSelect = 'none';
+  return () => {
+    document.body.style.cursor = prevCursor;
+    document.body.style.userSelect = prevSelect;
+  };
+}
+
+// canvasCtx = { el: canvasRef.current, rect: canvasRect } — otomatik
+// (auto) yükseklikli block'ların GERÇEK render edilmiş boyutunu okumak
+// için DOM'a (canvasCtx.el) ihtiyaç var, sadece rect yetmiyor.
+export function pixelEdgesOf(block, breakpoint, canvasCtx) {
+  const layout = resolveEffectiveLayout(block, breakpoint);
+  const { rect } = canvasCtx;
+  const left = (layout.x / 100) * rect.width;
+  const width = (layout.w / 100) * rect.width;
+  let height = layout.h != null ? (layout.h / 100) * rect.height : null;
+  if (height == null) {
+    const el = canvasCtx.el?.querySelector(`[data-block-id="${block.id}"]`);
+    height = el ? el.getBoundingClientRect().height : null;
+  }
+  const top = (layout.y / 100) * rect.height;
+  return { left, right: left + width, centerX: left + width / 2, top, bottom: height != null ? top + height : null, centerY: height != null ? top + height / 2 : null };
+}
+
+export function findSnap(blocks, movingId, left, top, width, height, breakpoint, canvasCtx) {
+  const { rect } = canvasCtx;
+  const targetsX = [0, rect.width / 2, rect.width];
+  const targetsY = [0, rect.height / 2, rect.height];
+  blocks.forEach((b) => {
+    if (b.id === movingId || b.hidden) return;
+    const e = pixelEdgesOf(b, breakpoint, canvasCtx);
+    targetsX.push(e.left, e.centerX, e.right);
+    if (e.bottom != null) targetsY.push(e.top, e.centerY, e.bottom);
+  });
+
+  const myLeft = left, myRight = left + width, myCenterX = left + width / 2;
+  const myTop = top, myBottom = height != null ? top + height : null, myCenterY = height != null ? top + height / 2 : null;
+
+  let deltaX = 0, guideX = null, bestX = SNAP_THRESHOLD_PX;
+  [myLeft, myCenterX, myRight].forEach((val) => {
+    targetsX.forEach((t) => {
+      const d = Math.abs(val - t);
+      if (d < bestX) { bestX = d; deltaX = val - t; guideX = t; }
+    });
+  });
+
+  let deltaY = 0, guideY = null, bestY = SNAP_THRESHOLD_PX;
+  if (myBottom != null) {
+    [myTop, myCenterY, myBottom].forEach((val) => {
+      targetsY.forEach((t) => {
+        const d = Math.abs(val - t);
+        if (d < bestY) { bestY = d; deltaY = val - t; guideY = t; }
+      });
+    });
+  }
+  return { deltaX, deltaY, guideX, guideY };
+}
+
+export function findCollision(blocks, movingId, left, top, width, height, breakpoint, canvasCtx) {
+  if (height == null) return null;
+  const a = { left, right: left + width, top, bottom: top + height };
+  return (
+    blocks.find((b) => {
+      if (b.id === movingId || b.hidden) return false;
+      const e = pixelEdgesOf(b, breakpoint, canvasCtx);
+      if (e.bottom == null) return false;
+      return a.left < e.right && a.right > e.left && a.top < e.bottom && a.bottom > e.top;
+    })?.id ?? null
+  );
+}

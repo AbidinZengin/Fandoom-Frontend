@@ -1,0 +1,87 @@
+/* Figma/Excalidraw tarzı ikon-öncelikli sol araç çubuğu (Task 8). */
+.addBlockBar {
+  position: fixed;
+  left: var(--space-lg);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-xs);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.addBlockBar__button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: none;
+  background: none;
+  color: var(--fg-muted);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  cursor: grab;
+}
+
+.addBlockBar__button:hover {
+  color: var(--fg);
+  background: var(--bg-soft);
+}
+
+.addBlockBar__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.addBlockBar__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.addBlockBar__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addBlockBar__ghost {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 30;
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--card-bg) 85%, transparent);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .addBlockBar {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .addBlockBar__label {
+    display: none;
+  }
+}

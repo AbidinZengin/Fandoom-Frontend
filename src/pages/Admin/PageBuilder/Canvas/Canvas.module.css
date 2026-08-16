@@ -1,0 +1,402 @@
+/* Sonsuz tuval: canvasWrap artık pan/zoom'un gerçekleştiği sabit-boyutlu
+   VIEWPORT (overflow hidden — tarayıcı scroll'u değil, kendi transform'umuz
+   kaydırıyor). canvasWorld transform'u taşır (translate sonra scale — bkz.
+   Canvas.jsx yorumu), .canvas (artboard) sabit pikselde onun içinde durur. */
+.canvasWrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.canvasWrap[data-panning] {
+  cursor: grabbing;
+}
+
+/* Araç aktifken (bir block tipi seçiliyken) tuvalin DIŞINDAKİ boş alanda
+   da yerleştirme yapılabildiğini belirtir — .canvas[data-placing] ile
+   AYNI imleç dili (bkz. handleWrapPointerDown). */
+.canvasWrap[data-placing] {
+  cursor: crosshair;
+}
+
+.canvasWorld {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+/* Dot-grid tuval — referans: kullanıcının Figma mockup'ı. Açık zemin,
+   SeriesHeroEditor/BlogEditor'ün koyu --bg canvas'ından BİLİNÇLİ farklı.
+   Genişlik fluid %100 DEĞİL — sonsuz tuvaldeki bir Figma frame'i gibi
+   davranır, sığdırma zoom/pan ile yapılır. width ARTIK BURADA SABİT
+   DEĞİL (2026-08, Faz 1.5) — her breakpoint kendi genişliğini taşıdığı
+   için Canvas.jsx inline style ile basar (bkz. canvasWidth). */
+.canvas {
+  position: relative;
+  /* height ARTIK BURADA SABİT DEĞİL (Faz 2 sonrası) — her breakpoint kendi
+     yüksekliğini taşır, Canvas.jsx inline style ile basar (bkz.
+     canvasHeight, canvasWidth'le AYNI desen). */
+  /* Kullanıcı düzeltmesi: full-bleed arka plan/fill kullanımında köşe
+     radius'u boşluk bırakıyordu — tuval çerçevesi varsayılan olarak
+     köşeli (0), editör-içi bir tasarım vitrini değil gerçek sayfa
+     dikdörtgeni. */
+  border-radius: 0;
+  border: 1px solid var(--pb-border);
+  background-color: var(--pb-canvas-bg);
+  /* Kullanıcı düzeltmesi: "mor olmasın, gri direkt" — düz nötr gri nokta. */
+  background-image: radial-gradient(circle, #a1a1aa 1px, transparent 1px);
+  background-size: 24px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.canvas[data-placing] {
+  cursor: crosshair;
+}
+
+/* Kullanıcı düzeltmesi: "referans görsele de görsel gibi muamele
+   edebilelim" — artık gerçek bir IMAGE block gibi .block'un dış-sarmalayıcı
+   + resize-tutamaç desenini birebir izler (bkz. Canvas.jsx). Wrap taşıma/
+   boyutlandırmayı, iç <img> sadece görseli taşır. */
+.canvas__referenceWrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+  user-select: none;
+  z-index: 0;
+}
+
+.canvas__referenceWrap:active {
+  cursor: grabbing;
+}
+
+.canvas__referenceWrap[data-selected] {
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+}
+
+/* Bir yerleştirme aracı aktifken referans kendi grab imlecini/etkileşimini
+   yutmaz (bkz. Canvas.jsx startReferenceDrag) — imleç de tuvalin geri
+   kalanıyla TUTARLI şekilde crosshair göstermeli, "sürüklenebilir" izlenimi
+   vermemeli. */
+.canvas__referenceWrap[data-placing] {
+  cursor: crosshair;
+}
+
+.canvas__reference {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Kullanıcı düzeltmesi: "blurlu değil tam görsel olsun" — opaklık
+     düşürülmez, referans net görünür. */
+  pointer-events: none;
+}
+
+/* Tuvalin alt kenarında yükseklik sürükle-uzat çubuğu — .resizeHandle--s
+   ile aynı dil (mavi tutamaç), ama tüm genişliği kaplayan ince bir şerit
+   (tek bir block'a değil TÜM tuvale ait olduğunu ayırt etmek için). */
+.canvas__heightHandle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 8px;
+  cursor: ns-resize;
+  z-index: 3;
+}
+
+.canvas__heightHandle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: #3b82f6;
+  border: 1.5px solid #fff;
+}
+
+.canvas__empty {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  text-align: center;
+  color: #a1a1aa;
+  font-size: var(--text-sm);
+}
+
+.guideV {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #3b82f6;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.guideH {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #3b82f6;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.drawPreview {
+  position: absolute;
+  border: 1.5px dashed var(--pb-accent, var(--brand-red));
+  background: color-mix(in srgb, var(--pb-accent, var(--brand-red)) 10%, transparent);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  z-index: 6;
+}
+
+.marquee {
+  position: absolute;
+  border: 1px solid #3b82f6;
+  background: rgba(59, 130, 246, 0.12);
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* Kullanıcı raporu: "imleç her blokta tutunuyor, normal imleç hiç
+   görünmüyor" + "üstüne gelmem lazım + işareti oluşacak" — grab (el) imleci
+   yerine taşınabilirliği belirten çapraz-ok "move" imleci, sadece blok
+   üzerindeyken (hover) görünür; TEXT'in kendi native metin imleciyle
+   çakışmaması için düzenleme modundaki metin alanı kendi imlecini korur
+   (bkz. TextBlockField pointer-events). */
+.block {
+  position: absolute;
+  outline: 1px solid transparent;
+  outline-offset: 3px;
+  transition: outline-color var(--duration-micro) ease;
+}
+
+.block:hover {
+  outline-color: rgba(59, 130, 246, 0.35);
+  cursor: move;
+}
+
+.block[data-selected] {
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+}
+
+.block[data-colliding] {
+  outline: 1px dashed var(--brand-red);
+}
+
+.block[data-locked] {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Görsel kaydırma modu — IMAGE block'a çift tıklayınca (bkz. Canvas.jsx
+   startImagePan). Farklı bir renk/desen kullanılır ki seçim (#3b82f6 düz)
+   ile kaydırma modu (turuncu kesikli) karışmasın. */
+.block[data-panning-image] {
+  outline: 2px dashed #f59e0b;
+  outline-offset: 3px;
+  cursor: grab;
+}
+
+.block__unknown {
+  padding: var(--space-sm);
+  border: 1px dashed #e4e4e7;
+  color: #a1a1aa;
+  font-size: var(--text-xs);
+}
+
+.resizeHandle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: #3b82f6;
+  border: 1.5px solid #fff;
+  z-index: 2;
+}
+
+.resizeHandle--n { top: -4px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resizeHandle--s { bottom: -4px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resizeHandle--e { top: 50%; right: -4px; transform: translateY(-50%); cursor: ew-resize; }
+.resizeHandle--w { top: 50%; left: -4px; transform: translateY(-50%); cursor: ew-resize; }
+.resizeHandle--ne { top: -4px; right: -4px; cursor: nesw-resize; }
+.resizeHandle--nw { top: -4px; left: -4px; cursor: nwse-resize; }
+.resizeHandle--se { bottom: -4px; right: -4px; cursor: nwse-resize; }
+.resizeHandle--sw { bottom: -4px; left: -4px; cursor: nesw-resize; }
+
+/* --- Blok tipi render'ları (PageBuilder.blockRenderers.jsx) --- */
+
+/* min-height YOK (bilinçli) — .block sarmalayıcının height'ından KISA
+   render edilip dış çerçeveyi (seçim outline'ı) taşma bir alt-şekil
+   yaratıyordu (kullanıcı raporu: "dış çeper yanlış oluyor bazı
+   boyutlarda"). Boyut artık SADECE .block'un layout.h'ından gelir —
+   tık-yerleştirmede varsayılan yükseklik Canvas.jsx'te veriliyor. */
+/* Kullanıcı düzeltmesi: RECTANGLE arka plan/fill olarak kullanılınca
+   varsayılan yuvarlak köşe istenmiyor — 0, kullanıcı ContextPanel'den
+   Radius alanına elle değer girerse (s.borderRadius) inline style CSS
+   class'ın önüne geçer (bkz. ShapeRenderer). */
+.shapeRect {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.shapeCircle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.shapeDiamond {
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* height:100% — .block'un (dış sarmalayıcı) yüksekliği 'auto' iken CSS
+   spesifikasyonu gereği bu da 'auto'ya çözülür (içerik yüksekliğini
+   etkilemez); .block sabit bir % yükseklik alınca (kullanıcı N/S tutamacıyla
+   dikey resize ettiğinde) o zaman gerçekten dolduruyor — bkz. Canvas.jsx
+   heightStyle yorumu. */
+.textWrap {
+  width: 100%;
+  height: 100%;
+  min-height: 24px;
+  box-sizing: border-box;
+}
+
+.textField {
+  color: var(--pb-canvas-text);
+  width: 100%;
+}
+
+.imageFigure {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f4f4f5;
+}
+
+.imageImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagePlaceholderBtn {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px dashed #a1a1aa;
+  border-radius: var(--radius-sm);
+  color: #71717a;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.imageInput {
+  display: none;
+}
+
+.zoomControl {
+  position: absolute;
+  right: var(--space-lg);
+  bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--pb-border);
+  background: var(--pb-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+
+.zoomControl__btn {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-round);
+  border: none;
+  background: transparent;
+  color: var(--pb-text);
+  font-size: var(--text-sm);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.zoomControl__btn:hover {
+  background: var(--pb-bg);
+}
+
+.zoomControl__value {
+  min-width: 44px;
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--pb-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Çoklu seçimde (2+) beliren hizala/dağıt çubuğu — zoomControl'le aynı
+   camsı pill dili, tuvalin üst-ortasında sabit. */
+.alignBar {
+  position: absolute;
+  left: 50%;
+  top: var(--space-md);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs, 2px);
+  padding: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--pb-border);
+  background: var(--pb-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+
+.alignBar__btn {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--pb-text);
+  font-size: var(--text-sm);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.alignBar__btn:hover {
+  background: var(--pb-bg);
+}
+
+.alignBar__sep {
+  width: 1px;
+  height: 16px;
+  background: var(--pb-border);
+  margin: 0 var(--space-3xs, 2px);
+}

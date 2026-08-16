@@ -95,11 +95,17 @@ anketi (kullanıcıya sorulan yapılandırılmış sorularla alınan kararlar).
   hafif yüksel-alçal salınımı eklenir. _(2026-07, GoT Intro)_
 - **[motion]** Smooth-scroll kütüphanesi (Lenis vb.) KULLANILMAZ — iki
   kez denendi, iki kez reddedildi. Scroll native kalır, kontrol
-  kullanıcıdadır; izinli tek otomatik hareket storytelling bantlarında
-  scroll DURUNCA devreye giren yönlü GSAP snap'tir: aşağıda sıradaki,
-  yukarıda önceki bandın merkezine akılır, bantlar ARASINDA durulmaz
-  (CSS proximity yön bilmediği için yetersiz bulundu). _(2026-07, GoT
-  sayfası)_
+  kullanıcıdadır. _(2026-07, GoT sayfası; 2026-08 GoT Intro kararıyla
+  GÜÇLENDİRİLDİ — bkz. altındaki madde: storytelling bantlarında da artık
+  otomatik yön-snap istisnası YOK, tam manuel.)_
+- **[motion]** GoT Intro'nun (Dragon Journey) sahne-arası yöne-duyarlı
+  auto-snap'i KALDIRILDI — kullanıcı "hakimiyet tamamen bende olsun"
+  dedi: scroll durunca artık hiçbir sahneye otomatik kaydırma olmaz, saf
+  manuel scroll. Önceki "storytelling bantlarında izinli tek otomatik
+  hareket" kuralının YERİNE geçer — bu istisna artık yok. Diğer
+  component'lerin kendi snap'i (ör. ScrollStepper) bu kararla
+  ETKİLENMEZ, ayrı değerlendirilir. _(2026-08, GoT Intro — kullanıcı
+  düzeltmesi)_
 - **[motion]** Storytelling intro'su PINNED TIMELINE'dır (kullanıcı
   kararı, referans videoya sadık — akış-bantları + boşluk mimarisi
   denendi ve videoya benzemediği için değişti): section 100svh pin'lenir,
@@ -219,6 +225,14 @@ anketi (kullanıcıya sorulan yapılandırılmış sorularla alınan kararlar).
   `margin:auto` yerine sayfa yatay padding'inden başlar (sola dayalı);
   görsel kolonu `clamp(240px, 30%, 460px)` — geniş ekranda devleşmesin
   diye üst sınırlı. _(2026-07, EpisodeBrief — kullanıcı düzeltmesi)_
+- **[motion]** Atmosfer efektleri (sis/duman/alev) SVG `feTurbulence` ile
+  PROSEDÜREL olarak üretilmez — denendi ve reddedildi ("süngere benziyor").
+  feTurbulence yönsüz/izotropik gürültü verdiği için gözenekli bir doku
+  çıkarır; gerçek sis/duman/alevin ihtiyaç duyduğu akış yönü, ince
+  filament uçları ve sıcaklık gradyanı bu filtreyle kurulamaz. Bu tür
+  efektler için ya gerçek görsel/video asset'i ya da WebGL shader
+  (projede `three` + `@react-three/fiber` zaten var) kullanılır.
+  _(2026-08, BreakingBad Transition — kullanıcı düzeltmesi)_
 - **[motion]** Tarayıcının geri tuşu animasyon için ENGELLENMEZ. Teknik
   olarak mümkün (popstate nöbetçi kaydı) ama geri tuşu "anında" beklenir;
   jest/çift basma kenar durumları ve history kirlenmesi maliyeti kazancı
@@ -405,7 +419,25 @@ birebir korunur ki site tek dille konuşsun.
 - **[etkileşim]** Kart hover'ı hafif scale + glow'dur — kart sabit
   kalıp içerik zoom'u yapılmaz. _(2026-07, tercih anketi)_
 - **[etkileşim]** Birincil CTA brand-gradient dolgulu pill butondur.
-  _(2026-07, tercih anketi)_
+  _(2026-07, tercih anketi)_ — BUNDAN SONRA EKLENEN her buton için bu
+  kuralın YERİNE **glassmorfik** dolgu geçti (kullanıcı kararı, referans:
+  Pinterest "Dark" UI konsepti — pin/975310863065698978). Uygulama zaten
+  `.brief__genrePill`'de (EpisodeBrief) kurulu desenin aynısı: yarı-saydam
+  açık katman + `backdrop-filter: blur() saturate() brightness()` +
+  1px gradient kenar halkası (mask-composite: exclude) + inset
+  highlight/gölge. Eski brand-gradient pill zaten SEVKEDİLMİŞ
+  component'lerde (FeaturedCarousel CTA vb.) geriye dönük DEĞİŞTİRİLMEZ —
+  bu, yeni eklenen butonlar için standart varsayılan. _(2026-08, kullanıcı
+  kararı)_
+- **[yüzey]** Arka planı bulanıklaştırılmış (ambient-blur) bir zemin
+  üstünde net/sharp bir ön bileşen (kart, buton, panel) durduğunda, o
+  bulanık zeminin ÜSTÜNE hafif bir sis/kararma katmanı (koyu gradient veya
+  düşük opaklıklı overlay) eklenir — amaç ön bileşenin kontrastla
+  belirginleşmesi. Referans: Billboard component'indeki
+  `.billboard__overlay` / `.billboard__figureScrim` deseni (blur'lu
+  ambient katman + net kart + kartın kendi okunabilirlik perdesi) artık
+  bu tekniğin GENEL kuralı — sadece Billboard'a özel değil. _(2026-08,
+  kullanıcı kararı, referans: Pinterest "Dark" UI konsepti)_
 - **[etkileşim]** Dokunmatik cihazlarda (`@media (hover: none)`) hover'a
   bağlı efektler devreden çıkar: grayscale posterler baştan RENKLİ başlar,
   uzama/scale/glow hover efektleri kapalıdır — genişlik değil hover
