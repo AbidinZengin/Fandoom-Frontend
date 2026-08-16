@@ -1,5 +1,5 @@
 import { fetchBlocks, saveBlocks } from '../../../shared/api/designServer';
-import { ANIMATION_PRESETS } from '../../series/BreakingBad/Hero/heroBlockRenderers';
+import { ANIMATION_PRESETS } from '../../series/BreakingBad/OldHero/heroBlockRenderers';
 
 // Mimari pivot (2026-08, plan: lively-zooming-river.md) — backend/DB
 // kaldırıldı, bloklar component'in yanındaki *.blocks.json dosyasına
@@ -7,7 +7,7 @@ import { ANIMATION_PRESETS } from '../../series/BreakingBad/Hero/heroBlockRender
 // yeni bir slot eklendiğinde bu map'e bir satır eklenir (backend şeması
 // DEĞİŞMEZ çünkü zaten yok).
 const SLOT_FILES = {
-  'series-hero:5': 'src/pages/series/BreakingBad/Hero/Hero.blocks.json',
+  'series-hero:5': 'src/pages/series/BreakingBad/OldHero/OldHero.blocks.json',
 };
 
 function resolveBlocksPath(seriesId) {

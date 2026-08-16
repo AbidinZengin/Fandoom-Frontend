@@ -1,4 +1,4 @@
-// Component Registry — `src/pages/series/BreakingBad/Hero/heroBlockRenderers.jsx`
+// Component Registry — `src/pages/series/BreakingBad/OldHero/heroBlockRenderers.jsx`
 // içindeki BLOCK_RENDERERS (type→component eşlemesi) ve ANIMATION_PRESETS.params
 // (schema-driven kontrol) desenlerinin genellemesi. Bu görevde gerçek bir
 // componentType KAYITLI DEĞİL — editör migration'larında her tip burada

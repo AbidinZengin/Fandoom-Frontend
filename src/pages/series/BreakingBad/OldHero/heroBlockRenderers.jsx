@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import styles from './Hero.module.css';
+import styles from './OldHero.module.css';
 
 // "Dinamik Render Motoru" — kullanıcının AST tasarımı: type → component
 // eşleyen bir registry. Yeni bir blok TİPİ eklemek bu dosyaya bir satır

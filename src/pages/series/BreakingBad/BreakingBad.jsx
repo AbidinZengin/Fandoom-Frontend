@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Footer } from '../../../components/Footer/Footer';
-import { Hero } from './Hero/Hero';
-import { MOCK_RELEASE_YEAR } from './Hero/Hero.data';
+import Hero from './Hero/Hero';
+// OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
+// kararıyla route'tan kaldırıldı (2026-08) — yeni Hero PageBuilder'ın
+// "Kodu Üret" çıktısı, kendi verisini kendi çeker (bkz. Hero/Hero.jsx).
+// Eski dosyalar BİLEREK silinmedi, bkz. src/pages/series/BreakingBad/OldHero/.
 // TitleSequence (eski Hero — jenerik periyodik-tablo animasyonu) kullanıcı
 // kararıyla sayfadan kaldırıldı (2026-08); dosya BİLEREK silinmedi, geri
 // eklenmek istenirse: import { TitleSequence } from './TitleSequence/TitleSequence';
-import { fetchProductionDetail, resolveGenreNames, theme } from './BreakingBad.data';
+import { fetchProductionDetail, theme } from './BreakingBad.data';
 import styles from './BreakingBad.module.css';
 
 export default function BreakingBad() {
   const [series, setSeries] = useState(null);
-  const [genreNames, setGenreNames] = useState([]);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -26,19 +28,6 @@ export default function BreakingBad() {
       cancelled = true;
     };
   }, []);
-
-  // Genre isimleri diziye bağlı, bölüme değil — dizi verisi gelince bir kez
-  // çözülür (EpisodePage'teki desenin aynısı).
-  useEffect(() => {
-    if (!series) return undefined;
-    let cancelled = false;
-    resolveGenreNames(series.genreIds).then((names) => {
-      if (!cancelled) setGenreNames(names);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [series]);
 
   useEffect(() => {
     if (!series) return undefined;
@@ -75,11 +64,7 @@ export default function BreakingBad() {
 
   return (
     <>
-      <Hero
-        genres={genreNames}
-        seasonCount={series.seasons?.length}
-        releaseYear={MOCK_RELEASE_YEAR}
-      />
+      <Hero />
       <Footer />
     </>
   );

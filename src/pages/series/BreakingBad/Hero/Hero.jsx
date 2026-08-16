@@ -1,146 +1,37 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { readHeroFlip } from '../../../../motion/cinematic';
-import heroBlocksData from './Hero.blocks.json';
-import { ANIMATION_PRESETS, HeroBlockRenderer } from './heroBlockRenderers';
+import { useEffect, useState } from 'react';
+import { ENTITY_SCHEMAS } from '../../../../shared/builder/entitySchemas';
+import { Link } from 'react-router-dom';
 import styles from './Hero.module.css';
 
-gsap.registerPlugin(ScrollTrigger);
+// PageBuilder "Kodu Üret" ile oluşturuldu — bu noktadan sonra normal
+// proje kodu, elle düzenlenebilir (GSAP/motion elle eklenir).
+// DÜZELTME (manuel): codegen ham fetchProductionById kullanmıştı — bu,
+// genreNames'i türeten withGenreNames sarmalayıcısını (bkz.
+// entitySchemas.js) atlıyordu, PageBuilder önizlemesinde görünen genre
+// metni gerçek sayfada hep boş geliyordu. ENTITY_SCHEMAS.series.fetch
+// AYNI sarmalamayı kullanır — PageBuilder'ın gördüğü veriyle birebir.
+export default function Hero() {
+  const [series5, setSeries5] = useState(null);
 
-// Mimari pivot (2026-08): içerik artık backend'den fetch EDİLMİYOR —
-// Hero.blocks.json'dan doğrudan import ediliyor. Bu dosya
-// /admin/series-hero editöründeki "Save" ile local design-server
-// (scripts/design-server.mjs) üzerinden yazılır; Vite HMR değişikliği
-// anında yansıtır. Kullanıcı kararı: şu an tek kullanıcı, canlıya alma
-// derdi yok, hedef tasarım hızı — backend/DB/auth katmanı bilerek
-// atlandı (bkz. plan: lively-zooming-river.md).
-const heroBlocks = Array.isArray(heroBlocksData) ? heroBlocksData : [];
+  useEffect(() => {
+    ENTITY_SCHEMAS.series.fetch(5).then(setSeries5);
+  }, []);
 
-/**
- * Sayfanın hero'su. İçerik "Series Hero" slotunun blok listesinden
- * (heroBlocks) gelir — her blok Dinamik Render Motoru'yla
- * (heroBlockRenderers.jsx, type→component registry) çizilir. Liste boşsa
- * (henüz yapılandırılmamış) hiçbir şey render edilmez — sahte/placeholder
- * içerik üretilmez.
- */
-export function Hero({ genres, seasonCount, releaseYear }) {
-  const rootRef = useRef(null);
-  const figureRef = useRef(null);
-  const [flip] = useState(() => readHeroFlip());
-  const handoff = Boolean(flip);
-
-  const hasCustomBlocks = heroBlocks.length > 0;
-  const imageBlock = heroBlocks.find((b) => b.type === 'IMAGE');
-  const ambientSrc = imageBlock?.content?.imageUrl;
-
-  // Devir (FeaturedCarousel flip) klonunu kaldırma — poster≠key-art
-  // olduğu için instant değil kısa bir crossfade (bkz. cinematic.js).
-  useLayoutEffect(() => {
-    if (!handoff) return undefined;
-    const img = figureRef.current?.querySelector('img');
-    if (!img) return undefined;
-
-    let cancelled = false;
-    const takeOver = () => {
-      if (cancelled) return;
-      const clone = document.querySelector('img[data-hero-flip]');
-      const scrim = document.querySelector('div[data-hero-flip]');
-      const drop = () => document.querySelectorAll('body > [data-hero-flip]').forEach((el) => el.remove());
-
-      if (!clone || !scrim || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        drop();
-        return;
-      }
-
-      gsap
-        .timeline({ onComplete: drop })
-        .to(clone, { opacity: 0, duration: 0.4, ease: 'power2.out' }, 0)
-        .to(scrim, { opacity: 0, duration: 0.4, ease: 'power2.out' }, 0);
-    };
-
-    Promise.resolve()
-      .then(() => (img.decode ? img.decode() : Promise.reject(new Error('no decode'))))
-      .then(takeOver)
-      .catch(() => {
-        if (img.complete) takeOver();
-        else {
-          img.onload = takeOver;
-          img.onerror = takeOver;
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [handoff]);
-
-  // Her blok KENDİ animation preset'ini taşır (bkz. Hero.blocks.json +
-  // ANIMATION_PRESETS) — tek blanket tween yerine per-block uygulama.
-  // gsap.context ile temizlik: hem normal unmount'ta hem (Risk #2, plan
-  // dosyasında işaretli) Vite HMR ile Hero.blocks.json değiştiğinde
-  // önceki tween'lerin revert edilip yeniden kurulmasını garantiler.
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        heroBlocks.forEach((block) => {
-          const target = figureRef.current?.querySelector(`[data-hero-block-id="${block.id}"]`);
-          if (!target) return;
-
-          if (handoff) {
-            gsap.set(target, { opacity: 1, y: 0, yPercent: 0 });
-            return;
-          }
-
-          const preset = block.animation?.preset ? ANIMATION_PRESETS[block.animation.preset] : null;
-          if (!preset) return;
-          preset.apply(target, block.animation.params, {
-            scrollTrigger: { trigger: rootRef.current, start: 'top bottom', end: 'bottom top', scrub: true },
-          });
-        });
-      });
-
-      mm.add('(prefers-reduced-motion: reduce)', () => {
-        const targets = figureRef.current?.querySelectorAll('[data-hero-block]');
-        if (targets?.length) gsap.set(targets, { opacity: 1, y: 0, yPercent: 0 });
-      });
-    }, rootRef);
-
-    return () => ctx.revert();
-    // heroBlocks modül-seviyeli sabit (statik JSON import) — normal
-    // render ömründe hiç değişmez, dependency olarak GEREKMEZ (oxlint).
-    // Vite HMR, Hero.blocks.json değiştiğinde bu modülü YENİDEN
-    // DEĞERLENDİRİP component'i taze bir closure'la kurar; bu effect de
-    // o yeni kurulumda sıfırdan çalışır (Risk #2, plan dosyasında
-    // işaretli — canlı doğrulama Task 7'de).
-  }, [handoff]);
-
-  const metaLine = [
-    releaseYear,
-    seasonCount ? `${seasonCount} Season${seasonCount > 1 ? 's' : ''}` : null,
-    ...(genres ?? []),
-  ]
-    .filter(Boolean)
-    .join(' · ');
-
-  if (!hasCustomBlocks) return null;
+  // TODO: Replace null with a Skeleton UI if needed.
+  if (series5 == null) return null;
 
   return (
-    <section className={styles.hero} ref={rootRef}>
-      {ambientSrc && (
-        <div className={styles.hero__media} aria-hidden="true">
-          <img className={styles.hero__ambient} src={ambientSrc} alt="" />
-          <div className={styles.hero__overlay} />
-        </div>
-      )}
-
-      <figure className={styles.hero__figure} ref={figureRef}>
-        {heroBlocks.map((block) => (
-          <HeroBlockRenderer key={block.id} block={block} context={{ metaLine }} />
-        ))}
-      </figure>
-    </section>
+    <div className={styles.page}>
+      <img className={styles.imageBlock1} src={"https://res.cloudinary.com/b0bc5njd/image/upload/v1786892507/fandoom/general/cafgu8cfifaioz5kn6j7.webp"} alt="" />
+      <img className={styles.imageBlock2} src={"https://res.cloudinary.com/b0bc5njd/image/upload/v1786892540/fandoom/general/udr8y4sfucrf9xw4yyx0.webp"} alt="" />
+      <p className={styles.textBlock1}>{series5?.genreNames}</p>
+      <Link to="/series/breaking-bad" className={styles.logoBlock1}><img src="/src/assets/logos/breaking-bad.svg" alt="Breaking Bad" /></Link>
+      <Link to="https://www.youtube.com/watch?v=HhesaQXLuRY" className={styles.buttonBlock1}>{"▶  Watch Trailer"}</Link>
+      <p className={styles.textBlock2}>{series5?.synopsis}</p>
+      <div className={styles.logoBlock2}><img src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" /></div>
+      <p className={styles.textBlock3}>{series5?.externalRating}</p>
+      <svg className={styles.iconBlock1} viewBox="0 0 24 24" fill="currentColor" stroke="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.9 6.9L22 9.2l-5.5 5 1.6 7.6L12 18l-6.1 3.8 1.6-7.6-5.5-5 7.1-0.3L12 2z" /></svg>
+      <div className={styles.rectangleBlock1} />
+    </div>
   );
 }

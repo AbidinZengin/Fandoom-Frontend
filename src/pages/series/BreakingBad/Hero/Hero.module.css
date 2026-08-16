@@ -1,236 +1,122 @@
-/* Ambient-blur hero — kullanıcı kararı: arka planda hero image'in
-   blurlu hâli (section'ı dolduran atmosfer, kenarlarda görünür kalır),
-   önünde küçültülmüş hafif radius'lu NET bir kart; metin (meta+sinopsis)
-   kartın kendi üstünde sol-alt overlay. GoT Hero (ortalanmış, tek net
-   görsel) ve Seasons Hero'dan (alt hizalı, kart yok) farklı üçüncü
-   kombinasyon. */
-.hero {
+.page {
   position: relative;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding: var(--space-3xl) var(--space-page-x);
-}
-
-/* Dikey overscan: parallax yPercent drift (±%6) kenar açığa çıkarmasın.
-   Yatay/dikey +%10 ekstra ölçek, blur'un kendi kenar bulanıklığını
-   (mask'lenmemiş piksel sınırı) görünür alanın dışına iter. */
-.hero__media {
-  position: absolute;
-  top: -8%;
-  left: -5%;
-  right: -5%;
-  height: 116%;
-  z-index: 0;
-  will-change: transform;
-}
-
-.hero__ambient {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  filter: blur(38px) saturate(1.15) brightness(0.7);
-  transform: scale(1.1);
+  aspect-ratio: 1360 / 800;
 }
 
-/* Ambient katmanın kendi perdesi artık sadece alta doğru var(--bg)'ye
-   eriyen dikey geçiş (Footer'a dikişsiz teslim, GoT/Seasons Hero'yla aynı
-   imza) — yatay okunabilirlik perdesi net kartın KENDİ üstüne taşındı
-   (bkz. .hero__figureScrim), çünkü metin artık ambient katmanda değil
-   kartın üstünde duruyor. */
-.hero__overlay {
+.imageBlock1 {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.05) 0%,
-    rgba(0, 0, 0, 0.2) 60%,
-    var(--bg) 100%
-  );
+  left: 0.11%;
+  top: 0%;
+  width: 99.89%;
+  height: 100.34%;
+  filter: blur(7px);
+  border-radius: var(--radius-sm);
 }
 
-/* Net ön kart — ambient katmandan AYRI, blur'suz aynı still. Yatayda
-   section'ın kendi padding'i kadar (var(--space-page-x)) küçülüp geri
-   kalan boşlukta blurlu ambient katman kenarlardan görünür — "hafif
-   radius" (var(--radius-md), --radius-lg'nin bir altı) + derinlik gölgesi
-   kartı zeminden kaldırır. Metin bu kartın İÇİNDE sol-alt overlay olarak
-   durur (kullanıcı kararı). */
-.hero__figure {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  width: 100%;
-  aspect-ratio: 21 / 9;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-}
-
-.hero__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-}
-
-/* Kartın kendi okunabilirlik perdesi: soldan koyu → sağa açılan yatay
-   geçiş, metin bu tarafta durduğu için kadraj ne olursa olsun okunur. */
-.hero__figureScrim {
+.imageBlock2 {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.82) 0%,
-    rgba(0, 0, 0, 0.45) 42%,
-    rgba(0, 0, 0, 0.08) 68%
-  );
+  left: 29.05%;
+  top: 30.52%;
+  width: 42.24%;
+  height: 38.96%;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.35));
+  border-radius: var(--radius-sm);
+  scale: 2;
+  object-fit: fill;
+  background-blend-mode: normal;
 }
 
-/* Yeşile boyanmış wordmark — sol, dikeyde üste doğru ama merkeze yaklaşık
-   (kullanıcı kararı: "biraz daha aşağı ve sağa al büyült"). Alttaki metin
-   bloğuyla çakışmaması için ayrı bir köşe, glow drop-shadow GoT logosunun
-   aynı imzası. */
-.hero__logo {
+.textBlock1 {
   position: absolute;
-  top: 26%;
-  left: clamp(var(--space-xl), 10vw, 140px);
-  z-index: 1;
-  width: clamp(200px, 24vw, 340px);
+  left: 12%;
+  top: 63.57%;
+  width: 19.2%;
   height: auto;
-  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--accent) 55%, transparent))
-    drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
-}
-
-.hero__content {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  max-width: min(52ch, 60%);
-  padding: var(--space-xl);
-}
-
-.hero__meta {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
+  color: #a8a8a8;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
+  font-family: 'Montserrat', sans-serif;
 }
 
-.hero__synopsis {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-lg);
-  line-height: 1.6;
-  color: var(--fg-dim);
-}
-
-/* "Watch Trailer" — glassmorfik buton (learned-rules: bundan sonraki tüm
-   butonlar glass; desen EpisodeBrief'in `.brief__genrePill`'iyle aynı: 3
-   katman — köşegen ton geçişli translucent dolgu, ::before ile SADECE 1px
-   kenar halkasına boyanan gradient border, inset highlight/gölge). Sağ-alt
-   köşe (kullanıcı kararı: "sağ aşağıya doğru"), metin bloğunun karşı
-   köşesinde — çakışma yok. */
-.hero__trailer {
+.logoBlock1 {
   position: absolute;
-  right: var(--space-xl);
-  bottom: var(--space-xl);
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  min-height: 44px;
-  padding: var(--space-sm) var(--space-lg);
-  border: none;
-  border-radius: var(--radius-pill);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.26) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.18) 100%
-  );
-  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
-  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.55),
-    inset 0 -10px 14px -12px rgba(0, 0, 0, 0.45),
-    0 10px 24px rgba(0, 0, 0, 0.4);
-  font-family: var(--font-body);
+  left: 9.68%;
+  top: 14.99%;
+  width: 27.6%;
+  height: 35.82%;
+}
+
+.buttonBlock1 {
+  position: absolute;
+  left: 75.11%;
+  top: 75.49%;
+  width: 12.68%;
+  height: 5.95%;
+  color: #ffffff;
   font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--fg);
-  cursor: pointer;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%);
+  border-radius: var(--radius-pill);
+  border-color: rgba(255,255,255,0.4);
+  border-width: 1px;
+  border-style: solid;
+  padding: var(--space-sm) var(--space-lg);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4);
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  font-family: 'Montserrat', sans-serif;
 }
 
-.hero__trailer::before {
-  content: '';
+.textBlock2 {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.75) 0%,
-    rgba(255, 255, 255, 0.05) 40%,
-    rgba(255, 255, 255, 0.05) 60%,
-    rgba(255, 255, 255, 0.4) 100%
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+  left: 11.06%;
+  top: 68.12%;
+  width: 38.94%;
+  height: 14.75%;
+  color: #ffffff;
+  font-size: 22px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  text-align: left;
 }
 
-.hero__trailerIcon {
-  width: 16px;
-  height: 16px;
-  flex: none;
+.logoBlock2 {
+  position: absolute;
+  left: 80.41%;
+  top: 14.99%;
+  width: 9.61%;
+  height: 7.01%;
 }
 
-@media (max-width: 640px) {
-  .hero__figure {
-    aspect-ratio: 4 / 3;
-  }
+.textBlock3 {
+  position: absolute;
+  left: 12.68%;
+  top: 57.08%;
+  width: 6%;
+  height: 4.19%;
+  color: #f6c700;
+  font-size: 30px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
 
-  .hero__content {
-    max-width: none;
-    padding: var(--space-lg);
-  }
+.iconBlock1 {
+  position: absolute;
+  left: 9.68%;
+  top: 57.29%;
+  width: 6%;
+  height: 3.98%;
+  color: #f6c700;
+}
 
-  .hero__logo {
-    top: 18%;
-    width: clamp(160px, 34vw, 260px);
-  }
-
-  /* Mobilde figure 4:3'e kısalır (masaüstündeki 21:9'dan çok daha az
-     yükseklik); tam-genişlik sinopsis --text-lg'de (22px) uzun cümlede
-     5+ satıra sarıp alttan-hizalı .hero__content'i yukarı doğru büyütüp
-     üstteki logoyla üst üste biniyordu. Punto küçültülüp 3 satırla
-     sınırlanır — kısa-copy kuralı DEĞİL (bu storytelling metni), salt
-     sabit yükseklikli kadrajda taşmayı önleyen mobil güvenlik sınırı. */
-  .hero__synopsis {
-    font-size: var(--text-base);
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .hero__trailer {
-    right: var(--space-lg);
-    bottom: var(--space-lg);
-    padding: var(--space-xs) var(--space-md);
-    font-size: var(--text-xs);
-  }
+.rectangleBlock1 {
+  position: absolute;
+  left: -25.94%;
+  top: 80.22%;
+  width: 4.67%;
+  height: 6.01%;
+  background: #ffffff;
+  opacity: 1;
 }
