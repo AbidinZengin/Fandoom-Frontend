@@ -2,16 +2,21 @@ import { useState } from 'react';
 import { TOOLS } from '../PageBuilder.data';
 import { EntityPicker } from '../../../../shared/builder/EntityPicker/EntityPicker';
 import { CodegenPanel } from './CodegenPanel/CodegenPanel';
+import { WritebackHistoryPanel } from './WritebackHistoryPanel/WritebackHistoryPanel';
 import {
   IconGrid,
   IconLayers,
   IconDatabase,
   IconCode,
+  IconHistory,
   IconRectangle,
   IconDiamond,
   IconCircle,
   IconType,
   IconImage,
+  IconButtonTool,
+  IconLogoTool,
+  IconStarTool,
   IconLock,
   IconUnlock,
   IconEye,
@@ -19,7 +24,16 @@ import {
 } from '../icons';
 import styles from './LeftPanel.module.css';
 
-const TOOL_ICONS = { RECTANGLE: IconRectangle, DIAMOND: IconDiamond, CIRCLE: IconCircle, TEXT: IconType, IMAGE: IconImage };
+const TOOL_ICONS = {
+  RECTANGLE: IconRectangle,
+  DIAMOND: IconDiamond,
+  CIRCLE: IconCircle,
+  BUTTON: IconButtonTool,
+  LOGO: IconLogoTool,
+  ICON: IconStarTool,
+  TEXT: IconType,
+  IMAGE: IconImage,
+};
 
 // Sol panel — dar ikon şeridi (Bileşenler/Katmanlar sekmesi, referans:
 // kullanıcının paylaştığı çalışan Figma Make prototipi) + tek bir geniş
@@ -38,6 +52,7 @@ export function LeftPanel({
   canvasHeights,
   referenceImage,
   onReferenceImage,
+  onRestoreBlockContent,
 }) {
   const [panelTab, setPanelTab] = useState('layers');
   const [dragIndex, setDragIndex] = useState(null);
@@ -67,6 +82,9 @@ export function LeftPanel({
         </button>
         <button type="button" className={styles.leftPanel__railIcon} data-active={panelTab === 'codegen' || undefined} title="Kodu Üret" aria-label="Kodu Üret" onClick={() => toggleTab('codegen')}>
           <IconCode />
+        </button>
+        <button type="button" className={styles.leftPanel__railIcon} data-active={panelTab === 'history' || undefined} title="Geçmiş" aria-label="Geçmiş" onClick={() => toggleTab('history')}>
+          <IconHistory />
         </button>
       </div>
 
@@ -165,6 +183,13 @@ export function LeftPanel({
             <>
               <span className={styles.leftPanel__wideHead}>Kodu Üret</span>
               <CodegenPanel orderedBlocks={blocks} canvasWidths={canvasWidths} canvasHeights={canvasHeights} referenceImage={referenceImage} onReferenceImage={onReferenceImage} />
+            </>
+          )}
+
+          {panelTab === 'history' && (
+            <>
+              <span className={styles.leftPanel__wideHead}>Geçmiş</span>
+              <WritebackHistoryPanel blocks={blocks} onRestoreBlockContent={onRestoreBlockContent} />
             </>
           )}
         </div>

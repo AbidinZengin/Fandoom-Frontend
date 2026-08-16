@@ -1,7 +1,9 @@
 import { registerComponent } from '../../../shared/builder/registry';
 import { uploadImage } from '../../../shared/api/media';
 import { TextBlockField } from '../BlogEditor/BlockList/BlockItem/TextBlockField';
-import { SHAPE_CONTROLS, FILTER_PRESETS, CURSOR_PRESETS, resolveEffectiveStyle } from './PageBuilder.data';
+import { SHAPE_CONTROLS, TEXT_CONTROLS, VISUAL_TRANSFORM_CONTROLS, FILTER_PRESETS, CURSOR_PRESETS, resolveEffectiveStyle } from './PageBuilder.data';
+import { FandoomLogo } from '../../../components/FandoomLogo/FandoomLogo';
+import { CONTENT_ICONS } from '../../../shared/builder/contentIcons';
 import styles from './Canvas/Canvas.module.css';
 
 // registry.js'in `component` sözleşmesi burada tanımlanır (motor bu
@@ -16,6 +18,21 @@ import styles from './Canvas/Canvas.module.css';
 // ÇAKIŞMASIN diye burada birleştirilir, ikisi birlikte yazılabilir.
 function composeFilter(s) {
   return [s.blur ? `blur(${s.blur}px)` : null, s.filter || null].filter(Boolean).join(' ') || undefined;
+}
+
+// Effects sekmesinin backgroundImage/backgroundBlendMode/backdropFilter/
+// transition kontrolleri her renderer'da AYNI şekilde okunur — solid
+// `background` (Style sekmesi, tip başına) ÜSTÜNE biner (CSS'in kendi
+// background-color + background-image katmanlaması). `backdropFilter`
+// Safari için WebkitBackdropFilter ile birlikte yazılır.
+function composeEffectStyle(s) {
+  return {
+    backgroundImage: s.backgroundImage || undefined,
+    backgroundBlendMode: s.backgroundImage ? s.backgroundBlendMode : undefined,
+    backdropFilter: s.backdropFilter || undefined,
+    WebkitBackdropFilter: s.backdropFilter || undefined,
+    transition: s.transition || undefined,
+  };
 }
 
 function ShapeRenderer({ block, breakpoint, mode, variant }) {
@@ -37,6 +54,7 @@ function ShapeRenderer({ block, breakpoint, mode, variant }) {
         opacity: s.opacity,
         boxShadow: s.boxShadow,
         zIndex: s.zIndex,
+        ...composeEffectStyle(s),
       }}
     />
   );
@@ -61,6 +79,7 @@ function TextRenderer({ block, breakpoint, mode, onPatchContent, onCommit }) {
         boxShadow: s.boxShadow,
         opacity: s.opacity,
         zIndex: s.zIndex,
+        ...composeEffectStyle(s),
       }}
     >
       <TextBlockField
@@ -117,6 +136,7 @@ function ImageRenderer({ block, breakpoint, mode, onPatchContent, onCommit }) {
         opacity: s.opacity,
         boxShadow: s.boxShadow,
         zIndex: s.zIndex,
+        ...composeEffectStyle(s),
       }}
     >
       {block.content?.imageUrl ? (
@@ -139,6 +159,62 @@ function ImageRenderer({ block, breakpoint, mode, onPatchContent, onCommit }) {
         </div>
       )}
     </div>
+  );
+}
+
+// FandoomLogo kendi pixel-sabit iç layout'una sahip (window genişliğine göre
+// kendi zoom'unu hesaplıyor) — block'un W/H tutamaçları onu resize ETMEZ,
+// büyütme/küçültme Canvas.jsx'in TÜM block tiplerinde jenerik uyguladığı
+// CSS `scale` (VISUAL_TRANSFORM_CONTROLS'teki Scale kontrolü) ile yapılır.
+function LogoRenderer({ block, breakpoint, mode }) {
+  const s = resolveEffectiveStyle(block, breakpoint, mode);
+  return (
+    <div
+      className={styles.logoWrap}
+      style={{
+        mixBlendMode: s.mixBlendMode,
+        transform: s.transform,
+        filter: composeFilter(s),
+        cursor: s.cursor,
+        ...composeEffectStyle(s),
+      }}
+    >
+      <FandoomLogo showTagline={false} />
+    </div>
+  );
+}
+
+function IconRenderer({ block, breakpoint, mode }) {
+  const s = resolveEffectiveStyle(block, breakpoint, mode);
+  const icon = CONTENT_ICONS[block.content?.icon] ?? CONTENT_ICONS.star;
+  return (
+    <svg
+      className={styles.iconSvg}
+      viewBox={icon.viewBox}
+      fill={icon.filled ? 'currentColor' : 'none'}
+      stroke={icon.filled ? 'none' : 'currentColor'}
+      strokeWidth={icon.filled ? undefined : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{
+        color: s.color,
+        background: s.background,
+        borderColor: s.borderColor,
+        borderWidth: s.borderWidth,
+        borderStyle: s.borderWidth ? (s.borderStyle || 'solid') : undefined,
+        borderRadius: s.borderRadius,
+        mixBlendMode: s.mixBlendMode,
+        transform: s.transform,
+        filter: composeFilter(s),
+        cursor: s.cursor,
+        opacity: s.opacity,
+        boxShadow: s.boxShadow,
+        zIndex: s.zIndex,
+        ...composeEffectStyle(s),
+      }}
+    >
+      <path d={icon.path} />
+    </svg>
   );
 }
 
@@ -173,132 +249,27 @@ export function registerPageBuilderComponents() {
     // 'text' kind'lı değişkenlere bağlanabilir, content'in hangi anahtara
     // yazılacağını da burada belirtir (bkz. ContextPanel Data tab).
     bindableField: { key: 'text', kind: 'text' },
-    controls: [
-      { key: 'color', label: 'Text color', type: 'color', default: '#111111' },
-      { key: 'fontSize', label: 'Size', type: 'text', default: '16px' },
-      {
-        key: 'fontFamily',
-        label: 'Font',
-        type: 'select',
-        default: '',
-        options: [
-          { value: '', label: 'Default' },
-          { value: "'Montserrat', sans-serif", label: 'Montserrat' },
-          { value: "'Fraunces', serif", label: 'Fraunces' },
-        ],
-      },
-      {
-        key: 'fontWeight',
-        label: 'Weight',
-        type: 'select',
-        default: '400',
-        options: [
-          { value: '400', label: 'Regular' },
-          { value: '500', label: 'Medium' },
-          { value: '600', label: 'Semibold' },
-          { value: '700', label: 'Bold' },
-          { value: '800', label: 'Extrabold' },
-        ],
-      },
-      {
-        key: 'letterSpacing',
-        label: 'Letter spacing',
-        type: 'text',
-        default: '',
-        presets: [{ value: '-0.02em' }, { value: '0' }, { value: '0.02em' }, { value: '0.05em' }, { value: '0.1em' }],
-      },
-      { key: 'lineHeight', label: 'Line height', type: 'text', default: '', presets: [{ value: '1' }, { value: '1.2' }, { value: '1.4' }, { value: '1.6' }] },
-      {
-        key: 'textAlign',
-        label: 'Align',
-        type: 'select',
-        default: 'left',
-        options: [
-          { value: 'left', label: 'Left' },
-          { value: 'center', label: 'Center' },
-          { value: 'right', label: 'Right' },
-        ],
-      },
-      {
-        key: 'textTransform',
-        label: 'Transform',
-        type: 'select',
-        default: 'none',
-        options: [
-          { value: 'none', label: 'None' },
-          { value: 'uppercase', label: 'Uppercase' },
-          { value: 'capitalize', label: 'Capitalize' },
-        ],
-      },
-      {
-        key: 'textDecoration',
-        label: 'Decoration',
-        type: 'text',
-        default: '',
-        presets: [{ value: 'none' }, { value: 'underline' }, { value: 'line-through' }, { value: 'underline dotted' }],
-      },
-      {
-        key: 'textShadow',
-        label: 'Text shadow',
-        type: 'text',
-        default: '',
-        presets: [
-          { value: '0 1px 2px rgba(0,0,0,.4)', label: 'Hafif' },
-          { value: '0 2px 10px rgba(0,0,0,.6)', label: 'Derin' },
-          { value: '0 0 12px currentColor', label: 'Glow' },
-        ],
-      },
-      // Metin bloğu düz metin ya da (background+radius verilince) buton/
-      // pill görünümü alabilir — ayrı bir BUTTON tipi icat edilmedi,
-      // "excalidraw tarzı" tek esnek metin bloğu tercih edildi.
-      { key: 'background', label: 'Background', type: 'color', default: '' },
-      { key: 'borderRadius', label: 'Radius', type: 'text', default: '' },
-      { key: 'borderColor', label: 'Border color', type: 'color', default: '' },
-      { key: 'borderWidth', label: 'Border width', type: 'text', default: '', presets: [{ value: '1px' }, { value: '2px' }, { value: '3px' }, { value: '4px' }] },
-      {
-        key: 'borderStyle',
-        label: 'Border style',
-        type: 'select',
-        default: 'solid',
-        options: [
-          { value: 'solid', label: 'Solid' },
-          { value: 'dashed', label: 'Dashed' },
-          { value: 'dotted', label: 'Dotted' },
-          { value: 'double', label: 'Double' },
-        ],
-      },
-      { key: 'rotate', label: 'Rotate (°)', type: 'slider', min: -180, max: 180, step: 1, default: 0 },
-      { key: 'scale', label: 'Scale', type: 'slider', min: 0.5, max: 2, step: 0.05, default: 1 },
-      { key: 'blur', label: 'Blur (px)', type: 'slider', min: 0, max: 20, step: 1, default: 0 },
-      {
-        key: 'mixBlendMode',
-        label: 'Blend mode',
-        type: 'select',
-        default: 'normal',
-        options: [
-          { value: 'normal', label: 'Normal' },
-          { value: 'multiply', label: 'Multiply' },
-          { value: 'screen', label: 'Screen' },
-          { value: 'overlay', label: 'Overlay' },
-          { value: 'darken', label: 'Darken' },
-          { value: 'lighten', label: 'Lighten' },
-        ],
-      },
-      // Kullanıcı düzeltmesi: "style/effect kısmı block tipine göre
-      // ayrılmasın, hepsi hepsini kullanabiliyor olsun" — RECTANGLE/DIAMOND/
-      // CIRCLE'ın (SHAPE_CONTROLS) sahip olduğu ama TEXT'te eksik olan
-      // jenerik görsel kontroller (transform/filter/cursor) buraya da
-      // eklendi, TextRenderer'da da UYGULANIYOR (bkz. aşağıdaki style).
-      {
-        key: 'transform',
-        label: 'Transform (gelişmiş)',
-        type: 'text',
-        default: '',
-        presets: [{ value: 'skew(-8deg, 0)' }, { value: 'skewY(4deg)' }, { value: 'translateY(-6px)' }, { value: 'perspective(600px) rotateY(20deg)' }],
-      },
-      { key: 'filter', label: 'Filter (gelişmiş)', type: 'text', default: '', presets: FILTER_PRESETS },
-      { key: 'cursor', label: 'Cursor', type: 'text', default: '', presets: CURSOR_PRESETS },
-    ],
+    controls: TEXT_CONTROLS,
+  });
+  registerComponent('BUTTON', {
+    name: 'Button',
+    // TEXT'in "excalidraw tarzı" pill görünümünün preset hâli — aynı
+    // renderer/controls reuse edilir (bkz. TEXT_CONTROLS yorumu), sadece
+    // default içerik/stil buton gibi ve bir `to` link alanı var (bkz.
+    // ContextPanel'deki `'to' in block.content` bölümü).
+    component: TextRenderer,
+    defaultContent: { text: 'Button', to: '' },
+    defaultStyles: {
+      color: '#ffffff',
+      fontSize: 'var(--text-base)',
+      fontWeight: '600',
+      textAlign: 'center',
+      background: 'var(--brand-gradient)',
+      borderRadius: 'var(--radius-pill)',
+      padding: 'var(--space-sm) var(--space-lg)',
+    },
+    bindableField: { key: 'text', kind: 'text' },
+    controls: TEXT_CONTROLS,
   });
   registerComponent('IMAGE', {
     name: 'Image',
@@ -379,5 +350,19 @@ export function registerPageBuilderComponents() {
       { key: 'filter', label: 'Filter (gelişmiş)', type: 'text', default: '', presets: FILTER_PRESETS },
       { key: 'cursor', label: 'Cursor', type: 'text', default: '', presets: CURSOR_PRESETS },
     ],
+  });
+  registerComponent('LOGO', {
+    name: 'Logo',
+    component: LogoRenderer,
+    defaultContent: { to: '/' },
+    defaultStyles: {},
+    controls: VISUAL_TRANSFORM_CONTROLS,
+  });
+  registerComponent('ICON', {
+    name: 'Icon',
+    component: IconRenderer,
+    defaultContent: { icon: 'star', to: '' },
+    defaultStyles: { color: '#111111' },
+    controls: [{ key: 'color', label: 'Icon color', type: 'color', default: '#111111' }, ...SHAPE_CONTROLS],
   });
 }

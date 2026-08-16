@@ -176,6 +176,14 @@ export function Canvas({
                 // — dışta olsaydı resize tutamaçları da bulanıklaşırdı.
                 rotate: s.rotate ? `${s.rotate}deg` : undefined,
                 scale: s.scale,
+                // Effects sekmesindeki hazır animation preset'i (ör. "pbFloat
+                // 3s ease-in-out infinite") DIŞ sarmalayıcıya uygulanır —
+                // keyframe'ler `transform` üzerinden çalışır, `rotate`/`scale`
+                // AYRI CSS property olduğu için elle verilen değerin üstüne
+                // biner, üzerini YAZMAZ (bkz. PageBuilder.data.js yorumu).
+                animation: s.animation || undefined,
+                transformOrigin: s.transformOrigin,
+                transition: s.transition || undefined,
               }}
               onPointerDown={(e) => (panningBlockId === block.id ? startImagePan(block, e) : handleBlockPointerDown(block, e))}
               onDoubleClick={

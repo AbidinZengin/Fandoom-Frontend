@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PropertyFactory } from '../../../../shared/builder/PropertyFactory/PropertyFactory';
 import { getComponentDefinition } from '../../../../shared/builder/registry';
 import { ENTITY_SCHEMAS } from '../../../../shared/builder/entitySchemas';
 import { EntityPicker } from '../../../../shared/builder/EntityPicker/EntityPicker';
 import { resolveBinding } from '../../../../shared/builder/schema';
 import { saveBoundField } from '../../../../shared/builder/entityWriteback';
+import { fetchPages } from '../../../../shared/api/designServer';
+import { CONTENT_ICON_KEYS, CONTENT_ICONS } from '../../../../shared/builder/contentIcons';
 import { EFFECT_CONTROLS, resolveEffectiveStyle, resolveEffectiveLayout } from '../PageBuilder.data';
 import { IconTrash, IconDuplicate, IconBringFront, IconSendBack } from '../icons';
 import styles from './ContextPanel.module.css';
@@ -121,6 +123,41 @@ export function ContextPanel({
             </section>
           )}
 
+          {'icon' in (block.content ?? {}) && (
+            <section className={styles.panel__section}>
+              <span className={styles.panel__sectionLabel}>Icon</span>
+              <div className={styles.panel__iconGrid}>
+                {CONTENT_ICON_KEYS.map((key) => {
+                  const icon = CONTENT_ICONS[key];
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={styles.panel__iconButton}
+                      data-active={block.content?.icon === key || undefined}
+                      title={key}
+                      onClick={() => {
+                        onPatchContent({ icon: key });
+                        onCommit();
+                      }}
+                    >
+                      <svg width={16} height={16} viewBox={icon.viewBox} fill={icon.filled ? 'currentColor' : 'none'} stroke={icon.filled ? 'none' : 'currentColor'} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                        <path d={icon.path} />
+                      </svg>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {'to' in (block.content ?? {}) && (
+            <section className={styles.panel__section}>
+              <span className={styles.panel__sectionLabel}>Link (route)</span>
+              <LinkField value={block.content?.to ?? ''} onChange={(to) => onPatchContent({ to })} onCommit={onCommit} />
+            </section>
+          )}
+
           <section className={styles.panel__section}>
             <span className={styles.panel__sectionLabel}>Appearance ({styleMode})</span>
             <PropertyFactory controls={definition?.controls ?? []} values={styleValues} onChange={onPatchStyle} onCommit={onCommit} />
@@ -158,6 +195,50 @@ export function ContextPanel({
 }
 
 const round = (n) => Math.round(n * 10) / 10;
+
+// BUTTON/LOGO/ICON preset'lerinin link hedefi seçicisi — kullanıcı kararı:
+// "route seçici + serbest metin". fetchPages() CodegenPanel'in zaten
+// kullandığı design-server /pages ucu (App.jsx'i tarayıp SADECE statik
+// route'ları döner); dinamik `/:slug` route'lar ve dış URL'ler için
+// dropdown'ın altındaki serbest-metin input aynı değere yazar. Sadece
+// local dev'de (design-server açıkken) çalışır — sayfa listesi gelmezse
+// dropdown boş kalır, serbest metin input yine çalışır.
+function LinkField({ value, onChange, onCommit }) {
+  const [pages, setPages] = useState([]);
+
+  useEffect(() => {
+    fetchPages()
+      .then(setPages)
+      .catch(() => {});
+  }, []);
+
+  return (
+    <>
+      <select
+        value=""
+        onChange={(e) => {
+          if (!e.target.value) return;
+          onChange(e.target.value);
+          onCommit();
+        }}
+      >
+        <option value="">Bilinen route seç…</option>
+        {pages.map((p) => (
+          <option key={p.folder} value={p.route}>
+            {p.route}
+          </option>
+        ))}
+      </select>
+      <input
+        type="text"
+        placeholder="/route veya https://…"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onCommit}
+      />
+    </>
+  );
+}
 
 // Seçili block'u backend'deki gerçek bir kayda (blog/series/episode/...)
 // bağlar — ekran görüntüsündeki "Değişken Bağlama" paneli. Block bazlı:

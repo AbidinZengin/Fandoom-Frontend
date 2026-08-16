@@ -248,6 +248,7 @@ function PageBuilderInner() {
           canvasHeights={canvasHeights}
           referenceImage={referenceImage}
           onReferenceImage={setReferenceImage}
+          onRestoreBlockContent={(id, content) => updateBlock(id, { content })}
         />
 
         {loading ? (

@@ -34,6 +34,12 @@ export function createBindingRegistry() {
     importsByModule.get(module).add(importName);
   };
 
+  // Proje-içi (relatif) modüller — bunlar importPrefix ile üretilen dosyanın
+  // derinliğine göre '../../shared/...' hâline gelir. Bunların DIŞINDAKİ
+  // modüller (ör. 'react-router-dom') bare npm paket adı sayılır, prefix
+  // ALMAZ (bkz. importLines).
+  const PROJECT_MODULE_PREFIXES = ['shared/', 'components/'];
+
   return {
     // Block'un binding'ini kaydeder, JSX'te kullanılacak optional-chain
     // ifadesini döner (`{...}` OLMADAN — çağıran sarmalar).
@@ -45,6 +51,12 @@ export function createBindingRegistry() {
         vars.set(key, { varName: `${binding.entityType}${sanitizeIdForIdentifier(binding.entityId)}`, call: meta.call(idLiteral(binding.entityId)) });
       }
       return fieldToOptionalChain(vars.get(key).varName, binding.field);
+    },
+    // Bir block'un binding'ine bağlı OLMAYAN, sabit bir import eklemek için
+    // (ör. BUTTON/LOGO/ICON'un `<Link>`/`<FandoomLogo>` kullanımı) —
+    // jsxForBlock bunu doğrudan çağırır.
+    registerStaticImport(importName, module) {
+      registerImport(importName, module);
     },
     list() {
       return [...vars.values()];
@@ -61,7 +73,13 @@ export function createBindingRegistry() {
         .join(' || ');
     },
     importLines(importPrefix) {
-      return [...importsByModule.entries()].map(([module, names]) => `import { ${[...names].join(', ')} } from '${importPrefix}${module}';`).join('\n');
+      return [...importsByModule.entries()]
+        .map(([module, names]) => {
+          const isProjectModule = PROJECT_MODULE_PREFIXES.some((prefix) => module.startsWith(prefix));
+          const path = isProjectModule ? `${importPrefix}${module}` : module;
+          return `import { ${[...names].join(', ')} } from '${path}';`;
+        })
+        .join('\n');
     },
   };
 }

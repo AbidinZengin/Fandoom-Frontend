@@ -1,9 +1,19 @@
 import { useEffect } from 'react';
 import { TOOLS } from '../PageBuilder.data';
-import { IconPointer, IconRectangle, IconDiamond, IconCircle, IconType, IconImage } from '../icons';
+import { IconPointer, IconRectangle, IconDiamond, IconCircle, IconType, IconImage, IconButtonTool, IconLogoTool, IconStarTool } from '../icons';
 import styles from './FloatingToolbar.module.css';
 
-const TOOL_ICONS = { null: IconPointer, RECTANGLE: IconRectangle, DIAMOND: IconDiamond, CIRCLE: IconCircle, TEXT: IconType, IMAGE: IconImage };
+const TOOL_ICONS = {
+  null: IconPointer,
+  RECTANGLE: IconRectangle,
+  DIAMOND: IconDiamond,
+  CIRCLE: IconCircle,
+  BUTTON: IconButtonTool,
+  LOGO: IconLogoTool,
+  ICON: IconStarTool,
+  TEXT: IconType,
+  IMAGE: IconImage,
+};
 
 // BlockList.jsx/useClipboard.js'teki isTypingTarget()'ın bilinçli kopyası
 // — her tüketici kendi kısayol dinleyicisinin başka bir modüle bağımlı

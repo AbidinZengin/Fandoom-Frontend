@@ -59,6 +59,32 @@ export function IconImage(props) {
   );
 }
 
+export function IconButtonTool(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="8.5" width="17" height="7" rx="3.5" />
+      <path d="M8 12h8" />
+    </svg>
+  );
+}
+
+export function IconLogoTool(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="9" cy="12" r="5.5" />
+      <circle cx="15" cy="12" r="5.5" />
+    </svg>
+  );
+}
+
+export function IconStarTool(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3l2.4 5.8L20.5 9.4l-4.6 4.2 1.3 6.4L12 16.8l-5.2 3.2 1.3-6.4L3.5 9.4l6.1-0.6L12 3z" />
+    </svg>
+  );
+}
+
 export function IconDesktop(props) {
   return (
     <svg {...base} {...props}>
@@ -229,6 +255,16 @@ export function IconLayers(props) {
       <path d="M12 3l8 4.5-8 4.5-8-4.5L12 3z" />
       <path d="M4 12l8 4.5 8-4.5" />
       <path d="M4 16.5L12 21l8-4.5" />
+    </svg>
+  );
+}
+
+export function IconHistory(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 12a9 9 0 109-9 9 9 0 00-7.4 3.9" />
+      <path d="M3 3v5h5" />
+      <path d="M12 7.5V12l3.2 2" />
     </svg>
   );
 }
