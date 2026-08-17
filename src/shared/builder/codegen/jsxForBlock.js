@@ -1,5 +1,6 @@
 import { jsStringLiteral } from './bindings';
 import { CONTENT_ICONS } from '../contentIcons';
+import { LOGO_VARIANTS } from '../logoVariants';
 
 // Bağlı block → optional-chain ifadesi (bindingRegistry.resolve zaten
 // döner), bağlı DEĞİLSE → block.content'teki düz değer, JSON.stringify ile
@@ -33,8 +34,14 @@ export function jsxForBlock(block, className, bindingRegistry) {
     return `      <button type="button" className={styles.${className}}>${label}</button>`;
   }
   if (block.componentType === 'LOGO') {
-    bindingRegistry.registerStaticImport('FandoomLogo', 'components/FandoomLogo/FandoomLogo');
-    const logo = '<FandoomLogo showTagline={false} />';
+    const variant = LOGO_VARIANTS[block.content?.variant];
+    let logo;
+    if (variant) {
+      logo = `<img src="${variant.src}" alt="${variant.alt}" />`;
+    } else {
+      bindingRegistry.registerStaticImport('FandoomLogo', 'components/FandoomLogo/FandoomLogo');
+      logo = '<FandoomLogo showTagline={false} />';
+    }
     const to = block.content?.to;
     if (to) {
       bindingRegistry.registerStaticImport('Link', 'react-router-dom');

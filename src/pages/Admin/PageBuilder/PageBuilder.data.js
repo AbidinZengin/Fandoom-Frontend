@@ -1,3 +1,5 @@
+import { LOGO_PRESET_VARIANTS } from '../../../shared/builder/logoVariants';
+
 // Floating Toolbar'daki 5 gerçek bileşen (Pointer hariç — o bir araç,
 // blok değil). heroBlockRenderers.jsx'teki BLOCK_RENDERERS deseninin
 // bu sayfaya özel karşılığı — gerçek registerComponent() çağrıları JSX
@@ -258,6 +260,50 @@ export const VISUAL_TRANSFORM_CONTROLS = [
   },
   { key: 'filter', label: 'Filter (gelişmiş)', type: 'text', default: '', presets: FILTER_PRESETS },
   { key: 'cursor', label: 'Cursor', type: 'text', default: '', presets: CURSOR_PRESETS },
+];
+
+// TOOLS'un YANINDA ikinci, opsiyonel bir katman: aynı componentType için
+// hazır içerik+stil demeti sunan "preset varyant"lar — LeftPanel'in
+// Components grid'inde ilgili aracın hemen ALTINDA kendi satırı olarak
+// render edilir (bkz. LeftPanel.jsx), tıklanınca activeTool YİNE o
+// componentType olur ama yerleştirilen blok TOOLS'un registry default'u
+// yerine buradaki content/styles ile doğar (bkz. usePlacement.js
+// activePreset). Yeni bir componentType/registry kaydı İCAT ETMEZ — sadece
+// aynı BUTTON/LOGO/ICON motorunun farklı bir başlangıç durumu.
+//
+// İlk kayıt: BreakingBad Hero'daki "Watch Trailer" glassmorfik butonunun
+// birebir kopyası (bkz. Hero.module.css .hero__trailer) — learned-rules
+// kuralı (2026-08, "bundan sonra eklenen her buton glassmorfik") burada
+// da BUTTON preset'inin YENİ varsayılan görünümü. ::before ile çizilen
+// gradient-halka kenarlık (mask-composite) bu motorda YOK — düz
+// borderColor/borderWidth'e sadeleştirildi, tek fark bu (ince ayrım,
+// pixel-perfect değil).
+export const PRESET_VARIANTS = [
+  {
+    componentType: 'BUTTON',
+    key: 'buttonGlassTrailer',
+    label: 'Watch Trailer',
+    content: { text: '▶  Watch Trailer', to: '' },
+    styles: {
+      color: '#ffffff',
+      fontSize: 'var(--text-sm)',
+      fontWeight: '600',
+      textAlign: 'center',
+      background: 'linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%)',
+      borderRadius: 'var(--radius-pill)',
+      borderColor: 'rgba(255,255,255,0.4)',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      padding: 'var(--space-sm) var(--space-lg)',
+      boxShadow: 'inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4)',
+      backdropFilter: 'blur(20px) saturate(200%) brightness(1.15)',
+    },
+  },
+  // LOGO'nun düz aracı FandoomLogo verir (registry default'u) — yapım-özel
+  // logo tile'ları artık src/assets/logos/'taki dosyalardan OTOMATİK
+  // türetilir (bkz. shared/builder/logoVariants.js LOGO_PRESET_VARIANTS).
+  // Yeni bir logo eklemek bu diziye elle satır eklemeyi GEREKTİRMEZ.
+  ...LOGO_PRESET_VARIANTS,
 ];
 
 // EFEKTLER sekmesi (z-index/gölge/padding/opacity/...) her tipte AYNI —

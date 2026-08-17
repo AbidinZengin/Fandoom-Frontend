@@ -1,6 +1,15 @@
 import { fetchBlogById, createBlog, updateBlog } from '../api/blogs';
-import { fetchProductionById, fetchEpisodeDetail, createProduction, updateProduction, updateEpisode } from '../api/productions';
+import {
+  fetchProductionById,
+  fetchSeasonDetail,
+  fetchEpisodeDetail,
+  createProduction,
+  updateProduction,
+  updateSeason,
+  updateEpisode,
+} from '../api/productions';
 import { fetchCharacterById, createCharacter, updateCharacter } from '../api/characters';
+import { resolveGenreNames } from '../api/genres';
 import {
   fetchLoreCategory,
   fetchLoreLocation,
@@ -55,6 +64,22 @@ const productionTextFields = [
   'updatedAt',
 ];
 const productionImageFields = ['posterUrl', 'coverImageUrl'];
+
+// genreIds[] dizi olduğu için (yukarıdaki not) bindable değil — ama sadece
+// GÖSTERİM amaçlı, categoryName/locationName ile aynı desende türetilmiş
+// salt-okunur bir text alanı olarak sunulabilir. Filtreleme ihtiyacı ayrı
+// (backend tarafında ele alınacak, kullanıcı kararı 2026-08-16) — bu alan
+// PageBuilder'da genre'yi bir text block'a bağlayıp GÖSTERMEK için.
+async function withGenreNames(data) {
+  if (!data) return data;
+  let genreNames = [];
+  try {
+    genreNames = await resolveGenreNames(data.genreIds);
+  } catch {
+    genreNames = [];
+  }
+  return { ...data, genreNames: genreNames.join(' · ') };
+}
 
 export const ENTITY_SCHEMAS = {
   blog: {
@@ -118,27 +143,47 @@ export const ENTITY_SCHEMAS = {
   series: {
     label: 'Series',
     idLabel: 'Series ID',
-    fetch: (id) => fetchProductionById('series', id),
-    put: (id, fields) => updateProduction('series', id, fields),
+    fetch: (id) => fetchProductionById('series', id).then(withGenreNames),
+    // put de aynı şekilde sarmalanır — yoksa backend'in PUT yanıtı genreNames'i
+    // hiç içermediği için, aynı oturumda başka bir alan kaydedildiğinde cache'teki
+    // türetilmiş genre metni sessizce kaybolur (updateEntityCache ham yanıtı yazar).
+    put: (id, fields) => updateProduction('series', id, fields).then(withGenreNames),
     post: (fields) => createProduction('series', fields),
     createFields: ['title'],
-    nonWritableFields: ['slug'],
+    // genreNames türetilmiş/salt-okunur (bkz. withGenreNames yorumu) — PUT
+    // gövdesine yazılmaz, gerçek yazılabilir alan genreIds (henüz bindable değil).
+    nonWritableFields: ['slug', 'genreNames'],
     fields: {
-      ...textFields(...productionTextFields, 'firstAirDate', 'lastAirDate', 'status'),
+      ...textFields(...productionTextFields, 'firstAirDate', 'lastAirDate', 'status', 'genreNames'),
       ...imageFields(...productionImageFields),
     },
   },
   movie: {
     label: 'Movie',
     idLabel: 'Movie ID',
-    fetch: (id) => fetchProductionById('movie', id),
-    put: (id, fields) => updateProduction('movie', id, fields),
+    fetch: (id) => fetchProductionById('movie', id).then(withGenreNames),
+    put: (id, fields) => updateProduction('movie', id, fields).then(withGenreNames),
     post: (fields) => createProduction('movie', fields),
     createFields: ['title'],
-    nonWritableFields: ['slug'],
+    nonWritableFields: ['slug', 'genreNames'],
     fields: {
-      ...textFields(...productionTextFields, 'releaseDate', 'runtimeMinutes'),
+      ...textFields(...productionTextFields, 'releaseDate', 'runtimeMinutes', 'genreNames'),
       ...imageFields(...productionImageFields),
+    },
+  },
+  season: {
+    label: 'Season',
+    idLabel: 'Season ID',
+    fetch: (id) => fetchSeasonDetail(id),
+    // put: PUT /api/seasons/:id — GoT sezon posterlerini yazan
+    // fetch-season-posters.mjs script'iyle canlı doğrulandı.
+    put: (id, fields) => updateSeason(id, fields),
+    // post YOK — season bir series'e nested (muhtemelen POST
+    // /series/{id}/seasons), create path'i canlı doğrulanmadı (bkz. episode'daki
+    // aynı gerekçe) — "Yeni Kayıt Oluştur" akışı season'ı kapsamıyor.
+    fields: {
+      ...textFields('seasonNumber', 'title', 'titleTr', 'airDate'),
+      ...imageFields('posterUrl'),
     },
   },
   episode: {

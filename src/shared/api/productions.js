@@ -43,6 +43,14 @@ export async function fetchSeasonDetail(seasonId) {
   return apiClient.get(`/seasons/${seasonId}`);
 }
 
+// PUT /api/seasons/:id — scripts/fetch-season-posters.mjs'in kullandığı,
+// canlı doğrulanmış uç nokta (PageBuilder Data sekmesi için entitySchemas.js
+// 'season' girdisinde de kullanılır). POST/create YOK — bkz. updateEpisode
+// yorumu, aynı gerekçe (season da series'e nested, create path doğrulanmadı).
+export async function updateSeason(id, fields) {
+  return apiClient.put(`/seasons/${id}`, fields);
+}
+
 // GET /api/episodes/:id — sezon detayındaki episodes[] öğesinin id'si (bkz.
 // fetchSeasonDetail). content: { ..., storyKicker, storyTitle, storyThesis,
 // episodeBlocks: [{ id, orderIndex, blockType, sceneKey, tone, pinned,

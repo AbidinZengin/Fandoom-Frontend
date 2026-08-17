@@ -4,6 +4,7 @@ import { TextBlockField } from '../BlogEditor/BlockList/BlockItem/TextBlockField
 import { SHAPE_CONTROLS, TEXT_CONTROLS, VISUAL_TRANSFORM_CONTROLS, FILTER_PRESETS, CURSOR_PRESETS, resolveEffectiveStyle } from './PageBuilder.data';
 import { FandoomLogo } from '../../../components/FandoomLogo/FandoomLogo';
 import { CONTENT_ICONS } from '../../../shared/builder/contentIcons';
+import { LOGO_VARIANTS } from '../../../shared/builder/logoVariants';
 import styles from './Canvas/Canvas.module.css';
 
 // registry.js'in `component` sözleşmesi burada tanımlanır (motor bu
@@ -168,6 +169,11 @@ function ImageRenderer({ block, breakpoint, mode, onPatchContent, onCommit }) {
 // CSS `scale` (VISUAL_TRANSFORM_CONTROLS'teki Scale kontrolü) ile yapılır.
 function LogoRenderer({ block, breakpoint, mode }) {
   const s = resolveEffectiveStyle(block, breakpoint, mode);
+  // 'fandoom' (ya da hiç seçilmemiş) → gerçek FandoomLogo component'i (kendi
+  // iç zoom mantığı var, bkz. yukarıdaki yorum). Diğer varyantlar (got/
+  // breaking-bad) LOGO_VARIANTS'taki düz statik görsel — IMAGE block'la
+  // aynı basitlikte, kendi iç layout mantığı yok.
+  const variant = LOGO_VARIANTS[block.content?.variant];
   return (
     <div
       className={styles.logoWrap}
@@ -179,7 +185,7 @@ function LogoRenderer({ block, breakpoint, mode }) {
         ...composeEffectStyle(s),
       }}
     >
-      <FandoomLogo showTagline={false} />
+      {variant ? <img className={styles.logoImg} src={variant.src} alt={variant.alt} /> : <FandoomLogo showTagline={false} />}
     </div>
   );
 }
@@ -354,7 +360,7 @@ export function registerPageBuilderComponents() {
   registerComponent('LOGO', {
     name: 'Logo',
     component: LogoRenderer,
-    defaultContent: { to: '/' },
+    defaultContent: { to: '/', variant: 'fandoom' },
     defaultStyles: {},
     controls: VISUAL_TRANSFORM_CONTROLS,
   });

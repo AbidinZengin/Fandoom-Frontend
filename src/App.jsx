@@ -7,6 +7,7 @@ import News from './pages/News/News';
 import Community from './pages/Community/Community';
 import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
 import BreakingBad from './pages/series/BreakingBad/BreakingBad';
+import SeasonMenu from './pages/series/BreakingBad/SeasonMenu/SeasonMenu';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
 import EpisodePage from './pages/series/GameOfThrones/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
@@ -129,6 +130,7 @@ function App() {
           <Route path="/series/game-of-thrones/westeros" element={<WesterosMap />} />
           <Route path="/series/game-of-thrones/history" element={<History />} />
           <Route path="/series/breaking-bad" element={<BreakingBad />} />
+          <Route path="/series/breaking-bad/seasons" element={<SeasonMenu />} />
           <Route path="/series/:slug" element={<ProductionDetail type="series" />} />
           <Route path="/series" element={<Placeholder title="Series" />} />
           <Route path="/movies/:slug" element={<ProductionDetail type="movie" />} />

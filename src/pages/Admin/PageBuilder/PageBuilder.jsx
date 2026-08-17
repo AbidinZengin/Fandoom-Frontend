@@ -66,6 +66,20 @@ function PageBuilderInner() {
   // tuşu bu dosyadaki global keydown'da ele alınıyor (aşağıda).
   const [referenceSelected, setReferenceSelected] = useState(false);
   const [activeTool, setActiveTool] = useState(null);
+  // PRESET_VARIANTS'tan seçilen varyant (bkz. PageBuilder.data.js) — sadece
+  // LeftPanel'in preset tile'larından set edilir, düz araç seçiminde
+  // (LeftPanel components grid, FloatingToolbar, klavye kısayolları) her
+  // zaman temizlenir ki bir sonraki düz TEXT/BUTTON vb. eski preset'in
+  // içerik/stilini MİRAS ALMASIN.
+  const [activePreset, setActivePreset] = useState(null);
+  const handleSelectTool = (componentType) => {
+    setActiveTool(componentType);
+    setActivePreset(null);
+  };
+  const handleSelectPreset = (preset) => {
+    setActiveTool(preset.componentType);
+    setActivePreset(preset);
+  };
   const [justSaved, setJustSaved] = useState(false);
   // Çoklu seçim (marquee/shift+tık) — store'un tekil selectedId'sinden AYRI
   // tutulur: ContextPanel'in tek-blok özellik paneli çoklu seçimde anlamsız
@@ -197,6 +211,7 @@ function PageBuilderInner() {
   const handleAddBlock = (block) => {
     addBlock(block);
     setActiveTool(null);
+    setActivePreset(null);
   };
 
   const handleSave = async () => {
@@ -237,7 +252,9 @@ function PageBuilderInner() {
       <div className={styles.pageBuilder__body}>
         <LeftPanel
           activeTool={activeTool}
-          onSelectTool={setActiveTool}
+          onSelectTool={handleSelectTool}
+          activePreset={activePreset}
+          onSelectPreset={handleSelectPreset}
           blocks={orderedBlocks}
           selectedId={selectedId}
           onSelectBlock={handleSelectBlock}
@@ -262,6 +279,7 @@ function PageBuilderInner() {
             breakpoint={breakpoint}
             styleMode={styleMode}
             activeTool={activeTool}
+            activePreset={activePreset}
             onAddBlock={handleAddBlock}
             updateBlock={updateBlock}
             onPatchStyle={patchStyle}
@@ -275,7 +293,7 @@ function PageBuilderInner() {
         )}
       </div>
 
-      <FloatingToolbar activeTool={activeTool} onSelectTool={setActiveTool} />
+      <FloatingToolbar activeTool={activeTool} onSelectTool={handleSelectTool} />
 
       {selectedBlock && (
         <ContextPanel

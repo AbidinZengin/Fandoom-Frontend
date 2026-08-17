@@ -12,7 +12,7 @@ import { DRAG_THRESHOLD_PX, DEFAULT_PREVIEW_WIDTH, DEFAULT_PREVIEW_HEIGHT } from
 // pointerdown'ın diğer dalı), (3) LeftPanel'in Data paletinden bir
 // {tip.alan} değişkenini sürükle-bırak (handleCanvasDragOver/Drop). VAR
 // OLAN block'ları taşıma/boyutlandırma useBlockGestures'ın işi.
-export function usePlacement({ activeTool, canvasRef, blocks, breakpoint, onAddBlock, onSelectMany, onSelectBlock, onSelectReference, updateBlock }) {
+export function usePlacement({ activeTool, activePreset, canvasRef, blocks, breakpoint, onAddBlock, onSelectMany, onSelectBlock, onSelectReference, updateBlock }) {
   const [drawRect, setDrawRect] = useState(null);
   // Boş alanda sürükleyerek çoklu seçim (lasso/marquee) — bkz. startMarquee.
   const [marquee, setMarquee] = useState(null);
@@ -121,7 +121,14 @@ export function usePlacement({ activeTool, canvasRef, blocks, breakpoint, onAddB
     trackPointerGesture(onMove, () => {
       setDrawRect(null);
       const definition = getComponentDefinition(activeTool);
-      const block = createEmptyBlock(activeTool, { x: startXPct, y: startYPct }, definition);
+      // PRESET_VARIANTS'tan seçilmişse (bkz. LeftPanel preset tile'ları)
+      // registry'nin defaultContent/defaultStyles'ı YERİNE preset'in kendi
+      // demeti kullanılır — componentType/renderer/controls AYNI kalır,
+      // sadece blok bu hazır içerik/stille doğar.
+      const effectiveDefinition = activePreset
+        ? { ...definition, defaultContent: activePreset.content, defaultStyles: activePreset.styles }
+        : definition;
+      const block = createEmptyBlock(activeTool, { x: startXPct, y: startYPct }, effectiveDefinition);
       // TEXT sürüklenmeden (düz tık) yerleştirilince içeriğe göre otomatik
       // büyümesi için h:null kalır. Diğer tipler (Rectangle/Diamond/Circle/
       // Image) için null bırakmak, önizlemede görünen kutudan farklı

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
+
 // OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
 // kararıyla route'tan kaldırıldı (2026-08) — yeni Hero PageBuilder'ın
 // "Kodu Üret" çıktısı, kendi verisini kendi çeker (bkz. Hero/Hero.jsx).

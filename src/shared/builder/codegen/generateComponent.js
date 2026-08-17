@@ -72,6 +72,9 @@ function renderCss({ canvasWidths, canvasHeights, cssRules }) {
   position: relative;
   width: 100%;
   aspect-ratio: ${canvasWidths.base} / ${canvasHeights.base};
+  /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
+     cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
+  container-type: inline-size;
 }
 
 ${cssRules.join('\n\n')}

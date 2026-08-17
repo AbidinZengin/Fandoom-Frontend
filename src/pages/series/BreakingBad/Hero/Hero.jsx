@@ -27,6 +27,7 @@ export default function Hero() {
       <p className={styles.textBlock1}>{series5?.genreNames}</p>
       <Link to="/series/breaking-bad" className={styles.logoBlock1}><img src="/src/assets/logos/breaking-bad.svg" alt="Breaking Bad" /></Link>
       <Link to="https://www.youtube.com/watch?v=HhesaQXLuRY" className={styles.buttonBlock1}>{"▶  Watch Trailer"}</Link>
+      <Link to="/series/breaking-bad/seasons" className={styles.buttonBlock2}>{"Seasons"}</Link>
       <p className={styles.textBlock2}>{series5?.synopsis}</p>
       <div className={styles.logoBlock2}><img src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" /></div>
       <p className={styles.textBlock3}>{series5?.externalRating}</p>

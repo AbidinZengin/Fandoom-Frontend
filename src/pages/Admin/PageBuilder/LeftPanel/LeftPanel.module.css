@@ -40,6 +40,7 @@
 }
 
 .leftPanel__wide {
+  position: relative;
   width: 220px;
   display: flex;
   flex-direction: column;
@@ -55,23 +56,28 @@
   color: var(--fg-muted);
 }
 
-.leftPanel__componentGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-xs);
+/* Kullanıcı düzeltmesi: "toollar dikey tek sıra olsun" — 2 kolonlu grid'ten
+   tek kolonlu listeye (referans: Figma/Excalidraw'un dar sol araç
+   listesi). Preset'i olan araçlar artık kendi altında DEĞİL, tıklanınca
+   sağda açılan flyout'ta gösterilir (bkz. leftPanel__presetFlyout). */
+.leftPanel__componentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
 }
 
 .leftPanel__componentButton {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: var(--space-2xs);
-  padding: var(--space-sm) var(--space-2xs);
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--bg-soft);
   color: var(--fg-muted);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
+  text-align: left;
   cursor: pointer;
 }
 
@@ -84,6 +90,72 @@
   border-color: var(--pb-accent, var(--brand-red));
   background: color-mix(in srgb, var(--pb-accent, var(--brand-red)) 18%, transparent);
   color: #fff;
+}
+
+.leftPanel__componentButtonChevron {
+  margin-left: auto;
+  color: var(--fg-faint);
+}
+
+/* Preset flyout — bir aracın (ör. Button/Logo) SAĞINDA açılan yüzen panel
+   (kullanıcı isteği: "butona bastığımda sağında yeni bir bar açılsın").
+   leftPanel__wide'a göre absolute (bkz. o class'taki position:relative),
+   Canvas'ın üstüne biner. */
+.leftPanel__presetFlyout {
+  position: absolute;
+  left: 100%;
+  top: var(--space-sm);
+  margin-left: var(--space-xs);
+  width: 180px;
+  max-height: calc(100% - var(--space-lg));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border: 1px solid var(--pb-border);
+  border-radius: var(--radius-md);
+  background: var(--pb-surface);
+  box-shadow: var(--pb-shadow);
+  z-index: 30;
+}
+
+/* PRESET_VARIANTS tile'ı — flyout içindeki her satır. `style={preset.styles}`
+   inline olarak basılır (BUTTON gibi stil-önizlemeli preset'lerde) — bu
+   class SADECE yerleşim/boyut verir, görsel (background/border/shadow)
+   preset'in KENDİ değerlerinden gelir ki küçük önizleme canvas'taki gerçek
+   görünümle BİREBİR aynı olsun (ayrı bir "thumbnail" çizimi değil). */
+.leftPanel__presetTile {
+  min-height: 40px;
+  padding: var(--space-xs) var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  font-family: inherit;
+  font-size: var(--text-2xs);
+  color: var(--fg-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Görsel-önizlemeli preset'ler (LOGO varyantları) — logo asset'i genelde
+   şeffaf zeminli, panel arka planına karşı okunaklı kalsın diye tile'ın
+   KENDİ nötr zemini korunur (BUTTON gibi stil-önizlemeli preset'lerde bu
+   zemin inline style'la ezilir). */
+.leftPanel__presetImg {
+  max-width: 100%;
+  max-height: 28px;
+  object-fit: contain;
+}
+
+.leftPanel__presetTile[data-active] {
+  outline: 2px solid var(--pb-accent, var(--brand-red));
+  outline-offset: 2px;
 }
 
 .leftPanel__empty {

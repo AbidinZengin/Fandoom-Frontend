@@ -29,6 +29,7 @@ export function Canvas({
   breakpoint,
   styleMode,
   activeTool,
+  activePreset,
   onAddBlock,
   updateBlock,
   onPatchStyle,
@@ -79,6 +80,7 @@ export function Canvas({
 
   const { drawRect, marquee, visibleBlocks, handleCanvasPointerDown, handleWrapPointerDown, handleCanvasDragOver, handleCanvasDrop } = usePlacement({
     activeTool,
+    activePreset,
     canvasRef,
     blocks,
     breakpoint,

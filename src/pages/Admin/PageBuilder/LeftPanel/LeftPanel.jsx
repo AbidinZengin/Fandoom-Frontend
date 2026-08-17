@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TOOLS } from '../PageBuilder.data';
+import { TOOLS, PRESET_VARIANTS } from '../PageBuilder.data';
 import { EntityPicker } from '../../../../shared/builder/EntityPicker/EntityPicker';
 import { CodegenPanel } from './CodegenPanel/CodegenPanel';
 import { WritebackHistoryPanel } from './WritebackHistoryPanel/WritebackHistoryPanel';
@@ -42,6 +42,8 @@ const TOOL_ICONS = {
 export function LeftPanel({
   activeTool,
   onSelectTool,
+  activePreset,
+  onSelectPreset,
   blocks,
   selectedId,
   onSelectBlock,
@@ -56,8 +58,27 @@ export function LeftPanel({
 }) {
   const [panelTab, setPanelTab] = useState('layers');
   const [dragIndex, setDragIndex] = useState(null);
+  // Hangi aracın preset flyout'u açık — SADECE bu panelin lokal UI durumu
+  // (PageBuilder.jsx'e taşınmaz, activeTool/activePreset'ten AYRI: flyout
+  // açık/kapalı olması hangi preset'in SEÇİLİ olduğunu etkilemez).
+  const [presetFlyoutFor, setPresetFlyoutFor] = useState(null);
 
   const toggleTab = (tab) => setPanelTab((current) => (current === tab ? null : tab));
+
+  // Kullanıcı isteği: "butona bastığımda sağında yeni bir bar açılsın orada
+  // butonlar/logolar gözüksün" — aracı SEÇMEK (düz varsayılanla yerleştirme
+  // hâlâ mümkün) ile preset varyantlarını GÖSTERMEK aynı tıkla olur; preset'i
+  // olmayan bir araca tıklamak flyout'u kapatır.
+  const handleToolClick = (componentType) => {
+    onSelectTool(componentType);
+    const hasPresets = PRESET_VARIANTS.some((p) => p.componentType === componentType);
+    setPresetFlyoutFor(hasPresets ? componentType : null);
+  };
+
+  const handlePresetClick = (preset) => {
+    onSelectPreset(preset);
+    setPresetFlyoutFor(null);
+  };
 
   const handleDrop = (targetIndex) => {
     if (dragIndex === null || dragIndex === targetIndex) return;
@@ -93,23 +114,48 @@ export function LeftPanel({
           {panelTab === 'components' && (
             <>
               <span className={styles.leftPanel__wideHead}>Components</span>
-              <div className={styles.leftPanel__componentGrid}>
+              <div className={styles.leftPanel__componentList}>
                 {TOOLS.filter((t) => t.componentType).map((tool) => {
                   const Icon = TOOL_ICONS[tool.componentType];
+                  const hasPresets = PRESET_VARIANTS.some((p) => p.componentType === tool.componentType);
                   return (
                     <button
                       key={tool.componentType}
                       type="button"
                       className={styles.leftPanel__componentButton}
-                      data-active={activeTool === tool.componentType || undefined}
-                      onClick={() => onSelectTool(tool.componentType)}
+                      data-active={(activeTool === tool.componentType && !activePreset) || undefined}
+                      onClick={() => handleToolClick(tool.componentType)}
                     >
                       <Icon />
                       <span>{tool.label}</span>
+                      {hasPresets && <span className={styles.leftPanel__componentButtonChevron}>›</span>}
                     </button>
                   );
                 })}
               </div>
+
+              {presetFlyoutFor && (
+                <div className={styles.leftPanel__presetFlyout}>
+                  <span className={styles.leftPanel__wideHead}>{TOOLS.find((t) => t.componentType === presetFlyoutFor)?.label} presetleri</span>
+                  {PRESET_VARIANTS.filter((p) => p.componentType === presetFlyoutFor).map((preset) => (
+                    <button
+                      key={preset.key}
+                      type="button"
+                      className={styles.leftPanel__presetTile}
+                      data-active={activePreset?.key === preset.key || undefined}
+                      title={preset.label}
+                      onClick={() => handlePresetClick(preset)}
+                      style={preset.previewImage ? undefined : preset.styles}
+                    >
+                      {preset.previewImage ? (
+                        <img src={preset.previewImage} alt={preset.label} className={styles.leftPanel__presetImg} />
+                      ) : (
+                        preset.content?.text ?? preset.label
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </>
           )}
 

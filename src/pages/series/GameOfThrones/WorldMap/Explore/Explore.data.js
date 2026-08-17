@@ -21,7 +21,7 @@ export function fetchExploreBlogs() {
 // alt köşeye yaslı metin" dilinin küçük bir varyantı.
 export const EXPLORE_INTRO = {
   banner: '/got/throne.webp',
-  logo: '/got/logo.webp',
+  logo: '/logos/got.webp',
   description:
     "Yedi Krallık'ın sekiz bin yıllık tarihinden büyük hanelerin kadim mottolarına, dizinin sezon sezon kronolojisinden Demir Taht'ın etrafında dönen efsanevi eşyalara kadar — Westeros'u tek bir sayfada, kendi hızınızda keşfedin. İlk İnsanlar'dan Aegon'un Fethi'ne, Kral Katili'nden son Kışa, Stark'ın kurdundan Targaryen'in ejderine kadar bu kıtanın anlattığı her hikâye burada bir araya geliyor — ister sırayla okuyun, ister aklınıza takılan haneden başlayın.",
 };
