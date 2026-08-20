@@ -1,0 +1,18 @@
+.notfound {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notfound__title {
+  font-size: var(--text-h1);
+  color: var(--fg-muted);
+  font-weight: 700;
+}
+
+.list {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+}

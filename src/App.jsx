@@ -7,9 +7,11 @@ import News from './pages/News/News';
 import Community from './pages/Community/Community';
 import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
 import BreakingBad from './pages/series/BreakingBad/BreakingBad';
-import SeasonMenu from './pages/series/BreakingBad/SeasonMenu/SeasonMenu';
+import SeasonDetail from './pages/series/BreakingBad/SeasonDetail/SeasonDetail';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
+import BreakingBadSeasonEpisodes from './pages/series/BreakingBad/SeasonEpisodes/SeasonEpisodes';
 import EpisodePage from './pages/series/GameOfThrones/EpisodePage/EpisodePage';
+import BreakingBadEpisodePage from './pages/series/BreakingBad/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
 import WesterosMap from './pages/series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/series/GameOfThrones/History/History';
@@ -32,7 +34,6 @@ import {
   isInPageNavArmed,
   isBlogFlipArmed,
   isBlogReturnArmed,
-  isHeroFlipArmed,
 } from './motion/cinematic';
 
 // Route değişiminde: sayfa anında en üste döner (useLayoutEffect — eski scroll
@@ -64,13 +65,7 @@ function PageTransition({ children }) {
     // yanıp sönme yaratır ve component'in kendi crossfade'iyle çakışır.
     // Blog devri/geri dönüşü kendi klonuyla kesintisiz akar — üstüne bir de
     // sayfa fade'i binerse geçiş "yanıp söner".
-    if (
-      isCinematicArmed() ||
-      isInPageNavArmed() ||
-      isBlogFlipArmed() ||
-      isBlogReturnArmed() ||
-      isHeroFlipArmed()
-    ) {
+    if (isCinematicArmed() || isInPageNavArmed() || isBlogFlipArmed() || isBlogReturnArmed()) {
       return undefined;
     }
 
@@ -130,7 +125,12 @@ function App() {
           <Route path="/series/game-of-thrones/westeros" element={<WesterosMap />} />
           <Route path="/series/game-of-thrones/history" element={<History />} />
           <Route path="/series/breaking-bad" element={<BreakingBad />} />
-          <Route path="/series/breaking-bad/seasons" element={<SeasonMenu />} />
+          <Route path="/series/breaking-bad/seasons" element={<BreakingBadSeasonEpisodes />} />
+          <Route
+            path="/series/breaking-bad/seasons/:seasonNumber/episodes/:episodeNumber"
+            element={<BreakingBadEpisodePage />}
+          />
+          <Route path="/series/breaking-bad/seasons/:seasonNumber" element={<SeasonDetail />} />
           <Route path="/series/:slug" element={<ProductionDetail type="series" />} />
           <Route path="/series" element={<Placeholder title="Series" />} />
           <Route path="/movies/:slug" element={<ProductionDetail type="movie" />} />

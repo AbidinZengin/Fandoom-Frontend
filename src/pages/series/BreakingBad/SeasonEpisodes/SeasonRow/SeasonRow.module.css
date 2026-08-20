@@ -1,0 +1,251 @@
+.row {
+  border-top: 1px solid var(--border);
+}
+
+.row:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.row__header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+  background: none;
+  border: none;
+  text-align: left;
+  color: inherit;
+  overflow: hidden;
+}
+
+/* Açık sezonda sezonun KENDİ posterinin tint'i belirir (backend'den
+   posterUrl — yoksa bu katman hiç render edilmez, bkz. SeasonRow.jsx). */
+.row__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.row[data-open] .row__backdrop {
+  opacity: 0.22;
+}
+
+.row[data-open] .row__header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, var(--bg) 0%, transparent 60%);
+}
+
+/* Görünür poster thumbnail — dikey 2:3 (learned-rules: katalog satırı
+   oranı), yumuşak radius + glow (kart yüzey karakteri). */
+.row__poster {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 44px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+
+.row__poster[data-loaded] {
+  opacity: 1;
+}
+
+.row__number {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 3ch;
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.row__titleBlock {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.row__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg);
+}
+
+.row__meta {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+.row__chevron {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  font-size: var(--text-md);
+  color: var(--fg-muted);
+  transition: transform var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.row[data-open] .row__chevron {
+  color: var(--accent);
+  transform: rotate(180deg);
+}
+
+/* Yükseklik JS'te (GSAP) animasyonlanır — bkz. SeasonRow.jsx yorumu:
+   accordion reflow'u gerçek height değişimi gerektirir. */
+.row__body {
+  height: 0;
+  overflow: hidden;
+}
+
+.row__bodyInner {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 var(--space-lg);
+}
+
+.row__status {
+  margin: 0;
+  padding: var(--space-md) 0;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.episode {
+  position: relative;
+  display: flex;
+  gap: var(--space-lg);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--border);
+  color: inherit;
+}
+
+.episode:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.episode:first-child {
+  border-top: none;
+}
+
+/* still'i olan bölüm: görsel TAM ARKA PLAN olur (sol thumbnail değil) —
+   kart yumuşak radius + glow alır, üstteki hairline divider'ı bu yüzden
+   kaybeder (kendi kart sınırı var). */
+.episode[data-has-image] {
+  align-items: center;
+  min-height: 150px;
+  padding: var(--space-lg);
+  margin: var(--space-xs) 0;
+  border-top: none;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.episode__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+
+.episode__bg[data-loaded] {
+  opacity: 1;
+}
+
+/* Metin okunabilirliği zorunlu (learned-rules: yoğun görsel üzerine
+   scrim) — düz koyu yıkama, görseli tamamen silmeyecek kadar hafif. */
+.episode__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.episode__number {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 3ch;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.episode__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.episode__title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.episode__synopsis {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--fg-dim);
+}
+
+.episode__meta {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+@media (max-width: 640px) {
+  .row__header {
+    gap: var(--space-md);
+  }
+
+  .row__poster {
+    width: 34px;
+  }
+
+  .row__title {
+    font-size: var(--text-base);
+  }
+
+  .episode {
+    gap: var(--space-md);
+  }
+
+  .episode__poster {
+    width: 72px;
+  }
+}
