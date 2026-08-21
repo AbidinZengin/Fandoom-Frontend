@@ -34,6 +34,8 @@ export function TopBar({
   saving,
   justSaved,
   onSave,
+  justPublished,
+  onPublish,
 }) {
   const accent = productionSlug === 'fandoom' ? 'var(--brand-red)' : (themeBySlug[productionSlug]?.accent ?? 'var(--brand-red)');
 
@@ -112,6 +114,16 @@ export function TopBar({
           <IconRedo width={16} height={16} />
         </button>
 
+        <button
+          type="button"
+          className={styles.topBar__publish}
+          data-published={justPublished || undefined}
+          onClick={onPublish}
+          disabled={saving}
+          title="Taslağı yeni bir build olarak geçmişe ekler — Geçmiş panelinden geri yüklenebilir"
+        >
+          {justPublished ? 'Published ✓' : 'Publish'}
+        </button>
         <button type="button" className={styles.topBar__save} data-saved={justSaved || undefined} onClick={onSave} disabled={saving}>
           {saving ? 'Saving…' : justSaved ? 'Saved ✓' : 'Save'}
         </button>

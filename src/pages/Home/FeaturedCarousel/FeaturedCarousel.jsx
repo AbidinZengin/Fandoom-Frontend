@@ -1,26 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
+import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
-import { armCinematic, armHeroFlip, breakingBadHeroBox } from '../../../motion/cinematic';
+import { armCinematic } from '../../../motion/cinematic';
 import { fetchProductions } from './FeaturedCarousel.data';
 import styles from './FeaturedCarousel.module.css';
 
 // Cinematic geçişi olan hedefler: gerçek hero görseli olan seri sayfaları.
-// (Şimdilik yalnız GoT — desen oturunca diğer sayfalara genişletilecek.)
-const CINEMATIC_SLUGS = new Set(['game-of-thrones']);
+// DÜZELTME (manuel): Breaking Bad'in özel HERO_FLIP mekaniği (büyüyen poster
+// klonu) kaldırıldı — hedef geometrisi eski OldHero kart düzenine göre
+// kuruluydu ve yeni Hero'da klonu temizleyen kod yoktu (ekranda kalıcı siyah
+// perde + poster kalıyordu). Artık GoT ile aynı, kanıtlanmış imza-şerit
+// geçişini kullanıyor.
+const CINEMATIC_SLUGS = new Set(['game-of-thrones', 'breaking-bad']);
 
-// Yeni hover/click deseni (referans video + Dive Deeper flip) — kullanıcı
-// isteği: önce SADECE Breaking Bad'de dene, GoT'un mevcut imza-uzama +
-// imza-şerit davranışı DOKUNULMADAN kalsın. FOCUS_EXPAND (hover: yatay
-// büyüme) ve HERO_FLIP (tık: Dive Deeper tarzı devir) şimdilik aynı slug'ı
-// paylaşıyor ama kavramsal olarak ayrı — ileride farklılaşabilir.
+// FOCUS_EXPAND (hover: yatay büyüme) — kullanıcı isteğiyle SADECE Breaking
+// Bad'de, tıklama davranışından (yukarıdaki CINEMATIC_SLUGS) bağımsız.
 const FOCUS_EXPAND_SLUGS = new Set(['breaking-bad']);
-const HERO_FLIP_SLUGS = new Set(['breaking-bad']);
 
 // posterUrl TMDb'den sabit küçük boyutlu bir transformla gelir (ör.
 // .../t/p/w300_and_h450_face/...) — normal ~168px kart için yeterli ama
-// focus-expand/Hero-flip'te görsel çok daha büyük render edildiği için
-// upscale bulanıklığı çıkıyor (kullanıcı raporu: "kalite aşırı düşüyor").
+// focus-expand'da görsel çok daha büyük render edildiği için upscale
+// bulanıklığı çıkıyor (kullanıcı raporu: "kalite aşırı düşüyor").
 // TMDb URL'sindeki boyut segmenti daha büyük bir varyantla değiştirilir;
 // TMDb dışı asset'lerde (ör. yerel /breaking-bad/...) URL değişmeden döner.
 const higherResPoster = (url, size = 'w1280') =>
@@ -183,87 +184,6 @@ export function FeaturedCarousel({ play }) {
     hoverTween.current = tl;
   };
 
-  // ---- HERO_FLIP: karta tıklama → görsel bulunduğu yerden Hero'nun kadrajına
-  // büyür (RelatedContent.openBlogPost ile birebir mekanik, bkz. cinematic.js).
-  // Klon document.body'de yaşar (React ağacının dışında) — route değişiminde
-  // unmount olmaz, Hero devralıp crossfade ile kaldırır.
-  const pendingFlip = useRef(null);
-  const openingRef = useRef(false);
-
-  useEffect(
-    () => () => {
-      if (pendingFlip.current && !pendingFlip.current.handedOff) {
-        pendingFlip.current.clone.remove();
-        pendingFlip.current.scrim.remove();
-      }
-    },
-    []
-  );
-
-  const openHeroFlip = (linkEl, href) => {
-    if (openingRef.current) return;
-    const img = linkEl.querySelector('img');
-    if (!img) return;
-    openingRef.current = true;
-
-    // KRİTİK: img'in KENDİ rect'i değil, kartın GÖRÜNEN kutusu (linkEl)
-    // kullanılır — bu kartta poster (.featured__card-poster) "görsel sabit"
-    // efekti için position:absolute + sabit 46vw genişlikte (bkz.
-    // FeaturedCarousel.module.css), yani img.getBoundingClientRect() kartın
-    // ÇOĞU görünmeyen, çok daha geniş gerçek boyutunu döner. Onu kullanmak
-    // klonu anında (animasyonsuz) 46vw'a "patlatıp" sonra hedefe küçültüyordu
-    // (kullanıcı raporu: "fazla büyüyüp sonra küçülüyor").
-    const rect = linkEl.getBoundingClientRect();
-    const box = breakingBadHeroBox();
-
-    const handOff = () => {
-      if (pendingFlip.current) pendingFlip.current.handedOff = true;
-      armHeroFlip();
-      navigate(href);
-    };
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      handOff();
-      return;
-    }
-
-    const scrim = document.createElement('div');
-    scrim.dataset.heroFlip = '';
-    scrim.style.cssText =
-      'position:fixed;inset:0;z-index:69;background:#000;opacity:0;pointer-events:none;';
-    document.body.appendChild(scrim);
-
-    const clone = document.createElement('img');
-    clone.dataset.heroFlip = '';
-    clone.src = higherResPoster(img.currentSrc || img.src, 'original');
-    clone.alt = '';
-    clone.style.cssText =
-      `position:fixed;z-index:70;object-fit:cover;pointer-events:none;will-change:top,left,width,height;` +
-      `top:${rect.top}px;left:${rect.left}px;width:${rect.width}px;height:${rect.height}px;` +
-      `border-radius:0px;box-shadow:0 0 50px rgba(0,0,0,0.35);`;
-    document.body.appendChild(clone);
-    pendingFlip.current = { clone, scrim, handedOff: false };
-
-    // learned-rules [motion]: "tempo sinematik yavaştır ~0.8-1.2s" —
-    // kullanıcı raporu ("yavaşça büyüsün") üzerine 0.65s'ten çıkarıldı.
-    gsap
-      .timeline({ onComplete: handOff })
-      .to(
-        clone,
-        {
-          top: box.top,
-          left: box.left,
-          width: box.width,
-          height: box.height,
-          borderRadius: 'var(--radius-md)',
-          duration: 0.9,
-          ease: 'power3.inOut',
-        },
-        0
-      )
-      .to(scrim, { opacity: 1, duration: 0.9, ease: 'power2.inOut' }, 0);
-  };
-
   return (
     <section className={styles.featured} ref={sectionRef}>
       <h2 className={styles.featured__heading} ref={headingRef}>
@@ -288,14 +208,6 @@ export function FeaturedCarousel({ play }) {
               onBlur={FOCUS_EXPAND_SLUGS.has(p.slug) ? onFocusExpandLeave : undefined}
               onClick={(e) => {
                 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-                // HERO_FLIP: Dive Deeper tarzı devir (bkz. openHeroFlip) —
-                // reduced-motion'da Link'in normal navigasyonuna dokunulmaz.
-                if (HERO_FLIP_SLUGS.has(p.slug) && !reduced) {
-                  e.preventDefault();
-                  openHeroFlip(e.currentTarget, href);
-                  return;
-                }
 
                 // Cinematic geçiş (referans: IMDb konsepti) — mevcut sayfa
                 // ~0.3s kararır, sonra route değişir; şerit reveal'ini hedef

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { TOOLS } from '../PageBuilder.data';
-import { IconPointer, IconRectangle, IconDiamond, IconCircle, IconType, IconImage, IconButtonTool, IconLogoTool, IconStarTool } from '../icons';
+import { IconPointer, IconRectangle, IconDiamond, IconCircle, IconType, IconImage, IconButtonTool, IconLogoTool, IconStarTool, IconContainerTool } from '../icons';
 import styles from './FloatingToolbar.module.css';
 
 const TOOL_ICONS = {
@@ -13,6 +13,7 @@ const TOOL_ICONS = {
   ICON: IconStarTool,
   TEXT: IconType,
   IMAGE: IconImage,
+  CONTAINER: IconContainerTool,
 };
 
 // BlockList.jsx/useClipboard.js'teki isTypingTarget()'ın bilinçli kopyası

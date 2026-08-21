@@ -138,6 +138,27 @@
   cursor: default;
 }
 
+.topBar__publish {
+  padding: var(--space-xs) var(--space-lg);
+  border: 1px solid var(--pb-accent, var(--brand-red));
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--pb-accent, var(--brand-red));
+  font-weight: 600;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.topBar__publish:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.topBar__publish[data-published] {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
 .topBar__save {
   padding: var(--space-xs) var(--space-lg);
   border: none;

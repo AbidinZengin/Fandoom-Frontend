@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './EpisodeGrid.module.css';

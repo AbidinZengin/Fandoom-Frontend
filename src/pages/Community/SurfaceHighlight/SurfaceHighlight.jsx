@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import styles from './SurfaceHighlight.module.css';
 

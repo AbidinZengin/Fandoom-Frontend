@@ -1,0 +1,38 @@
+{
+  "navbar": {
+    "series": "Series",
+    "movies": "Movies",
+    "news": "News",
+    "blog": "Blog",
+    "comingSoon": "Coming Soon",
+    "shop": "Shop",
+    "community": "Community",
+    "discussion": "Discussion",
+    "theories": "Theories",
+    "fanArt": "Fan Art",
+    "support": "Support",
+    "searchPlaceholder": "Search titles, theories...",
+    "homeAriaLabel": "Fandoom home",
+    "accountAriaLabel": "Account",
+    "openMenuAriaLabel": "Open menu",
+    "closeMenuAriaLabel": "Close menu"
+  },
+  "footer": {
+    "tagline": "Theories. News. Blogs. Built for fans.",
+    "exploreHeading": "Explore",
+    "moreHeading": "More",
+    "followHeading": "Follow",
+    "rights": "© {{year}} Fandoom. All rights reserved.",
+    "partnerships": "Partnerships & sponsorships: partners@fandoom.tv"
+  },
+  "home": {
+    "heroCta": "Explore",
+    "theoriesKicker": "Community",
+    "theoriesHeading": "Top Theories",
+    "votes": "{{count}} votes",
+    "newsKicker": "Newsroom",
+    "newsHeading": "Latest News",
+    "blogKicker": "Editorial",
+    "blogHeading": "Featured Blog Posts"
+  }
+}

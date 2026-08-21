@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import styles from './Footer.module.css';
 
 export function Footer() {
   const footerRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -35,27 +37,27 @@ export function Footer() {
       <div className={styles.footer__top}>
         <div>
           <span className={styles.footer__wordmark}>FANDOOM</span>
-          <p className={styles.footer__tagline}>Theories. News. Blogs. Built for fans.</p>
+          <p className={styles.footer__tagline}>{t('footer.tagline')}</p>
         </div>
 
         <div className={styles.footer__col}>
-          <h4>Explore</h4>
-          <Link to="/series">Series</Link>
-          <Link to="/movies">Movies</Link>
-          <Link to="/news">News</Link>
-          <Link to="/blog">Blog</Link>
+          <h4>{t('footer.exploreHeading')}</h4>
+          <Link to="/series">{t('navbar.series')}</Link>
+          <Link to="/movies">{t('navbar.movies')}</Link>
+          <Link to="/news">{t('navbar.news')}</Link>
+          <Link to="/blog">{t('navbar.blog')}</Link>
         </div>
 
         <div className={styles.footer__col}>
-          <h4>More</h4>
-          <Link to="/community">Community</Link>
-          <Link to="/support">Support</Link>
-          <Link to="/coming-soon">Coming Soon</Link>
-          <Link to="/shop">Shop</Link>
+          <h4>{t('footer.moreHeading')}</h4>
+          <Link to="/community">{t('navbar.community')}</Link>
+          <Link to="/support">{t('navbar.support')}</Link>
+          <Link to="/coming-soon">{t('navbar.comingSoon')}</Link>
+          <Link to="/shop">{t('navbar.shop')}</Link>
         </div>
 
         <div className={styles.footer__col}>
-          <h4>Follow</h4>
+          <h4>{t('footer.followHeading')}</h4>
           <a href="#" rel="noreferrer">Instagram</a>
           <a href="#" rel="noreferrer">X / Twitter</a>
           <a href="#" rel="noreferrer">TikTok</a>
@@ -63,8 +65,8 @@ export function Footer() {
       </div>
 
       <div className={styles.footer__bottom}>
-        <p>&copy; {new Date().getFullYear()} Fandoom. All rights reserved.</p>
-        <p>Partnerships &amp; sponsorships: partners@fandoom.tv</p>
+        <p>{t('footer.rights', { year: new Date().getFullYear() })}</p>
+        <p>{t('footer.partnerships')}</p>
       </div>
     </footer>
   );

@@ -29,6 +29,7 @@ function formatRelativeTime(ts) {
 // içeriğini de senkronlar (bkz. entityWriteback.js revertWritebackEntry).
 export function WritebackHistoryPanel({ blocks, onRestoreBlockContent }) {
   const entries = useWritebackHistoryStore((s) => s.entries);
+  const clearAll = useWritebackHistoryStore((s) => s.clearAll);
   const [revertingId, setRevertingId] = useState(null);
   const [errorId, setErrorId] = useState(null);
 
@@ -56,14 +57,19 @@ export function WritebackHistoryPanel({ blocks, onRestoreBlockContent }) {
   if (entries.length === 0) {
     return (
       <div className={styles.panel}>
-        <p className={styles.hint}>Bu oturumda henüz "Backend'e Kaydet" ile yapılmış bir değişiklik yok.</p>
+        <p className={styles.hint}>Henüz "Backend'e Kaydet" ile yapılmış bir değişiklik yok.</p>
       </div>
     );
   }
 
   return (
     <div className={styles.panel}>
-      <p className={styles.hint}>Sadece bu oturum için — sayfa yenilenince liste kaybolur.</p>
+      <div className={styles.headRow}>
+        <p className={styles.hint}>Bu tarayıcıda kalıcı — farklı cihaz/tarayıcıda görünmez.</p>
+        <button type="button" className={styles.clearButton} onClick={clearAll}>
+          Temizle
+        </button>
+      </div>
       <ul className={styles.list}>
         {entries.map((entry) => (
           <li key={entry.id} className={styles.entry} data-status={entry.status}>

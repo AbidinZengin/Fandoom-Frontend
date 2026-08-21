@@ -1,5 +1,6 @@
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useLocalizedNavigate as useNavigate } from '../../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
 import { Footer } from '../../../../components/Footer/Footer';
 import { RelatedContent } from '../../../../components/RelatedContent/RelatedContent';

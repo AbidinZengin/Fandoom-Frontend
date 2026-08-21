@@ -34,11 +34,25 @@ function emptyStyleMatrix() {
 // `definition` registry.js'teki getComponentDefinition() sonucu — kayıtlı
 // olmayan bir componentType için de (registry boş/tanımsız) çalışır, motor
 // registry'nin doluluğuna bağımlı değildir.
+//
+// Nested/auto-layout bloklar (2026-08-18, bkz.
+// docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md): her blok artık
+// `parentId` taşır (null = sayfa/container kökünde, flat map + pointer
+// deseni — gerçek bir ağaç yapısına GEÇİLMEDİ, `blocks[id]` lookup'ları
+// bozulmasın diye). CONTAINER tipi ayrıca `childOrder` (kendi `blockOrder`
+// karşılığı) ve `flow` (direction/gap/padding/align/justify) taşır — `h`
+// HER ZAMAN null kalır, container her zaman içeriğini sarar. Her blok
+// (CONTAINER dahil, iç içe container'a girebilir) bir container'a
+// GİRERSE anlam kazanan `sizing` (primary/cross eksen) ve `fixedCross`
+// (px, sadece cross:'fixed' iken) alanlarını da baştan taşır — parentId
+// null iken bu alanlar kullanılmaz, koşullu eklemek yerine hep var olması
+// (ör. cssRules.js'te `block.sizing ?? default` gibi dağınık fallback'ler
+// yerine) daha basit.
 export function createEmptyBlock(componentType, position, definition) {
   const id = makeBlockId();
-  const width = DEFAULT_WIDTH;
+  const width = componentType === 'CONTAINER' ? 60 : DEFAULT_WIDTH;
 
-  return {
+  const block = {
     id,
     componentType,
     layout: {
@@ -51,6 +65,7 @@ export function createEmptyBlock(componentType, position, definition) {
       md: null,
       lg: null,
     },
+    parentId: null,
     content: definition?.defaultContent ? { ...definition.defaultContent } : {},
     // Doldurulduğunda { entityType, entityId, field } — PageBuilder Data
     // sekmesinin backend'e bağladığı block'larda kullanılır (bkz.
@@ -65,7 +80,182 @@ export function createEmptyBlock(componentType, position, definition) {
     // hidden: DOM'dan tamamen çıkar.
     locked: false,
     hidden: false,
+    sizing: { primary: 'hug', cross: 'hug' },
+    fixedCross: null,
+    // Ana eksende de 'fixed' olabilir (px) — bkz. groupBlocksIntoContainer/
+    // reparentBlock: VAR OLAN bir blok container'a girerken kullanıcı
+    // kararı gereği (2026-08-19: "container a koyunca hiçbir boyutu/
+    // layoutu değişmemeli") o anki piksel boyutu buraya donuyor, container
+    // flex akışı görünümü DEĞİŞTİRMEZ. Sadece primary:'fixed' iken okunur.
+    fixedPrimary: null,
+    // Layers panelinde kullanıcının verdiği serbest ad (Figma'daki katman
+    // yeniden adlandırması) — null iken panel `componentType`'a düşer,
+    // codegen/render bu alanı OKUMAZ (sadece UI etiketi).
+    name: null,
   };
+
+  if (componentType === 'CONTAINER') {
+    block.layout.base.h = null;
+    block.childOrder = [];
+    block.flow = { direction: 'column', gap: 12, padding: 12, align: 'stretch', justify: 'flex-start' };
+  }
+
+  return block;
+}
+
+// Bir CONTAINER'ın flow.direction'ına göre çocuğun mevcut piksel boyutunu
+// (pxSize: {w,h}) sizing:{primary:'fixed',cross:'fixed'} + fixedPrimary/
+// fixedCross'a çevirir — kullanıcı kararı (2026-08-19): VAR OLAN bir blok
+// container'a girerken görünümü/boyutu HİÇ değişmemeli, container'ın flex
+// akışı ona dokunmasın. `pxSize` yoksa (yeni/taze blok, önceki bir "hâli"
+// olmayan) hiçbir şey değişmez — createEmptyBlock'un hug/hug varsayılanı
+// kalır (bilinçli fark: taze bloklar akıllı varsayılanı hak eder, VAR OLAN
+// bir bloğun görünümünü kimse sormadan değiştirmemeliyiz).
+function applyPreservedPxSize(block, direction, pxSize) {
+  if (!pxSize) return block;
+  return {
+    ...block,
+    sizing: { primary: 'fixed', cross: 'fixed' },
+    fixedPrimary: direction === 'row' ? pxSize.w : pxSize.h,
+    fixedCross: direction === 'row' ? pxSize.h : pxSize.w,
+  };
+}
+
+// Seçili blokları (AYNI ebeveyne sahip olmaları şart — çağıran taraf
+// garanti eder) yeni bir CONTAINER'a sarar. `parentOrder`: taşınan
+// bloğun bulunduğu kapsayıcının sıra dizisi — köktekiler için `blockOrder`,
+// bir container içindekiler için o container'ın `childOrder`'ı. Container
+// bounding box'ı seçili blokların `layout.base` değerlerinden hesaplanır
+// (md/lg çözümlemesine gerek yok — base her zaman somut). `pxSizes`
+// (opsiyonel, {[id]: {w,h}} piksel) verilirse her çocuğun GÖRÜNÜMÜ
+// donar (bkz. applyPreservedPxSize) — çağıran taraf (Canvas.jsx) DOM'dan
+// okuyup geçirir, bu fonksiyon DOM'a dokunmaz (saf kalır). Saf fonksiyon:
+// yeni `blocksById`/sıra dizisini DÖNER, store'u kendisi mutasyona uğratmaz
+// (zustand/immer entegrasyonu çağıran tarafın işi, bkz. store.js).
+export function groupBlocksIntoContainer(blocksById, parentOrder, selectedIds, pxSizes) {
+  const selectedSet = new Set(selectedIds);
+  const selected = parentOrder.filter((id) => selectedSet.has(id)).map((id) => blocksById[id]).filter(Boolean);
+  if (selected.length < 2) return null;
+
+  const parentId = selected[0].parentId ?? null;
+  const boxes = selected.map((b) => b.layout.base);
+  const minX = Math.min(...boxes.map((box) => box.x));
+  const minY = Math.min(...boxes.map((box) => box.y));
+  const maxX = Math.max(...boxes.map((box) => box.x + box.w));
+
+  const container = createEmptyBlock('CONTAINER', null, null);
+  container.parentId = parentId;
+  container.layout.base = { x: minX, y: minY, w: Math.min(maxX - minX, 100 - minX), h: null };
+  container.childOrder = selected
+    .slice()
+    .sort((a, b) => a.layout.base.y - b.layout.base.y)
+    .map((b) => b.id);
+
+  const nextBlocksById = { ...blocksById, [container.id]: container };
+  for (const b of selected) {
+    nextBlocksById[b.id] = applyPreservedPxSize({ ...b, parentId: container.id }, container.flow.direction, pxSizes?.[b.id]);
+  }
+
+  const firstIndex = parentOrder.findIndex((id) => selectedSet.has(id));
+  const nextParentOrder = [
+    ...parentOrder.slice(0, firstIndex).filter((id) => !selectedSet.has(id)),
+    container.id,
+    ...parentOrder.slice(firstIndex).filter((id) => !selectedSet.has(id)),
+  ];
+
+  return { blocksById: nextBlocksById, parentOrder: nextParentOrder, containerId: container.id };
+}
+
+// Tek bir bloğu (alt-ağacıyla birlikte, çocukları taşımıyoruz — sadece
+// bloğun kendisi) başka bir yere taşır: yeni bir ebeveyne (CONTAINER,
+// `newParentId`) ya da köke (`newParentId: null`). Layers panelindeki
+// sürükle-bırak nested gruplama BUNU çağırır — `groupBlocksIntoContainer`
+// YENİ bir container YARATIR, bu fonksiyon VAR OLAN bir container'a (ya da
+// köke) taşır, ikisi TAMAMLAYICI. `insertIndex` hedef sıradaki (yeni
+// ebeveynin childOrder'ı ya da kökün blockOrder'ı) konum — null ise sona
+// eklenir. Kendi alt-ağacına taşınmaya çalışılırsa (döngü) null döner.
+// `pxSize` (opsiyonel, {w,h} piksel — sadece newParentId set'se, yani
+// bir CONTAINER'a girerken anlamlı): verilirse bloğun görünümü donar
+// (bkz. applyPreservedPxSize, kullanıcı kararı 2026-08-19). Köke
+// çıkarken (newParentId:null) YOKSAYıLıR — kök blok zaten kendi x/y/w/h'sini
+// taşımaya devam eder, fixed/fixed'e gerek yok.
+export function reparentBlock(blocksById, rootOrder, blockId, newParentId, insertIndex, pxSize) {
+  const block = blocksById[blockId];
+  if (!block || blockId === newParentId) return null;
+  if (newParentId && isDescendant(blocksById, newParentId, blockId)) return null;
+
+  const oldParentId = block.parentId ?? null;
+  const nextBlocksById = { ...blocksById };
+  let nextRootOrder = rootOrder;
+
+  if (oldParentId) {
+    const oldParent = nextBlocksById[oldParentId];
+    nextBlocksById[oldParentId] = { ...oldParent, childOrder: (oldParent.childOrder ?? []).filter((id) => id !== blockId) };
+  } else {
+    nextRootOrder = rootOrder.filter((id) => id !== blockId);
+  }
+
+  nextBlocksById[blockId] = { ...block, parentId: newParentId };
+  if (newParentId && pxSize) {
+    const direction = nextBlocksById[newParentId]?.flow?.direction ?? 'column';
+    nextBlocksById[blockId] = applyPreservedPxSize(nextBlocksById[blockId], direction, pxSize);
+  }
+
+  if (newParentId) {
+    const newParent = nextBlocksById[newParentId];
+    const childOrder = newParent.childOrder ?? [];
+    const idx = insertIndex == null ? childOrder.length : Math.min(Math.max(insertIndex, 0), childOrder.length);
+    nextBlocksById[newParentId] = { ...newParent, childOrder: [...childOrder.slice(0, idx), blockId, ...childOrder.slice(idx)] };
+  } else {
+    const idx = insertIndex == null ? nextRootOrder.length : Math.min(Math.max(insertIndex, 0), nextRootOrder.length);
+    nextRootOrder = [...nextRootOrder.slice(0, idx), blockId, ...nextRootOrder.slice(idx)];
+  }
+
+  return { blocksById: nextBlocksById, rootOrder: nextRootOrder };
+}
+
+function isDescendant(blocksById, candidateId, ancestorId) {
+  let current = blocksById[candidateId];
+  while (current?.parentId) {
+    if (current.parentId === ancestorId) return true;
+    current = blocksById[current.parentId];
+  }
+  return false;
+}
+
+// groupBlocksIntoContainer'ın tersi — container'ı çözer, çocuklarını
+// KENDİ ebeveynine (container'ın parentId'sine — köke ya da bir üst
+// container'a) geri taşır, container silinir (cascade DEĞİL — çocuklar
+// yaşamaya devam eder, sadece bir seviye yukarı çıkar). Kök seviyeye
+// çıkan çocuklar için `layout.base.x/y` container'ın son konumundan
+// (dikey ofsetle) yeniden hesaplanır; bir container'ın içine çıkıyorsa
+// x/y zaten okunmuyor (sizing flow'dan geliyor), dokunulmaz.
+export function ungroupContainer(blocksById, parentOrder, containerId) {
+  const container = blocksById[containerId];
+  if (!container || container.componentType !== 'CONTAINER') return null;
+
+  const childIds = container.childOrder ?? [];
+  const targetParentId = container.parentId ?? null;
+  const containerBase = container.layout.base;
+
+  const nextBlocksById = { ...blocksById };
+  delete nextBlocksById[containerId];
+  childIds.forEach((id, i) => {
+    const child = nextBlocksById[id];
+    if (!child) return;
+    nextBlocksById[id] = {
+      ...child,
+      parentId: targetParentId,
+      layout: targetParentId
+        ? child.layout
+        : { ...child.layout, base: { ...child.layout.base, x: containerBase.x, y: containerBase.y + i * 10 } },
+    };
+  });
+
+  const index = parentOrder.indexOf(containerId);
+  const nextParentOrder = index === -1 ? parentOrder : [...parentOrder.slice(0, index), ...childIds, ...parentOrder.slice(index + 1)];
+
+  return { blocksById: nextBlocksById, parentOrder: nextParentOrder };
 }
 
 // Nokta-ayrılmış path ile context objesinden okur (örn. "series.posterUrl").

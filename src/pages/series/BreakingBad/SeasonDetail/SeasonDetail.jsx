@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useLocalizedNavigate as useNavigate } from '../../../../shared/i18n/useLocalizedNavigate';
 import { Footer } from '../../../../components/Footer/Footer';
 import { armInPageNav } from '../../../../motion/cinematic';
 import { fetchProductionDetail, fetchSeasonDetail, theme } from './SeasonDetail.data';

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import styles from './ResultCard.module.css';
 
 // Filtre/browse modu grid kartı — SpotlightCard/BlogCard'ın aynı anatomisi

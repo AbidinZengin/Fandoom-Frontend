@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { TOOLS, PRESET_VARIANTS } from '../PageBuilder.data';
 import { EntityPicker } from '../../../../shared/builder/EntityPicker/EntityPicker';
+import { useBlockLibraryStore } from '../../../../shared/builder/blockLibrary';
+import { getBlockPxSize } from '../Canvas/Canvas.geometry';
 import { CodegenPanel } from './CodegenPanel/CodegenPanel';
 import { WritebackHistoryPanel } from './WritebackHistoryPanel/WritebackHistoryPanel';
+import { BuildHistoryPanel } from './BuildHistoryPanel/BuildHistoryPanel';
 import {
   IconGrid,
   IconLayers,
   IconDatabase,
   IconCode,
   IconHistory,
+  IconBookmark,
   IconRectangle,
   IconDiamond,
   IconCircle,
@@ -21,6 +25,8 @@ import {
   IconUnlock,
   IconEye,
   IconEyeOff,
+  IconTrash,
+  IconContainerTool,
 } from '../icons';
 import styles from './LeftPanel.module.css';
 
@@ -33,6 +39,7 @@ const TOOL_ICONS = {
   ICON: IconStarTool,
   TEXT: IconType,
   IMAGE: IconImage,
+  CONTAINER: IconContainerTool,
 };
 
 // Sol panel — dar ikon şeridi (Bileşenler/Katmanlar sekmesi, referans:
@@ -45,9 +52,12 @@ export function LeftPanel({
   activePreset,
   onSelectPreset,
   blocks,
+  blocksById,
   selectedId,
   onSelectBlock,
-  onReorderBlocks,
+  onReparentBlock,
+  onGroupIntoNewContainer,
+  onRenameBlock,
   onToggleLock,
   onToggleHide,
   canvasWidths,
@@ -55,9 +65,22 @@ export function LeftPanel({
   referenceImage,
   onReferenceImage,
   onRestoreBlockContent,
+  builds,
+  loadingBuilds,
+  onRestoreBuild,
 }) {
   const [panelTab, setPanelTab] = useState('layers');
-  const [dragIndex, setDragIndex] = useState(null);
+  // Layers sürükle-bırak nested gruplama/taşıma (bkz.
+  // docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md) — id
+  // bazlı (index DEĞİL, çünkü artık çok seviyeli/kesişen listeler var).
+  // dropZone: sürüklenen imlecin hangi satırın hangi üçte-birinde durduğu
+  // ('before'/'after' = sırala, 'into' = o bloğun İÇİNE taşı/grupla).
+  const [dragId, setDragId] = useState(null);
+  const [dropZone, setDropZone] = useState(null); // { id, zone }
+  const [renamingId, setRenamingId] = useState(null);
+  const libraryEntries = useBlockLibraryStore((s) => s.entries);
+  const renameLibraryBlock = useBlockLibraryStore((s) => s.renameBlock);
+  const removeLibraryBlock = useBlockLibraryStore((s) => s.removeBlock);
   // Hangi aracın preset flyout'u açık — SADECE bu panelin lokal UI durumu
   // (PageBuilder.jsx'e taşınmaz, activeTool/activePreset'ten AYRI: flyout
   // açık/kapalı olması hangi preset'in SEÇİLİ olduğunu etkilemez).
@@ -80,14 +103,101 @@ export function LeftPanel({
     setPresetFlyoutFor(null);
   };
 
-  const handleDrop = (targetIndex) => {
-    if (dragIndex === null || dragIndex === targetIndex) return;
-    const next = blocks.map((b) => b.id);
-    const [moved] = next.splice(dragIndex, 1);
-    next.splice(targetIndex, 0, moved);
-    onReorderBlocks(next);
-    setDragIndex(null);
+  // Bir satırın üçte-bir yüksekliğine göre bölge belirler — üst/alt kesimi
+  // sırala (before/after), orta kesim İÇİNE taşı/grupla (VS Code dosya
+  // ağacı/Figma layers'la aynı üç-bölge deseni).
+  const zoneFromPointer = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.clientY - rect.top) / rect.height;
+    if (ratio < 0.28) return 'before';
+    if (ratio > 0.72) return 'after';
+    return 'into';
   };
+
+  // Kök seviyede liste TERS gösterilir (üstte en önde/frontmost duran
+  // katman — bkz. aşağıdaki flattenLayers), bu yüzden ham blockOrder
+  // dizisindeki index hesabı 'before'/'after' için TERS çevrilir. Çocuk
+  // seviyesinde (bir container'ın childOrder'ı) liste DÜZ gösterilir
+  // (flex akış sırası = görsel sıra), index hesabı standart.
+  const computeInsertIndex = (targetId, zone, siblingIdsRaw, isRootLevel) => {
+    const rawTargetIndex = siblingIdsRaw.indexOf(targetId);
+    if (rawTargetIndex === -1) return null;
+    let insertIndex = isRootLevel ? (zone === 'before' ? rawTargetIndex + 1 : rawTargetIndex) : zone === 'before' ? rawTargetIndex : rawTargetIndex + 1;
+    const dragRawIndex = siblingIdsRaw.indexOf(dragId);
+    // dragId AYNI dizideyse (aynı ebeveyn içi yeniden sıralama), reparentBlock
+    // önce ONU diziden çıkarır — sonrasındaki index'ler bir kayar, burada
+    // telafi edilir.
+    if (dragRawIndex !== -1 && dragRawIndex < insertIndex) insertIndex -= 1;
+    return insertIndex;
+  };
+
+  const handleLayerDrop = (targetId, zone) => {
+    if (!dragId || dragId === targetId) {
+      setDragId(null);
+      setDropZone(null);
+      return;
+    }
+    const dragBlock = blocksById[dragId];
+    const targetBlock = blocksById[targetId];
+    if (!dragBlock || !targetBlock) {
+      setDragId(null);
+      setDropZone(null);
+      return;
+    }
+
+    // Kullanıcı kararı (2026-08-19): VAR OLAN bir blok bir container'a
+    // GİRERKEN görünümü/boyutu değişmemeli — o anki piksel boyutu
+    // reparent'tan ÖNCE okunup dondurulur (bkz. schema.js
+    // applyPreservedPxSize). Köke çıkarken ya da AYNI container içinde
+    // sıra değiştirirken gerekmez, reparentBlock zaten pxSize yoksa
+    // dokunmuyor.
+    if (zone === 'into') {
+      if (targetBlock.componentType === 'CONTAINER') {
+        onReparentBlock(dragId, targetId, null, getBlockPxSize(dragId));
+      } else {
+        // Hedef CONTAINER değil — ikisini yeni bir container'a sarmak
+        // (kullanıcı isteği: "sürükleyerek componentleri iç içe
+        // gruplayabilmeliyim"). groupIntoNewContainer AYNI ebeveyni
+        // şart koşuyor, farklıysa önce dragId hedefin yanına taşınır.
+        // pxSize'lar reparent/gruplama ÖNCESİ (ikisi de hâlâ eski
+        // konumlarındayken) okunur.
+        const pxSizes = { [dragId]: getBlockPxSize(dragId), [targetId]: getBlockPxSize(targetId) };
+        if ((dragBlock.parentId ?? null) !== (targetBlock.parentId ?? null)) {
+          onReparentBlock(dragId, targetBlock.parentId ?? null, null);
+        }
+        onGroupIntoNewContainer([dragId, targetId], pxSizes);
+      }
+    } else {
+      const parentId = targetBlock.parentId ?? null;
+      const isRootLevel = !parentId;
+      const siblingIdsRaw = parentId ? blocksById[parentId]?.childOrder ?? [] : blocks.map((b) => b.id);
+      const insertIndex = computeInsertIndex(targetId, zone, siblingIdsRaw, isRootLevel);
+      const enteringNewParent = parentId && parentId !== (dragBlock.parentId ?? null);
+      onReparentBlock(dragId, parentId, insertIndex, enteringNewParent ? getBlockPxSize(dragId) : undefined);
+    }
+
+    setDragId(null);
+    setDropZone(null);
+  };
+
+  // Kök blokları (blockOrder sırasıyla) TERS çevirip (en önde/frontmost
+  // en üstte gösterilir, mevcut davranış korunur) her CONTAINER'ın
+  // childOrder'ını (DÜZ sırayla, flex akışıyla AYNI) altına recursive
+  // ekler — tek düz `<li>` listesi, girinti derinlikle ifade edilir
+  // (ayrı `<ul>` iç içeliği YOK, drag/drop mantığı tüm satırlarda aynı).
+  const flattenLayers = (ids, depth) =>
+    ids.flatMap((id) => {
+      const b = blocksById[id];
+      if (!b) return [];
+      const row = { block: b, depth };
+      if (b.componentType === 'CONTAINER') return [row, ...flattenLayers(b.childOrder ?? [], depth + 1)];
+      return [row];
+    });
+
+  const layerRows = flattenLayers(
+    blocks.map((b) => b.id).slice().reverse(),
+    0
+  );
 
   return (
     <aside className={styles.leftPanel}>
@@ -106,6 +216,9 @@ export function LeftPanel({
         </button>
         <button type="button" className={styles.leftPanel__railIcon} data-active={panelTab === 'history' || undefined} title="Geçmiş" aria-label="Geçmiş" onClick={() => toggleTab('history')}>
           <IconHistory />
+        </button>
+        <button type="button" className={styles.leftPanel__railIcon} data-active={panelTab === 'library' || undefined} title="Kütüphane" aria-label="Kütüphane" onClick={() => toggleTab('library')}>
+          <IconBookmark />
         </button>
       </div>
 
@@ -162,54 +275,88 @@ export function LeftPanel({
           {panelTab === 'layers' && (
             <>
               <span className={styles.leftPanel__wideHead}>Layers</span>
+              <p className={styles.leftPanel__hint}>Bir satırı başka birinin ortasına bırak → gruplar (container'a sarar); üst/alt kenarına bırak → sıralar.</p>
               {blocks.length === 0 && <p className={styles.leftPanel__empty}>No blocks yet</p>}
               <ul className={styles.leftPanel__list}>
-                {blocks
-                  .slice()
-                  .reverse()
-                  .map((block, reversedIndex) => {
-                    const index = blocks.length - 1 - reversedIndex;
-                    return (
-                      <li
-                        key={block.id}
-                        className={styles.leftPanel__item}
-                        data-selected={selectedId === block.id || undefined}
-                        draggable
-                        onDragStart={() => setDragIndex(index)}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={() => handleDrop(index)}
-                        onClick={() => onSelectBlock(block.id)}
-                      >
-                        <span className={styles.leftPanel__itemType}>{block.componentType}</span>
-                        <button
-                          type="button"
-                          className={styles.leftPanel__itemAction}
-                          data-active={block.locked || undefined}
-                          title={block.locked ? 'Unlock' : 'Lock'}
-                          aria-label={block.locked ? 'Unlock' : 'Lock'}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onToggleLock(block.id);
-                          }}
-                        >
-                          {block.locked ? <IconLock /> : <IconUnlock />}
-                        </button>
-                        <button
-                          type="button"
-                          className={styles.leftPanel__itemAction}
-                          data-active={block.hidden || undefined}
-                          title={block.hidden ? 'Show' : 'Hide'}
-                          aria-label={block.hidden ? 'Show' : 'Hide'}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onToggleHide(block.id);
-                          }}
-                        >
-                          {block.hidden ? <IconEyeOff /> : <IconEye />}
-                        </button>
-                      </li>
-                    );
-                  })}
+                {layerRows.map(({ block, depth }) => (
+                  <li
+                    key={block.id}
+                    className={styles.leftPanel__item}
+                    style={{ paddingLeft: `calc(var(--space-sm) + ${depth * 14}px)` }}
+                    data-selected={selectedId === block.id || undefined}
+                    data-drop-zone={dropZone?.id === block.id ? dropZone.zone : undefined}
+                    draggable={renamingId !== block.id}
+                    onDragStart={(e) => {
+                      e.stopPropagation();
+                      setDragId(block.id);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (dragId && dragId !== block.id) setDropZone({ id: block.id, zone: zoneFromPointer(e) });
+                    }}
+                    onDragLeave={() => setDropZone((z) => (z?.id === block.id ? null : z))}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleLayerDrop(block.id, zoneFromPointer(e));
+                    }}
+                    onDragEnd={() => {
+                      setDragId(null);
+                      setDropZone(null);
+                    }}
+                    onClick={() => onSelectBlock(block.id)}
+                  >
+                    {renamingId === block.id ? (
+                      <input
+                        type="text"
+                        autoFocus
+                        className={styles.leftPanel__itemNameInput}
+                        defaultValue={block.name ?? ''}
+                        placeholder={block.componentType}
+                        onClick={(e) => e.stopPropagation()}
+                        onBlur={(e) => {
+                          onRenameBlock(block.id, e.target.value.trim() || null);
+                          setRenamingId(null);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') e.currentTarget.blur();
+                          if (e.key === 'Escape') setRenamingId(null);
+                        }}
+                      />
+                    ) : (
+                      <span className={styles.leftPanel__itemType} onDoubleClick={(e) => { e.stopPropagation(); setRenamingId(block.id); }}>
+                        {block.name || block.componentType}
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      className={styles.leftPanel__itemAction}
+                      data-active={block.locked || undefined}
+                      title={block.locked ? 'Unlock' : 'Lock'}
+                      aria-label={block.locked ? 'Unlock' : 'Lock'}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleLock(block.id);
+                      }}
+                    >
+                      {block.locked ? <IconLock /> : <IconUnlock />}
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.leftPanel__itemAction}
+                      data-active={block.hidden || undefined}
+                      title={block.hidden ? 'Show' : 'Hide'}
+                      aria-label={block.hidden ? 'Show' : 'Hide'}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleHide(block.id);
+                      }}
+                    >
+                      {block.hidden ? <IconEyeOff /> : <IconEye />}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </>
           )}
@@ -228,14 +375,70 @@ export function LeftPanel({
           {panelTab === 'codegen' && (
             <>
               <span className={styles.leftPanel__wideHead}>Kodu Üret</span>
-              <CodegenPanel orderedBlocks={blocks} canvasWidths={canvasWidths} canvasHeights={canvasHeights} referenceImage={referenceImage} onReferenceImage={onReferenceImage} />
+              <CodegenPanel
+                orderedBlocks={blocks}
+                blocksById={blocksById}
+                canvasWidths={canvasWidths}
+                canvasHeights={canvasHeights}
+                referenceImage={referenceImage}
+                onReferenceImage={onReferenceImage}
+              />
             </>
           )}
 
           {panelTab === 'history' && (
             <>
-              <span className={styles.leftPanel__wideHead}>Geçmiş</span>
+              <span className={styles.leftPanel__wideHead}>Build Geçmişi</span>
+              <BuildHistoryPanel builds={builds} loadingBuilds={loadingBuilds} onRestore={onRestoreBuild} />
+              <span className={styles.leftPanel__wideHead}>Backend'e Kaydet Geçmişi</span>
               <WritebackHistoryPanel blocks={blocks} onRestoreBlockContent={onRestoreBlockContent} />
+            </>
+          )}
+
+          {panelTab === 'library' && (
+            <>
+              <span className={styles.leftPanel__wideHead}>Kütüphane</span>
+              <p className={styles.leftPanel__hint}>
+                ContextPanel'deki yer imi ikonuyla kaydettiğin bloklar (bir CONTAINER'sa TÜM alt-ağacıyla) burada listelenir. Bir
+                satıra tıklamak onu araç olarak seçer — tuvale her zamanki gibi sürükleyerek yerleştir.
+              </p>
+              {libraryEntries.length === 0 && <p className={styles.leftPanel__empty}>Henüz kaydedilmiş blok yok</p>}
+              <ul className={styles.leftPanel__list}>
+                {libraryEntries.map((entry) => {
+                  const Icon = TOOL_ICONS[entry.componentType];
+                  const childCount = entry.children?.length ?? 0;
+                  return (
+                    <li
+                      key={entry.id}
+                      className={styles.leftPanel__item}
+                      data-selected={activePreset?.key === entry.id || undefined}
+                      onClick={() => onSelectPreset({ ...entry, key: entry.id, label: entry.name })}
+                    >
+                      {Icon && <Icon width={14} height={14} />}
+                      <input
+                        type="text"
+                        className={styles.leftPanel__itemNameInput}
+                        value={entry.name}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => renameLibraryBlock(entry.id, e.target.value)}
+                      />
+                      {childCount > 0 && <span className={styles.leftPanel__itemHint}>{childCount}</span>}
+                      <button
+                        type="button"
+                        className={styles.leftPanel__itemAction}
+                        title="Sil"
+                        aria-label="Sil"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeLibraryBlock(entry.id);
+                        }}
+                      >
+                        <IconTrash width={14} height={14} />
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
             </>
           )}
         </div>

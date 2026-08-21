@@ -28,6 +28,7 @@ import PageBuilder from './pages/Admin/PageBuilder/PageBuilder';
 import { RequireAuth } from './pages/Admin/RequireAuth';
 import Placeholder from './pages/Placeholder/Placeholder';
 import FlameLab from './pages/FlameLab/FlameLab';
+import { LangGate, LegacyRedirect } from './shared/i18n/LangGate';
 import { initMotion } from './motion/setup';
 import {
   isCinematicArmed,
@@ -114,34 +115,7 @@ function App() {
       <Navbar />
       <PageTransition>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/series/game-of-thrones" element={<GameOfThrones />} />
-          <Route path="/series/game-of-thrones/seasons" element={<SeasonEpisodes />} />
-          <Route
-            path="/series/game-of-thrones/seasons/:seasonNumber/episodes/:episodeNumber"
-            element={<EpisodePage />}
-          />
-          <Route path="/series/game-of-thrones/characters" element={<Characters />} />
-          <Route path="/series/game-of-thrones/westeros" element={<WesterosMap />} />
-          <Route path="/series/game-of-thrones/history" element={<History />} />
-          <Route path="/series/breaking-bad" element={<BreakingBad />} />
-          <Route path="/series/breaking-bad/seasons" element={<BreakingBadSeasonEpisodes />} />
-          <Route
-            path="/series/breaking-bad/seasons/:seasonNumber/episodes/:episodeNumber"
-            element={<BreakingBadEpisodePage />}
-          />
-          <Route path="/series/breaking-bad/seasons/:seasonNumber" element={<SeasonDetail />} />
-          <Route path="/series/:slug" element={<ProductionDetail type="series" />} />
-          <Route path="/series" element={<Placeholder title="Series" />} />
-          <Route path="/movies/:slug" element={<ProductionDetail type="movie" />} />
-          <Route path="/movies" element={<Placeholder title="Movies" />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/community/discussion" element={<Placeholder title="Discussion" />} />
-          <Route path="/community/theories" element={<Placeholder title="Theories" />} />
-          <Route path="/community/fan-art" element={<Placeholder title="Fan Art" />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/blog/:slug" element={<BlogPostRoute />} />
-          <Route path="/blog" element={<Blog />} />
+          {/* Admin — dil prefix'ine dahil değil, path'ler değişmedi */}
           <Route path="/admin/login" element={<Login />} />
           <Route
             path="/admin"
@@ -199,12 +173,46 @@ function App() {
               </RequireAuth>
             }
           />
-          <Route path="/support" element={<Placeholder title="Support" />} />
-          <Route path="/coming-soon" element={<Placeholder title="Coming Soon" />} />
-          <Route path="/shop" element={<Placeholder title="Shop" />} />
-          <Route path="/account" element={<Placeholder title="Account" />} />
-          {/* Geçici — alev shader'ı onaylanınca kaldırılacak */}
-          <Route path="/flame-lab" element={<FlameLab />} />
+          {/* Dil-prefixli uygulama — path'ler /:lang'e göre relative */}
+          <Route path="/:lang" element={<LangGate />}>
+            <Route index element={<Home />} />
+            <Route path="series/game-of-thrones" element={<GameOfThrones />} />
+            <Route path="series/game-of-thrones/seasons" element={<SeasonEpisodes />} />
+            <Route
+              path="series/game-of-thrones/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<EpisodePage />}
+            />
+            <Route path="series/game-of-thrones/characters" element={<Characters />} />
+            <Route path="series/game-of-thrones/westeros" element={<WesterosMap />} />
+            <Route path="series/game-of-thrones/history" element={<History />} />
+            <Route path="series/breaking-bad" element={<BreakingBad />} />
+            <Route path="series/breaking-bad/seasons" element={<BreakingBadSeasonEpisodes />} />
+            <Route
+              path="series/breaking-bad/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<BreakingBadEpisodePage />}
+            />
+            <Route path="series/breaking-bad/seasons/:seasonNumber" element={<SeasonDetail />} />
+            <Route path="series/:slug" element={<ProductionDetail type="series" />} />
+            <Route path="series" element={<Placeholder title="Series" />} />
+            <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
+            <Route path="movies" element={<Placeholder title="Movies" />} />
+            <Route path="community" element={<Community />} />
+            <Route path="community/discussion" element={<Placeholder title="Discussion" />} />
+            <Route path="community/theories" element={<Placeholder title="Theories" />} />
+            <Route path="community/fan-art" element={<Placeholder title="Fan Art" />} />
+            <Route path="news" element={<News />} />
+            <Route path="blog/:slug" element={<BlogPostRoute />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="support" element={<Placeholder title="Support" />} />
+            <Route path="coming-soon" element={<Placeholder title="Coming Soon" />} />
+            <Route path="shop" element={<Placeholder title="Shop" />} />
+            <Route path="account" element={<Placeholder title="Account" />} />
+            {/* Geçici — alev shader'ı onaylanınca kaldırılacak */}
+            <Route path="flame-lab" element={<FlameLab />} />
+          </Route>
+
+          {/* Prefix'siz eski path'ler — kök "/", "/series/breaking-bad" vb. */}
+          <Route path="*" element={<LegacyRedirect />} />
         </Routes>
       </PageTransition>
     </BrowserRouter>

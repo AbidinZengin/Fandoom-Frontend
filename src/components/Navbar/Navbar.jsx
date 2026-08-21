@@ -1,28 +1,31 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FandoomLogo } from '../FandoomLogo/FandoomLogo';
 import { registerNavbarHide } from '../../motion/cinematic';
+import { LanguageSwitcher } from './LanguageSwitcher/LanguageSwitcher';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
-  { label: 'Series', to: '/series' },
-  { label: 'Movies', to: '/movies' },
-  { label: 'News', to: '/news' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Coming Soon', to: '/coming-soon' },
-  { label: 'Shop', to: '/shop' },
+  { labelKey: 'navbar.series', to: '/series' },
+  { labelKey: 'navbar.movies', to: '/movies' },
+  { labelKey: 'navbar.news', to: '/news' },
+  { labelKey: 'navbar.blog', to: '/blog' },
+  { labelKey: 'navbar.comingSoon', to: '/coming-soon' },
+  { labelKey: 'navbar.shop', to: '/shop' },
   {
-    label: 'Community',
+    labelKey: 'navbar.community',
     to: '/community',
     dropdown: [
-      { label: 'Discussion', to: '/community/discussion' },
-      { label: 'Theories', to: '/community/theories' },
-      { label: 'Fan Art', to: '/community/fan-art' },
+      { labelKey: 'navbar.discussion', to: '/community/discussion' },
+      { labelKey: 'navbar.theories', to: '/community/theories' },
+      { labelKey: 'navbar.fanArt', to: '/community/fan-art' },
     ],
   },
-  { label: 'Support', to: '/support' },
+  { labelKey: 'navbar.support', to: '/support' },
 ];
 
 export function Navbar() {
@@ -31,6 +34,7 @@ export function Navbar() {
   const navRef = useRef(null);
   const overlayRef = useRef(null);
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   // Menüden bir linke gidilince overlay kendi kendine kapanır.
   useEffect(() => {
@@ -148,31 +152,31 @@ export function Navbar() {
   return (
     <>
       <header className={styles.navbar} ref={navRef}>
-        <Link to="/" className={styles.navbar__logo} aria-label="Fandoom home">
+        <Link to="/" className={styles.navbar__logo} aria-label={t('navbar.homeAriaLabel')}>
           <FandoomLogo showTagline={false} scale={0.16} />
         </Link>
 
         <nav className={styles.navbar__links}>
           {NAV_LINKS.map((item) => (
             <div
-              key={item.label}
+              key={item.labelKey}
               className={styles.navbar__item}
-              onMouseEnter={() => item.dropdown && setOpenDropdown(item.label)}
+              onMouseEnter={() => item.dropdown && setOpenDropdown(item.labelKey)}
               onMouseLeave={() => item.dropdown && setOpenDropdown(null)}
             >
               {item.to ? (
                 <Link to={item.to} className={styles.navbar__link}>
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               ) : (
-                <span className={styles.navbar__link}>{item.label}</span>
+                <span className={styles.navbar__link}>{t(item.labelKey)}</span>
               )}
 
-              {item.dropdown && openDropdown === item.label && (
+              {item.dropdown && openDropdown === item.labelKey && (
                 <div className={styles.navbar__dropdown}>
                   {item.dropdown.map((sub) => (
-                    <Link key={sub.label} to={sub.to} className={styles['navbar__dropdown-link']}>
-                      {sub.label}
+                    <Link key={sub.labelKey} to={sub.to} className={styles['navbar__dropdown-link']}>
+                      {t(sub.labelKey)}
                     </Link>
                   ))}
                 </div>
@@ -182,8 +186,13 @@ export function Navbar() {
         </nav>
 
         <div className={styles.navbar__actions}>
-          <input className={styles.navbar__search} type="search" placeholder="Search titles, theories..." />
-          <Link to="/account" className={styles.navbar__icon} aria-label="Account">
+          <input
+            className={styles.navbar__search}
+            type="search"
+            placeholder={t('navbar.searchPlaceholder')}
+          />
+          <LanguageSwitcher />
+          <Link to="/account" className={styles.navbar__icon} aria-label={t('navbar.accountAriaLabel')}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6">
               <circle cx="12" cy="8" r="3.4" />
               <path d="M4.5 19.5c1.6-3.3 4.4-5 7.5-5s5.9 1.7 7.5 5" strokeLinecap="round" />
@@ -195,7 +204,7 @@ export function Navbar() {
             type="button"
             className={styles.navbar__burger}
             onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
+            aria-label={t('navbar.openMenuAriaLabel')}
             aria-expanded={menuOpen}
           >
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -211,14 +220,15 @@ export function Navbar() {
       {menuOpen && (
         <div className={styles.navbar__overlay} ref={overlayRef}>
           <div className={styles['navbar__overlay-head']}>
-            <Link to="/" className={styles.navbar__logo} aria-label="Fandoom home">
+            <Link to="/" className={styles.navbar__logo} aria-label={t('navbar.homeAriaLabel')}>
               <FandoomLogo showTagline={false} scale={0.16} />
             </Link>
+            <LanguageSwitcher />
             <button
               type="button"
               className={styles.navbar__close}
               onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
+              aria-label={t('navbar.closeMenuAriaLabel')}
             >
               <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
@@ -229,15 +239,15 @@ export function Navbar() {
           <input
             className={styles['navbar__overlay-search']}
             type="search"
-            placeholder="Search titles, theories..."
+            placeholder={t('navbar.searchPlaceholder')}
             data-menu-item
           />
 
           <nav className={styles['navbar__overlay-nav']}>
             {NAV_LINKS.map((item) => (
-              <div key={item.label} data-menu-item>
+              <div key={item.labelKey} data-menu-item>
                 <Link to={item.to} className={styles['navbar__overlay-link']}>
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
 
                 {/* Mobilde dropdown yok — alt linkler açık liste olarak durur. */}
@@ -245,11 +255,11 @@ export function Navbar() {
                   <div className={styles['navbar__overlay-sub']}>
                     {item.dropdown.map((sub) => (
                       <Link
-                        key={sub.label}
+                        key={sub.labelKey}
                         to={sub.to}
                         className={styles['navbar__overlay-sublink']}
                       >
-                        {sub.label}
+                        {t(sub.labelKey)}
                       </Link>
                     ))}
                   </div>

@@ -39,9 +39,17 @@ const BACKEND_BASE_URL = process.env.BACKEND_BASE_URL || 'http://localhost:8080/
 const TMDB_TV_ID = process.env.TMDB_TV_ID || '1399'; // Game of Thrones
 const SERIES_SLUG = process.env.SERIES_SLUG || 'game-of-thrones';
 const AUTH_TOKEN = process.env.AUTH_TOKEN || null;
+// Cloudinary public_id prefix — GoT için yazıldığından varsayılan "got"
+// korunuyor, başka dizi için PUBLIC_ID_PREFIX env var'ı ile override edilir.
+const PUBLIC_ID_PREFIX = process.env.PUBLIC_ID_PREFIX || 'got';
 
 const seasonFilterArg = process.argv.indexOf('--season');
 const seasonFilter = seasonFilterArg !== -1 ? Number(process.argv[seasonFilterArg + 1]) : null;
+
+// --force: posterUrl zaten dolu olan sezonları da (düşük kaliteli/Cloudinary
+// olmayan eski değer) TMDB'den yeniden çekip üzerine yazar — varsayılan
+// "boş olanı doldur" davranışının bilinçli istisnası.
+const force = process.argv.includes('--force');
 
 const missing = [];
 if (!TMDB_API_KEY) missing.push('TMDB_API_KEY');
@@ -123,7 +131,7 @@ async function main() {
     if (seasonFilter && season.seasonNumber !== seasonFilter) continue;
     const label = `Season ${season.seasonNumber} — ${season.title}`;
 
-    if (season.posterUrl) {
+    if (season.posterUrl && !force) {
       console.log(`= ${label}: zaten posteri var, atlandı`);
       continue;
     }
@@ -134,7 +142,7 @@ async function main() {
         console.log(`⚠ ${label}: TMDB'de poster yok, atlandı`);
         continue;
       }
-      const cloudinaryUrl = await uploadToCloudinary(posterUrl, `got-s${season.seasonNumber}-poster`);
+      const cloudinaryUrl = await uploadToCloudinary(posterUrl, `${PUBLIC_ID_PREFIX}-s${season.seasonNumber}-poster`);
       await putSeasonPoster(season, cloudinaryUrl);
       console.log(`✓ ${label} (DB güncellendi)`);
     } catch (err) {

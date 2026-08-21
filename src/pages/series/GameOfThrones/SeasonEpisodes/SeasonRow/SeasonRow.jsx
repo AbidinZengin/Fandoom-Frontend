@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { fetchSeasonDetail } from '../SeasonEpisodes.data';
 import styles from './SeasonRow.module.css';

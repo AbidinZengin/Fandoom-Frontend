@@ -11,6 +11,7 @@ import Hero from './Hero/Hero';
 // eklenmek istenirse: import { TitleSequence } from './TitleSequence/TitleSequence';
 import { fetchProductionDetail, theme } from './BreakingBad.data';
 import styles from './BreakingBad.module.css';
+import SeasonRoute from './SeasonRoute/SeasonRoute';
 
 export default function BreakingBad() {
   const [series, setSeries] = useState(null);
@@ -66,6 +67,7 @@ export default function BreakingBad() {
   return (
     <>
       <Hero />
+      <SeasonRoute />
       <Footer />
     </>
   );

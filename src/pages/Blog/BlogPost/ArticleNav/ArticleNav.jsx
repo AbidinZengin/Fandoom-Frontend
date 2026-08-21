@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import styles from './ArticleNav.module.css';
 
 // Makale sonu önceki/sonraki gezinmesi — ikisi de yoksa (katalogda tek kayıt)

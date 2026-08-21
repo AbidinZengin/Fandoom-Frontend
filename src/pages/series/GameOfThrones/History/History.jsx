@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocalizedNavigate as useNavigate } from '../../../../shared/i18n/useLocalizedNavigate';
 import { Footer } from '../../../../components/Footer/Footer';
 import { fetchProductionDetail, theme } from './History.data';
 import { HistoryBlocks } from './HistoryBlocks/HistoryBlocks';

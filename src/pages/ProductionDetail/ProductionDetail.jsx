@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
 import { Footer } from '../../components/Footer/Footer';
 import { fetchProductionDetail, resolveGenreNames, theories } from './ProductionDetail.data';
 import { themeBySlug, defaultTheme } from './ProductionDetail.theme';

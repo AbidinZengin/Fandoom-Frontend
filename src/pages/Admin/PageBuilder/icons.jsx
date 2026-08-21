@@ -268,3 +268,33 @@ export function IconHistory(props) {
     </svg>
   );
 }
+
+export function IconBookmark(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 4.5A1.5 1.5 0 017.5 3h9A1.5 1.5 0 0118 4.5V21l-6-4-6 4V4.5z" />
+    </svg>
+  );
+}
+
+// Nested/auto-layout CONTAINER bloğu — kesikli çerçeve, diğer somut
+// şekillerden (Rectangle/Diamond/Circle) BİLİNÇLİ olarak ayırt edilsin diye
+// (bkz. docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md).
+export function IconContainerTool(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="4" y="4" width="16" height="16" rx="1.5" strokeDasharray="3 2.5" />
+    </svg>
+  );
+}
+
+// ContextPanel'in "Gruptan Çıkar" aksiyonu — kesikli çerçeve (container)
+// içinden çıkan bir kutu, IconContainerTool'un görsel dilini sürdürür.
+export function IconUngroup(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="1.5" strokeDasharray="3 2.5" />
+      <rect x="8" y="8" width="8" height="8" rx="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}

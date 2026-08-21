@@ -5,10 +5,11 @@ import { ENTITY_SCHEMAS } from '../../../../shared/builder/entitySchemas';
 import { EntityPicker } from '../../../../shared/builder/EntityPicker/EntityPicker';
 import { resolveBinding } from '../../../../shared/builder/schema';
 import { saveBoundField } from '../../../../shared/builder/entityWriteback';
+import { useBlockLibraryStore } from '../../../../shared/builder/blockLibrary';
 import { fetchPages } from '../../../../shared/api/designServer';
 import { CONTENT_ICON_KEYS, CONTENT_ICONS } from '../../../../shared/builder/contentIcons';
-import { EFFECT_CONTROLS, resolveEffectiveStyle, resolveEffectiveLayout } from '../PageBuilder.data';
-import { IconTrash, IconDuplicate, IconBringFront, IconSendBack } from '../icons';
+import { EFFECT_CONTROLS, SIZING_CONTROLS, FIXED_CROSS_CONTROL, FIXED_PRIMARY_CONTROL, FLOW_CONTROLS, resolveEffectiveStyle, resolveEffectiveLayout } from '../PageBuilder.data';
+import { IconTrash, IconDuplicate, IconBringFront, IconSendBack, IconBookmark, IconUngroup } from '../icons';
 import styles from './ContextPanel.module.css';
 
 const TABS = ['Style', 'Effects', 'Data'];
@@ -20,6 +21,7 @@ const EFFECT_KEYS = new Set(EFFECT_CONTROLS.map((c) => c.key));
 // bilinçli farklı.
 export function ContextPanel({
   block,
+  blocksById,
   breakpoint,
   styleMode,
   onStyleModeChange,
@@ -32,14 +34,29 @@ export function ContextPanel({
   onBringToFront,
   onSendToBack,
   onPatchBlock,
+  onUngroupContainer,
 }) {
   const [tab, setTab] = useState('Style');
+  // "Kütüphaneye ekle" butonunun kısa süreli ikon geri bildirimi — TopBar'ın
+  // justSaved'iyle AYNI desen (bkz. PageBuilder.jsx handleSave).
+  const [savedToLibrary, setSavedToLibrary] = useState(false);
+  const saveBlockToLibrary = useBlockLibraryStore((s) => s.saveBlock);
 
   if (!block) return null;
+
+  // CONTAINER'da da çalışır — blocksById'den TÜM alt-ağacı (recursive)
+  // okuyup kaydeder (bkz. blockLibrary.js snapshotBody, kullanıcı kararı
+  // 2026-08-19: "container kütüphanesi daha mantıklı").
+  const handleSaveToLibrary = () => {
+    saveBlockToLibrary(block, blocksById);
+    setSavedToLibrary(true);
+    setTimeout(() => setSavedToLibrary(false), 1500);
+  };
 
   const definition = getComponentDefinition(block.componentType);
   const effective = resolveEffectiveStyle(block, breakpoint, styleMode);
   const effectiveLayout = resolveEffectiveLayout(block, breakpoint);
+  const isChild = Boolean(block.parentId);
   const styleValues = Object.fromEntries(Object.entries(effective).filter(([k]) => !EFFECT_KEYS.has(k)));
   const effectValues = Object.fromEntries(Object.entries(effective).filter(([k]) => EFFECT_KEYS.has(k)));
 
@@ -68,6 +85,14 @@ export function ContextPanel({
         <button type="button" onClick={onSendToBack} title="Send to back" aria-label="Send to back">
           <IconSendBack width={16} height={16} />
         </button>
+        <button type="button" data-success={savedToLibrary || undefined} onClick={handleSaveToLibrary} title="Kütüphaneye ekle" aria-label="Kütüphaneye ekle">
+          <IconBookmark width={16} height={16} />
+        </button>
+        {block.componentType === 'CONTAINER' && (
+          <button type="button" onClick={onUngroupContainer} title="Gruptan çıkar" aria-label="Gruptan çıkar">
+            <IconUngroup width={16} height={16} />
+          </button>
+        )}
         {(tab === 'Style' || tab === 'Effects') && (
           <div className={styles.panel__modeToggle}>
             <button type="button" data-active={styleMode === 'normal' || undefined} onClick={() => onStyleModeChange('normal')}>
@@ -82,34 +107,75 @@ export function ContextPanel({
 
       {tab === 'Style' && (
         <div className={styles.panel__body}>
-          <section className={styles.panel__section}>
-            <span className={styles.panel__sectionLabel}>Position &amp; size</span>
-            <div className={styles.panel__grid4}>
-              <label>
-                <span>X%</span>
-                <input type="number" step="0.5" value={round(effectiveLayout.x)} onChange={(e) => onPatchLayout({ x: Number(e.target.value) })} onBlur={onCommit} />
-              </label>
-              <label>
-                <span>Y%</span>
-                <input type="number" step="0.5" value={round(effectiveLayout.y)} onChange={(e) => onPatchLayout({ y: Number(e.target.value) })} onBlur={onCommit} />
-              </label>
-              <label>
-                <span>W%</span>
-                <input type="number" step="0.5" value={round(effectiveLayout.w)} onChange={(e) => onPatchLayout({ w: Number(e.target.value) })} onBlur={onCommit} />
-              </label>
-              <label>
-                <span>H%</span>
-                <input
-                  type="number"
-                  step="0.5"
-                  placeholder="auto"
-                  value={effectiveLayout.h != null ? round(effectiveLayout.h) : ''}
-                  onChange={(e) => onPatchLayout({ h: e.target.value === '' ? null : Number(e.target.value) })}
-                  onBlur={onCommit}
-                />
-              </label>
-            </div>
-          </section>
+          {isChild ? (
+            // Nested/auto-layout bloklar (bkz.
+            // docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md):
+            // bir container'ın çocuğunda X/Y/W/H anlamsız — konum flex
+            // akışından gelir, boyut niyeti hug/fill/fixed ile ifade edilir.
+            <section className={styles.panel__section}>
+              <span className={styles.panel__sectionLabel}>Sizing (container içi)</span>
+              <PropertyFactory
+                controls={[
+                  ...SIZING_CONTROLS,
+                  ...(block.sizing?.primary === 'fixed' ? [FIXED_PRIMARY_CONTROL] : []),
+                  ...(block.sizing?.cross === 'fixed' ? [FIXED_CROSS_CONTROL] : []),
+                ]}
+                values={{
+                  ...block.sizing,
+                  ...(block.sizing?.primary === 'fixed' ? { fixedPrimary: block.fixedPrimary ?? '' } : {}),
+                  ...(block.sizing?.cross === 'fixed' ? { fixedCross: block.fixedCross ?? '' } : {}),
+                }}
+                onChange={(patch) =>
+                  onPatchBlock(
+                    'fixedPrimary' in patch
+                      ? { fixedPrimary: patch.fixedPrimary === '' ? null : Number(patch.fixedPrimary) }
+                      : 'fixedCross' in patch
+                        ? { fixedCross: patch.fixedCross === '' ? null : Number(patch.fixedCross) }
+                        : { sizing: { ...block.sizing, ...patch } }
+                  )
+                }
+                onCommit={onCommit}
+              />
+            </section>
+          ) : (
+            <section className={styles.panel__section}>
+              <span className={styles.panel__sectionLabel}>Position &amp; size</span>
+              <div className={styles.panel__grid4}>
+                <label>
+                  <span>X%</span>
+                  <input type="number" step="0.5" value={round(effectiveLayout.x)} onChange={(e) => onPatchLayout({ x: Number(e.target.value) })} onBlur={onCommit} />
+                </label>
+                <label>
+                  <span>Y%</span>
+                  <input type="number" step="0.5" value={round(effectiveLayout.y)} onChange={(e) => onPatchLayout({ y: Number(e.target.value) })} onBlur={onCommit} />
+                </label>
+                <label>
+                  <span>W%</span>
+                  <input type="number" step="0.5" value={round(effectiveLayout.w)} onChange={(e) => onPatchLayout({ w: Number(e.target.value) })} onBlur={onCommit} />
+                </label>
+                {block.componentType !== 'CONTAINER' && (
+                  <label>
+                    <span>H%</span>
+                    <input
+                      type="number"
+                      step="0.5"
+                      placeholder="auto"
+                      value={effectiveLayout.h != null ? round(effectiveLayout.h) : ''}
+                      onChange={(e) => onPatchLayout({ h: e.target.value === '' ? null : Number(e.target.value) })}
+                      onBlur={onCommit}
+                    />
+                  </label>
+                )}
+              </div>
+            </section>
+          )}
+
+          {block.componentType === 'CONTAINER' && (
+            <section className={styles.panel__section}>
+              <span className={styles.panel__sectionLabel}>Flow (dizilim)</span>
+              <PropertyFactory controls={FLOW_CONTROLS} values={block.flow ?? {}} onChange={(patch) => onPatchBlock({ flow: { ...block.flow, ...patch } })} onCommit={onCommit} />
+            </section>
+          )}
 
           {'text' in (block.content ?? {}) && (
             <section className={styles.panel__section}>

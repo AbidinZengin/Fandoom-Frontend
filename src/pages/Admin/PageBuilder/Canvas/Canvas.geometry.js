@@ -109,6 +109,60 @@ export function findSnap(blocks, movingId, left, top, width, height, breakpoint,
   return { deltaX, deltaY, guideX, guideY };
 }
 
+// Bir bloğun O ANDAKİ render edilmiş piksel boyutunu okur — kullanıcı
+// kararı (2026-08-19): VAR OLAN bir blok bir container'a girerken (Grupla,
+// sürükle-bırak) görünümü/boyutu HİÇ değişmemeli. `document`-geneli
+// (canvasRef'e bağlı DEĞİL) — LeftPanel.jsx (Layers sürükle-bırak) da
+// Canvas'ın dışında olduğu için aynı `data-block-id` seçicisiyle bu
+// fonksiyonu kullanır (bkz. schema.js applyPreservedPxSize'ın girdisi).
+//
+// KRİTİK — getBoundingClientRect zoom'DAN ETKİLENİR (Canvas.jsx'in
+// `.canvasWorld`'ü sonsuz-tuval pan/zoom için `transform: scale(zoom)`
+// taşır) — tuval %85 zoom'daysa ölçülen piksel gerçek tuval-uzayı
+// değerinden %15 küçük çıkar, sonra bu (yanlış) değer donmuş
+// fixedCross/fixedPrimary olarak KALICI yazılırdı (zoom değişse bile).
+// `.canvasWorld`'ün computed transform matrix'inden gerçek scale'i okuyup
+// böleriz — `.canvasWorld` her zaman `[data-canvas-root]`'un DOĞRUDAN
+// ebeveyni (bkz. Canvas.jsx JSX yapısı), class adına (hash'lenmiş CSS
+// modül) bağımlı olmadan güvenilir şekilde bulunur.
+export function getBlockPxSize(blockId) {
+  const el = document.querySelector(`[data-block-id="${blockId}"]`);
+  if (!el) return null;
+  const rect = el.getBoundingClientRect();
+  const worldEl = el.closest('[data-canvas-root]')?.parentElement;
+  let scale = 1;
+  if (worldEl) {
+    const transform = getComputedStyle(worldEl).transform;
+    if (transform && transform !== 'none') scale = new DOMMatrix(transform).a || 1;
+  }
+  return { w: rect.width / scale, h: rect.height / scale };
+}
+
+// Nested/auto-layout bloklar (Faz 3, bkz.
+// docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md) — sürüklenen
+// bloğun imleç konumunda hangi CONTAINER'ın üstünde durduğunu bulur.
+// DOM rect tabanlı (getBoundingClientRect zaten ekran-uzayında, zoom/pan
+// transform'larını manuel hesaba katmaya GEREK YOK). İç içe container'lar
+// üst üste binebilir — en KÜÇÜK alanlı (en "iç") eşleşme kazanır, Figma'nın
+// aynı davranışı. `excludeId`: sürüklenen bloğun kendisi — döngü koruması
+// (kendi alt-ağacına bırakma) reparentBlock'ta (schema.js) zaten var,
+// burada tekrar edilmiyor.
+export function findContainerAtPoint(canvasEl, blocksById, clientX, clientY, excludeId) {
+  if (!canvasEl) return null;
+  let best = null;
+  canvasEl.querySelectorAll('[data-block-id]').forEach((el) => {
+    const id = el.getAttribute('data-block-id');
+    if (!id || id === excludeId) return;
+    const block = blocksById[id];
+    if (!block || block.componentType !== 'CONTAINER') return;
+    const rect = el.getBoundingClientRect();
+    if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) return;
+    const area = rect.width * rect.height;
+    if (!best || area < best.area) best = { id, area };
+  });
+  return best?.id ?? null;
+}
+
 export function findCollision(blocks, movingId, left, top, width, height, breakpoint, canvasCtx) {
   if (height == null) return null;
   const a = { left, right: left + width, top, bottom: top + height };

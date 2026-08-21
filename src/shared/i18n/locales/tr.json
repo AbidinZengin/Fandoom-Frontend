@@ -1,0 +1,38 @@
+{
+  "navbar": {
+    "series": "Diziler",
+    "movies": "Filmler",
+    "news": "Haberler",
+    "blog": "Blog",
+    "comingSoon": "Yakında",
+    "shop": "Mağaza",
+    "community": "Topluluk",
+    "discussion": "Tartışma",
+    "theories": "Teoriler",
+    "fanArt": "Fan Sanatı",
+    "support": "Destek",
+    "searchPlaceholder": "Başlık, teori ara...",
+    "homeAriaLabel": "Fandoom ana sayfa",
+    "accountAriaLabel": "Hesap",
+    "openMenuAriaLabel": "Menüyü aç",
+    "closeMenuAriaLabel": "Menüyü kapat"
+  },
+  "footer": {
+    "tagline": "Teoriler. Haberler. Bloglar. Hayranlar için.",
+    "exploreHeading": "Keşfet",
+    "moreHeading": "Daha Fazla",
+    "followHeading": "Takip Et",
+    "rights": "© {{year}} Fandoom. Tüm hakları saklıdır.",
+    "partnerships": "İş birlikleri ve sponsorluklar: partners@fandoom.tv"
+  },
+  "home": {
+    "heroCta": "Keşfet",
+    "theoriesKicker": "Topluluk",
+    "theoriesHeading": "En Çok Konuşulan Teoriler",
+    "votes": "{{count}} oy",
+    "newsKicker": "Haber Merkezi",
+    "newsHeading": "Son Haberler",
+    "blogKicker": "Editöryel",
+    "blogHeading": "Öne Çıkan Blog Yazıları"
+  }
+}

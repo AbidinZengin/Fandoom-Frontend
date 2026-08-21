@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Hero } from './Hero/Hero';
 import { FeaturedCarousel } from './FeaturedCarousel/FeaturedCarousel';
 import { ContentSection } from './ContentSection/ContentSection';
@@ -11,6 +12,7 @@ export default function Home() {
   // kayar ve giriş dalgası o anda başlar (kullanıcı kararı: scroll
   // denemesi "site bozuk" hissi vermesin).
   const [explored, setExplored] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (explored) return undefined;
@@ -53,29 +55,29 @@ export default function Home() {
       <FeaturedCarousel play={explored} />
 
       <ContentSection
-        kicker="Community"
-        heading="Top Theories"
+        kicker={t('home.theoriesKicker')}
+        heading={t('home.theoriesHeading')}
         items={theories}
         renderMeta={(item) => (
           <>
             <span>{item.author}</span>
             <span>&middot;</span>
-            <span>{item.votes} votes</span>
+            <span>{t('home.votes', { count: item.votes })}</span>
           </>
         )}
       />
 
       <ContentSection
-        kicker="Newsroom"
-        heading="Latest News"
+        kicker={t('home.newsKicker')}
+        heading={t('home.newsHeading')}
         items={news}
         mirror
         renderMeta={(item) => <span>{item.date}</span>}
       />
 
       <ContentSection
-        kicker="Editorial"
-        heading="Featured Blog Posts"
+        kicker={t('home.blogKicker')}
+        heading={t('home.blogHeading')}
         items={blogPosts}
         renderMeta={(item) => <span>{item.readTime}</span>}
       />

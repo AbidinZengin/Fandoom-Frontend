@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
+import { useLocalizedNavigate as useNavigate } from '../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
 import {
   armBlogFlip,

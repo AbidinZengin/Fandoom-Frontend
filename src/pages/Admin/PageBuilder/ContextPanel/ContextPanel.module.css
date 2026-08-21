@@ -87,6 +87,10 @@
   background: var(--pb-bg);
 }
 
+.panel__actions > button[data-success] {
+  color: var(--pb-accent, var(--brand-red));
+}
+
 .panel__modeToggle {
   margin-left: auto;
   display: flex;

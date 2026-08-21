@@ -2,7 +2,10 @@ import { makeClassNamer } from './naming';
 import { createBindingRegistry } from './bindings';
 import { relativeImportPrefix } from './paths';
 import { cssRulesForBlock } from './cssRules';
-import { jsxForBlock } from './jsxForBlock';
+import { jsxForBlock, jsxForContainerOpen, jsxForContainerClose } from './jsxForBlock';
+
+const ROOT_INDENT = '      '; // 6 boşluk — .page'in bir seviye altı
+const INDENT_STEP = '  '; // her CONTAINER seviyesi +2 boşluk
 
 // PageBuilder'ın "Kodu Üret" motoru — tuvaldeki block'ları (layout/styles/
 // content/bindings) gerçek `<Ad>.jsx` + `<Ad>.module.css` string'lerine
@@ -11,13 +14,13 @@ import { jsxForBlock } from './jsxForBlock';
 // docs/plans/2026-08-15-pagebuilder-codegen-design.md). Alt-parçalar
 // (className, binding→fetch, CSS satırları, JSX satırı) ayrı dosyalarda —
 // bu dosya sadece onları sırayla çağırıp iki string'i (jsx, css) birleştirir.
-// orderedBlocks: PageBuilder.jsx'in zaten hesapladığı `blockOrder.map(id =>
-// blocks[id])` — katman sırasıyla (alttan üste) dizili block objeleri.
-export function generateComponent({ orderedBlocks, componentName, targetDir, canvasWidths, canvasHeights }) {
-  // Katman sırası (z-index/DOM order) — kullanıcı uyarısı: block'lar
-  // GELDİKLERİ SIRAYLA emit edilir (DOM'da sonra gelen üstte durur),
-  // hidden block'lar hiç üretilmez.
-  const visibleBlocks = orderedBlocks.filter((b) => b && !b.hidden);
+//
+// orderedBlocks: PageBuilder.jsx'in `blockOrder.map(id => blocks[id])` ile
+// hesapladığı KÖK SEVİYE bloklar (katman sırasıyla, alttan üste) — bkz.
+// docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md. CONTAINER
+// çocukları blockOrder'da YER ALMAZ, `blocksById` üzerinden `childOrder`
+// takip edilerek recursive bulunur (flat map + pointer deseni).
+export function generateComponent({ orderedBlocks, blocksById, componentName, targetDir, canvasWidths, canvasHeights }) {
   const nextClassName = makeClassNamer();
   const bindingRegistry = createBindingRegistry();
   const importPrefix = relativeImportPrefix(targetDir);
@@ -25,15 +28,42 @@ export function generateComponent({ orderedBlocks, componentName, targetDir, can
   const cssRules = [];
   const jsxLines = [];
 
-  for (const block of visibleBlocks) {
-    const className = nextClassName(block.componentType);
-    cssRules.push(...cssRulesForBlock(block, className, canvasWidths));
-    jsxLines.push(jsxForBlock(block, className, bindingRegistry));
+  // Katman sırası (z-index/DOM order) — kullanıcı uyarısı: block'lar
+  // GELDİKLERİ SIRAYLA emit edilir (DOM'da sonra gelen üstte durur),
+  // hidden block'lar (ve onların TÜM alt-ağacı) hiç üretilmez.
+  const visibleRoots = (orderedBlocks ?? []).filter((b) => b && !b.hidden);
+  for (const block of visibleRoots) {
+    emitBlock({ block, parentFlow: undefined, depth: 0, blocksById, nextClassName, bindingRegistry, canvasWidths, canvasHeights, cssRules, jsxLines });
   }
 
   const jsx = renderJsx({ componentName, importPrefix, bindingRegistry, jsxLines });
   const css = renderCss({ canvasWidths, canvasHeights, cssRules });
   return { jsx, css };
+}
+
+// Tek bir bloğu (ve CONTAINER ise recursive olarak tüm alt-ağacını) JSX/CSS
+// satırlarına çevirip `jsxLines`/`cssRules`'a push eder. `parentFlow`:
+// ebeveyn CONTAINER'ın `flow`'u (kök blok için undefined) — cssRulesForBlock
+// çapraz eksen hesabı için buna ihtiyaç duyar (bkz. cssRules.js
+// childSizingDeclarations).
+function emitBlock({ block, parentFlow, depth, blocksById, nextClassName, bindingRegistry, canvasWidths, canvasHeights, cssRules, jsxLines }) {
+  const className = nextClassName(block.componentType);
+  const indent = ROOT_INDENT + INDENT_STEP.repeat(depth);
+  cssRules.push(...cssRulesForBlock(block, className, canvasWidths, canvasHeights, parentFlow));
+
+  if (block.componentType === 'CONTAINER') {
+    jsxLines.push(jsxForContainerOpen(className, indent));
+    const children = (block.childOrder ?? [])
+      .map((id) => blocksById?.[id])
+      .filter((child) => child && !child.hidden);
+    for (const child of children) {
+      emitBlock({ block: child, parentFlow: block.flow, depth: depth + 1, blocksById, nextClassName, bindingRegistry, canvasWidths, canvasHeights, cssRules, jsxLines });
+    }
+    jsxLines.push(jsxForContainerClose(indent));
+    return;
+  }
+
+  jsxLines.push(jsxForBlock(block, className, bindingRegistry, indent));
 }
 
 function renderJsx({ componentName, importPrefix, bindingRegistry, jsxLines }) {

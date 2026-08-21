@@ -81,6 +81,7 @@ function PageBuilderInner() {
     setActivePreset(preset);
   };
   const [justSaved, setJustSaved] = useState(false);
+  const [justPublished, setJustPublished] = useState(false);
   // Çoklu seçim (marquee/shift+tık) — store'un tekil selectedId'sinden AYRI
   // tutulur: ContextPanel'in tek-blok özellik paneli çoklu seçimde anlamsız
   // olduğu için selectedId sadece boyut 0/1'ken senkronize edilir (aşağıda
@@ -93,13 +94,22 @@ function PageBuilderInner() {
   const saving = useBuilderStore((s) => s.saving);
   const loading = useBuilderStore((s) => s.loading);
   const addBlock = useBuilderStore((s) => s.addBlock);
+  const addBlockTree = useBuilderStore((s) => s.addBlockTree);
   const updateBlock = useBuilderStore((s) => s.updateBlock);
   const removeBlock = useBuilderStore((s) => s.removeBlock);
   const duplicateBlock = useBuilderStore((s) => s.duplicateBlock);
   const reorderBlocks = useBuilderStore((s) => s.reorderBlocks);
+  const reparentBlock = useBuilderStore((s) => s.reparentBlock);
+  const groupIntoNewContainer = useBuilderStore((s) => s.groupIntoNewContainer);
+  const ungroupContainer = useBuilderStore((s) => s.ungroupContainer);
   const selectBlock = useBuilderStore((s) => s.selectBlock);
   const loadFromAdapter = useBuilderStore((s) => s.loadFromAdapter);
   const saveToAdapter = useBuilderStore((s) => s.saveToAdapter);
+  const builds = useBuilderStore((s) => s.builds);
+  const loadingBuilds = useBuilderStore((s) => s.loadingBuilds);
+  const loadBuilds = useBuilderStore((s) => s.loadBuilds);
+  const publishBuild = useBuilderStore((s) => s.publishBuild);
+  const restoreBuild = useBuilderStore((s) => s.restoreBuild);
 
   const [, forceTick] = useState(0);
   useEffect(() => useBuilderStore.temporal.subscribe(() => forceTick((t) => t + 1)), []);
@@ -107,6 +117,7 @@ function PageBuilderInner() {
 
   useEffect(() => {
     loadFromAdapter().catch(() => {});
+    loadBuilds();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -214,6 +225,15 @@ function PageBuilderInner() {
     setActivePreset(null);
   };
 
+  // Kütüphaneden (blockLibrary.js) bir CONTAINER + tüm alt-ağacını
+  // yerleştirme — handleAddBlock'un çoklu-blok karşılığı, aynı
+  // araç/preset temizleme davranışını paylaşır.
+  const handleAddBlockTree = (blocksArray) => {
+    addBlockTree(blocksArray);
+    setActiveTool(null);
+    setActivePreset(null);
+  };
+
   const handleSave = async () => {
     try {
       await saveToAdapter();
@@ -223,6 +243,17 @@ function PageBuilderInner() {
       // saveToAdapter zaten store.error'a yazıyor
     }
   };
+
+  const handlePublish = async () => {
+    try {
+      await publishBuild();
+      setJustPublished(true);
+      setTimeout(() => setJustPublished(false), 2000);
+    } catch {
+      // publishBuild zaten store.error'a yazıyor
+    }
+  };
+
 
   const isDark = productionSlug !== 'fandoom';
   const accent = isDark ? (themeBySlug[productionSlug]?.accent ?? 'var(--brand-red)') : 'var(--brand-red)';
@@ -247,6 +278,8 @@ function PageBuilderInner() {
         saving={saving}
         justSaved={justSaved}
         onSave={handleSave}
+        justPublished={justPublished}
+        onPublish={handlePublish}
       />
 
       <div className={styles.pageBuilder__body}>
@@ -256,9 +289,12 @@ function PageBuilderInner() {
           activePreset={activePreset}
           onSelectPreset={handleSelectPreset}
           blocks={orderedBlocks}
+          blocksById={blocks}
           selectedId={selectedId}
           onSelectBlock={handleSelectBlock}
-          onReorderBlocks={reorderBlocks}
+          onReparentBlock={reparentBlock}
+          onGroupIntoNewContainer={groupIntoNewContainer}
+          onRenameBlock={(id, name) => updateBlock(id, { name })}
           onToggleLock={(id) => updateBlock(id, { locked: !blocks[id].locked })}
           onToggleHide={(id) => updateBlock(id, { hidden: !blocks[id].hidden })}
           canvasWidths={canvasWidths}
@@ -266,6 +302,9 @@ function PageBuilderInner() {
           referenceImage={referenceImage}
           onReferenceImage={setReferenceImage}
           onRestoreBlockContent={(id, content) => updateBlock(id, { content })}
+          builds={builds}
+          loadingBuilds={loadingBuilds}
+          onRestoreBuild={restoreBuild}
         />
 
         {loading ? (
@@ -273,6 +312,7 @@ function PageBuilderInner() {
         ) : (
           <Canvas
             blocks={orderedBlocks}
+            blocksById={blocks}
             selectedIds={selectedIds}
             onSelectBlock={handleSelectBlock}
             onSelectMany={handleSelectMany}
@@ -281,7 +321,10 @@ function PageBuilderInner() {
             activeTool={activeTool}
             activePreset={activePreset}
             onAddBlock={handleAddBlock}
+            onAddBlockTree={handleAddBlockTree}
             updateBlock={updateBlock}
+            onReparentBlock={reparentBlock}
+            onGroupIntoNewContainer={groupIntoNewContainer}
             onPatchStyle={patchStyle}
             canvasWidths={canvasWidths}
             canvasHeights={canvasHeights}
@@ -298,6 +341,7 @@ function PageBuilderInner() {
       {selectedBlock && (
         <ContextPanel
           block={selectedBlock}
+          blocksById={blocks}
           breakpoint={breakpoint}
           styleMode={styleMode}
           onStyleModeChange={setStyleMode}
@@ -310,6 +354,7 @@ function PageBuilderInner() {
           onDuplicate={() => duplicateBlock(selectedBlock.id)}
           onBringToFront={() => bringToFront(selectedBlock.id)}
           onSendToBack={() => reorderBlocks([selectedBlock.id, ...blockOrder.filter((id) => id !== selectedBlock.id)])}
+          onUngroupContainer={() => ungroupContainer(selectedBlock.id)}
         />
       )}
     </div>

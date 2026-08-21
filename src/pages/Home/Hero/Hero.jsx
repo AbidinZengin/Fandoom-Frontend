@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { FandoomLogo } from '../../../components/FandoomLogo/FandoomLogo';
 import styles from './Hero.module.css';
 
 export function Hero({ onExplore }) {
   const heroRef = useRef(null);
+  const { t } = useTranslation();
   const ctaRef = useRef(null);
   const ctaFloatRef = useRef(null);
 
@@ -89,7 +91,7 @@ export function Hero({ onExplore }) {
             ref={ctaRef}
             onClick={onExplore}
           >
-            Explore
+            {t('home.heroCta')}
           </button>
         </div>
       </div>

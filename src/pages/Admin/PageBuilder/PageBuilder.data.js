@@ -14,6 +14,11 @@ export const TOOLS = [
   { componentType: 'ICON', label: 'Icon', key: '7' },
   { componentType: 'TEXT', label: 'Text', key: '8' },
   { componentType: 'IMAGE', label: 'Image', key: '9' },
+  // Nested/auto-layout container — diğerleriyle AYNI çiz-yerleştir yoluyla
+  // (usePlacement.js, createEmptyBlock zaten CONTAINER'ı özel işliyor)
+  // boş bir kesikli çerçeve olarak tuvale eklenir, sonra içine blok
+  // sürüklenir (bkz. docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md).
+  { componentType: 'CONTAINER', label: 'Container', key: '0' },
 ];
 
 // Serbest metin CSS alanları (cursor/filter vb.) için datalist önerileri —
@@ -426,6 +431,84 @@ export const EFFECT_CONTROLS = [
     ],
   },
   { key: 'animation', label: 'Animation (hazır)', type: 'text', default: '', presets: ANIMATION_PRESETS },
+];
+
+// Nested/auto-layout bloklar (bkz.
+// docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md) — bir
+// CONTAINER'ın ÇOCUĞU olan bloğun X/Y/W/H yerine gösterilen kontrolleri.
+// `PropertyFactory`'nin zaten desteklediği `select`/`text` kontrol
+// şemasıyla AYNI (yeni bir UI bileşeni icat edilmedi) — ContextPanel bunu
+// `block.sizing` objesine bağlar. `fixedCross` SADECE cross:'fixed' iken
+// gösterilir (ContextPanel'de koşullu filtrelenir).
+export const SIZING_CONTROLS = [
+  {
+    key: 'primary',
+    label: 'Ana eksen (akış yönü)',
+    type: 'select',
+    default: 'hug',
+    options: [
+      { value: 'hug', label: 'İçeriğe göre (hug)' },
+      { value: 'fill', label: 'Kalanı doldur (fill)' },
+      { value: 'fixed', label: 'Sabit (px)' },
+    ],
+  },
+  {
+    key: 'cross',
+    label: 'Çapraz eksen',
+    type: 'select',
+    default: 'hug',
+    options: [
+      { value: 'hug', label: 'İçeriğe göre (hug)' },
+      { value: 'fill', label: 'Kapla (fill)' },
+      { value: 'fixed', label: 'Sabit (px)' },
+    ],
+  },
+];
+
+export const FIXED_CROSS_CONTROL = { key: 'fixedCross', label: 'Sabit boyut (px, çapraz)', type: 'text', default: '' };
+export const FIXED_PRIMARY_CONTROL = { key: 'fixedPrimary', label: 'Sabit boyut (px, ana eksen)', type: 'text', default: '' };
+
+// CONTAINER seçiliyken (kök ya da bir üst container'ın çocuğu fark etmez)
+// gösterilen flow kontrolleri — `block.flow`'a bağlanır. Kullanıcı kararı:
+// breakpoint'e göre DEĞİŞMEZ (bkz. tasarım dokümanı "Flow breakpoint"
+// bölümü), bu yüzden tek bir kontrol seti yeterli.
+export const FLOW_CONTROLS = [
+  {
+    key: 'direction',
+    label: 'Yön',
+    type: 'select',
+    default: 'column',
+    options: [
+      { value: 'column', label: 'Dikey (column)' },
+      { value: 'row', label: 'Yatay (row)' },
+    ],
+  },
+  { key: 'gap', label: 'Boşluk (gap, px)', type: 'slider', min: 0, max: 64, step: 1, default: 12 },
+  { key: 'padding', label: 'İç boşluk (padding, px)', type: 'slider', min: 0, max: 64, step: 1, default: 12 },
+  {
+    key: 'align',
+    label: 'Çapraz hizalama (align-items)',
+    type: 'select',
+    default: 'stretch',
+    options: [
+      { value: 'stretch', label: 'Stretch' },
+      { value: 'flex-start', label: 'Başlangıç' },
+      { value: 'center', label: 'Ortala' },
+      { value: 'flex-end', label: 'Son' },
+    ],
+  },
+  {
+    key: 'justify',
+    label: 'Ana eksen hizalama (justify-content)',
+    type: 'select',
+    default: 'flex-start',
+    options: [
+      { value: 'flex-start', label: 'Başlangıç' },
+      { value: 'center', label: 'Ortala' },
+      { value: 'flex-end', label: 'Son' },
+      { value: 'space-between', label: 'Aralarına yay (space-between)' },
+    ],
+  },
 ];
 
 // Breakpoint (base/md/lg) × pseudo-state (normal/hover) matrisinden

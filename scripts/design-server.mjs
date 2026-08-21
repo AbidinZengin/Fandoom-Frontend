@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 // Local-only tasarım editörü yazma sunucusu — backend/DB'yi devre dışı
 // bırakan mimari pivotun parçası (bkz. plan: local dosya + Vite HMR).
-// Dört iş: (1) SeriesHeroEditor/PageBuilder'ın "Save"iyle bir *.blocks.json
-// taslağını atomic write ile güncellemek, (2) PageBuilder'ın "Kodu Üret"
-// akışı için var olan sayfaları listelemek (GET /pages), (3) referans
-// ekran görüntüsü çekmek (POST /capture — capture-page.mjs'i child process
-// çalıştırır), (4) üretilen component'i src/pages/ altına yazmak
-// (POST /generate — YENİ klasör, var olan hiçbir dosyanın üzerine yazmaz).
+// Beş iş: (1) SeriesHeroEditor/PageBuilder'ın "Save"iyle bir *.blocks.json
+// taslağını atomic write ile güncellemek, (2) PageBuilder'ın "Yayınla"
+// butonuyla o taslağı ADI-KONULMUŞ bir build olarak yanındaki *.builds.json
+// geçmişine eklemek (POST /builds, üzerine yazmaz — GET /builds listeler),
+// (3) PageBuilder'ın "Kodu Üret" akışı için var olan sayfaları listelemek
+// (GET /pages), (4) referans ekran görüntüsü çekmek (POST /capture —
+// capture-page.mjs'i child process çalıştırır), (5) üretilen component'i
+// src/pages/ altına yazmak (POST /generate — YENİ klasör, var olan hiçbir
+// dosyanın üzerine yazmaz).
 // Vite'ın dev sunucusu *.blocks.json değişikliğini HMR ile anında
 // tarayıcıya yansıtır — ayrı bir backend/DB/auth katmanı YOK.
 //
@@ -23,6 +26,7 @@
 import { createServer } from 'node:http';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import { randomUUID } from 'node:crypto';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, relative, resolve, sep } from 'node:path';
@@ -62,6 +66,20 @@ function resolveBlocksPath(relPath) {
   if (!abs.startsWith(SRC_ROOT)) return null;
   return abs;
 }
+
+// "Yayınla" ile oluşan build geçmişi taslakla AYNI dosyada DEĞİL, yanındaki
+// bir `.builds.json`'da tutulur (ör. demo.blocks.json → demo.builds.json)
+// — mevcut /blocks GET/POST sözleşmesi (düz blok dizisi) hiç değişmez, bu
+// yüzden bu adaptörü paylaşan diğer editörler (SeriesHeroEditor) etkilenmez.
+function resolveBuildsPath(relPath) {
+  const blocksPath = resolveBlocksPath(relPath);
+  return blocksPath ? blocksPath.replace(/\.blocks\.json$/, '.builds.json') : null;
+}
+
+// Sınırsız büyümesin diye tavan — writebackHistoryStore.js'teki
+// MAX_ENTRIES deseniyle aynı gerekçe: her build tüm blok ağacını taşıdığı
+// için (writeback'in aksine tek alan değil), tavan ORADAKİNDEN düşük.
+const MAX_BUILDS = 20;
 
 async function readJsonBody(req) {
   const chunks = [];
@@ -120,6 +138,67 @@ async function handleBlocks(req, res, url) {
       // eslint-disable-next-line no-console
       console.log(`[design-server] saved ${body.length} block(s) → ${blocksPath}`);
       sendJson(res, 200, body);
+    } catch (err) {
+      sendJson(res, 500, { message: err.message });
+    }
+    return;
+  }
+
+  sendJson(res, 405, { message: 'Method not allowed' });
+}
+
+// PageBuilder'ın "Yayınla" butonu — mevcut taslağı (body, /blocks POST ile
+// AYNI blok dizisi formatı) yeni bir build olarak `.builds.json`'a EKLER
+// (üzerine yazmaz). En yeni build başta; GET tüm listeyi döner (PageBuilder
+// mount'ta bunu okuyup "Geçmiş" panelinde listeler).
+async function handleBuilds(req, res, url) {
+  const buildsPath = resolveBuildsPath(url.searchParams.get('path'));
+  if (!buildsPath) {
+    sendJson(res, 400, { message: 'Geçersiz veya eksik path (src/**/*.blocks.json olmalı)' });
+    return;
+  }
+
+  if (req.method === 'GET') {
+    try {
+      if (!existsSync(buildsPath)) {
+        sendJson(res, 200, []);
+        return;
+      }
+      const raw = await readFile(buildsPath, 'utf8');
+      sendJson(res, 200, JSON.parse(raw));
+    } catch (err) {
+      sendJson(res, 500, { message: err.message });
+    }
+    return;
+  }
+
+  if (req.method === 'POST') {
+    try {
+      const body = await readJsonBody(req);
+      if (!Array.isArray(body)) {
+        sendJson(res, 400, { message: 'Body bir blok dizisi olmalı' });
+        return;
+      }
+      const entry = { id: randomUUID(), publishedAt: new Date().toISOString(), blocks: body };
+      const updated = await queueWrite(buildsPath, async () => {
+        let existing = [];
+        if (existsSync(buildsPath)) {
+          try {
+            existing = JSON.parse(await readFile(buildsPath, 'utf8'));
+          } catch {
+            existing = [];
+          }
+        }
+        const next = [entry, ...existing].slice(0, MAX_BUILDS);
+        await mkdir(dirname(buildsPath), { recursive: true });
+        const tmpPath = `${buildsPath}.tmp`;
+        await writeFile(tmpPath, JSON.stringify(next, null, 2), 'utf8');
+        await rename(tmpPath, buildsPath);
+        return next;
+      });
+      // eslint-disable-next-line no-console
+      console.log(`[design-server] published build ${entry.id} → ${buildsPath}`);
+      sendJson(res, 200, updated);
     } catch (err) {
       sendJson(res, 500, { message: err.message });
     }
@@ -270,6 +349,7 @@ const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://${HOST}:${PORT}`);
 
   if (url.pathname === '/blocks') return handleBlocks(req, res, url);
+  if (url.pathname === '/builds') return handleBuilds(req, res, url);
   if (url.pathname === '/pages') return handlePages(req, res);
   if (url.pathname === '/capture') return handleCapture(req, res);
   if (url.pathname === '/generate') return handleGenerate(req, res);

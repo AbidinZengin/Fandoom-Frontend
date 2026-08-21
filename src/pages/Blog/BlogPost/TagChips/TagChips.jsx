@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import styles from './TagChips.module.css';
 
 // Blog yazısı ↔ yapım/sezon/bölüm bağı n-n çapraz-kesen tag'dir

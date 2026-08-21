@@ -26,6 +26,31 @@ export async function saveBlocks(blocksPath, blocks) {
   return res.json();
 }
 
+// PageBuilder'ın "Yayınla" akışı — taslaktan (saveBlocks'a giden AYNI blok
+// dizisi) yeni bir build oluşturur (design-server'da yanındaki
+// *.builds.json'a eklenir, üzerine yazmaz — bkz. design-server.mjs).
+export async function fetchBuilds(blocksPath) {
+  const res = await fetch(`${DESIGN_SERVER_URL}/builds?path=${encodeURIComponent(blocksPath)}`);
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.message ?? `design-server hata: ${res.status} — çalışıyor mu? (npm run design-server)`);
+  }
+  return res.json();
+}
+
+export async function publishBuild(blocksPath, blocks) {
+  const res = await fetch(`${DESIGN_SERVER_URL}/builds?path=${encodeURIComponent(blocksPath)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(blocks),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.message ?? `design-server hata: ${res.status} — çalışıyor mu? (npm run design-server)`);
+  }
+  return res.json();
+}
+
 // Faz 2 — "Kodu Üret" akışının design-server uçları. .status taşıyan hata:
 // çağıran (LeftPanel) 409'u (hedef klasör zaten var) diğer hatalardan
 // ayırt edebilsin diye — client.js'teki ApiError'ın aynı deseni.

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { getComponentDefinition } from '../../../../shared/builder/registry';
 import { createEmptyBlock } from '../../../../shared/builder/schema';
+import { instantiateLibraryEntry } from '../../../../shared/builder/blockLibrary';
 import { FANDOOM_VAR_MIME } from '../../../../shared/builder/EntityPicker/EntityPicker';
 import { clamp, pixelEdgesOf, trackPointerGesture } from './Canvas.geometry';
 import { DRAG_THRESHOLD_PX, DEFAULT_PREVIEW_WIDTH, DEFAULT_PREVIEW_HEIGHT } from './Canvas.constants';
@@ -12,7 +13,7 @@ import { DRAG_THRESHOLD_PX, DEFAULT_PREVIEW_WIDTH, DEFAULT_PREVIEW_HEIGHT } from
 // pointerdown'ın diğer dalı), (3) LeftPanel'in Data paletinden bir
 // {tip.alan} değişkenini sürükle-bırak (handleCanvasDragOver/Drop). VAR
 // OLAN block'ları taşıma/boyutlandırma useBlockGestures'ın işi.
-export function usePlacement({ activeTool, activePreset, canvasRef, blocks, breakpoint, onAddBlock, onSelectMany, onSelectBlock, onSelectReference, updateBlock }) {
+export function usePlacement({ activeTool, activePreset, canvasRef, blocks, breakpoint, onAddBlock, onAddBlockTree, onSelectMany, onSelectBlock, onSelectReference, updateBlock }) {
   const [drawRect, setDrawRect] = useState(null);
   // Boş alanda sürükleyerek çoklu seçim (lasso/marquee) — bkz. startMarquee.
   const [marquee, setMarquee] = useState(null);
@@ -120,6 +121,35 @@ export function usePlacement({ activeTool, activePreset, canvasRef, blocks, brea
 
     trackPointerGesture(onMove, () => {
       setDrawRect(null);
+      // Yeni block HER ZAMAN base'te tanımlanır — hangi breakpoint'i
+      // görüntülüyor olursan ol, taban değeri bu (md/lg sonradan elle
+      // override edilir, bkz. schema.js layout yorumu). TEXT sürüklenmeden
+      // (düz tık) yerleştirilince içeriğe göre otomatik büyümesi için h:null
+      // kalır. Diğer tipler (Rectangle/Diamond/Circle/Image) için null
+      // bırakmak, önizlemede görünen kutudan farklı (min-height'a göre
+      // değişken) bir final boyuta yol açıyordu (kullanıcı raporu: "şekil
+      // beliriyor sonra yok oluyor") — önizlemeyle AYNI DEFAULT_PREVIEW_HEIGHT
+      // burada da kullanılıyor.
+      const finalLayout = {
+        x: Math.min(finalRect.x1, finalRect.x2),
+        y: Math.min(finalRect.y1, finalRect.y2),
+        w: Math.max(Math.abs(finalRect.x2 - finalRect.x1), 3),
+        h: dragged ? Math.max(Math.abs(finalRect.y2 - finalRect.y1), 3) : activeTool === 'TEXT' ? null : DEFAULT_PREVIEW_HEIGHT,
+      };
+
+      // Kütüphaneden (blockLibrary.js) yerleştirilen bir CONTAINER preset'i
+      // — TEK blok değil, kaydedilen tüm alt-ağaç (kullanıcı kararı,
+      // 2026-08-19: "container kütüphanesi daha mantıklı") birlikte
+      // materialize edilir. `flow` de burada (instantiateLibraryEntry
+      // üzerinden) taşınır — düz tekil-blok yolu (aşağıda) sadece
+      // content/styles/customCss'i bilir, flow'u YOK SAYARDI.
+      if (activePreset?.componentType === 'CONTAINER') {
+        const [root, ...descendants] = instantiateLibraryEntry(activePreset, { x: startXPct, y: startYPct });
+        root.layout.base = { ...finalLayout, h: null };
+        onAddBlockTree([root, ...descendants]);
+        return;
+      }
+
       const definition = getComponentDefinition(activeTool);
       // PRESET_VARIANTS'tan seçilmişse (bkz. LeftPanel preset tile'ları)
       // registry'nin defaultContent/defaultStyles'ı YERİNE preset'in kendi
@@ -129,21 +159,12 @@ export function usePlacement({ activeTool, activePreset, canvasRef, blocks, brea
         ? { ...definition, defaultContent: activePreset.content, defaultStyles: activePreset.styles }
         : definition;
       const block = createEmptyBlock(activeTool, { x: startXPct, y: startYPct }, effectiveDefinition);
-      // TEXT sürüklenmeden (düz tık) yerleştirilince içeriğe göre otomatik
-      // büyümesi için h:null kalır. Diğer tipler (Rectangle/Diamond/Circle/
-      // Image) için null bırakmak, önizlemede görünen kutudan farklı
-      // (min-height'a göre değişken) bir final boyuta yol açıyordu
-      // (kullanıcı raporu: "şekil beliriyor sonra yok oluyor") — önizlemeyle
-      // AYNI DEFAULT_PREVIEW_HEIGHT burada da kullanılıyor.
-      // Yeni block HER ZAMAN base'te tanımlanır — hangi breakpoint'i
-      // görüntülüyor olursan ol, taban değeri bu (md/lg sonradan elle
-      // override edilir, bkz. schema.js layout yorumu).
-      block.layout.base = {
-        x: Math.min(finalRect.x1, finalRect.x2),
-        y: Math.min(finalRect.y1, finalRect.y2),
-        w: Math.max(Math.abs(finalRect.x2 - finalRect.x1), 3),
-        h: dragged ? Math.max(Math.abs(finalRect.y2 - finalRect.y1), 3) : activeTool === 'TEXT' ? null : DEFAULT_PREVIEW_HEIGHT,
-      };
+      // Kütüphaneden yerleştirilen preset'ler kendi customCss'ini de taşır —
+      // createEmptyBlock bunu hiç bilmiyor (her zaman '' ile başlar),
+      // PRESET_VARIANTS'ın hiçbirinde customCss olmadığı için bu satır
+      // onlar için no-op.
+      if (activePreset?.customCss) block.customCss = activePreset.customCss;
+      block.layout.base = finalLayout;
       onAddBlock(block);
     });
   };

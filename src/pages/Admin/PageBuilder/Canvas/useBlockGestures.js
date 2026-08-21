@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { makeBlockId } from '../../../../shared/builder/schema';
 import { resolveEffectiveStyle, resolveEffectiveLayout, patchLayoutMatrix } from '../PageBuilder.data';
-import { clamp, withGlobalCursor, parseObjectPosition, findSnap, findCollision, pixelEdgesOf, trackPointerGesture } from './Canvas.geometry';
+import { clamp, withGlobalCursor, parseObjectPosition, findSnap, findCollision, findContainerAtPoint, getBlockPxSize, pixelEdgesOf, trackPointerGesture } from './Canvas.geometry';
 import { RESIZE_CURSOR, DRAG_THRESHOLD_PX } from './Canvas.constants';
 
 // VAR OLAN block'ları taşıma/boyutlandırma/seçme/hizalama — tuvale YENİ
@@ -10,9 +10,27 @@ import { RESIZE_CURSOR, DRAG_THRESHOLD_PX } from './Canvas.constants';
 // panningBlockId burada; drawRect/marquee usePlacement'ta; referenceOffset/
 // Size useReferenceImage'ta) taşıyor — birleştirilseydi Canvas.jsx'in eski
 // 1000+ satırlık tek-blok hâli geri gelirdi.
-export function useBlockGestures({ blocks, breakpoint, canvasRef, updateBlock, onSelectBlock, onSelectMany, selectedIds, activeTool, onAddBlock, onPatchStyle, onSelectReference }) {
+//
+// `blocksById`/`onReparentBlock`: Faz 3 nested/auto-layout sürükle-bırak
+// (bkz. docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md) —
+// container hit-testing (findContainerAtPoint) tüm bloklara pointer id'yle
+// erişmek için düz map ister, `blocks` (root sırası) yetmez.
+export function useBlockGestures({ blocks, blocksById, breakpoint, canvasRef, updateBlock, onReparentBlock, onSelectBlock, onSelectMany, selectedIds, activeTool, onAddBlock, onPatchStyle, onSelectReference }) {
   const [guides, setGuides] = useState({ v: null, h: null });
   const [collidingId, setCollidingId] = useState(null);
+  // Nested drag hedefi — CONTAINER'ın üstündeyken vurgulanır (Canvas.jsx
+  // `data-drop-target`). Ghost: bir CHILD blok sürüklenirken (kendi
+  // position:static'i yüzünden imleci takip edemediği için) imlecin
+  // yanında gösterilen küçük önizleme.
+  const [dropTargetContainerId, setDropTargetContainerId] = useState(null);
+  const [dragGhost, setDragGhost] = useState(null); // { block, x, y } | null
+  // trackPointerGesture'ın onEnd'i son pointer event'ini ALMAZ — drop anındaki
+  // imleç konumunu (kök'e bırakırken x/y hesaplamak için) ref'te tutuyoruz.
+  const lastPointerRef = useRef({ x: 0, y: 0 });
+  // React state (dropTargetContainerId) SADECE render/görsel vurgu için —
+  // onEnd callback'i tanımlandığı andaki state'i KAPATIR (stale closure),
+  // gerçek "drop anındaki hedef" burada, ref'te tutulur ve onEnd bunu okur.
+  const dropTargetRef = useRef(null);
   // IMAGE block'a çift tıklayınca girilen "kaydırma modu" — bu modda o
   // block'un üstünde sürüklemek block'u TAŞIMAZ, içindeki görseli
   // object-position ile kutunun içinde kaydırır (bkz. startImagePan).
@@ -91,6 +109,7 @@ export function useBlockGestures({ blocks, breakpoint, canvasRef, updateBlock, o
     let restoreCursor = null;
 
     const onMove = (ev) => {
+      lastPointerRef.current = { x: ev.clientX, y: ev.clientY };
       const dxClient = ev.clientX - startClientX, dyClient = ev.clientY - startClientY;
       // Bkz. grup sürükleme yorumundaki aynı düzeltme — eşik pozisyonu
       // GECİKTİRMEZ, sadece imleç/blur yan etkisini tetikler.
@@ -114,6 +133,11 @@ export function useBlockGestures({ blocks, breakpoint, canvasRef, updateBlock, o
       // Kırmızı kesikli outline SADECE görsel bir ipucu — çakışma artık
       // z-sırasını OTOMATİK değiştirmiyor (bkz. onUp yorumu).
       setCollidingId(findCollision(blocks, block.id, leftPx, topPx, widthPx, heightPx, breakpoint, canvasCtx));
+      // Nested/auto-layout (Faz 3) — SERBEST bir bloğu bir CONTAINER'ın
+      // üstüne sürüklerken hedefi vurgula (Canvas.jsx `data-drop-target`).
+      const hoveredContainerId = dragging ? findContainerAtPoint(canvasRef.current, blocksById, ev.clientX, ev.clientY, block.id) : null;
+      dropTargetRef.current = hoveredContainerId;
+      setDropTargetContainerId(hoveredContainerId);
 
       // 0-100 aralığına KENETLEME YOK — kullanıcı raporu: "componentler
       // canvas dışında bir yerde de üretilebilip sürüklenebilmeli" — artboard
@@ -127,6 +151,15 @@ export function useBlockGestures({ blocks, breakpoint, canvasRef, updateBlock, o
       setGuides({ v: null, h: null });
       setCollidingId(null);
       restoreCursor?.();
+      // Bırakılan an bir CONTAINER'ın üstündeyse içine katılır — x/y artık
+      // anlamsız (flex akışından gelecek), reparentBlock bunu childOrder'a
+      // ekler. Sona eklenir (sıralama Layers panelinden yapılabilir).
+      // pxSize: reparent'tan ÖNCE (blok hâlâ eski absolute konumundayken)
+      // okunur — kullanıcı kararı (2026-08-19): container'a giren VAR OLAN
+      // bloğun görünümü değişmemeli.
+      if (dropTargetRef.current) onReparentBlock(block.id, dropTargetRef.current, null, getBlockPxSize(block.id));
+      dropTargetRef.current = null;
+      setDropTargetContainerId(null);
       // ESKİ davranış (kaldırıldı, kullanıcı düzeltmesiyle TERS ÇEVRİLDİ):
       // çakışınca sürüklenen blok otomatik en öne alınıyordu. Kullanıcı
       // kararı: "bir componentin üstüne başka component koyulduysa o
@@ -134,6 +167,66 @@ export function useBlockGestures({ blocks, breakpoint, canvasRef, updateBlock, o
       // olarak düşemez" — z-sırası artık SADECE explicit eylemle
       // (Bring to front/Send to back butonu) değişir, sürükleme/çakışma
       // sessizce değiştirmez.
+    });
+  };
+
+  // CONTAINER çocuğu bir bloğu sürükleme — normal startDrag'ten FARKLI,
+  // çünkü child'ın konumu artık x/y DEĞİL flex akışından geliyor
+  // (position:static, bkz. Canvas.jsx `data-in-flow`). Kendi DOM elemanını
+  // taşımak yerine imleci takip eden küçük bir "ghost" gösterilir
+  // (dragGhost state'i, Canvas.jsx render eder). Bırakılan an: bir
+  // CONTAINER'ın üstündeyse oraya (yeniden) katılır, boş tuval alanına
+  // bırakılırsa köke serbest bloğa döner (imleç konumundan x/y hesaplanır).
+  // Aynı container'ın İÇİNDE yeniden sıralama BİLİNÇLİ olarak burada YOK —
+  // Layers panelinde zaten tam destekleniyor (before/after/into), aynı
+  // pixel-tabanlı sıralamayı burada tekrarlamak kapsamı gereksiz büyütür.
+  const startChildDrag = (block, startEvent) => {
+    if (block.locked) return;
+    onSelectBlock(block.id);
+    const startClientX = startEvent.clientX, startClientY = startEvent.clientY;
+    let dragging = false;
+    let restoreCursor = null;
+
+    const onMove = (ev) => {
+      lastPointerRef.current = { x: ev.clientX, y: ev.clientY };
+      const dx = ev.clientX - startClientX, dy = ev.clientY - startClientY;
+      if (!dragging && Math.hypot(dx, dy) >= DRAG_THRESHOLD_PX) {
+        dragging = true;
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+        restoreCursor = withGlobalCursor('grabbing');
+      }
+      if (!dragging) return;
+      window.getSelection()?.removeAllRanges();
+      setDragGhost({ block, x: ev.clientX, y: ev.clientY });
+      const hoveredContainerId = findContainerAtPoint(canvasRef.current, blocksById, ev.clientX, ev.clientY, block.id);
+      dropTargetRef.current = hoveredContainerId;
+      setDropTargetContainerId(hoveredContainerId);
+    };
+
+    trackPointerGesture(onMove, () => {
+      restoreCursor?.();
+      setDragGhost(null);
+      setDropTargetContainerId(null);
+      if (!dragging) {
+        dropTargetRef.current = null;
+        return;
+      }
+      if (dropTargetRef.current) {
+        // Aynı container'a geri bırakıldıysa dokunma — sıralama Layers'ın işi.
+        // Farklı bir container'a giriyorsa görünümü donduran pxSize (bkz.
+        // yukarıdaki startDrag'in AYNI yorumu) reparent'tan ÖNCE okunur.
+        if (dropTargetRef.current !== block.parentId) onReparentBlock(block.id, dropTargetRef.current, null, getBlockPxSize(block.id));
+      } else {
+        // Boş tuval alanına bırakıldı — köke serbest blok olarak döner,
+        // x/y son imleç konumundan hesaplanır.
+        const canvasRect = canvasRef.current.getBoundingClientRect();
+        const w = block.layout?.base?.w ?? 30;
+        const nextX = clamp(((lastPointerRef.current.x - canvasRect.left) / canvasRect.width) * 100 - w / 2, 0, 100 - w);
+        const nextY = clamp(((lastPointerRef.current.y - canvasRect.top) / canvasRect.height) * 100, 0, 100);
+        onReparentBlock(block.id, null, null);
+        updateBlock(block.id, { layout: patchLayoutMatrix(block.layout, breakpoint, { x: nextX, y: nextY }) });
+      }
+      dropTargetRef.current = null;
     });
   };
 
@@ -234,6 +327,17 @@ export function useBlockGestures({ blocks, breakpoint, canvasRef, updateBlock, o
       return;
     }
 
+    // CONTAINER çocuğu — x/y-tabanlı serbest sürükleme (startDrag) ve
+    // groupId/alt-klonlama (o mekanizmalar köke `onAddBlock`/blockOrder
+    // varsayar) burada UYGULANMAZ, kendi ghost-tabanlı jesti var (bkz.
+    // startChildDrag yorumu). Alt+sürükle klonlama child'larda MVP'de
+    // desteklenmiyor (kapsam dışı, ayrı görev).
+    if (block.parentId) {
+      onSelectMany([block.id]);
+      startChildDrag(block, e);
+      return;
+    }
+
     if (e.altKey) {
       e.stopPropagation();
       const clone = structuredClone(block);
@@ -330,5 +434,17 @@ export function useBlockGestures({ blocks, breakpoint, canvasRef, updateBlock, o
     }
   };
 
-  return { guides, collidingId, panningBlockId, setPanningBlockId, handleBlockPointerDown, startResize, startImagePan, alignSelection, distributeSelection };
+  return {
+    guides,
+    collidingId,
+    panningBlockId,
+    setPanningBlockId,
+    handleBlockPointerDown,
+    startResize,
+    startImagePan,
+    alignSelection,
+    distributeSelection,
+    dropTargetContainerId,
+    dragGhost,
+  };
 }

@@ -17,21 +17,25 @@ function valueExpr(block, contentKey, bindingRegistry) {
 // wrapper+iç-eleman ayrımı BURADA YOK — üretilen statik çıktı tek bir
 // elemente düzleşir (editördeki ayrım sadece düzenlenebilir bir textarea
 // barındırmak içindi, üretilen sayfa salt-okunur JSX'te gerek kalmaz).
-export function jsxForBlock(block, className, bindingRegistry) {
+//
+// `indent`: satırın başına konan boşluk — nesting derinliğine göre
+// generateComponent.js tarafından hesaplanır (kök seviye 6 boşluk, her
+// CONTAINER seviyesi +2 — bkz. jsxForContainerOpen/Close).
+export function jsxForBlock(block, className, bindingRegistry, indent = '      ') {
   if (block.componentType === 'TEXT') {
-    return `      <p className={styles.${className}}>${valueExpr(block, 'text', bindingRegistry)}</p>`;
+    return `${indent}<p className={styles.${className}}>${valueExpr(block, 'text', bindingRegistry)}</p>`;
   }
   if (block.componentType === 'IMAGE') {
-    return `      <img className={styles.${className}} src=${valueExpr(block, 'imageUrl', bindingRegistry)} alt="" />`;
+    return `${indent}<img className={styles.${className}} src=${valueExpr(block, 'imageUrl', bindingRegistry)} alt="" />`;
   }
   if (block.componentType === 'BUTTON') {
     const label = valueExpr(block, 'text', bindingRegistry);
     const to = block.content?.to;
     if (to) {
       bindingRegistry.registerStaticImport('Link', 'react-router-dom');
-      return `      <Link to=${jsStringLiteral(to)} className={styles.${className}}>${label}</Link>`;
+      return `${indent}<Link to=${jsStringLiteral(to)} className={styles.${className}}>${label}</Link>`;
     }
-    return `      <button type="button" className={styles.${className}}>${label}</button>`;
+    return `${indent}<button type="button" className={styles.${className}}>${label}</button>`;
   }
   if (block.componentType === 'LOGO') {
     const variant = LOGO_VARIANTS[block.content?.variant];
@@ -45,9 +49,9 @@ export function jsxForBlock(block, className, bindingRegistry) {
     const to = block.content?.to;
     if (to) {
       bindingRegistry.registerStaticImport('Link', 'react-router-dom');
-      return `      <Link to=${jsStringLiteral(to)} className={styles.${className}}>${logo}</Link>`;
+      return `${indent}<Link to=${jsStringLiteral(to)} className={styles.${className}}>${logo}</Link>`;
     }
-    return `      <div className={styles.${className}}>${logo}</div>`;
+    return `${indent}<div className={styles.${className}}>${logo}</div>`;
   }
   if (block.componentType === 'ICON') {
     const icon = CONTENT_ICONS[block.content?.icon] ?? CONTENT_ICONS.star;
@@ -57,9 +61,19 @@ export function jsxForBlock(block, className, bindingRegistry) {
     const to = block.content?.to;
     if (to) {
       bindingRegistry.registerStaticImport('Link', 'react-router-dom');
-      return `      <Link to=${jsStringLiteral(to)}>${svg}</Link>`;
+      return `${indent}<Link to=${jsStringLiteral(to)}>${svg}</Link>`;
     }
-    return `      ${svg}`;
+    return `${indent}${svg}`;
   }
-  return `      <div className={styles.${className}} />`;
+  return `${indent}<div className={styles.${className}} />`;
+}
+
+// CONTAINER bloğu leaf değil — açılış/kapanış satırları ayrı, çocukları
+// generateComponent.js recursion'da arasına yazar (bkz. `renderBlockJsx`).
+export function jsxForContainerOpen(className, indent) {
+  return `${indent}<div className={styles.${className}}>`;
+}
+
+export function jsxForContainerClose(indent) {
+  return `${indent}</div>`;
 }

@@ -281,7 +281,15 @@ export function registerPageBuilderComponents() {
     name: 'Image',
     component: ImageRenderer,
     defaultContent: { imageUrl: null },
-    defaultStyles: { borderRadius: 'var(--radius-sm)' },
+    // objectFit BURADA veriye YAZILMAK ZORUNDA (Canvas.module.css'teki
+    // .imageImg'in object-fit:cover'ına GÜVENME) — kullanıcı raporu
+    // (2026-08-19): "generate edilen kod hiç göründüğü gibi değil".
+    // Editördeki .imageImg class'ı sadece EDİTÖRDE cover görünmesini
+    // sağlıyordu; codegen SADECE block.styles verisini okur, CSS class'ı
+    // bilmez — objectFit veride yoksa üretilen CSS'te satır hiç çıkmıyor,
+    // tarayıcı object-fit'in CSS-initial değeri 'fill'e düşüp posteri
+    // (2:3) şeride (ör. 10:1) niteliksiz uzatıyordu.
+    defaultStyles: { borderRadius: 'var(--radius-sm)', objectFit: 'cover' },
     bindableField: { key: 'imageUrl', kind: 'image' },
     controls: [
       // Kullanıcı düzeltmesi: "style/effect kısmı block tipine göre

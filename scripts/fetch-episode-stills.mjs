@@ -43,6 +43,11 @@ const BACKEND_BASE_URL = process.env.BACKEND_BASE_URL || 'http://localhost:8080/
 const TMDB_TV_ID = process.env.TMDB_TV_ID || '1399'; // Game of Thrones
 const SERIES_SLUG = process.env.SERIES_SLUG || 'game-of-thrones';
 const AUTH_TOKEN = process.env.AUTH_TOKEN || null;
+// Cloudinary public_id'lerinin başındaki dizi kısaltması — script ilk GoT
+// için yazıldığı için varsayılan "got" korunuyor (değiştirilirse mevcut
+// --bake-crop/--recrop public_id'leri eşleşmez, kopya asset oluşur). Başka
+// bir dizi için PUBLIC_ID_PREFIX env var'ı ile override edilir.
+const PUBLIC_ID_PREFIX = process.env.PUBLIC_ID_PREFIX || 'got';
 
 const seasonFilterArg = process.argv.indexOf('--season');
 const seasonFilter = seasonFilterArg !== -1 ? Number(process.argv[seasonFilterArg + 1]) : null;
@@ -262,7 +267,7 @@ async function main() {
             continue;
           }
           const source = stripSmartCropUrl(existing.stillImageUrl);
-          const publicId = `${CLOUDINARY_FOLDER}/got-s${season.seasonNumber}e${String(ep.episodeNumber).padStart(2, '0')}-crop`;
+          const publicId = `${CLOUDINARY_FOLDER}/${PUBLIC_ID_PREFIX}-s${season.seasonNumber}e${String(ep.episodeNumber).padStart(2, '0')}-crop`;
           const baked = await bakeCropUpload(source, publicId);
           await putEpisodeStill(ep, baked);
           console.log(`  ✓ ${label} (g_auto ${BAKE_AR} bake + DB güncellendi)`);
@@ -310,7 +315,7 @@ async function main() {
           }
           cloudinaryUrl = await uploadToCloudinary(
             stillUrl,
-            `got-s${season.seasonNumber}e${String(ep.episodeNumber).padStart(2, '0')}`
+            `${PUBLIC_ID_PREFIX}-s${season.seasonNumber}e${String(ep.episodeNumber).padStart(2, '0')}`
           );
         } else if (existing?.status === 'ok' && existing.stillImageUrl && !existing.synced) {
           cloudinaryUrl = existing.stillImageUrl;
@@ -326,7 +331,7 @@ async function main() {
           }
           cloudinaryUrl = await uploadToCloudinary(
             stillUrl,
-            `got-s${season.seasonNumber}e${String(ep.episodeNumber).padStart(2, '0')}`
+            `${PUBLIC_ID_PREFIX}-s${season.seasonNumber}e${String(ep.episodeNumber).padStart(2, '0')}`
           );
         }
         let synced = false;

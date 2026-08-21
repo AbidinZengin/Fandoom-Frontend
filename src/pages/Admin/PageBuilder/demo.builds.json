@@ -1,0 +1,811 @@
+[
+  {
+    "id": "ef932817-eecd-4e04-8efd-ba17a4854965",
+    "publishedAt": "2026-08-20T17:36:37.460Z",
+    "blocks": [
+      {
+        "id": "001d679c-1387-4ae2-a155-90943c7e5818",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "md": null,
+          "lg": null
+        },
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1786894979/fandoom/general/wx0qd6dpcyuseimjy07e.webp"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-sm)",
+              "blur": 7,
+              "filter": ""
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "ef478485-796d-4e25-8070-b3ee8ea508f9",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 5.8384678175944105,
+            "y": 6.1500038344491355,
+            "w": 21.178507951613426,
+            "h": 10.14286845492984
+          },
+          "md": null,
+          "lg": null
+        },
+        "content": {
+          "text": "SEASONS"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "lineHeight": "",
+              "fontWeight": "500",
+              "scale": 1,
+              "blur": 0,
+              "boxShadow": "",
+              "backgroundImage": "",
+              "backdropFilter": "",
+              "zIndex": "1"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "f740a494-62d6-417f-a542-cea52a259899",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 30.196884570775516,
+            "y": 7.033521167167262,
+            "w": 63.21930480626362,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "content": {
+          "text": "Every season, every episode of Breaking Bad — browse the full run."
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "26px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "zIndex": "1"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "32c3b52e-dd4d-49b5-b914-5e44d4dae349",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 21.618807670723314,
+            "y": 22.078798814602628,
+            "w": 8.578076900052206,
+            "h": 15.04346438310723
+          },
+          "md": null,
+          "lg": null
+        },
+        "content": {
+          "text": "01"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "96px",
+              "zIndex": "3",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "767a1118-df74-4f2d-9572-194303a6fcc4",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 20.35590275567926,
+            "y": 23.754513138394092,
+            "w": 58.4087506746892,
+            "h": 11.692035735524296
+          },
+          "md": null,
+          "lg": null
+        },
+        "content": {
+          "imageUrl": "https://image.tmdb.org/t/p/w500/1BP4xYv9ZG4ZVHkL7ocOziBbSYH.jpg"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "10",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectPosition": "51.78657571432808% 76.13426634990137%",
+              "cursor": "pointer"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "6e3f88be-d63c-42d0-9edf-8ea7568649d2",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 41.133757175773994,
+            "y": 25.1606487981477,
+            "w": 17.732485648452013,
+            "h": 8.879764416017087
+          },
+          "md": null,
+          "lg": null
+        },
+        "content": {
+          "text": "Season 1"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "10",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "lineHeight": "1.1"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "c07b2b19-599b-4912-ae60-3e9b87f7565f",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 20.35590275567926,
+            "y": 38.35452438685979,
+            "w": 58.4087506746892,
+            "h": 11.692035735524296
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "imageUrl": "https://image.tmdb.org/t/p/w500/e3oGYpoTUhOFK0BJfloru5ZmGV.jpg"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "11",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectPosition": "51.6457393301486% 24.375372014491887%",
+              "cursor": "pointer"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "dd8f83bb-6cd2-41a5-9f62-f9a30f9caacb",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 20.35590275567926,
+            "y": 52.95453563532543,
+            "w": 58.4087506746892,
+            "h": 11.692035735524296
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "imageUrl": "https://image.tmdb.org/t/p/w500/ffP8Q8ew048YofHRnFVM18B2fPG.jpg"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "12",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectPosition": "50.096635802942835% 67.07644996897908%",
+              "cursor": "pointer"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "d3367841-6b95-44b2-97bc-f8ef7abed150",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 20.35590275567926,
+            "y": 67.83001879413948,
+            "w": 58.4087506746892,
+            "h": 11.692035735524296
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "imageUrl": "https://image.tmdb.org/t/p/w500/5ewrnKp4TboU4hTLT5cWO350mHj.jpg"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "13",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectPosition": "49.53333324345536% 29.55126394706246%",
+              "cursor": "pointer"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "dca6a05c-7f1d-442b-a74f-2da39b43329a",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 20.35590275567926,
+            "y": 82.86962108951451,
+            "w": 58.4087506746892,
+            "h": 12.73309760048108
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "imageUrl": "https://image.tmdb.org/t/p/w500/r3z70vunihrAkjILQKWHX0G2xzO.jpg"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "14",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectPosition": "51.082436770661126% 71.3813938501481%",
+              "cursor": "pointer"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "c91e7534-bc9b-43d2-b4ea-bfad8dd2dd75",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 21.618807670723314,
+            "y": 35.87879881460262,
+            "w": 9.481813794239091,
+            "h": 15.04346438310723
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "02"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "96px",
+              "zIndex": "3",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "6287bd96-3f71-4833-aa8d-62bf3c0888ae",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 21.618807670723314,
+            "y": 50.57879881460248,
+            "w": 9.974758911745667,
+            "h": 15.04346438310723
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "03"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "96px",
+              "zIndex": "3",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "d24e5b44-dec7-442d-8c20-c00e0fc21d61",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 21.618807670723314,
+            "y": 65.57879881460234,
+            "w": 9.646129878097492,
+            "h": 15.04346438310723
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "04"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "96px",
+              "zIndex": "3",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "3cd3aa64-5e6f-4ca9-8475-26c2f588999e",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 21.618807670723314,
+            "y": 80.87879881460219,
+            "w": 10.79633619696904,
+            "h": 15.04346438310723
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "05"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "96px",
+              "zIndex": "3",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "a8333154-83c5-4c5a-b08c-e837fe72dcf0",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 41.133757175773994,
+            "y": 39.26064879814765,
+            "w": 19.04700805118196,
+            "h": 8.879764416017087
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "Season 2"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "11",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "lineHeight": "1.1"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "81e51cb1-3610-49c0-a16f-1ddbf364556f",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 41.133757175773994,
+            "y": 54.26064879814751,
+            "w": 18.882695101392187,
+            "h": 8.879764416017087
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "Season 3"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "12",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "lineHeight": "1.1"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "bcc48c1e-4630-43e7-a0b5-4151d007c95c",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 41.133757175773994,
+            "y": 68.36064879814738,
+            "w": 18.882695101392187,
+            "h": 8.879764416017087
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "Season 4"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "13",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "lineHeight": "1.1"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      },
+      {
+        "id": "b268e9bc-4bc2-4067-8703-1809f25a8c68",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 41.133757175773994,
+            "y": 83.96064879814723,
+            "w": 18.882695101392187,
+            "h": 8.879764416017087
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "content": {
+          "text": "Season 5"
+        },
+        "bindings": {
+          "entityType": "season",
+          "entityId": "14",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#e0e0e0",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "lineHeight": "1.1"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false
+      }
+    ]
+  }
+]

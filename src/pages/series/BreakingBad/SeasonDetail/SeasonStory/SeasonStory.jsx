@@ -7,12 +7,13 @@ import styles from './SeasonStory.module.css';
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Sezonun "inceleme" bölümü — gerçek bir TV inceleme yazısı formatı/sesi
- * (kullanıcı referansı: House of the Dragon S3 incelemesi): giriş + alt-
- * başlıklı bölümler (fotoğraf+altyazı+kredi, gövde metni, pull-quote) +
- * kapanış yargısı. `photo.episodeNumber`, `episodes` prop'undaki GERÇEK
- * bölüm verisinden (stillImageUrl) o fotoğrafı bulur — sahte görsel yok,
- * zaten var olan bölüm fotoğrafları farklı bir bağlamda kullanılıyor.
+ * Sezonun "derin okuma" bölümü — Portal (YouTube) kanalının felsefi video-
+ * deneme üslubuna uyarlanmış ses (2026-08-21 kullanıcı kararı): giriş +
+ * alt-başlıklı bölümler (fotoğraf+altyazı+kredi, gövde metni, pull-quote)
+ * + kapanış yargısı. İçerik şu an İNGİLİZCE (bkz. SeasonStory.data.js dil
+ * notu). `photo.episodeNumber`, `episodes` prop'undaki GERÇEK bölüm
+ * verisinden (stillImageUrl) o fotoğrafı bulur — sahte görsel yok, zaten
+ * var olan bölüm fotoğrafları farklı bir bağlamda kullanılıyor.
  * Basit fade+y reveal — pin/scroll-scrub mekaniği yok (bu turda kaldırıldı).
  */
 export function SeasonStory({ seasonNumber, episodes }) {
@@ -107,7 +108,7 @@ export function SeasonStory({ seasonNumber, episodes }) {
       </div>
 
       <div className={styles.review__verdict} data-reveal="">
-        <p className={styles.review__verdictLabel}>Sonuç</p>
+        <p className={styles.review__verdictLabel}>Reckoning</p>
         {content.verdict.map((paragraph) => (
           <p key={paragraph.slice(0, 32)}>{paragraph}</p>
         ))}

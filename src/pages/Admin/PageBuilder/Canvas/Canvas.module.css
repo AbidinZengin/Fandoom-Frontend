@@ -219,6 +219,56 @@
   font-size: var(--text-xs);
 }
 
+/* Nested/auto-layout bloklar (bkz.
+   docs/plans/2026-08-18-pagebuilder-nested-blocks-design.md) — bir
+   CONTAINER'ın çocuğu `.block`'un position:absolute'ünü miras alır ama
+   flex akışına katılması gerekir, bu yüzden burada ezilir. */
+.block[data-in-flow] {
+  position: static;
+}
+
+.block__containerEmpty {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed var(--pb-border, #d4d4d8);
+  border-radius: var(--radius-sm);
+  color: #a1a1aa;
+  font-size: var(--text-xs);
+  pointer-events: none;
+}
+
+/* Faz 3 canvas sürükle-bırak nested gruplama — bir blok bir CONTAINER'ın
+   üstüne sürüklenirken hedefi vurgular (findContainerAtPoint,
+   Canvas.geometry.js). */
+.block[data-drop-target] {
+  outline: 2px dashed #3b82f6;
+  outline-offset: 3px;
+  background: rgba(59, 130, 246, 0.08);
+}
+
+/* Sürüklenen CONTAINER çocuğu — kendi DOM'u imleci takip edemediği
+   (position:static) için yerinde soluklaşır, gerçek geri bildirim
+   dragGhost'tan gelir (bkz. aşağıda). */
+.block[data-dragging] {
+  opacity: 0.35;
+}
+
+.dragGhost {
+  position: fixed;
+  z-index: 50;
+  transform: translate(12px, 12px);
+  padding: var(--space-3xs, 4px) var(--space-xs);
+  border-radius: var(--radius-sm);
+  background: #18181b;
+  color: #fff;
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
 .resizeHandle {
   position: absolute;
   width: 8px;

@@ -13,6 +13,27 @@
   height: 100.34%;
   filter: blur(7px);
   border-radius: var(--radius-sm);
+  object-fit: cover;
+  /* Hero -> SeasonRoute sis erimesi (imza desen, bkz. learned-rules
+     [motion] "Hero'dan sonraki bölüme geçiş sis erimesidir"): alt kenar
+     sert kesilmez, sayfa zeminine (--bg) erir. Metin kardeş katmanda
+     kalır, maske yalnız medyaya uygulanır. */
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.78) 76%,
+    rgba(0, 0, 0, 0.38) 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.78) 76%,
+    rgba(0, 0, 0, 0.38) 88%,
+    transparent 100%
+  );
 }
 
 .imageBlock2 {
@@ -21,7 +42,10 @@
   top: 30.52%;
   width: 42.24%;
   height: 38.96%;
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,.35));
+  /* Arkadaki blurlu zemine (imageBlock1) karşı derinlik gölgesi — iki
+     katman (yakın+sıkı / uzak+yumuşak) net görselin zeminden kalkıp
+     keskinleşmiş görünmesini sağlar. */
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4)) drop-shadow(0 24px 48px rgba(0, 0, 0, 0.45));
   border-radius: var(--radius-sm);
   scale: 2;
   object-fit: fill;
