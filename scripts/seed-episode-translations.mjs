@@ -35,6 +35,7 @@ loadDotEnvLocal();
 
 const BACKEND_BASE_URL = process.env.BACKEND_BASE_URL || 'http://localhost:8080/api';
 const SERIES_SLUG = process.env.SERIES_SLUG || 'breaking-bad';
+const DATA_FILE = process.env.DATA_FILE || 'scripts/data/breaking-bad-episodes-merged.json';
 const AUTH_TOKEN = process.env.AUTH_TOKEN || null;
 
 const doWrite = process.argv.includes('--write');
@@ -121,7 +122,7 @@ function buildEpisodeBody(current, m) {
 }
 
 async function main() {
-  const merged = JSON.parse(readFileSync(resolve('scripts/data/breaking-bad-episodes-merged.json'), 'utf8'));
+  const merged = JSON.parse(readFileSync(resolve(DATA_FILE), 'utf8'));
 
   console.log(`Series detayı çekiliyor: ${SERIES_SLUG}`);
   const series = await fetch(`${BACKEND_BASE_URL}/series/slug/${SERIES_SLUG}`, { headers: getHeaders }).then((r) => r.json());
@@ -130,7 +131,7 @@ async function main() {
 
   if (!seasonFilter) {
     const seriesBody = buildSeriesBody(series, merged.series);
-    writeFileSync(resolve('scripts/output/series-breaking-bad-body.json'), JSON.stringify(seriesBody, null, 2));
+    writeFileSync(resolve(`scripts/output/series-${SERIES_SLUG}-body.json`), JSON.stringify(seriesBody, null, 2));
     const res = await putJson(`/series/${series.id}`, seriesBody);
     console.log(res.dryRun ? 'Series: DRY-RUN, gövde yazıldı.' : `✓ Series backend'e yazıldı (id: ${series.id}).`);
   }
