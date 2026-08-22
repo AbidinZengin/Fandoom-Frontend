@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -18,6 +19,7 @@ const pad2 = (n) => String(n).padStart(2, '0');
  * :seasonNumber/episodes/:episodeNumber'a gerçek Link.
  */
 export function EpisodeGrid({ episodes, seasonNumber }) {
+  const { t } = useTranslation();
   const listRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -44,8 +46,8 @@ export function EpisodeGrid({ episodes, seasonNumber }) {
   if (!episodes?.length) return null;
 
   return (
-    <div aria-label="Episodes">
-      <p className={styles.panel__heading}>Episodes</p>
+    <div aria-label={t('series.episodesHeading')}>
+      <p className={styles.panel__heading}>{t('series.episodesHeading')}</p>
       <ol className={styles.list} ref={listRef}>
         {episodes.map((ep) => (
           <li key={ep.id}>

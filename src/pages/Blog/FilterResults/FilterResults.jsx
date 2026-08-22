@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { FacetDropdown } from '../FilterPanel/FacetDropdown/FacetDropdown';
 import { SORT_OPTIONS } from '../FilterPanel/filterDefaults';
@@ -25,6 +26,7 @@ export function FilterResults({
   onLoadMore,
   onRetry,
 }) {
+  const { t } = useTranslation();
   const gridRef = useRef(null);
   const animatedCountRef = useRef(0);
 
@@ -33,7 +35,7 @@ export function FilterResults({
     ...(filters.franchise ? [{ key: 'franchise', label: chipLookup(facets?.franchises, filters.franchise) }] : []),
     ...filters.genre.map((slug) => ({ key: 'genre', value: slug, label: chipLookup(facets?.genres, slug) })),
     ...filters.mood.map((slug) => ({ key: 'mood', value: slug, label: chipLookup(facets?.moods, slug) })),
-    ...(filters.spoilerFree ? [{ key: 'spoilerFree', label: 'Spoiler-Free' }] : []),
+    ...(filters.spoilerFree ? [{ key: 'spoilerFree', label: t('blog.spoilerFreeChip') }] : []),
   ];
 
   // Filtre kombinasyonu değişince (sonuç seti sıfırdan geldiğinde) sayaç
@@ -62,7 +64,11 @@ export function FilterResults({
         <div className={styles.results__chips}>
           {chips.length === 0 ? (
             <span className={styles.results__count}>
-              {results.loading ? 'Loading…' : results.error ? '' : `${results.totalElements} results`}
+              {results.loading
+                ? t('blog.loading')
+                : results.error
+                  ? ''
+                  : t('blog.resultsCount', { count: results.totalElements })}
             </span>
           ) : (
             <>
@@ -80,7 +86,7 @@ export function FilterResults({
                 </button>
               ))}
               <button type="button" className={styles.results__clearAll} onClick={onClearAll}>
-                Clear all
+                {t('blog.clearAll')}
               </button>
             </>
           )}
@@ -88,7 +94,7 @@ export function FilterResults({
 
         <div className={styles.results__sort}>
           <FacetDropdown
-            label="Sort"
+            label={t('blog.sortLabel')}
             mode="single"
             options={SORT_DROPDOWN_OPTIONS}
             value={filters.sort}
@@ -105,16 +111,16 @@ export function FilterResults({
 
       {results.error ? (
         <div className={styles.results__empty}>
-          <p>Something went wrong loading results.</p>
+          <p>{t('blog.errorLoadingResults')}</p>
           <button type="button" className={styles.results__loadMore} onClick={onRetry}>
-            Try again
+            {t('blog.tryAgain')}
           </button>
         </div>
       ) : isEmpty ? (
         <div className={styles.results__empty}>
-          <p>No blogs match these filters.</p>
+          <p>{t('blog.noResults')}</p>
           <button type="button" className={styles.results__clearAll} onClick={onClearAll}>
-            Clear all filters
+            {t('blog.clearAllFilters')}
           </button>
         </div>
       ) : (
@@ -127,7 +133,7 @@ export function FilterResults({
 
       {canLoadMore && (
         <button type="button" className={styles.results__loadMore} onClick={onLoadMore}>
-          Load more
+          {t('blog.loadMore')}
         </button>
       )}
     </section>

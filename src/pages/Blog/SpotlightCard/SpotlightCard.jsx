@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
@@ -14,6 +15,7 @@ import styles from './SpotlightCard.module.css';
 // "carousel dive deeper gibi olmalı animasyon olarak") — tek öğe olduğu için
 // sürükleme/stride yok, sadece açılış/dönüş flip'i.
 export function SpotlightCard({ item }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const coverRef = useRef(null);
   const imgRef = useRef(null);
@@ -229,10 +231,12 @@ export function SpotlightCard({ item }) {
             <h3 className={styles.spotlight__title}>{item.title}</h3>
             <div className={styles.spotlight__footer}>
               {item.readingTimeMinutes != null && (
-                <span className={styles.spotlight__meta}>{item.readingTimeMinutes} min read</span>
+                <span className={styles.spotlight__meta}>
+                  {t('blog.minRead', { count: item.readingTimeMinutes })}
+                </span>
               )}
               <span className={styles.spotlight__link}>
-                Learn More <span aria-hidden="true">›</span>
+                {t('blog.learnMore')} <span aria-hidden="true">›</span>
               </span>
             </div>
           </div>

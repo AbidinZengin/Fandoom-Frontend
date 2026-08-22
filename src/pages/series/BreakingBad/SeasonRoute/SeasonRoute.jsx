@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -42,6 +43,7 @@ function ArrowIcon() {
 // kartlar normal parlaklıkta durur, ayırt edici tek şey metin overlay'i")
 // aktif/pasif farkı GÖSTERMEZ — ayırt edici tek şey sol paneldeki metindir.
 export default function SeasonRoute() {
+  const { t } = useTranslation();
   const [series, setSeries] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -129,8 +131,8 @@ export default function SeasonRoute() {
       <div className={styles.scrim} aria-hidden="true" />
 
       <div className={styles.header}>
-        <p className={styles.kicker}>{'SEASONS'}</p>
-        <h2 className={styles.title}>{'Every Season, Every Episode.'}</h2>
+        <p className={styles.kicker}>{t('series.seasonsHeading')}</p>
+        <h2 className={styles.title}>{t('series.everySeasonEveryEpisode')}</h2>
       </div>
 
       <div className={styles.bottom}>
@@ -143,7 +145,7 @@ export default function SeasonRoute() {
               onClick={() => armInPageNav()}
               className={styles.focus__cta}
             >
-              Explore Season <ArrowIcon />
+              {t('series.exploreSeasonCta')} <ArrowIcon />
             </Link>
           </div>
         )}
@@ -159,7 +161,7 @@ export default function SeasonRoute() {
                 <button
                   type="button"
                   className={styles.card}
-                  aria-label={`Season ${season.seasonNumber}: ${season.title}`}
+                  aria-label={t('series.seasonLabel', { number: season.seasonNumber, title: season.title })}
                   aria-current={i === activeIndex || undefined}
                   onMouseEnter={() => setActiveIndex(i)}
                   onFocus={() => setActiveIndex(i)}
@@ -181,11 +183,11 @@ export default function SeasonRoute() {
               className={styles.navArrow}
               data-dir="left"
               onClick={() => scrollByCard(-1)}
-              aria-label="Previous"
+              aria-label={t('common.previous')}
             >
               <ArrowIcon />
             </button>
-            <button type="button" className={styles.navArrow} onClick={() => scrollByCard(1)} aria-label="Next">
+            <button type="button" className={styles.navArrow} onClick={() => scrollByCard(1)} aria-label={t('common.next')}>
               <ArrowIcon />
             </button>
           </div>

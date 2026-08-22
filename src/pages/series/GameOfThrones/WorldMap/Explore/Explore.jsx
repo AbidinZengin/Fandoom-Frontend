@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -29,6 +30,7 @@ gsap.registerPlugin(ScrollTrigger);
 // (explore + artifacts); Houses ve RelatedContent kendi motion'larını zaten
 // taşıyor, buradan dokunulmuyor.
 export function Explore() {
+  const { t } = useTranslation();
   const [blogs, setBlogs] = useState(null);
   const exploreRef = useRef(null);
   const artifactsRef = useRef(null);
@@ -142,8 +144,8 @@ export function Explore() {
             <div className={styles.explore__bannerScrim} aria-hidden="true" />
 
             <div className={styles.explore__bannerHeading} data-title>
-              <span className={styles.explore__kicker}>Realm Guide</span>
-              <h2 className={styles.explore__heading}>Explore the Westeros</h2>
+              <span className={styles.explore__kicker}>{t('series.realmGuideKicker')}</span>
+              <h2 className={styles.explore__heading}>{t('series.exploreWesterosHeading')}</h2>
             </div>
 
             <div className={styles.explore__bannerIntro} data-reveal>
@@ -188,7 +190,7 @@ export function Explore() {
                       <h4 className={styles.teaser__title}>{teaser.title}</h4>
                       <p className={styles.teaser__description}>{teaser.description}</p>
                       <span className={styles.teaser__cta}>
-                        Explore <span>›</span>
+                        {t('common.explore')} <span>›</span>
                       </span>
                     </div>
                   </Link>
@@ -198,7 +200,7 @@ export function Explore() {
 
             {featured.length > 0 && (
               <aside className={styles.featured} data-reveal>
-                <h3 className={styles.featured__heading}>Featured</h3>
+                <h3 className={styles.featured__heading}>{t('series.featuredHeading')}</h3>
                 <ul className={styles.featured__list}>
                   {featured.map((item) => (
                     <li key={item.id}>
@@ -215,7 +217,7 @@ export function Explore() {
                         <div className={styles.featuredCard__body}>
                           <h4 className={styles.featuredCard__title}>{item.title}</h4>
                           <span className={styles.featuredCard__meta}>
-                            {item.readingTimeMinutes} dk okuma
+                            {t('blog.minRead', { count: item.readingTimeMinutes })}
                           </span>
                         </div>
                       </Link>
@@ -233,8 +235,8 @@ export function Explore() {
       <section className={styles.artifacts} ref={artifactsRef}>
         <div className={styles.artifacts__inner}>
           <div data-title>
-            <span className={styles.artifacts__kicker}>Artifacts</span>
-            <h3 className={styles.artifacts__heading}>Efsanevi Eşyalar</h3>
+            <span className={styles.artifacts__kicker}>{t('series.artifactsKicker')}</span>
+            <h3 className={styles.artifacts__heading}>{t('series.artifactsHeading')}</h3>
           </div>
 
           <ul className={styles.artifacts__grid}>
@@ -259,7 +261,7 @@ export function Explore() {
         </div>
       </section>
 
-      <RelatedContent items={diveDeeper} heading="Dive Deeper" />
+      <RelatedContent items={diveDeeper} heading={t('series.diveDeeperHeading')} />
     </>
   );
 }

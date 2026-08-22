@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
@@ -10,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 // fade+rise (learned-rules: "her sayfanın hero'su ilk açılışta giriş
 // animasyonu alır"); görselde hafif parallax (main GoT Hero ile aynı dil).
 export function Hero() {
+  const { t } = useTranslation();
   const heroRef = useRef(null);
   const mediaRef = useRef(null);
   const titleRef = useRef(null);
@@ -64,10 +66,10 @@ export function Hero() {
       <div className={styles.hero__overlay} />
       <div className={styles.hero__content}>
         <h1 className={styles.hero__title} ref={titleRef}>
-          Seasons
+          {t('series.seasonsHeading')}
         </h1>
         <p className={styles.hero__subtitle} ref={subtitleRef}>
-          Every season, every episode of Game of Thrones — browse the full run.
+          {t('series.seasonsHeroSubtitle', { show: 'Game of Thrones' })}
         </p>
       </div>
     </section>

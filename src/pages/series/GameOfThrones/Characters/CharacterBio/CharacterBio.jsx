@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './CharacterBio.module.css';
 
 // Kullanıcı referansı (Figma Make çıktısı "Karakter blokları tasarımı" +
@@ -18,6 +19,7 @@ import styles from './CharacterBio.module.css';
 // gerçek rect'ini parent'a bildirir (parent clone'u bu rect'e büyütür).
 // İçerik yüksekliğe göre değiştiği için hedef analitik hesaplanmaz, ÖLÇÜLÜR.
 export function CharacterBio({ character, index, visible, onMeasured, onRequestClose, onPrev, onNext }) {
+  const { t } = useTranslation();
   const imgRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -64,11 +66,11 @@ export function CharacterBio({ character, index, visible, onMeasured, onRequestC
 
         <div className={styles.card__panel}>
           <button type="button" className={styles.card__back} onClick={onRequestClose}>
-            ← Characters
+            {t('series.backToCharacters')}
           </button>
 
           <div className={styles.card__body}>
-            <span className={styles.card__label}>Character Bio</span>
+            <span className={styles.card__label}>{t('series.characterBioLabel')}</span>
             <h1 className={styles.card__name}>{character.name}</h1>
 
             <div className={styles.card__divider} aria-hidden="true" />
@@ -85,11 +87,11 @@ export function CharacterBio({ character, index, visible, onMeasured, onRequestC
           </div>
 
           <div className={styles.card__switcher}>
-            <button type="button" className={styles.card__arrow} onClick={onPrev} aria-label="Previous character">
+            <button type="button" className={styles.card__arrow} onClick={onPrev} aria-label={t('series.previousCharacter')}>
               ‹
             </button>
             <span className={styles.card__switcherName}>{character.name}</span>
-            <button type="button" className={styles.card__arrow} onClick={onNext} aria-label="Next character">
+            <button type="button" className={styles.card__arrow} onClick={onNext} aria-label={t('series.nextCharacter')}>
               ›
             </button>
           </div>

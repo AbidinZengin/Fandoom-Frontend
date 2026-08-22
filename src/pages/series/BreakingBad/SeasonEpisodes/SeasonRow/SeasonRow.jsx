@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { fetchSeasonDetail } from '../SeasonEpisodes.data';
@@ -18,6 +19,7 @@ const formatDate = (isoDate) =>
 // bir reflow gerektirdiği için (altındaki satırlar yer değiştirir) motion-
 // expert kuralının bilinçli istisnası olarak GSAP ile yapılır.
 export function SeasonRow({ season, backdropImage, isOpen, onToggle }) {
+  const { t } = useTranslation();
   const [episodes, setEpisodes] = useState(null);
   const [loading, setLoading] = useState(false);
   const bodyRef = useRef(null);
@@ -124,7 +126,9 @@ export function SeasonRow({ season, backdropImage, isOpen, onToggle }) {
         <span className={styles.row__number}>{String(season.seasonNumber).padStart(2, '0')}</span>
         <span className={styles.row__titleBlock}>
           <span className={styles.row__title}>{season.title}</span>
-          {episodes && <span className={styles.row__meta}>{episodes.length} Episodes</span>}
+          {episodes && (
+            <span className={styles.row__meta}>{t('series.episodesCount', { count: episodes.length })}</span>
+          )}
         </span>
         <span className={styles.row__chevron} aria-hidden="true">
           &#9662;
@@ -133,7 +137,7 @@ export function SeasonRow({ season, backdropImage, isOpen, onToggle }) {
 
       <div className={styles.row__body} ref={bodyRef}>
         <div className={styles.row__bodyInner} ref={innerRef}>
-          {loading && <p className={styles.row__status}>Loading episodes…</p>}
+          {loading && <p className={styles.row__status}>{t('series.loadingEpisodes')}</p>}
           {episodes?.map((ep) => {
             const href = `/series/breaking-bad/seasons/${season.seasonNumber}/episodes/${ep.episodeNumber}`;
             return (
@@ -165,7 +169,7 @@ export function SeasonRow({ season, backdropImage, isOpen, onToggle }) {
                 <div className={styles.episode__body}>
                   <h4 className={styles.episode__title}>{ep.title}</h4>
                   <p className={styles.episode__meta}>
-                    {formatDate(ep.airDate)} · {ep.durationMinutes} min
+                    {formatDate(ep.airDate)} · {t('series.minutesShort', { count: ep.durationMinutes })}
                   </p>
                 </div>
               </Link>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import styles from './Comments.module.css';
 
 // Yorum modülü backend'de henüz yok — learned-rules [veri]: backend'de
@@ -5,12 +6,13 @@ import styles from './Comments.module.css';
 // YAZILMADI). Dürüst bir "yakında" boş durumu; gerçek modül gelince bu
 // component listeye/forma dönüşür.
 export function Comments() {
+  const { t } = useTranslation();
   return (
     <section className={styles.comments} aria-labelledby="comments-heading">
       <h2 className={styles.comments__heading} id="comments-heading">
-        Comments
+        {t('blog.comments')}
       </h2>
-      <p className={styles.comments__empty}>Comments are coming soon.</p>
+      <p className={styles.comments__empty}>{t('blog.commentsComingSoon')}</p>
     </section>
   );
 }

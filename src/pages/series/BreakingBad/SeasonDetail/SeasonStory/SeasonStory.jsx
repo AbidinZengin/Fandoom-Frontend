@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getSeasonStory } from './SeasonStory.data';
@@ -17,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
  * Basit fade+y reveal — pin/scroll-scrub mekaniği yok (bu turda kaldırıldı).
  */
 export function SeasonStory({ seasonNumber, episodes }) {
+  const { t } = useTranslation();
   const rootRef = useRef(null);
   const [content, setContent] = useState(null);
 
@@ -108,7 +110,7 @@ export function SeasonStory({ seasonNumber, episodes }) {
       </div>
 
       <div className={styles.review__verdict} data-reveal="">
-        <p className={styles.review__verdictLabel}>Reckoning</p>
+        <p className={styles.review__verdictLabel}>{t('series.reckoningLabel')}</p>
         {content.verdict.map((paragraph) => (
           <p key={paragraph.slice(0, 32)}>{paragraph}</p>
         ))}

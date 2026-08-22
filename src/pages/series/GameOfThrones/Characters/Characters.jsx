@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { Footer } from '../../../../components/Footer/Footer';
@@ -31,6 +32,7 @@ const HISTORY_STATE_KEY = 'characterCardOpen';
 // karakter slaytları) — CharacterBio, grid'in üstünde animasyonla açılan
 // tam-ekran bir panel olarak render edilir.
 export default function Characters() {
+  const { t } = useTranslation();
   const [characters, setCharacters] = useState(null);
   const [analysisBlogs, setAnalysisBlogs] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -400,17 +402,17 @@ export default function Characters() {
             olmalı. */}
         <Link to="/series/game-of-thrones" className={styles.characters__back}>
           <span aria-hidden="true">&#8249;</span>
-          <span>Back</span>
+          <span>{t('common.back')}</span>
         </Link>
 
         <div className={styles.characters__inner}>
           <header className={styles.characters__head} data-reveal="">
-            <span className={styles.characters__kicker}>Cast</span>
-            <h1 className={styles.characters__heading}>Characters</h1>
+            <span className={styles.characters__kicker}>{t('series.castKicker')}</span>
+            <h1 className={styles.characters__heading}>{t('series.charactersHeading')}</h1>
           </header>
 
           {characters?.length === 0 && (
-            <p className={styles.characters__empty}>No characters yet.</p>
+            <p className={styles.characters__empty}>{t('series.noCharactersYet')}</p>
           )}
 
           {characters && characters.length > 0 && (
@@ -461,7 +463,7 @@ export default function Characters() {
                   className={styles.characters__arrow}
                   onClick={() => step(-1)}
                   disabled={atStart}
-                  aria-label="Previous"
+                  aria-label={t('common.previous')}
                 >
                   &#8249;
                 </button>
@@ -481,7 +483,7 @@ export default function Characters() {
                   className={styles.characters__arrow}
                   onClick={() => step(1)}
                   disabled={atEnd}
-                  aria-label="Next"
+                  aria-label={t('common.next')}
                 >
                   &#8250;
                 </button>
@@ -491,7 +493,7 @@ export default function Characters() {
         </div>
       </section>
 
-      <RelatedContent items={analysisBlogs} heading="Character Analysis" />
+      <RelatedContent items={analysisBlogs} heading={t('series.characterAnalysisHeading')} />
 
       <Footer />
 

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import styles from './ArticleNav.module.css';
 
@@ -10,10 +11,11 @@ import styles from './ArticleNav.module.css';
 // metin versiyonu "olmadı", görselli hâle dönüldü). Next'te görsel SAĞDA —
 // gidiş yönüne işaret etsin diye.
 export function ArticleNav({ previous, next }) {
+  const { t } = useTranslation();
   if (!previous && !next) return null;
 
   return (
-    <nav className={styles.nav} aria-label="Article navigation">
+    <nav className={styles.nav} aria-label={t('blog.articleNavAriaLabel')}>
       {previous ? (
         <Link to={`/blog/${previous.slug}`} className={styles.link} data-dir="prev">
           <img
@@ -25,7 +27,7 @@ export function ArticleNav({ previous, next }) {
           />
           <span className={styles.text}>
             <span className={styles.label}>
-              <span aria-hidden="true">&#8249;</span> Previous
+              <span aria-hidden="true">&#8249;</span> {t('common.previous')}
             </span>
             <span className={styles.title}>{previous.title}</span>
           </span>
@@ -38,7 +40,7 @@ export function ArticleNav({ previous, next }) {
         <Link to={`/blog/${next.slug}`} className={styles.link} data-dir="next">
           <span className={styles.text}>
             <span className={styles.label}>
-              Next <span aria-hidden="true">&#8250;</span>
+              {t('common.next')} <span aria-hidden="true">&#8250;</span>
             </span>
             <span className={styles.title}>{next.title}</span>
           </span>

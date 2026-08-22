@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useLang } from './useLang';
+import { withLangPrefix } from './constants';
 
 // useNavigate sarmalayıcısı — LocalizedLink ile aynı prefix mantığı.
 export function useLocalizedNavigate() {
@@ -7,10 +8,6 @@ export function useLocalizedNavigate() {
   const lang = useLang();
 
   return (to, options) => {
-    const localizedTo =
-      typeof to === 'string' && to.startsWith('/') && !to.startsWith('/admin')
-        ? `/${lang}${to}`
-        : to;
-    navigate(localizedTo, options);
+    navigate(withLangPrefix(to, lang), options);
   };
 }

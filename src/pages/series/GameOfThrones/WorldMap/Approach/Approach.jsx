@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { APPROACH_CONTENT } from './Approach.data';
@@ -13,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 // pinned harita yolculuğunun TAMAMINI atlayıp doğrudan Explore'un başına
 // iner (kullanıcı kararı — Seal kapanışını görmeden).
 export function Approach() {
+  const { t } = useTranslation();
   const sectionRef = useRef(null);
   const skipRef = useRef(null);
 
@@ -64,7 +66,7 @@ export function Approach() {
   };
 
   return (
-    <section className={styles.approach} aria-label="Approach to Westeros" ref={sectionRef}>
+    <section className={styles.approach} aria-label={t('series.approachAriaLabel')} ref={sectionRef}>
       <div className={styles.approach__body}>
         <span className={styles.approach__kicker} data-wave-item>
           {APPROACH_CONTENT.kicker}
@@ -78,7 +80,7 @@ export function Approach() {
       </div>
 
       <button type="button" className={styles.approach__skip} ref={skipRef} onClick={handleSkip}>
-        <span>Skip</span>
+        <span>{t('common.skip')}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
           <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>

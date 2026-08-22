@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate as useNavigate } from '../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
@@ -36,7 +37,9 @@ import styles from './RelatedContent.module.css';
 // orijin karta küçülüp yerleşir — Blog → Blog geçişinde de (Dive Deeper
 // şeridinden başka bir yazı açma) bu sayede ekstra kod gerekmeden doğru kart
 // konumuna döner.
-export function RelatedContent({ items, heading = 'Dive Deeper' }) {
+export function RelatedContent({ items, heading }) {
+  const { t } = useTranslation();
+  const resolvedHeading = heading ?? t('series.diveDeeperHeading');
   const navigate = useNavigate();
   const rootRef = useRef(null);
   const viewportRef = useRef(null);
@@ -401,7 +404,7 @@ export function RelatedContent({ items, heading = 'Dive Deeper' }) {
     <section className={styles.related} aria-labelledby="related-content-heading" ref={rootRef}>
       <div className={styles.related__inner}>
         <h2 className={styles.related__heading} id="related-content-heading" data-reveal>
-          {heading}
+          {resolvedHeading}
         </h2>
 
         <div
@@ -463,7 +466,7 @@ export function RelatedContent({ items, heading = 'Dive Deeper' }) {
             className={styles.related__arrow}
             onClick={() => step(-1)}
             disabled={atStart}
-            aria-label="Previous"
+            aria-label={t('common.previous')}
           >
             &#8249;
           </button>
@@ -485,7 +488,7 @@ export function RelatedContent({ items, heading = 'Dive Deeper' }) {
             className={styles.related__arrow}
             onClick={() => step(1)}
             disabled={atEnd}
-            aria-label="Next"
+            aria-label={t('common.next')}
           >
             &#8250;
           </button>

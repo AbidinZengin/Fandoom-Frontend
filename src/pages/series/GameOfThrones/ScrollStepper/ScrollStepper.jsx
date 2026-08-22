@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 // dikey glide + blur focus-pull) viewport merkezine oturur; scroll durunca
 // yönlü snap aktif kartı dikey merkeze kilitler (GoT sayfası snap deseni).
 export function ScrollStepper({ entityId }) {
+  const { t } = useTranslation();
   const sectionRef = useRef(null);
   const axisRef = useRef(null);
   const [stepperItems, setStepperItems] = useState([]);
@@ -166,7 +168,7 @@ export function ScrollStepper({ entityId }) {
   }, [stepperItems]);
 
   return (
-    <section className={styles.stepper} aria-label="Story sections" ref={sectionRef}>
+    <section className={styles.stepper} aria-label={t('series.storySectionsAriaLabel')} ref={sectionRef}>
       <div className={styles.stepper__stage}>
         {/* Track: sticky eksenin kayabileceği alanı sınırlar — alt sınırı
             bölüm sonundaki boşluğun içinde biter, parlak dot Highlights'a
@@ -212,7 +214,7 @@ export function ScrollStepper({ entityId }) {
                       className={`${styles.stepper__media} ${styles['stepper__media--empty']}`}
                       data-media
                     >
-                      <span>IMAGE</span>
+                      <span>{t('series.imagePlaceholder')}</span>
                     </div>
                   )}
                   <div className={styles.stepper__shade} />

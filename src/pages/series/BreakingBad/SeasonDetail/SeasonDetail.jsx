@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate as useNavigate } from '../../../../shared/i18n/useLocalizedNavigate';
 import { Footer } from '../../../../components/Footer/Footer';
 import { armInPageNav } from '../../../../motion/cinematic';
@@ -29,6 +30,7 @@ const airYearRange = (episodes) => {
 // iskelet — motion (sis geçişi, crossfade) bu turda YOK, component-dev
 // aşaması; sonraki tur motion-expert'e ait.
 export default function SeasonDetail() {
+  const { t } = useTranslation();
   const { seasonNumber: seasonNumberParam } = useParams();
   const navigate = useNavigate();
   const seasonNumber = Number(seasonNumberParam);
@@ -94,7 +96,7 @@ export default function SeasonDetail() {
     return (
       <>
         <div className={styles.notfound}>
-          <h1 className={styles.notfound__title}>Season not found.</h1>
+          <h1 className={styles.notfound__title}>{t('common.seasonNotFound')}</h1>
         </div>
         <Footer />
       </>
@@ -133,15 +135,17 @@ export default function SeasonDetail() {
 
           <div className={styles.hero__content}>
             <button type="button" className={styles.hero__back} onClick={() => navigate('/series/breaking-bad')}>
-              &#8249; Seasons
+              &#8249; {t('series.seasonsHeading')}
             </button>
-            <p className={styles.hero__kicker}>{`SEASON ${pad2(seasonNumber)}`}</p>
+            <p className={styles.hero__kicker}>{t('series.seasonMeta', { number: pad2(seasonNumber) })}</p>
             <h1 className={styles.hero__title}>{currentSeason.title}</h1>
             {story?.dek && <p className={styles.hero__dek}>{story.dek}</p>}
 
             {(episodes?.length || yearRange) && (
               <div className={styles.hero__stats}>
-                {episodes?.length ? <span className={styles.hero__stat}>{episodes.length} Bölüm</span> : null}
+                {episodes?.length ? (
+                  <span className={styles.hero__stat}>{t('series.episodesCount', { count: episodes.length })}</span>
+                ) : null}
                 {episodes?.length && yearRange ? <span className={styles.hero__statDivider} aria-hidden="true" /> : null}
                 {yearRange ? <span className={styles.hero__stat}>{yearRange}</span> : null}
               </div>
@@ -153,7 +157,7 @@ export default function SeasonDetail() {
                 className={styles.hero__arrow}
                 onClick={() => goToSeason(prevSeason)}
                 disabled={!prevSeason}
-                aria-label="Previous season"
+                aria-label={t('series.previousSeason')}
               >
                 &#8249;
               </button>
@@ -162,7 +166,7 @@ export default function SeasonDetail() {
                 className={styles.hero__arrow}
                 onClick={() => goToSeason(nextSeason)}
                 disabled={!nextSeason}
-                aria-label="Next season"
+                aria-label={t('series.nextSeason')}
               >
                 &#8250;
               </button>
@@ -170,7 +174,7 @@ export default function SeasonDetail() {
           </div>
 
           <a href="#episodes" className={styles.hero__cta}>
-            Bölümleri Keşfet ›
+            {t('series.exploreEpisodesCta')}
           </a>
         </section>
 
@@ -185,9 +189,9 @@ export default function SeasonDetail() {
             {/* Blog özelliği henüz yok (kullanıcı: "şuan blogu yok sonra
                 olacak") — sahte veri doldurulmaz, bekleme iskeleti durur. */}
             <div className={styles.related}>
-              <p className={styles.related__heading}>Featured</p>
+              <p className={styles.related__heading}>{t('series.featuredHeading')}</p>
               <div className={styles.related__placeholder} aria-hidden="true">
-                <p className={styles.related__note}>İlgili blog içeriği yakında burada olacak.</p>
+                <p className={styles.related__note}>{t('series.relatedBlogComingSoon')}</p>
               </div>
             </div>
           </aside>

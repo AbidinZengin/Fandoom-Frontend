@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { FacetDropdown } from './FacetDropdown/FacetDropdown';
 import { SORT_OPTIONS } from './filterDefaults';
@@ -10,6 +11,7 @@ import styles from './FilterPanel.module.css';
 // filtre; panel kendi taslağını tutar, Apply'a kadar dışarı sızmaz —
 // Cancel/backdrop/Escape taslağı atar.
 export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose }) {
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
   const [draft, setDraft] = useState(value);
   const backdropRef = useRef(null);
@@ -97,10 +99,15 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
     <div className={styles.overlay}>
       <div className={styles.overlay__backdrop} ref={backdropRef} onClick={requestClose} />
 
-      <div className={styles.panel} ref={panelRef} role="dialog" aria-modal="true" aria-label="Filters">
+      <div className={styles.panel} ref={panelRef} role="dialog" aria-modal="true" aria-label={t('blog.filtersTitle')}>
         <div className={styles.panel__head} data-panel-item>
-          <h2 className={styles.panel__title}>Filters</h2>
-          <button type="button" className={styles.panel__close} onClick={requestClose} aria-label="Close filters">
+          <h2 className={styles.panel__title}>{t('blog.filtersTitle')}</h2>
+          <button
+            type="button"
+            className={styles.panel__close}
+            onClick={requestClose}
+            aria-label={t('blog.closeFiltersAriaLabel')}
+          >
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
@@ -109,7 +116,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
 
         <div className={styles.panel__body}>
           <div className={styles.panel__section} data-panel-item>
-            <span className={styles.panel__sectionLabel}>Sort By</span>
+            <span className={styles.panel__sectionLabel}>{t('blog.sortBy')}</span>
             <div className={styles.panel__pills}>
               {SORT_OPTIONS.map((opt) => (
                 <button
@@ -127,7 +134,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
 
           <div data-panel-item>
             <FacetDropdown
-              label="Format"
+              label={t('blog.formatLabel')}
               mode="single"
               options={facets?.formats ?? []}
               value={draft.format}
@@ -137,7 +144,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
 
           <div data-panel-item>
             <FacetDropdown
-              label="Franchise"
+              label={t('blog.franchiseLabel')}
               mode="single"
               options={facets?.franchises ?? []}
               value={draft.franchise}
@@ -147,7 +154,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
 
           <div data-panel-item>
             <FacetDropdown
-              label="Genre"
+              label={t('blog.genreLabel')}
               mode="multi"
               options={facets?.genres ?? []}
               value={draft.genre}
@@ -157,7 +164,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
 
           <div data-panel-item>
             <FacetDropdown
-              label="Mood"
+              label={t('blog.moodLabel')}
               mode="multi"
               options={facets?.moods ?? []}
               value={draft.mood}
@@ -166,7 +173,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
           </div>
 
           <label className={styles.panel__toggleRow} data-panel-item>
-            <span>Spoiler-Free Only</span>
+            <span>{t('blog.spoilerFreeOnly')}</span>
             <span className={styles.toggle} data-checked={draft.spoilerFree || undefined}>
               <input
                 type="checkbox"
@@ -197,7 +204,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
             }}
             disabled={activeDraftCount === 0}
           >
-            Reset
+            {t('blog.reset')}
           </button>
           <button
             type="button"
@@ -207,7 +214,7 @@ export function FilterPanel({ open, facets, value, onApply, onResetAll, onClose 
               requestClose();
             }}
           >
-            Apply Filters
+            {t('blog.applyFilters')}
           </button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Footer } from '../../../components/Footer/Footer';
 import { Hero } from './Hero/Hero';
 import { Intro } from './Intro/Intro';
@@ -9,6 +10,7 @@ import { fetchProductionDetail, theme } from './GameOfThrones.data';
 import styles from './GameOfThrones.module.css';
 
 export default function GameOfThrones() {
+  const { t } = useTranslation();
   const [series, setSeries] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
@@ -50,7 +52,7 @@ export default function GameOfThrones() {
     return (
       <>
         <div className={styles['got-notfound']}>
-          <h1 className={styles['got-notfound__title']}>Title not found.</h1>
+          <h1 className={styles['got-notfound__title']}>{t('common.titleNotFound')}</h1>
         </div>
         <Footer />
       </>

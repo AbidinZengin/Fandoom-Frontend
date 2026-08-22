@@ -23,7 +23,16 @@ export function LangGate() {
 }
 
 // Prefix'siz eski path'ler için yakalayıcı (kök "/", "/series/breaking-bad" vb.)
+// — ayrıca hiçbir route'a eşleşmeyen path'lerin son durağı (React Router bir
+// eşleşme bulamazsa buraya düşer). Path zaten geçerli bir dil prefix'iyle
+// başlıyorsa (ör. bozuk/tekrarlı bir prefixten dolayı hiçbir alt route'a
+// eşleşmiyorsa) o dilin ana sayfasına döner — pathname'e KOŞULSUZ prefix
+// eklemek burada sonsuz "/en/en/en/..." döngüsü yaratırdı.
 export function LegacyRedirect() {
   const location = useLocation();
+  const firstSegment = location.pathname.split('/')[1];
+  if (SUPPORTED_LANGS.includes(firstSegment)) {
+    return <Navigate to={`/${firstSegment}`} replace />;
+  }
   return <Navigate to={`/${DEFAULT_LANG}${location.pathname}`} replace />;
 }

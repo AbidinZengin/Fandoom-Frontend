@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './PostActions.module.css';
 
 // Kaydet/beğen, backend/user modülü olmadan GERÇEK ama istemci-kapsamlı
@@ -30,6 +31,7 @@ function writeIds(key, ids) {
 // .storyActions). Web Share API varsa native paylaşım sayfası açılır
 // (mobil), yoksa panoya kopyalanır ve kısa bir "Copied" onayı gösterilir.
 export function PostActions({ id, shareTitle, shareUrl }) {
+  const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const [liked, setLiked] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -41,8 +43,8 @@ export function PostActions({ id, shareTitle, shareUrl }) {
 
   useEffect(() => {
     if (!copied) return undefined;
-    const t = setTimeout(() => setCopied(false), 1600);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setCopied(false), 1600);
+    return () => clearTimeout(timer);
   }, [copied]);
 
   const toggleSave = () => {
@@ -79,7 +81,7 @@ export function PostActions({ id, shareTitle, shareUrl }) {
   return (
     <div className={styles.actions}>
       <div className={styles.actionWrap}>
-        <button type="button" className={styles.action} onClick={share} aria-label="Share">
+        <button type="button" className={styles.action} onClick={share} aria-label={t('blog.share')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
             <circle cx="18" cy="5" r="2.6" />
             <circle cx="6" cy="12" r="2.6" />
@@ -90,7 +92,7 @@ export function PostActions({ id, shareTitle, shareUrl }) {
         </button>
         {copied && (
           <span className={styles.toast} role="status">
-            Copied
+            {t('blog.copied')}
           </span>
         )}
       </div>
@@ -100,7 +102,7 @@ export function PostActions({ id, shareTitle, shareUrl }) {
         className={styles.action}
         data-active={liked || undefined}
         onClick={toggleLike}
-        aria-label={liked ? 'Unlike' : 'Like'}
+        aria-label={liked ? t('blog.unlike') : t('blog.like')}
         aria-pressed={liked}
       >
         <svg
@@ -119,7 +121,7 @@ export function PostActions({ id, shareTitle, shareUrl }) {
         className={styles.action}
         data-active={saved || undefined}
         onClick={toggleSave}
-        aria-label={saved ? 'Remove from saved' : 'Save'}
+        aria-label={saved ? t('blog.removeFromSaved') : t('blog.save')}
         aria-pressed={saved}
       >
         <svg

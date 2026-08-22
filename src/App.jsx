@@ -193,20 +193,20 @@ function App() {
             />
             <Route path="series/breaking-bad/seasons/:seasonNumber" element={<SeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
-            <Route path="series" element={<Placeholder title="Series" />} />
+            <Route path="series" element={<Placeholder titleKey="navbar.series" />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
-            <Route path="movies" element={<Placeholder title="Movies" />} />
+            <Route path="movies" element={<Placeholder titleKey="navbar.movies" />} />
             <Route path="community" element={<Community />} />
-            <Route path="community/discussion" element={<Placeholder title="Discussion" />} />
-            <Route path="community/theories" element={<Placeholder title="Theories" />} />
-            <Route path="community/fan-art" element={<Placeholder title="Fan Art" />} />
+            <Route path="community/discussion" element={<Placeholder titleKey="navbar.discussion" />} />
+            <Route path="community/theories" element={<Placeholder titleKey="navbar.theories" />} />
+            <Route path="community/fan-art" element={<Placeholder titleKey="navbar.fanArt" />} />
             <Route path="news" element={<News />} />
             <Route path="blog/:slug" element={<BlogPostRoute />} />
             <Route path="blog" element={<Blog />} />
-            <Route path="support" element={<Placeholder title="Support" />} />
-            <Route path="coming-soon" element={<Placeholder title="Coming Soon" />} />
-            <Route path="shop" element={<Placeholder title="Shop" />} />
-            <Route path="account" element={<Placeholder title="Account" />} />
+            <Route path="support" element={<Placeholder titleKey="navbar.support" />} />
+            <Route path="coming-soon" element={<Placeholder titleKey="navbar.comingSoon" />} />
+            <Route path="shop" element={<Placeholder titleKey="navbar.shop" />} />
+            <Route path="account" element={<Placeholder titleKey="common.account" />} />
             {/* Geçici — alev shader'ı onaylanınca kaldırılacak */}
             <Route path="flame-lab" element={<FlameLab />} />
           </Route>

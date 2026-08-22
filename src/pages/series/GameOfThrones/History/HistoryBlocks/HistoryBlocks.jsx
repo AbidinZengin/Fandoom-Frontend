@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { fetchHistoryScenes } from '../History.data';
@@ -21,6 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
  * sahne bu turda sticky/pin ALMIYOR (kapsam kasıtlı küçük tutuldu).
  */
 export function HistoryBlocks({ seriesId }) {
+  const { t } = useTranslation();
   const rootRef = useRef(null);
   const introRef = useRef(null);
   const finaleContentRef = useRef(null);
@@ -210,8 +212,8 @@ export function HistoryBlocks({ seriesId }) {
   return (
     <section className={styles.blocks} id="history-blocks" ref={rootRef}>
       <div className={styles.blocks__intro} ref={introRef}>
-        <p className={styles.blocks__kicker}>Before the Iron Throne</p>
-        <h1 className={styles.blocks__title}>A History of Westeros</h1>
+        <p className={styles.blocks__kicker}>{t('series.historyKicker')}</p>
+        <h1 className={styles.blocks__title}>{t('series.historyTitle')}</h1>
         <p className={styles.blocks__thesis}>
           Nine ages carried Westeros from the first landing of bronze-armed men to
           the throne that finally broke beneath a Mad King&rsquo;s fire — a chronicle
@@ -221,8 +223,8 @@ export function HistoryBlocks({ seriesId }) {
       </div>
 
       <div className={styles.blocks__body} ref={bodyRef}>
-        <nav className={styles.nav} aria-label="Ages of Westeros">
-          <p className={styles.nav__heading}>Timeline</p>
+        <nav className={styles.nav} aria-label={t('series.agesOfWesterosAriaLabel')}>
+          <p className={styles.nav__heading}>{t('series.timeline')}</p>
 
           <div className={styles.nav__body}>
             <div className={styles.nav__track}>
@@ -286,7 +288,7 @@ export function HistoryBlocks({ seriesId }) {
 
                     <div className={styles.card__ctaRow}>
                       <span className={styles.card__cta} aria-hidden="true">
-                        Explore More <span>›</span>
+                        {t('series.exploreMore')} <span>›</span>
                       </span>
                     </div>
                   </div>
@@ -335,7 +337,7 @@ export function HistoryBlocks({ seriesId }) {
                       kararlaştırılmadı (kullanıcı kararı, bkz. görev notu). */}
                   <div className={styles.card__ctaRow}>
                     <span className={styles.card__cta} aria-hidden="true">
-                      Explore More <span>›</span>
+                      {t('series.exploreMore')} <span>›</span>
                     </span>
                   </div>
                 </div>

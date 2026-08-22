@@ -1,5 +1,6 @@
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate as useNavigate } from '../../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
 import { Footer } from '../../../../components/Footer/Footer';
@@ -45,6 +46,7 @@ const FOG_MASK =
 // fark: platform-marka rozeti (bkz. EpisodeBrief) ve GoT'un özel display
 // fontu — burada Montserrat.
 export default function EpisodePage() {
+  const { t } = useTranslation();
   const { seasonNumber: seasonNumberParam, episodeNumber: episodeNumberParam } = useParams();
   const navigate = useNavigate();
 
@@ -362,7 +364,7 @@ export default function EpisodePage() {
     return (
       <>
         <div className={styles.notfound}>
-          <h1 className={styles.notfound__title}>Episode not found.</h1>
+          <h1 className={styles.notfound__title}>{t('common.episodeNotFound')}</h1>
         </div>
         <Footer />
       </>
@@ -424,14 +426,14 @@ export default function EpisodePage() {
         </div>
 
         <div className={styles.hero__content} ref={contentRef}>
-          <p className={`${styles.hero__label} ${styles.hero__collapsible}`}>Select Season</p>
+          <p className={`${styles.hero__label} ${styles.hero__collapsible}`}>{t('series.selectSeason')}</p>
           <div className={`${styles.hero__seasonNav} ${styles.hero__collapsible}`}>
             <button
               type="button"
               className={styles.hero__arrow}
               onClick={() => goToSeason(-1)}
               disabled={isFirstSeason}
-              aria-label="Previous season"
+              aria-label={t('series.previousSeason')}
             >
               &#8249;
             </button>
@@ -443,7 +445,7 @@ export default function EpisodePage() {
               className={styles.hero__arrow}
               onClick={() => goToSeason(1)}
               disabled={isLastSeason}
-              aria-label="Next season"
+              aria-label={t('series.nextSeason')}
             >
               &#8250;
             </button>
@@ -462,14 +464,14 @@ export default function EpisodePage() {
             {shownEpisode.title}
           </h1>
 
-          <p className={`${styles.hero__label} ${styles.hero__collapsible}`}>Select Episode</p>
+          <p className={`${styles.hero__label} ${styles.hero__collapsible}`}>{t('series.selectEpisode')}</p>
           <div className={styles.hero__episodeStrip}>
             <button
               type="button"
               className={`${styles.hero__arrow} ${styles.hero__arrowPrev}`}
               onClick={() => goToEpisode(episodeNumber - 1)}
               disabled={isFirstEpisode}
-              aria-label="Previous episode"
+              aria-label={t('series.previousEpisode')}
             >
               &#8249;
             </button>
@@ -481,7 +483,7 @@ export default function EpisodePage() {
                   className={styles.hero__episodePill}
                   data-active={ep.episodeNumber === episodeNumber || undefined}
                   title={ep.title}
-                  aria-label={`Episode ${ep.episodeNumber}: ${ep.title}`}
+                  aria-label={t('series.episodeLabel', { number: ep.episodeNumber, title: ep.title })}
                   onClick={() => goToEpisode(ep.episodeNumber)}
                   aria-current={ep.episodeNumber === episodeNumber || undefined}
                 >
@@ -494,7 +496,7 @@ export default function EpisodePage() {
               className={`${styles.hero__arrow} ${styles.hero__arrowNext}`}
               onClick={() => goToEpisode(episodeNumber + 1)}
               disabled={isLastEpisode}
-              aria-label="Next episode"
+              aria-label={t('series.nextEpisode')}
             >
               &#8250;
             </button>
@@ -509,7 +511,7 @@ export default function EpisodePage() {
                 ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             }
           >
-            <span>Explore Episode</span>
+            <span>{t('series.exploreEpisode')}</span>
             <span className={styles.hero__exploreChevron} aria-hidden="true">
               &#8964;
             </span>

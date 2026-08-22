@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import styles from './FacetDropdown.module.css';
 
@@ -10,6 +11,7 @@ const SEARCH_THRESHOLD = 6;
 // modda] + checkbox/radio liste + count). `value`: single modda slug|null,
 // multi modda slug[].
 export function FacetDropdown({ label, options = [], mode = 'single', value, onChange }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const rootRef = useRef(null);
@@ -19,9 +21,9 @@ export function FacetDropdown({ label, options = [], mode = 'single', value, onC
   const summary =
     mode === 'multi'
       ? selectedCount > 0
-        ? `${selectedCount} selected`
-        : 'Any'
-      : (options.find((o) => o.slug === value)?.name ?? 'Any');
+        ? t('blog.selectedCount', { count: selectedCount })
+        : t('blog.any')
+      : (options.find((o) => o.slug === value)?.name ?? t('blog.any'));
 
   const filtered = useMemo(() => {
     if (!query.trim()) return options;
@@ -107,11 +109,11 @@ export function FacetDropdown({ label, options = [], mode = 'single', value, onC
           {mode === 'multi' && (
             <div className={styles.facet__panelHead}>
               <button type="button" className={styles.facet__linkBtn} onClick={() => onChange(options.map((o) => o.slug))}>
-                Select all
+                {t('blog.selectAll')}
               </button>
               <span className={styles.facet__divider}>·</span>
               <button type="button" className={styles.facet__linkBtn} onClick={() => onChange([])}>
-                Reset
+                {t('blog.reset')}
               </button>
             </div>
           )}
@@ -126,14 +128,16 @@ export function FacetDropdown({ label, options = [], mode = 'single', value, onC
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={`Search ${label.toLowerCase()}...`}
+                placeholder={t('blog.searchFacetPlaceholder', { label: label.toLowerCase() })}
               />
             </div>
           )}
 
           <ul className={styles.facet__list}>
             {filtered.length === 0 && (
-              <li className={styles.facet__empty}>{options.length === 0 ? 'No options available' : 'No matches'}</li>
+              <li className={styles.facet__empty}>
+                {options.length === 0 ? t('blog.noOptionsAvailable') : t('blog.noMatches')}
+              </li>
             )}
             {filtered.map((option) => {
               const checked = mode === 'multi' ? (value ?? []).includes(option.slug) : value === option.slug;

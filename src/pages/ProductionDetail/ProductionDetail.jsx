@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
 import { Footer } from '../../components/Footer/Footer';
 import { fetchProductionDetail, resolveGenreNames, theories } from './ProductionDetail.data';
 import { themeBySlug, defaultTheme } from './ProductionDetail.theme';
 
 export default function ProductionDetail({ type }) {
+  const { t } = useTranslation();
   const { slug } = useParams();
   const [production, setProduction] = useState(null);
   const [genreNames, setGenreNames] = useState([]);
@@ -62,7 +64,7 @@ export default function ProductionDetail({ type }) {
   if (notFound) {
     return (
       <>
-        <p style={{ padding: 60, textAlign: 'center' }}>Title not found.</p>
+        <p style={{ padding: 60, textAlign: 'center' }}>{t('common.titleNotFound')}</p>
         <Footer />
       </>
     );
@@ -72,7 +74,7 @@ export default function ProductionDetail({ type }) {
     return null;
   }
 
-  const relatedTheories = theories.filter((t) => t.productionSlug === slug);
+  const relatedTheories = theories.filter((theory) => theory.productionSlug === slug);
 
   return (
     <>
@@ -102,18 +104,20 @@ export default function ProductionDetail({ type }) {
       </section>
 
       <section style={{ padding: '32px clamp(20px, 4vw, 56px)' }}>
-        <h2 style={{ fontSize: 22, marginBottom: 16 }}>Theories</h2>
-        {relatedTheories.length === 0 && <p style={{ color: 'var(--fg-muted)' }}>No theories yet.</p>}
-        {relatedTheories.map((t) => (
-          <div key={t.id} style={{ padding: '16px 0', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ margin: '0 0 6px', fontSize: 16 }}>{t.title}</h3>
-            <p style={{ margin: 0, color: 'var(--fg-dim)', fontSize: 13.5 }}>{t.excerpt}</p>
+        <h2 style={{ fontSize: 22, marginBottom: 16 }}>{t('navbar.theories')}</h2>
+        {relatedTheories.length === 0 && (
+          <p style={{ color: 'var(--fg-muted)' }}>{t('productionDetail.noTheoriesYet')}</p>
+        )}
+        {relatedTheories.map((theory) => (
+          <div key={theory.id} style={{ padding: '16px 0', borderBottom: '1px solid var(--border)' }}>
+            <h3 style={{ margin: '0 0 6px', fontSize: 16 }}>{theory.title}</h3>
+            <p style={{ margin: 0, color: 'var(--fg-dim)', fontSize: 13.5 }}>{theory.excerpt}</p>
           </div>
         ))}
       </section>
 
       <p style={{ padding: '0 clamp(20px, 4vw, 56px)' }}>
-        <Link to="/" style={{ color: 'var(--accent)', fontSize: 13 }}>&larr; Back to Home</Link>
+        <Link to="/" style={{ color: 'var(--accent)', fontSize: 13 }}>&larr; {t('productionDetail.backToHome')}</Link>
       </p>
 
       <Footer />

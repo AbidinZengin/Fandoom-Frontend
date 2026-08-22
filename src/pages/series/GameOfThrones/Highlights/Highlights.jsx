@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -29,6 +30,7 @@ const CAPTION_DURATION = 0.32;
 // TÜM kartlar normal/parlak görünür (aktif/peek arasında opaklık farkı
 // YOK) — sadece metin overlay'i aktif kartta görünür. OTOMATİK GEÇİŞ YOK.
 export function Highlights({ entityId }) {
+  const { t } = useTranslation();
   const [active, setActive] = useState(0);
   const [exhibitTitle, setExhibitTitle] = useState('');
   const [tabItems, setTabItems] = useState([]);
@@ -284,11 +286,11 @@ export function Highlights({ entityId }) {
               <Link
                 to={item.labelLinkUrl}
                 className={styles['highlights__card-cta']}
-                aria-label={`${item.label} sayfasını keşfet`}
+                aria-label={t('series.exploreLabelPage', { label: item.label })}
                 tabIndex={i === active ? 0 : -1}
                 draggable={false}
               >
-                Explore <span aria-hidden="true">›</span>
+                {t('common.explore')} <span aria-hidden="true">›</span>
               </Link>
             </div>
           </article>

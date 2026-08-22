@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './SkipIntro.module.css';
@@ -11,6 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Highlights'a (#got-highlights) varınca kaybolur (kullanıcı kararı) —
 // aradaki bölgede sabit kalır.
 export function SkipIntro() {
+  const { t } = useTranslation();
   const btnRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -60,7 +62,7 @@ export function SkipIntro() {
 
   return (
     <button type="button" className={styles.skipIntro} ref={btnRef} onClick={handleClick}>
-      <span className={styles.skipIntro__label}>Skip Intro</span>
+      <span className={styles.skipIntro__label}>{t('series.skipIntro')}</span>
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5">
         <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>

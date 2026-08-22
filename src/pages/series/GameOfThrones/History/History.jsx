@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate as useNavigate } from '../../../../shared/i18n/useLocalizedNavigate';
 import { Footer } from '../../../../components/Footer/Footer';
 import { fetchProductionDetail, theme } from './History.data';
@@ -9,6 +10,7 @@ import styles from './History.module.css';
 // temasını basar, gerçek içerik (dönem-dönem anlatı) HistoryBlocks'a ait —
 // o kendi verisini seriesId ile kendi çeker.
 export default function History() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [series, setSeries] = useState(null);
 
@@ -50,7 +52,7 @@ export default function History() {
     <>
       <button type="button" className={styles.back} onClick={() => navigate(-1)}>
         <span aria-hidden="true">&#8249;</span>
-        <span>Back</span>
+        <span>{t('common.back')}</span>
       </button>
 
       <HistoryBlocks seriesId={series.id} />

@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { still } from '../EpisodePage.data';
@@ -32,6 +33,7 @@ const pad2 = (n) => String(n).padStart(2, '0');
  * fontu burada yok, zaten yalnız GoT'a ait).
  */
 export function EpisodeBrief({ episode, seasonNumber, genres, rating }) {
+  const { t } = useTranslation();
   const hasEpisode = Boolean(episode);
   const rootRef = useRef(null);
   const figureRef = useRef(null);
@@ -88,9 +90,9 @@ export function EpisodeBrief({ episode, seasonNumber, genres, rating }) {
 
   const airDate = formatAirDate(episode.airDate);
   const meta = [
-    `Season ${pad2(seasonNumber)}`,
-    `Episode ${pad2(episode.episodeNumber)}`,
-    episode.durationMinutes ? `${episode.durationMinutes} min` : null,
+    t('series.seasonMeta', { number: pad2(seasonNumber) }),
+    t('series.episodeMeta', { number: pad2(episode.episodeNumber) }),
+    episode.durationMinutes ? t('series.minutesShort', { count: episode.durationMinutes }) : null,
     airDate,
   ].filter(Boolean);
 
@@ -138,7 +140,7 @@ export function EpisodeBrief({ episode, seasonNumber, genres, rating }) {
 
             {rating && (
               <div className={styles.brief__badges}>
-                <span className={styles.brief__rating} aria-label={`IMDb rating: ${rating}`}>
+                <span className={styles.brief__rating} aria-label={t('series.imdbRatingAriaLabel', { rating })}>
                   <span className={styles.brief__ratingValue}>{rating}</span>
                   <span className={styles.brief__ratingStar} aria-hidden="true">
                     ★

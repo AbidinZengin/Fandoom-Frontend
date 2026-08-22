@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { fetchHouseGroups, fetchProductionDetail } from './HouseSigils.data';
 import styles from './HouseSigils.module.css';
@@ -15,6 +16,7 @@ import styles from './HouseSigils.module.css';
 // eksikken (henüz kaynak bulunamamış haneler) düz metin fallback'i devreye
 // girer.
 export function HouseSigils() {
+  const { t } = useTranslation();
   const [houses, setHouses] = useState([]);
   const [index, setIndex] = useState(0);
   const [brokenSigils, setBrokenSigils] = useState({});
@@ -126,12 +128,12 @@ export function HouseSigils() {
       style={{ '--house-primary': house.customFields.primaryColor, '--house-secondary': house.customFields.secondaryColor }}
     >
       <div className={styles.houses__inner}>
-        <span className={styles.houses__kicker}>Houses</span>
+        <span className={styles.houses__kicker}>{t('series.housesKicker')}</span>
 
         <div className={styles.houses__stage}>
           <button type="button" className={styles.houses__nav} data-side="prev" onClick={goPrev}>
             <span className={styles.houses__navArrow} aria-hidden="true">&#8249;</span>
-            <span className={styles.houses__navLabel}>House {prevHouse.name}</span>
+            <span className={styles.houses__navLabel}>{t('series.houseName', { name: prevHouse.name })}</span>
           </button>
 
           <div className={styles.houses__center} ref={centerRef}>
@@ -145,7 +147,7 @@ export function HouseSigils() {
                 <img
                   className={styles.banner__image}
                   src={house.imageUrl}
-                  alt={`House ${house.name} sigil — "${house.customFields.motto}"`}
+                  alt={t('series.houseSigilAlt', { name: house.name, motto: house.customFields.motto })}
                   loading="lazy"
                   decoding="async"
                   onError={() => setBrokenSigils((prev) => ({ ...prev, [house.id]: true }))}
@@ -153,7 +155,7 @@ export function HouseSigils() {
               ) : (
                 <div className={styles.banner__fallback}>
                   <span className={styles.banner__monogram} aria-hidden="true">{house.name[0]}</span>
-                  <h2 className={styles.houses__name}>House {house.name}</h2>
+                  <h2 className={styles.houses__name}>{t('series.houseName', { name: house.name })}</h2>
                   <p className={styles.houses__motto}>{house.customFields.motto}</p>
                 </div>
               )}
@@ -161,7 +163,7 @@ export function HouseSigils() {
           </div>
 
           <button type="button" className={styles.houses__nav} data-side="next" onClick={goNext}>
-            <span className={styles.houses__navLabel}>House {nextHouse.name}</span>
+            <span className={styles.houses__navLabel}>{t('series.houseName', { name: nextHouse.name })}</span>
             <span className={styles.houses__navArrow} aria-hidden="true">&#8250;</span>
           </button>
         </div>

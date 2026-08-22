@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import styles from './SurfaceHighlight.module.css';
 
-function renderMeta(item) {
-  if (item.votes != null) return `${item.votes} votes`;
-  if (item.replyCount != null) return `${item.replyCount} replies`;
+function renderMeta(item, t) {
+  if (item.votes != null) return t('home.votes', { count: item.votes });
+  if (item.replyCount != null) return t('community.replies', { count: item.replyCount });
   if (item.readTime) return item.readTime;
   if (item.date) return item.date;
   return null;
@@ -18,6 +19,7 @@ function renderMeta(item) {
 // başlık+kartlar scroll'a girince kademeli belirir; kart hover zaten CSS
 // transition'da (scale+glow, [[imza-uzama]] ailesi).
 export function SurfaceHighlight({ surface }) {
+  const { t } = useTranslation();
   const { label, to, items } = surface;
   const sectionRef = useRef(null);
 
@@ -49,18 +51,18 @@ export function SurfaceHighlight({ surface }) {
       <header className={styles['surface-highlight__head']} data-reveal>
         <h2 className={styles['surface-highlight__title']}>{label}</h2>
         <Link to={to} className={styles['surface-highlight__view-all']}>
-          View All &rarr;
+          {t('community.viewAll')} &rarr;
         </Link>
       </header>
 
       {items.length === 0 ? (
         <p className={styles['surface-highlight__empty']} data-reveal>
-          Nothing here yet — be the first to start a thread.
+          {t('community.emptyState')}
         </p>
       ) : (
         <ul className={styles['surface-highlight__list']}>
           {items.map((item) => {
-            const meta = renderMeta(item);
+            const meta = renderMeta(item, t);
             return (
               <li key={item.id} className={styles['surface-highlight__item']} data-reveal>
                 <h3 className={styles['surface-highlight__item-title']}>{item.title}</h3>

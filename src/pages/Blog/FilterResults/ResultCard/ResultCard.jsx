@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import styles from './ResultCard.module.css';
 
@@ -7,6 +8,7 @@ import styles from './ResultCard.module.css';
 // klonu burada YOK (o mekanizma tekil hub şeridine özel, sayfalanan/dinamik
 // grid'e taşınması ayrı bir görev — teslim özetinde raporlanır).
 export function ResultCard({ item }) {
+  const { t } = useTranslation();
   if (!item) {
     return (
       <div className={styles.card} data-pending>
@@ -35,7 +37,7 @@ export function ResultCard({ item }) {
         <div className={styles.card__caption}>
           <span className={styles.card__title}>{item.title}</span>
           {item.readingTimeMinutes != null && (
-            <span className={styles.card__meta}>{item.readingTimeMinutes} min read</span>
+            <span className={styles.card__meta}>{t('blog.minRead', { count: item.readingTimeMinutes })}</span>
           )}
         </div>
       </div>

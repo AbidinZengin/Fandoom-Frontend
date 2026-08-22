@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { isBlogReturnArmed } from '../../motion/cinematic';
 import { Footer } from '../../components/Footer/Footer';
@@ -22,6 +23,7 @@ const EMPTY_RESULTS = { items: [], page: 0, totalPages: 0, totalElements: 0, loa
 // bu küratörlü bölümlerin YERİNE GET /api/blogs/hub sonuç grid'i geçer
 // (kullanıcı kararı) — "Clear all" ile küratörlü hâline döner.
 export default function Blog() {
+  const { t } = useTranslation();
   const rootRef = useRef(null);
   const [hub, setHub] = useState({ spotlight: null, topBlogs: [] });
 
@@ -181,7 +183,7 @@ export default function Blog() {
         <header className={styles.blog__head}>
           <div>
             <span className={styles.blog__kicker}>Fandoom</span>
-            <h1 className={styles.blog__heading}>Discover Our Latest</h1>
+            <h1 className={styles.blog__heading}>{t('blog.heading')}</h1>
           </div>
 
           <button
@@ -190,7 +192,7 @@ export default function Blog() {
             onClick={() => setPanelOpen(true)}
             data-active={activeFilterCount > 0 || undefined}
           >
-            Filter
+            {t('blog.filterButton')}
             {activeFilterCount > 0 && <span className={styles.blog__filterBadge}>{activeFilterCount}</span>}
           </button>
         </header>
@@ -210,24 +212,24 @@ export default function Blog() {
           <div className={styles.blog__columns}>
             <div className={styles.blog__main}>
               <section data-reveal-group>
-                <h2 className={styles.blog__sectionLabel}>Editor&rsquo;s Pick</h2>
+                <h2 className={styles.blog__sectionLabel}>{t('blog.editorsPick')}</h2>
                 <SpotlightCard item={hub.spotlight} />
               </section>
 
               <section>
-                <h2 className={styles.blog__sectionLabel}>Top 10 Blogs</h2>
+                <h2 className={styles.blog__sectionLabel}>{t('blog.topBlogs')}</h2>
                 <TopBlogsRow items={hub.topBlogs} />
               </section>
             </div>
 
             <aside className={styles.blog__aside}>
               <section data-reveal-group>
-                <h2 className={styles.blog__sectionLabel}>Featured</h2>
+                <h2 className={styles.blog__sectionLabel}>{t('blog.featured')}</h2>
                 <SideList count={3} />
               </section>
 
               <section data-reveal-group>
-                <h2 className={styles.blog__sectionLabel}>Latest</h2>
+                <h2 className={styles.blog__sectionLabel}>{t('blog.latest')}</h2>
                 <SideList count={3} />
               </section>
             </aside>

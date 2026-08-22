@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Footer } from '../../../../components/Footer/Footer';
@@ -16,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 // PageBuilder codegen sabit-canvas; SeasonRoute — Dribbble travel-carousel,
 // hiç routelanmadı) bu sayfanın YERİNE geçti.
 export default function SeasonEpisodes() {
+  const { t } = useTranslation();
   const [series, setSeries] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [openSeasonId, setOpenSeasonId] = useState(null);
@@ -86,7 +88,7 @@ export default function SeasonEpisodes() {
     return (
       <>
         <div className={styles.notfound}>
-          <h1 className={styles.notfound__title}>Title not found.</h1>
+          <h1 className={styles.notfound__title}>{t('common.titleNotFound')}</h1>
         </div>
         <Footer />
       </>
@@ -98,7 +100,7 @@ export default function SeasonEpisodes() {
   return (
     <>
       <Hero />
-      <section className={styles.list} aria-label="Seasons" ref={listRef}>
+      <section className={styles.list} aria-label={t('series.seasonsHeading')} ref={listRef}>
         {series.seasons.map((season) => (
           <SeasonRow
             key={season.id}

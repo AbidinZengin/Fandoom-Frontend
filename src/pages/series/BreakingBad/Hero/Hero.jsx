@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ENTITY_SCHEMAS } from '../../../../shared/builder/entitySchemas';
@@ -28,6 +29,7 @@ import styles from './Hero.module.css';
 // merkezden dikey şeritle açılır, zemin görseli counter-zoom ile oturur,
 // içerik kademesi aynı offsetlerle ama şerit açıldıktan sonra başlar.
 export default function Hero() {
+  const { t } = useTranslation();
   const [series5, setSeries5] = useState(null);
   const pageRef = useRef(null);
   const imageBlock1Ref = useRef(null);
@@ -141,8 +143,8 @@ export default function Hero() {
       <img ref={imageBlock2Ref} className={styles.imageBlock2} src={"https://res.cloudinary.com/b0bc5njd/image/upload/v1786892540/fandoom/general/udr8y4sfucrf9xw4yyx0.webp"} alt="" />
       <p ref={genreRef} className={styles.textBlock1}>{series5?.genreNames}</p>
       <Link ref={logoRef} to="/series/breaking-bad" className={styles.logoBlock1}><img src="/src/assets/logos/breaking-bad.svg" alt="Breaking Bad" /></Link>
-      <Link ref={trailerBtnRef} to="https://www.youtube.com/watch?v=HhesaQXLuRY" className={styles.buttonBlock1}>{"▶  Watch Trailer"}</Link>
-      <Link ref={seasonsBtnRef} to="/series/breaking-bad/seasons" className={styles.buttonBlock2}>{"Seasons"}</Link>
+      <Link ref={trailerBtnRef} to="https://www.youtube.com/watch?v=HhesaQXLuRY" className={styles.buttonBlock1}>{`▶  ${t('series.watchTrailer')}`}</Link>
+      <Link ref={seasonsBtnRef} to="/series/breaking-bad/seasons" className={styles.buttonBlock2}>{t('series.seasonsHeading')}</Link>
       <p ref={synopsisRef} className={styles.textBlock2}>{series5?.synopsis}</p>
       <div ref={imdbLogoRef} className={styles.logoBlock2}><img src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" /></div>
       <p ref={ratingTextRef} className={styles.textBlock3}>{series5?.externalRating}</p>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import styles from './UniverseBrowse.module.css';
 
@@ -9,6 +10,7 @@ import styles from './UniverseBrowse.module.css';
 // kart şimdilik navigasyonsuz, yapımların rozetini gösteren statik bir vitrin.
 // Motion: utility register (0.3-0.4s) — kartlar scroll'a girince kademeli belirir.
 export function UniverseBrowse({ universes }) {
+  const { t } = useTranslation();
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export function UniverseBrowse({ universes }) {
   return (
     <section className={styles['universe-browse']} ref={sectionRef}>
       <h2 className={styles['universe-browse__heading']} data-reveal>
-        Browse by Universe
+        {t('community.browseByUniverse')}
       </h2>
       <ul className={styles['universe-browse__list']}>
         {universes.map((universe) => (

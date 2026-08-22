@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -69,6 +70,7 @@ const fontClassOf = (block) => (block.fontFamily ? FONT_CLASS[block.fontFamily] 
 // görseli yüklenir yüklenmez klonu kaldırır. İki kare arasında görsel fark
 // olmadığından sayfa değişimi algılanmaz.
 export default function BlogPost() {
+  const { t } = useTranslation();
   const { slug } = useParams();
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
@@ -429,7 +431,7 @@ export default function BlogPost() {
     return (
       <>
         <div className={styles.notfound}>
-          <h1 className={styles.notfound__title}>Content not found.</h1>
+          <h1 className={styles.notfound__title}>{t('common.contentNotFound')}</h1>
         </div>
         <Footer />
       </>
@@ -449,7 +451,7 @@ export default function BlogPost() {
             yerine küçülerek kapanır. */}
         <button type="button" className={styles.back} onClick={goBack}>
           <span aria-hidden="true">&#8249;</span>
-          <span>Back</span>
+          <span>{t('common.back')}</span>
         </button>
 
         {/* Kutu, klonun bıraktığı yerin AYNISI: viewport'ta dikey ortalı,
@@ -591,17 +593,19 @@ export default function BlogPost() {
 
           {item.spoilerThrough && !revealed && (
             <div className={styles.spoilerGate}>
-              <p className={styles.spoilerGate__label}>Spoiler warning</p>
+              <p className={styles.spoilerGate__label}>{t('blog.spoilerWarning')}</p>
               <p className={styles.spoilerGate__hint}>
-                Contains details through Season {item.spoilerThrough.seasonNumber}, Episode{' '}
-                {item.spoilerThrough.episodeNumber}
+                {t('blog.spoilerHint', {
+                  season: item.spoilerThrough.seasonNumber,
+                  episode: item.spoilerThrough.episodeNumber,
+                })}
               </p>
               <button
                 type="button"
                 className={styles.spoilerGate__button}
                 onClick={() => setRevealed(true)}
               >
-                Reveal
+                {t('blog.reveal')}
               </button>
             </div>
           )}

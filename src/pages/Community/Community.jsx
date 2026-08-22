@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { Footer } from '../../components/Footer/Footer';
 import { UniverseBrowse } from './UniverseBrowse/UniverseBrowse';
@@ -12,6 +13,7 @@ import styles from './Community.module.css';
 // kendi spoke sayfasına devreder. Motion: 3. "utility" register (0.3-0.4s,
 // [[topluluk-görsel]]) — Hero/Intro'nun sinematik 0.8-1.2s'inden kısa/hızlı.
 export default function Community() {
+  const { t } = useTranslation();
   const surfaceHighlights = getSurfaceHighlights();
   const [universeCards, setUniverseCards] = useState([]);
   const headRef = useRef(null);
@@ -56,11 +58,10 @@ export default function Community() {
             Fandoom
           </span>
           <h1 className={styles.community__title} data-reveal>
-            Community
+            {t('navbar.community')}
           </h1>
           <p className={styles.community__lead} data-reveal>
-            Theories, discussions, fan art and news from every corner of Fandoom —
-            browse by universe or dive into a surface below.
+            {t('community.lead')}
           </p>
         </header>
 

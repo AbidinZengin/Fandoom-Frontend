@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -35,6 +36,7 @@ gsap.registerPlugin(ScrollTrigger);
 // diğerine düz pan YOK; her varış/ayrılış kendi zoom vuruşunu alır (ilk
 // girişteki zoom hissi her durakta tekrarlanır).
 export default function WorldMap() {
+  const { t } = useTranslation();
   const sectionRef = useRef(null);
   const stageRef = useRef(null);
   const cameraRef = useRef(null);
@@ -450,20 +452,20 @@ export default function WorldMap() {
         <Link className={styles.worldmap__back} to="/series/game-of-thrones">
           ← Game of Thrones
         </Link>
-        <span className={styles.worldmap__kicker}>Realm</span>
+        <span className={styles.worldmap__kicker}>{t('series.realmKicker')}</span>
         <h1 className={styles.worldmap__heading}>Westeros</h1>
       </header>
 
       <Approach />
 
       {stops.length > 0 && (
-        <section className={styles.worldmap} aria-label="World map" ref={sectionRef}>
+        <section className={styles.worldmap} aria-label={t('series.worldMapAriaLabel')} ref={sectionRef}>
           <div className={styles.worldmap__stage} ref={stageRef}>
             <div className={styles.worldmap__camera} ref={cameraRef}>
               <img
                 className={styles.worldmap__map}
                 src="/got/world-map.png"
-                alt="Westeros haritası"
+                alt={t('series.worldMapAlt')}
                 decoding="async"
                 ref={mapRef}
               />
@@ -519,7 +521,7 @@ export default function WorldMap() {
                     </div>
                     {stop.linkUrl && (
                       <Link className={styles.worldmap__link} to={stop.linkUrl}>
-                        Keşfet →
+                        {t('series.exploreStopCta')}
                       </Link>
                     )}
                   </div>

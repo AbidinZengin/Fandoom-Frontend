@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { fetchIntroContent } from './Intro.data';
@@ -32,6 +33,7 @@ const AMBIENTS = [
 // sis maskesi ve metin kompozisyonu aynen korundu. Yalnız
 // transform/opacity/filter.
 export function Intro({ entityId }) {
+  const { t } = useTranslation();
   const sectionRef = useRef(null);
   const [eyebrow, setEyebrow] = useState('');
   const [headline, setHeadline] = useState('');
@@ -163,7 +165,7 @@ export function Intro({ entityId }) {
   }, [waypoints]);
 
   return (
-    <section className={styles.intro} aria-label="Introduction" ref={sectionRef}>
+    <section className={styles.intro} aria-label={t('series.introductionAriaLabel')} ref={sectionRef}>
       {/* Sahne 0 — açılış: premise + künye (Hero logosu TEKRARLANMAZ) */}
       <header className={`${styles.intro__scene} ${styles.intro__opening}`} data-scene>
         <div className={styles.intro__openingInner} data-copy>
