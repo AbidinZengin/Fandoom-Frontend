@@ -1,9 +1,19 @@
 import { getStoredAuth, clearStoredAuth } from './authStorage';
+import { SUPPORTED_LANGS, DEFAULT_LANG } from '../i18n/constants';
 
 // Ortak fetch istemcisi — backend REST API'sine (Spring Boot) tüm çağrılar
 // buradan geçer. Base path '/api', dev'de vite.config.js proxy'siyle
 // backend'e (http://localhost:8080) yönlendirilir.
 const BASE_URL = '/api';
+
+// Plain modül (hook değil) — mevcut dili useLang() gibi route context'inden
+// değil, doğrudan URL'den okur. /:lang route ağacı dışındaki sayfalar
+// (ör. /admin/...) DEFAULT_LANG'a düşer; admin uçları zaten iki dili birden
+// döndürüp/alıyor, tek-dil resolver'ından etkilenmez.
+export function currentApiLang() {
+  const firstSegment = window.location.pathname.split('/')[1];
+  return SUPPORTED_LANGS.includes(firstSegment) ? firstSegment : DEFAULT_LANG;
+}
 
 // Backend'in ApiErrorResponse'unu (GlobalExceptionHandler) taşır — status,
 // message'ın yanında validasyon hatalarını da (fieldErrors, 400'lerde) korur.
@@ -24,6 +34,7 @@ async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
+      'Accept-Language': currentApiLang(),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },

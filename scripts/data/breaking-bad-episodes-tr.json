@@ -1,0 +1,80 @@
+{
+  "series": {
+    "titleTr": "Breaking Bad",
+    "synopsisTr": "Ölümcül akciğer kanserine yakalanan bir lise kimya öğretmeni, ailesinin geleceğini güvence altına almak için eski bir öğrencisiyle birlikte metamfetamin üretimine yönelir."
+  },
+  "seasons": {
+    "1": [
+      { "titleTr": "Pilot", "synopsisTr": "Sıradan bir lise kimya öğretmeni, nadir görülen bir akciğer kanseri türüne yakalandığını öğrenince, geride bıraktığı ailesine bakabilmek için eski bir öğrencisiyle ortak olup kullanılmış bir karavanda birinci sınıf kristal metamfetamin üretmeye karar verir." },
+      { "titleTr": "Kedi Çuvalda...", "synopsisTr": "Walt ve Jesse ortada kalan işleri bitirmeye çalışır. Çaresiz durum bir yazı-tura atışıyla daha da karmaşıklaşır. Walt'ın karısı Skyler, kocasının garip davranışlarından şüphelenmeye başlar." },
+      { "titleTr": "...Ve Çuval Nehirde", "synopsisTr": "Walter, uyuşturucu kullanımı yüzünden Jesse ile tartışır ve Jesse onu rehineleri Krazy-8 ile yalnız bırakıp gider. Bu arada Hank, yeğeni Walter Jr.'ın esrar içtiğini öğrenince ona gözdağı verir. Skyler ise Walter'ın eve gelmemesine üzülür." },
+      { "titleTr": "Kanser Adam", "synopsisTr": "Walter sonunda ailesine kansere yakalandığını söyler. Bu sırada DEA, Albuquerque'de endişelenilmesi gereken yeni ve büyük bir oyuncu olduğuna inanmaya başlar. Çöküntüdeki Walter'ın öfkesi hak etmeyen birine yönelirken, Jesse de ailesinin evine beklenmedik bir ziyarette bulunur." },
+      { "titleTr": "Gri Madde", "synopsisTr": "Walter ve Skyler, eski bir iş arkadaşının partisine katılır. Jesse uyuşturucudan kurtulmaya çalışırken Skyler bir müdahale toplantısı düzenler." },
+      { "titleTr": "Bir Avuç Hiçlik", "synopsisTr": "Kemoterapinin yan etkileri Walt'ı iyice yıpratmaya başlar. Bu sırada DEA, şüpheli satıcıları toplamaya başlar." },
+      { "titleTr": "Sert Yöntemsiz Bir Anlaşma", "synopsisTr": "Bir okul-aile toplantısının ardından Walter, uyuşturucu satıcısı olarak yeni kimliğini kabullenir. Öte yandan Jesse, halasından kalan evi satışa çıkarmaya karar verirken Skyler'a bebek partisi düzenlenir." }
+    ],
+    "2": [
+      { "titleTr": "Yedi Otuz Yedi", "synopsisTr": "Walt ve Jesse, Tuco'nun ne kadar dengesiz olduğunu bir kez daha acı şekilde hatırlar ve bu iş ortaklığından nasıl çıkacaklarını düşünürler. Hank ise küsen Marie ile Skyler'ın arasını düzeltmeye çalışır." },
+      { "titleTr": "Sorguda", "synopsisTr": "Walt ve Jesse, dengesi iyice bozulmuş Tuco'yla dar bir alanda mahsur kalır. Marie ve Hank, Walt'ın ortadan kaybolmasına çok üzülen Skyler'ı teselli eder. Hank ise pek de resmi sayılmayacak bir sebeple Bayan Pinkman'ı ziyaret eder." },
+      { "titleTr": "Ölü Arı Isırdı", "synopsisTr": "Walt ve Jesse izlerini örtmeye çalışırken paraları tükenmeye başlar. Bu sırada DEA'nın elinde, doğrudan Walt ve Jesse'ye ulaştırabilecek bir ipucu vardır." },
+      { "titleTr": "Düştü", "synopsisTr": "Walt ailesiyle yeniden bağ kurmaya çalışırken Jesse de hayatını yeniden kurabilmek için mücadele eder." },
+      { "titleTr": "Kayıp", "synopsisTr": "Hank, Tuco ile yaşadıklarının ardından zor günler geçirir. Bu sırada Jesse, ürünü sokaklara dağıtmak için bir ekip tutar." },
+      { "titleTr": "Cee", "synopsisTr": "Skyler, tedavi masraflarını karşıladığı için Gretchen'e teşekkür edince Walt'ın sırrı tehlikeye girer." },
+      { "titleTr": "Negro y Azul", "synopsisTr": "Jesse ve Walt yeni bölgelere açılmayı konuşur; Hank yeni ortamına ayak uydurmaya çalışır; Skyler yeni bir iş fırsatının peşine düşer; Jesse ise ev sahibiyle tanışır." },
+      { "titleTr": "Better Call Saul", "synopsisTr": "Badger'ın başı yasayla derde girince Walt ve Jesse, işbilir bir avukattan akıl almaya gider; DEA \"Heisenberg\"i sonunda yakaladığına inanır; Hank göreve döner." },
+      { "titleTr": "4 Gün Dışarıda", "synopsisTr": "Walt bir PET-BT taramasından geçer ve ailesiyle birlikte sonuçları bekler. Walt, Saul'un tavsiyesine uyar; Jesse'nin Jane ile ilişkisi, Walt'la birlikte maraton bir üretim için çöle gitmesiyle askıya alınır." },
+      { "titleTr": "Üzerinde", "synopsisTr": "Walt ve Hank bir partide sert bir tartışmaya girer. Skyler patronuna içini döker. Jane, Jesse ile ilişkisini babasından saklar." },
+      { "titleTr": "Mandala", "synopsisTr": "Hamileliğinin sonuna yaklaşan Skyler duygularıyla boğuşurken, bir satıcının ölümü Walt'ı elindeki metamfetamin stoğunu boşaltacak yeni bir yer aramaya zorlar." },
+      { "titleTr": "Phoenix", "synopsisTr": "Walt kara para aklama yollarını araştırırken, Jesse ile son işlerinin kazancı yüzünden çatışır. Jesse ve Jane, Jane'in babasıyla ters düşer. Walt ölümcül bir karar verir." },
+      { "titleTr": "ABQ", "synopsisTr": "Skyler, sakladıklarından dolayı Walt ile hesaplaşır; Jesse tamamen çöker; Jane'in yasa boğulmuş babası, daha büyük bir trajediyle sonuçlanacak bir adım atar." }
+    ],
+    "3": [
+      { "titleTr": "No Más", "synopsisTr": "Walt yeni bir cephede yeni bir tehditle yüzleşirken, giderek öfkelenen ve hayatıyla çocukları için ne yapacağına karar vermesi gereken Skyler'la da uğraşmak zorunda kalır. Bu sırada Jesse, kendisiyle ilgili şaşırtıcı gerçeklerle yüzleşir." },
+      { "titleTr": "Caballo sin Nombre", "synopsisTr": "Walt ile Skyler arasındaki gerilim gitgide artsa da Walt, ailesiyle barışmak için elinden geleni yapar. Bu arada Saul, Jesse'yi son derece sıra dışı bir yatırım fırsatına dahil etmede önemli bir rol oynar." },
+      { "titleTr": "I.F.T.", "synopsisTr": "Walt, Skyler'ın taleplerini görmezden gelerek aralarındaki uçurumu derinleştirir ve onu da yoldan çıkmaya iter. Panik ve kaygı atakları hâlâ süren Hank ise işte bir sınırı aşar." },
+      { "titleTr": "Yeşil Işık", "synopsisTr": "Walt, Skyler'ın verdiği habere tepki gösterirken kontrolünü kaybeder ve hem işini hem de Saul ile Jesse'yle olan ilişkisini tehlikeye atar. Hank kendini mavi metamfetamin soruşturmasına adar. Jesse ise yeni bir plan uygulamaya koyar." },
+      { "titleTr": "Más", "synopsisTr": "Gus, Walt'ı yeniden işin içine çekmek için çabalarını artırır ve bu da Walt ile Jesse arasını açar. Skyler yeni ilişkisinden şüpheye düşer. Marie, Hank'in durumuyla ilgili endişelerini Skyler'a açar." },
+      { "titleTr": "Gün Batımı", "synopsisTr": "Walt yeni ortamına alışmaya başlar; Walt Jr. ebeveynlerinin ilişkisiyle ilgili cevaplar ister; Hank'in soruşturması Walt ile Jesse'nin başını derde sokar." },
+      { "titleTr": "Bir Dakika", "synopsisTr": "Hank'in giderek artan öfkesi onu hem Jesse'yle karşı karşıya getirir hem de işte başını belaya sokar. Skyler, Walt'a bir anlaşma yapması için baskı yapar. Gus'un eylemlerinin ağır sonuçları olur." },
+      { "titleTr": "Seni Görüyorum", "synopsisTr": "Aile, Hank'le ilgili haber beklerken, laboratuvarda Jesse görevi devralır ve Walt Gus'u yatıştırmaya çalışır. Rahatsız edici bir patlamaya tanık olan Walt, kendisi ve ailesinin tehlikede olduğundan endişe eder." },
+      { "titleTr": "Kafkaesk", "synopsisTr": "Hank'in hastane faturaları büyürken Skyler bir plan kurar. Walt ile Gus arasında daha iyi bir anlayış oluşur. Daha fazla bağımsızlık arayan Jesse, yeni bir fırsatın peşine düşer." },
+      { "titleTr": "Sinek", "synopsisTr": "Walt, laboratuvardaki bir kirleticiye takıntılı hale gelir ve o yok edilmeden üretimi bitirmeyi reddeder. Sabrı taşan Jesse, Walt'ı yeniden rayına oturtmaya çalışır." },
+      { "titleTr": "Abiquiu", "synopsisTr": "Skyler, Walt'ın işine dahil olur. Hank iyileşme sürecinde zorlanır. Jesse, grup terapisinde tanıştığı bir kızın ardından şaşırtıcı bir gerçeği keşfeder." },
+      { "titleTr": "Yarım Önlem", "synopsisTr": "Jesse, Walt'ın uyarılarına rağmen harekete geçer. Jesse'nin güvenliğinden endişelenen Walt, duruma müdahale etmek için sert bir adım atar ve yaşanan trajik olay şok edici bir yüzleşmeye yol açar." },
+      { "titleTr": "Tam Önlem", "synopsisTr": "Jesse kaçarken Mike onu yakından takip eder; Walt, Gus ile bir anlaşma yapar ve hem kendi hem de Jesse'nin güvenliğini sağlamak için rahatsız edici bir plan kurar." }
+    ],
+    "4": [
+      { "titleTr": "Maket Bıçağı", "synopsisTr": "Walt ve Jesse, yaptıklarının ölümcül sonuçlarıyla yüzleşir. Skyler esrarengiz bir kayboluşla uğraşırken Marie de Hank'in iyileşmesine yardımcı olmaya çalışır." },
+      { "titleTr": "Otuz Sekiz Snub", "synopsisTr": "Walt bir sonraki adımını planlarken yeni bir ittifak kurmaya çalışır. Skyler, aileyi korumak umuduyla Walt'ı bir iş fırsatına yönlendirir." },
+      { "titleTr": "Açık Ev", "synopsisTr": "Jesse'nin evindeki olaylar kontrolden çıkar. Skyler, isteksizce de olsa Saul'dan yardım ister. Marie eski bir alışkanlığına geri döner ve bir arkadaşı Hank'ten yardım ister." },
+      { "titleTr": "Maddeler Halinde", "synopsisTr": "Kartel, üstünlüğü ele geçirmek için adımlar atar. Walt ve Skyler, ailenin geri kalanıyla utanç verici bir sırrı paylaşır. Jesse'nin faaliyetleri istenmeyen bir dikkat çeker." },
+      { "titleTr": "Pompalı Tüfek", "synopsisTr": "Jesse ortadan kaybolunca Walt en kötüsünden korkar. Skyler beklenmedik bir kavuşma yaşar. Hank, Dedektif Tim Roberts'a kötü bir haber verir." },
+      { "titleTr": "Köşeye Sıkışmış", "synopsisTr": "Skyler rahatsız edici bir şey keşfeder. Walter Jr., babasını tartışmalı bir alışverişe zorlar. Jesse, Mike'a beklenmedik bir yardımda bulunur." },
+      { "titleTr": "Sorunlu Köpek", "synopsisTr": "Bunalan Walt, riskli yeni bir plana girişir. Skyler'ın iş girişimi bir engele takılır. Hank, sıra dışı bir gezi için Walter Jr.'ı yanına alır." },
+      { "titleTr": "Hermanos", "synopsisTr": "Skyler, para sıkıntısına sıra dışı bir çözüm bulur. Hank, bir teoriyi araştırmak için Walt'tan yardım ister. Walt'ın Jesse'ye olan sabrı iyice tükenir." },
+      { "titleTr": "Böcek", "synopsisTr": "Skyler'ın geçmişteki hataları peşini bırakmaz. Gus, rakiplerini alt etmek için harekete geçer. Jesse, Walt'tan yardım ister ama sonuç karışık olur." },
+      { "titleTr": "Salud", "synopsisTr": "Walt, Walter Jr.'ın 16. doğum gününe gelmeyince ailesi endişelenir. Jesse, Bay White'ın yardımı olmadan laboratuvar becerilerini sınamak zorunda kalır." },
+      { "titleTr": "Sürünme Boşluğu", "synopsisTr": "Walt, sırrını ve Gus'u korumak için sert bir adım atar. Skyler'ın Ted'in mali sorunlarını çözme çabaları duvara toslar." },
+      { "titleTr": "Ahir Zaman", "synopsisTr": "Hank, Gomez'i son bir ipucunun peşinden gitmeye zorlarken Walt ailesini korumak için mücadele eder. Jesse endişe verici bir haber alır ve Bay White'la buluşmak için koşar." },
+      { "titleTr": "Hesaplaşma", "synopsisTr": "Walt ve Jesse, Gus'a karşı güç birliği yapar. Saul'un yardımıyla Walt beklenmedik bir müttefik bulur." }
+    ],
+    "5": [
+      { "titleTr": "Özgür Yaşa ya da Öl", "synopsisTr": "Walt, Casa Tranquila'daki patlamanın ardından yaşananlarla uğraşırken Hank de Gus'un imparatorluğuna dair soruşturmasını tamamlamaya çalışır." },
+      { "titleTr": "Madrigal", "synopsisTr": "Walt ve Jesse, hiç beklenmedik bir iş ortağının peşine düşer. DEA ise bir şeyler bulma umuduyla çeşitli ipuçlarını inceler." },
+      { "titleTr": "Tehlike Zammı", "synopsisTr": "Walt ve Jesse yeni bir iş planı hazırlar. Walt, Marie'yle bir sır paylaşır." },
+      { "titleTr": "Elli Bir", "synopsisTr": "Walt bir doğum günü daha kutlar. Skyler seçeneklerini tartarken bir ortak, Walt ve Jesse'nin iş stratejisine çomak sokar." },
+      { "titleTr": "Kargo Treni", "synopsisTr": "Walt'ın ekibi, üretime devam edebilmek için ihtiyaç duydukları metilamini elde etmek için yaratıcı bir yönteme başvurur." },
+      { "titleTr": "Satın Alma", "synopsisTr": "İşin getirdiği riskler Jesse'yi iyice yıprattıkça, Walt, Jesse ve Mike işlerinin geleceği konusunda anlaşmazlığa düşer." },
+      { "titleTr": "Adımı Söyle", "synopsisTr": "Walt, işin dizginlerini eline alır; Mike ise yaptıklarının sonuçlarıyla yüzleşir." },
+      { "titleTr": "Her Şeyin Üstünde Süzülerek", "synopsisTr": "Walt ortada kalan işleri halleder; ardından tehlikeli bir karar verir." },
+      { "titleTr": "Kan Parası", "synopsisTr": "Walt ve Jesse işin dışındaki hayata alışmaya çalışırken Hank, rahatsız edici bir ipucuyla boğuşur." },
+      { "titleTr": "Gömülü", "synopsisTr": "Skyler'ın geçmişi peşine düşerken Walt izlerini örtmeye devam eder. Jesse ise vicdan azabıyla boğuşmayı sürdürür." },
+      { "titleTr": "İtiraflar", "synopsisTr": "Jesse bir değişiklik yapmaya karar verirken Walt ve Skyler beklenmedik bir talebin üstesinden gelmeye çalışır." },
+      { "titleTr": "Kuduz Köpek", "synopsisTr": "Sıra dışı bir strateji meyvelerini vermeye başlarken, her şeyi değiştirebilecek planlar da harekete geçer." },
+      { "titleTr": "To'hajiilee", "synopsisTr": "Walt için işler beklenmedik şekillerde kızışır." },
+      { "titleTr": "Ozymandias", "synopsisTr": "Herkes kökten değişen koşullarla baş etmeye çalışır." },
+      { "titleTr": "Granit Eyalet", "synopsisTr": "Uzun zaman önce başlayan olaylar bir sona doğru ilerler." },
+      { "titleTr": "Felina", "synopsisTr": "Tüm kötü şeyler bir gün son bulmalı." }
+    ]
+  }
+}

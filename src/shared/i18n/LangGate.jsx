@@ -19,7 +19,15 @@ export function LangGate() {
     return <Navigate to={`/${DEFAULT_LANG}${location.pathname}`} replace />;
   }
 
-  return <Outlet />;
+  // key={lang}: dil switcher'ı SPA soft-navigate yaptığı için (sayfa
+  // yenilenmez) alt sayfalar remount OLMAZSA mount-zamanlı veri çekme
+  // effect'leri ([] dependency) tekrar tetiklenmez — sayfa ilk açıldığı
+  // dildeki içeriğe (sezon adı, synopsis vb.) kilitli kalır; statik arayüz
+  // metni i18next state'i olduğu için anında değişir ama gerçek içerik
+  // değişmezdi (kullanıcı raporu: "metinler eski dilde kilitli"). key
+  // değişince React tüm alt ağacı sıfırdan mount eder, veri doğru dille
+  // yeniden çekilir.
+  return <Outlet key={lang} />;
 }
 
 // Prefix'siz eski path'ler için yakalayıcı (kök "/", "/series/breaking-bad" vb.)

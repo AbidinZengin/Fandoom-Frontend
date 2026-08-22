@@ -5,7 +5,6 @@ import { useLocalizedNavigate as useNavigate } from '../../../../shared/i18n/use
 import { Footer } from '../../../../components/Footer/Footer';
 import { armInPageNav } from '../../../../motion/cinematic';
 import { fetchProductionDetail, fetchSeasonDetail, theme } from './SeasonDetail.data';
-import { getSeasonStory } from './SeasonStory/SeasonStory.data';
 import { SeasonStory } from './SeasonStory/SeasonStory';
 import { EpisodeGrid } from './EpisodeGrid/EpisodeGrid';
 import styles from './SeasonDetail.module.css';
@@ -36,8 +35,9 @@ export default function SeasonDetail() {
   const seasonNumber = Number(seasonNumberParam);
 
   const [series, setSeries] = useState(null);
-  const [episodes, setEpisodes] = useState(null);
+  const [seasonDetail, setSeasonDetail] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const episodes = seasonDetail?.episodes ?? null;
 
   useEffect(() => {
     let cancelled = false;
@@ -61,9 +61,9 @@ export default function SeasonDetail() {
       return undefined;
     }
     let cancelled = false;
-    setEpisodes(null);
+    setSeasonDetail(null);
     fetchSeasonDetail(season.id).then((detail) => {
-      if (!cancelled) setEpisodes(detail.episodes);
+      if (!cancelled) setSeasonDetail(detail);
     });
     return () => {
       cancelled = true;
@@ -111,7 +111,6 @@ export default function SeasonDetail() {
   const seasonIdx = series.seasons.findIndex((s) => s.seasonNumber === seasonNumber);
   const prevSeason = series.seasons[seasonIdx - 1];
   const nextSeason = series.seasons[seasonIdx + 1];
-  const story = getSeasonStory(seasonNumber);
 
   const goToSeason = (target) => {
     if (!target) return;
@@ -139,7 +138,7 @@ export default function SeasonDetail() {
             </button>
             <p className={styles.hero__kicker}>{t('series.seasonMeta', { number: pad2(seasonNumber) })}</p>
             <h1 className={styles.hero__title}>{currentSeason.title}</h1>
-            {story?.dek && <p className={styles.hero__dek}>{story.dek}</p>}
+            {seasonDetail?.storyDek && <p className={styles.hero__dek}>{seasonDetail.storyDek}</p>}
 
             {(episodes?.length || yearRange) && (
               <div className={styles.hero__stats}>
@@ -180,7 +179,12 @@ export default function SeasonDetail() {
 
         <div className={styles.content}>
           <div className={styles.content__main}>
-            <SeasonStory seasonNumber={seasonNumber} episodes={episodes} />
+            <SeasonStory
+              storyKicker={seasonDetail?.storyKicker}
+              storyTitle={seasonDetail?.storyTitle}
+              seasonBlocks={seasonDetail?.seasonBlocks}
+              episodes={episodes}
+            />
           </div>
 
           <aside className={styles.content__sidebar} id="episodes">

@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import { apiClient, currentApiLang } from './client';
 
 // GET /api/productions — backend'in movie+series orkestrasyon feed'i.
 // Backend'in PageResponse<T> zarfını olduğu gibi döner (content, page, size,
@@ -72,9 +72,12 @@ export async function updateEpisode(id, fields) {
 // benzeri çözümleme isteyen çağıranlar (ContentSection, NewsCard, Community)
 // bunun üstüne kurulur.
 let allProductionsPromise = null;
+let allProductionsLang = null;
 
 export async function fetchAllProductions() {
-  if (!allProductionsPromise) {
+  const lang = currentApiLang();
+  if (!allProductionsPromise || allProductionsLang !== lang) {
+    allProductionsLang = lang;
     allProductionsPromise = fetchProductions({ size: 100 }).then((res) => res.content);
   }
   return allProductionsPromise;
