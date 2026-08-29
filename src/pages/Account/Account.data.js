@@ -113,3 +113,24 @@ export async function editCustomList(id, fields) {
 export async function removeCustomList(id) {
   return deleteMyList(id);
 }
+
+// Bir CUSTOM listeye eklenebilecek içerik havuzu — ListEditorModal'ın
+// "İçerikler" bölümü bunu kullanır. Gerçek bir arama ucu backend'de henüz
+// yok (kullanıcı kararı, 2026-08-29: "sonra ekleyeceğiz, şimdilik
+// kaydedilenlerden/beğenilerden seç") — bu yüzden havuz Kaydedilenler
+// (bookmark) + Beğeniler'in birleşimi, itemType+id'ye göre tekilleştirilmiş.
+export async function getAddableContent() {
+  const [bookmarksPage, likesPage] = await Promise.all([getMyBookmarks({ size: 50 }), getMyLikes({ size: 50 })]);
+  const [saved, liked] = await Promise.all([
+    enrichRawItems(bookmarksPage.content),
+    enrichRawItems(likesPage.content),
+  ]);
+
+  const seen = new Set();
+  return [...saved, ...liked].filter((item) => {
+    const key = `${item.itemType}:${item.id}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}

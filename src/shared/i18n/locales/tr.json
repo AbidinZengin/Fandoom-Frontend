@@ -247,7 +247,9 @@
       "confirmDelete": "Emin misin?",
       "deleteError": "Liste silinemedi",
       "uploadError": "Görsel yüklenemedi",
-      "saveError": "Liste kaydedilemedi"
+      "saveError": "Liste kaydedilemedi",
+      "itemsHeading": "İçerikler",
+      "itemsEmpty": "Kaydettiğin veya beğendiğin bir içerik yok. Bir blog/film/dizi sayfasında Kaydet ya da Beğen'e tıklayınca burada seçilebilir hale gelir."
     },
     "characters": {
       "podiumHeading": "Favori Karakterler",

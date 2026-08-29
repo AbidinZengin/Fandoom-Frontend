@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { uploadImage } from '../../../../../shared/api/media';
+import { getMyListDetail, addToList, removeFromList } from '../../../../../shared/api/account';
 import styles from './ListEditorModal.module.css';
 
 function CloseIcon() {
@@ -17,7 +18,12 @@ function CloseIcon() {
 // create modu. Backend CreateUserListRequest'in POST/PATCH'te aynı DTO
 // olması FE'de de aynı form/submit deseninin paylaşılmasını doğal kılıyor
 // (bkz. shared/api/account.js updateMyList yorumu).
-export function ListEditorModal({ list, onClose, onSubmit }) {
+// İçerik ekleme/çıkarma sadece EDIT modunda: yeni açılan bir listenin
+// henüz id'si yok, targetListId gerektiren addToList çağrılamaz — kullanıcı
+// önce oluşturur, sonra Düzenle'ye tekrar girip içerik ekler.
+const ITEMS_FETCH_SIZE = 200;
+
+export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
   const { t } = useTranslation();
   const coverInputRef = useRef(null);
   const [title, setTitle] = useState(list?.title ?? '');
@@ -29,6 +35,54 @@ export function ListEditorModal({ list, onClose, onSubmit }) {
   const [error, setError] = useState(null);
 
   const isEdit = Boolean(list);
+
+  // itemMembership: `${itemType}:${itemId}` -> saved-item satır id'si (ya da
+  // 'pending' işlem sürerken) — listenin şu anki içeriğini tek seferde çeker.
+  const [itemMembership, setItemMembership] = useState(null);
+  const [loadingItems, setLoadingItems] = useState(false);
+
+  useEffect(() => {
+    if (!isEdit) return;
+    setLoadingItems(true);
+    getMyListDetail(list.id, { size: ITEMS_FETCH_SIZE })
+      .then((detail) => {
+        const map = {};
+        (detail.items?.content ?? []).forEach((raw) => {
+          map[`${raw.itemType}:${raw.itemId}`] = raw.id;
+        });
+        setItemMembership(map);
+      })
+      .finally(() => setLoadingItems(false));
+  }, [isEdit, list?.id]);
+
+  const toggleItem = async (candidate) => {
+    const key = `${candidate.itemType}:${candidate.id}`;
+    const current = itemMembership?.[key];
+    if (current === 'pending') return;
+    const prev = itemMembership;
+
+    if (current) {
+      setItemMembership((m) => ({ ...m, [key]: 'pending' }));
+      try {
+        await removeFromList(current);
+        setItemMembership((m) => {
+          const next = { ...m };
+          delete next[key];
+          return next;
+        });
+      } catch {
+        setItemMembership(prev);
+      }
+    } else {
+      setItemMembership((m) => ({ ...m, [key]: 'pending' }));
+      try {
+        const res = await addToList(candidate.id, candidate.itemType, { targetListId: list.id });
+        setItemMembership((m) => ({ ...m, [key]: res.id }));
+      } catch {
+        setItemMembership(prev);
+      }
+    }
+  };
 
   const handleCoverFile = async (file) => {
     if (!file) return;
@@ -140,6 +194,42 @@ export function ListEditorModal({ list, onClose, onSubmit }) {
           />
           {t('account.customLists.publicToggleLabel')}
         </label>
+
+        {isEdit && (
+          <div>
+            <p className={styles.modal__fieldLabel}>{t('account.customLists.itemsHeading')}</p>
+
+            {loadingItems && <p className={styles.modal__itemsStatus}>{t('blog.loading')}</p>}
+
+            {!loadingItems && (!candidates || candidates.length === 0) && (
+              <p className={styles.modal__itemsStatus}>{t('account.customLists.itemsEmpty')}</p>
+            )}
+
+            {!loadingItems && candidates && candidates.length > 0 && (
+              <ul className={styles.modal__itemsList}>
+                {candidates.map((candidate) => {
+                  const key = `${candidate.itemType}:${candidate.id}`;
+                  const membership = itemMembership?.[key];
+                  const thumb = candidate.itemType === 'BLOG' ? candidate.imageUrl : candidate.posterUrl;
+                  return (
+                    <li key={key}>
+                      <label className={styles.modal__itemRow}>
+                        <input
+                          type="checkbox"
+                          checked={Boolean(membership)}
+                          disabled={membership === 'pending'}
+                          onChange={() => toggleItem(candidate)}
+                        />
+                        {thumb && <img src={thumb} alt="" className={styles.modal__itemThumb} />}
+                        <span className={styles.modal__itemTitle}>{candidate.title}</span>
+                      </label>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        )}
 
         {error && <p className={styles.modal__error}>{error}</p>}
 

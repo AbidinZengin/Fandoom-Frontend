@@ -247,7 +247,9 @@
       "confirmDelete": "Are you sure?",
       "deleteError": "Could not delete list",
       "uploadError": "Image upload failed",
-      "saveError": "Could not save list"
+      "saveError": "Could not save list",
+      "itemsHeading": "Items",
+      "itemsEmpty": "You don't have any saved or liked content yet. Click Save or Like on a blog/movie/series page and it'll show up here."
     },
     "characters": {
       "podiumHeading": "Top Characters",
@@ -290,7 +292,13 @@
     "addToWatchlist": "Add to Watchlist",
     "removeFromWatchlist": "Remove from Watchlist",
     "markWatched": "Mark as Watched",
-    "unmarkWatched": "Unmark as Watched"
+    "unmarkWatched": "Unmark as Watched",
+    "addToList": "Add to List",
+    "addToListHeading": "Add to List",
+    "noLists": "You don't have any custom lists yet",
+    "listLoadError": "Could not load lists",
+    "listCreateError": "Could not create list",
+    "createAndAddCta": "Create & Add"
   },
   "placeholder": {
     "comingSoon": "{{title}} — coming soon"

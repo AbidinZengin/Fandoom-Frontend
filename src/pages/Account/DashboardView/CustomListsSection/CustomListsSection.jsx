@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getCustomLists, createCustomList, editCustomList, removeCustomList } from '../../Account.data';
+import {
+  getCustomLists,
+  createCustomList,
+  editCustomList,
+  removeCustomList,
+  getAddableContent,
+} from '../../Account.data';
 import { ListEditorModal } from './ListEditorModal/ListEditorModal';
 import styles from './CustomListsSection.module.css';
 
@@ -11,6 +17,7 @@ import styles from './CustomListsSection.module.css';
 export function CustomListsSection() {
   const { t } = useTranslation();
   const [lists, setLists] = useState(null);
+  const [candidates, setCandidates] = useState(null);
   const [editorList, setEditorList] = useState(undefined); // undefined=kapalı, null=create, obj=edit
   const [confirmingDeleteId, setConfirmingDeleteId] = useState(null);
   const [error, setError] = useState(null);
@@ -21,6 +28,7 @@ export function CustomListsSection() {
 
   useEffect(() => {
     refresh();
+    getAddableContent().then(setCandidates);
   }, []);
 
   const handleSubmit = async (fields) => {
@@ -107,6 +115,7 @@ export function CustomListsSection() {
       {editorList !== undefined && (
         <ListEditorModal
           list={editorList}
+          candidates={candidates}
           onClose={() => setEditorList(undefined)}
           onSubmit={handleSubmit}
         />
