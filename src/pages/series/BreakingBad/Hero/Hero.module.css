@@ -72,6 +72,15 @@
   height: 35.82%;
 }
 
+/* Like/Save/Follow bar — buton sırasının (buttonBlock1/2) hemen üstü,
+   sol kenarı buttonBlock2 ile hizalı (kullanıcı kararı: "butonların
+   olduğu kısmın üstüne"). */
+.actionsBlock {
+  position: absolute;
+  left: 61.03%;
+  top: calc(75.49% - 68px);
+}
+
 .buttonBlock1 {
   position: absolute;
   left: 75.11%;

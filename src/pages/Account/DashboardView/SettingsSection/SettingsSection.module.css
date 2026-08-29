@@ -1,0 +1,136 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.settings__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.settings__group:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.settings__groupHeading {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.settings__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.settings__rowText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.settings__rowLabel {
+  font-size: var(--text-base);
+  color: var(--fg-dim);
+}
+
+.settings__rowDescription {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+.settings__toggle {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.settings__toggleInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.settings__toggleTrack {
+  display: block;
+  width: 40px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border);
+  padding: 2px;
+}
+
+.settings__toggleKnob {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-round);
+  background: var(--fg-faint);
+}
+
+.settings__toggleInput:checked + .settings__toggleTrack {
+  background: var(--fg);
+}
+
+.settings__toggleInput:checked + .settings__toggleTrack .settings__toggleKnob {
+  background: var(--bg);
+  margin-left: 18px;
+}
+
+.settings__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-md);
+}
+
+.settings__toast {
+  margin-right: auto;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.settings__cancel {
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-pill);
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.settings__save {
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-pill);
+  background: var(--fg);
+  border: none;
+  color: var(--bg);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .settings__row {
+    align-items: flex-start;
+  }
+
+  .settings__actions {
+    flex-wrap: wrap;
+  }
+
+  .settings__toast {
+    width: 100%;
+    margin-right: 0;
+  }
+}

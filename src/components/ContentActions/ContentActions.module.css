@@ -1,6 +1,6 @@
-/* Makale sonunda yatay sıra (kullanıcı kararı) — eskiden hero'nun resim
-   üzerinde yüzen absolute dikey bir raydı, .storyActions (kapsayıcı,
-   BlogPost.module.css) artık konumu/genişliği yönetiyor. */
+/* Blog/Movie/Series ortak beğen-kaydet-takip-paylaş barı — --accent'a göre
+   boyanır, her sayfa kendi temasını (theme.js/CSS custom property) zaten
+   kuruyor, bu component hiçbir renk icat etmez. */
 .actions {
   display: flex;
   align-items: center;
@@ -14,8 +14,6 @@
 .action {
   display: grid;
   place-items: center;
-  /* 44px dokunma hedefi tabanı (a11y) — RelatedContent .related__arrow ile
-     aynı ölçü. */
   width: 44px;
   height: 44px;
   padding: 0;
@@ -48,7 +46,6 @@
   }
 }
 
-/* Yatay sırada butonun SOLUNDA yer yok (komşu ikonla çakışır) — üstte belirir. */
 .toast {
   position: absolute;
   bottom: calc(100% + var(--space-sm));

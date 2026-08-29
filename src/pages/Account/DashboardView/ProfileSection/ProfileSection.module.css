@@ -1,0 +1,297 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* Kimlik kartı: wallpaper (radial doku, monokrom) kartın kendi arka planı —
+   avatar/isim/Edit Profile o wallpaper'ın ÖNÜNDE durur (kullanıcı isteği).
+   Sağdaki karartma katmanı (::after) metnin okunabilirliğini korur.
+   bannerUrl varsa gerçek banner görseli aynı arka plana geçer (inline style,
+   ProfileSection.jsx) — ::after karartması aynı kalır; gerçek fotoğraf
+   dekoratif gradyandan daha "gürültülü" olabileceği için [data-has-banner]
+   altında karartma biraz güçlendirilir. */
+.profile__card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl) var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.16), rgba(0, 0, 0, 0) 60%), var(--card-bg);
+}
+
+.profile__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 65%);
+  pointer-events: none;
+}
+
+.profile__card[data-has-banner]::after {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 65%);
+}
+
+.profile__avatar {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-round);
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.profile__avatarImage {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-round);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  object-fit: cover;
+}
+
+.profile__cardText {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.profile__name {
+  margin: 0;
+  font-size: var(--text-h2);
+  color: var(--fg);
+}
+
+.profile__memberSince {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+}
+
+/* Outline varsayılan, hover'da beyaza dolar — continueReading__cta/
+   SeasonRoute .focus__cta ile aynı buton dili (kullanıcı isteği). */
+.profile__editButton {
+  position: absolute;
+  z-index: 1;
+  top: var(--space-md);
+  right: var(--space-md);
+  padding: var(--space-xs) var(--space-lg);
+  border: 1.5px solid var(--fg);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.profile__editButton:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.profile__bio {
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}
+
+.profile__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.profile__statCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.profile__statValue {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.profile__statLabel {
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
+.profile__continueHeading {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-base);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
+/* Aşağıdaki continueReading__* kurallar SeasonRoute.jsx'in carousel/CTA
+   dilinin (kart kenarlığı, ok butonları, outline→beyaz-dolu CTA) bu panele
+   uyarlanmış hâlidir — aynı görsel dil, blog kartları için (learned-rules
+   "mevcut paylaşılan bileşenin aynısı" kuralı: yeni bir stil icat edilmedi). */
+
+.continueReading__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.continueReading__navRow {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.continueReading__navArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-round);
+  background: transparent;
+  color: var(--fg);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.continueReading__navArrow:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.continueReading__navArrow[data-dir='left'] svg {
+  transform: scaleX(-1);
+}
+
+.continueReading__track {
+  display: flex;
+  gap: var(--space-lg);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.continueReading__track::-webkit-scrollbar {
+  display: none;
+}
+
+.continueReading__cardWrap {
+  flex: 0 0 clamp(200px, 26vw, 260px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.continueReading__card {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) ease;
+}
+
+.continueReading__card:hover,
+.continueReading__card:focus-visible {
+  border-color: var(--fg);
+}
+
+.continueReading__cardImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sabit 2 satırlık yükseklik — kısa/uzun başlıklarda alttaki progress bar/
+   CTA'nın kart kart farklı hizada durmaması için (kullanıcı raporu). */
+.continueReading__cardTitle {
+  margin: 0;
+  min-height: calc(1.3em * 2);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fg);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.continueReading__progressTrack {
+  width: 100%;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.continueReading__progressFill {
+  height: 100%;
+  background: var(--fg);
+}
+
+/* Outline varsayılan, HOVER'da beyaza dolar — SeasonRoute .focus__cta ile
+   birebir aynı desen. */
+.continueReading__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  align-self: flex-start;
+  padding: var(--space-xs) var(--space-lg);
+  border: 1.5px solid var(--fg);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--fg);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.continueReading__cta:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+@media (max-width: 640px) {
+  .profile__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .profile__card {
+    flex-wrap: wrap;
+    padding-top: calc(var(--space-lg) + 28px);
+  }
+
+  .profile__editButton {
+    top: var(--space-sm);
+    right: var(--space-sm);
+  }
+}

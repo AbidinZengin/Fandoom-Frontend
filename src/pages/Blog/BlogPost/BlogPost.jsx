@@ -5,61 +5,21 @@ import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLoc
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Footer } from '../../../components/Footer/Footer';
+import { ContentActions } from '../../../components/ContentActions/ContentActions';
 import { RelatedContent } from '../../../components/RelatedContent/RelatedContent';
-import { theme } from '../../series/GameOfThrones/GameOfThrones.data';
-import {
-  armBlogReturn,
-  readBlogFlip,
-  blogExpandedBox,
-  rememberBlogOrigin,
-  recallBlogOrigin,
-} from '../../../motion/cinematic';
+import { getStoredAuth } from '../../../shared/api/authStorage';
+import { getMySavedItemStatus, addToList, updateSavedItemProgress } from '../../../shared/api/account';
+import { theme as gotTheme } from '../../series/GameOfThrones/GameOfThrones.data';
+import { theme as bbTheme } from '../../series/BreakingBad/BreakingBad.data';
+import { armBlogReturn, readBlogFlip, blogExpandedBox } from '../../../motion/cinematic';
 import { getBlogDetail, getAdjacentBlogs } from './BlogPost.data';
 import { TagChips } from './TagChips/TagChips';
-import { PostActions } from './PostActions/PostActions';
+import { SidebarRelated } from './SidebarRelated/SidebarRelated';
 import { Comments } from './Comments/Comments';
 import { ArticleNav } from './ArticleNav/ArticleNav';
 import styles from './BlogPost.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// Alt yazı konumu (sağ/sol/orta) görsel bloğun SIRASINA göre döngüsel seçilir
-// — kullanıcı isteği: "content'e göre", art arda gelen görseller aynı köşede
-// yığılmasın. Konum, giriş animasyonunun yönünü de belirler (bkz. aşağıdaki
-// GSAP effect'i): sağ→sağdan kayar, sol→soldan kayar, orta→aşağıdan yükselir.
-const CAPTION_POSITIONS = ['right', 'left', 'center'];
-
-// Serbest canvas konumu — x/y/width yüzde (0-100), height opsiyonel yüzde
-// (null = içeriğe göre otomatik, CSS height:auto). learned-rules
-// [blog-blok-pozisyon]: editördeki BlockItem ile AYNI koordinat sistemi.
-// isLegacyLayout=true iken (x/y/width/height'i olmayan eski blog) HİÇ
-// pozisyon stili dönmez — blok normal akışta kalır (bkz. .story__legacyBody),
-// çakışma riski sıfır (kullanıcı raporu: tahmini y hesabı "imagelerin
-// üstüne çakışıyor"du).
-const blockPositionStyle = (block, isLegacy) => {
-  // --block-font-scale: legacy/modern fark etmeksizin uygulanır (editördeki
-  // BlockItem ile AYNI CSS değişkeni, bkz. BlogPost.module.css).
-  const fontScale = { '--block-font-scale': block.fontScale ?? 1 };
-  if (isLegacy) return fontScale;
-  return {
-    ...fontScale,
-    position: 'absolute',
-    left: `${block.x}%`,
-    top: `${block.y}%`,
-    width: `${block.width}%`,
-    height: block.height != null ? `${block.height}%` : undefined,
-  };
-};
-
-// Marka bütünlüğü için AÇIK font seçici değil, editördeki (BlockItem)
-// sabit üç seçenekle AYNI liste — learned-rules: "Fandoom marka fontu
-// Montserrat KALIR".
-const FONT_CLASS = {
-  GOT: styles.fontGot,
-  FRAUNCES: styles.fontFraunces,
-  MONTSERRAT: styles.fontMontserrat,
-};
-const fontClassOf = (block) => (block.fontFamily ? FONT_CLASS[block.fontFamily] : undefined);
 
 // Dive Deeper carousel'inden (RelatedContent) devralınan bağımsız Blog yazısı
 // sayfası. Zemin DÜZ SİYAH — arka plan görseli yok (kullanıcı kararı).
@@ -138,9 +98,17 @@ export default function BlogPost() {
     };
   }, [slug]);
 
-  // GoT tema rengini basar — içerik şimdilik yalnız GoT'tan geldiği için
-  // (EpisodePage ile aynı desen). Blog çok-yapımlı bir yüzeye dönüşünce tema
-  // kaynağı da parametrik olmalı; kapsam dışı, teslim özetinde raporlanır.
+  // Tema, blogun etiketlendiği yapıma göre çözülür — sabit GoT teması
+  // DEĞİL (kullanıcı raporu: "renk paleti ve fontu gotta kalmış turuncu").
+  // tags asenkron geldiği için (resolveTags) bu effect item'a bağımlı;
+  // hiç tag yoksa GoT'a düşer (önceki, tek-yapımlı davranışla geriye uyumlu).
+  const productionSlug = item?.tags?.[0]?.productionSlug;
+  const activeTheme = productionSlug === 'breaking-bad' ? bbTheme : gotTheme;
+  // Hero başlığının display fontu da AYNI şekilde yapıma bağlı: BB sayfaları
+  // (Hero.module.css) Montserrat kullanıyor, GoT kendi dekoratif fontunu.
+  const heroFontFamily =
+    productionSlug === 'breaking-bad' ? "'Montserrat', sans-serif" : "'Game of Thrones', 'Cinzel', serif";
+
   useEffect(() => {
     const root = document.documentElement;
     const prev = {
@@ -148,15 +116,15 @@ export default function BlogPost() {
       accent: root.style.getPropertyValue('--accent'),
       cardBg: root.style.getPropertyValue('--card-bg'),
     };
-    root.style.setProperty('--bg', theme.bg);
-    root.style.setProperty('--accent', theme.accent);
-    root.style.setProperty('--card-bg', theme.cardBg);
+    root.style.setProperty('--bg', activeTheme.bg);
+    root.style.setProperty('--accent', activeTheme.accent);
+    root.style.setProperty('--card-bg', activeTheme.cardBg);
     return () => {
       root.style.setProperty('--bg', prev.bg || '#050505');
       root.style.setProperty('--accent', prev.accent || '#a02cd8');
       root.style.setProperty('--card-bg', prev.cardBg || '#101012');
     };
-  }, []);
+  }, [activeTheme]);
 
   // Klonu KALDIRMA anı: bu sayfanın görseli boyanmaya hazır olduğunda.
   // Erken kaldırmak (mount'ta) bir kare boşluk bırakır — devrin tek görünür
@@ -192,133 +160,92 @@ export default function BlogPost() {
     };
   }, [handoff, item]);
 
-  // Gövde metninin scroll motion'ı — EpisodeStory'nin (bölüm sayfası derin-
-  // analizi) imzasının BİREBİR aynısı, kullanıcı isteğiyle buraya taşındı:
-  // başlık scroll'a bağlı (linear, scrub) aşağıdan yükselip belirir, alıntı
-  // çizgisi soldan süpürülüp metin soldan kayar, görsel masaüstünde hafif
-  // dikey parallax alır. Gövde metni (paragraf) HİÇ animasyon almaz —
-  // EpisodeStory'de de statik akıyor.
+  // Gövde metninin giriş animasyonu — SeasonStory'nin ("sezon incelemesi")
+  // imzasının BİREBİR aynısı (kullanıcı kararı, 2026-08): scrub/pin/parallax
+  // YOK, sade fade+y reveal, scroll'a girince BİR KEZ oynar. Blok mimarisi
+  // artık serbest x/y canvas değil SeasonStory'nin lede/section/verdict
+  // yapısı olduğu için EpisodeStory'den devralınan scrub koreografisi de
+  // onunla birlikte kaldırıldı.
   useLayoutEffect(() => {
-    if (!item || !storyRef.current) return undefined;
+    if (!item?.story || !storyRef.current) return undefined;
 
     const ctx = gsap.context((self) => {
       const mm = gsap.matchMedia();
-      const blockEls = self.selector('[data-story-block]');
-      const quoteBlocks = self.selector('[data-story-quote]');
-      const images = self.selector('[data-story-image]');
-      const captions = self.selector('[data-story-caption]');
+      const reveals = self.selector('[data-reveal]');
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        // Blok girişi editörden seçilen animasyona göre (learned-rules
-        // [blog-blok-pozisyon] — kullanıcı kararı: "componentlerin
-        // animasyonlarını control edebilmem lazım"). PINNED, canvas serbest
-        // konumlu olduğu için pinSpacing:false ile (boşluk eklemez, diğer
-        // blokların pozisyonunu bozmaz) sabit bir süre (~400px) sabitlenir.
-        blockEls.forEach((el) => {
-          const animation = el.dataset.animation || 'FADE_UP';
-          if (animation === 'NONE') {
-            gsap.set(el, { opacity: 1 });
-            return;
-          }
-          if (animation === 'PINNED') {
-            ScrollTrigger.create({
-              trigger: el,
-              start: 'top top+=96',
-              end: '+=400',
-              pin: true,
-              pinSpacing: false,
-            });
-            return;
-          }
-          const from =
-            animation === 'FADE_LEFT'
-              ? { opacity: 0, x: -64 }
-              : animation === 'FADE_RIGHT'
-                ? { opacity: 0, x: 64 }
-                : { opacity: 0, y: 64 };
-          gsap.fromTo(el, from, {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            ease: 'none',
-            scrollTrigger: { trigger: el, start: 'top bottom', end: 'top 62%', scrub: 1.2 },
+        reveals.forEach((el) => {
+          gsap.from(el, {
+            opacity: 0,
+            y: 32,
+            duration: 0.8,
+            ease: 'power3.out',
+            clearProps: 'opacity,transform',
+            scrollTrigger: { trigger: el, start: 'top 85%', once: true },
           });
-        });
-
-        quoteBlocks.forEach((block) => {
-          const rule = block.querySelector('[data-story-quote-rule]');
-          const text = block.querySelector('[data-story-quote-text]');
-          gsap
-            .timeline({
-              scrollTrigger: { trigger: block, start: 'top bottom', end: 'top 55%', scrub: 1.2 },
-            })
-            .fromTo(rule, { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 0.45 }, 0)
-            .fromTo(
-              text,
-              { opacity: 0, x: -48 },
-              { opacity: 1, x: 0, ease: 'none', duration: 0.55 },
-              0.3,
-            );
-        });
-
-        // Alt yazı köşeye yapışık duruyor (rotasyon YOK), konumuna göre
-        // (data-caption-pos — bkz. CAPTION_POSITIONS) o yönden kayarak
-        // açığa çıkar: sağ→sağdan, sol→soldan, orta→aşağıdan.
-        captions.forEach((caption) => {
-          const pos = caption.dataset.captionPos;
-          const from = pos === 'left' ? { x: -48 } : pos === 'center' ? { y: 32 } : { x: 48 };
-          const to = pos === 'center' ? { y: 0 } : { x: 0 };
-          gsap.fromTo(
-            caption,
-            { opacity: 0, ...from },
-            {
-              opacity: 1,
-              ...to,
-              ease: 'none',
-              scrollTrigger: { trigger: caption, start: 'top bottom', end: 'top 65%', scrub: 1.2 },
-            },
-          );
         });
       });
 
-      // Parallax yalnız masaüstünde — EpisodeStory'deki 900px eşiğiyle AYNI.
-      mm.add(
-        { motionOk: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 901px)' },
-        (mmCtx) => {
-          const { motionOk, desktop } = mmCtx.conditions;
-          if (!motionOk || !desktop) return;
-
-          images.forEach((image) => {
-            gsap.fromTo(
-              image,
-              { yPercent: -3.5 },
-              {
-                yPercent: 3.5,
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: image.closest('figure') ?? image,
-                  start: 'top bottom',
-                  end: 'bottom top',
-                  scrub: true,
-                },
-              },
-            );
-          });
-        },
-      );
-
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set(blockEls, { opacity: 1, x: 0, y: 0 });
-        quoteBlocks.forEach((block) => {
-          gsap.set(block.querySelector('[data-story-quote-rule]'), { scaleX: 1 });
-          gsap.set(block.querySelector('[data-story-quote-text]'), { opacity: 1, x: 0 });
-        });
-        gsap.set(captions, { opacity: 1, x: 0, y: 0 });
+        gsap.set(reveals, { opacity: 1, y: 0 });
       });
     }, storyRef);
 
     return () => ctx.revert();
   }, [item]);
+
+  // Okuma ilerlemesi — Save/Bookmark'la HİÇBİR ilgisi yok (kullanıcı kararı,
+  // 2026-08-29): kullanıcı bir şeye tıklamadan, salt scroll davranışıyla
+  // READLIST'e otomatik eklenir ve gerçek yüzde periyodik yazılır. İlk %5'in
+  // altı (göz atma) READLIST'e hiç düşmez — "sadece açıp kapattım" gürültüsü
+  // olmasın diye. Geriye scroll ilerlemeyi DÜŞÜRMEZ (en uzak nokta esas).
+  useEffect(() => {
+    if (!item?.story) return undefined;
+    if (!getStoredAuth()?.token) return undefined;
+
+    const state = { savedItemId: null, lastSent: 0, maxProgress: 0 };
+
+    const computeProgress = () => {
+      const el = storyRef.current;
+      if (!el) return 0;
+      const rect = el.getBoundingClientRect();
+      const articleTop = window.scrollY + rect.top;
+      const articleHeight = rect.height;
+      if (articleHeight <= 0) return 0;
+      const viewportBottom = window.scrollY + window.innerHeight;
+      const scrolledInto = Math.max(0, viewportBottom - articleTop);
+      return Math.min(100, Math.max(0, Math.round((scrolledInto / articleHeight) * 100)));
+    };
+
+    // beforeunload'daki son çağrı fetch'in tamamlanacağını garanti etmez
+    // (best-effort) — kritik bir veri değil, kayıp olursa bir sonraki
+    // periyodik senkronda telafi olur.
+    const sync = async () => {
+      state.maxProgress = Math.max(state.maxProgress, computeProgress());
+      const progress = state.maxProgress;
+      if (progress < 5 || progress === state.lastSent) return;
+      try {
+        if (!state.savedItemId) {
+          const status = await getMySavedItemStatus('BLOG', item.id, 'READLIST');
+          state.savedItemId = status.saved
+            ? status.savedItemId
+            : (await addToList(item.id, 'BLOG', { listType: 'READLIST' })).id;
+        }
+        await updateSavedItemProgress(state.savedItemId, progress);
+        state.lastSent = progress;
+      } catch {
+        // Okuma takibi kritik değil, sessiz geç.
+      }
+    };
+
+    const intervalId = setInterval(sync, 2000);
+    window.addEventListener('beforeunload', sync);
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener('beforeunload', sync);
+      sync();
+    };
+  }, [item?.id, item?.story]);
 
   // GERİ DÖNÜŞ: sayfanın en üstündeyken YUKARI SCROLL (açılışın karşılığı) ya
   // da Back butonu. Kutu, geldiği kartın dikdörtgenine geri küçülür — ama bu
@@ -440,13 +367,9 @@ export default function BlogPost() {
 
   if (!item) return null;
 
-  // Render sırasında sıfırlanan sayaç — CAPTION_POSITIONS'ı görsel bloklar
-  // arasında döngüsel dağıtır (blocks.map içindeki IMAGE case'inde artar).
-  let imageOrdinal = 0;
-
   return (
     <>
-      <section className={styles.hero}>
+      <section className={styles.hero} style={{ '--font-got': heroFontFamily }}>
         {/* Geri dönüş TIKLAMAYLA (kullanıcı kararı) — kutu geldiği kartın
             yerine küçülerek kapanır. */}
         <button type="button" className={styles.back} onClick={goBack}>
@@ -468,156 +391,130 @@ export default function BlogPost() {
             alt={item.imageAlt}
             fetchPriority="high"
           />
+
+          {/* Başlık bloğu artık resmin ALTINDA ayrı bir sıra değil, resmin
+              ÜZERİNE (sol-alt köşeye) bindirilmiş — SeasonDetail'in
+              backdrop-üstü overlay deseniyle aynı dil (kullanıcı kararı,
+              2026-08). Kutunun kendi boyutu/pozisyonu (flip-geçişi) HİÇ
+              değişmedi, sadece içeriği zenginleşti. */}
+          <div className={styles.hero__scrim} aria-hidden="true" />
+          <div className={styles.hero__caption}>
+            {/* kicker = editörün yazdığı serbest başlık (ör. "SEASON 6 ·
+                EPISODE 9 BEHIND THE SCENES"), bölüm/tag verisine bağımlı
+                DEĞİL — bölümden bağımsız içerikte de anlamlı kalır. */}
+            {item.kicker && <p className={styles.hero__kicker}>{item.kicker}</p>}
+            <h1 className={styles.hero__title}>{item.title}</h1>
+            {item.axis && <p className={styles.hero__axis}>{item.axis}</p>}
+
+            {/* Yayın tarihi + okuma süresi — ikisi de backend'de vardı, hiç
+                gösterilmiyordu ("blog gibi hissettirsin" kullanıcı isteği). */}
+            {(item.publishedAt || item.readingTimeMinutes != null) && (
+              <p className={styles.hero__meta}>
+                {[
+                  item.publishedAt &&
+                    new Date(item.publishedAt).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    }),
+                  item.readingTimeMinutes != null && `${item.readingTimeMinutes} min read`,
+                ]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+            )}
+
+            <TagChips tags={item.tags} />
+          </div>
         </div>
-
-        <div
-          className={styles.hero__caption}
-          style={{ width: `${box.width}px`, opacity: ready ? 1 : 0 }}
-        >
-          {/* kicker = editörün yazdığı serbest başlık (ör. "SEASON 6 ·
-              EPISODE 9 BEHIND THE SCENES"), bölüm/tag verisine bağımlı
-              DEĞİL — bölümden bağımsız içerikte de anlamlı kalır. */}
-          {item.kicker && <p className={styles.hero__kicker}>{item.kicker}</p>}
-          <h1 className={styles.hero__title}>{item.title}</h1>
-          {item.axis && <p className={styles.hero__axis}>{item.axis}</p>}
-
-          {/* Yayın tarihi + okuma süresi — ikisi de backend'de vardı, hiç
-              gösterilmiyordu ("blog gibi hissettirsin" kullanıcı isteği). */}
-          {(item.publishedAt || item.readingTimeMinutes != null) && (
-            <p className={styles.hero__meta}>
-              {[
-                item.publishedAt &&
-                  new Date(item.publishedAt).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  }),
-                item.readingTimeMinutes != null && `${item.readingTimeMinutes} min read`,
-              ]
-                .filter(Boolean)
-                .join(' · ')}
-            </p>
-          )}
-
-          <TagChips tags={item.tags} />
-        </div>
-
       </section>
 
-      <article className={styles.story} ref={storyRef}>
-        <div
-          className={`${styles.story__bodyWrap} ${item.isLegacyLayout ? styles.story__bodyWrapLegacy : ''}`}
-          style={item.isLegacyLayout ? undefined : { height: `${item.canvasHeight}px` }}
-          data-gated={(Boolean(item.spoilerThrough) && !revealed) || undefined}
-        >
-          {item.blocks.map((block) => {
-            switch (block.blockType) {
-              case 'HEADING':
-                return (
-                  <h2
-                    key={block.id}
-                    className={`${styles.story__heading} ${item.isLegacyLayout ? styles.legacyText : ''} ${fontClassOf(block) ?? ''}`}
-                    style={blockPositionStyle(block, item.isLegacyLayout)}
-                    data-story-heading=""
-                    data-story-block=""
-                    data-animation={block.animation ?? 'FADE_UP'}
-                  >
-                    {block.text}
-                  </h2>
-                );
-              case 'QUOTE':
-                return (
-                  <blockquote
-                    key={block.id}
-                    className={`${styles.story__quote} ${item.isLegacyLayout ? styles.legacyText : ''} ${fontClassOf(block) ?? ''}`}
-                    style={blockPositionStyle(block, item.isLegacyLayout)}
-                    data-story-quote=""
-                    data-story-block=""
-                    data-animation={block.animation ?? 'FADE_UP'}
-                  >
-                    <span className={styles.story__quoteRule} data-story-quote-rule="" aria-hidden="true" />
-                    <span
-                      className={block.dropCap ? styles.dropCap : undefined}
-                      data-story-quote-text=""
-                    >
-                      {block.text}
-                    </span>
-                  </blockquote>
-                );
-              case 'IMAGE': {
-                const captionPos = CAPTION_POSITIONS[imageOrdinal % CAPTION_POSITIONS.length];
-                imageOrdinal += 1;
-                return (
-                  <figure
-                    key={block.id}
-                    className={`${styles.story__figure} ${item.isLegacyLayout ? styles.legacyImage : ''}`}
-                    style={blockPositionStyle(block, item.isLegacyLayout)}
-                    data-story-block=""
-                    data-animation={block.animation ?? 'FADE_UP'}
-                  >
-                    <img
-                      className={styles.story__figureImage}
-                      data-story-image=""
-                      src={block.imageUrl}
-                      alt={block.imageAlt ?? ''}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    {block.imageAlt && (
-                      <figcaption
-                        className={styles.story__figcaption}
-                        data-story-caption=""
-                        data-caption-pos={captionPos}
-                      >
-                        {block.imageAlt}
-                      </figcaption>
-                    )}
-                  </figure>
-                );
-              }
-              case 'PARAGRAPH':
-              default:
-                return (
-                  <p
-                    key={block.id}
-                    className={`${styles.story__body} ${item.isLegacyLayout ? styles.legacyText : ''} ${fontClassOf(block) ?? ''} ${block.dropCap ? styles.dropCap : ''}`}
-                    style={blockPositionStyle(block, item.isLegacyLayout)}
-                    data-story-block=""
-                    data-animation={block.animation ?? 'FADE_UP'}
-                  >
-                    {block.text}
-                  </p>
-                );
-            }
-          })}
-
-          {item.spoilerThrough && !revealed && (
-            <div className={styles.spoilerGate}>
-              <p className={styles.spoilerGate__label}>{t('blog.spoilerWarning')}</p>
-              <p className={styles.spoilerGate__hint}>
-                {t('blog.spoilerHint', {
-                  season: item.spoilerThrough.seasonNumber,
-                  episode: item.spoilerThrough.episodeNumber,
-                })}
-              </p>
-              <button
-                type="button"
-                className={styles.spoilerGate__button}
-                onClick={() => setRevealed(true)}
+      <div className={styles.content}>
+        <div className={styles.content__main}>
+          {item.story && (
+            <article className={styles.story} ref={storyRef}>
+              <div
+                className={styles.story__content}
+                data-gated={(Boolean(item.spoilerThrough) && !revealed) || undefined}
               >
-                {t('blog.reveal')}
-              </button>
-            </div>
+                <div className={styles.story__lede} data-reveal="">
+                  {item.story.lede.map((paragraph) => (
+                    <p key={paragraph.slice(0, 32)} className={styles.story__ledeText}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+
+                <div className={styles.story__sections}>
+                  {item.story.sections.map((section) => (
+                    <article key={section.id} className={styles.section} data-reveal="">
+                      {section.heading && <h2 className={styles.section__heading}>{section.heading}</h2>}
+
+                      {section.photo && (
+                        <figure className={styles.section__figure}>
+                          <img
+                            className={styles.section__image}
+                            src={section.photo.url}
+                            alt={section.photo.alt ?? ''}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </figure>
+                      )}
+
+                      {section.paragraphs.map((paragraph) => (
+                        <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                      ))}
+
+                      {section.pullQuote && <blockquote className={styles.section__quote}>{section.pullQuote}</blockquote>}
+                    </article>
+                  ))}
+                </div>
+
+                {item.story.verdict.length > 0 && (
+                  <div className={styles.story__verdict} data-reveal="">
+                    <p className={styles.story__verdictLabel}>{t('series.reckoningLabel')}</p>
+                    {item.story.verdict.map((paragraph) => (
+                      <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                    ))}
+                  </div>
+                )}
+
+                {item.spoilerThrough && !revealed && (
+                  <div className={styles.spoilerGate}>
+                    <p className={styles.spoilerGate__label}>{t('blog.spoilerWarning')}</p>
+                    <p className={styles.spoilerGate__hint}>
+                      {t('blog.spoilerHint', {
+                        season: item.spoilerThrough.seasonNumber,
+                        episode: item.spoilerThrough.episodeNumber,
+                      })}
+                    </p>
+                    <button
+                      type="button"
+                      className={styles.spoilerGate__button}
+                      onClick={() => setRevealed(true)}
+                    >
+                      {t('blog.reveal')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </article>
           )}
         </div>
-      </article>
+
+        <aside className={styles.content__sidebar}>
+          <SidebarRelated items={item.relatedBlogs} />
+        </aside>
+      </div>
 
       {/* Beğen/kaydet/paylaş — makale bitince "okudun mu, paylaş" (kullanıcı
           kararı): hero'nun resim üzerinde yüzen reels-tarzı rayı yerine
           makale sonunda, ArticleNav'ın üstünde yatay bir sıra. */}
       <div className={styles.storyActions}>
-        <PostActions
-          id={item.id}
+        <ContentActions
+          itemId={item.id}
+          itemType="BLOG"
           shareTitle={item.title}
           shareUrl={`${window.location.origin}/blog/${item.slug}`}
         />

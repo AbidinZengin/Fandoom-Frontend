@@ -1,0 +1,192 @@
+/* Marka-gradient istisnası (docs/plans/2026-08-29-account-page-design.md):
+   bu dosyada --brand-gradient / --brand-* / --accent KULLANILMAZ. */
+
+.dashboard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xl);
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+}
+
+.dashboard__sidebar {
+  width: 268px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  position: sticky;
+  top: var(--space-xl);
+}
+
+.dashboard__navList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.dashboard__navButton {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  color: var(--fg-muted);
+  font-family: inherit;
+  font-size: var(--text-base);
+}
+
+.dashboard__navButton[data-active='true'] {
+  color: var(--fg);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dashboard__navChildItem {
+  padding-left: var(--space-md);
+  margin-left: var(--space-sm);
+  border-left: 1px solid var(--border);
+}
+
+.dashboard__navGroupToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.dashboard__chevron[data-open='false'] {
+  transform: rotate(-90deg);
+}
+
+.dashboard__logout {
+  margin-top: auto;
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--fg-faint);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.dashboard__panel {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dashboard__loading {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+}
+
+.dashboard__mobileToggle {
+  display: none;
+}
+
+.dashboard__closeButton {
+  display: none;
+}
+
+.dashboard__backdrop {
+  display: none;
+}
+
+/* Mobil: sidebar Twitter'ın hamburger→sol drawer deseni (kullanıcı isteği).
+   Masaüstü sidebar akıştaki sticky panel olarak kalır — bu kural bloğu
+   sadece ≤900px'te devreye girer, desktop stilini etkilemez. */
+@media (max-width: 900px) {
+  .dashboard {
+    padding-top: var(--space-3xl);
+  }
+
+  .dashboard__mobileToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: var(--space-md);
+    left: var(--space-md);
+    z-index: 40;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-round);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  .dashboard__mobileToggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .dashboard__backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    border: none;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .dashboard__sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 50;
+    width: 78vw;
+    max-width: 300px;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    padding: var(--space-2xl) var(--space-lg);
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform var(--duration-fast) ease;
+  }
+
+  .dashboard__sidebar[data-open='true'] {
+    transform: translateX(0);
+  }
+
+  .dashboard__closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    width: 36px;
+    height: 36px;
+    margin-bottom: var(--space-md);
+    border-radius: var(--radius-round);
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--fg-muted);
+  }
+
+  .dashboard__closeButton svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dashboard__panel {
+    width: 100%;
+    padding: var(--space-lg);
+  }
+}

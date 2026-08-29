@@ -1,0 +1,210 @@
+/* EditProfileModal.module.css ile aynı camsı kart dili (Account sayfası
+   monokrom istisnası) — iki modal arasında paylaşılan bir component
+   çıkarılmadı, her ikisi de tek kullanımlık kendi CSS'ini taşıyor. */
+
+.modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal__card {
+  width: 100%;
+  max-width: 420px;
+  max-height: calc(100vh - var(--space-2xl));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+.modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal__title {
+  margin: 0;
+  font-size: var(--text-h2);
+  color: var(--fg);
+}
+
+.modal__closeButton {
+  display: flex;
+  padding: var(--space-2xs);
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+}
+
+.modal__closeButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.modal__coverField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.modal__coverPreview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.06) radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.16), rgba(0, 0, 0, 0) 60%);
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: inherit;
+}
+
+.modal__spinner::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-round);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--fg);
+  animation: modalSpin 0.7s linear infinite;
+}
+
+@keyframes modalSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.modal__fileInput {
+  display: none;
+}
+
+.modal__changeButton {
+  padding: var(--space-2xs) var(--space-md);
+  border: 1.5px solid var(--fg);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.modal__changeButton:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.modal__fieldLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+  margin-bottom: calc(var(--space-2xs) * -1);
+}
+
+.modal__textInput {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+}
+
+.modal__bioInput {
+  width: 100%;
+  resize: vertical;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+}
+
+.modal__textInput::placeholder,
+.modal__bioInput::placeholder {
+  color: var(--fg-faint);
+}
+
+.modal__checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.modal__checkboxLabel input {
+  accent-color: var(--fg);
+  width: 16px;
+  height: 16px;
+}
+
+.modal__error {
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: var(--text-sm);
+  color: var(--fg);
+  text-align: center;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+.modal__cancel {
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.modal__save {
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: var(--text-sm);
+}
+
+.modal__save:disabled,
+.modal__cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

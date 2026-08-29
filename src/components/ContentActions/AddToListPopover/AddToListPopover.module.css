@@ -1,0 +1,145 @@
+/* ContentActions.module.css'teki .action butonunun aynısı (CSS Modules
+   sınıfları dosyalar arası paylaşılamadığı için burada tekrarlanır — proje
+   genelinde tek kullanımlık camsı/toggle stilleri zaten aynı şekilde
+   kendi dosyasında tutuluyor, bkz. EditProfileModal/ListEditorModal). */
+.wrap {
+  position: relative;
+}
+
+.trigger {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-round);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--fg-dim);
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    transform var(--duration-micro) ease;
+}
+
+.trigger svg {
+  width: 20px;
+  height: 20px;
+}
+
+.trigger[aria-expanded='true'] {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+@media (hover: hover) {
+  .trigger:hover {
+    color: var(--fg);
+    transform: scale(1.08);
+  }
+}
+
+.popover {
+  position: absolute;
+  z-index: 20;
+  bottom: calc(100% + var(--space-sm));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.popover__heading {
+  margin: 0;
+  padding: 0 var(--space-2xs);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-faint);
+}
+
+.popover__status {
+  margin: 0;
+  padding: var(--space-2xs);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.popover__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.popover__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-2xs);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  color: var(--fg);
+}
+
+.popover__item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.popover__item input {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.popover__createForm {
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+.popover__createInput {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-xs);
+}
+
+.popover__createSubmit {
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.popover__newListButton {
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.popover__newListButton:hover {
+  color: var(--fg);
+  border-color: var(--fg-muted);
+}

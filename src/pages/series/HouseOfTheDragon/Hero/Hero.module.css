@@ -1,0 +1,227 @@
+.page {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1360 / 800;
+  /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
+     cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
+  container-type: inline-size;
+  /* Mobilde aspect-ratio'nun verdiği yükseklik (ör. 390px genişlikte
+     ~229px) taban punto/kutu clamp'lerine yetmiyor — metin üst üste
+     biniyordu. min-height sadece bu eşiğin altında devreye girer,
+     masaüstünde (aspect-ratio zaten daha uzun) hiçbir şey değişmez. */
+  min-height: 490px;
+}
+
+.imageBlock1 {
+  position: absolute;
+  left: 0%;
+  top: 0cqw;
+  width: 100%;
+  height: clamp(490px, 58.741cqw, 900px);
+  filter: blur(5px);
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  object-position: 44.306752136231474% 0%;
+}
+
+.imageBlock2 {
+  position: absolute;
+  left: 10%;
+  top: clamp(30px, 6cqw, 100px);
+  width: 80%;
+  height: clamp(420px, 43cqw, 620px);
+  filter: saturate(1.6);
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  object-position: 38.70888817307865% 100%;
+  scale: 1;
+}
+
+.logoBlock1 {
+  position: absolute;
+  left: 27.81%;
+  top: clamp(36px, 7.071cqw, 120px);
+  width: 44.38%;
+  height: clamp(84px, 17.459cqw, 280px);
+}
+
+/* NOT: bu blok ve altındakiler ~480px konteyner genişliğine kadar
+   floor (px) değerle sabit dikey ritimde durur — cqw terimi ancak
+   480px üstünde floor'u geçip devreye girer (bkz. dosya sonu container
+   query notu, aynı eşik). Floor'lar birbirine göre kademeli hesaplandı
+   (üstteki elemanın en kötü durum yüksekliği + boşluk) — tek tek
+   değiştirilirse alttakiler üst üste biner. */
+.textBlock1 {
+  position: absolute;
+  left: 12%;
+  top: clamp(142px, 29.371cqw, 420px);
+  width: 42%;
+  height: auto;
+  margin: 0;
+  color: #f2f2f2;
+  font-size: clamp(22px, 3.1cqw, 44px);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  /* Masaüstünde tek satıra sığar (nowrap); mobilde taban punto satırı
+     genişletince taşmasın diye 2 satıra sarmasına izin veriliyor. */
+  white-space: normal;
+  line-height: 1.15;
+}
+
+.textBlock2 {
+  position: absolute;
+  left: 12.47%;
+  top: clamp(201px, 33.059cqw, 470px);
+  width: clamp(40px, 6%, 100px);
+  height: auto;
+  margin: 0;
+  color: #a8a8a8;
+  font-size: clamp(12px, 1.4cqw, 19px);
+  font-family: 'Montserrat', sans-serif;
+  white-space: nowrap;
+}
+
+.textBlock3 {
+  position: absolute;
+  left: clamp(85px, 16.29%, 400px);
+  top: clamp(201px, 33.059cqw, 470px);
+  width: clamp(160px, 32%, 500px);
+  height: auto;
+  margin: 0;
+  color: #a8a8a8;
+  font-size: clamp(12px, 1.4cqw, 19px);
+  font-family: 'Montserrat', sans-serif;
+  white-space: normal;
+}
+
+.textBlock4 {
+  position: absolute;
+  left: 12%;
+  top: clamp(242px, 35.5cqw, 500px);
+  width: 47.77%;
+  height: clamp(100px, 10.671cqw, 170px);
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(13px, 1.15cqw, 16px);
+  line-height: 1.5;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+.logoBlock2 {
+  position: absolute;
+  left: 79%;
+  top: clamp(60px, 12.059cqw, 180px);
+  width: clamp(38px, 6.5%, 100px);
+  height: clamp(28px, 3.088cqw, 50px);
+}
+
+.textBlock5 {
+  position: absolute;
+  left: 71%;
+  top: clamp(60px, 12.059cqw, 180px);
+  width: clamp(24px, 7%, 110px);
+  height: clamp(28px, 3.088cqw, 50px);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #f6c700;
+  font-size: clamp(13px, 1.7cqw, 24px);
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  white-space: nowrap;
+}
+
+/* Like/Save/Follow bar — buton sırasının (buttonBlock1/2) hemen üstü,
+   sol kenarı buttonBlock2 ile hizalı (kullanıcı kararı: "butonların
+   olduğu kısmın üstüne"). */
+.actionsBlock {
+  position: absolute;
+  left: 61%;
+  top: calc(clamp(352px, 41.4cqw, 620px) - 68px);
+}
+
+.buttonBlock1 {
+  position: absolute;
+  left: 73.5%;
+  top: clamp(352px, 41.4cqw, 620px);
+  width: clamp(120px, 11%, 160px);
+  height: clamp(38px, 3.2cqw, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: clamp(12px, 0.95cqw, 14px);
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  background: linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%);
+  border-radius: var(--radius-pill);
+  border-color: rgba(255,255,255,0.4);
+  border-width: 1px;
+  border-style: solid;
+  padding: 0 clamp(10px, 1cqw, 16px);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4);
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  transition: transform var(--duration-fast) ease, filter var(--duration-fast) ease;
+}
+
+.buttonBlock1:hover {
+  transform: scale(1.03);
+  filter: brightness(1.12);
+}
+
+/* Sol buton (Sezonlar) — kullanıcı isteğiyle SeasonRoute .focus__cta
+   ("Explore Season") ile AYNI css özellikleri: outline + transparent,
+   hover'da var(--fg) dolgu/var(--bg) metin (bkz. SeasonRoute.module.css). */
+.buttonBlock2 {
+  position: absolute;
+  left: 61%;
+  top: clamp(352px, 41.4cqw, 620px);
+  width: clamp(120px, 11%, 160px);
+  height: clamp(38px, 3.2cqw, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+  font-size: clamp(12px, 0.95cqw, 14px);
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  background: transparent;
+  border: 1.5px solid var(--fg);
+  border-radius: var(--radius-pill);
+  padding: 0 clamp(10px, 1cqw, 16px);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.buttonBlock2:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* İki buton yan yana (11%+11% genişlik) 480px altı konteynerde fiziksel
+   olarak sığmıyor — clamp tek başına çözemiyor (kesikli/discrete bir
+   düzen değişimi), bu YEGANE nokta için container query ile dikey
+   istifleme. Geri kalan her şey saf clamp. */
+@container (max-width: 480px) {
+  .buttonBlock1,
+  .buttonBlock2 {
+    left: 12%;
+    width: min(76%, 280px);
+  }
+
+  .buttonBlock2 {
+    top: 352px;
+  }
+
+  .buttonBlock1 {
+    top: 414px;
+  }
+
+  .actionsBlock {
+    left: 12%;
+    top: 284px;
+  }
+}

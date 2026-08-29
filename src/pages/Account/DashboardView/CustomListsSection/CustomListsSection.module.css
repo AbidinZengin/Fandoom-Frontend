@@ -1,0 +1,154 @@
+.customLists__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.customLists__heading {
+  margin: 0;
+  font-size: var(--text-lg);
+  color: var(--fg);
+}
+
+.customLists__newButton {
+  padding: var(--space-xs) var(--space-lg);
+  border: 1.5px solid var(--fg);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.customLists__newButton:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.customLists__toast {
+  margin: 0 0 var(--space-lg);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.customLists__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+/* ProfileSection'daki banner-arka-plan desenin aynısı: coverImageUrl varsa
+   kartın kendi arka planı olur, yoksa dekoratif radial-gradient fallback
+   kalır. Okunabilirlik için ::before karartma katmanı (cover varsa
+   güçlendirilir). */
+.customLists__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 60%), var(--card-bg);
+  background-size: cover;
+  background-position: center;
+}
+
+.customLists__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+.customLists__card[data-has-cover]::before {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+.customLists__cardHead,
+.customLists__cardBody {
+  position: relative;
+  z-index: 1;
+}
+
+.customLists__cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.customLists__cardActions {
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+.customLists__actionButton {
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--fg);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  transition: background var(--duration-fast) ease;
+}
+
+.customLists__actionButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.customLists__actionButton[data-danger] {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.customLists__cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.customLists__cardName {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.customLists__cardDescription {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.customLists__cardMeta {
+  display: flex;
+  gap: var(--space-2xs);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.customLists__visibility {
+  align-self: flex-start;
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2xs) var(--space-sm);
+}

@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ENTITY_SCHEMAS } from '../../../../shared/builder/entitySchemas';
 import { isCinematicArmed } from '../../../../motion/cinematic';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
+import { ContentActions } from '../../../../components/ContentActions/ContentActions';
 import styles from './Hero.module.css';
 
 // PageBuilder "Kodu Üret" ile oluşturuldu — bu noktadan sonra normal
@@ -38,6 +39,7 @@ export default function Hero() {
   const logoRef = useRef(null);
   const trailerBtnRef = useRef(null);
   const seasonsBtnRef = useRef(null);
+  const actionsRef = useRef(null);
   const synopsisRef = useRef(null);
   const imdbLogoRef = useRef(null);
   const ratingTextRef = useRef(null);
@@ -80,7 +82,7 @@ export default function Hero() {
             .from(ratingGroup, { opacity: 0, y: 14, duration: 0.6 }, 0.88)
             .from(synopsisRef.current, { opacity: 0, y: 16, duration: 0.7 }, 0.94)
             .from(
-              [trailerBtnRef.current, seasonsBtnRef.current],
+              [actionsRef.current, trailerBtnRef.current, seasonsBtnRef.current],
               { opacity: 0, y: 14, duration: 0.6, stagger: 0.08 },
               1.15
             );
@@ -96,7 +98,7 @@ export default function Hero() {
           .from(ratingGroup, { opacity: 0, y: 14, duration: 0.6 }, 0.68)
           .from(synopsisRef.current, { opacity: 0, y: 16, duration: 0.7 }, 0.74)
           .from(
-            [trailerBtnRef.current, seasonsBtnRef.current],
+            [actionsRef.current, trailerBtnRef.current, seasonsBtnRef.current],
             { opacity: 0, y: 14, duration: 0.6, stagger: 0.08 },
             0.95
           );
@@ -111,6 +113,7 @@ export default function Hero() {
             genreRef.current,
             ...ratingGroup,
             synopsisRef.current,
+            actionsRef.current,
             trailerBtnRef.current,
             seasonsBtnRef.current,
           ],
@@ -143,6 +146,15 @@ export default function Hero() {
       <img ref={imageBlock2Ref} className={styles.imageBlock2} src={"https://res.cloudinary.com/b0bc5njd/image/upload/v1786892540/fandoom/general/udr8y4sfucrf9xw4yyx0.webp"} alt="" />
       <p ref={genreRef} className={styles.textBlock1}>{series5?.genreNames}</p>
       <Link ref={logoRef} to="/series/breaking-bad" className={styles.logoBlock1}><img src="/src/assets/logos/breaking-bad.svg" alt="Breaking Bad" /></Link>
+      <div ref={actionsRef} className={styles.actionsBlock}>
+        <ContentActions
+          itemId={series5?.id}
+          itemType="SERIES"
+          shareTitle={series5?.title}
+          shareUrl={`${window.location.origin}${window.location.pathname}`}
+          isProduction
+        />
+      </div>
       <Link ref={trailerBtnRef} to="https://www.youtube.com/watch?v=HhesaQXLuRY" className={styles.buttonBlock1}>{`▶  ${t('series.watchTrailer')}`}</Link>
       <Link ref={seasonsBtnRef} to="/series/breaking-bad/seasons" className={styles.buttonBlock2}>{t('series.seasonsHeading')}</Link>
       <p ref={synopsisRef} className={styles.textBlock2}>{series5?.synopsis}</p>

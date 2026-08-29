@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
 import { Footer } from '../../components/Footer/Footer';
+import { ContentActions } from '../../components/ContentActions/ContentActions';
 import { fetchProductionDetail, resolveGenreNames, theories } from './ProductionDetail.data';
 import { themeBySlug, defaultTheme } from './ProductionDetail.theme';
 
@@ -101,6 +102,15 @@ export default function ProductionDetail({ type }) {
         {genreNames.length > 0 && (
           <p style={{ marginTop: 10, fontSize: 12, color: 'var(--fg-muted)' }}>{genreNames.join(' · ')}</p>
         )}
+        <div style={{ marginTop: 20 }}>
+          <ContentActions
+            itemId={production.id}
+            itemType={production.type}
+            shareTitle={production.title}
+            shareUrl={window.location.href}
+            isProduction
+          />
+        </div>
       </section>
 
       <section style={{ padding: '32px clamp(20px, 4vw, 56px)' }}>
