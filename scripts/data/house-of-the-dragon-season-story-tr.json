@@ -1,0 +1,185 @@
+{
+  "1": {
+    "kicker": "DERİN OKUMA · SEZON 1",
+    "title": "Bir Günlük Veliaht",
+    "dek": "Viserys, bir veraset krizini bitirmek için bir veliaht seçer ve ölürken bile hangi çocuğu gerçekten kastettiğini başka hiç kimsenin doğrulayabileceği netlikte söylememiştir.",
+    "lede": [
+      "House of the Dragon'ın ilk sezonu genellikle bir savaşın başlangıcı olarak anlatılır. Aslında anlattığı şey, bir savaşı önlemek için bir sır saklayan ve o sırrı tam olarak tek bir kişiye açıklamış olarak ölen bir kralın hikâyesidir.",
+      "Viserys, Rhaenyra'yı diğer seçenekten daha çok sevdiği için seçmez. Onu seçer çünkü Aegon Fatih'ten beri aktarılan, sarayda kimseye anlatılmamış özel bir kehanet, büyük bir savaş geldiğinde tahtta bir Targaryen oturması gerektiğine onu ikna etmiştir. Ardından gelen kriz, tahtı kimin hak ettiğine dair bir kavga değildir. Nedenini bilmeye kimin izinli olduğuna dair bir kavgadır."
+    ],
+    "sections": [
+      {
+        "id": "prophecy",
+        "heading": "Kimseye Açıklanmamış, Devredilen Bir Sır",
+        "photo": { "caption": "Viserys, kızını veliaht ilan ettikten hemen sonra genç Rhaenyra'ya Aegon'un Rüyası'nı anlatır." },
+        "paragraphs": [
+          "Viserys, kızını veliaht ilan ettikten sonra ona özel olarak \"Buz ve Ateşin Şarkısı\"ndan bahseder — Aegon Fatih'in gördüğü, uzun bir kışı ve şafak için verilecek bir savaşı anlatan, ancak Demir Taht'ta bir Targaryen oturursa atlatılabilecek bir rüya. Bu, bir armağan olarak sunulur: Rhaenyra'nın önemli olmasının nedeni budur. Ama işlevi bir yüktür — iddiasının tek gerekçesi, hiçbir konseyin, hiçbir Hightower'ın, hiçbir Velaryon'un asla duymasına izin verilmeyecek bir hikâyedir.",
+          "Rhaenyra'nın veraset hakkına yönelik her sonraki itiraz, teknik olarak haklıdır — kimseye bu gerekçe açıklanmamıştır. Viserys bir veliaht inşa etmemiştir. Yanına bir insan iliştirilmiş bir sır inşa etmiştir."
+        ],
+        "pullQuote": "Veliaht, başka kimsenin duymasına izin verilmeyen bir hikâyeyle seçilir."
+      },
+      {
+        "id": "friendship",
+        "heading": "Aynı Kitabı Farklı Okuyan İki Kız",
+        "photo": { "caption": "Rhaenyra ve Alicent, ikisinin de seçmediği bir evlilik aralarına girmeden önce." },
+        "paragraphs": [
+          "Rhaenyra ve Alicent, sezona birbirlerinin sahip olduğu en yakın kardeş gibi başlar — kitap alışverişi yapar, birbirini kollar, aynı sarayı iki farklı gözle okurlar. Otto Hightower, kızını yaslı bir kralı teselli etmeye gönderdiğinde bu dostluğu bitirir; Viserys de ikisine hiç danışmadan bu tesellîyi bir evliliğe çevirir.",
+          "Dostluk tek bir sahnede bitmez. On yıl boyunca, ikisinin de tam sorumlu olmadığı küçük ihanetlerle aşınır — onun kararı, babasının hırsı, ikisinden birinin sürekli kaybetmesini isteyen bir saray. Sonunda kırıldığında, Driftmark'ta, şiddet olarak kırılır: Alicent, bir zamanlar birlikte roman okuduğu kıza Viserys'in kendi hançerini çeker."
+        ],
+        "pullQuote": "İkisini de bir zamanlar korkutan hançer, sonunda Alicent'in elinde biter."
+      },
+      {
+        "id": "ambition",
+        "heading": "Kimsenin Atamadığı Cellat",
+        "photo": { "caption": "Daemon, Vaemond Velaryon'un kafasını açık mahkemede kesmeden hemen önce." },
+        "paragraphs": [
+          "Daemon, sezon boyunca kimsenin ona vermeyeceği bir taht için sınava girer ve bunun yerine tacın gerçekten ihtiyaç duyduğu tek işe razı olur: onu tehdit edeni ortadan kaldırmak. Kralın finanse etmediği bir savaşı Basamaklı Adalar'da kazanır. Artık işine yaramayan karısını öldürür. Rhaenyra'nın oğullarına açık mahkemede piç diyen bir adamı, Viserys'in istediği ama kendi eliyle veremediği cezayı vererek, kafasını keser.",
+          "Bunların hiçbiri onu kral yapmaz. Hepsi onu vazgeçilmez kılar — King's Landing'de, iki kez sorulmadan, başka kimsenin sadece tehdit ettiği şeyi yapmaya hazır tek kişi."
+        ],
+        "pullQuote": "Ona hiç taht verilmedi. Sadece kimsenin yapmak istemediği işi hep bulmuş oldu."
+      },
+      {
+        "id": "balance",
+        "heading": "Nişanlarla İmzalanan Bir Barış",
+        "photo": { "caption": "Jacaerys'in Baela'yla, Lucerys'in Rhaena'yla ikili nişanı, bölünmüş bir saray önünde duyurulur." },
+        "paragraphs": [
+          "İki nişan — Jacaerys'in Baela'yla, Lucerys'in Rhaena'yla — Daemon'un açık bir infazı gerekçelendirmek için kullandığı aynı nefeste duyurulur. Kağıt üzerinde bu bir antlaşmadır: Velaryon ve Targaryen kanı birbirine bağlanır, babalık sorusu onu önemsizleştirerek sessizce çözülür. Odada ise bu, artık gerçek olmaktan çıkmış bir birliği sahnelemek için gücünün son kırıntısını harcayan bir kraldır.",
+          "Bu birlik, Viserys onu zorla ayakta tutabildiği sürece geçerlidir — bir o kadar."
+        ],
+        "pullQuote": "Krallık, ölmekte olan bir adam odayı tutabildiği kadar birleşiktir."
+      },
+      {
+        "id": "closing",
+        "heading": "Kontrol Yanılsaması",
+        "photo": { "caption": "Vhagar ve Arrax, Storm's End üzerinde, açık savaşın ilk ölümünden hemen önce." },
+        "paragraphs": [
+          "Viserys, sezonun başında Rhaenyra'yı uyarır: hiçbir Targaryen bir ejderhayı gerçekten komuta etmez, hâkimiyet fikri ailenin kendine anlattığı bir masaldır. Final, bu uyarının hesabını hiçbir mecaza ihtiyaç duymadan görür. Aemond, Vhagar'a öldürmemesini, sadece tehdit etmesini emreder; Arrax paniklediğinde ve kendinden yüz kat büyük bir yaratığa ateş püskürttüğünde, Vhagar kendi şartlarıyla karşılık verir; Lucerys ve ejderhası ölür, çünkü sırtındaki kişi hiçbir zaman gerçekten karar veren taraf olmamıştır.",
+          "Rhaenyra, babasının ölümünü, mirastan mahrum bırakıldığını ve oğlunun ölümünü aynı birkaç saat içinde öğrenir. Sezon bir savaş ilanıyla bitmez. Bu hikâyede kimsenin — ne kralın, ne binicinin, ne emri veren prensin — tahtın gerektirdiği kadar kontrol sahibi olmadığının kanıtıyla biter."
+        ],
+        "pullQuote": "Sezonun son dersi, Viserys'in ilk verdiği derstir: burada kimse bindiği şeyi gerçekten yönetmez."
+      }
+    ],
+    "verdict": [
+      "Bütün olarak okunduğunda, birinci sezon iki hizbin yükselişinden çok, sessizliğin bedeli üzerine bir incelemedir. Viserys bir kehaneti sır olarak saklar ve buna sevgi der. Alicent, ölmekte olan bir adamın son sözlerini yanlış okur, çünkü kimse ona bu sözlerin bir zamanlar ne anlama geldiğini söylemeyi düşünmemiştir. Daemon, yüksek sesle ne istediğini söylemeyen bir kralın bıraktığı boşluğu doldurur. Bu on bölümdeki her felaket, birinin açıkça söyleyebileceği ve söylemediği bir şeye kadar geri izlenebilir.",
+      "The Black Queen savaşı icat etmez. Sadece iki tarafın da barışın hâlâ masada olduğunu iddia etmek için elinde kalan son bahaneyi ortadan kaldırır."
+    ]
+  },
+  "2": {
+    "kicker": "DERİN OKUMA · SEZON 2",
+    "title": "Zalim Rhaenyra",
+    "dek": "Saray, onun hiç emretmediği bir cinayete bir isim uydurur — final geldiğinde Rhaenyra artık o isme tam olarak uymaktadır.",
+    "lede": [
+      "Birinci sezon, kimsenin bindiği şeyi kontrol etmediğinin kanıtıyla bitmişti. İkinci sezon, kimsenin verdiği emri kontrol edip edemediğini sınayarak açılır — sekiz bölüm boyunca cevap hayırdır. Bu sezondaki her kasıtlı şiddet eylemi yanlış hedefe iner ve intikam peşinde koşan herkes, hiç planlamadığı bir versiyonunu üstlenmek zorunda kalır."
+    ],
+    "sections": [
+      {
+        "id": "wrong-target",
+        "heading": "Iskalayan Bir İntikam",
+        "photo": { "caption": "Kraliçe Helaena, Blood ve Cheese'in yanlış çocuğu bulduğu anların ardından." },
+        "paragraphs": [
+          "Daemon, Rhaenyra'nın haberi olmadan, onun adına Aemond'ı öldürmesi için iki adam kiralar. Adamlar onu bulamaz. Bunun yerine Aegon'un küçük oğlunu, annesinin gözü önünde öldürürler. Rhaenyra o ana kadar sezon boyunca savaş değil adalet istediğini tekrarlamıştır. Adına işlenen ilk şiddet eylemi ona ikisini de vermez — sadece asla seçmeyeceği ölü bir çocuk ve artık suçlanmaktan kaçamayacağı bir savaş bırakır."
+        ],
+        "pullQuote": "Taht onu hiç vermediği bir cinayetle, hiç seçmediği bir çocuk yüzünden suçlar."
+      },
+      {
+        "id": "the-label",
+        "heading": "Ona Taktıkları İsim",
+        "photo": { "caption": "King's Landing, yaslı bir annenin trajedisini düşmana taktığı bir isme çevirir." },
+        "paragraphs": [
+          "Sarayın propagandası bölümü tarih kitaplarından önce adlandırır: Zalim Rhaenyra. Kullanışlı olsun diye uydurulmuş bir yalandır — Aegon'un rejiminin birleşecek bir canavara ihtiyacı vardır, binlerce kilometre öteden yas tutan bir kraliçe ise kaydı düzeltemez. Rhaenyra sezon boyunca bu etiketi çürütmeye çalışır. Final geldiğinde, gerçek bir barış fırsatı sunulduğunda, tek bir koşul öne sürer: Aegon'un idamı. Sarayın ona uydurduğu isim artık yalan olmaktan çıkmıştır."
+        ],
+        "pullQuote": "Final geldiğinde, ona taktıkları isim artık yalan değildir."
+      },
+      {
+        "id": "the-brother-who-waits",
+        "heading": "Bekleyen Kardeş",
+        "photo": { "caption": "Aemond, Vhagar'ın sırtında, Rook's Rest Savaşı'na katılmayı seçmeden önce izler." },
+        "paragraphs": [
+          "Rook's Rest'te Aemond, Vhagar'la birlikte çatışmayı anında bitirecek sayısal üstünlükle sahaya iner. Bitirmez. Rhaenys ve Meleys'in önce çarpışmasına izin verir, üç ejderhanın çatışmasını izler ve ancak o zaman katılır — tam olarak Rhaenys'i öldürecek, kendi kardeşi Kral Aegon'u ise yanık ve komada bırakacak zamanlamayla. Aemond'ın burada yaptığı hiçbir şey teknik olarak itaatsizlik değildir. Her emre uyar. Sadece sonucun, korumakla yükümlü olduğu kraldan çok kendisine hizmet edeceği kadar geç uyar."
+        ],
+        "pullQuote": "Kardeşini vurması gerekmiyor. Sadece yeterince geç varması yetiyor."
+      },
+      {
+        "id": "stops-choosing",
+        "heading": "Artık Seçmeyi Bırakan Adam",
+        "photo": { "caption": "Daemon, Harrenhal'in yeşilağacı önünde, sezonun son görü sekansında." },
+        "paragraphs": [
+          "Harrenhal'de yalnız kalan Daemon, sezon boyunca ölü karısının hayaletini görür, her kadehte zehir şüphesi taşır ve bir zamanlar liderlik etmek istediği savaştan giderek uzaklaşır. Kalenin kadim yeşilağacında, Alys Rivers'ın rehberliğinde, sonunda kendi ömrünün ötesini görür — bir Beyaz Yürüyen, ölü ejderhalarla kaplı bir alan, haritalarında olmayan bir kıtada üç yavrusuyla bir kadın. Aynı gece Rhaenyra'ya diz çöker. Görü ona bir karar vermez. Ona zaten çoktan verdiği bir kararı gösterir."
+        ],
+        "pullQuote": "Görü ona bir karar sunmaz. Ona çoktan verdiği bir kararı gösterir."
+      },
+      {
+        "id": "peace-offer",
+        "heading": "Tek Koşullu Barış Teklifi",
+        "photo": { "caption": "Alicent ve Rhaenyra, iki eski dostun müttefik olarak yapacağı son özel konuşmada." },
+        "paragraphs": [
+          "İkisi arasındaki son özel sahnede Alicent — naipliğinden alınmış, başından beri önlemeye çalıştığı bir savaştan yorgun düşmüş — Rhaenyra'ya savaşı gerçekten bitirebilecek tek şeyi teklif eder: King's Landing, üç gün içinde, hiç çatışmadan teslim. Rhaenyra bedelini söyler. Aegon'un canı. Kendi sarayında merhamet tartışmasını çoktan kaybetmiş olan Alicent, aynı tartışmayı en eski dostuyla da kaybettiğini fark eder. Bir zamanlar aynı odada aynı kitapları okuyan iki kadın, hiçbirinin geri çekmeyeceği bir koşul yüzünden düşman olarak ayrılır."
+        ],
+        "pullQuote": "Alicent sonunda barışı teklif eder. Rhaenyra, sonunda, onu reddedecek kadar zalimdir."
+      }
+    ],
+    "verdict": [
+      "İkinci sezon, karakterlerine kasıtlı şiddeti nadiren istedikleri sonuçla tamamlatır. Blood ve Cheese yanlış çocuğu öldürür. Aemond'ın bekleyişi strateji gibi okunur ama kardeş katli işlevi görür. Daemon'un bağlılığı, ancak bir görü ona karar verme ihtiyacını ortadan kaldırdıktan sonra gelir. Tam olarak planlandığı gibi işleyen tek plan — Alicent'in barış teklifi — Rhaenyra'nın, merhamet sunulduğunda sarayın kendisine taktığı ismi seçmesi yüzünden başarısız olur.",
+      "Final bir muharebe olmadan biter, eleştirmenlerin bunu antiklimaktik bulmasının nedeni de budur. Bu sekiz bölümün hiçbiri gerçekten bir çatışmayı kazanmakla ilgili değildi. Düşmanlarının çoktan söylediği kişi olmaya kimin razı olacağıyla ilgiliydi."
+    ]
+  },
+  "3": {
+    "kicker": "DERİN OKUMA · SEZON 3",
+    "title": "Muzaffer Rhaenyra",
+    "dek": "Sezon kendi ironisini üçüncü bölümde açıkça adlandırır — ve sonraki beş bölümü, tacın kolay kısım olduğunu kanıtlamaya harcar.",
+    "lede": [
+      "İkinci sezon, kaçınılmaz bir savaşın matematiğiyle bitmişti. Üçüncü sezon bu savaşı açık alanda yürütür ve küçük bir zalimlik üzerine kurulur: neredeyse her bölüm başlığı — zafer, kararlılık, eğilmeyen bir irade — bir kararlı hâl vaat eder ve saat bunu hemen dağıtır. Bu sekiz bölümde kimse, bölümünün adını taşıdığı şeyi elinde tutamaz."
+    ],
+    "sections": [
+      {
+        "id": "first-loss",
+        "heading": "Taçtan Önceki Bedel",
+        "photo": { "caption": "Jacaerys ve Vermax, Gullet Savaşı'nda, sezonun ilk büyük kaybından önce." },
+        "paragraphs": [
+          "Sezon, Gullet Savaşı ile açılır — Corlys'in donanması Triarşi'ye karşı, genç Rhaena'nın savaşın ortasında vahşi bir ejderha ele geçirmesi — ve ilk saatini Rhaenyra'nın veliahdı ve en yetenekli komutanlarından biri olan Jacaerys'in, ejderhası Vermax ile birlikte ölümüyle kapatır. Rhaenyra tek bir taht odasını ele geçirmeden önce, sezon zaten yerine koyamayacağı bir şeyi harcamıştır. Bundan sonra olan her şey, defterde çoktan yazılı duran bu borçla ödenir."
+        ],
+        "pullQuote": "Sezon, başka her şeyi harcamadan önce kendi veliahdını harcar."
+      },
+      {
+        "id": "triumphant",
+        "heading": "Muzaffer Rhaenyra",
+        "photo": { "caption": "Rhaenyra, Demir Taht'a oturduktan bir bölüm sonra, boş bir hazinenin ne demek olduğunu öğrenir." },
+        "paragraphs": [
+          "Sözüne sadık kalan Alicent, King's Landing'in kapılarını hiç çatışmadan açar. Rhaenyra, bu savaşın uğruna verildiği zaferin en hızlı ve en temiz hâlini ikinci bölümde, Demir Taht'a oturarak yaşar. Hiçbir ironi taşımayan bir başlıkla açılan üçüncü bölümde ise hazinenin boşaltıldığını, halkın aç olduğunu ve sadakat iddia eden lordların tahıl stokladığını öğrenir. Bir şehri ele geçirmek ile onu elde tutmak, meğer birbirine hiç benzemiyormuş."
+        ],
+        "pullQuote": "Bir şehri elde tutmak, meğer onu ele geçirmeye hiç benzemiyormuş."
+      },
+      {
+        "id": "unbowed",
+        "heading": "Eğilmeyen, Bükülmeyen, Esirgenmeyen",
+        "photo": { "caption": "Ser Criston Cole, kendi tarafının sonradan Kasabın Balosu diye adlandıracağı pusudan önce." },
+        "paragraphs": [
+          "Criston Cole, sezon boyunca intihara yakın bir cepheden saldırıyı zorlar — bu bir stratejiden çok bir taleptir; Alicent'in ve kendi adına yaptığı her şeyden sonra, savaşın kendi seçtiği görkemli bir ölümle bitmesini ister. Winter Wolves ve Oscar Tully'nin ordusu ona ne görkemi ne de seçimi verir: kendi tarafının sonradan Kasabın Balosu diye adlandıracağı bir pusuda ölür. Bölümün adı \"Yüzsüz Adamlar\"dır. Tek, seçilmiş bir ölümle hatırlanmak isteyen adam, hikâyesinin nasıl biteceğini bile seçemez."
+        ],
+        "pullQuote": "Görkemli bir ölüm istedi. Kasabın Balosu görkemle ilgilenmiyor."
+      },
+      {
+        "id": "the-rider-for-sale",
+        "heading": "Herkesin Satın Almaya Çalıştığı Binici",
+        "photo": { "caption": "Lord Ormund Hightower, Rhaenyra'nın ejderha-tohumlarından birini kendi tarafına çekmeye çalışır." },
+        "paragraphs": [
+          "Vermithor, Seasmoke ve Silverwing artık tacına hiçbir borcu olmayan, sıradan doğumlu binicilerin sırtında uçarken, savaşın gerçek para birimi toprak ya da altın olmaktan çıkar. Ormund Hightower, yedinci bölümü Rhaenyra'nın ejderha-tohumlarından birini kendi tarafına çekmeye çalışarak geçirir — artık bir ejderhası olan bir adama işlemeyen kaba kuvvetle değil, ikna yoluyla. İki Targaryen iddiacısı arasındaki bu savaşta, elde tutulacak en değerli şey, hangi tahta sadık olduğunu değiştirmeye razı bir binicidir."
+        ],
+        "pullQuote": "Bu savaşta elde kalan en değerli şey, taraf değiştirmeye razı bir adamdır."
+      },
+      {
+        "id": "treasons",
+        "heading": "Çoğul İhanetler",
+        "photo": { "caption": "Tumbleton, Silverwing'in nefesiyle yanarken, sezonun son ihanet perdesinde." },
+        "paragraphs": [
+          "Finalin başlığı tek bir ihanetten söz etmez. Çoğulu kullanır ve bunu bile bile yapar. Bölümler boyunca iki taraftan da kur yapılan Ulf the White, bunun Ormund Hightower'a en pahalıya patlayacağı anı seçer: kendisine hizmet etmesi gereken adamı öldürür ve Silverwing'in sırtında Tumbleton'ı küle çevirir — Rhaenyra'nın emriyle, ama sadakatten çok kişisel bir hesaba benzeyen gerekçelerle. Bu sezonun sonunda Tumbleton'da ayakta kalan kimse artık bir haneye hesap vermiyor. Hâlâ elinde bir ejderha teklif edebilen hangi kraliçeye hesap veriyorsa ona bağlı."
+        ],
+        "pullQuote": "Tumbleton'da kalan kimse artık bir haneye bağlı değil. Elinde hâlâ bir ejderha olan kraliçeye bağlı."
+      }
+    ],
+    "verdict": [
+      "Bu sezonun ödünç aldığı her büyük kelime — muzaffer, eğilmeyen, yüzsüz — kendi bölümünün içinde olanın tam tersini anlatmaya döner. Rhaenyra başkenti kazanır ve bunu kazanmanın hiçbir şeyi çözmediğini hemen öğrenir. Criston Cole, sezon boyunca istediği ölümü elde eder, ama ondan asıl istediği şeyden mahrum bırakılmış olarak. İki sezon önce bir hanedanın soyu üzerine bir kavga olarak başlayan savaş, üçüncü yılını, ikisine de mensup olmayan adamların kararlarıyla kapatır.",
+      "Burada hiçbir şey savaşı sonuçlandırmaz. Sadece, adım adım her ihanette, savaşın başladığı nedene artık hemen hemen kimsenin bağlı kalmadığını kanıtlar."
+    ]
+  }
+}

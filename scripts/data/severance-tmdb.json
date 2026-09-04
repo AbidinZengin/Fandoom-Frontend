@@ -1,0 +1,275 @@
+{
+  "series": {
+    "title": "Severance",
+    "originalTitle": "Severance",
+    "synopsis": "Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives. When a mysterious colleague appears outside of work, it begins a journey to discover the truth about their jobs.",
+    "firstAirDate": "2022-02-17",
+    "lastAirDate": null,
+    "status": "Returning Series",
+    "posterPath": "/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
+    "backdropPath": "/ixgFmf1X59PUZam2qbAfskx2gQr.jpg",
+    "contentRating": "TV-MA",
+    "originCountry": "US",
+    "originalLanguage": "en",
+    "externalRating": 8.393,
+    "externalVoteCount": 2914,
+    "imdbId": "tt11280740",
+    "tmdbId": 95396,
+    "genreIds": [
+      18,
+      9648,
+      10765
+    ],
+    "genreNames": [
+      "Drama",
+      "Mystery",
+      "Sci-Fi & Fantasy"
+    ]
+  },
+  "seasons": [
+    {
+      "seasonNumber": 1,
+      "title": "Season 1",
+      "airDate": "2022-02-17",
+      "posterPath": "/lFf6LLrQjYldcZItzOkGmMMigP7.jpg",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "Good News About Hell",
+          "synopsis": "Mark is promoted to lead a team who've had their memories surgically divided between their work and personal lives.",
+          "airDate": "2022-02-17",
+          "durationMinutes": 59,
+          "externalRating": 8.171,
+          "externalVoteCount": 164,
+          "imdbId": "tt11650328",
+          "tmdbId": 1982925,
+          "stillPath": "/sP3GZe9j7BY3CAyZGFuZxxnGpN1.jpg"
+        },
+        {
+          "episodeNumber": 2,
+          "title": "Half Loop",
+          "synopsis": "The team train new hire Helly on macrodata refinement. Mark takes a day off to meet with a mysterious former colleague.",
+          "airDate": "2022-02-17",
+          "durationMinutes": 57,
+          "externalRating": 8.25,
+          "externalVoteCount": 146,
+          "imdbId": "tt13393872",
+          "tmdbId": 3396429,
+          "stillPath": "/wIQP0P2tyE7VRIN3xR8Efq7UgKt.jpg"
+        },
+        {
+          "episodeNumber": 3,
+          "title": "In Perpetuity",
+          "synopsis": "Mark takes the team on a field trip, but Helly continues to rebel. A deteriorating Petey struggles to tell Mark about Lumon’s misdeeds.",
+          "airDate": "2022-02-24",
+          "durationMinutes": 60,
+          "externalRating": 8.051,
+          "externalVoteCount": 138,
+          "imdbId": "tt13399816",
+          "tmdbId": 3396430,
+          "stillPath": "/hMpY4wpHlwMf42aDM25bU9fau5f.jpg"
+        },
+        {
+          "episodeNumber": 4,
+          "title": "The You You Are",
+          "synopsis": "Irving finds an intriguing book at work. Helly aggressively pursues a meeting with her Outie. Mark attends a funeral with Ms. Selvig.",
+          "airDate": "2022-03-03",
+          "durationMinutes": 50,
+          "externalRating": 8.312,
+          "externalVoteCount": 133,
+          "imdbId": "tt13411248",
+          "tmdbId": 3396431,
+          "stillPath": "/dzQJeDznS0I4spAqTImiLH9p252.jpg"
+        },
+        {
+          "episodeNumber": 5,
+          "title": "The Grim Barbarity of Optics and Design",
+          "synopsis": "Irving and Dylan confront Burt about his lies. Mark and Helly discover a strange new department.",
+          "airDate": "2022-03-10",
+          "durationMinutes": 47,
+          "externalRating": 8.039,
+          "externalVoteCount": 128,
+          "imdbId": "tt13424090",
+          "tmdbId": 3396432,
+          "stillPath": "/oy4BZotFbNX5YoPkWuWF3kcdMVw.jpg"
+        },
+        {
+          "episodeNumber": 6,
+          "title": "Hide and Seek",
+          "synopsis": "The team angers Cobel by forming an alliance.",
+          "airDate": "2022-03-17",
+          "durationMinutes": 44,
+          "externalRating": 8.159,
+          "externalVoteCount": 124,
+          "imdbId": "tt13424092",
+          "tmdbId": 3396433,
+          "stillPath": "/3fQp0pUtgDkqqyEbXY8KKCZPMU7.jpg"
+        },
+        {
+          "episodeNumber": 7,
+          "title": "Defiant Jazz",
+          "synopsis": "Mark and the team encounter new security measures from Cobel.",
+          "airDate": "2022-03-24",
+          "durationMinutes": 53,
+          "externalRating": 8.8,
+          "externalVoteCount": 129,
+          "imdbId": "tt13424094",
+          "tmdbId": 3396434,
+          "stillPath": "/gHoKlbC2esqq3SXm0ZCcl3bzpFZ.jpg"
+        },
+        {
+          "episodeNumber": 8,
+          "title": "What's for Dinner?",
+          "synopsis": "The team prepares a plan. Mark attends Devon and Ricken’s party.",
+          "airDate": "2022-03-31",
+          "durationMinutes": 50,
+          "externalRating": 8.8,
+          "externalVoteCount": 127,
+          "imdbId": "tt13424096",
+          "tmdbId": 3396435,
+          "stillPath": "/8Gv9ELume0jo7gz7R2h4tPmVLsD.jpg"
+        },
+        {
+          "episodeNumber": 9,
+          "title": "The We We Are",
+          "synopsis": "The team discovers troubling revelations.",
+          "airDate": "2022-04-07",
+          "durationMinutes": 44,
+          "externalRating": 9.2,
+          "externalVoteCount": 153,
+          "imdbId": "tt13424098",
+          "tmdbId": 3396436,
+          "stillPath": "/dzx8D2B0ELncXuCNwtPCags43Q.jpg"
+        }
+      ]
+    },
+    {
+      "seasonNumber": 2,
+      "title": "Season 2",
+      "airDate": "2025-01-16",
+      "posterPath": "/Rb7sga832Cyqvafd7CqOzbwdK4.jpg",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "Hello, Ms. Cobel",
+          "synopsis": "Mark returns to work under different circumstances. Secrets from the Outie world come to light.",
+          "airDate": "2025-01-16",
+          "durationMinutes": 54,
+          "externalRating": 8,
+          "externalVoteCount": 125,
+          "imdbId": "tt15180436",
+          "tmdbId": 5469028,
+          "stillPath": "/a97vNY8Knu45FLQib0uQZ2VReLy.jpg"
+        },
+        {
+          "episodeNumber": 2,
+          "title": "Goodbye, Mrs. Selvig",
+          "synopsis": "Mark contemplates the meaning of a message.",
+          "airDate": "2025-01-23",
+          "durationMinutes": 49,
+          "externalRating": 7.912,
+          "externalVoteCount": 113,
+          "imdbId": "tt15237910",
+          "tmdbId": 5469115,
+          "stillPath": "/wjlSkqMoLngSO6fv2Ajt2CIeCSi.jpg"
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Who Is Alive?",
+          "synopsis": "Mark, Helly, Irving, and Dylan search for answers.",
+          "airDate": "2025-01-30",
+          "durationMinutes": 57,
+          "externalRating": 8.098,
+          "externalVoteCount": 117,
+          "imdbId": "tt15241840",
+          "tmdbId": 5469117,
+          "stillPath": "/j4AUAq1XJOBmfXsLphZzsCz6pZs.jpg"
+        },
+        {
+          "episodeNumber": 4,
+          "title": "Woe's Hollow",
+          "synopsis": "The team participates in a group activity.",
+          "airDate": "2025-02-06",
+          "durationMinutes": 54,
+          "externalRating": 8.184,
+          "externalVoteCount": 117,
+          "imdbId": "tt15241844",
+          "tmdbId": 5469118,
+          "stillPath": "/mioOOhTaShLd1MPKsmfirbe9AwI.jpg"
+        },
+        {
+          "episodeNumber": 5,
+          "title": "Trojan's Horse",
+          "synopsis": "Tensions emerge after the team suffers a loss.",
+          "airDate": "2025-02-13",
+          "durationMinutes": 50,
+          "externalRating": 8.062,
+          "externalVoteCount": 105,
+          "imdbId": "tt15242966",
+          "tmdbId": 5469120,
+          "stillPath": "/csATq6CUnvyMY26cTKy3YmlmOyK.jpg"
+        },
+        {
+          "episodeNumber": 6,
+          "title": "Attila",
+          "synopsis": "Bonds are tested. Mark continues on his path of discovery.",
+          "airDate": "2025-02-20",
+          "durationMinutes": 52,
+          "externalRating": 7.923,
+          "externalVoteCount": 104,
+          "imdbId": "tt15242972",
+          "tmdbId": 5469123,
+          "stillPath": "/4J8HXT1FIjnLJiNt6xwR0TnmLcX.jpg"
+        },
+        {
+          "episodeNumber": 7,
+          "title": "Chikhai Bardo",
+          "synopsis": "An old romance intersects with a deadly present threat.",
+          "airDate": "2025-02-27",
+          "durationMinutes": 53,
+          "externalRating": 8.595,
+          "externalVoteCount": 112,
+          "imdbId": "tt15242980",
+          "tmdbId": 5469128,
+          "stillPath": "/dmzBzYcEtjOYJO46p7kyRmYrHZu.jpg"
+        },
+        {
+          "episodeNumber": 8,
+          "title": "Sweet Vitriol",
+          "synopsis": "Discoveries are made.",
+          "airDate": "2025-03-06",
+          "durationMinutes": 41,
+          "externalRating": 7.02,
+          "externalVoteCount": 98,
+          "imdbId": "tt15242986",
+          "tmdbId": 5469133,
+          "stillPath": "/piWjCKARsSkmr9kMKHZ5ynengj3.jpg"
+        },
+        {
+          "episodeNumber": 9,
+          "title": "The After Hours",
+          "synopsis": "Mark and Devon team with an ally. Helly investigates further.",
+          "airDate": "2025-03-13",
+          "durationMinutes": 48,
+          "externalRating": 7.995,
+          "externalVoteCount": 95,
+          "imdbId": "tt15242994",
+          "tmdbId": 5469139,
+          "stillPath": "/2RJaWjY4dD5s7jpdo2aGeSLmtI3.jpg"
+        },
+        {
+          "episodeNumber": 10,
+          "title": "Cold Harbor",
+          "synopsis": "Mark forms a shaky alliance in an all-or-nothing play, while the team makes a dangerous last stand.",
+          "airDate": "2025-03-20",
+          "durationMinutes": 80,
+          "externalRating": 8.652,
+          "externalVoteCount": 112,
+          "imdbId": "tt15242998",
+          "tmdbId": 5469142,
+          "stillPath": "/gXUvGwpZxrpqMRouxM7yI28lgNa.jpg"
+        }
+      ]
+    }
+  ]
+}

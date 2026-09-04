@@ -1,0 +1,51 @@
+{
+  "seasons": [
+    {
+      "seasonNumber": 1,
+      "title": "Season 1",
+      "airDate": "2022-08-21",
+      "episodes": [
+        { "episodeNumber": 1, "title": "The Heirs of the Dragon", "airDate": "2022-08-21", "synopsisTr": "Yaşlı Kral Jaehaerys, halefini belirlemek için İhtiyarlar Divanı'nı toplar ve seçim Prens Viserys'ten yana sonuçlanır. Yıllar sonra bir varis krizinin ortasında kalan kral, geleneği kırarak kızı Rhaenyra'yı Demir Taht'ın veliahdı ilan eder — bu karar kardeşi Daemon ile arasındaki gerilimi alevlendirir." },
+        { "episodeNumber": 2, "title": "The Rogue Prince", "airDate": "2022-08-28", "synopsisTr": "Daemon, Ejderhataşı'nı ele geçirip tahta göz dikerek kral ile arasını iyice açar. Rhaenyra, Kral Muhafızları'na katılacak şövalyeyi kendi seçerken Viserys, Lord Otto Hightower'ın kızı Alicent ile evlenme kararını duyurur." },
+        { "episodeNumber": 3, "title": "Second of His Name", "airDate": "2022-09-04", "synopsisTr": "Viserys, kızını ittifak için evlenmeye zorlarken Basamaklı Adalar'da Daemon ve Lord Corlys Velaryon, korsanlara karşı kanlı bir savaş yürütür. Sarayda Hightower ve Velaryon haneleri arasındaki nüfuz mücadelesi kızışır." },
+        { "episodeNumber": 4, "title": "King of the Narrow Sea", "airDate": "2022-09-11", "synopsisTr": "Daemon, Dar Deniz zaferinin ardından döner ve kardeşiyle kısa süreliğine barışır. Bir skandalın ortaya çıkmasıyla Viserys, Rhaenyra'yı planından caydırıp Laenor Velaryon ile evlendirmeye karar verir." },
+        { "episodeNumber": 5, "title": "We Light the Way", "airDate": "2022-09-18", "synopsisTr": "Rhaenyra ile Laenor'un düğün hazırlıkları sürerken saraydaki ittifaklar yeniden şekillenir. Nişan töreninde yaşanan şiddetli bir olay, Ser Criston Cole'un sadakatini ve Rhaenyra'nın geleceğini derinden sarsar." },
+        { "episodeNumber": 6, "title": "The Princess and the Queen", "airDate": "2022-09-25", "synopsisTr": "On yıl sonra Rhaenyra üç oğullu bir anne, Alicent ise oğlu Aegon'u tahta hazırlayan hırslı bir kraliçedir. İki kadın arasındaki eski dostluk yerini artan bir güvensizliğe bırakırken hanedan içi çizgiler netleşir." },
+        { "episodeNumber": 7, "title": "Driftmark", "airDate": "2022-10-02", "synopsisTr": "Velaryon ailesinden birinin cenaze töreni, hanedanlar arasındaki gerilimin açık bir çatışmaya dönüştüğü bir sahneye tanıklık eder. Törende yaşanan olay, Rhaenyra ile Alicent'in yollarının artık geri dönülmez biçimde ayrıldığını gösterir." },
+        { "episodeNumber": 8, "title": "The Lord of the Tides", "airDate": "2022-10-09", "synopsisTr": "Altı yıl sonra sağlığı iyice bozulan Kral Viserys, tahtın geleceğine dair artan tartışmaların ortasında kalır. Driftmark'ın yeni lordunun kim olacağı meselesi iki hizbi bir kez daha karşı karşıya getirir." },
+        { "episodeNumber": 9, "title": "The Green Council", "airDate": "2022-10-16", "synopsisTr": "Viserys'in ölümünün ardından Küçük Konsey, kraliçenin bilgisi dışında harekete geçip tahtın el değiştirmesi için plan kurar. Lord Otto Hightower sarayın sadakatini yeniden şekillendirirken kayıp bir prensin izini sürer." },
+        { "episodeNumber": 10, "title": "The Black Queen", "airDate": "2022-10-23", "synopsisTr": "Rhaenyra, babasının ölümünü ve Kral'ın Şehri'ndeki taç giyme törenini öğrenince Ejderhataşı'nda savaş çanları çalmaya başlar. Sezon, iki taraf arasındaki gerilimin artık geri dönüşü olmayan bir çatışmaya evrildiği bir finalle kapanır." }
+      ]
+    },
+    {
+      "seasonNumber": 2,
+      "title": "Season 2",
+      "airDate": "2024-06-16",
+      "episodes": [
+        { "episodeNumber": 1, "title": "A Son for a Son", "airDate": "2024-06-16", "synopsisTr": "Rhaenyra, sezon 1 finalindeki kayıptan sonra derin bir yasın ortasındadır ve adalet arayışına girer. Prens Jacaerys müttefik aramak için Kuzey'e giderken Kral'ın Şehri'nde intikam planları şekillenmeye başlar." },
+        { "episodeNumber": 2, "title": "Rhaenyra the Cruel", "airDate": "2024-06-23", "synopsisTr": "Önceki bölümde yaşanan trajik olay iki hizbi de derinden sarsar ve kraliyet propagandası için kullanılır. Ejderhataşı'nda sadakatler sınanırken saraydaki güven ortamı büyük bir darbe alır." },
+        { "episodeNumber": 3, "title": "The Burning Mill", "airDate": "2024-06-30", "synopsisTr": "Savaş artık sarayın duvarları dışına, taşra lordları arasındaki çatışmalara da yayılır. Daemon Harrenhal'e ulaşırken Rhaenyra ile Alicent arasında beklenmedik, gergin bir yüzleşme yaşanır." },
+        { "episodeNumber": 4, "title": "The Red Dragon and the Gold", "airDate": "2024-07-07", "synopsisTr": "Kral Aegon, savaş meclisindeki gerginliğin ardından ejderhasıyla göğe yükselir; bu karar gökyüzünde iki tarafı da sarsacak yıkıcı bir çatışmaya yol açar. Rook's Rest üzerindeki bu savaş, sezonun dönüm noktalarından biri olur." },
+        { "episodeNumber": 5, "title": "Regent", "airDate": "2024-07-14", "synopsisTr": "Aegon'un durumu belirsizliğini korurken Aemond sarayda giderek daha fazla güç kazanır. Daemon, Harrenhal'de kendi otoritesini kurmaya çalışırken nehir lordlarının desteğini kazanmak için zorlayıcı yöntemlere başvurur." },
+        { "episodeNumber": 6, "title": "Smallfolk", "airDate": "2024-07-21", "synopsisTr": "Aemond savaşta daha saldırgan bir strateji izlerken Daemon'un Harrenhal'deki yalnızlığı giderek artan bir huzursuzluğa dönüşür. Bu arada savaşın gidişatını değiştirebilecek yeni ejderha binicileri sahneye çıkar." },
+        { "episodeNumber": 7, "title": "The Red Sowing", "airDate": "2024-07-28", "synopsisTr": "Rhaenyra, ordusunu güçlendirmek için sıra dışı bir çağrıda bulunup sahipsiz ejderhalara binici arayışına girer. Daemon ise Harrenhal'de yaşadığı görüler sonucunda sadakatiyle ilgili kritik bir karara varır." },
+        { "episodeNumber": 8, "title": "The Queen Who Ever Was", "airDate": "2024-08-04", "synopsisTr": "Alicent, kan dökülmesini durdurmak için son bir müzakere girişiminde bulunur. Sezon, iki tarafın da ordularını topladığı ve tam ölçekli bir savaşın artık kaçınılmaz hale geldiği gergin bir finalle kapanır." }
+      ]
+    },
+    {
+      "seasonNumber": 3,
+      "title": "Season 3",
+      "airDate": "2026-06-21",
+      "episodes": [
+        { "episodeNumber": 1, "title": "Salt and Sea, Fire and Blood", "airDate": "2026-06-21", "synopsisTr": "Triarşi filosu Dar Boğaz'da Corlys Velaryon'un donanmasına saldırırken Rhaenyra, Alicent'in verdiği söze güvenerek King's Landing'i ele geçirmenin hazırlığını yapar. Rhaena, Sheepstealer'ı ehlileştirmeyi başarır ama ejderha savaş alanında kontrolden çıkıp hem düşman hem müttefik gemilerini yakar. Jacaerys ve ejderhası Vermax, çatışmanın ortasında ölümcül yaralar alır. Sezon, Rhaenyra'nın davasının en ağır kayıplarından biriyle açılır." },
+        { "episodeNumber": 2, "title": "Queen's Landing", "airDate": "2026-06-28", "synopsisTr": "Gullet Savaşı'nın ardından derin bir yasın içindeki Rhaenyra, Daemon ile birlikte dört ejderhalık bir güçle King's Landing'e yönelir. Alicent Hightower, gizli anlaşmaya sadık kalarak şehrin kapılarını Kara hizbe açar. Rhaenyra nihayet Demir Taht'a oturur, ancak bu zafer bedelsiz değildir." },
+        { "episodeNumber": 3, "title": "Rhaenyra Triumphant", "airDate": "2026-07-05", "synopsisTr": "Rhaenyra, bir şehri ele geçirmenin onu yönetmekten çok daha kolay olduğunu acı biçimde öğrenir. Lord Ormund Hightower'ın ordusu Daemon ve ejderha binicileri karşısında diz çökmek zorunda kalır, ancak hazinenin boşaltıldığı ortaya çıkar. Soyluların halkı aç bırakırken kendi stoklarını sakladığını öğrenen kraliçe, sert bir misillemeyle otoritesini hatırlatır." },
+        { "episodeNumber": 4, "title": "Tumbleton", "airDate": "2026-07-12", "synopsisTr": "Yeşil ordu tarafından ele geçirilip yağmalanan Tumbleton, ejderha-tohumu Addam of Hull'un Seasmoke ile geri alma girişimine sahne olur. Nehir Diyarları'ndan toplanan ordu şehri kuşatırken üç ejderha savaş meydanında birbirine girer. Blacks askeri bir zafer kazanır, ama Tumbleton harabeye döner ve Targaryen ejderha gücü onarılamaz bir darbe alır." },
+        { "episodeNumber": 5, "title": "Unbowed and Unbent", "airDate": "2026-07-19", "synopsisTr": "King's Landing'de tüm Altın Pelerinliler'in katledilip teşhir edilmesi, Rhaenyra'nın yönetiminin ne kadar kırılgan olduğunu gözler önüne serer. Daemon ile Rhaenyra, Aemond'un peşine düşme zamanlaması konusunda sert bir çatışma yaşar. Criston Cole ise cepheden saldırı ısrarıyla aslında aradığı şanlı ölümü tetikler." },
+        { "episodeNumber": 6, "title": "Faceless Men", "airDate": "2026-07-26", "synopsisTr": "Criston Cole, Winter Wolves ve Oscar Tully'nin ordusu karşısında beklenmedik bir yenilgiyle hayatını kaybeder. Aynı çatışmada Lord Corlys Velaryon esir düşer. Harrenhal'de Alys Rivers, Aemond'a sakladığı beş antik ejderha yumurtasını gösterir — biri elinde canlanır gibi ısınır." },
+        { "episodeNumber": 7, "title": "The Dragon in Winter", "airDate": "2026-08-02", "synopsisTr": "Criston Cole'un ölümüyle Yeşil hizip yeni bir strateji arayışına girerken Rhaenyra'nın otoritesindeki çatlaklar iyice derinleşir. Daemon, suikastlar altındaki şehir nöbetini bir arada tutmaya çalışır. Ormund Hightower'ın bir ejderha binicisini kazanma girişimiyle sezonun en kritik ihanet hattı harekete geçer." },
+        { "episodeNumber": 8, "title": "The Treasons at Tumbleton", "airDate": "2026-08-09", "synopsisTr": "Rhaenyra, Daemon'a Tumbleton'ı yakma emrini verir ve tüm gücüyle Hightowerlara karşı harekete geçer. Ulf White'ın beklenmedik ihaneti, Ormund'un ölümü ve Tumbleton'ın Silverwing tarafından küle çevrilmesiyle sonuçlanır. Sezon finali, Rhaenyra'nın Demir Taht üzerindeki hak iddiasını artık savaşın ötesine taşıdığı bir noktada kapanır ve önümüzdeki final sezona zemin hazırlar." }
+      ]
+    }
+  ]
+}
