@@ -205,6 +205,11 @@
       "commentsCount": "Comments",
       "theoriesCount": "Theories",
       "likesCount": "Likes",
+      "tabStats": "Stats",
+      "tabPlaylists": "Playlists",
+      "tabComments": "Comments",
+      "playlistsEmpty": "No public playlists yet.",
+      "commentsComingSoon": "Comment history is coming soon.",
       "continueReadingHeading": "Continue Reading",
       "continueCta": "Continue",
       "editModalTitle": "Edit Profile",
@@ -227,7 +232,10 @@
       "viewCta": "View Details",
       "readCta": "Read",
       "typeMovie": "Movie",
-      "typeSeries": "Series"
+      "typeSeries": "Series",
+      "typeBlog": "Blog",
+      "filterAll": "All",
+      "emptyFiltered": "No items match this filter."
     },
     "customLists": {
       "heading": "Custom Lists",
@@ -249,7 +257,19 @@
       "uploadError": "Image upload failed",
       "saveError": "Could not save list",
       "itemsHeading": "Items",
-      "itemsEmpty": "You don't have any saved or liked content yet. Click Save or Like on a blog/movie/series page and it'll show up here."
+      "typePickerLabel": "What type of content is this list for?",
+      "typePickerHint": "Pick a type above to see content you can add.",
+      "searchPlaceholder": "Search titles...",
+      "searchNoResults": "No results for this search."
+    },
+    "listDetail": {
+      "backToLists": "My Custom Lists",
+      "startEditing": "Edit list",
+      "finishEditing": "Finish editing",
+      "dragHint": "Drag to reorder",
+      "removeItem": "Remove from list",
+      "addItemsCta": "Add Content",
+      "addItemsTitle": "Add Content to List"
     },
     "characters": {
       "podiumHeading": "Top Characters",
@@ -296,11 +316,18 @@
     "addToList": "Add to List",
     "addToListHeading": "Add to List",
     "noLists": "You don't have any custom lists yet",
+    "noMatchingLists": "None of your lists match this type — create a new one.",
     "listLoadError": "Could not load lists",
     "listCreateError": "Could not create list",
     "createAndAddCta": "Create & Add"
   },
   "placeholder": {
     "comingSoon": "{{title}} — coming soon"
+  },
+  "seriesHub": {
+    "heading": "Series",
+    "explore": "Explore",
+    "watchTrailer": "Watch Trailer",
+    "featuredTitles": "Featured Titles"
   }
 }

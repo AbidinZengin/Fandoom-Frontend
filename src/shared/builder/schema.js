@@ -72,7 +72,13 @@ export function createEmptyBlock(componentType, position, definition) {
     // entitySchemas.js). Boş obje yerine null: DataTab/renderer'lar
     // `block.bindings` truthy kontrolüyle "bağlı mı" sorusunu cevaplar.
     bindings: null,
-    styles: definition?.defaultStyles ? { ...emptyStyleMatrix(), base: { normal: { ...definition.defaultStyles }, hover: {} } } : emptyStyleMatrix(),
+    // defaultHoverStyles: preset'in kendi hover durumunu da tanımlayabilmesi
+    // için (ör. "Outline" buton preset'i — kullanıcı isteği: "hover ile
+    // beyaz olan"). Opsiyonel — vermeyen çağıranlarda (registry default'ları)
+    // önceki davranış AYNEN korunur, hover boş `{}` başlar.
+    styles: definition?.defaultStyles
+      ? { ...emptyStyleMatrix(), base: { normal: { ...definition.defaultStyles }, hover: { ...(definition.defaultHoverStyles ?? {}) } } }
+      : emptyStyleMatrix(),
     animation: null,
     customCss: '',
     // Katman paneli (Lock/Hide) — additive, geriye dönük uyumlu. locked:

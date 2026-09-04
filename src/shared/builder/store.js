@@ -15,8 +15,11 @@ function collectDescendantIds(blocks, id) {
 // saveToAdapter VE publishBuild'in PAYLAŞTIĞI serileştirme: blockOrder
 // sadece kök blokları listeler — container çocukları da kaybolmadan
 // kaydedilsin diye `blocks` map'inin TÜMÜ yazılır (önce kök sırası, sonra
-// kalan çocuk bloklar eklenme sırasıyla).
-function serializeBlocks(blocks, blockOrder) {
+// kalan çocuk bloklar eklenme sırasıyla). Export edilir — CodegenPanel'in
+// "Kodu Üret" isteğine KAYNAK blok ağacını (üretilen JSX/CSS değil) eklemek
+// için PageBuilder.jsx'te de AYNI serileştirme kullanılıyor (bkz.
+// generated-log şablon yeniden-açma akışı).
+export function serializeBlocks(blocks, blockOrder) {
   const rootIds = new Set(blockOrder);
   return [...blockOrder.map((id) => blocks[id]), ...Object.values(blocks).filter((b) => !rootIds.has(b.id))];
 }
@@ -92,6 +95,13 @@ export function createBuilderStore(adapter) {
         // kendisi undo/redo'ya karışmaz.
         builds: [],
         loadingBuilds: false,
+
+        // "Kodu Üret"ün ürettiği her component'in KAYNAK blok ağacı geçmişi
+        // (bkz. design-server.mjs .generated.json) — builds'le AYNI gerekçeyle
+        // zundo partialize'ına DAHİL DEĞİL, restoreGenerated normal bir undo
+        // adımı sayılır.
+        generated: [],
+        loadingGenerated: false,
 
         // Yükleme (boş bile olsa) blocks/blockOrder'ı YENİDEN ATAR — bu her
         // seferinde yeni referans üretir, equality kontrolü bunu "gerçek
@@ -224,6 +234,48 @@ export function createBuilderStore(adapter) {
             });
           });
           await adapter.save(build.blocks);
+        },
+
+        // LeftPanel'in "Geçmiş" sekmesindeki "Üretilen Component'ler"
+        // listesini doldurur — PageBuilder mount'ta loadBuilds'in yanında
+        // çağrılır.
+        loadGenerated: async () => {
+          if (!adapter.listGenerated) return;
+          set((draft) => {
+            draft.loadingGenerated = true;
+          });
+          try {
+            const list = await adapter.listGenerated();
+            set((draft) => {
+              draft.generated = list;
+              draft.loadingGenerated = false;
+            });
+          } catch (err) {
+            set((draft) => {
+              draft.loadingGenerated = false;
+              draft.error = err;
+            });
+          }
+        },
+
+        // GeneratedHistoryPanel'deki "Taslağa Yükle" — restoreBuild'le AYNI
+        // desen: seçilen kaydın blok ağacını canvas'a VE taslak dosyasına
+        // uygular (normal undo adımı, Ctrl+Z ile geri alınabilir). Amaç bir
+        // component'i "şablon" gibi geri açıp entity seçimini/metni
+        // değiştirip TEKRAR Kodu Üret'e basmak.
+        restoreGenerated: async (entryId) => {
+          const entry = get().generated.find((g) => g.id === entryId);
+          if (!entry) return;
+          set((draft) => {
+            draft.blocks = {};
+            draft.blockOrder = [];
+            draft.selectedId = null;
+            entry.blocks.forEach((block) => {
+              draft.blocks[block.id] = block;
+              if (!block.parentId) draft.blockOrder.push(block.id);
+            });
+          });
+          await adapter.save(entry.blocks);
         },
 
         addBlock: (block) =>

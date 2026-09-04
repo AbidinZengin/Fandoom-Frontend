@@ -98,6 +98,22 @@ function renderCss({ canvasWidths, canvasHeights, cssRules }) {
   // birebir orantılı kalsın (eskiden sabit 800 hardcode'du — Faz 1.5'te
   // tuval yüksekliği ayarlanabilir olduktan sonra bu değerle senkron
   // değildi, kullanıcı raporuyla yakalandı).
+  //
+  // DÜZELTME (kullanıcı raporu, 2026-09-02: "hiçbir şey responsive değil") —
+  // bu oran SADECE base için yazılıyordu, md/lg'de HİÇ override edilmiyordu.
+  // Ama her bloğun top/height'ı kendi breakpoint'inin canvasWidths[bp]/
+  // canvasHeights[bp] oranına göre cqw'a çevriliyor (bkz. cssRules.js
+  // verticalToCqw) — yani blok pozisyonları "container o breakpoint'in
+  // oranındaymış gibi" hesaplanıyordu ama container'ın GERÇEK yüksekliğini
+  // belirleyen bu aspect-ratio hep base'de donuk kalıyordu. Sonuç: md/lg
+  // canvas'ı base'den farklı bir oranda tasarlanan her sayfada gerçek
+  // ekranda container yanlış yükseklikte oluşuyor, absolute bloklar üst
+  // üste biniyor/taşıyordu. Çözüm: her block kuralıyla AYNI max-width
+  // deseninde .page için de md/lg aspect-ratio override'ı eklemek.
+  const pageAspectOverrides = ['md', 'lg']
+    .map((bp) => `@media (max-width: ${canvasWidths[bp]}px) {\n  .page {\n    aspect-ratio: ${canvasWidths[bp]} / ${canvasHeights[bp]};\n  }\n}`)
+    .join('\n\n');
+
   return `.page {
   position: relative;
   width: 100%;
@@ -106,6 +122,8 @@ function renderCss({ canvasWidths, canvasHeights, cssRules }) {
      cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
   container-type: inline-size;
 }
+
+${pageAspectOverrides}
 
 ${cssRules.join('\n\n')}
 `;

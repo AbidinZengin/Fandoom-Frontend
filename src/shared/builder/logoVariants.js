@@ -30,6 +30,8 @@ function titleFromSlug(slug) {
 const LOGO_META_OVERRIDES = {
   got: { alt: 'Game of Thrones', to: '/series/game-of-thrones' },
   'breaking-bad': { alt: 'Breaking Bad', to: '/series/breaking-bad' },
+  'house-of-the-dragon': { alt: 'House of the Dragon', to: '/series/house-of-the-dragon' },
+  severance: { alt: 'Severance', to: '/series/severance' },
 };
 
 export const LOGO_VARIANTS = Object.fromEntries(

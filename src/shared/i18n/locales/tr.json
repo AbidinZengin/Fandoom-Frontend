@@ -205,6 +205,11 @@
       "commentsCount": "Yorum",
       "theoriesCount": "Teori",
       "likesCount": "Beğeni",
+      "tabStats": "İstatistikler",
+      "tabPlaylists": "Listeler",
+      "tabComments": "Yorumlar",
+      "playlistsEmpty": "Henüz herkese açık liste yok.",
+      "commentsComingSoon": "Yorum geçmişi yakında burada.",
       "continueReadingHeading": "Okumaya Devam Et",
       "continueCta": "Devam Et",
       "editModalTitle": "Profili Düzenle",
@@ -227,7 +232,10 @@
       "viewCta": "Detaya Git",
       "readCta": "Oku",
       "typeMovie": "Film",
-      "typeSeries": "Dizi"
+      "typeSeries": "Dizi",
+      "typeBlog": "Blog",
+      "filterAll": "Tümü",
+      "emptyFiltered": "Bu filtreye uyan içerik yok."
     },
     "customLists": {
       "heading": "Özel Listelerim",
@@ -249,7 +257,19 @@
       "uploadError": "Görsel yüklenemedi",
       "saveError": "Liste kaydedilemedi",
       "itemsHeading": "İçerikler",
-      "itemsEmpty": "Kaydettiğin veya beğendiğin bir içerik yok. Bir blog/film/dizi sayfasında Kaydet ya da Beğen'e tıklayınca burada seçilebilir hale gelir."
+      "typePickerLabel": "Bu liste hangi tür için?",
+      "typePickerHint": "Ekleyebileceğin içerikleri görmek için yukarıdan bir tür seç.",
+      "searchPlaceholder": "Başlık ara...",
+      "searchNoResults": "Bu aramaya uygun sonuç yok."
+    },
+    "listDetail": {
+      "backToLists": "Özel Listelerim",
+      "startEditing": "Listeyi düzenle",
+      "finishEditing": "Düzenlemeyi bitir",
+      "dragHint": "Sürükleyerek sıralamayı değiştir",
+      "removeItem": "Listeden çıkar",
+      "addItemsCta": "İçerik Ekle",
+      "addItemsTitle": "Listeye İçerik Ekle"
     },
     "characters": {
       "podiumHeading": "Favori Karakterler",
@@ -296,11 +316,18 @@
     "addToList": "Listeye Ekle",
     "addToListHeading": "Listeye Ekle",
     "noLists": "Henüz özel listen yok",
+    "noMatchingLists": "Bu türde uygun bir listen yok — yeni bir tane oluştur.",
     "listLoadError": "Listeler yüklenemedi",
     "listCreateError": "Liste oluşturulamadı",
     "createAndAddCta": "Oluştur ve Ekle"
   },
   "placeholder": {
     "comingSoon": "{{title}} — yakında"
+  },
+  "seriesHub": {
+    "heading": "Diziler",
+    "explore": "Keşfet",
+    "watchTrailer": "Fragmanı İzle",
+    "featuredTitles": "Öne Çıkan Yapımlar"
   }
 }
