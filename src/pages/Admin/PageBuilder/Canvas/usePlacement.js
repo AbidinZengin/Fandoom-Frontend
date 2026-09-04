@@ -156,7 +156,7 @@ export function usePlacement({ activeTool, activePreset, canvasRef, blocks, brea
       // demeti kullanılır — componentType/renderer/controls AYNI kalır,
       // sadece blok bu hazır içerik/stille doğar.
       const effectiveDefinition = activePreset
-        ? { ...definition, defaultContent: activePreset.content, defaultStyles: activePreset.styles }
+        ? { ...definition, defaultContent: activePreset.content, defaultStyles: activePreset.styles, defaultHoverStyles: activePreset.hoverStyles }
         : definition;
       const block = createEmptyBlock(activeTool, { x: startXPct, y: startYPct }, effectiveDefinition);
       // Kütüphaneden yerleştirilen preset'ler kendi customCss'ini de taşır —

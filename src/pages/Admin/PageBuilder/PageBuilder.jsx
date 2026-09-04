@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createBuilderStore, undo, redo } from '../../../shared/builder/store';
+import { createBuilderStore, undo, redo, serializeBlocks } from '../../../shared/builder/store';
 import { createLocalJsonAdapter } from '../../../shared/builder/adapters/localJsonAdapter';
 import { makeBlockId } from '../../../shared/builder/schema';
 import { useClipboard } from '../../../shared/builder/useClipboard';
@@ -16,7 +16,10 @@ import styles from './PageBuilder.module.css';
 
 registerPageBuilderComponents();
 
-const adapter = createLocalJsonAdapter('src/pages/Admin/PageBuilder/demo.blocks.json');
+// CodegenPanel'in generated-log kaydı için de kullanılıyor (blocksPath prop'u
+// olarak LeftPanel'e iner) — tek taslak dosyası olduğu için sabit.
+const DRAFT_BLOCKS_PATH = 'src/pages/Admin/PageBuilder/demo.blocks.json';
+const adapter = createLocalJsonAdapter(DRAFT_BLOCKS_PATH);
 const useBuilderStore = createBuilderStore(adapter);
 
 function isTypingTarget(el) {
@@ -110,6 +113,10 @@ function PageBuilderInner() {
   const loadBuilds = useBuilderStore((s) => s.loadBuilds);
   const publishBuild = useBuilderStore((s) => s.publishBuild);
   const restoreBuild = useBuilderStore((s) => s.restoreBuild);
+  const generated = useBuilderStore((s) => s.generated);
+  const loadingGenerated = useBuilderStore((s) => s.loadingGenerated);
+  const loadGenerated = useBuilderStore((s) => s.loadGenerated);
+  const restoreGenerated = useBuilderStore((s) => s.restoreGenerated);
 
   const [, forceTick] = useState(0);
   useEffect(() => useBuilderStore.temporal.subscribe(() => forceTick((t) => t + 1)), []);
@@ -118,10 +125,15 @@ function PageBuilderInner() {
   useEffect(() => {
     loadFromAdapter().catch(() => {});
     loadBuilds();
+    loadGenerated();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const orderedBlocks = blockOrder.map((id) => blocks[id]);
+  // CodegenPanel'in "Kodu Üret" isteğine eklediği KAYNAK blok ağacı —
+  // saveToAdapter/publishBuild'in kullandığı AYNI serileştirme (container
+  // çocukları da dahil, sadece kök blockOrder değil).
+  const blocksForGenerate = serializeBlocks(blocks, blockOrder);
   const selectedBlock = selectedId ? blocks[selectedId] : null;
 
   // Tekil seçim yolu (LeftPanel tıklaması, blok sürüklemesi vb.) HER ZAMAN
@@ -305,6 +317,11 @@ function PageBuilderInner() {
           builds={builds}
           loadingBuilds={loadingBuilds}
           onRestoreBuild={restoreBuild}
+          blocksPath={DRAFT_BLOCKS_PATH}
+          blocksForGenerate={blocksForGenerate}
+          generated={generated}
+          loadingGenerated={loadingGenerated}
+          onRestoreGenerated={restoreGenerated}
         />
 
         {loading ? (

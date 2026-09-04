@@ -11,6 +11,7 @@
     "capture": "node .claude/skills/visual-verify/scripts/capture-page.mjs",
     "capture-ref": "node .claude/skills/visual-verify/scripts/capture-reference.mjs",
     "fetch-episode-stills": "node scripts/fetch-episode-stills.mjs",
+    "promote-hero": "node scripts/promote-hero.mjs",
     "design-server": "node scripts/design-server.mjs"
   },
   "dependencies": {

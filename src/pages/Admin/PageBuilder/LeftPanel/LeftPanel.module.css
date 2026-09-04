@@ -18,6 +18,7 @@
 }
 
 .leftPanel__railIcon {
+  position: relative;
   width: 32px;
   height: 32px;
   display: flex;
@@ -28,6 +29,20 @@
   background: none;
   color: var(--fg-muted);
   cursor: pointer;
+}
+
+/* Kullanıcı raporu: "Geçmiş sekmesini hiç görmedim" — ikon-only rail'de
+   6 buton birbirinden ayırt edilmiyordu. Build/Writeback/Generated
+   geçmişlerinden en az biri doluysa küçük bir nokta rozeti ekleniyor,
+   sadece dolu olduğunda görünür oluyor (boşken sessiz kalır). */
+.leftPanel__railBadge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pb-accent, var(--brand-red));
 }
 
 .leftPanel__railIcon:hover {

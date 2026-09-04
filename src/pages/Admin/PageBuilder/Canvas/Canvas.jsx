@@ -218,6 +218,7 @@ export function Canvas({
             block={block}
             breakpoint={breakpoint}
             mode={isSelected ? styleMode : 'normal'}
+            canvasWidths={canvasWidths}
             onPatchContent={(patch) => updateBlock(block.id, { content: { ...block.content, ...patch } })}
             onCommit={() => {}}
           />

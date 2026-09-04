@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Local-only tasarım editörü yazma sunucusu — backend/DB'yi devre dışı
 // bırakan mimari pivotun parçası (bkz. plan: local dosya + Vite HMR).
-// Beş iş: (1) SeriesHeroEditor/PageBuilder'ın "Save"iyle bir *.blocks.json
+// Altı iş: (1) SeriesHeroEditor/PageBuilder'ın "Save"iyle bir *.blocks.json
 // taslağını atomic write ile güncellemek, (2) PageBuilder'ın "Yayınla"
 // butonuyla o taslağı ADI-KONULMUŞ bir build olarak yanındaki *.builds.json
 // geçmişine eklemek (POST /builds, üzerine yazmaz — GET /builds listeler),
@@ -9,7 +9,10 @@
 // (GET /pages), (4) referans ekran görüntüsü çekmek (POST /capture —
 // capture-page.mjs'i child process çalıştırır), (5) üretilen component'i
 // src/pages/ altına yazmak (POST /generate — YENİ klasör, var olan hiçbir
-// dosyanın üzerine yazmaz).
+// dosyanın üzerine yazmaz), (6) her başarılı /generate çağrısının KAYNAK
+// blok ağacını yanındaki *.generated.json'a eklemek (GET /generated listeler)
+// — üretilen kodu değil, onu üreten ham veriyi saklar, "şablon"
+// yeniden-açma amaçlı.
 // Vite'ın dev sunucusu *.blocks.json değişikliğini HMR ile anında
 // tarayıcıya yansıtır — ayrı bir backend/DB/auth katmanı YOK.
 //
@@ -30,6 +33,7 @@ import { randomUUID } from 'node:crypto';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, relative, resolve, sep } from 'node:path';
+import { DEFAULT_LANG } from '../src/shared/i18n/constants.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -76,10 +80,22 @@ function resolveBuildsPath(relPath) {
   return blocksPath ? blocksPath.replace(/\.blocks\.json$/, '.builds.json') : null;
 }
 
+function resolveGeneratedLogPath(relPath) {
+  const blocksPath = resolveBlocksPath(relPath);
+  return blocksPath ? blocksPath.replace(/\.blocks\.json$/, '.generated.json') : null;
+}
+
 // Sınırsız büyümesin diye tavan — writebackHistoryStore.js'teki
 // MAX_ENTRIES deseniyle aynı gerekçe: her build tüm blok ağacını taşıdığı
 // için (writeback'in aksine tek alan değil), tavan ORADAKİNDEN düşük.
 const MAX_BUILDS = 20;
+
+// "Kodu Üret" ile başarılı üretilen her component'in KAYNAK blok ağacını
+// tutan geçmiş — üretilen .jsx/.css DEĞİL (o tek yönlü, bkz. handleGenerate
+// yorumu), tuvale GERİ YÜKLENEBİLECEK ham veri. Amaç: bir component'i
+// "şablon" gibi yeniden açıp sadece bağlı entity'yi/metni değiştirip tekrar
+// üretebilmek. builds.json'la AYNI tavan/kalıp.
+const MAX_GENERATED = 20;
 
 async function readJsonBody(req) {
   const chunks = [];
@@ -231,8 +247,20 @@ async function parseRoutesFromApp() {
 
   const routes = [];
   const seenFolders = new Set();
+  // DÜZELTME (kullanıcı raporu: "route '/' ile başlayan bir string olmalı"
+  // hatası "sürekli" alınıyordu): App.jsx'teki GERÇEK içerik sayfalarının
+  // NEREDEYSE TAMAMI `<Route path="/:lang" element={<LangGate />}>`
+  // sarmalayıcısının İÇİNDE, ona göre RELATIVE path yazılıyor (ör.
+  // "series/breaking-bad", "/" İLE BAŞLAMIYOR — bkz. App.jsx'teki "path'ler
+  // /:lang'e göre relative" yorumu). Bu tarayıcı önceden bunu düz metin
+  // olarak aynen kopyalıyordu; /capture endpoint'i "/" ile başlamayan HİÇBİR
+  // route'u kabul etmediği (satır ~279) için Referans Al pratikte TÜM
+  // içerik sayfalarında başarısız oluyordu — kullanıcı hatası değil, bu
+  // sarmalayıcı hesaba katılmamış bir parser bug'ıydı.
+  const langWrapperIdx = content.indexOf('path="/:lang"');
   // İlk parça `<Route`'dan ÖNCEki içerik (import'lar vb.) — atlanır.
-  for (const seg of content.split(/<Route\b/).slice(1)) {
+  for (const m of content.matchAll(/<Route\b/g)) {
+    const seg = content.slice(m.index + m[0].length);
     const nextRouteIdx = seg.indexOf('<Route');
     const endRoutesIdx = seg.indexOf('</Routes>');
     const cutAt = [nextRouteIdx, endRoutesIdx].filter((i) => i !== -1).sort((a, b) => a - b)[0] ?? seg.length;
@@ -245,7 +273,14 @@ async function parseRoutesFromApp() {
     const folder = tag && importMap.get(tag);
     if (!folder || seenFolders.has(folder)) continue;
     seenFolders.add(folder);
-    routes.push({ folder, route: pathMatch[1] });
+    let route = pathMatch[1];
+    // /:lang sarmalayıcısının İÇİNDE ve "/" ile başlamıyorsa, tarayıcının
+    // gerçekten gidebileceği mutlak bir path'e çevrilir (varsayılan dil).
+    // Üst seviyede zaten mutlak olan route'lara (ör. /admin/*) dokunulmaz.
+    if (!route.startsWith('/') && langWrapperIdx !== -1 && m.index > langWrapperIdx) {
+      route = `/${DEFAULT_LANG}/${route}`;
+    }
+    routes.push({ folder, route });
   }
   return routes.sort((a, b) => a.route.localeCompare(b.route));
 }
@@ -303,6 +338,15 @@ async function handleCapture(req, res) {
 // Intro") — component O SAYFANIN ALTINA nested olur, targetDir'in KENDİSİ
 // asla değiştirilmez. Hedef klasör ZATEN VARSA 409 — var olan hiçbir
 // dosyanın üzerine YAZILMAZ.
+//
+// İsteğe bağlı `path`+`blocks`: gönderilirse, dosya yazımından SONRA aynı
+// isteğin bir parçası olarak KAYNAK blok ağacı `.generated.json` log'una
+// eklenir (bkz. resolveGeneratedLogPath) — "Kodu Üret"ün ürettiği .jsx/.css
+// hiç parse EDİLMEZ (tek yönlü kural korunur), sadece onu üreten HAM veri
+// saklanır ki kullanıcı bir component'i "şablon" gibi tuvale geri açıp
+// entity/metin değiştirip tekrar üretebilsin. Log yazımı BEST-EFFORT —
+// başarısız olsa bile component dosyaları zaten yazıldığı için 201 döner,
+// sadece konsola uyarı düşer.
 async function handleGenerate(req, res) {
   if (req.method !== 'POST') {
     sendJson(res, 405, { message: 'Method not allowed' });
@@ -310,7 +354,7 @@ async function handleGenerate(req, res) {
   }
   try {
     const body = await readJsonBody(req);
-    const { targetDir, name, jsx, css } = body ?? {};
+    const { targetDir, name, jsx, css, path, blocks } = body ?? {};
     if (!targetDir || typeof targetDir !== 'string' || !name || !/^[A-Z][A-Za-z0-9]*$/.test(name)) {
       sendJson(res, 400, { message: 'targetDir ve PascalCase bir name zorunlu' });
       return;
@@ -334,7 +378,57 @@ async function handleGenerate(req, res) {
     const relOut = relative(REPO_ROOT, componentDir).replace(/\\/g, '/');
     // eslint-disable-next-line no-console
     console.log(`[design-server] generated component → ${relOut}`);
+
+    const generatedLogPath = resolveGeneratedLogPath(path);
+    if (generatedLogPath && Array.isArray(blocks)) {
+      try {
+        const entry = { id: randomUUID(), generatedAt: new Date().toISOString(), targetDir, name, path: relOut, blocks };
+        await queueWrite(generatedLogPath, async () => {
+          let existing = [];
+          if (existsSync(generatedLogPath)) {
+            try {
+              existing = JSON.parse(await readFile(generatedLogPath, 'utf8'));
+            } catch {
+              existing = [];
+            }
+          }
+          const next = [entry, ...existing].slice(0, MAX_GENERATED);
+          await mkdir(dirname(generatedLogPath), { recursive: true });
+          const tmpPath = `${generatedLogPath}.tmp`;
+          await writeFile(tmpPath, JSON.stringify(next, null, 2), 'utf8');
+          await rename(tmpPath, generatedLogPath);
+        });
+      } catch (logErr) {
+        // eslint-disable-next-line no-console
+        console.warn(`[design-server] generated log yazılamadı (component yine de oluşturuldu): ${logErr.message}`);
+      }
+    }
+
     sendJson(res, 201, { path: relOut });
+  } catch (err) {
+    sendJson(res, 500, { message: err.message });
+  }
+}
+
+// CodegenPanel'in geçmişteki başarılı "Kodu Üret" çağrılarını listelemesi
+// için — handleBuilds'in GET yarısıyla aynı kalıp.
+async function handleGeneratedLog(req, res, url) {
+  if (req.method !== 'GET') {
+    sendJson(res, 405, { message: 'Method not allowed' });
+    return;
+  }
+  const generatedLogPath = resolveGeneratedLogPath(url.searchParams.get('path'));
+  if (!generatedLogPath) {
+    sendJson(res, 400, { message: 'Geçersiz veya eksik path (src/**/*.blocks.json olmalı)' });
+    return;
+  }
+  try {
+    if (!existsSync(generatedLogPath)) {
+      sendJson(res, 200, []);
+      return;
+    }
+    const raw = await readFile(generatedLogPath, 'utf8');
+    sendJson(res, 200, JSON.parse(raw));
   } catch (err) {
     sendJson(res, 500, { message: err.message });
   }
@@ -353,6 +447,7 @@ const server = createServer(async (req, res) => {
   if (url.pathname === '/pages') return handlePages(req, res);
   if (url.pathname === '/capture') return handleCapture(req, res);
   if (url.pathname === '/generate') return handleGenerate(req, res);
+  if (url.pathname === '/generated') return handleGeneratedLog(req, res, url);
 
   sendJson(res, 404, { message: 'Not found' });
 });

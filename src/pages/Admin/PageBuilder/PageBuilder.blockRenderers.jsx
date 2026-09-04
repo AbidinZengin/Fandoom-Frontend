@@ -1,7 +1,7 @@
 import { registerComponent } from '../../../shared/builder/registry';
 import { uploadImage } from '../../../shared/api/media';
 import { TextBlockField } from '../BlogEditor/BlockList/BlockItem/TextBlockField';
-import { SHAPE_CONTROLS, TEXT_CONTROLS, VISUAL_TRANSFORM_CONTROLS, FILTER_PRESETS, CURSOR_PRESETS, resolveEffectiveStyle } from './PageBuilder.data';
+import { SHAPE_CONTROLS, TEXT_CONTROLS, VISUAL_TRANSFORM_CONTROLS, FILTER_PRESETS, CURSOR_PRESETS, resolveEffectiveStyle, resolveEffectiveFontSize } from './PageBuilder.data';
 import { FandoomLogo } from '../../../components/FandoomLogo/FandoomLogo';
 import { CONTENT_ICONS } from '../../../shared/builder/contentIcons';
 import { LOGO_VARIANTS } from '../../../shared/builder/logoVariants';
@@ -9,10 +9,12 @@ import styles from './Canvas/Canvas.module.css';
 
 // registry.js'in `component` sözleşmesi burada tanımlanır (motor bu
 // prop şekline kör, ilk gerçek tüketici bu sayfa): { block, breakpoint,
-// mode, onPatchContent, onCommit }. Efektif stil (breakpoint×hover
-// kademeli) her renderer'da resolveEffectiveStyle ile aynı şekilde
+// mode, canvasWidths, onPatchContent, onCommit }. Efektif stil (breakpoint×
+// hover kademeli) her renderer'da resolveEffectiveStyle ile aynı şekilde
 // okunur — Canvas'ın kendisi de aynı fonksiyonu blok pozisyonlaması
-// DIŞINDaki görsel efektler için kullanır.
+// DIŞINDaki görsel efektler için kullanır. `canvasWidths` SADECE
+// TextRenderer'ın fontSize önizlemesi için kullanılır (bkz.
+// resolveEffectiveFontSize, PageBuilder.data.js).
 //
 // `blur` kontrolü kendi CSS özelliği DEĞİL (filter'ın bir fonksiyonu) —
 // serbest metin `filter` alanıyla (gelişmiş: grayscale/hue-rotate vb.)
@@ -61,8 +63,9 @@ function ShapeRenderer({ block, breakpoint, mode, variant }) {
   );
 }
 
-function TextRenderer({ block, breakpoint, mode, onPatchContent, onCommit }) {
+function TextRenderer({ block, breakpoint, mode, canvasWidths, onPatchContent, onCommit }) {
   const s = resolveEffectiveStyle(block, breakpoint, mode);
+  const previewFontSize = resolveEffectiveFontSize(block, breakpoint, mode, canvasWidths);
   return (
     <div
       className={styles.textWrap}
@@ -87,7 +90,7 @@ function TextRenderer({ block, breakpoint, mode, onPatchContent, onCommit }) {
         className={styles.textField}
         style={{
           color: s.color,
-          fontSize: s.fontSize,
+          fontSize: previewFontSize,
           fontFamily: s.fontFamily,
           fontWeight: s.fontWeight,
           letterSpacing: s.letterSpacing,
@@ -178,6 +181,15 @@ function LogoRenderer({ block, breakpoint, mode }) {
     <div
       className={styles.logoWrap}
       style={{
+        // DÜZELTME (kullanıcı raporu, 2026-09): "eklediğim logolar olsun
+        // imageler olsun hepsine aynı muameleyi yapabiliyor olayım" —
+        // background/border* ImageRenderer'daki AYNI beş anahtar, önceden
+        // LOGO'da ne kontrol panelinde ne render'da vardı.
+        background: s.background,
+        borderRadius: s.borderRadius,
+        borderColor: s.borderColor,
+        borderWidth: s.borderWidth,
+        borderStyle: s.borderWidth ? (s.borderStyle || 'solid') : undefined,
         mixBlendMode: s.mixBlendMode,
         transform: s.transform,
         filter: composeFilter(s),
@@ -299,11 +311,17 @@ export function registerPageBuilderComponents() {
       // ImageRenderer'da da UYGULANIYOR (bkz. aşağıdaki style).
       { key: 'background', label: 'Background', type: 'color', default: '' },
       {
+        // DÜZELTME (kullanıcı raporu, 2026-09): kapalı select ("sadece
+        // large/small vs seçebiliyorum") ihtiyacı karşılamıyordu — SHAPE_
+        // CONTROLS/TEXT_CONTROLS'ün borderRadius'u zaten serbest metin +
+        // datalist öneri deseninde, IMAGE'ınki YALNIZ bundan farklıydı
+        // (tutarsızlık). Artık aynı desen: token'lar öneri olarak durur,
+        // ama HERHANGİ bir değer (24px, 2rem, %40...) elle yazılabilir.
         key: 'borderRadius',
         label: 'Radius',
-        type: 'select',
+        type: 'text',
         default: 'var(--radius-sm)',
-        options: [
+        presets: [
           { value: '0', label: 'None' },
           { value: 'var(--radius-sm)', label: 'Small' },
           { value: 'var(--radius-md)', label: 'Medium' },
@@ -370,7 +388,41 @@ export function registerPageBuilderComponents() {
     component: LogoRenderer,
     defaultContent: { to: '/', variant: 'fandoom' },
     defaultStyles: {},
-    controls: VISUAL_TRANSFORM_CONTROLS,
+    // IMAGE'ın background/border* kontrolleriyle AYNI beş alan + LOGO'nun
+    // zaten sahip olduğu VISUAL_TRANSFORM_CONTROLS kuyruğu (rotate/scale/
+    // blur/blend/transform/filter/cursor) — kullanıcı raporu: "hepsine
+    // aynı muameleyi yapabiliyor olayım".
+    controls: [
+      { key: 'background', label: 'Background', type: 'color', default: '' },
+      {
+        key: 'borderRadius',
+        label: 'Radius',
+        type: 'text',
+        default: '',
+        presets: [
+          { value: '0', label: 'None' },
+          { value: 'var(--radius-sm)', label: 'Small' },
+          { value: 'var(--radius-md)', label: 'Medium' },
+          { value: 'var(--radius-lg)', label: 'Large' },
+          { value: '50%', label: 'Circle' },
+        ],
+      },
+      { key: 'borderColor', label: 'Border color', type: 'color', default: '' },
+      { key: 'borderWidth', label: 'Border width', type: 'text', default: '', presets: [{ value: '1px' }, { value: '2px' }, { value: '3px' }, { value: '4px' }] },
+      {
+        key: 'borderStyle',
+        label: 'Border style',
+        type: 'select',
+        default: 'solid',
+        options: [
+          { value: 'solid', label: 'Solid' },
+          { value: 'dashed', label: 'Dashed' },
+          { value: 'dotted', label: 'Dotted' },
+          { value: 'double', label: 'Double' },
+        ],
+      },
+      ...VISUAL_TRANSFORM_CONTROLS,
+    ],
   });
   registerComponent('ICON', {
     name: 'Icon',

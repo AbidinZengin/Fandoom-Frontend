@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { TOOLS, PRESET_VARIANTS } from '../PageBuilder.data';
 import { EntityPicker } from '../../../../shared/builder/EntityPicker/EntityPicker';
 import { useBlockLibraryStore } from '../../../../shared/builder/blockLibrary';
+import { useWritebackHistoryStore } from '../../../../shared/builder/writebackHistoryStore';
 import { getBlockPxSize } from '../Canvas/Canvas.geometry';
 import { CodegenPanel } from './CodegenPanel/CodegenPanel';
 import { WritebackHistoryPanel } from './WritebackHistoryPanel/WritebackHistoryPanel';
 import { BuildHistoryPanel } from './BuildHistoryPanel/BuildHistoryPanel';
+import { GeneratedHistoryPanel } from './GeneratedHistoryPanel/GeneratedHistoryPanel';
 import {
   IconGrid,
   IconLayers,
@@ -68,6 +70,11 @@ export function LeftPanel({
   builds,
   loadingBuilds,
   onRestoreBuild,
+  blocksPath,
+  blocksForGenerate,
+  generated,
+  loadingGenerated,
+  onRestoreGenerated,
 }) {
   const [panelTab, setPanelTab] = useState('layers');
   // Layers sürükle-bırak nested gruplama/taşıma (bkz.
@@ -79,6 +86,11 @@ export function LeftPanel({
   const [dropZone, setDropZone] = useState(null); // { id, zone }
   const [renamingId, setRenamingId] = useState(null);
   const libraryEntries = useBlockLibraryStore((s) => s.entries);
+  // Rail'deki "Geçmiş" ikonuna rozet basmak için üç geçmiş kaynağının
+  // TOPLAM dolu olup olmadığı — Writeback'in kendi entries'i SADECE
+  // WritebackHistoryPanel'de okunuyordu, badge için burada da lazım.
+  const writebackCount = useWritebackHistoryStore((s) => s.entries.length);
+  const hasHistory = builds.length > 0 || generated.length > 0 || writebackCount > 0;
   const renameLibraryBlock = useBlockLibraryStore((s) => s.renameBlock);
   const removeLibraryBlock = useBlockLibraryStore((s) => s.removeBlock);
   // Hangi aracın preset flyout'u açık — SADECE bu panelin lokal UI durumu
@@ -216,6 +228,7 @@ export function LeftPanel({
         </button>
         <button type="button" className={styles.leftPanel__railIcon} data-active={panelTab === 'history' || undefined} title="Geçmiş" aria-label="Geçmiş" onClick={() => toggleTab('history')}>
           <IconHistory />
+          {hasHistory && <span className={styles.leftPanel__railBadge} aria-hidden="true" />}
         </button>
         <button type="button" className={styles.leftPanel__railIcon} data-active={panelTab === 'library' || undefined} title="Kütüphane" aria-label="Kütüphane" onClick={() => toggleTab('library')}>
           <IconBookmark />
@@ -382,6 +395,8 @@ export function LeftPanel({
                 canvasHeights={canvasHeights}
                 referenceImage={referenceImage}
                 onReferenceImage={onReferenceImage}
+                blocksPath={blocksPath}
+                blocksForGenerate={blocksForGenerate}
               />
             </>
           )}
@@ -390,6 +405,8 @@ export function LeftPanel({
             <>
               <span className={styles.leftPanel__wideHead}>Build Geçmişi</span>
               <BuildHistoryPanel builds={builds} loadingBuilds={loadingBuilds} onRestore={onRestoreBuild} />
+              <span className={styles.leftPanel__wideHead}>Üretilen Component'ler</span>
+              <GeneratedHistoryPanel generated={generated} loadingGenerated={loadingGenerated} onRestore={onRestoreGenerated} />
               <span className={styles.leftPanel__wideHead}>Backend'e Kaydet Geçmişi</span>
               <WritebackHistoryPanel blocks={blocks} onRestoreBlockContent={onRestoreBlockContent} />
             </>

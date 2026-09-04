@@ -1,0 +1,3886 @@
+[
+  {
+    "id": "97019802-6461-42f5-a903-ed2293568511",
+    "generatedAt": "2026-09-03T19:46:20.197Z",
+    "targetDir": "Series",
+    "name": "SerieHero",
+    "path": "src/pages/Series/SerieHero",
+    "blocks": [
+      {
+        "id": "d99b6dd6-b3f5-49d8-acbe-11c45ed19c61",
+        "componentType": "RECTANGLE",
+        "layout": {
+          "base": {
+            "x": 0,
+            "y": 0,
+            "w": 99.918642790525,
+            "h": 100
+          },
+          "md": {
+            "y": -3.963056872784982e-15,
+            "h": 100,
+            "x": 0.08135720947501568,
+            "w": 99.918642790525
+          },
+          "lg": null
+        },
+        "parentId": null,
+        "content": {},
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "background": "#000000",
+              "opacity": 1,
+              "borderWidth": "3px",
+              "borderColor": "#ffffff"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "feabc6e9-4930-4550-af45-e7e6a5c89f60",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 6.262228732485899,
+            "y": 4.787225059058247,
+            "w": 87.47554253502821,
+            "h": 37.960953746327114
+          },
+          "md": {
+            "x": 6.262228732485899,
+            "y": 4.927913862399346,
+            "w": 87.47554253502821,
+            "h": 59.71913789147777
+          },
+          "lg": {
+            "x": 6.550145254849353,
+            "y": 2.4251698516305993,
+            "w": 87.47554253502821,
+            "h": 83.81598509930197
+          },
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1787917616/fandoom/home/zmeisckehgiclryfz8ab.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "coverImageUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "objectPosition": "38.796869305946935% 46.12330256748652%",
+              "blur": 0,
+              "scale": 1,
+              "filter": "saturate(1.6)",
+              "borderColor": "#ffffff",
+              "borderWidth": "3px"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {
+              "objectPosition": "38.82280867733328% 2.268144886544303%"
+            },
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "c44eed65-7904-4316-a4ea-50ee2a180bc1",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 30.877706135704074,
+            "y": 1.8087213496751,
+            "w": 43.27297210703608,
+            "h": 15.69613188762348
+          },
+          "md": {
+            "y": 0,
+            "h": 22.09805613212645
+          },
+          "lg": {
+            "x": 21.05080434525647,
+            "y": 7.123822325417758,
+            "w": 60.33237639466326,
+            "h": 12.35868768498568
+          }
+        },
+        "parentId": null,
+        "content": {
+          "variant": "house-of-the-dragon",
+          "to": "/series/house-of-the-dragon"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f3205048-22ae-4319-8a38-5d4b558abbb7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 9.392088106085632,
+            "y": 20.708501092563353,
+            "w": 37.14575761547373,
+            "h": null
+          },
+          "md": {
+            "x": 10.554131973601264,
+            "y": 35.23886285770861,
+            "w": 68.61564203998083,
+            "h": null
+          },
+          "lg": {
+            "x": 10.554131973601264,
+            "y": 57.73316442055072,
+            "w": 70.01710523970367,
+            "h": null
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "House of the Dragon"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f2f2f2",
+              "fontSize": "46px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "700",
+              "letterSpacing": "-0.03em"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {
+              "fontSize": "26px"
+            },
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "4e3cae65-a99c-446d-b896-2cba86a4fd4a",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 9.392088106085632,
+            "y": 26.644422676924705,
+            "w": 6,
+            "h": null
+          },
+          "md": {
+            "x": 10.554131973601264,
+            "y": 40.852311630041406
+          },
+          "lg": {
+            "x": 10.554131973601264,
+            "y": 61.73316442055067,
+            "w": 11.737905152295994,
+            "h": null
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "2022 "
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "firstAirDate"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#a0a19f",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {
+              "fontSize": "12px"
+            },
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f2d99399-15a2-4758-a079-e7ab4ef3e355",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 13.214376994075225,
+            "y": 26.44775524947294,
+            "w": 24.763751948441453,
+            "h": null
+          },
+          "md": {
+            "x": 16.55413197360126,
+            "y": 40.852311630041406,
+            "w": 23.42510139790783,
+            "h": 2.186502877071258
+          },
+          "lg": {
+            "x": 19.83381180266837,
+            "y": 61.73316442055067,
+            "w": 60.908209439390156,
+            "h": null
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "Fantasy · Drama · Action · Adventure"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "genreNames"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#9b9c9a",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {
+              "fontSize": "12px"
+            },
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "46fae771-a2e1-4b90-9059-5b0a213e9f1d",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 9.159635030389177,
+            "y": 28.97057476150676,
+            "w": 45.94599258661839,
+            "h": 10.562780594177937
+          },
+          "md": {
+            "x": 10.554131973601264,
+            "y": 43.69465055820893,
+            "w": 78.60746210995482,
+            "h": 5.527095605336859
+          },
+          "lg": {
+            "x": 10.554131973601264,
+            "y": 64.99900870110416,
+            "w": 81.32572113797367,
+            "h": 20.468307400354263
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "House of the Dragon is set 172 years before the events of Game of Thrones and chronicles the reign of House Targaryen at the height of its power. When King Viserys I breaks with tradition to name his daughter Rhaenyra his heir, the decision ignites a succession crisis that splits the family — and the realm — into two warring factions. Based on George R.R. Martin's Fire & Blood, the series traces the road to civil war known as the Dance of the Dragons."
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "synopsis"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {
+              "fontSize": "12px"
+            },
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "b5fd0c07-41b3-403b-a6ba-c5ed1d44f2b0",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 84.4247014545762,
+            "y": 6.701409479692721,
+            "w": 8.078981589859469,
+            "h": 3.829763872327864
+          },
+          "md": {
+            "x": 82.93257922212268,
+            "y": 5.790977490297795,
+            "w": 9.044888132615213,
+            "h": 5.027562298009858
+          },
+          "lg": {
+            "x": 78.84326710694737,
+            "y": 3.8817899320101197,
+            "w": 11.889073893533215,
+            "h": 3.242032393407639
+          }
+        },
+        "parentId": null,
+        "content": {
+          "variant": "IMDB_Logo_2016.svg",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "d315197a-2e5c-47d1-8c6f-3ce8999065e7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 80.79390358875663,
+            "y": 7.092085120712005,
+            "w": 6,
+            "h": 2.5647021727748345
+          },
+          "md": {
+            "x": 74.47107329380692,
+            "y": 6.600503368890622,
+            "w": 6.358345982925517,
+            "h": 3.4085105408242042
+          },
+          "lg": {
+            "x": 68.8406655522071,
+            "y": 4.00280612871394,
+            "w": 8.681247506340553,
+            "h": 3
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": 8.4
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "externalRating"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f6c700",
+              "fontSize": "30px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {
+              "fontSize": "30px"
+            },
+            "hover": {}
+          },
+          "lg": {
+            "normal": {
+              "fontSize": "20px"
+            },
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "326f0ef6-e739-4ad0-a45a-e8ee4c9bc615",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 77.34409563506507,
+            "y": 34.25196505859574,
+            "w": 12.729017624802133,
+            "h": 3.4567780190831225
+          },
+          "md": {
+            "x": 56.65923821489845,
+            "y": 58.377875547161295,
+            "w": 20.991008070371215,
+            "h": 4.093668598508828
+          },
+          "lg": {
+            "x": 49.28537465772973,
+            "y": 87.96979886620139,
+            "w": 41.44696634275085,
+            "h": 5.554051906181117
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "▶  Watch Trailer",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%)",
+              "borderRadius": "var(--radius-pill)",
+              "borderColor": "rgba(255,255,255,0.4)",
+              "borderWidth": "1px",
+              "borderStyle": "solid",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "boxShadow": "inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4)",
+              "backdropFilter": "blur(20px) saturate(200%) brightness(1.15)",
+              "fontFamily": "'Montserrat', sans-serif",
+              "letterSpacing": ""
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {
+              "fontSize": "var(--text-sm)"
+            },
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "45fd59a7-812f-40fc-a611-2a08c39eb2d4",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 62.644095635065206,
+            "y": 34.25196505859574,
+            "w": 12.764948831112939,
+            "h": 3.5826894102087667
+          },
+          "md": {
+            "x": 21.783662399653135,
+            "y": 58.19464476516926,
+            "w": 21.097629121225076,
+            "h": 4.276899380500852
+          },
+          "lg": {
+            "x": 7.6686840036819675,
+            "y": 87.96979886620139,
+            "w": 41.61669065404776,
+            "h": 5.707470974410953
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "Explore",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "var(--fg)",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "transparent",
+              "borderColor": "var(--fg)",
+              "borderWidth": "2.5px",
+              "borderStyle": "solid",
+              "borderRadius": "var(--radius-pill)",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {
+              "background": "var(--fg)",
+              "color": "var(--bg)"
+            }
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "c0a9b32e-68ec-40cd-a781-215b8996bb5d",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 5.3622287324858995,
+            "y": 45.221114539314605,
+            "w": 40.737096638636594,
+            "h": null
+          },
+          "md": {
+            "y": 28.74768372134855
+          },
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "FEATURED TITLES"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "8d92e7f1-e0c3-493e-a917-3f0dd74c6a0b",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 23.294421874488464,
+            "y": 52.33740654206933,
+            "w": 15.688449510254456,
+            "h": 25.12498012497677
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 17.81935358087618
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://image.tmdb.org/t/p/w300_and_h450_face/anFx9aTOOYqgS3v7x3R84Kz67ly.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "borderWidth": "3px",
+              "borderColor": "#ffffff"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "a768f4b8-a7b7-4f90-9a86-d6e3d214ccb4",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 41.13312285212176,
+            "y": 52.2727410438321,
+            "w": 15.688449510254456,
+            "h": 24.985473326043433
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 17.81935358087618
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1787917631/fandoom/home/vhgz6whmjb5wjucrmfur.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "borderWidth": "3px",
+              "borderColor": "#ffffff",
+              "objectPosition": "29.43614780047652% 42.50826095379485%"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "02e9500d-74e1-446f-934e-92d1995aef6e",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 58.46222873248572,
+            "y": 51.7832840848739,
+            "w": 15.688449510254456,
+            "h": 25.401302653793735
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 17.81935358087618
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1788353913/fandoom/home/tf6bxoylqooxhbbabje7.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "borderWidth": "3px",
+              "borderColor": "#ffffff"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "ecfed17a-d965-468d-b34b-62806a620605",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 32.24017281003231,
+            "y": 53.325807399935925,
+            "w": 6,
+            "h": 3.005724608728021
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 3.7164710554874816
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "02"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "500"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "c607b365-b662-41cc-8c42-f632fcd21ebc",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 50.82157236237621,
+            "y": 51.7832840848739,
+            "w": 6,
+            "h": 3.005724608728021
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 3.7164710554874816
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "03"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "500"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "4420938c-ae2b-4ca6-87e7-1a08c3cdae5c",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 68.15067824274016,
+            "y": 51.7832840848739,
+            "w": 6,
+            "h": 3.005724608728021
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 3.7164710554874816
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "04"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "500"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "39668112-76bf-4d64-9bcc-e8369107f13c",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 8.238333075094257,
+            "y": 78.44234893884666,
+            "w": 10.56954917941664,
+            "h": null
+          },
+          "md": {
+            "y": 52.36929104906055
+          },
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Game of Thrones"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "3",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "45f2b889-9602-4b32-990d-5c3cc5617b36",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 26.71830298857211,
+            "y": 78.44234893884666,
+            "w": 10.56954917941664,
+            "h": null
+          },
+          "md": {
+            "y": 52.36929104906055
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Breaking Bad"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "e6215c0b-3a00-47e8-ad70-9ab65d6c88eb",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 42.84440083308652,
+            "y": 78.51952332559219,
+            "w": 13.1611677356839,
+            "h": null
+          },
+          "md": {
+            "y": 52.36929104906055
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "House of the Dragon"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f9bbee9e-3816-4256-8415-f2aac3bf279a",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 63.0242930570886,
+            "y": 78.27479484611308,
+            "w": 6.564320861048701,
+            "h": null
+          },
+          "md": {
+            "y": 52.36929104906055
+          },
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Severance"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "6e2c43f2-f92f-4088-a2d4-85a164b22624",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 5.434509767992711,
+            "y": 52.33740654206933,
+            "w": 15.688449510254456,
+            "h": 25.12498012497677
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 17.81935358087618
+          },
+          "lg": null,
+          "x": null,
+          "y": 3
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1784664584/fandoom/home/auiyockkcp3rlzoppsps.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "3",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "borderWidth": "3px",
+              "borderColor": "#ffffff"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "74f101ad-6698-470b-b48f-00c52a6da1e9",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 15.807882254510897,
+            "y": 52.83635044097775,
+            "w": 6,
+            "h": 3.005724608728021
+          },
+          "md": {
+            "y": 34.138189669992805,
+            "h": 3.7164710554874816
+          },
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "01"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "56px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "500"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      }
+    ]
+  },
+  {
+    "id": "0187729e-6ff4-41ff-b1ba-d4a8a189b6d8",
+    "generatedAt": "2026-09-02T19:04:07.296Z",
+    "targetDir": "series/Severance",
+    "name": "Hero2",
+    "path": "src/pages/series/Severance/Hero2",
+    "blocks": [
+      {
+        "id": "079541ea-15a9-423f-9d47-3e60cf770810",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "md": null,
+          "lg": {
+            "y": 0,
+            "h": 100,
+            "x": 0,
+            "w": 100
+          }
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1788353913/fandoom/home/tf6bxoylqooxhbbabje7.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-sm)",
+              "objectFit": "cover",
+              "objectPosition": "44.306752136231474% 0%",
+              "blur": 5
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {
+              "objectPosition": "49.837442989871896% 0.32552513312606507%"
+            },
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "feabc6e9-4930-4550-af45-e7e6a5c89f60",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 6.262228732485899,
+            "y": 4.774335868979894,
+            "w": 87.47554253502821,
+            "h": 86.67108929524437
+          },
+          "md": null,
+          "lg": {
+            "x": 6.262228732485893,
+            "y": 4.332302058920118,
+            "w": 87.47554253502821,
+            "h": 83.63011252946758
+          },
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1788353916/fandoom/home/jgxe5pcc4fvgwbfjtbg9.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "coverImageUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "objectPosition": "39.01922951904175% 0%",
+              "blur": 0,
+              "scale": 1,
+              "filter": "saturate(1.6)"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f3205048-22ae-4319-8a38-5d4b558abbb7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 53.14459016208997,
+            "w": 36.61458608080453,
+            "h": null
+          },
+          "md": {
+            "x": 9.47456836443355,
+            "y": 46.500000557753104
+          },
+          "lg": {
+            "x": 10.666234857026842,
+            "y": 36.29656124324076,
+            "w": 64.64766301401784,
+            "h": null
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "Severance"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f2f2f2",
+              "fontSize": "46px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "700",
+              "letterSpacing": "-0.03em"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "4e3cae65-a99c-446d-b896-2cba86a4fd4a",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 61.77919500626553,
+            "w": 6,
+            "h": null
+          },
+          "md": {
+            "x": 10.66538879530506,
+            "y": 53.50000136661913
+          },
+          "lg": {
+            "x": 10.666234857026842,
+            "y": 42.64846744335769,
+            "w": 13.506133065587886,
+            "h": null
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "2022 "
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#a0a19f",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f2d99399-15a2-4758-a079-e7ab4ef3e355",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 14.48767768329465,
+            "y": 61.77919500626553,
+            "w": 24.763751948441453,
+            "h": null
+          },
+          "md": {
+            "x": 16.66538879530506,
+            "y": 53.499999442246896,
+            "w": 26.092952083008697,
+            "h": null
+          },
+          "lg": {
+            "x": 24.17236792261473,
+            "y": 42.64846744335769,
+            "w": 53.40956656707292,
+            "h": null
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "Drama · Sci-Fi · Mystery"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "genreNames"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#9b9c9a",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "46fae771-a2e1-4b90-9059-5b0a213e9f1d",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 65.68386375370456,
+            "w": 49.52419783227238,
+            "h": 22.18267624208172
+          },
+          "md": {
+            "x": 10.66538879530506,
+            "y": 57.66891426226645,
+            "w": 81.6464446699982,
+            "h": 22.18267624208172
+          },
+          "lg": {
+            "x": 10.666234857026842,
+            "y": 46.787650412835305,
+            "w": 82.89708353047313,
+            "h": 20.12887431591987
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "At Lumon Industries, a select group of employees undergo \"severance\" — an experimental procedure that surgically splits memory in two, so the person who clocks in each morning has no idea who they are outside the elevator, and the person who goes home has no memory of what happens at work. Mark S. leads the severed floor's Macrodata Refinement team through endless days spent sorting mysterious numbers, insulated from grief, love, and the outside world — until a newly hired teammate starts asking the one question Lumon never wanted asked: what are we actually doing down here?"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "synopsis"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "b5fd0c07-41b3-403b-a6ba-c5ed1d44f2b0",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 85.6986338243985,
+            "y": 7.12004148925042,
+            "w": 6.5015221127795595,
+            "h": 7.004824645816027
+          },
+          "md": {
+            "x": 84.0304850747778,
+            "y": 4.388515425662041,
+            "w": 8.281348390525473,
+            "h": 7.39064508913388
+          },
+          "lg": {
+            "y": 5.871044496263571,
+            "h": 3.7679204049135397,
+            "x": 75.78095069296413,
+            "w": 14.462958376338193
+          }
+        },
+        "parentId": null,
+        "content": {
+          "variant": "IMDB_Logo_2016.svg",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "d315197a-2e5c-47d1-8c6f-3ce8999065e7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 81.67153295946852,
+            "y": 8.069243773410188,
+            "w": 6,
+            "h": 6.0556223616562574
+          },
+          "md": {
+            "x": 76.2468833208007,
+            "y": 5.993066167957477,
+            "w": 6.632031110171773,
+            "h": 4.181543604543006
+          },
+          "lg": {
+            "y": 5.508818052928141,
+            "h": 3.485866647221515,
+            "x": 61.1408731481295,
+            "w": 13.51048187413242
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": 8.4
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "externalRating"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f6c700",
+              "fontSize": "30px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "326f0ef6-e739-4ad0-a45a-e8ee4c9bc615",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 78.74013867167676,
+            "y": 76.77520187474542,
+            "w": 11.862788575583512,
+            "h": 5.257417198576846
+          },
+          "md": {
+            "x": 58.785135838825134,
+            "y": 79.85159050434817,
+            "w": 20.777763037061458,
+            "h": 5.581987095316158
+          },
+          "lg": {
+            "y": 89.55739286244383,
+            "h": 4.7543208016570615,
+            "x": 52.153184347859494,
+            "w": 41.03832648616057
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "▶  Watch Trailer",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%)",
+              "borderRadius": "var(--radius-pill)",
+              "borderColor": "rgba(255,255,255,0.4)",
+              "borderWidth": "1px",
+              "borderStyle": "solid",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "boxShadow": "inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4)",
+              "backdropFilter": "blur(20px) saturate(200%) brightness(1.15)",
+              "fontFamily": "'Montserrat', sans-serif",
+              "letterSpacing": ""
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "45fd59a7-812f-40fc-a611-2a08c39eb2d4",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 64.30209210700956,
+            "y": 76.77520187474542,
+            "w": 11.916077744860353,
+            "h": 5.452672839791068
+          },
+          "md": {
+            "x": 21.83910521649177,
+            "y": 79.85159050434817,
+            "w": 20.91923566182198,
+            "h": 5.44836771093957
+          },
+          "lg": {
+            "y": 89.55739286244383,
+            "h": 4.748159116509069,
+            "x": 8.653184347859632,
+            "w": 41.03426661093318
+          }
+        },
+        "parentId": null,
+        "content": {
+          "text": "Explore",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "var(--fg)",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "transparent",
+              "borderColor": "var(--fg)",
+              "borderWidth": "2.5px",
+              "borderStyle": "solid",
+              "borderRadius": "var(--radius-pill)",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {
+              "background": "var(--fg)",
+              "color": "var(--bg)"
+            }
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "a8aad6dd-0d37-45b6-b999-0a7af4f868e9",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 7.649952869792677,
+            "y": 16.6903083858123,
+            "w": 38.4392015754454,
+            "h": 10.528398508772982
+          },
+          "md": null,
+          "lg": {
+            "x": 8.653184347859632,
+            "y": 13.93451067698248,
+            "w": 55.83262387419141,
+            "h": 4.303287335211305
+          }
+        },
+        "parentId": null,
+        "content": {
+          "variant": "severance",
+          "to": "/series/severance"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      }
+    ]
+  },
+  {
+    "id": "c67e1121-cb99-4858-8eb9-4455f55a936b",
+    "generatedAt": "2026-09-02T18:53:55.790Z",
+    "targetDir": "series/Severance",
+    "name": "Hero1",
+    "path": "src/pages/series/Severance/Hero1",
+    "blocks": [
+      {
+        "id": "079541ea-15a9-423f-9d47-3e60cf770810",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1788353913/fandoom/home/tf6bxoylqooxhbbabje7.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "posterUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-sm)",
+              "objectFit": "cover",
+              "objectPosition": "44.306752136231474% 0%",
+              "blur": 5
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "feabc6e9-4930-4550-af45-e7e6a5c89f60",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 6.262228732485899,
+            "y": 4.774335868979894,
+            "w": 87.47554253502821,
+            "h": 86.67108929524437
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1788353916/fandoom/home/jgxe5pcc4fvgwbfjtbg9.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "coverImageUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "objectPosition": "39.01922951904175% 0%",
+              "blur": 0,
+              "scale": 1,
+              "filter": "saturate(1.6)"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f3205048-22ae-4319-8a38-5d4b558abbb7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 53.14459016208997,
+            "w": 36.61458608080453,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Severance"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f2f2f2",
+              "fontSize": "46px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "700",
+              "letterSpacing": "-0.03em"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "4e3cae65-a99c-446d-b896-2cba86a4fd4a",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 61.77919500626553,
+            "w": 6,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "2022 "
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#a0a19f",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f2d99399-15a2-4758-a079-e7ab4ef3e355",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 14.48767768329465,
+            "y": 61.77919500626553,
+            "w": 24.763751948441453,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Drama · Sci-Fi · Mystery"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "genreNames"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#9b9c9a",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "46fae771-a2e1-4b90-9059-5b0a213e9f1d",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 65.68386375370456,
+            "w": 49.52419783227238,
+            "h": 22.18267624208172
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "At Lumon Industries, a select group of employees undergo \"severance\" — an experimental procedure that surgically splits memory in two, so the person who clocks in each morning has no idea who they are outside the elevator, and the person who goes home has no memory of what happens at work. Mark S. leads the severed floor's Macrodata Refinement team through endless days spent sorting mysterious numbers, insulated from grief, love, and the outside world — until a newly hired teammate starts asking the one question Lumon never wanted asked: what are we actually doing down here?"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "synopsis"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "b5fd0c07-41b3-403b-a6ba-c5ed1d44f2b0",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 85.6986338243985,
+            "y": 7.12004148925042,
+            "w": 6.5015221127795595,
+            "h": 7.004824645816027
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "variant": "IMDB_Logo_2016.svg",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "d315197a-2e5c-47d1-8c6f-3ce8999065e7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 81.67153295946852,
+            "y": 8.069243773410188,
+            "w": 6,
+            "h": 6.0556223616562574
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": 8.4
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "7",
+          "field": "externalRating"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f6c700",
+              "fontSize": "30px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "326f0ef6-e739-4ad0-a45a-e8ee4c9bc615",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 77.58193448968764,
+            "y": 68.96720692871244,
+            "w": 12.729017624802133,
+            "h": 6.037021014255926
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "▶  Watch Trailer",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%)",
+              "borderRadius": "var(--radius-pill)",
+              "borderColor": "rgba(255,255,255,0.4)",
+              "borderWidth": "1px",
+              "borderStyle": "solid",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "boxShadow": "inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4)",
+              "backdropFilter": "blur(20px) saturate(200%) brightness(1.15)",
+              "fontFamily": "'Montserrat', sans-serif",
+              "letterSpacing": ""
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "45fd59a7-812f-40fc-a611-2a08c39eb2d4",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 63.48193448968777,
+            "y": 69.04735600238648,
+            "w": 12.764948831112939,
+            "h": 6.3584464597914625
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Explore",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "var(--fg)",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "transparent",
+              "borderColor": "var(--fg)",
+              "borderWidth": "2.5px",
+              "borderStyle": "solid",
+              "borderRadius": "var(--radius-pill)",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {
+              "background": "var(--fg)",
+              "color": "var(--bg)"
+            }
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "a8aad6dd-0d37-45b6-b999-0a7af4f868e9",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 7.649952869792677,
+            "y": 16.6903083858123,
+            "w": 38.4392015754454,
+            "h": 10.528398508772982
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "variant": "severance",
+          "to": "/series/severance"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      }
+    ]
+  },
+  {
+    "id": "0c8a34a4-90b9-4ae7-b5ba-c2092535d446",
+    "generatedAt": "2026-09-02T18:31:07.670Z",
+    "targetDir": "series/BreakingBad",
+    "name": "Hero1",
+    "path": "src/pages/series/BreakingBad/Hero1",
+    "blocks": [
+      {
+        "id": "079541ea-15a9-423f-9d47-3e60cf770810",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100.77746107975149
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1786892507/fandoom/general/cafgu8cfifaioz5kn6j7.webp"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "coverImageUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-sm)",
+              "objectFit": "cover",
+              "objectPosition": "44.306752136231474% 0%",
+              "blur": 5
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "feabc6e9-4930-4550-af45-e7e6a5c89f60",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 6.262228732485899,
+            "y": 4.44040445140722,
+            "w": 87.47554253502821,
+            "h": 80.60905249993347
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1786892507/fandoom/general/cafgu8cfifaioz5kn6j7.webp"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "coverImageUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "objectPosition": "39.01922951904175% 0%",
+              "blur": 0,
+              "scale": 1,
+              "filter": "saturate(1.6)"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f3205048-22ae-4319-8a38-5d4b558abbb7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 49.42749760384535,
+            "w": 36.61458608080453,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Breaking Bad"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f2f2f2",
+              "fontSize": "46px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "700",
+              "letterSpacing": "-0.03em"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "4e3cae65-a99c-446d-b896-2cba86a4fd4a",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 57.45817220203018,
+            "w": 6,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "2022 "
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#a0a19f",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f2d99399-15a2-4758-a079-e7ab4ef3e355",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 14.48767768329465,
+            "y": 57.45817220203018,
+            "w": 24.763751948441453,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Drama · Thriller · Crime"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "genreNames"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#9b9c9a",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "46fae771-a2e1-4b90-9059-5b0a213e9f1d",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.665388795305057,
+            "y": 61.08973666737298,
+            "w": 46.22798022638329,
+            "h": 9.041957060016607
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "A high school chemistry teacher diagnosed with terminal lung cancer turns to manufacturing methamphetamine with a former student to secure his family's future."
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "synopsis"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "b5fd0c07-41b3-403b-a6ba-c5ed1d44f2b0",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 85.6986338243985,
+            "y": 6.6220443619160045,
+            "w": 6.5015221127795595,
+            "h": 6.514886131221087
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "variant": "IMDB_Logo_2016.svg",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "d315197a-2e5c-47d1-8c6f-3ce8999065e7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 81.67153295946852,
+            "y": 7.504856581989137,
+            "w": 6,
+            "h": 5.632073911147952
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": 9.5
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "5",
+          "field": "externalRating"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f6c700",
+              "fontSize": "30px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "326f0ef6-e739-4ad0-a45a-e8ee4c9bc615",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 77.58193448968764,
+            "y": 64.14343294050879,
+            "w": 12.729017624802133,
+            "h": 5.614773597959837
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "▶  Watch Trailer",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%)",
+              "borderRadius": "var(--radius-pill)",
+              "borderColor": "rgba(255,255,255,0.4)",
+              "borderWidth": "1px",
+              "borderStyle": "solid",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "boxShadow": "inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4)",
+              "backdropFilter": "blur(20px) saturate(200%) brightness(1.15)",
+              "fontFamily": "'Montserrat', sans-serif",
+              "letterSpacing": ""
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "45fd59a7-812f-40fc-a611-2a08c39eb2d4",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 63.48193448968777,
+            "y": 64.21797614678607,
+            "w": 12.764948831112939,
+            "h": 5.913717580603542
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Explore",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "var(--fg)",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "transparent",
+              "borderColor": "var(--fg)",
+              "borderWidth": "2.5px",
+              "borderStyle": "solid",
+              "borderRadius": "var(--radius-pill)",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {
+              "background": "var(--fg)",
+              "color": "var(--bg)"
+            }
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "8f44f175-0cc4-4fb1-95dc-1c6cd602b477",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 11.728536017783064,
+            "y": 7.8145789579750256,
+            "w": 26.397750930117255,
+            "h": 32.8825011416006
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "variant": "breaking-bad",
+          "to": "/series/breaking-bad"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      }
+    ]
+  },
+  {
+    "id": "0ebfd8ac-8200-4ab9-bc09-7a4bf806b2ce",
+    "generatedAt": "2026-09-02T18:07:34.585Z",
+    "targetDir": "series/HouseOfTheDragon",
+    "name": "Hero1",
+    "path": "src/pages/series/HouseOfTheDragon/Hero1",
+    "blocks": [
+      {
+        "id": "079541ea-15a9-423f-9d47-3e60cf770810",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1787917616/fandoom/home/zmeisckehgiclryfz8ab.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "coverImageUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-sm)",
+              "objectFit": "cover",
+              "objectPosition": "44.306752136231474% 0%",
+              "blur": 5
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "feabc6e9-4930-4550-af45-e7e6a5c89f60",
+        "componentType": "IMAGE",
+        "layout": {
+          "base": {
+            "x": 6.262228732485899,
+            "y": 11.906148362770578,
+            "w": 87.47554253502821,
+            "h": 79.98718328113316
+          },
+          "md": null,
+          "lg": null,
+          "x": null,
+          "y": null
+        },
+        "parentId": null,
+        "content": {
+          "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1787917616/fandoom/home/zmeisckehgiclryfz8ab.jpg"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "coverImageUrl"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "borderRadius": "var(--radius-lg)",
+              "objectFit": "cover",
+              "objectPosition": "39.01922951904175% 0%",
+              "blur": 0,
+              "scale": 1,
+              "filter": "saturate(1.6)"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "c44eed65-7904-4316-a4ea-50ee2a180bc1",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 27.80769602234318,
+            "y": 1.9186368060532544,
+            "w": 44.38460795531364,
+            "h": 36.56261725492048
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "variant": "house-of-the-dragon",
+          "to": "/series/house-of-the-dragon"
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f3205048-22ae-4319-8a38-5d4b558abbb7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.554131973601264,
+            "y": 47.41041858586526,
+            "w": 37.14575761547373,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "House of the Dragon"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "title"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f2f2f2",
+              "fontSize": "46px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "700",
+              "letterSpacing": "-0.03em"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "4e3cae65-a99c-446d-b896-2cba86a4fd4a",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.554131973601264,
+            "y": 56.03439608773062,
+            "w": 6,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "2022 "
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "firstAirDate"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#a0a19f",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "f2d99399-15a2-4758-a079-e7ab4ef3e355",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 14.376420861590857,
+            "y": 56.03439608773062,
+            "w": 24.763751948441453,
+            "h": null
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Fantasy · Drama · Action · Adventure"
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "genreNames"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#9b9c9a",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "46fae771-a2e1-4b90-9059-5b0a213e9f1d",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 10.554131973601264,
+            "y": 61.14072386627628,
+            "w": 46.26744038877496,
+            "h": 20.468307400354263
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "House of the Dragon is set 172 years before the events of Game of Thrones ahttps://res.cloudinary.com/b0bc5njd/image/upload/v1787917616/fandoom/home/zmeisckehgiclryfz8ab.jpgnd chronicles the reign of House Targaryen at the height of its power. When King Viserys I breaks with tradition to name his daughter Rhaenyra his heir, the decision ignites a succession crisis that splits the family — and the realm — into two warring factions. Based on George R.R. Martin's Fire & Blood, the series traces the road to civil war known as the Dance of the Dragons."
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "synopsis"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "16px",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "b5fd0c07-41b3-403b-a6ba-c5ed1d44f2b0",
+        "componentType": "LOGO",
+        "layout": {
+          "base": {
+            "x": 86.0021609316561,
+            "y": 14.816291528820738,
+            "w": 6.5015221127795595,
+            "h": 6.464626178730033
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "variant": "IMDB_Logo_2016.svg",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {},
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "d315197a-2e5c-47d1-8c6f-3ce8999065e7",
+        "componentType": "TEXT",
+        "layout": {
+          "base": {
+            "x": 81.80643609741348,
+            "y": 15.254292352920935,
+            "w": 6,
+            "h": 5.588624530529638
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": 8.4
+        },
+        "bindings": {
+          "entityType": "series",
+          "entityId": "6",
+          "field": "externalRating"
+        },
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#f6c700",
+              "fontSize": "30px",
+              "fontFamily": "'Montserrat', sans-serif",
+              "fontWeight": "600"
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "326f0ef6-e739-4ad0-a45a-e8ee4c9bc615",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 77.58193448968764,
+            "y": 71.14858992602325,
+            "w": 12.729017624802133,
+            "h": 6.460909288722391
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "▶  Watch Trailer",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "#ffffff",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%)",
+              "borderRadius": "var(--radius-pill)",
+              "borderColor": "rgba(255,255,255,0.4)",
+              "borderWidth": "1px",
+              "borderStyle": "solid",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "boxShadow": "inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4)",
+              "backdropFilter": "blur(20px) saturate(200%) brightness(1.15)",
+              "fontFamily": "'Montserrat', sans-serif",
+              "letterSpacing": ""
+            },
+            "hover": {}
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      },
+      {
+        "id": "45fd59a7-812f-40fc-a611-2a08c39eb2d4",
+        "componentType": "BUTTON",
+        "layout": {
+          "base": {
+            "x": 63.48193448968777,
+            "y": 71.22255805885634,
+            "w": 12.764948831112939,
+            "h": 6.386941155889289
+          },
+          "md": null,
+          "lg": null
+        },
+        "parentId": null,
+        "content": {
+          "text": "Explore",
+          "to": ""
+        },
+        "bindings": null,
+        "styles": {
+          "base": {
+            "normal": {
+              "color": "var(--fg)",
+              "fontSize": "var(--text-sm)",
+              "fontWeight": "700",
+              "textAlign": "center",
+              "background": "transparent",
+              "borderColor": "var(--fg)",
+              "borderWidth": "2.5px",
+              "borderStyle": "solid",
+              "borderRadius": "var(--radius-pill)",
+              "padding": "var(--space-sm) var(--space-lg)",
+              "fontFamily": "'Montserrat', sans-serif"
+            },
+            "hover": {
+              "background": "var(--fg)",
+              "color": "var(--bg)"
+            }
+          },
+          "md": {
+            "normal": {},
+            "hover": {}
+          },
+          "lg": {
+            "normal": {},
+            "hover": {}
+          }
+        },
+        "animation": null,
+        "customCss": "",
+        "locked": false,
+        "hidden": false,
+        "sizing": {
+          "primary": "hug",
+          "cross": "hug"
+        },
+        "fixedCross": null,
+        "fixedPrimary": null,
+        "name": null
+      }
+    ]
+  }
+]

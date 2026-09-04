@@ -14,7 +14,7 @@ const NAME_PATTERN = /^[A-Z][A-Za-z0-9]*$/;
 // referenceImage/onReferenceImage YUKARIDAN (PageBuilder.jsx) kontrollü —
 // bu panel'in KENDİSİ değil, Canvas.jsx de aynı görüntüyü arka plan olarak
 // çizmesi gerektiği için state iki kardeş component arasında paylaşılıyor.
-export function CodegenPanel({ orderedBlocks, blocksById, canvasWidths, canvasHeights, referenceImage, onReferenceImage }) {
+export function CodegenPanel({ orderedBlocks, blocksById, canvasWidths, canvasHeights, referenceImage, onReferenceImage, blocksPath, blocksForGenerate }) {
   // pages: [{ folder, route }] — SADECE react-router'a kayıtlı GERÇEK
   // sayfalar (design-server'ın App.jsx'i taraması, bkz. parseRoutesFromApp
   // yorumu). Eskiden src/pages altındaki HER .jsx klasörü (sayfa İÇİNDEKİ
@@ -40,7 +40,9 @@ export function CodegenPanel({ orderedBlocks, blocksById, canvasWidths, canvasHe
   useEffect(() => {
     fetchPages()
       .then(setPages)
-      .catch((err) => setPagesError(err.message ?? 'Sayfa listesi alınamadı'));
+      .catch((err) =>
+        setPagesError(err instanceof DesignServerError ? err.message : 'Sayfa listesi alınamadı — design-server çalışıyor mu? (npm run design-server)')
+      );
   }, []);
 
   const route = pages.find((p) => p.folder === referenceDir)?.route ?? '';
@@ -55,7 +57,7 @@ export function CodegenPanel({ orderedBlocks, blocksById, canvasWidths, canvasHe
       setCaptureStatus('idle');
     } catch (err) {
       setCaptureStatus('error');
-      setCaptureError(err.message ?? 'Ekran görüntüsü alınamadı');
+      setCaptureError(err instanceof DesignServerError ? err.message : 'Ekran görüntüsü alınamadı — design-server çalışıyor mu? (npm run design-server)');
     }
   };
 
@@ -65,16 +67,14 @@ export function CodegenPanel({ orderedBlocks, blocksById, canvasWidths, canvasHe
     setGenerateMessage('');
     try {
       const { jsx, css } = generateComponent({ orderedBlocks, blocksById, componentName, targetDir, canvasWidths, canvasHeights });
-      const { path } = await generateComponentOnServer({ targetDir, name: componentName, jsx, css });
+      const { path } = await generateComponentOnServer({ targetDir, name: componentName, jsx, css, blocksPath, blocks: blocksForGenerate });
       setGenerateStatus('success');
       setGenerateMessage(`Oluşturuldu: ${path}/${componentName}.jsx — parent sayfaya import etmeyi unutma.`);
     } catch (err) {
       setGenerateStatus('error');
-      if (err instanceof DesignServerError && err.status === 409) {
-        setGenerateMessage(err.message);
-      } else {
-        setGenerateMessage(err.message ?? 'Kod üretilemedi — design-server çalışıyor mu? (npm run design-server)');
-      }
+      setGenerateMessage(
+        err instanceof DesignServerError ? err.message : 'Kod üretilemedi — design-server çalışıyor mu? (npm run design-server)'
+      );
     }
   };
 

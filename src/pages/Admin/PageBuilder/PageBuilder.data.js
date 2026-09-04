@@ -283,6 +283,13 @@ export const VISUAL_TRANSFORM_CONTROLS = [
 // gradient-halka kenarlık (mask-composite) bu motorda YOK — düz
 // borderColor/borderWidth'e sadeleştirildi, tek fark bu (ince ayrım,
 // pixel-perfect değil).
+// DÜZELTME (kullanıcı raporu, 2026-09-02): iki BUTTON preset'i de
+// fontFamily'i HİÇ belirtmiyordu — TextRenderer bunu doğrudan inline
+// style'a basıyor (bkz. PageBuilder.blockRenderers.jsx), boş kalınca
+// tarayıcı varsayılan fontuna düşüp canvas'ta site copysinden (Montserrat)
+// TAMAMEN farklı/kalın görünüyordu. Artık her iki preset'te de açıkça
+// 'Montserrat', sans-serif — sitedeki her gerçek butonun (Hero.module.css
+// vb.) taşıdığı değerle aynı.
 export const PRESET_VARIANTS = [
   {
     componentType: 'BUTTON',
@@ -292,6 +299,7 @@ export const PRESET_VARIANTS = [
     styles: {
       color: '#ffffff',
       fontSize: 'var(--text-sm)',
+      fontFamily: "'Montserrat', sans-serif",
       fontWeight: '600',
       textAlign: 'center',
       background: 'linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%)',
@@ -302,6 +310,49 @@ export const PRESET_VARIANTS = [
       padding: 'var(--space-sm) var(--space-lg)',
       boxShadow: 'inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4)',
       backdropFilter: 'blur(20px) saturate(200%) brightness(1.15)',
+    },
+  },
+  {
+    // Sık kullanılan ikinci buton — Sezonlar/Explore Season gibi ikincil
+    // CTA'larda kullanılan "şeffaf zemin + kenarlık, hover'da dolan" desen —
+    // SeasonRoute.module.css `.focus__cta`/`.focus__cta:hover` İLE BİREBİR
+    // AYNI değerler (kullanıcı isteği: "border ı seasons routedaki buton
+    // olacak hover ile beyaz olan"). `--fg` token'ı kullanılır (hardcode
+    // beyaz DEĞİL) — production tema geçişlerinde (--bg/--accent/--card-bg
+    // değişse de --fg sabit kalır) doğru rengi taşımaya devam eder.
+    componentType: 'BUTTON',
+    key: 'buttonOutline',
+    label: 'Explore Season',
+    // Ok, ayrı bir ICON bloğu DEĞİL — buttonGlassTrailer'ın "▶  Watch
+    // Trailer" deseninin aynısı: glif metnin İÇİNDE, düz metin. Kullanıcı
+    // isteği: "istersem kaldırabileyim" — metin alanından " →" silmek
+    // yeterli, ayrı bir blok/preset ilişkisi yönetmeye gerek yok.
+    // Metin, HotD/BB Hero'daki gerçek CTA copy'siyle (i18n
+    // series.exploreSeasonCta = "Explore Season") ve SeasonRoute.jsx'teki
+    // ArrowIcon'un birebir kopyası — kullanıcı verdiği referans görüntüyle
+    // eşleşiyor (bkz. HouseOfTheDragon/BreakingBad Hero.jsx buttonBlock2).
+    content: { text: 'Explore Season →', to: '' },
+    styles: {
+      color: 'var(--fg)',
+      fontSize: 'var(--text-sm)',
+      fontFamily: "'Montserrat', sans-serif",
+      fontWeight: '600',
+      textAlign: 'center',
+      background: 'transparent',
+      borderColor: 'var(--fg)',
+      borderWidth: '1.5px',
+      borderStyle: 'solid',
+      borderRadius: 'var(--radius-pill)',
+      padding: 'var(--space-sm) var(--space-lg)',
+    },
+    // Hover'da dolan (bg->fg, text->bg) — SeasonRoute .focus__cta:hover ile
+    // aynı. Preset'ler için YENİ alan (bkz. schema.js createEmptyBlock
+    // defaultHoverStyles, usePlacement.js effectiveDefinition) — normal
+    // ayarlanabilir "Hover" stil moduna (ContextPanel) tuvale düşer düşmez
+    // dolu gelir, admin sıfırdan ayarlamak zorunda kalmaz.
+    hoverStyles: {
+      background: 'var(--fg)',
+      color: 'var(--bg)',
     },
   },
   // LOGO'nun düz aracı FandoomLogo verir (registry default'u) — yapım-özel
@@ -528,6 +579,57 @@ export function resolveEffectiveStyle(block, breakpoint, mode) {
     ...(mode === 'hover' ? (active?.hover ?? {}) : {}),
     ...parseCustomCss(block.customCss),
   };
+}
+
+// DÜZELTME (kullanıcı raporu, 2026-09-02: "masaüstünde 46px yaptığım title
+// mobilde de 46px oluyor, küçültemiyorum" / "page builder'ın mobil kısmı
+// asla generate ettiğim gibi değil"). Kök neden: codegen (cssRules.js
+// fontSizeValue) ham "Npx" fontSize'ı YAZILDIĞI bucket'ın kendi canvas
+// genişliğine göre cqw'a çevirir — gerçek sitede metin GERÇEKTEN küçülür.
+// Ama editördeki TextRenderer resolveEffectiveStyle'ın döndürdüğü ham
+// px'i (hangi bucket'tan geldiğine bakmaksızın) OLDUĞU GİBİ basıyordu —
+// breakpoint sekmesi 390px'lik (lg) tuvale geçse bile base'de yazılan
+// 46px hâlâ 46px görünüyordu (gerçekte cqw ile ~13px'e karşılık gelirdi).
+// Bu fonksiyon SADECE fontSize için AYNI kademeyi (base→aktif breakpoint,
+// customCss son söz) izler ama değeri hangi bucket'tan geldiyse O
+// bucket'ın canvas genişliğine göre editörün ŞU AN gösterdiği breakpoint'in
+// canvas genişliğine ORANTILAR — sonuç, gerçek sitede o breakpoint'te
+// görünecek boyutun editördeki BİREBİR karşılığıdır. customCss'ten gelen
+// fontSize codegen'de de (customCssDeclarations) cqw dönüşümünden MUAF
+// olduğu için burada da ölçeklenmeden aynen basılır.
+function scalePxToCanvas(raw, sourceCanvasWidth, targetCanvasWidth) {
+  const match = /^(-?[\d.]+)px$/.exec(String(raw).trim());
+  if (!match || !sourceCanvasWidth || !targetCanvasWidth) return raw;
+  const px = (parseFloat(match[1]) / sourceCanvasWidth) * targetCanvasWidth;
+  return `${Math.round(px * 100) / 100}px`;
+}
+
+export function resolveEffectiveFontSize(block, breakpoint, mode, canvasWidths) {
+  const matrix = block.styles ?? {};
+  const base = matrix.base ?? { normal: {}, hover: {} };
+  const active = breakpoint !== 'base' ? matrix[breakpoint] : null;
+  const targetWidth = canvasWidths?.[breakpoint];
+
+  let raw = base.normal?.fontSize;
+  let sourceWidth = canvasWidths?.base;
+  if (active?.normal?.fontSize != null) {
+    raw = active.normal.fontSize;
+    sourceWidth = targetWidth;
+  }
+  if (mode === 'hover') {
+    if (active?.hover?.fontSize != null) {
+      raw = active.hover.fontSize;
+      sourceWidth = targetWidth;
+    } else if (base.hover?.fontSize != null) {
+      raw = base.hover.fontSize;
+      sourceWidth = canvasWidths?.base;
+    }
+  }
+
+  const customFontSize = parseCustomCss(block.customCss).fontSize;
+  if (customFontSize != null) return customFontSize;
+  if (raw == null) return undefined;
+  return scalePxToCanvas(raw, sourceWidth, targetWidth);
 }
 
 // resolveEffectiveStyle ile AYNI kademeli desen, sadece hover katmanı yok

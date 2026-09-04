@@ -265,11 +265,3 @@
   resize: vertical;
   box-sizing: border-box;
 }
-
-@media (max-width: 1300px) {
-  .panel {
-    position: static;
-    width: 100%;
-    max-height: none;
-  }
-}

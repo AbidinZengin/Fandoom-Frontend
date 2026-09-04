@@ -89,11 +89,25 @@ export async function captureReference(route, width) {
 }
 
 // Üretilen component'i src/pages/<targetDir>/<name>/ altına yazar — hedef
-// klasör ZATEN VARSA DesignServerError(status:409) fırlatır.
-export async function generateComponent({ targetDir, name, jsx, css }) {
+// klasör ZATEN VARSA DesignServerError(status:409) fırlatır. blocksPath +
+// blocks İSTEĞE BAĞLI (mevcut çağıranlar bozulmaz) — verilirse design-server
+// aynı istekte KAYNAK blok ağacını da .generated.json log'una ekler (bkz.
+// design-server.mjs handleGenerate yorumu).
+export async function generateComponent({ targetDir, name, jsx, css, blocksPath, blocks }) {
   return designServerRequest('/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ targetDir, name, jsx, css }),
+    body: JSON.stringify({ targetDir, name, jsx, css, path: blocksPath, blocks }),
   });
+}
+
+// CodegenPanel'in "Üretilen Component'ler" geçmiş listesi — bkz.
+// GeneratedHistoryPanel.jsx.
+export async function fetchGenerated(blocksPath) {
+  const res = await fetch(`${DESIGN_SERVER_URL}/generated?path=${encodeURIComponent(blocksPath)}`);
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.message ?? `design-server hata: ${res.status} — çalışıyor mu? (npm run design-server)`);
+  }
+  return res.json();
 }
