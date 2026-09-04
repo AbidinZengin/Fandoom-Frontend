@@ -111,6 +111,49 @@
   color: var(--fg-muted);
 }
 
+/* İkon sekme çubuğu: Stats/Playlists/Comments — navArrow (SeasonRoute)
+   ile aynı dairesel outline dili, tek fark HOVER değil AKTİF durumda
+   dolması (kalıcı seçim göstergesi gerekiyor, hover geçici). */
+.profile__tabs {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.profile__tabButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-round);
+  background: transparent;
+  color: var(--fg-muted);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.profile__tabButton:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.profile__tabButton[data-active='true'] {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+.profile__tabPanel {
+  min-height: 120px;
+}
+
+.profile__tabEmpty {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
 .profile__stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -139,6 +182,132 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   color: var(--fg-muted);
+}
+
+/* Playlists: CustomListsSection'ın kapak-arka-plan kart dilinin BANNER
+   (yatay) varyantı — kullanıcı isteği: "resimler yatayda olacağı için
+   banner gibi de yapabilirsin". Burada salt sergileme (edit/delete yok,
+   o CustomListsSection'ın işi), bu yüzden aksiyon başlığı da yok. */
+.profile__playlistGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-md);
+}
+
+.profile__playlistCard {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 2.4 / 1;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 60%), var(--card-bg);
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--duration-fast) ease;
+}
+
+.profile__playlistCard:hover,
+.profile__playlistCard:focus-visible {
+  border-color: var(--fg);
+}
+
+.profile__playlistCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+}
+
+.profile__playlistCard[data-has-cover]::before {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.profile__playlistCardBody {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.profile__playlistCardTitle {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.profile__playlistCardDescription {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.profile__playlistCardMeta {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
+/* Comments: backend ucu yok — sahte sayı/veri üretmek yerine öğenin
+   gerçek anatomisi (avatar + iki metin satırı) kesik çerçeveyle "beklemede"
+   iskelet olarak durur (learned-rules "veri" kuralı). */
+.profile__commentsPlaceholder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.profile__commentSkeletonRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  opacity: 0.5;
+}
+
+.profile__commentSkeletonAvatar {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-round);
+  border: 1.5px dashed var(--border);
+}
+
+.profile__commentSkeletonLines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  flex: 1;
+  min-width: 0;
+}
+
+.profile__commentSkeletonLine {
+  height: 10px;
+  border-radius: var(--radius-pill);
+  border: 1.5px dashed var(--border);
+  max-width: 260px;
+}
+
+.profile__commentSkeletonLine[data-width='wide'] {
+  width: 70%;
+}
+
+.profile__commentSkeletonLine[data-width='narrow'] {
+  width: 40%;
 }
 
 .profile__continueHeading {

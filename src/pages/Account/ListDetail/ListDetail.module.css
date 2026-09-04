@@ -1,0 +1,283 @@
+/* Spotify "now playing" tarzı renk sızıntısı: iki fixed katman (radyal
+   accent + solid --bg'ye kaybolan lineer) sayfa arkasında sabit kalır,
+   scroll sırasında hero görseli bunların ÜSTÜNDE akıp gider — ayrı bir
+   scroll-listener/ScrollTrigger gerekmez, efekt CSS position:fixed'in
+   doğal sonucu. Navbar sticky (z-index:50) bu katmanların ÜSTÜNDE kalsın
+   diye z-index düşük tutulur. */
+.detail {
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.detail__wash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70vh;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 120% 60% at 50% -10%,
+    rgba(var(--list-accent), 0.55) 0%,
+    rgba(var(--list-accent), 0.18) 45%,
+    transparent 75%
+  );
+  transition: background var(--duration-slow) ease;
+}
+
+.detail__washFade {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 30%, var(--bg) 72%);
+}
+
+.detail__content {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-page-x) var(--space-3xl);
+}
+
+.detail__loading {
+  padding: var(--space-3xl) var(--space-page-x);
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  text-align: center;
+}
+
+.detail__backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-lg);
+  color: var(--fg-faint);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.detail__backLink:hover {
+  color: var(--fg-muted);
+}
+
+.detail__backLink svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Hero ── */
+.detail__hero {
+  position: relative;
+  aspect-ratio: 16 / 7;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--card-bg);
+  margin-bottom: var(--space-xl);
+}
+
+.detail__heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detail__heroFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+}
+
+.detail__heroFallback span {
+  font-size: clamp(64px, 10vw, 120px);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.detail__heroGradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.4) 45%, rgba(0, 0, 0, 0.05) 100%);
+}
+
+.detail__editToggle {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  color: var(--fg);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.detail__editToggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.detail__editToggle[data-active] {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.detail__heroBottom {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.detail__heroText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.detail__visibility {
+  align-self: flex-start;
+  margin-bottom: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg);
+}
+
+.detail__title {
+  margin: 0;
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--fg);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.detail__meta {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.detail__heroActions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+/* ContentActions'ın .action stiliyle aynı dil — ama Account sayfası
+   monokrom istisnasına uyar (bkz. account-page-spec.md): aktif renk
+   --accent DEĞİL, var(--fg). */
+.detail__heroAction {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-round);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--fg-dim);
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    background var(--duration-fast) ease, transform var(--duration-micro) ease;
+}
+
+.detail__heroAction svg {
+  width: 20px;
+  height: 20px;
+}
+
+.detail__heroAction[data-active] {
+  color: var(--fg);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (hover: hover) {
+  .detail__heroAction:hover {
+    color: var(--fg);
+    transform: scale(1.08);
+  }
+}
+
+/* ── Description / edit hint ── */
+.detail__description {
+  margin: 0 0 var(--space-lg);
+  max-width: 680px;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  line-height: 1.7;
+}
+
+.detail__editHint {
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.detail__empty {
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}
+
+/* ── Grid ── */
+.detail__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-lg);
+}
+
+.detail__addCard button {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  border: 1.5px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--text-xs);
+  transition: border-color var(--duration-fast) ease, background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.detail__addCard button:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg);
+}
+
+.detail__addCard svg {
+  width: 28px;
+  height: 28px;
+}

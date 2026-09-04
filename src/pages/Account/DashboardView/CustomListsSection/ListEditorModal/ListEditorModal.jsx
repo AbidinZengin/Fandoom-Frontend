@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { uploadImage } from '../../../../../shared/api/media';
 import { getMyListDetail, addToList, removeFromList } from '../../../../../shared/api/account';
+import { fetchCatalogForType } from '../../../Account.data';
 import styles from './ListEditorModal.module.css';
 
 function CloseIcon() {
@@ -13,6 +14,12 @@ function CloseIcon() {
   );
 }
 
+const TYPE_OPTIONS = [
+  { key: 'MOVIE', labelKey: 'account.content.typeMovie' },
+  { key: 'SERIES', labelKey: 'account.content.typeSeries' },
+  { key: 'BLOG', labelKey: 'account.content.typeBlog' },
+];
+
 // Aynı modal hem oluşturma hem düzenleme için kullanılır — `list` prop'u
 // verilirse edit modu (mevcut değerlerle önceden doldurulur), verilmezse
 // create modu. Backend CreateUserListRequest'in POST/PATCH'te aynı DTO
@@ -23,7 +30,17 @@ function CloseIcon() {
 // önce oluşturur, sonra Düzenle'ye tekrar girip içerik ekler.
 const ITEMS_FETCH_SIZE = 200;
 
-export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
+// Kullanıcı kararı (2026-08-31): her özel liste TEK türe homojen olmalı
+// (film kendi içinde, dizi kendi içinde, blog kendi içinde), tür yeni liste
+// oluştururken sorulmalı. Backend'de bunu tutan bir alan YOK — sahte alan
+// eklemek yerine tür, listenin İLK öğesinin itemType'ından türetiliyor
+// (bkz. Account.data.js getCustomLists → list.dominantType). Bu modal create
+// adımında seçilen türü `onSubmit(fields, chosenType)` ile PARENT'a bildirir;
+// parent (CustomListsSection) yeni oluşan listeyi `dominantType: chosenType`
+// ile doğrudan bu modalın edit moduna geçirir — tür ikinci kez sorulmaz,
+// candidates o andan itibaren o türe kilitlenir. Eski/boş bir liste (henüz
+// öğesi yok, dominantType null) tekrar edit'e açılırsa seçim burada sorulur.
+export function ListEditorModal({ list, onClose, onSubmit }) {
   const { t } = useTranslation();
   const coverInputRef = useRef(null);
   const [title, setTitle] = useState(list?.title ?? '');
@@ -35,6 +52,7 @@ export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
   const [error, setError] = useState(null);
 
   const isEdit = Boolean(list);
+  const [selectedType, setSelectedType] = useState(list?.dominantType ?? null);
 
   // itemMembership: `${itemType}:${itemId}` -> saved-item satır id'si (ya da
   // 'pending' işlem sürerken) — listenin şu anki içeriğini tek seferde çeker.
@@ -54,6 +72,30 @@ export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
       })
       .finally(() => setLoadingItems(false));
   }, [isEdit, list?.id]);
+
+  // Arama: kullanıcı kararı (2026-08-31) — eski "sadece kaydedilenlerden/
+  // beğenilerden seç" havuzu yerine seçilen türün TAM kataloğu bir kere
+  // çekilip (fetchCatalogForType) her tuş vuruşunda client-side filtrelenir
+  // (ekstra istek yok, anında sonuç). Tür değişince katalog yeniden çekilir.
+  const [catalog, setCatalog] = useState(null);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    if (!isEdit || !selectedType) return undefined;
+    let cancelled = false;
+    setCatalog(null);
+    fetchCatalogForType(selectedType).then((data) => {
+      if (!cancelled) setCatalog(data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [isEdit, selectedType]);
+
+  const searchResults = (catalog ?? []).filter((c) => {
+    const q = query.trim().toLowerCase();
+    return !q || c.title.toLowerCase().includes(q);
+  });
 
   const toggleItem = async (candidate) => {
     const key = `${candidate.itemType}:${candidate.id}`;
@@ -100,11 +142,11 @@ export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim() || (!isEdit && !selectedType)) return;
     setError(null);
     setSaving(true);
     try {
-      await onSubmit({ title: title.trim(), description, coverImageUrl, isPublic });
+      await onSubmit({ title: title.trim(), description, coverImageUrl, isPublic }, selectedType);
     } catch (err) {
       setError(err.message ?? t('account.customLists.saveError'));
       setSaving(false);
@@ -160,6 +202,31 @@ export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
           </button>
         </div>
 
+        {/* Tür seçimi: create'te ZORUNLU (bir sonraki liste bu türe kilitlenir).
+            Edit'te SADECE liste henüz türsüzse (dominantType null — hiç öğesi
+            yok) görünür; öğe eklenmişse tür artık değiştirilemez (badge'e
+            döner, aşağıdaki "İçerikler" bloğunda). */}
+        {(!isEdit || !list?.dominantType) && (
+          <div className={styles.modal__typeField}>
+            <label className={styles.modal__fieldLabel}>{t('account.customLists.typePickerLabel')}</label>
+            <div className={styles.modal__typeOptions} role="radiogroup">
+              {TYPE_OPTIONS.map((opt) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  role="radio"
+                  aria-checked={selectedType === opt.key}
+                  className={styles.modal__typeOption}
+                  data-active={selectedType === opt.key}
+                  onClick={() => setSelectedType(opt.key)}
+                >
+                  {t(opt.labelKey)}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         <label className={styles.modal__fieldLabel} htmlFor="list-editor-name">
           {t('account.customLists.titlePlaceholder')}
         </label>
@@ -197,17 +264,40 @@ export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
 
         {isEdit && (
           <div>
-            <p className={styles.modal__fieldLabel}>{t('account.customLists.itemsHeading')}</p>
+            <p className={styles.modal__fieldLabel}>
+              {t('account.customLists.itemsHeading')}
+              {list?.dominantType && (
+                <span className={styles.modal__typeLockBadge}>
+                  {t(TYPE_OPTIONS.find((o) => o.key === list.dominantType)?.labelKey ?? '')}
+                </span>
+              )}
+            </p>
 
-            {loadingItems && <p className={styles.modal__itemsStatus}>{t('blog.loading')}</p>}
-
-            {!loadingItems && (!candidates || candidates.length === 0) && (
-              <p className={styles.modal__itemsStatus}>{t('account.customLists.itemsEmpty')}</p>
+            {!selectedType && (
+              <p className={styles.modal__itemsStatus}>{t('account.customLists.typePickerHint')}</p>
             )}
 
-            {!loadingItems && candidates && candidates.length > 0 && (
+            {selectedType && (
+              <input
+                type="search"
+                className={styles.modal__textInput}
+                placeholder={t('account.customLists.searchPlaceholder')}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            )}
+
+            {selectedType && (loadingItems || catalog === null) && (
+              <p className={styles.modal__itemsStatus}>{t('blog.loading')}</p>
+            )}
+
+            {selectedType && !loadingItems && catalog !== null && searchResults.length === 0 && (
+              <p className={styles.modal__itemsStatus}>{t('account.customLists.searchNoResults')}</p>
+            )}
+
+            {selectedType && !loadingItems && catalog !== null && searchResults.length > 0 && (
               <ul className={styles.modal__itemsList}>
-                {candidates.map((candidate) => {
+                {searchResults.map((candidate) => {
                   const key = `${candidate.itemType}:${candidate.id}`;
                   const membership = itemMembership?.[key];
                   const thumb = candidate.itemType === 'BLOG' ? candidate.imageUrl : candidate.posterUrl;
@@ -237,7 +327,7 @@ export function ListEditorModal({ list, candidates, onClose, onSubmit }) {
           <button type="button" className={styles.modal__cancel} onClick={onClose} disabled={saving}>
             {t('account.settings.cancel')}
           </button>
-          <button type="submit" className={styles.modal__save} disabled={busy || !title.trim()}>
+          <button type="submit" className={styles.modal__save} disabled={busy || !title.trim() || (!isEdit && !selectedType)}>
             {saving ? t('account.profile.saving') : t('account.settings.save')}
           </button>
         </div>

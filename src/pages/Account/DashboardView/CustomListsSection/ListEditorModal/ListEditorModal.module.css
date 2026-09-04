@@ -166,6 +166,53 @@
   height: 16px;
 }
 
+.modal__typeField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.modal__typeOptions {
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+.modal__typeOption {
+  flex: 1;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.modal__typeOption:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.modal__typeOption[data-active='true'] {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+.modal__typeLockBadge {
+  margin-left: var(--space-xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
 .modal__itemsStatus {
   margin: 0;
   font-size: var(--text-sm);

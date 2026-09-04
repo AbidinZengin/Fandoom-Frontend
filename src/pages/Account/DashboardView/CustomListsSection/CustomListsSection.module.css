@@ -33,6 +33,45 @@
   color: var(--fg-muted);
 }
 
+.customLists__filterTabs {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+
+.customLists__filterTab {
+  padding: var(--space-xs) var(--space-md);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.customLists__filterTab:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.customLists__filterTab[data-active='true'] {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+.customLists__typeBadge {
+  margin-left: var(--space-xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-size: var(--text-2xs);
+}
+
 .customLists__grid {
   list-style: none;
   margin: 0;
@@ -59,6 +98,8 @@
   background: radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 60%), var(--card-bg);
   background-size: cover;
   background-position: center;
+  text-decoration: none;
+  color: inherit;
 }
 
 .customLists__card::before {

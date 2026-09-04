@@ -24,6 +24,14 @@ function ListPlusIcon() {
 // tipik boyutu için kabul edilebilir bir N+1 (aynı tolerans Account.data.js
 // enrichRawItems'ta da var); bir liste bu sayıdan fazla öğe içeriyorsa
 // mevcut üyelik gözden kaçabilir — bkz. teslim notu.
+//
+// Aynı fetch'ten listenin `dominantType`'ı da çıkarılır (listenin ilk
+// öğesinin itemType'ı — bkz. Account.data.js getCustomLists ile AYNI
+// türetme deseni, ekstra istek yok). Kullanıcı kararı (2026-08-31): bir
+// blog ile bir dizi aynı listede olamaz — bu yüzden checklist SADECE bu
+// öğenin türüyle eşleşen (veya henüz türsüz/boş) listeleri gösterir,
+// uyumsuz listeler tamamen gizlenir ("ya yeni liste oluştur ya da bu türün
+// var olan listesine ekle" ayrımı burada netleşiyor).
 const MEMBERSHIP_FETCH_SIZE = 200;
 
 // Blog/Movie/Series ortak aksiyon barının son öğesi — ContentActions.jsx
@@ -51,8 +59,10 @@ export function AddToListPopover({ itemId, itemType }) {
       const withMembership = await Promise.all(
         customLists.map(async (list) => {
           const detail = await getMyListDetail(list.id, { size: MEMBERSHIP_FETCH_SIZE });
-          const match = detail.items?.content?.find((it) => it.itemId === itemId && it.itemType === itemType);
-          return { id: list.id, title: list.title, savedItemId: match?.id ?? null };
+          const content = detail.items?.content ?? [];
+          const match = content.find((it) => it.itemId === itemId && it.itemType === itemType);
+          const dominantType = content[0]?.itemType ?? null;
+          return { id: list.id, title: list.title, savedItemId: match?.id ?? null, dominantType };
         })
       );
       setLists(withMembership);
@@ -110,13 +120,17 @@ export function AddToListPopover({ itemId, itemType }) {
     try {
       const list = await createMyList({ title: newTitle.trim() });
       const res = await addToList(itemId, itemType, { targetListId: list.id });
-      setLists((ls) => [...(ls ?? []), { id: list.id, title: list.title, savedItemId: res.id }]);
+      // Yeni liste tek bir öğeyle (bu itemType) doğuyor — dominantType baştan
+      // bu türe kilitli sayılır, sonraki fetch'te zaten aynı sonucu türetir.
+      setLists((ls) => [...(ls ?? []), { id: list.id, title: list.title, savedItemId: res.id, dominantType: itemType }]);
       setNewTitle('');
       setCreating(false);
     } catch (err) {
       setError(err.message ?? t('contentActions.listCreateError'));
     }
   };
+
+  const eligibleLists = (lists ?? []).filter((l) => !l.dominantType || l.dominantType === itemType);
 
   return (
     <div className={styles.wrap} ref={containerRef}>
@@ -139,10 +153,13 @@ export function AddToListPopover({ itemId, itemType }) {
           {lists && lists.length === 0 && !creating && (
             <p className={styles.popover__status}>{t('contentActions.noLists')}</p>
           )}
+          {lists && lists.length > 0 && eligibleLists.length === 0 && !creating && (
+            <p className={styles.popover__status}>{t('contentActions.noMatchingLists')}</p>
+          )}
 
-          {lists && lists.length > 0 && (
+          {eligibleLists.length > 0 && (
             <ul className={styles.popover__list}>
-              {lists.map((list) => (
+              {eligibleLists.map((list) => (
                 <li key={list.id}>
                   <label className={styles.popover__item}>
                     <input

@@ -1,6 +1,6 @@
-import { fetchProductionDetail, resolveProductionById } from '../../shared/api/productions';
+import { fetchProductionDetail, resolveProductionById, fetchAllProductions } from '../../shared/api/productions';
 import { fetchCharactersForSeries } from '../../shared/api/characters';
-import { fetchBlogById } from '../../shared/api/blogs';
+import { fetchBlogById, fetchBlogs } from '../../shared/api/blogs';
 import {
   getMyLists,
   getMyListDetail,
@@ -97,9 +97,28 @@ export async function getAccountContent() {
 // Custom Lists — CustomListsSection kendi fetch/refetch döngüsünü buradan
 // yürütür (getAccountContent'in paylaşılan demetinden bağımsız, çünkü
 // oluşturma/silme sonrası sadece bu listenin yenilenmesi gerekir).
+//
+// `dominantType`: backend'de listenin türünü tutan bir alan YOK (kullanıcı
+// kararı, 2026-08-31: liste homojen olmalı — filmler kendi içinde, diziler
+// kendi içinde, bloglar kendi içinde) — şema'ya sahte bir alan eklemek
+// yerine tür, listenin İLK öğesinin itemType'ından TÜRETİLİR (N+1 istek,
+// liste sayısı az olduğu için kabul edilebilir — enrichRawItems'taki aynı
+// desen). Boş liste için `null` döner (henüz tür seçilmemiş demektir,
+// ListEditorModal ilk öğe eklenene kadar seçim sorar).
 export async function getCustomLists() {
   const lists = await getMyLists();
-  return lists.filter((l) => l.listType === 'CUSTOM');
+  const customLists = lists.filter((l) => l.listType === 'CUSTOM');
+  const withType = await Promise.all(
+    customLists.map(async (list) => {
+      try {
+        const detail = await getMyListDetail(list.id, { size: 1 });
+        return { ...list, dominantType: detail.items?.content?.[0]?.itemType ?? null };
+      } catch {
+        return { ...list, dominantType: null };
+      }
+    })
+  );
+  return withType;
 }
 
 export async function createCustomList(fields) {
@@ -114,23 +133,35 @@ export async function removeCustomList(id) {
   return deleteMyList(id);
 }
 
-// Bir CUSTOM listeye eklenebilecek içerik havuzu — ListEditorModal'ın
-// "İçerikler" bölümü bunu kullanır. Gerçek bir arama ucu backend'de henüz
-// yok (kullanıcı kararı, 2026-08-29: "sonra ekleyeceğiz, şimdilik
-// kaydedilenlerden/beğenilerden seç") — bu yüzden havuz Kaydedilenler
-// (bookmark) + Beğeniler'in birleşimi, itemType+id'ye göre tekilleştirilmiş.
-export async function getAddableContent() {
-  const [bookmarksPage, likesPage] = await Promise.all([getMyBookmarks({ size: 50 }), getMyLikes({ size: 50 })]);
-  const [saved, liked] = await Promise.all([
-    enrichRawItems(bookmarksPage.content),
-    enrichRawItems(likesPage.content),
-  ]);
+// Tek bir CUSTOM listenin detay sayfası (ListDetail) için: meta (title/
+// description/coverImageUrl/isPublic) getMyLists()'in ilgili satırından
+// (getMyListDetail'in meta alanları döndürüp döndürmediği doğrulanmadı,
+// ListEditorModal de aynı nedenle meta'yı `list` prop'undan alır, sadece
+// içerikler için getMyListDetail'i çağırır — aynı desen tekrarlanıyor),
+// sıralı içerik listesi getMyListDetail + enrichRawItems'tan gelir.
+export async function getCustomListDetail(id) {
+  const [lists, detail] = await Promise.all([getCustomLists(), getMyListDetail(id, { size: 200 })]);
+  const meta = lists.find((l) => String(l.id) === String(id));
+  const items = await enrichRawItems(detail.items?.content);
+  return { ...meta, items };
+}
 
-  const seen = new Set();
-  return [...saved, ...liked].filter((item) => {
-    const key = `${item.itemType}:${item.id}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+// Bir listeye eklenebilecek TAM katalog, tek türe daraltılmış — ListEditorModal
+// ve AddItemsPanel'in arama kutusu bunu kullanır (kullanıcı kararı, 2026-08-31:
+// "search ile ekleme kısmı gelmeli", eski "sadece kaydedilenlerden/
+// beğenilerden seç" havuzu kaldırıldı, gerçek arama ucu YOK ama fetchAllProductions
+// zaten tüm katalogu önbellekte tutuyor — blog için de aynı desen, size:100
+// ile tek seferde çekilip client-side filtrelenir; fetchProductions/fetchBlogs
+// gibi bu da katalog tamamını garanti ETMİYOR, çok büyürse backend'e gerçek
+// arama ucu istenmeli). Sonuç şekli candidate: { id, itemType, title,
+// posterUrl|imageUrl } — toggleItem'ın beklediği şekille birebir aynı.
+export async function fetchCatalogForType(itemType) {
+  if (itemType === 'BLOG') {
+    const page = await fetchBlogs({ size: 100 });
+    return (page.content ?? []).map((b) => ({ id: b.id, itemType: 'BLOG', title: b.title, imageUrl: b.imageUrl }));
+  }
+  const all = await fetchAllProductions();
+  return all
+    .filter((p) => p.type === itemType)
+    .map((p) => ({ id: p.id, itemType: p.type, title: p.title, posterUrl: p.posterUrl }));
 }

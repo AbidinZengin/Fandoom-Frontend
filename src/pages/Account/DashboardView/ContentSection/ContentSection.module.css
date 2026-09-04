@@ -9,6 +9,35 @@
   font-size: var(--text-base);
 }
 
+.content__filterTabs {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+
+.content__filterTab {
+  padding: var(--space-xs) var(--space-md);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.content__filterTab:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.content__filterTab[data-active='true'] {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
 .content__grid {
   list-style: none;
   margin: 0;

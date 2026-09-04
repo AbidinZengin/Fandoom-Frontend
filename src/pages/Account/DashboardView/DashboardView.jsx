@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useLocalizedNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import { ProfileSection } from './ProfileSection/ProfileSection';
 import { ContentSection } from './ContentSection/ContentSection';
 import { CustomListsSection } from './CustomListsSection/CustomListsSection';
 import { CharactersSection } from './CharactersSection/CharactersSection';
 import { SettingsSection } from './SettingsSection/SettingsSection';
+import { ListDetail } from '../ListDetail/ListDetail';
 import { getAccountContent } from '../Account.data';
 import styles from './DashboardView.module.css';
 
@@ -45,10 +48,23 @@ function CloseIcon() {
 // duruyor — drawer stilleri sadece mobil media query'sinde devreye girer.
 export function DashboardView({ user, onLogout, onProfileUpdate }) {
   const { t } = useTranslation();
+  // Kullanıcı isteği (2026-08-31): "/account/lists/:id" artık ayrı bir route
+  // elementi DEĞİL, App.jsx aynı <Account/>'u "account/*" wildcard'ıyla
+  // eşliyor (bkz. App.jsx yorumu) — sidebar/panel kabuğu hiç unmount olmuyor.
+  // Wildcard route altında useParams() ':id'yi ÇÖZEMEZ (sadece '*' kalanını
+  // verir), bu yüzden id doğrudan URL'den okunur.
+  const { pathname } = useLocation();
+  const listDetailId = pathname.match(/\/account\/lists\/([^/]+)/)?.[1] ?? null;
+  const navigate = useLocalizedNavigate();
   const [activeSection, setActiveSection] = useState('profile');
   const [contentOpen, setContentOpen] = useState(true);
   const [content, setContent] = useState(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  // Liste detayı açıkken sidebar'da "Özel Listelerim" vurgulu kalsın —
+  // gerçek activeSection'a dokunmadan sadece görünen vurguyu hesaplar,
+  // "geri" ile /account'a dönüldüğünde kullanıcının asıl seçimi (varsa)
+  // olduğu gibi durur.
+  const highlightedSection = listDetailId ? 'customLists' : activeSection;
 
   useEffect(() => {
     let cancelled = false;
@@ -63,9 +79,17 @@ export function DashboardView({ user, onLogout, onProfileUpdate }) {
   const selectSection = (key) => {
     setActiveSection(key);
     setMobileNavOpen(false);
+    // Liste detayındayken sidebar'dan başka bir bölüme geçilirse URL de
+    // /account'a dönmeli — yoksa :id param'ı durduğu için panel ListDetail'i
+    // göstermeye devam eder (renderSection listDetailId'yi activeSection'ın
+    // önüne alıyor).
+    if (listDetailId) navigate('/account');
   };
 
   const renderSection = () => {
+    if (listDetailId) {
+      return <ListDetail id={listDetailId} />;
+    }
     if (activeSection === 'profile') {
       return <ProfileSection user={user} continueReading={content?.continueReading} onProfileUpdate={onProfileUpdate} />;
     }
@@ -176,7 +200,7 @@ export function DashboardView({ user, onLogout, onProfileUpdate }) {
                 <button
                   type="button"
                   className={styles.dashboard__navButton}
-                  data-active={activeSection === item.key}
+                  data-active={highlightedSection === item.key}
                   onClick={() => selectSection(item.key)}
                 >
                   {t(item.labelKey)}
@@ -192,7 +216,7 @@ export function DashboardView({ user, onLogout, onProfileUpdate }) {
       </nav>
 
       <div className={styles.dashboard__panel}>
-        {content === null && activeSection !== 'settings' ? (
+        {!listDetailId && content === null && activeSection !== 'settings' ? (
           <p className={styles.dashboard__loading}>{t('blog.loading')}</p>
         ) : (
           renderSection()
