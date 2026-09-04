@@ -1,0 +1,207 @@
+/* Hero'nun altındaki karar bloğu. Yerleşim BreakingBad/EpisodeBrief'iyle
+   BİREBİR aynı: sol kare görsel kartı + sağda başlık/künye/synopsis, altta
+   meta slot'ları. Kart çerçevesi burada KURALA UYGUN — bu storytelling
+   değil künye/katalog bağlamı (learned-rules'ta çerçeve yasağı
+   storytelling bantlarına ait). Font Montserrat'ta sabit (GoT'un özel
+   display fontu burada yok). */
+.brief {
+  padding: var(--space-3xl) var(--space-page-x);
+  background: var(--bg);
+}
+
+/* Ortalayan max-width YOK — blok sayfa yatay padding'inden başlar. Sol
+   kolon clamp ile büyütüldü ama üst sınırı var: çok geniş ekranda kare kart
+   devleşmesin. */
+.brief__inner {
+  display: grid;
+  grid-template-columns: clamp(240px, 30%, 460px) 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* Sol görsel: hero ile AYNI kare, küçük kart hâlinde. Kutu oranı sabit —
+   görsel geç yüklense de yerleşim sıçramaz. */
+.brief__figure {
+  margin: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+}
+
+.brief__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.brief__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+.brief__header {
+  margin: 0;
+}
+
+.brief__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h2);
+  line-height: 1.15;
+  color: var(--fg);
+}
+
+/* "Season 01 · Episode 01 · 62 min · 17 Apr 2011" — künye şeridi. */
+.brief__meta {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.brief__synopsis {
+  margin: 0;
+  max-width: 68ch;
+  font-size: var(--text-base);
+  line-height: 1.75;
+  color: var(--fg-dim);
+}
+
+/* İki alt-grup: genre pill'leri (sol) / puan+marka rozetleri (sağ) —
+   `space-between` ile aralarında görünür bir boşluk açılır, marka
+   rozetleri satırın sağ ucuna yaslanır. */
+.brief__metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.brief__genres {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.brief__badges {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* Genre pill — "liquid glass" yüzey. Üç katman: (1) köşegen ton geçişli
+   translucent dolgu, (2) ::before ile SADECE 1px kenar halkasına boyanan
+   gradient border (mask-composite: exclude), (3) inset highlight/gölge ile
+   mercek gibi hafif dışbükey derinlik + dış gölgeyle zeminden KABARIK durur. */
+.brief__genrePill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; /* dokunma hedefi tabanı */
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.18) 100%
+  );
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -10px 14px -12px rgba(0, 0, 0, 0.45),
+    0 10px 24px rgba(0, 0, 0, 0.4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.brief__genrePill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(255, 255, 255, 0.05) 60%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Puan grubu: değer + yıldız + IMDb rozeti aynı satırda — puan rozetin
+   İÇİNDE değil ÖNÜNDE ayrı yıldızlı değer. */
+.brief__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.brief__ratingValue {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--fg);
+}
+
+.brief__ratingStar {
+  font-size: var(--text-md);
+  color: #f5c518;
+  line-height: 1;
+}
+
+/* IMDb marka rozeti — asset DEĞİL, kendi renk/fontuyla kodla kurulur.
+   Marka sarısı `#F5C518` / siyah metin IMDb'nin kendi kimliği — Montserrat
+   kuralının İSTİSNASI, üçüncü taraf marka rozeti site UI metni değil. */
+.brief__imdb {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  background: #f5c518;
+  font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: var(--text-sm);
+  letter-spacing: -0.01em;
+  color: #000;
+}
+
+/* HBO Max — kullanıcının verdiği gerçek ikon (icons8, kare/rounded kendi
+   koyu zemini dahil) — bu yüzden EK çerçeve/dolgu YOK, salt boyut sabiti. */
+.brief__hboLogo {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 900px) {
+  .brief__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  /* Tek kolona düşünce kare kart çok yer kaplıyor — still'in kendi
+     oranına dönülür. */
+  .brief__figure {
+    aspect-ratio: 16 / 9;
+  }
+}

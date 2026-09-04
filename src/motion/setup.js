@@ -5,8 +5,9 @@
 // ScrollTrigger native scroll ile çalışır.
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Flip } from 'gsap/Flip';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, Flip);
 
 let lenis = null;
 let initialized = false;

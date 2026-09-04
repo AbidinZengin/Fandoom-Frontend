@@ -1,0 +1,280 @@
+/* Kullanıcının PageBuilder'da ürettiği SerieHero referansının birebir
+   taşınmış anatomisi (bkz. dosya üstü JSX yorumu) — sabit cqw canvas
+   yerine responsive CSS. */
+.hero {
+  padding: var(--space-lg) var(--space-lg) var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: #000000;
+  margin-bottom: var(--space-3xl);
+}
+
+.hero__figure {
+  position: relative;
+  aspect-ratio: 2.5 / 1;
+  border: 3px solid #ffffff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.hero__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Konum/boyut (top/left/width/transform) her yapım için JS'ten inline
+   style ile gelir — her Hero'nun logosu kendi orijinal kompozisyonunda
+   FARKLI yerde/boyutta (HotD/Severance ortalı-geniş, Breaking Bad sola
+   yaslı-daha dar) — kullanıcı düzeltmesi: "logoları ortada dursun diye
+   yok, hepsinin heroda karşılıkları vardı", tek tip merkezleme YANLIŞ. */
+.hero__logo {
+  position: absolute;
+  z-index: 2;
+  height: auto;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+}
+
+.hero__rating {
+  position: absolute;
+  z-index: 2;
+  top: var(--space-md);
+  right: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: #f6c700;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+}
+
+.hero__imdbLogo {
+  width: 88px;
+  height: auto;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+}
+
+/* Metin/butonlar görselin ALT bölgesine bindirili (referansla aynı) —
+   okunabilirlik için perde gerekli (referanstaki sabit görselde bu zaten
+   varmış gibi duruyordu, burada rastgele posterle çalışması için eklendi). */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 30%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero__overlay {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-lg) var(--space-2xl) var(--space-xl);
+}
+
+.hero__title {
+  margin: 0;
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #f2f2f2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.hero__metaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.hero__year {
+  color: #a0a19f;
+}
+
+.hero__genre {
+  color: #9b9c9a;
+}
+
+.hero__synopsis {
+  margin: 0;
+  max-width: 56ch;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero__ctaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+/* Explore — outline, referanstaki buttonBlock2 ile birebir. */
+.hero__ctaOutline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  border: 2.5px solid var(--fg);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background var(--duration-micro) ease, color var(--duration-micro) ease;
+}
+
+@media (hover: hover) {
+  .hero__ctaOutline:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+}
+
+/* Watch Trailer — şeffaf beyaz "liquid glass" buton, referanstaki
+   buttonBlock1 / EpisodeBrief.brief__genrePill ile birebir aynı tarif.
+   Trailer verisi/oynatıcısı henüz yok — dizi Hero'larındaki gibi ŞİMDİLİK
+   dekoratif (mevcut 3 sayfada da aynı durumda). */
+.hero__ctaGlass {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.18) 100%
+  );
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -10px 14px -12px rgba(0, 0, 0, 0.45),
+    0 10px 24px rgba(0, 0, 0, 0.4);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* --- Featured Titles şeridi --- */
+
+.hero__row {
+  padding-top: var(--space-xl);
+}
+
+.hero__rowLabel {
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.hero__rowTrack {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+}
+
+.hero__rowItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.hero__rowPoster {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  background: var(--bg-soft);
+  transition: border-color var(--duration-fast) ease, transform var(--duration-fast) ease;
+}
+
+.hero__rowPoster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__rowItem[data-active] .hero__rowPoster {
+  border-color: var(--accent);
+}
+
+@media (hover: hover) {
+  .hero__rowItem:hover .hero__rowPoster {
+    transform: scale(1.03);
+  }
+}
+
+.hero__rowNumber {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: #ffffff;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+}
+
+.hero__rowTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .hero__rowTrack {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__figure {
+    aspect-ratio: 4 / 3;
+  }
+
+  .hero__overlay {
+    padding: var(--space-md) var(--space-lg) var(--space-lg);
+  }
+
+  .hero__title {
+    font-size: var(--text-h2);
+  }
+
+  .hero__synopsis {
+    display: none;
+  }
+
+  .hero__ctaRow {
+    flex-wrap: wrap;
+  }
+}

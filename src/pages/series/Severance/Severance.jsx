@@ -2,27 +2,17 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
-
-// OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
-// kararıyla route'tan kaldırıldı (2026-08) — yeni Hero PageBuilder'ın
-// "Kodu Üret" çıktısı, kendi verisini kendi çeker (bkz. Hero/Hero.jsx).
-// Eski dosyalar BİLEREK silinmedi, bkz. src/pages/series/BreakingBad/OldHero/.
-// TitleSequence (eski Hero — jenerik periyodik-tablo animasyonu) kullanıcı
-// kararıyla sayfadan kaldırıldı (2026-08); dosya BİLEREK silinmedi, geri
-// eklenmek istenirse: import { TitleSequence } from './TitleSequence/TitleSequence';
-import { fetchProductionDetail, theme } from './BreakingBad.data';
-import styles from './BreakingBad.module.css';
+import { fetchProductionDetail, theme } from './Severance.data';
+import styles from './Severance.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
-import CharactersRoute from './CharactersRoute/CharactersRoute';
-
-export default function BreakingBad() {
+export default function Severance() {
   const { t } = useTranslation();
   const [series, setSeries] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
-    fetchProductionDetail('series', 'breaking-bad')
+    fetchProductionDetail('series', 'severance')
       .then((data) => {
         if (!cancelled) setSeries(data);
       })
@@ -57,8 +47,8 @@ export default function BreakingBad() {
   if (notFound) {
     return (
       <>
-        <div className={styles['bb-notfound']}>
-          <h1 className={styles['bb-notfound__title']}>{t('common.titleNotFound')}</h1>
+        <div className={styles['severance-notfound']}>
+          <h1 className={styles['severance-notfound__title']}>{t('common.titleNotFound')}</h1>
         </div>
         <Footer />
       </>
@@ -71,7 +61,6 @@ export default function BreakingBad() {
     <>
       <Hero />
       <SeasonRoute />
-      <CharactersRoute />
       <Footer />
     </>
   );

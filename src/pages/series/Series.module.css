@@ -1,0 +1,26 @@
+.series {
+  padding: var(--space-3xl) var(--space-page-x);
+  max-width: 1640px;
+  margin-inline: auto;
+}
+
+.series__head {
+  margin-bottom: var(--space-2xl);
+}
+
+.series__kicker {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-2xs);
+}
+
+.series__heading {
+  margin: 0;
+  font-size: var(--text-h1);
+  font-weight: 700;
+  color: var(--fg);
+}

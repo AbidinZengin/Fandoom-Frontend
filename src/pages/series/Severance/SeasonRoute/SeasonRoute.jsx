@@ -9,17 +9,10 @@ import styles from './SeasonRoute.module.css';
 
 const pad2 = (n) => String(n).padStart(2, '0');
 
-// Tam arka plan görseli — kullanıcının verdiği asset (çöl gün batımında RV).
-const BACKDROP_URL = '/src/assets/breaking-bad/seasons-backdrop.jpg';
-
-// Kullanıcının referans verdiği Flaticon "arrow-small-right" (uicons rr)
-// ikonunun görsel stiline sadık, ÖZGÜN çizim — yuvarlak uçlu/köşeli
-// çizgi+ok başı (ilk deneme strokeWidth 3.5 "kalın olmuş" diye
-// düzeltildi, 2.5'e indirildi). Flaticon dosyası birebir indirilmedi
-// (ücretsiz katman attribution gerektiriyor, prod site için uygun değil) —
-// aynı görsel, kendi SVG'imizle. Explore butonunda ve carousel navigasyon
-// oklarında ortak kullanılır, `dir="left"` için CSS'te (`.navArrow[data-dir=
-// 'left'] svg`) yatayda aynalanır.
+// Breaking Bad / House of the Dragon SeasonRoute'unun birebir kopyası
+// (kullanıcı isteği). Tek fark: sabit BACKDROP_URL yerine backend'den zaten
+// gelen series.coverImageUrl kullanılır — Hero.jsx'te de aynı alan
+// kullanılıyor, yeni bir Cloudinary asset'i yüklemeye gerek kalmadı.
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -29,18 +22,6 @@ function ArrowIcon() {
   );
 }
 
-// DÜZELTME (manuel, 2026-08-20, 3. tur): kullanıcının Dribbble "Seasonal
-// Itineraries" referansına (travel sitesi analizi, bu oturumun başındaki
-// research) BİREBİR sadık yeniden tasarım — önceki iki tur (liste+önizleme
-// paneli, sonra hover+blur-backdrop paneli) tamamen terk edildi. Artık tek
-// tam-genişlik bölüm: sol üstte kicker+büyük başlık, sol altta AKTİF
-// sezonun başlığı+açıklaması+outline "Explore Season" butonu, sağda yatay
-// kaydırmalı, beyaz ince çerçeveli (arka plan dolgusu YOK, sadece görsel+
-// kenarlık) kart carousel'i + altında iki dairesel ok. Kart üstüne HOVER/
-// focus sol metni günceller (bir önceki turdan taşınan kural); navigasyon
-// yalnız Explore butonunda. Kartların kendisi (Highlights emsali: "TÜM
-// kartlar normal parlaklıkta durur, ayırt edici tek şey metin overlay'i")
-// aktif/pasif farkı GÖSTERMEZ — ayırt edici tek şey sol paneldeki metindir.
 export default function SeasonRoute() {
   const { t } = useTranslation();
   const [series, setSeries] = useState(null);
@@ -51,7 +32,7 @@ export default function SeasonRoute() {
 
   useEffect(() => {
     let cancelled = false;
-    fetchProductionDetail('series', 'breaking-bad').then((data) => {
+    fetchProductionDetail('series', 'severance').then((data) => {
       if (!cancelled) setSeries(data);
     });
     return () => {
@@ -125,7 +106,7 @@ export default function SeasonRoute() {
 
   return (
     <section className={styles.page} ref={pageRef}>
-      {BACKDROP_URL && <img className={styles.backdrop} src={BACKDROP_URL} alt="" aria-hidden="true" />}
+      {series.coverImageUrl && <img className={styles.backdrop} src={series.coverImageUrl} alt="" aria-hidden="true" />}
       <div className={styles.scrim} aria-hidden="true" />
 
       <div className={styles.header}>
@@ -139,7 +120,7 @@ export default function SeasonRoute() {
             <h3 className={styles.focus__title}>{activeSeason.title}</h3>
             {activeSeason.storyDek && <p className={styles.focus__dek}>{activeSeason.storyDek}</p>}
             <Link
-              to={`/series/breaking-bad/seasons/${activeSeason.seasonNumber}`}
+              to={`/series/severance/seasons/${activeSeason.seasonNumber}`}
               onClick={() => armInPageNav()}
               className={styles.focus__cta}
             >
@@ -150,10 +131,6 @@ export default function SeasonRoute() {
 
         <div className={styles.carousel}>
           <div className={styles.track} ref={trackRef}>
-            {/* Tüm sezonlar sırayla, 1'den başlayarak — carousel'in EKRANDAKİ
-                başlangıç konumu (.focus'un genişletilmiş genişliği yüzünden)
-                sağa kaymış olsa da kart sırası/DOM'u normal, hiçbir kart
-                gizlenmiyor/kaydırılmıyor (kullanıcı düzeltmesi). */}
             {seasons.map((season, i) => (
               <div className={styles.cardWrap} key={season.id}>
                 <button

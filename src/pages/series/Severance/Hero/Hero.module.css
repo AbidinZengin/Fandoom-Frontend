@@ -1,7 +1,7 @@
 .page {
   position: relative;
   width: 100%;
-  aspect-ratio: 1360 / 649.3543886466257;
+  aspect-ratio: 1360 / 800;
   /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
      cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
   container-type: inline-size;
@@ -12,7 +12,7 @@
   left: 0%;
   top: 0cqw;
   width: 100%;
-  height: 47.747cqw;
+  height: 58.824cqw;
   filter: blur(5px);
   object-fit: cover;
   border-radius: var(--radius-sm);
@@ -22,9 +22,9 @@
 .imageBlock2 {
   position: absolute;
   left: 6.26%;
-  top: 5.687cqw;
+  top: 2.806cqw;
   width: 87.48%;
-  height: 38.193cqw;
+  height: 50.982cqw;
   filter: saturate(1.6);
   object-fit: cover;
   border-radius: var(--radius-lg);
@@ -32,19 +32,11 @@
   scale: 1;
 }
 
-.logoBlock1 {
-  position: absolute;
-  left: 27.81%;
-  top: 0.917cqw;
-  width: 44.38%;
-  height: 17.456cqw;
-}
-
 .textBlock1 {
   position: absolute;
-  left: 10.55%;
-  top: 22.637cqw;
-  width: 37.15%;
+  left: 10.67%;
+  top: 31.259cqw;
+  width: 36.61%;
   height: auto;
   margin: 0;
   color: #f2f2f2;
@@ -56,8 +48,8 @@
 
 .textBlock2 {
   position: absolute;
-  left: 10.55%;
-  top: 26.752cqw;
+  left: 10.67%;
+  top: 36.341cqw;
   width: 6%;
   height: auto;
   margin: 0;
@@ -69,8 +61,8 @@
 
 .textBlock3 {
   position: absolute;
-  left: 14.38%;
-  top: 26.752cqw;
+  left: 14.49%;
+  top: 36.341cqw;
   width: 24.76%;
   height: auto;
   margin: 0;
@@ -82,30 +74,30 @@
 
 .textBlock4 {
   position: absolute;
-  left: 10.55%;
-  top: 29.192cqw;
-  width: 46.27%;
-  height: 9.774cqw;
+  left: 10.67%;
+  top: 38.635cqw;
+  width: 49.52%;
+  height: 13.047cqw;
   margin: 0;
   color: #ffffff;
   font-size: 1.176cqw;
   font-family: 'Montserrat', sans-serif;
 }
 
-.logoBlock2 {
+.logoBlock1 {
   position: absolute;
-  left: 86%;
-  top: 7.076cqw;
+  left: 85.7%;
+  top: 4.188cqw;
   width: 6.5%;
-  height: 3.084cqw;
+  height: 4.118cqw;
 }
 
 .textBlock5 {
   position: absolute;
-  left: 81.81%;
-  top: 7.281cqw;
+  left: 81.67%;
+  top: 4.747cqw;
   width: 6%;
-  height: 2.669cqw;
+  height: 3.565cqw;
   margin: 0;
   color: #f6c700;
   font-size: 2.206cqw;
@@ -115,10 +107,10 @@
 
 .buttonBlock1 {
   position: absolute;
-  left: 77.58%;
-  top: 33.972cqw;
-  width: 12.73%;
-  height: 3.084cqw;
+  left: 78.74%;
+  top: 45.165cqw;
+  width: 11.86%;
+  height: 3.094cqw;
   color: #ffffff;
   font-size: var(--text-sm);
   font-weight: 700;
@@ -136,19 +128,14 @@
 
 .buttonBlock2 {
   position: absolute;
-  left: 63.48%;
-  top: 34.005cqw;
-  width: 12.76%;
-  height: 3.051cqw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
+  left: 64.3%;
+  top: 45.165cqw;
+  width: 11.92%;
+  height: 3.206cqw;
   color: var(--fg);
   font-size: var(--text-sm);
   font-weight: 700;
   text-align: center;
-  white-space: nowrap;
   background: transparent;
   border-color: var(--fg);
   border-width: 2.5px;
@@ -163,6 +150,14 @@
   color: var(--bg);
 }
 
+.logoBlock2 {
+  position: absolute;
+  left: 7.65%;
+  top: 9.818cqw;
+  width: 38.44%;
+  height: 6.194cqw;
+}
+
 /* Mobil (≤900px) — PageBuilder'ın absolute-pozisyon + cqw sistemi
    (kullanıcı raporu, 2026-09-02: "mobil kısmı asla generate ettiğim gibi
    değil") mobilde güvenilir sonuç vermiyor; bu yüzden mobilde BİLİNÇLİ
@@ -170,19 +165,20 @@
    .backdrop — AYNI border/radius değerleri) AYNI 900px kırılımı desenine
    geçiliyor — kullanıcı isteği: "page builder çıktısı olmayan eleman
    gibi" ayarla.
-   Kullanıcının verdiği referans ekran görüntüsüne (2026-09-02) göre
-   TAMAMEN yeniden kuruldu: tüm Hero tek bir kenarlıklı/radius'lu KART
-   (.page'in kendisi border+radius+overflow:hidden alıyor, ekran
-   kenarından margin'le ayrılıyor). Görsel kartın üst ~55%'ini kaplıyor,
-   üstüne seri logosu (ortalı) ve IMDb rozeti (sağ üst) absolute
+   Kullanıcının verdiği referans ekran görüntüsüne (2026-09-02, HotD
+   için) göre TAMAMEN yeniden kuruldu: tüm Hero tek bir kenarlıklı/
+   radius'lu KART (.page'in kendisi border+radius+overflow:hidden alıyor,
+   ekran kenarından margin'le ayrılıyor). Görsel kartın üst ~55%'ini
+   kaplıyor, üstüne seri logosu (ortalı) ve IMDb rozeti (sağ üst) absolute
    bindiriliyor, alt kenarı ::after gradyanıyla kart zeminine yumuşak
    geçiyor (SeasonRoute .scrim'in aynı fikri). imageBlock1 (blur) ve
    imageBlock2 (net) AYNI hücrede TAM boyutlu üst üste — imageBlock2
    üstte tamamen kaplıyor (kullanıcı isteği: "background blurlu yapıp
-   önüne normal halini koy").
-   Butonlar (Explore solda / Watch Trailer sağda, referanstaki sıra) DOM
-   sırasının TERSİ — grid-column ile görsel sırası zorlanıyor (`order`
-   yerine, aynı year/genre ikili-sütun tekniği).
+   önüne normal halini koy"). HotD/Hero.module.css'teki AYNI desen, tek
+   fark logoBlock1/logoBlock2'nin anlamı TERS (burada logoBlock1 = IMDB,
+   logoBlock2 = seri wordmark'ı) — Hero.jsx'teki gerçek eşlemeye göre.
+   Butonlar (Explore solda / Watch Trailer sağda) DOM sırasının TERSİ —
+   grid-column ile görsel sırası zorlanıyor.
 */
 @media (max-width: 900px) {
   .page {
@@ -233,7 +229,7 @@
     border-radius: 0;
   }
 
-  .logoBlock1 {
+  .logoBlock2 {
     position: absolute;
     top: var(--space-lg);
     left: 50%;
@@ -244,7 +240,7 @@
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
   }
 
-  .logoBlock2 {
+  .logoBlock1 {
     position: absolute;
     top: var(--space-md);
     left: auto;
@@ -254,7 +250,7 @@
     height: auto;
   }
 
-  .logoBlock2 img {
+  .logoBlock1 img {
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
   }
 

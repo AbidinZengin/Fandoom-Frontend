@@ -1,16 +1,10 @@
-/* Travel-landing referansının (Dribbble #24876957) sadece YAPISAL deseni
-   alınır — kullanıcı kararı: zemin/renk Fandoom'un mevcut koyu temasında
-   kalır (--bg/--fg/--accent aynen), sadece hero+CTA/paket-kart/itinerary
-   kompozisyonu devralınır. .page ayrı bir renk kurmaz, semantik sarmalayıcı. */
+/* Sezon detay sayfası düzeni — BreakingBad/HouseOfTheDragon SeasonDetail
+   .module.css ile BİREBİR aynı (standart imza şablonu, tema token'ları
+   aracılığıyla her yapıma uyar). */
 .page {
   background: var(--bg);
 }
 
-/* İnceleme (sol, geniş) + sidebar (sağ, dar: bölüm listesi + ileride ilgili
-   blog) iki-kolonlu düzeni — kullanıcı referans ekran görüntüsü, 2026-08.
-   Bağımsız split-pane scroll DENENDİ, kullanıcı geri aldı ("episode kısmı
-   da scroll ile hareket etsin, sağ sol ayrı olmasın") — normal tek sayfa
-   scroll'una dönüldü, sidebar sticky ile takip eder. */
 .content {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
@@ -51,8 +45,6 @@
 .hero__media {
   position: absolute;
   inset: 0;
-  /* Hero'dan sonraki bölüme sis-erime geçişi (learned-rules, GoT EpisodePage
-     imzası) — statik CSS mask, scroll-bağlı polish motion-expert turunda. */
   mask-image: linear-gradient(
     to bottom,
     #000 0%,
@@ -152,10 +144,6 @@
   background: var(--fg-muted);
 }
 
-/* Sağ-alt köşede duran "ghost" CTA (kullanıcı düzeltmesi, 2026-08): arkası
-   şeffaf + ince beyaz kenarlık, hover'da dolu beyaza döner. Bu, genel
-   glassmorfik-CTA kuralının BU BUTONA özel istisnasıdır — kuralın geri
-   kalanı (EpisodeBrief/Highlights vb.) değişmedi. */
 .hero__cta {
   position: absolute;
   right: var(--space-page-x);

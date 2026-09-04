@@ -5,3 +5,16 @@
 // zemin sitenin standart siyahında kalır).
 export { fetchProductionDetail, fetchSeasonDetail } from '../../../../shared/api/productions';
 export { theme } from '../BreakingBad.data';
+
+// Sağ sidebar'daki "Dive Deeper" şeridinin veri kaynağı — EpisodePage'in
+// RelatedContent.data.js'iyle AYNI uç (GET /api/blogs/related), tek fark
+// sezon düzeyinde çağrılması (episodeNumber YOK).
+import { fetchRelatedBlogs } from '../../../../shared/api/blogs';
+
+export function getRelatedBlogs({ seasonNumber }) {
+  return fetchRelatedBlogs({
+    productionType: 'SERIES',
+    productionSlug: 'breaking-bad',
+    seasonNumber,
+  });
+}

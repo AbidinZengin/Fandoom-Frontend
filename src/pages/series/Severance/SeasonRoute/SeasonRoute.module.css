@@ -7,8 +7,8 @@
 }
 
 /* Tam-kaplayan CSS arka planı DEĞİL — diğer görseller gibi kendi radius'lu,
-   çerçeveli paneli (kullanıcı düzeltmesi: "background olmayacak o da image
-   olacak radiuslu"). Section'ın içine boşluklu oturur. */
+   çerçeveli paneli (BreakingBad/HouseOfTheDragon SeasonRoute ile birebir
+   aynı desen). Section'ın içine boşluklu oturur. */
 .backdrop {
   position: absolute;
   inset: var(--space-xl);
@@ -20,9 +20,8 @@
 }
 
 /* Kart yazılarının ve alt ok navigasyonunun okunurluğu için alt kenar
-   koyulaşır; üst yarı hafif genel kararma. Arka plan verilmeden de section
-   kendi --bg zemininde okunur kalır. Aynı inset+radius'u taşır ki köşeler
-   backdrop'un dışına taşmasın. */
+   koyulaşır; üst yarı hafif genel kararma. Aynı inset+radius'u taşır ki
+   köşeler backdrop'un dışına taşmasın. */
 .scrim {
   position: absolute;
   inset: var(--space-xl);
@@ -51,9 +50,8 @@
   color: var(--fg);
 }
 
-/* Referansın tam-uppercase afiş başlığına kasıtlı istisna (learned-rules
-   tipografi kuralının normal-case tercihine rağmen) — kullanıcı "birebir
-   aynısı" dedi, bu section'a özel. */
+/* Referansın tam-uppercase afiş başlığına kasıtlı istisna (BreakingBad/
+   HouseOfTheDragon SeasonRoute'la aynı) — bu section'a özel. */
 .title {
   margin: 0;
   max-width: 20ch;
@@ -75,10 +73,6 @@
   padding: var(--space-2xl) var(--space-page-x) var(--space-2xl);
 }
 
-/* Genişlik kartın kendi genişliği + track gap'i kadar büyütüldü (kullanıcı
-   isteği: "carousel'in başlangıcı mevcut 2. carousel olsun, 1.'nin alanı
-   season açıklaması için kalsın") — ilk kart artık bu panelin ARKASINDA,
-   carousel görünür şekilde ikinci karttan başlıyor. */
 .focus {
   flex: 0 0 clamp(460px, 42vw, 600px);
   padding-bottom: var(--space-3xl);
@@ -101,9 +95,6 @@
   color: var(--fg-dim);
 }
 
-/* Outline varsayılan, HOVER'da beyaza dolar (kullanıcı düzeltmesi: "hover
-   olduğunda beyaz olsun", radius sabit kalır) — bu section'a özel istisna,
-   genel glassmorfik CTA kuralının yerine geçmez. */
 .focus__cta {
   display: inline-flex;
   align-items: center;
@@ -153,8 +144,7 @@
   gap: var(--space-sm);
 }
 
-/* Beyaz ince çerçeve, dolgu YOK (kullanıcı isteği) — kart yalnızca görsel +
-   kenarlık. */
+/* Beyaz ince çerçeve, dolgu YOK — BreakingBad/HouseOfTheDragon ile aynı. */
 .card {
   position: relative;
   display: block;
@@ -180,9 +170,6 @@
   object-fit: cover;
 }
 
-/* Sayı posterin kendi köşesinde durur, KOCAMAN (kullanıcı düzeltmesi) —
-   alttaki caption artık sadece başlık taşır. Pill zemin yerine düz text-
-   shadow: bu boyutta arka plan kutusu poster üstünde ağır dururdu. */
 .card__number {
   position: absolute;
   top: var(--space-xs);
@@ -232,12 +219,6 @@
 }
 
 @media (max-width: 900px) {
-  /* Backdrop/scrim'in yatay inset'i sabit --space-xl idi, üstündeki
-     header/bottom içeriği ise responsive --space-page-x padding kullanıyordu
-     — mobilde space-page-x, space-xl'in altına düştüğünde (20px < 32px)
-     başlık metni ve ilk sezon kartı panelin sol kenarından taşıp düz zemine
-     biniyordu (kullanıcı düzeltmesi: "sezonlar background'dan taşmasın").
-     İçerikle aynı token'a bağlanınca kenarlar her genişlikte hizalı kalır. */
   .backdrop {
     left: var(--space-page-x);
     right: var(--space-page-x);

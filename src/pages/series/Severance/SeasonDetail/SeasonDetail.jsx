@@ -23,12 +23,10 @@ const airYearRange = (episodes) => {
   return min === max ? String(min) : `${min}–${max}`;
 };
 
-// Sezonun kendi sayfası — SeasonRoute'taki (BreakingBad ana sayfası) sezon
-// satırından tıklanınca açılır. Kullanıcı kararıyla (2026-08) SeasonStory
-// gerçek bir TV inceleme yazısı formatına/sesine geçti (referans: House of
-// the Dragon S3 incelemesi örneği) — bkz. SeasonStory.jsx/.data.js. Statik
-// iskelet — motion (sis geçişi, crossfade) bu turda YOK, component-dev
-// aşaması; sonraki tur motion-expert'e ait.
+// BreakingBad/HouseOfTheDragon SeasonDetail ile BİREBİR aynı (standart imza
+// şablonu — sadece slug/route/theme yapıma göre değişir). SeasonStory'ye
+// backend'den henüz seasonBlocks gelmediği için (sezon incelemesi ayrı bir
+// sonraki adım) o bölüm kendi içinde null döner, EpisodeGrid çalışır.
 export default function SeasonDetail() {
   const { t } = useTranslation();
   const { seasonNumber: seasonNumberParam } = useParams();
@@ -38,14 +36,12 @@ export default function SeasonDetail() {
   const [series, setSeries] = useState(null);
   const [seasonDetail, setSeasonDetail] = useState(null);
   const [notFound, setNotFound] = useState(false);
-  // Sayfanın altındaki "Dive Deeper" şeridi — backend'den asenkron gelir;
-  // null iken RelatedContent boş şeridi hiç basmaz (bkz. component).
   const [relatedBlogs, setRelatedBlogs] = useState(null);
   const episodes = seasonDetail?.episodes ?? null;
 
   useEffect(() => {
     let cancelled = false;
-    fetchProductionDetail('series', 'breaking-bad')
+    fetchProductionDetail('series', 'severance')
       .then((data) => {
         if (!cancelled) setSeries(data);
       })
@@ -74,7 +70,6 @@ export default function SeasonDetail() {
     };
   }, [series, seasonNumber]);
 
-  // Sezon değişince şeridi yeniden çeker — GET /api/blogs/related.
   useEffect(() => {
     if (!seasonNumber) return undefined;
     let cancelled = false;
@@ -91,8 +86,7 @@ export default function SeasonDetail() {
     };
   }, [seasonNumber]);
 
-  // learned-rules: "Yapım sayfaları TAM TEMA kurar" — BreakingBad.jsx/GoT
-  // EpisodePage ile aynı davranış, zemin siyahta kalır.
+  // learned-rules: "Yapım sayfaları TAM TEMA kurar."
   useEffect(() => {
     if (!series) return undefined;
     const root = document.documentElement;
@@ -136,16 +130,13 @@ export default function SeasonDetail() {
   const goToSeason = (target) => {
     if (!target) return;
     armInPageNav();
-    navigate(`/series/breaking-bad/seasons/${target.seasonNumber}`);
+    navigate(`/series/severance/seasons/${target.seasonNumber}`);
   };
 
   const yearRange = airYearRange(episodes);
 
   return (
     <>
-      {/* Sadece bu sayfaya özel açık/sıcak "travel landing" teması (kullanıcı
-          kararı, referans: Dribbble #24876957) — Navbar/Footer site standardı
-          koyu chrome'da kalır, bkz. .page token seti (SeasonDetail.module.css). */}
       <div className={styles.page}>
         <section className={styles.hero}>
           <div className={styles.hero__media} aria-hidden="true">
@@ -154,7 +145,7 @@ export default function SeasonDetail() {
           </div>
 
           <div className={styles.hero__content}>
-            <button type="button" className={styles.hero__back} onClick={() => navigate('/series/breaking-bad')}>
+            <button type="button" className={styles.hero__back} onClick={() => navigate('/series/severance')}>
               &#8249; {t('series.seasonsHeading')}
             </button>
             <p className={styles.hero__kicker}>{t('series.seasonMeta', { number: pad2(seasonNumber) })}</p>
@@ -213,10 +204,6 @@ export default function SeasonDetail() {
           </aside>
         </div>
 
-        {/* RelatedContent tam genişlikte bir şerit olarak tasarlandı (bkz.
-            EpisodePage/BlogPost) — dar sidebar kolonuna sığmaz (kartlar
-            170-280px, viewport kenarına taşan "peek" kırpması var), bu yüzden
-            iki-kolonlu .content grid'inin DIŞINDA, altında render edilir. */}
         <RelatedContent items={relatedBlogs} />
       </div>
 

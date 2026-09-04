@@ -1,95 +1,119 @@
 .page {
   position: relative;
   width: 100%;
-  aspect-ratio: 1360 / 800;
+  aspect-ratio: 1360 / 865.7773803894768;
+  /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
+     cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
   container-type: inline-size;
 }
 
 .imageBlock1 {
   position: absolute;
-  left: 0.11%;
-  top: 0%;
-  width: 99.89%;
-  height: 100.34%;
-  filter: blur(7px);
-  border-radius: var(--radius-sm);
+  left: 0%;
+  top: 0cqw;
+  width: 100%;
+  height: 64.157cqw;
+  filter: blur(5px);
   object-fit: cover;
-  /* Hero -> SeasonRoute sis erimesi (imza desen, bkz. learned-rules
-     [motion] "Hero'dan sonraki bölüme geçiş sis erimesidir"): alt kenar
-     sert kesilmez, sayfa zeminine (--bg) erir. Metin kardeş katmanda
-     kalır, maske yalnız medyaya uygulanır. */
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 62%,
-    rgba(0, 0, 0, 0.78) 76%,
-    rgba(0, 0, 0, 0.38) 88%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 62%,
-    rgba(0, 0, 0, 0.78) 76%,
-    rgba(0, 0, 0, 0.38) 88%,
-    transparent 100%
-  );
+  border-radius: var(--radius-sm);
+  object-position: 44.306752136231474% 0%;
 }
 
 .imageBlock2 {
   position: absolute;
-  left: 29.05%;
-  top: 30.52%;
-  width: 42.24%;
-  height: 38.96%;
-  /* Arkadaki blurlu zemine (imageBlock1) karşı derinlik gölgesi — iki
-     katman (yakın+sıkı / uzak+yumuşak) net görselin zeminden kalkıp
-     keskinleşmiş görünmesini sağlar. */
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4)) drop-shadow(0 24px 48px rgba(0, 0, 0, 0.45));
-  border-radius: var(--radius-sm);
-  scale: 2;
-  object-fit: fill;
-  background-blend-mode: normal;
+  left: 6.26%;
+  top: 2.827cqw;
+  width: 87.48%;
+  height: 51.316cqw;
+  filter: saturate(1.6);
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  object-position: 39.01922951904175% 0%;
+  scale: 1;
 }
 
 .textBlock1 {
   position: absolute;
-  left: 12%;
-  top: 63.57%;
-  width: 19.2%;
+  left: 10.67%;
+  top: 31.467cqw;
+  width: 36.61%;
   height: auto;
-  color: #a8a8a8;
+  margin: 0;
+  color: #f2f2f2;
+  font-size: 3.382cqw;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.textBlock2 {
+  position: absolute;
+  left: 10.67%;
+  top: 36.579cqw;
+  width: 6%;
+  height: auto;
+  margin: 0;
+  color: #a0a19f;
   font-size: 1.176cqw;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
+}
+
+.textBlock3 {
+  position: absolute;
+  left: 14.49%;
+  top: 36.579cqw;
+  width: 24.76%;
+  height: auto;
+  margin: 0;
+  color: #9b9c9a;
+  font-size: 1.176cqw;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.textBlock4 {
+  position: absolute;
+  left: 10.67%;
+  top: 38.89cqw;
+  width: 46.23%;
+  height: 5.755cqw;
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.176cqw;
   font-family: 'Montserrat', sans-serif;
 }
 
 .logoBlock1 {
   position: absolute;
-  left: 9.68%;
-  top: 14.99%;
-  width: 27.6%;
-  height: 35.82%;
+  left: 85.7%;
+  top: 4.214cqw;
+  width: 6.5%;
+  height: 4.144cqw;
 }
 
-/* Like/Save/Follow bar — buton sırasının (buttonBlock1/2) hemen üstü,
-   sol kenarı buttonBlock2 ile hizalı (kullanıcı kararı: "butonların
-   olduğu kısmın üstüne"). */
-.actionsBlock {
+.textBlock5 {
   position: absolute;
-  left: 61.03%;
-  top: calc(75.49% - 68px);
+  left: 81.67%;
+  top: 4.775cqw;
+  width: 6%;
+  height: 3.584cqw;
+  margin: 0;
+  color: #f6c700;
+  font-size: 2.206cqw;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
 }
 
 .buttonBlock1 {
   position: absolute;
-  left: 75.11%;
-  top: 75.49%;
-  width: 12.68%;
-  height: 5.95%;
+  left: 77.58%;
+  top: 40.832cqw;
+  width: 12.73%;
+  height: 3.571cqw;
   color: #ffffff;
   font-size: var(--text-sm);
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
   background: linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%);
   border-radius: var(--radius-pill);
@@ -104,75 +128,37 @@
 
 .buttonBlock2 {
   position: absolute;
-  left: 61.03%;
-  top: 75.49%;
-  width: 12.68%;
-  height: 5.95%;
-  color: #ffffff;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  text-align: center;
-  background: transparent;
-  border-radius: var(--radius-pill);
-  border-color: rgba(255,255,255,0.4);
-  border-width: 1px;
-  border-style: solid;
-  padding: var(--space-sm) var(--space-lg);
+  left: 63.48%;
+  top: 40.883cqw;
+  width: 12.76%;
+  height: 3.762cqw;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xs);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  background: transparent;
+  border-color: var(--fg);
+  border-width: 2.5px;
+  border-style: solid;
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-lg);
   font-family: 'Montserrat', sans-serif;
 }
 
-.textBlock2 {
-  position: absolute;
-  left: 11.06%;
-  top: 68.12%;
-  width: 38.94%;
-  height: 14.75%;
-  color: #ffffff;
-  font-size: 1.618cqw;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  text-align: left;
+.buttonBlock2:hover {
+  background: var(--fg);
+  color: var(--bg);
 }
 
 .logoBlock2 {
   position: absolute;
-  left: 80.41%;
-  top: 14.99%;
-  width: 9.61%;
-  height: 7.01%;
-}
-
-.textBlock3 {
-  position: absolute;
-  left: 12.68%;
-  top: 57.08%;
-  width: 6%;
-  height: 4.19%;
-  color: #f6c700;
-  font-size: 2.206cqw;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-}
-
-.iconBlock1 {
-  position: absolute;
-  left: 9.68%;
-  top: 57.29%;
-  width: 6%;
-  height: 3.98%;
-  color: #f6c700;
-}
-
-.rectangleBlock1 {
-  position: absolute;
-  left: -25.94%;
-  top: 80.22%;
-  width: 4.67%;
-  height: 6.01%;
-  background: #ffffff;
-  opacity: 1;
+  left: 11.73%;
+  top: 4.972cqw;
+  width: 26.4%;
+  height: 20.931cqw;
 }

@@ -7,15 +7,22 @@ import News from './pages/News/News';
 import Community from './pages/Community/Community';
 import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
 import BreakingBad from './pages/series/BreakingBad/BreakingBad';
+import HouseOfTheDragon from './pages/series/HouseOfTheDragon/HouseOfTheDragon';
+import Severance from './pages/series/Severance/Severance';
 import SeasonDetail from './pages/series/BreakingBad/SeasonDetail/SeasonDetail';
+import HouseOfTheDragonSeasonDetail from './pages/series/HouseOfTheDragon/SeasonDetail/SeasonDetail';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
 import BreakingBadSeasonEpisodes from './pages/series/BreakingBad/SeasonEpisodes/SeasonEpisodes';
 import EpisodePage from './pages/series/GameOfThrones/EpisodePage/EpisodePage';
 import BreakingBadEpisodePage from './pages/series/BreakingBad/EpisodePage/EpisodePage';
+import HouseOfTheDragonEpisodePage from './pages/series/HouseOfTheDragon/EpisodePage/EpisodePage';
+import SeveranceSeasonDetail from './pages/series/Severance/SeasonDetail/SeasonDetail';
+import SeveranceEpisodePage from './pages/series/Severance/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
 import WesterosMap from './pages/series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/series/GameOfThrones/History/History';
 import ProductionDetail from './pages/ProductionDetail/ProductionDetail';
+import Series from './pages/Series/Series';
 import Blog from './pages/Blog/Blog';
 import BlogPost from './pages/Blog/BlogPost/BlogPost';
 import Login from './pages/Admin/Login/Login';
@@ -27,6 +34,7 @@ import AdminHome from './pages/Admin/AdminHome/AdminHome';
 import PageBuilder from './pages/Admin/PageBuilder/PageBuilder';
 import { RequireAuth } from './pages/Admin/RequireAuth';
 import Placeholder from './pages/Placeholder/Placeholder';
+import Account from './pages/Account/Account';
 import FlameLab from './pages/FlameLab/FlameLab';
 import { LangGate, LegacyRedirect } from './shared/i18n/LangGate';
 import { initMotion } from './motion/setup';
@@ -192,8 +200,21 @@ function App() {
               element={<BreakingBadEpisodePage />}
             />
             <Route path="series/breaking-bad/seasons/:seasonNumber" element={<SeasonDetail />} />
+            <Route path="series/house-of-the-dragon" element={<HouseOfTheDragon />} />
+            <Route path="series/house-of-the-dragon/seasons" element={<Placeholder titleKey="series.seasonsHeading" />} />
+            <Route
+              path="series/house-of-the-dragon/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<HouseOfTheDragonEpisodePage />}
+            />
+            <Route path="series/house-of-the-dragon/seasons/:seasonNumber" element={<HouseOfTheDragonSeasonDetail />} />
+            <Route path="series/severance" element={<Severance />} />
+            <Route
+              path="series/severance/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<SeveranceEpisodePage />}
+            />
+            <Route path="series/severance/seasons/:seasonNumber" element={<SeveranceSeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
-            <Route path="series" element={<Placeholder titleKey="navbar.series" />} />
+            <Route path="series" element={<Series />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
             <Route path="movies" element={<Placeholder titleKey="navbar.movies" />} />
             <Route path="community" element={<Community />} />
@@ -206,7 +227,15 @@ function App() {
             <Route path="support" element={<Placeholder titleKey="navbar.support" />} />
             <Route path="coming-soon" element={<Placeholder titleKey="navbar.comingSoon" />} />
             <Route path="shop" element={<Placeholder titleKey="navbar.shop" />} />
-            <Route path="account" element={<Placeholder titleKey="common.account" />} />
+            {/* TEK wildcard route (kullanıcı isteği, 2026-08-31: "Spotify gibi
+                sol bar yerinde kalmalı") — "account" ve "account/lists/:id"
+                ayrı <Route> girdileri olsaydı React Router aralarında geçişte
+                <Account/> öğesini REMOUNT ederdi (farklı route id, element
+                aynı olsa bile) ve sidebar/oturum kontrolü sıfırdan çalışırdı.
+                Tek girdi olunca Account hiç unmount olmuyor, DashboardView
+                URL'den (useLocation, bkz. kendi yorumu) liste id'sini okuyup
+                paneli değiştiriyor. */}
+            <Route path="account/*" element={<Account />} />
             {/* Geçici — alev shader'ı onaylanınca kaldırılacak */}
             <Route path="flame-lab" element={<FlameLab />} />
           </Route>
