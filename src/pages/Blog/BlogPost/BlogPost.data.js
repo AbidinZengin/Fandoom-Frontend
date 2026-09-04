@@ -4,6 +4,77 @@
 // değişir ve geçiş "kesme" olarak görünür.
 import { fetchBlogBySlug, fetchBlogs } from '../../../shared/api/blogs';
 import { resolveProductionById } from '../../../shared/api/productions';
+import i18n from '../../../shared/i18n/i18n';
+
+// Backend base alanı (title/kicker/axis/content/imageAlt) İngilizce, *Tr
+// ikizi Türkçe çeviridir — bkz. entitySchemas.js "titleTr ikizi" notu ve
+// canlı GET /api/blogs/{id} (title===titleTr sadece henüz çevrilmemiş
+// blog'larda). Önceden HİÇBİR yerde okunmuyordu (kullanıcı raporu: "TR/EN
+// ayrımı bozuk") — dil route'tan LangGate ile i18next'e yazılıyor, o yüzden
+// çağrı anında i18n.language okumak yeterli (LangGate dil değişince alt
+// ağacı key={lang} ile remount ediyor, bu fonksiyon zaten yeniden çalışır).
+function pickLocale(base, tr) {
+  return i18n.language === 'tr' ? (tr ?? base) : base;
+}
+
+// Gövde artık serbest x/y canvas DEĞİL — BreakingBad SeasonStory'nin
+// ("sezon incelemesi") blok şemasıyla BİREBİR aynı desen (kullanıcı kararı,
+// 2026-08): backend blocks[] düz bir liste döner, ardışık aynı sceneKey'li
+// bloklar TEK "section" oluşturur (bkz. SeasonStory.jsx parseSeasonBlocks).
+// KASITLI FARKLAR (backend kontratı netleşti, 2026-08): görsel blockType'ı
+// SeasonBlock'un MEDIA'sı değil IMAGE — alanlar da mediaUrl/mediaAlt değil
+// imageUrl/imageAlt (blog her zaman bir bölüme bağlı olmadığı için episode
+// still referansı genellenemez, editör doğrudan görsel yükler); mediaCredit
+// YOK — blog'da fotoğraf kredisi gösterilmiyor.
+function parseBlogBlocks(blocks) {
+  if (!blocks?.length) return null;
+  const sorted = [...blocks].sort((a, b) => a.orderIndex - b.orderIndex);
+  const lede = [];
+  const verdict = [];
+  const sectionsByKey = new Map();
+
+  for (const block of sorted) {
+    const content = pickLocale(block.content, block.contentTr);
+    const imageAlt = pickLocale(block.imageAlt, block.imageAltTr);
+
+    if (block.blockType === 'LEDE_TEXT') {
+      lede.push(...content.split('\n\n'));
+      continue;
+    }
+    if (block.blockType === 'VERDICT_TEXT') {
+      verdict.push(...content.split('\n\n'));
+      continue;
+    }
+
+    let section = sectionsByKey.get(block.sceneKey);
+    if (!section) {
+      section = { id: block.sceneKey, heading: '', photo: null, paragraphs: [], pullQuote: null };
+      sectionsByKey.set(block.sceneKey, section);
+    }
+
+    switch (block.blockType) {
+      case 'SECTION_HEADING':
+        section.heading = content;
+        break;
+      case 'IMAGE':
+        section.photo = { url: block.imageUrl, alt: imageAlt };
+        break;
+      case 'SECTION_LEAD_TEXT':
+        section.paragraphs.push(content);
+        break;
+      case 'SECTION_TEXT':
+        section.paragraphs.push(...content.split('\n\n'));
+        break;
+      case 'QUOTE':
+        section.pullQuote = content;
+        break;
+      default:
+        break;
+    }
+  }
+
+  return { lede, sections: [...sectionsByKey.values()], verdict };
+}
 
 // tags[] sayısal subjectId taşır (BlogTagResponse), TagChips ise
 // productionSlug bekler (learned-rules: yalnız game-of-thrones bölüm
@@ -29,46 +100,28 @@ async function resolveTags(tags) {
 export async function getBlogDetail(slug) {
   const detail = await fetchBlogBySlug(slug);
   const tags = await resolveTags(detail.tags);
-  const sortedBlocks = (detail.blocks ?? []).slice().sort((a, b) => a.orderIndex - b.orderIndex);
-
-  // canvasHeight null = x/y/width/height geçişinden ÖNCE kaydedilmiş eski
-  // blog (backend'de backfill migration YOK, sadece yeni nullable kolonlar
-  // eklendi). Serbest canvas konumu TAHMİNİ olacağından (gerçek içerik
-  // yüksekliği bilinmeden hesaplanamaz — kullanıcı raporu: "imagelerin
-  // üstüne çakışıyorlar") burada TAHMİN YAPILMAZ: isLegacyLayout=true ile
-  // BlogPost.jsx bu blogu NORMAL AKIŞTA (üst üste, gerçek içerik boyuna
-  // göre otomatik, çakışma İMKANSIZ) render eder — eski görünümüne en
-  // yakın, riske en az açık seçenek. Editör tarafında (BlogEditor.data.js)
-  // hâlâ tahmini bir başlangıç konumu veriliyor — orada admin sürükleyerek
-  // düzeltebilir, yayınlanan sayfada okuyucu düzeltemez.
-  const isLegacyLayout = detail.canvasHeight == null;
+  const story = parseBlogBlocks(detail.blocks);
 
   return {
     id: detail.id,
     slug: detail.slug,
-    title: detail.title,
+    title: pickLocale(detail.title, detail.titleTr),
     // Editörün serbest yazdığı çerçeveleme metni — tag/sezon/bölüm verisine
     // bağımlı DEĞİL, bölümden bağımsız içerikte de anlamlı kalır (kullanıcı
     // sorusu: "tag'siz içerik ne başlığı altında çıkar" → cevap: kicker).
-    kicker: detail.kicker,
-    axis: detail.axis,
+    kicker: pickLocale(detail.kicker, detail.kickerTr),
+    axis: pickLocale(detail.axis, detail.axisTr),
     // Kart w780 ile büyüdü; sayfada kutu daha büyük olduğu için imageUrlLarge
     // kullanılır — aynı görselin daha yüksek çözünürlüklü sürümü olduğundan
     // tarayıcı çoğu durumda kareyi değiştirmeden üstüne biner.
     imageUrl: detail.imageUrlLarge ?? detail.imageUrl,
-    imageAlt: detail.imageAlt,
+    imageAlt: pickLocale(detail.imageAlt, detail.imageAltTr),
     publishedAt: detail.publishedAt,
     readingTimeMinutes: detail.readingTimeMinutes,
-    // orderIndex'e göre sıralanır — backend zaten sıralı dönüyor olsa da
-    // render sırası burada garanti edilir (savunmacı, tek satır); aynı
-    // sıra DOM'daki z-sırasını da belirler (bkz. BlogPost.jsx, learned-rules
-    // [blog-blok-pozisyon]).
-    blocks: sortedBlocks,
-    isLegacyLayout,
-    // Serbest canvas'ın toplam yüksekliği (piksel, genişlik referansı sabit
-    // 1360px) — blok x/y/width/height yüzdeleri buna göre çözülür.
-    // isLegacyLayout true iken kullanılmaz (normal akış otomatik yükseklik).
-    canvasHeight: detail.canvasHeight,
+    // { lede[], sections[{id,heading,photo,paragraphs[],pullQuote}], verdict[] }
+    // — içerik yoksa (blocks boş/henüz yazılmadıysa) null, BlogPost.jsx gövdeyi
+    // hiç render etmez.
+    story,
     tags,
     spoilerThrough:
       detail.spoilerThroughSeasonNumber != null

@@ -1,13 +1,13 @@
+/* Oklar artık kapağın ÜSTÜNE bindirilen overlay (bkz. CarouselArrow.module.css)
+   — yatay alan çalmasınlar diye satır-içi flex yerleşim yerine position:relative
+   ile konumlanıyorlar (kullanıcı isteği: mobilde başlık taşmasına yol açıyordu). */
 .spotlight {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
+  position: relative;
 }
 
 .spotlight__content {
   display: block;
-  flex: 1;
-  min-width: 0;
+  width: 100%;
   color: inherit;
   text-decoration: none;
 }
@@ -20,7 +20,7 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+  border: 3px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.35);
   background: var(--bg-soft);
   transition: transform var(--duration-fast) ease;
@@ -130,5 +130,16 @@
 @media (max-width: 640px) {
   .spotlight__caption {
     padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  }
+
+  /* 16:9 kapak mobilde kısa — 32px taban clamp 3 satırda taşıyordu, kutuya
+     göre küçültülüp 2 satırla sınırlanıyor (kullanıcı isteği: "başlık bile
+     sığmıyor"). */
+  .spotlight__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: clamp(20px, 6vw, 28px);
   }
 }

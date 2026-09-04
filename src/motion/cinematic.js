@@ -141,46 +141,6 @@ export function isBlogReturnArmed() {
   return blogReturnArmedAt > 0 && performance.now() - blogReturnArmedAt < ARM_WINDOW_MS;
 }
 
-// ---------------------------------------------------------------------------
-// Blog → blog zinciri (A'nın Dive Deeper şeridinden B açılır).
-//
-// `blogFlip` TEK SLOTLUK modül değişkeni — B açılırken A'nın kendi köken
-// bilgisi (originRect/returnPath: Episode sayfasına döner) bu slotun
-// ÜSTÜNE yazılır ve kaybolur. B'den A'ya dönüldüğünde A yeniden mount olur
-// (App.jsx key={slug}) ama artık KENDİ kökenini bilmez — A'da tekrar yukarı
-// scroll ile geri dönüş çalışmaz (kullanıcı raporu). Çözüm: her sayfa kendi
-// köken bilgisini AÇILDIĞINDA slug'ına göre kalıcı olarak (sessionStorage)
-// saklar; zaman-pencereli bayrakların aksine bu TÜKETİLMEZ ve navigasyonlar
-// arası hayatta kalır.
-// ---------------------------------------------------------------------------
-
-const ORIGIN_STORAGE_KEY = 'fandoom:blogOrigin';
-
-function readOriginMap() {
-  try {
-    return JSON.parse(sessionStorage.getItem(ORIGIN_STORAGE_KEY) ?? '{}');
-  } catch {
-    return {};
-  }
-}
-
-/** Bir blog sayfası açılırken (mount'ta) kendi köken payload'ını kaydeder. */
-export function rememberBlogOrigin(slug, payload) {
-  try {
-    const map = readOriginMap();
-    map[slug] = payload;
-    sessionStorage.setItem(ORIGIN_STORAGE_KEY, JSON.stringify(map));
-  } catch {
-    // sessionStorage kapalı/dolu olabilir — zincirde geri-scroll o oturumda
-    // ilk hopdan sonra sessizce kısalır, kritik bir işlev değil.
-  }
-}
-
-/** Bir blog sayfası mount olurken kendi kayıtlı kökenini okur. */
-export function recallBlogOrigin(slug) {
-  return readOriginMap()[slug] ?? null;
-}
-
 // DÜZELTME (manuel): FeaturedCarousel → Breaking Bad Hero "kesintisiz devir"
 // flip'i (armHeroFlip/isHeroFlipArmed/readHeroFlip/breakingBadHeroBox)
 // kaldırıldı — hedef geometri eski OldHero'nun `.hero__figure` (21:9 kart)

@@ -1,15 +1,20 @@
+/* Oklar artık şeridin ÜSTÜNE bindirilen overlay (bkz. CarouselArrow.module.css)
+   — yatay alan çalmasınlar diye satır-içi flex yerleşim yerine position:relative
+   ile konumlanıyorlar (kullanıcı isteği: viewport dardı, birden fazla kart
+   sığmıyordu). */
 .row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
+  position: relative;
 }
 
 /* Gerçek scroll-carousel (RelatedContent.related__viewport ile aynı desen):
    native scroll + CSS scroll-snap, smooth-scroll kütüphanesi YOK. */
 .row__viewport {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
   overflow-x: auto;
+  /* overflow-x tek başına set edilince tarayıcı overflow-y'yi de 'auto'ya
+     çeviriyor (spec quirk) — bu da hover'da büyüyen kartın alt kenarını
+     kırpıyordu. Açıkça 'visible' verilip kırpma engellendi. */
+  overflow-y: visible;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   touch-action: pan-x;
@@ -31,7 +36,11 @@
   gap: var(--space-xl);
   margin: 0;
   padding: 0;
-  padding-block-start: var(--space-sm);
+  /* İlk kart sol kenara yapışmasın diye start boşluğu; hover'da büyüyen
+     kartın alt kenarı için de aynı miktarda boşluk (bkz. row__viewport
+     overflow-y notu). */
+  padding-block: var(--space-sm);
+  padding-inline-start: var(--space-md);
   list-style: none;
 }
 
@@ -48,18 +57,17 @@
 /* "Top 10" rütbe rakamı — brand-gradient yalnız TEKİL vurgu noktalarında
    kullanılır (learned-rules [renk]); burada birkaç kartlık ince bir vurgu,
    geniş yüzeye yayılmaz. */
+/* Kullanıcı isteği: referans görüntüdeki gibi sağ üstte, düz beyaz
+   (gradient değil) rakam. */
 .row__rank {
   position: absolute;
   top: var(--space-sm);
-  left: var(--space-sm);
+  right: var(--space-sm);
   z-index: 2;
   font-size: var(--text-h2);
   font-weight: 800;
   line-height: 1;
-  background: var(--brand-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: var(--fg);
   filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
 }
 
@@ -73,14 +81,18 @@
   aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+  border: 3px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
   background: var(--bg-soft);
   transition: transform var(--duration-fast) ease;
 }
 
-.row__card[data-active] .row__thumb {
-  transform: scale(1.04);
+/* Kullanıcı isteği: büyüme scroll'daki "aktif" karta otomatik uygulanmasın,
+   yalnızca gerçek fare hover'ında tetiklensin. */
+@media (hover: hover) {
+  .row__thumb:hover {
+    transform: scale(1.04);
+  }
 }
 
 /* Gerçek veri gelene kadar (learned-rules [veri]) kesik çerçeve + accent
@@ -147,7 +159,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .row__thumb,
-  .row__card[data-active] .row__thumb {
+  .row__thumb:hover {
     transition: none;
     transform: none;
   }
@@ -156,7 +168,10 @@
 /* Mobil: kullanıcı isteği (masaüstüyle aynı büyütme yönü) — kartlar ~1.2
    görünür büyüklükte, dokunmatik swipe zaten native gelir. */
 @media (max-width: 640px) {
+  /* Oklar overlay olduktan sonra viewport genişledi; kullanıcı isteği
+     ("birden fazla blog sığabilsin") üzerine oran 1.2'den gevşetildi —
+     ~1.7 kart görünüyor. */
   .row__card {
-    width: calc((100% - var(--space-md)) / 1.2);
+    width: calc((100% - var(--space-md)) / 1.7);
   }
 }

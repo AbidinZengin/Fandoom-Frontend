@@ -10,6 +10,7 @@ export function CarouselArrow({ direction = 'next', onClick, disabled = false })
     <button
       type="button"
       className={styles.arrow}
+      data-direction={direction}
       onClick={onClick}
       disabled={disabled}
       aria-label={direction === 'prev' ? t('common.previous') : t('common.next')}

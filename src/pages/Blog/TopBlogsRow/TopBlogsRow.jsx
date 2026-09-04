@@ -349,7 +349,6 @@ export function TopBlogsRow({ items = [] }) {
                   className={styles.row__card}
                   key={item.id}
                   data-reveal
-                  data-active={i === activeIndex || undefined}
                 >
                   <span className={styles.row__rank}>{String(i + 1).padStart(2, '0')}</span>
                   <Link

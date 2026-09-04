@@ -23,12 +23,19 @@ function tagLabel(tag) {
   return parts.join(' · ');
 }
 
-// Yalnız BÖLÜM sayfası rotası bugün gerçekten var (game-of-thrones),
-// başka yapımlar için sezon/bölüm derinliğinde link üretilmez — üretim
-// sayfası (`/series/:slug`) her yapım için geçerli, en güvenli geri düşüş.
+// Bölüm sayfası rotası bugün game-of-thrones ve breaking-bad'de var (App.jsx:
+// /series/:slug/seasons/:seasonNumber/episodes/:episodeNumber) — başka bir
+// yapım için sezon/bölüm derinliğinde link üretilmez, üretim sayfası
+// (`/series/:slug`) en güvenli geri düşüş.
+const SERIES_WITH_EPISODE_ROUTES = ['game-of-thrones', 'breaking-bad'];
+
 function tagHref(tag) {
-  if (tag.productionSlug === 'game-of-thrones' && tag.seasonNumber != null && tag.episodeNumber != null) {
-    return `/series/game-of-thrones/seasons/${tag.seasonNumber}/episodes/${tag.episodeNumber}`;
+  if (
+    SERIES_WITH_EPISODE_ROUTES.includes(tag.productionSlug) &&
+    tag.seasonNumber != null &&
+    tag.episodeNumber != null
+  ) {
+    return `/series/${tag.productionSlug}/seasons/${tag.seasonNumber}/episodes/${tag.episodeNumber}`;
   }
   if (tag.productionSlug) return `/series/${tag.productionSlug}`;
   return null;

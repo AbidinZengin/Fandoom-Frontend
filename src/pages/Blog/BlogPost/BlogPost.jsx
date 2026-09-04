@@ -459,6 +459,9 @@ export default function BlogPost() {
                             loading="lazy"
                             decoding="async"
                           />
+                          {section.photo.alt && (
+                            <figcaption className={styles.section__caption}>{section.photo.alt}</figcaption>
+                          )}
                         </figure>
                       )}
 

@@ -12,7 +12,7 @@ import styles from './FeaturedCarousel.module.css';
 // kuruluydu ve yeni Hero'da klonu temizleyen kod yoktu (ekranda kalıcı siyah
 // perde + poster kalıyordu). Artık GoT ile aynı, kanıtlanmış imza-şerit
 // geçişini kullanıyor.
-const CINEMATIC_SLUGS = new Set(['game-of-thrones', 'breaking-bad']);
+const CINEMATIC_SLUGS = new Set(['game-of-thrones', 'breaking-bad', 'house-of-the-dragon']);
 
 // FOCUS_EXPAND (hover: yatay büyüme) — kullanıcı isteğiyle SADECE Breaking
 // Bad'de, tıklama davranışından (yukarıdaki CINEMATIC_SLUGS) bağımsız.
