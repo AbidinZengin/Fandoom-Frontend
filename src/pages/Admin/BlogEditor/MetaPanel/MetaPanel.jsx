@@ -52,7 +52,7 @@ export function MetaPanel({ draft, onPatch }) {
     <section className={styles.metaPanel}>
       <div className={styles.metaPanel__row}>
         <label className={styles.metaPanel__field}>
-          <span className={styles.metaPanel__label}>Title</span>
+          <span className={styles.metaPanel__label}>Title (EN)</span>
           <input
             className={styles.metaPanel__input}
             type="text"
@@ -60,11 +60,20 @@ export function MetaPanel({ draft, onPatch }) {
             onChange={(e) => onPatch('title', e.target.value)}
           />
         </label>
+        <label className={styles.metaPanel__field}>
+          <span className={styles.metaPanel__label}>Title (TR)</span>
+          <input
+            className={styles.metaPanel__input}
+            type="text"
+            value={draft.titleTr}
+            onChange={(e) => onPatch('titleTr', e.target.value)}
+          />
+        </label>
       </div>
 
       <div className={styles.metaPanel__row}>
         <label className={styles.metaPanel__field}>
-          <span className={styles.metaPanel__label}>Kicker</span>
+          <span className={styles.metaPanel__label}>Kicker (EN)</span>
           <input
             className={styles.metaPanel__input}
             type="text"
@@ -72,14 +81,31 @@ export function MetaPanel({ draft, onPatch }) {
             onChange={(e) => onPatch('kicker', e.target.value)}
           />
         </label>
-
         <label className={styles.metaPanel__field}>
-          <span className={styles.metaPanel__label}>Axis</span>
+          <span className={styles.metaPanel__label}>Kicker (TR)</span>
+          <input
+            className={styles.metaPanel__input}
+            type="text"
+            value={draft.kickerTr}
+            onChange={(e) => onPatch('kickerTr', e.target.value)}
+          />
+        </label>
+        <label className={styles.metaPanel__field}>
+          <span className={styles.metaPanel__label}>Axis (EN)</span>
           <input
             className={styles.metaPanel__input}
             type="text"
             value={draft.axis}
             onChange={(e) => onPatch('axis', e.target.value)}
+          />
+        </label>
+        <label className={styles.metaPanel__field}>
+          <span className={styles.metaPanel__label}>Axis (TR)</span>
+          <input
+            className={styles.metaPanel__input}
+            type="text"
+            value={draft.axisTr}
+            onChange={(e) => onPatch('axisTr', e.target.value)}
           />
         </label>
       </div>
@@ -129,26 +155,30 @@ export function MetaPanel({ draft, onPatch }) {
 
       <div className={styles.metaPanel__row}>
         <span className={styles.metaPanel__label}>Cover Image</span>
-        <ImageField
-          imageUrl={draft.imageUrl}
-          imageAlt={draft.imageAlt}
-          onChange={({ imageUrl, imageAlt }) => {
-            onPatch('imageUrl', imageUrl);
-            onPatch('imageAlt', imageAlt);
-          }}
-        />
+        <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', width: '100%'}}>
+          <ImageField
+            imageUrl={draft.imageUrl}
+            imageAlt={draft.imageAlt}
+            onChange={({ imageUrl, imageAlt }) => {
+              onPatch('imageUrl', imageUrl);
+              onPatch('imageAlt', imageAlt);
+            }}
+          />
+          <input
+            className={styles.metaPanel__input}
+            type="text"
+            placeholder="Cover Image Alt Text (TR)"
+            value={draft.imageAltTr ?? ''}
+            onChange={(e) => onPatch('imageAltTr', e.target.value)}
+          />
+        </div>
       </div>
 
+      {/* Spoiler-Free artık ayrı bir alan/checkbox DEĞİL — sezon/bölüm boşsa
+          türetilir (kullanıcı kararı: "iki ayrı kontrol çelişebiliyordu,
+          minimize et"). Tek doğruluk kaynağı bu iki input; BlogPost.jsx zaten
+          kapıyı yalnız bunlara göre açıp kapatıyordu. */}
       <div className={styles.metaPanel__row}>
-        <label className={styles.metaPanel__toggle}>
-          <input
-            type="checkbox"
-            checked={draft.spoilerFree}
-            onChange={(e) => onPatch('spoilerFree', e.target.checked)}
-          />
-          <span>Spoiler-Free</span>
-        </label>
-
         <label className={styles.metaPanel__field}>
           <span className={styles.metaPanel__label}>Spoiler — Season</span>
           <input
@@ -172,6 +202,10 @@ export function MetaPanel({ draft, onPatch }) {
             }
           />
         </label>
+
+        {draft.spoilerThroughSeasonNumber == null && (
+          <span className={styles.metaPanel__label}>Spoiler-Free</span>
+        )}
       </div>
 
       <div className={styles.metaPanel__row}>
