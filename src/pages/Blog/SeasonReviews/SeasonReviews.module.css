@@ -1,0 +1,31 @@
+.seasonReviews {
+  margin-top: var(--space-3xl);
+}
+
+/* Blog.module.css'teki .blog__sectionLabel ile aynı çizgi-başlık dili
+   (kullanıcı kararı: bloghub'ın "Featured"/"Latest" rayları gibi bir
+   başlık) — kopyalandı, Blog.module.css'e bağımlılık kurulmadı. */
+.seasonReviews__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.seasonReviews__label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.seasonReviews__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-lg);
+}

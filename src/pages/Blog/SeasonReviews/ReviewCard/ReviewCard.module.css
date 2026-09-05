@@ -1,0 +1,122 @@
+/* ResultCard.module.css (Blog/FilterResults) ile BİREBİR aynı görsel dil
+   (kullanıcı kararı: "kart görünümü aynı olsun") — bilerek ayrı dosya,
+   ResultCard'a dokunulmadı/paylaşıma açılmadı. */
+
+.card {
+  display: block;
+  color: inherit;
+}
+
+.card__cover {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  background: var(--bg-soft);
+}
+
+.card__cover[data-pending] {
+  border-style: dashed;
+  background:
+    radial-gradient(65% 90% at 70% 30%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%),
+    var(--bg-soft);
+}
+
+.card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+  .card:hover .card__image {
+    transform: scale(1.04);
+  }
+}
+
+/* ResultCard'daki format rozetinin (REVIEW/RECAP...) yerini burada dizi
+   adı alıyor — hangi yapıma ait olduğunu söyleyen tek işaret (kullanıcı
+   kararı: kart yapısına yeni eleman eklemeden ayrım sağla). */
+.card__format {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 1;
+  padding: 4px var(--space-xs);
+  border-radius: var(--radius-sm);
+  background: rgba(5, 5, 5, 0.6);
+  color: var(--fg);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card__caption {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-xl) var(--space-md) var(--space-md);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.35) 65%, transparent 100%);
+}
+
+.card__title {
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--fg);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card__meta {
+  font-size: var(--text-xs);
+  color: var(--fg-dim);
+}
+
+/* --- Skeleton (veri gelmeden önce) --- */
+
+.bar {
+  display: block;
+  height: 1em;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--fg) 18%, transparent);
+}
+
+.card[data-pending] {
+  pointer-events: none;
+}
+
+.card[data-pending] .card__caption {
+  position: static;
+  background: none;
+  padding: var(--space-sm) 0 0;
+}
+
+.bar--title {
+  width: 85%;
+  height: 1.3em;
+}
+
+.bar--meta {
+  width: 90px;
+  height: 0.75em;
+  background: color-mix(in srgb, var(--fg) 12%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__image {
+    transition: none;
+  }
+}

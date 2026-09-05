@@ -9,6 +9,7 @@ import { SideList } from './SideList/SideList';
 import { FilterPanel } from './FilterPanel/FilterPanel';
 import { EMPTY_FILTERS } from './FilterPanel/filterDefaults';
 import { FilterResults } from './FilterResults/FilterResults';
+import { SeasonReviews } from './SeasonReviews/SeasonReviews';
 import { getBlogFacets, getBlogFilterResults, getBlogHub } from './Blog.data';
 import styles from './Blog.module.css';
 
@@ -235,6 +236,8 @@ export default function Blog() {
             </aside>
           </div>
         )}
+
+        <SeasonReviews />
       </section>
 
       <FilterPanel
