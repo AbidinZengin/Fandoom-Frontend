@@ -214,32 +214,45 @@
   }
 }
 
-/* Sessiz numaralandırma — dizi geçişindeki konumu gösteriyor ama dikkat
-   çekmiyor. */
-.hero__counter {
+/* Sessiz nokta göstergesi — "01/05" barının YERİNE geçti (kullanıcı kararı,
+   2026-09-05). Noktalar hep aynı soluk boyutta durur; .hero__dotIndicator
+   aktif noktanın üstüne tam oturan ayrı bir katman — slide değişiminde JS
+   (SeriesHero.jsx) bunu eski/yeni nokta arasını köprüleyecek şekilde
+   GENİŞLETİP tekrar noktaya KÜÇÜLTEREK "birleşme → ayrılma" hissi verir. */
+.hero__dots {
   position: absolute;
   z-index: 2;
-  right: var(--space-xl);
+  left: 50%;
   bottom: var(--space-xl);
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--fg-muted);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
-.hero__counterActive {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.hero__counterLine {
-  width: 28px;
-  height: 1px;
+.hero__dot {
+  position: relative;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-round);
   background: rgba(255, 255, 255, 0.4);
+}
+
+.hero__dotIndicator {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  transform: translateY(-50%);
+  border-radius: var(--radius-round);
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
 }
 
 /* --- Featured Titles şeridi --- */
@@ -279,12 +292,14 @@
     right: var(--space-md);
   }
 
-  /* Sayaç alt-sağda CTA satırıyla aynı banda düşüp "Watch Trailer"
-     butonunun üstüne biniyordu — rozetin altına, üst köşeye taşındı. */
-  .hero__counter {
+  /* Nokta göstergesi alt-ortada CTA satırıyla aynı banda düşüp "Watch
+     Trailer" butonunun üstüne biniyordu (eski sayaçtaki AYNI sorun) —
+     rozetin altına, üst-ortaya taşındı. */
+  .hero__dots {
     top: calc(72px + var(--space-sm) + 40px);
-    right: var(--space-md);
+    left: 50%;
     bottom: auto;
+    transform: translateX(-50%);
   }
 
   /* Logo konumu (top/left/width) her yapım için JS'ten INLINE style ile

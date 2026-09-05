@@ -74,6 +74,10 @@ export function SeriesHero({ items }) {
   const textRef = useRef(null);
   const timerRef = useRef(null);
   const drag = useRef({ active: false, startX: 0, paused: false });
+  const dotsRowRef = useRef(null);
+  const dotIndicatorRef = useRef(null);
+  const dotRefs = useRef([]);
+  const prevActiveIndex = useRef(0);
 
   const featured = items.slice(0, ROTATION_SIZE);
   const slugKey = featured.map((it) => it.slug).join(',');
@@ -156,6 +160,44 @@ export function SeriesHero({ items }) {
     setActiveIndex((i) => (i + direction + featured.length) % featured.length);
   };
 
+  // Nokta gösterge — "01-05" barının yerine geçti (kullanıcı kararı,
+  // 2026-09-05). İndikatör aktif noktanın üstüne biner; slide değişiminde
+  // ESKİ ve YENİ nokta arasını köprüleyecek şekilde GENİŞLER (görsel
+  // "birleşme"), sonra yeni noktanın boyutuna geri KÜÇÜLÜR ("ayrılma").
+  useEffect(() => {
+    const row = dotsRowRef.current;
+    const indicator = dotIndicatorRef.current;
+    const targetDot = dotRefs.current[activeIndex];
+    if (!row || !indicator || !targetDot) return;
+
+    const rowRect = row.getBoundingClientRect();
+    const targetRect = targetDot.getBoundingClientRect();
+    const targetLeft = targetRect.left - rowRect.left;
+    const dotSize = targetRect.width;
+    const prevIndex = prevActiveIndex.current;
+    prevActiveIndex.current = activeIndex;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prevDot = dotRefs.current[prevIndex];
+
+    if (reduceMotion || prevIndex === activeIndex || !prevDot) {
+      gsap.set(indicator, { left: targetLeft, width: dotSize });
+      return;
+    }
+
+    const prevRect = prevDot.getBoundingClientRect();
+    const prevLeft = prevRect.left - rowRect.left;
+    const bridgeLeft = Math.min(prevLeft, targetLeft);
+    const bridgeWidth = Math.abs(targetLeft - prevLeft) + dotSize;
+
+    gsap
+      .timeline()
+      .set(indicator, { left: prevLeft, width: dotSize })
+      .to(indicator, { left: bridgeLeft, width: bridgeWidth, duration: 0.26, ease: 'power2.out' })
+      .to(indicator, { left: targetLeft, width: dotSize, duration: 0.24, ease: 'back.out(1.6)' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- yalnız index/featured.length değişince yeniden hesaplanır
+  }, [activeIndex, featured.length]);
+
   // Otomatik ilerleme — manuel her etkileşimde sıfırlanır, sürükleme
   // sırasında durur.
   useEffect(() => {
@@ -187,8 +229,6 @@ export function SeriesHero({ items }) {
 
   const logo = KNOWN_LOGOS[current.slug];
   const year = current.releaseDate ? new Date(current.releaseDate).getFullYear() : null;
-  const indexLabel = String(activeIndex + 1).padStart(2, '0');
-  const totalLabel = String(featured.length).padStart(2, '0');
 
   return (
     <div className={styles.hero}>
@@ -256,10 +296,21 @@ export function SeriesHero({ items }) {
               ›
             </button>
 
-            <div className={styles.hero__counter}>
-              <span className={styles.hero__counterActive}>{indexLabel}</span>
-              <span className={styles.hero__counterLine} />
-              <span>{totalLabel}</span>
+            <div className={styles.hero__dots} ref={dotsRowRef}>
+              {featured.map((it, i) => (
+                <button
+                  key={it.slug}
+                  type="button"
+                  ref={(el) => {
+                    dotRefs.current[i] = el;
+                  }}
+                  className={styles.hero__dot}
+                  aria-label={it.title}
+                  aria-current={i === activeIndex}
+                  onClick={() => setActiveIndex(i)}
+                />
+              ))}
+              <span className={styles.hero__dotIndicator} ref={dotIndicatorRef} aria-hidden="true" />
             </div>
           </>
         )}

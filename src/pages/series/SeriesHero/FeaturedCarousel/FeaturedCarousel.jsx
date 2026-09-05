@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import { CarouselArrow } from './CarouselArrow/CarouselArrow';
 import styles from './FeaturedCarousel.module.css';
 
@@ -94,14 +95,14 @@ export function FeaturedCarousel({ items }) {
           {items.map((item, i) => (
             <li className={styles.row__card} key={item.id}>
               <span className={styles.row__rank}>{String(i + 1).padStart(2, '0')}</span>
-              <button
-                type="button"
+              <Link
+                to={`/series/${item.slug}`}
                 className={styles.row__thumb}
                 data-active={i === selectedIndex || undefined}
                 aria-current={i === selectedIndex}
-                onClick={() => {
-                  if (drag.current.moved) return;
-                  setSelectedIndex(i);
+                onClick={(e) => {
+                  if (drag.current.moved) e.preventDefault();
+                  else setSelectedIndex(i);
                 }}
               >
                 {item.posterUrl && (
@@ -116,7 +117,7 @@ export function FeaturedCarousel({ items }) {
                 <span className={styles.row__caption}>
                   <span className={styles.row__title}>{item.title}</span>
                 </span>
-              </button>
+              </Link>
             </li>
           ))}
         </ul>
