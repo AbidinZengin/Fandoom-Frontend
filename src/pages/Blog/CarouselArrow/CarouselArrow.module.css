@@ -16,8 +16,6 @@
   border-radius: var(--radius-round);
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(2px);
-  font-size: var(--text-lg);
-  line-height: 1;
   color: var(--fg);
   transition:
     background var(--duration-micro) ease,
