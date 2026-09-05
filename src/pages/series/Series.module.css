@@ -1,26 +1,17 @@
-.series {
-  padding: var(--space-3xl) var(--space-page-x);
-  max-width: 1640px;
-  margin-inline: auto;
-}
-
-.series__head {
-  margin-bottom: var(--space-2xl);
-}
-
-.series__kicker {
-  display: block;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: var(--space-2xs);
-}
-
-.series__heading {
+/* Hero artık tam viewport (bkz. SeriesHero.module.css) — sayfa kendi
+   padding/max-width sarmalayıcısını taşımıyor. Başlık, Hero'nun üstüne
+   sabitlenmiş küçük bir köşe etiketi (kullanıcı kararı, 2026-09-05: "sol
+   üst köşede sabit, hero onun altında kalsın"). */
+.series__badge {
+  position: absolute;
+  z-index: 3;
+  top: calc(72px + var(--space-md));
+  left: var(--space-page-x);
   margin: 0;
-  font-size: var(--text-h1);
+  font-size: var(--text-sm);
   font-weight: 700;
-  color: var(--fg);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }

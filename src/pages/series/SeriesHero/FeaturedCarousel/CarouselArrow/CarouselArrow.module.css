@@ -1,0 +1,55 @@
+/* Blog/CarouselArrow.module.css ile BİREBİR aynı — görselin/viewport'un
+   üstüne bindirilen overlay ok. Konumlanmak için ebeveynin position:relative
+   olması gerekir. */
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-round);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: var(--fg);
+  transition:
+    background var(--duration-micro) ease,
+    border-color var(--duration-micro) ease,
+    transform var(--duration-micro) ease;
+}
+
+.arrow[data-direction='prev'] {
+  left: var(--space-sm);
+}
+
+.arrow[data-direction='next'] {
+  right: var(--space-sm);
+}
+
+@media (hover: hover) {
+  .arrow:hover {
+    background: rgba(0, 0, 0, 0.55);
+    border-color: var(--fg);
+  }
+}
+
+.arrow:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+.arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+}

@@ -1,46 +1,53 @@
-/* Kullanıcının PageBuilder'da ürettiği SerieHero referansının birebir
-   taşınmış anatomisi (bkz. dosya üstü JSX yorumu) — sabit cqw canvas
-   yerine responsive CSS. */
+/* Tam ekran, çerçevesiz sinematik Hero (2026-09-05) — referans ortak
+   noktaları (Astralynx/Aurelius/Adventure/FaiPy/Venture): kenar-kenar
+   görsel, kart/border YOK, atmosfer gerçek fotoğraftan geliyor (sahte renk
+   çıkarımı yok), metin sol-altta, sessiz numaralı geçiş. */
+
 .hero {
-  padding: var(--space-lg) var(--space-lg) var(--space-xl);
-  border-radius: var(--radius-lg);
-  background: #000000;
-  margin-bottom: var(--space-3xl);
+  /* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
+     padding = 72px) — hero'yu bu kadar yukarı çekip tam üst kenardan
+     başlatıyoruz, navbar üstüne yarı saydam biniyor (kullanıcı onayı). */
+  margin-top: -72px;
 }
 
-.hero__figure {
+.hero__stage {
   position: relative;
-  aspect-ratio: 2.5 / 1;
-  border: 3px solid #ffffff;
-  border-radius: var(--radius-lg);
+  width: 100%;
+  height: 100svh;
   overflow: hidden;
   background: var(--bg-soft);
+  touch-action: pan-y;
 }
 
-.hero__image {
-  display: block;
+.hero__layer {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
 }
 
-/* Konum/boyut (top/left/width/transform) her yapım için JS'ten inline
-   style ile gelir — her Hero'nun logosu kendi orijinal kompozisyonunda
-   FARKLI yerde/boyutta (HotD/Severance ortalı-geniş, Breaking Bad sola
-   yaslı-daha dar) — kullanıcı düzeltmesi: "logoları ortada dursun diye
-   yok, hepsinin heroda karşılıkları vardı", tek tip merkezleme YANLIŞ. */
-.hero__logo {
+/* Yönlü vinyet — sadece metnin durduğu sol-alt köşeye doğru koyulaşıyor,
+   üst/sağ temiz kalıyor (referanslardaki ortak desen, düz overlay değil). */
+.hero__scrim {
   position: absolute;
-  z-index: 2;
-  height: auto;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at top left, rgba(0, 0, 0, 0.65) 0%, transparent 62%),
+    radial-gradient(ellipse at top right, rgba(0, 0, 0, 0.6) 0%, transparent 62%),
+    radial-gradient(ellipse at bottom right, rgba(0, 0, 0, 0.6) 0%, transparent 65%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.32) 38%, transparent 65%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, transparent 45%);
+  pointer-events: none;
 }
 
 .hero__rating {
   position: absolute;
   z-index: 2;
-  top: var(--space-md);
-  right: var(--space-md);
+  top: var(--space-xl);
+  right: var(--space-xl);
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -56,27 +63,37 @@
   filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
 }
 
-/* Metin/butonlar görselin ALT bölgesine bindirili (referansla aynı) —
-   okunabilirlik için perde gerekli (referanstaki sabit görselde bu zaten
-   varmış gibi duruyordu, burada rastgele posterle çalışması için eklendi). */
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 30%, transparent 60%);
-  pointer-events: none;
-}
-
-.hero__overlay {
+.hero__content {
   position: absolute;
   z-index: 2;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: var(--space-page-x);
+  bottom: var(--space-3xl);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-xs);
-  padding: var(--space-lg) var(--space-2xl) var(--space-xl);
+  gap: var(--space-sm);
+  max-width: 720px;
+}
+
+/* Tarih + tür title'ın ALTINDA, ikisi de AYNI gri tonda. */
+.hero__metaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Konum/boyut (top/left/width/transform) her yapım için JS'ten LOGO_LAYOUT
+   ile gelir — her Hero'nun logosu kendi orijinal kompozisyonunda FARKLI
+   yerde/boyutta. */
+.hero__logo {
+  position: absolute;
+  z-index: 2;
+  height: auto;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
 }
 
 .hero__title {
@@ -88,31 +105,15 @@
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-.hero__metaRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  font-size: var(--text-sm);
-  font-weight: 600;
-}
-
-.hero__year {
-  color: #a0a19f;
-}
-
-.hero__genre {
-  color: #9b9c9a;
-}
-
 .hero__synopsis {
   margin: 0;
-  max-width: 56ch;
+  max-width: 62ch;
   font-size: var(--text-base);
   line-height: 1.5;
   color: #ffffff;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -121,10 +122,15 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  margin-top: var(--space-sm);
+  margin-top: var(--space-xs);
 }
 
-/* Explore — outline, referanstaki buttonBlock2 ile birebir. */
+.hero__ctaOutline,
+.hero__ctaGlass {
+  justify-content: center;
+  min-width: 190px;
+}
+
 .hero__ctaOutline {
   display: inline-flex;
   align-items: center;
@@ -147,10 +153,6 @@
   }
 }
 
-/* Watch Trailer — şeffaf beyaz "liquid glass" buton, referanstaki
-   buttonBlock1 / EpisodeBrief.brief__genrePill ile birebir aynı tarif.
-   Trailer verisi/oynatıcısı henüz yok — dizi Hero'larındaki gibi ŞİMDİLİK
-   dekoratif (mevcut 3 sayfada da aynı durumda). */
 .hero__ctaGlass {
   position: relative;
   display: inline-flex;
@@ -177,93 +179,88 @@
   white-space: nowrap;
 }
 
+.hero__navArrow {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-round);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: #ffffff;
+  transition: background var(--duration-micro) ease, border-color var(--duration-micro) ease;
+}
+
+.hero__navArrow[data-direction='prev'] {
+  left: var(--space-lg);
+}
+
+.hero__navArrow[data-direction='next'] {
+  right: var(--space-lg);
+}
+
+@media (hover: hover) {
+  .hero__navArrow:hover {
+    background: rgba(0, 0, 0, 0.55);
+    border-color: #ffffff;
+  }
+}
+
+/* Sessiz numaralandırma — dizi geçişindeki konumu gösteriyor ama dikkat
+   çekmiyor. */
+.hero__counter {
+  position: absolute;
+  z-index: 2;
+  right: var(--space-xl);
+  bottom: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.hero__counterActive {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hero__counterLine {
+  width: 28px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
 /* --- Featured Titles şeridi --- */
 
 .hero__row {
-  padding-top: var(--space-xl);
+  padding: var(--space-xl) var(--space-page-x) 0;
 }
 
 .hero__rowLabel {
   margin: 0 0 var(--space-md);
-  font-size: var(--text-lg);
-  font-weight: 600;
+  font-size: var(--text-h2);
+  font-weight: 700;
   color: #ffffff;
-}
-
-.hero__rowTrack {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-lg);
-}
-
-.hero__rowItem {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: inherit;
-  text-align: left;
-}
-
-.hero__rowPoster {
-  position: relative;
-  display: block;
-  aspect-ratio: 2 / 3;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
-  border: 3px solid rgba(255, 255, 255, 0.85);
-  background: var(--bg-soft);
-  transition: border-color var(--duration-fast) ease, transform var(--duration-fast) ease;
-}
-
-.hero__rowPoster img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero__rowItem[data-active] .hero__rowPoster {
-  border-color: var(--accent);
-}
-
-@media (hover: hover) {
-  .hero__rowItem:hover .hero__rowPoster {
-    transform: scale(1.03);
-  }
-}
-
-.hero__rowNumber {
-  position: absolute;
-  top: var(--space-sm);
-  left: var(--space-sm);
-  font-size: var(--text-lg);
-  font-weight: 500;
-  color: #ffffff;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
-}
-
-.hero__rowTitle {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: #ffffff;
-}
-
-@media (max-width: 900px) {
-  .hero__rowTrack {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 640px) {
-  .hero__figure {
-    aspect-ratio: 4 / 3;
-  }
-
-  .hero__overlay {
-    padding: var(--space-md) var(--space-lg) var(--space-lg);
+  .hero__content {
+    left: var(--space-md);
+    right: var(--space-md);
+    bottom: var(--space-xl);
+    max-width: none;
   }
 
   .hero__title {
@@ -271,10 +268,34 @@
   }
 
   .hero__synopsis {
-    display: none;
+    -webkit-line-clamp: 2;
   }
 
-  .hero__ctaRow {
-    flex-wrap: wrap;
+  /* Navbar mobilde de 72px yükseklikte kalıyor (bkz. Navbar.module.css —
+     hamburger'a geçse de logo/padding aynı) — rozet navbar'ın altına
+     inmezse hamburger/dil butonlarıyla çakışıyordu. */
+  .hero__rating {
+    top: calc(72px + var(--space-sm));
+    right: var(--space-md);
+  }
+
+  /* Sayaç alt-sağda CTA satırıyla aynı banda düşüp "Watch Trailer"
+     butonunun üstüne biniyordu — rozetin altına, üst köşeye taşındı. */
+  .hero__counter {
+    top: calc(72px + var(--space-sm) + 40px);
+    right: var(--space-md);
+    bottom: auto;
+  }
+
+  /* Logo konumu (top/left/width) her yapım için JS'ten INLINE style ile
+     geliyor (LOGO_LAYOUT — masaüstü kart oranına göre ayarlanmış yüzdeler).
+     Mobilde tam viewport farklı en/boy oranı yüzünden SERIES rozeti/sayaçla
+     aynı banda düşüyordu — inline style'ı ezmek için burada istisnaen
+     !important gerekli (JS matchMedia eklemeden tek CSS noktasından çözüm). */
+  .hero__logo {
+    top: calc(72px + var(--space-3xl)) !important;
+    left: 50% !important;
+    width: 62% !important;
+    transform: translateX(-50%) !important;
   }
 }

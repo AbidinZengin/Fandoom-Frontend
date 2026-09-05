@@ -23,14 +23,13 @@ export default function Series() {
 
   return (
     <>
-      <section className={styles.series}>
-        <header className={styles.series__head}>
-          <span className={styles.series__kicker}>Fandoom</span>
-          <h1 className={styles.series__heading}>{t('seriesHub.heading')}</h1>
-        </header>
+      {/* Hero artık tam viewport genişliğinde/yüksekliğinde — sarmalayıcı
+          padding/max-width kaldırıldı. Başlık, Hero'nun ÜSTÜNE sabitlenmiş
+          küçük bir köşe etiketi (kullanıcı kararı: "sol üst köşede sabit,
+          hero onun altında kalsın"). */}
+      <h1 className={styles.series__badge}>{t('seriesHub.heading')}</h1>
 
-        <SeriesHero items={series} />
-      </section>
+      <SeriesHero items={series} />
 
       <Footer />
     </>

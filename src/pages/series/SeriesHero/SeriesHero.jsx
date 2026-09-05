@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import gsap from 'gsap';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { fetchProductionDetail } from '../../../shared/api/productions';
 import { resolveGenreNames } from '../../../shared/api/genres';
+import { FeaturedCarousel } from './FeaturedCarousel/FeaturedCarousel';
 import imdbLogo from '../../../assets/logos/IMDB_Logo_2016.svg.webp';
 import bbLogo from '../../../assets/logos/breaking-bad.svg';
 import hotdLogo from '../../../assets/logos/house-of-the-dragon.webp';
@@ -10,10 +12,13 @@ import severanceLogo from '../../../assets/logos/severance.webp';
 import gotLogo from '../../../assets/logos/got.webp';
 import styles from './SeriesHero.module.css';
 
-// Bilinen 4 yapımın resmi logosu — dizi Hero'larının aynısı. Kataloğa
-// sonradan eklenen bir dizinin logo asset'i olmayacağı için hero__title
-// HER ZAMAN (logo olsa da) ayrıca gösterilir — referans PageBuilder
-// çıktısında da ikisi birlikte duruyor.
+// Tam ekran, çerçevesiz sinematik Hero (2026-09-05 kararı — eski
+// kart/3px-border versiyonun YERİNE geçti, SeriesHeroFullscreen'de
+// prototiplenip buraya taşındı). Referans ortak noktaları (Astralynx,
+// Aurelius, Adventure, FaiPy, Venture): tam kenar-kenar görsel, kart/
+// çerçeve YOK, atmosfer gerçek fotoğrafın kendi ışığından geliyor (sahte
+// renk çıkarımı yok — buton renkleri sabit), metin sol-altta, sessiz
+// numaralı sinematik crossfade geçiş (otomatik + ok + sürükleme).
 const KNOWN_LOGOS = {
   'breaking-bad': bbLogo,
   'house-of-the-dragon': hotdLogo,
@@ -21,18 +26,8 @@ const KNOWN_LOGOS = {
   'game-of-thrones': gotLogo,
 };
 
-// Her yapımın logosu KENDİ Hero'sunda farklı yerde/boyutta durur (kullanıcı
-// düzeltmesi: "ortada dursun diye yok, hepsinin heroda karşılıkları vardı").
-// Değerler o Hero'ların kendi CSS'inden (cqw yüzdeleri, canvas genişliğine
-// göre) görsel kutusuna ORANLANARAK çıkarıldı:
-// - HouseOfTheDragon/Hero.module.css ve Severance/Hero.module.css'in
-//   ≤900px kart versiyonu logoyu zaten ortalı, kart genişliğinin %58'i
-//   yapmıştı (kullanıcı onaylı final değer) — birebir taşındı.
-// - GameOfThrones/Hero logosu da kendi (farklı) hero'sunda ortalı — aynı
-//   aile, biraz daha dar (%50) tutuldu.
-// - BreakingBad/Hero.module.css'te logoBlock2 SOLA yaslı: left 11.73%
-//   width 26.4% (canvas genişliğine göre) / imageBlock2 left 6.26% width
-//   87.48% — logonun görsel kutusuna göre oranı: left ≈ %6.3, width ≈ %30.
+// Her yapımın logosu KENDİ Hero'sunda farklı yerde/boyutta durur (bkz. eski
+// PageBuilder referansları) — birebir korundu.
 const LOGO_LAYOUT = {
   'house-of-the-dragon': { top: '4%', left: '50%', width: '58%', transform: 'translateX(-50%)' },
   severance: { top: '4%', left: '50%', width: '58%', transform: 'translateX(-50%)' },
@@ -40,26 +35,52 @@ const LOGO_LAYOUT = {
   'breaking-bad': { top: '10%', left: '6.3%', width: '30%', transform: 'none' },
 };
 
-// Kullanıcının PageBuilder'da ürettiği SerieHero referansının BİREBİR
-// taşınmış hâli (bkz. src/pages/Series/SerieHero — kullanıcı kararı: "tek
-// fark arkadaki blur yok", o referansta zaten blur katmanı YOK). Sabit
-// cqw canvas'ı YERİNE responsive CSS ile aynı anatomi kuruldu: 3px beyaz
-// bordürlü tek görsel + üstüne bindirili logo/rozet/başlık/meta/sinopsis/
-// butonlar, altında "FEATURED TITLES" numaralı poster şeridi — şeritteki
-// bir postere tıklamak büyük kartı O yapıma göre günceller (PageBuilder
-// çıktısı statik/tek örnekti, tıklanabilirlik burada eklendi).
+const ROTATION_SIZE = 5;
+const AUTO_ADVANCE_MS = 6500;
+const TRANSITION_S = 0.9;
+const SWIPE_THRESHOLD = 60;
+
+// Sitede Explore CTA'larının ortak ok ikonu (bkz. BreakingBad/HouseOfTheDragon
+// SeasonRoute/Hero) — düz "→" karakteri DEĞİL, her Hero'nun kendi kopyaladığı
+// bu SVG. strokeWidth, .hero__ctaOutline'ın 2.5px border'ıyla eşleşsin diye
+// 2.5 / 0.75 (18px/24 viewBox ölçeği) = 3.33.
+function ArrowIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3.33"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="4.5" y1="12" x2="19" y2="12" />
+      <polyline points="13.5 6.5 19.5 12 13.5 17.5" />
+    </svg>
+  );
+}
+
 export function SeriesHero({ items }) {
   const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
   const [details, setDetails] = useState({});
   const [genreNames, setGenreNames] = useState([]);
 
-  const featured = items.slice(0, 4);
+  const layerRefs = [useRef(null), useRef(null)];
+  const frontLayer = useRef(0);
+  const textRef = useRef(null);
+  const timerRef = useRef(null);
+  const drag = useRef({ active: false, startX: 0, paused: false });
+
+  const featured = items.slice(0, ROTATION_SIZE);
   const slugKey = featured.map((it) => it.slug).join(',');
 
   // coverImageUrl/externalRating/genreIds/synopsis katalog listesinde YOK
-  // (yalnız detay endpoint'inde) — 4 öğe için N+1 maliyeti kabul edilebilir
-  // (ContentSection'daki lead-genre deseniyle aynı ilke).
+  // (yalnız detay endpoint'inde) — N+1 maliyeti kabul edilebilir (ContentSection'daki
+  // lead-genre deseniyle aynı ilke).
   useEffect(() => {
     if (featured.length === 0) return undefined;
     let cancelled = false;
@@ -98,18 +119,94 @@ export function SeriesHero({ items }) {
     };
   }, [detail]);
 
+  const coverImage = detail?.coverImageUrl ?? current?.posterUrl;
+
+  // Sinematik crossfade — iki katman üst üste, arka katmana yeni görsel
+  // yazılıp opacity 0→1 tween'lenir, ön katman aynı anda söner. Detay
+  // yüklenip coverImage poster'dan cover'a "yükseldiğinde" de aynı eritme
+  // tekrar oynar (kasıtlı — ekstra bir "geldi" hissi verir).
+  useEffect(() => {
+    if (!coverImage) return;
+    const idleIndex = 1 - frontLayer.current;
+    const idle = layerRefs[idleIndex].current;
+    const front = layerRefs[frontLayer.current].current;
+    if (!idle) return;
+
+    idle.src = coverImage;
+    gsap.killTweensOf([idle, front]);
+    // z-index 0/1'de tutuluyor — .hero__scrim'in kendi z-index'i (1) DOM
+    // sırası gereği (scrim iki <img>'den SONRA gelir) eşitlikte üstte kalır,
+    // aktif görsel sisin üstüne binmez.
+    gsap.set(idle, { opacity: 0, zIndex: 1 });
+    if (front) gsap.set(front, { zIndex: 0 });
+    gsap.to(idle, { opacity: 1, duration: TRANSITION_S, ease: 'power2.out' });
+
+    gsap.fromTo(
+      textRef.current,
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.6, delay: 0.25, ease: 'power2.out' }
+    );
+
+    frontLayer.current = idleIndex;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- layerRefs sabit
+  }, [coverImage]);
+
+  const goHero = (direction) => {
+    if (featured.length < 2) return;
+    setActiveIndex((i) => (i + direction + featured.length) % featured.length);
+  };
+
+  // Otomatik ilerleme — manuel her etkileşimde sıfırlanır, sürükleme
+  // sırasında durur.
+  useEffect(() => {
+    if (featured.length < 2) return undefined;
+    timerRef.current = window.setInterval(() => {
+      if (!drag.current.paused) goHero(1);
+    }, AUTO_ADVANCE_MS);
+    return () => window.clearInterval(timerRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- yalnız index/featured.length değişince yeniden kurulur
+  }, [activeIndex, featured.length]);
+
+  const onPointerDown = (e) => {
+    drag.current = { active: true, startX: e.clientX, paused: true };
+  };
+
+  const onPointerUp = (e) => {
+    if (!drag.current.active) return;
+    const delta = e.clientX - drag.current.startX;
+    if (Math.abs(delta) > SWIPE_THRESHOLD) goHero(delta < 0 ? 1 : -1);
+    drag.current = { active: false, startX: 0, paused: false };
+  };
+
+  const onPointerCancel = () => {
+    drag.current.active = false;
+    drag.current.paused = false;
+  };
+
   if (!current) return null;
 
   const logo = KNOWN_LOGOS[current.slug];
-  const coverImage = detail?.coverImageUrl ?? current.posterUrl;
   const year = current.releaseDate ? new Date(current.releaseDate).getFullYear() : null;
+  const indexLabel = String(activeIndex + 1).padStart(2, '0');
+  const totalLabel = String(featured.length).padStart(2, '0');
 
   return (
     <div className={styles.hero}>
-      <div className={styles.hero__figure}>
-        {coverImage && <img className={styles.hero__image} src={coverImage} alt="" />}
+      <div
+        className={styles.hero__stage}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerLeave={onPointerCancel}
+        onPointerCancel={onPointerCancel}
+      >
+        <img className={styles.hero__layer} ref={layerRefs[0]} alt="" />
+        <img className={styles.hero__layer} ref={layerRefs[1]} alt="" />
 
-        {logo && <img className={styles.hero__logo} src={logo} alt="" style={LOGO_LAYOUT[current.slug]} />}
+        <div className={styles.hero__scrim} />
+
+        {logo && (
+          <img className={styles.hero__logo} src={logo} alt={current.title} style={LOGO_LAYOUT[current.slug]} />
+        )}
 
         {detail?.externalRating && (
           <div className={styles.hero__rating}>
@@ -118,49 +215,59 @@ export function SeriesHero({ items }) {
           </div>
         )}
 
-        <div className={styles.hero__scrim} />
-
-        <div className={styles.hero__overlay}>
+        <div className={styles.hero__content} ref={textRef}>
           <h2 className={styles.hero__title}>{current.title}</h2>
 
           <div className={styles.hero__metaRow}>
-            {year && <span className={styles.hero__year}>{year}</span>}
-            {genreNames.length > 0 && <span className={styles.hero__genre}>{genreNames.join(' · ')}</span>}
+            {year && <span>{year}</span>}
+            {genreNames.length > 0 && <span>{genreNames.join(' · ')}</span>}
           </div>
 
           {detail?.synopsis && <p className={styles.hero__synopsis}>{detail.synopsis}</p>}
 
           <div className={styles.hero__ctaRow}>
             <Link className={styles.hero__ctaOutline} to={`/series/${current.slug}`}>
-              {t('seriesHub.explore')}
+              {t('seriesHub.explore')} <ArrowIcon />
             </Link>
             <button type="button" className={styles.hero__ctaGlass}>
               ▶ {t('seriesHub.watchTrailer')}
             </button>
           </div>
         </div>
+
+        {featured.length > 1 && (
+          <>
+            <button
+              type="button"
+              className={styles.hero__navArrow}
+              data-direction="prev"
+              aria-label={t('common.previous')}
+              onClick={() => goHero(-1)}
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              className={styles.hero__navArrow}
+              data-direction="next"
+              aria-label={t('common.next')}
+              onClick={() => goHero(1)}
+            >
+              ›
+            </button>
+
+            <div className={styles.hero__counter}>
+              <span className={styles.hero__counterActive}>{indexLabel}</span>
+              <span className={styles.hero__counterLine} />
+              <span>{totalLabel}</span>
+            </div>
+          </>
+        )}
       </div>
 
       <div className={styles.hero__row}>
         <h3 className={styles.hero__rowLabel}>{t('seriesHub.featuredTitles')}</h3>
-        <div className={styles.hero__rowTrack}>
-          {featured.map((item, i) => (
-            <button
-              key={item.id}
-              type="button"
-              className={styles.hero__rowItem}
-              data-active={i === activeIndex || undefined}
-              aria-current={i === activeIndex}
-              onClick={() => setActiveIndex(i)}
-            >
-              <span className={styles.hero__rowPoster}>
-                {item.posterUrl && <img src={item.posterUrl} alt="" loading="lazy" />}
-                <span className={styles.hero__rowNumber}>{String(i + 1).padStart(2, '0')}</span>
-              </span>
-              <span className={styles.hero__rowTitle}>{item.title}</span>
-            </button>
-          ))}
-        </div>
+        <FeaturedCarousel items={items} />
       </div>
     </div>
   );
