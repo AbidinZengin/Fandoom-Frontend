@@ -1,0 +1,472 @@
+.notfound {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notfound__title {
+  font-size: var(--text-h1);
+  color: var(--fg-muted);
+  font-weight: 700;
+}
+
+/* Sis rampasının ilk durağı. Dönüşüm boyunca 100%'e sürülünce maskenin tüm
+   durakları kutunun dışına taşar, yani maske tamamen opak olur — sis erimesi
+   YALNIZ tam ekran hero'ya aittir, 64px'lik header net kenarlı olmalı.
+   Duraklar arası mesafe (14/26/38) orijinal rampayla birebir aynı, tek
+   registered property ile sürülüyor. inherits: true — animasyon .hero'da
+   tanımlı, maskeyi kullanan .hero__media çocuğu. */
+@property --fog-start {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 62%;
+}
+
+.hero {
+  /* Navbar (8px dikey padding + 56px logo) header'ın ÜSTÜNDE yüzer; kartın
+     GÖRÜNEN şeridi bu yüksekliğin altında kalan 40px'tir (72 + 40 = 112). */
+  --navbar-h: 72px;
+  --hero-h-collapsed: 56px;
+  /* Şerit satırı düzleşince oklar başlığın ALTINDA asılı kalıyor; bu kadar
+     yukarı çekilince merkezleri başlığın merkeziyle çakışıyor. */
+  --arrow-rise: 15px;
+  /* Okların header'daki yatay hedefi: viewport merkezinden ~28vw uzakta. */
+  --strip-shift: 28vw;
+  /* Dönüşümün scroll mesafesi. `hero__spacer` SABİT 100svh kalır; bitiş
+     noktası --hero-h-collapsed'e göre HESAPLANIR. */
+  --collapse-end: calc(100vh - var(--hero-h-collapsed));
+
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--navbar-h) var(--space-page-x) var(--space-3xl);
+  text-align: center;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg);
+  /* Hero sert bir kenarla bitip alttaki künye bloğuna çarpmasın: Intro'daki
+     sis erimesinin DİKEY karşılığı. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 var(--fog-start),
+    rgba(0, 0, 0, 0.78) calc(var(--fog-start) + 14%),
+    rgba(0, 0, 0, 0.38) calc(var(--fog-start) + 26%),
+    transparent calc(var(--fog-start) + 38%)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 var(--fog-start),
+    rgba(0, 0, 0, 0.78) calc(var(--fog-start) + 14%),
+    rgba(0, 0, 0, 0.38) calc(var(--fog-start) + 26%),
+    transparent calc(var(--fog-start) + 38%)
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Kart küçüldükçe koyulaşan katman — sitenin standart siyahına gider
+   (learned-rules: yapım rengi zemine yayılmaz). */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.72);
+  opacity: 0;
+}
+
+.hero__spacer {
+  display: none;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  transform: scale(1.25);
+  transform-origin: center 20%;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 55%, rgba(0, 0, 0, 0.55) 0%, transparent 70%),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.35) 0%,
+      rgba(0, 0, 0, 0.2) 30%,
+      rgba(0, 0, 0, 0.35) 65%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  width: min(640px, 100%);
+}
+
+.hero__label {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.hero__label:not(:first-child) {
+  margin-top: var(--space-sm);
+}
+
+.hero__seasonNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.hero__arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: var(--fg-muted);
+  transition: color var(--duration-fast) ease, opacity var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .hero__arrow:not(:disabled):hover {
+    color: var(--accent);
+  }
+}
+
+.hero__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.hero__seasonNumber {
+  min-width: 2.4ch;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h2);
+  color: var(--fg);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.55),
+    0 0 32px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.hero__ornament {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: min(220px, 60%);
+  margin: var(--space-xs) 0;
+}
+
+.hero__ornamentLine {
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--fg) 25%, transparent);
+}
+
+.hero__ornamentDot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, var(--fg));
+}
+
+.hero__title {
+  margin: 0;
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h1);
+  line-height: 1.15;
+  color: var(--fg);
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.6),
+    0 0 44px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.hero__episodeStrip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  max-width: 100%;
+  overflow: visible;
+}
+
+.hero__episodeList {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 0 var(--space-2xs);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.hero__episodeList::-webkit-scrollbar {
+  display: none;
+}
+
+.hero__episodePill {
+  position: relative;
+  flex-shrink: 0;
+  padding: var(--space-2xs) 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-faint);
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .hero__episodePill:not([data-active]):hover {
+    color: var(--fg-dim);
+  }
+}
+
+.hero__episodePill::after {
+  content: '';
+  position: absolute;
+  inset: -13px -8px;
+}
+
+.hero__episodePill[data-active] {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+
+.hero__explore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xl);
+  padding: var(--space-xs) var(--space-md);
+  background: none;
+  border: none;
+  transition: color var(--duration-fast) ease;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.hero__exploreChevron {
+  font-size: var(--text-md);
+  color: var(--accent);
+}
+
+@media (hover: hover) {
+  .hero__explore:hover {
+    color: var(--fg);
+  }
+}
+
+.hero__collapsible {
+  max-height: 80px;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   Cover card → fixed header dönüşümü.
+
+   Uyarlandığı kaynak: scroll-driven-animations.style "Full-Height Cover Card
+   to Fixed Header" demosu — Apache License 2.0
+   (https://www.apache.org/licenses/LICENSE-2.0.txt). BreakingBad/HouseOfTheDragon
+   EpisodePage ile BİREBİR aynı mekanik — standart imza şablonu.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-range: 0vh 90vh) {
+    .hero {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 40;
+      min-height: 0;
+      height: 100svh;
+      overflow: hidden;
+      animation: hero-collapse linear forwards;
+      animation-timeline: scroll(root);
+      animation-range: 0 var(--collapse-end);
+    }
+
+    .hero__spacer {
+      display: block;
+      height: 100svh;
+    }
+
+    .hero__content,
+    .hero__title,
+    .hero__image,
+    .hero__scrim,
+    .hero__collapsible {
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      animation-timeline: scroll(root);
+      animation-range: 0 var(--collapse-end);
+    }
+
+    .hero__content {
+      animation-name: hero-content-tighten;
+    }
+
+    .hero__title {
+      animation-name: hero-title-shrink;
+    }
+
+    .hero__image {
+      animation-name: hero-image-pan;
+    }
+
+    .hero__scrim {
+      animation-name: hero-scrim-in;
+    }
+
+    .hero__collapsible {
+      animation-name: hero-item-collapse;
+      animation-range: 0 calc(var(--collapse-end) * 0.611);
+    }
+
+    .hero__episodeList,
+    .hero__episodeStrip,
+    .hero__arrowPrev,
+    .hero__arrowNext {
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      animation-timeline: scroll(root);
+      animation-range: 0 var(--collapse-end);
+    }
+
+    .hero__episodeList {
+      animation-name: hero-list-collapse;
+    }
+
+    .hero__episodeStrip {
+      animation-name: hero-strip-flatten;
+    }
+
+    @keyframes hero-strip-flatten {
+      to {
+        max-height: 0;
+      }
+    }
+
+    .hero__arrowPrev {
+      animation-name: hero-arrow-out-left;
+    }
+
+    .hero__arrowNext {
+      animation-name: hero-arrow-out-right;
+    }
+
+    @keyframes hero-list-collapse {
+      to {
+        opacity: 0;
+        max-width: 0;
+        padding: 0;
+      }
+    }
+
+    @keyframes hero-arrow-out-left {
+      to {
+        transform: translate(calc(-1 * var(--strip-shift)), calc(-1 * var(--arrow-rise)));
+        width: 48px;
+        height: 48px;
+        font-size: var(--text-h2);
+      }
+    }
+
+    @keyframes hero-arrow-out-right {
+      to {
+        transform: translate(var(--strip-shift), calc(-1 * var(--arrow-rise)));
+        width: 48px;
+        height: 48px;
+        font-size: var(--text-h2);
+      }
+    }
+
+    @keyframes hero-collapse {
+      to {
+        height: var(--hero-h-collapsed);
+        padding-top: var(--space-2xs);
+        padding-bottom: var(--space-2xs);
+        --fog-start: 100%;
+      }
+    }
+
+    @keyframes hero-content-tighten {
+      to {
+        gap: 0;
+      }
+    }
+
+    @keyframes hero-title-shrink {
+      to {
+        font-size: var(--text-sm);
+      }
+    }
+
+    @keyframes hero-image-pan {
+      to {
+        object-position: center 65%;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes hero-scrim-in {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes hero-item-collapse {
+      to {
+        opacity: 0;
+        max-height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__title {
+    font-size: var(--text-h2);
+  }
+
+  .hero__episodeList {
+    justify-content: flex-start;
+  }
+}

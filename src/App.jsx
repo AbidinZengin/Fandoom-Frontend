@@ -9,6 +9,7 @@ import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
 import BreakingBad from './pages/series/BreakingBad/BreakingBad';
 import HouseOfTheDragon from './pages/series/HouseOfTheDragon/HouseOfTheDragon';
 import Severance from './pages/series/Severance/Severance';
+import Pluribus from './pages/series/Pluribus/Pluribus';
 import SeasonDetail from './pages/series/BreakingBad/SeasonDetail/SeasonDetail';
 import HouseOfTheDragonSeasonDetail from './pages/series/HouseOfTheDragon/SeasonDetail/SeasonDetail';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
@@ -18,6 +19,8 @@ import BreakingBadEpisodePage from './pages/series/BreakingBad/EpisodePage/Episo
 import HouseOfTheDragonEpisodePage from './pages/series/HouseOfTheDragon/EpisodePage/EpisodePage';
 import SeveranceSeasonDetail from './pages/series/Severance/SeasonDetail/SeasonDetail';
 import SeveranceEpisodePage from './pages/series/Severance/EpisodePage/EpisodePage';
+import PluribusSeasonDetail from './pages/series/Pluribus/SeasonDetail/SeasonDetail';
+import PluribusEpisodePage from './pages/series/Pluribus/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
 import WesterosMap from './pages/series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/series/GameOfThrones/History/History';
@@ -213,6 +216,12 @@ function App() {
               element={<SeveranceEpisodePage />}
             />
             <Route path="series/severance/seasons/:seasonNumber" element={<SeveranceSeasonDetail />} />
+            <Route path="series/pluribus" element={<Pluribus />} />
+            <Route
+              path="series/pluribus/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<PluribusEpisodePage />}
+            />
+            <Route path="series/pluribus/seasons/:seasonNumber" element={<PluribusSeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
             <Route path="series" element={<Series />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />

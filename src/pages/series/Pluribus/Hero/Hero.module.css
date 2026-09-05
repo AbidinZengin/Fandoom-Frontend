@@ -1,0 +1,310 @@
+.page {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1360 / 800;
+  /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
+     cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
+  container-type: inline-size;
+}
+
+.imageBlock1 {
+  position: absolute;
+  left: 0%;
+  top: 0cqw;
+  width: 100%;
+  height: 58.824cqw;
+  filter: blur(5px);
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  object-position: 44.306752136231474% 0%;
+}
+
+.imageBlock2 {
+  position: absolute;
+  left: 6.26%;
+  top: 2.806cqw;
+  width: 87.48%;
+  height: 50.982cqw;
+  filter: saturate(1.6);
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  object-position: 39.01922951904175% 0%;
+  scale: 1;
+}
+
+.textBlock1 {
+  position: absolute;
+  left: 10.67%;
+  top: 31.259cqw;
+  width: 36.61%;
+  height: auto;
+  margin: 0;
+  color: #f2f2f2;
+  font-size: 3.382cqw;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.textBlock2 {
+  position: absolute;
+  left: 10.67%;
+  top: 36.341cqw;
+  width: 6%;
+  height: auto;
+  margin: 0;
+  color: #a0a19f;
+  font-size: 1.176cqw;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.textBlock3 {
+  position: absolute;
+  left: 14.49%;
+  top: 36.341cqw;
+  width: 24.76%;
+  height: auto;
+  margin: 0;
+  color: #9b9c9a;
+  font-size: 1.176cqw;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.textBlock4 {
+  position: absolute;
+  left: 10.67%;
+  top: 38.635cqw;
+  width: 49.52%;
+  height: 13.047cqw;
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.176cqw;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.logoBlock1 {
+  position: absolute;
+  left: 85.7%;
+  top: 4.188cqw;
+  width: 6.5%;
+  height: 4.118cqw;
+}
+
+.textBlock5 {
+  position: absolute;
+  left: 81.67%;
+  top: 4.747cqw;
+  width: 6%;
+  height: 3.565cqw;
+  margin: 0;
+  color: #f6c700;
+  font-size: 2.206cqw;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.buttonBlock1 {
+  position: absolute;
+  left: 78.74%;
+  top: 45.165cqw;
+  width: 11.86%;
+  height: 3.094cqw;
+  /* Metin bilerek transparent — kullanıcı kararı: buton çerçevesi/dolgu
+     kalsın, "Watch Trailer" yazısı görünmesin (2026-09-05). */
+  color: transparent;
+  /* font-size/padding token (px sabit) yerine cqw: 900-1300px aralığında
+     (henüz mobil karta düşmeyen dar masaüstü) sabit punto+padding kutuya
+     sığmıyor, metin sarılıp Explore butonuna biniyordu (kullanıcı raporu,
+     2026-09-05). Diğer text block'lar (ör. textBlock5) zaten cqw kullanıyor
+     — buton bu ölçekten kopmuştu. */
+  font-size: 0.96cqw;
+  font-weight: 700;
+  white-space: nowrap;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%);
+  border-radius: var(--radius-pill);
+  border-color: rgba(255,255,255,0.4);
+  border-width: 1px;
+  border-style: solid;
+  padding: 0.88cqw 1.76cqw;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4);
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.buttonBlock2 {
+  position: absolute;
+  left: 64.3%;
+  top: 45.165cqw;
+  width: 11.92%;
+  height: 3.206cqw;
+  color: var(--fg);
+  font-size: 0.96cqw;
+  font-weight: 700;
+  white-space: nowrap;
+  text-align: center;
+  background: transparent;
+  border-color: var(--fg);
+  border-width: 2.5px;
+  border-style: solid;
+  border-radius: var(--radius-pill);
+  padding: 0.88cqw 1.76cqw;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.buttonBlock2:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* Mobil (≤900px) — PageBuilder'ın absolute-pozisyon + cqw sistemi
+   (kullanıcı raporu, 2026-09-02: "mobil kısmı asla generate ettiğim gibi
+   değil") mobilde güvenilir sonuç vermiyor; bu yüzden mobilde BİLİNÇLİ
+   olarak terk edilip elle yazılmış diğer section'larla (bkz. SeasonRoute
+   .backdrop — AYNI border/radius değerleri) AYNI 900px kırılımı desenine
+   geçiliyor — kullanıcı isteği: "page builder çıktısı olmayan eleman
+   gibi" ayarla.
+   Kullanıcının verdiği referans ekran görüntüsüne (2026-09-02, HotD
+   için) göre TAMAMEN yeniden kuruldu: tüm Hero tek bir kenarlıklı/
+   radius'lu KART (.page'in kendisi border+radius+overflow:hidden alıyor,
+   ekran kenarından margin'le ayrılıyor). Görsel kartın üst ~55%'ini
+   kaplıyor, üstüne IMDb rozeti (sağ üst) absolute bindiriliyor, alt
+   kenarı ::after gradyanıyla kart zeminine yumuşak geçiyor (SeasonRoute
+   .scrim'in aynı fikri). imageBlock1 (blur) ve imageBlock2 (net) AYNI
+   hücrede TAM boyutlu üst üste — imageBlock2 üstte tamamen kaplıyor
+   (kullanıcı isteği: "background blurlu yapıp önüne normal halini
+   koy"). Seri wordmark'ı (logoBlock2) kaldırıldı (kullanıcı kararı,
+   2026-09-05) — başlık SADECE textBlock1 düz metniyle gösteriliyor.
+   Butonlar (Explore solda / Watch Trailer sağda) DOM sırasının TERSİ —
+   grid-column ile görsel sırası zorlanıyor.
+*/
+@media (max-width: 900px) {
+  .page {
+    position: relative;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    /* dense — buttonBlock1/2'nin DOM sırası (trailer önce) grid-column
+       atamalarıyla (trailer:2, explore:1) TERS; sparse packing "cursor"
+       ilk satırın 1. sütununa geri DÖNMEZ, ikisini AYRI satırlara
+       düşürüyordu (canlı doğrulama, 2026-09-02). dense bu boşluğu
+       dolduruyor. year/genre gibi DOM sırası sütun sırasıyla ZATEN
+       uyumlu çiftleri etkilemiyor. */
+    grid-auto-flow: row dense;
+    column-gap: var(--space-xs);
+    row-gap: var(--space-md);
+    width: auto;
+    aspect-ratio: auto;
+    height: auto;
+    container-type: normal;
+    margin: var(--space-xl) var(--space-page-x);
+    padding: 0 var(--space-lg) var(--space-lg);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-lg);
+    background: var(--card-bg);
+    overflow: hidden;
+  }
+
+  .page::after {
+    content: '';
+    grid-row: 1;
+    grid-column: 1 / -1;
+    align-self: end;
+    width: 100%;
+    height: 55%;
+    background: linear-gradient(to bottom, transparent 0%, var(--card-bg) 92%);
+    pointer-events: none;
+  }
+
+  .imageBlock1,
+  .imageBlock2 {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    position: static;
+    width: calc(100% + var(--space-lg) * 2);
+    margin-left: calc(var(--space-lg) * -1);
+    height: auto;
+    aspect-ratio: 4 / 3;
+    border-radius: 0;
+  }
+
+  .logoBlock1 {
+    position: absolute;
+    top: var(--space-md);
+    left: auto;
+    right: var(--space-md);
+    z-index: 2;
+    width: 22px;
+    height: auto;
+  }
+
+  .logoBlock1 img {
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+  }
+
+  .textBlock5 {
+    position: absolute;
+    top: var(--space-md);
+    left: auto;
+    right: calc(var(--space-md) + 22px + var(--space-2xs));
+    z-index: 2;
+    width: max-content;
+    height: auto;
+    /* base kural font-size'ı cqw ile veriyordu — mobilde .page'in
+       container-type:normal olması cqw'yi geçersiz kılıp fontu neredeyse
+       sıfıra çöktürüyordu (kod okuması + canlı doğrulama, 2026-09-02),
+       o yüzden burada MUTLAKA sabit bir token'la ezilmeli. */
+    font-size: var(--text-base);
+    white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .textBlock1 {
+    grid-column: 1 / -1;
+    position: static;
+    width: 100%;
+    font-size: var(--text-h2);
+  }
+
+  .textBlock2 {
+    grid-column: 1;
+  }
+
+  .textBlock3 {
+    grid-column: 2;
+  }
+
+  .textBlock2,
+  .textBlock3 {
+    position: static;
+    width: auto;
+    font-size: var(--text-sm);
+  }
+
+  .textBlock4 {
+    grid-column: 1 / -1;
+    position: static;
+    width: 100%;
+    height: auto;
+    font-size: var(--text-base);
+    line-height: 1.6;
+  }
+
+  .buttonBlock2 {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .buttonBlock1 {
+    grid-column: 2;
+    justify-self: end;
+  }
+
+  .buttonBlock1,
+  .buttonBlock2 {
+    position: static;
+    width: auto;
+    height: auto;
+  }
+}

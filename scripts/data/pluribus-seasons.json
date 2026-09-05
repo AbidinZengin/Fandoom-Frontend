@@ -1,0 +1,65 @@
+{
+  "seasons": [
+    {
+      "seasonNumber": 1,
+      "title": "Season 1",
+      "airDate": "2025-11-06",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "We Is Us",
+          "airDate": "2025-11-06",
+          "synopsisTr": "Bilinmeyen bir sinyalin keşfi, gezegendeki herkesi bir gecede tek ve huzurlu bir bilince dönüştürür. Hırçın ve yalnız yaşayan bir romancı olan Carol Sturka, uyandığında dünyanın geri kalanının artık kendisi gibi düşünmediğini fark eder — ve bu yeni, tekinsiz uyumdan dehşete kapılır."
+        },
+        {
+          "episodeNumber": 2,
+          "title": "Pirate Lady",
+          "airDate": "2025-11-06",
+          "synopsisTr": "Beklenmedik bir şekilde tanıdık gelen biri, Carol'a bu yeni dünyanın kurallarını anlatmaya çalışır. Bu arada Avrupa'da bir araya gelen iki yabancı, aralarındaki gerilimle bu 'mükemmel' uyumun ne kadar kırılgan olduğunu gösterir."
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Grenade",
+          "airDate": "2025-11-13",
+          "synopsisTr": "Herkesin ona yardım etmek istemesi Carol'ı çileden çıkarır — bu yeni dünyada reddedilecek bir şey yoktur, ki bu da onu daha da öfkelendirir. Sıcak başlayan bir konuşma, beklenmedik bir patlamayla noktalanır."
+        },
+        {
+          "episodeNumber": 4,
+          "title": "Please, Carol",
+          "airDate": "2025-11-20",
+          "synopsisTr": "Carol, bu tuhaf derecede dürüst yeni dünyanın sınırlarını kendi egosunu hiçe sayarak zorlamaya başlar. Çok uzaklarda ise kararlı bir başka insan, yalnız olmadığını keşfeder."
+        },
+        {
+          "episodeNumber": 5,
+          "title": "Got Milk",
+          "airDate": "2025-11-25",
+          "synopsisTr": "Carol, yalnızlığın ağırlığına aldırmadan gerçeği araştırmaya kararlılıkla devam eder. Geceleri duyulan tuhaf ulumalar ise ortaya yeni ve rahatsız edici bir tehlikenin işaretlerini çıkarır."
+        },
+        {
+          "episodeNumber": 6,
+          "title": "HDP",
+          "airDate": "2025-12-04",
+          "synopsisTr": "Carol, dehşet verici bir keşfini paylaşırken kendisi de yeni gerçeklerle yüzleşir. Bu arada Bay Diabaté, 'Günah Şehri'nde hayatın tadını hiç olmadığı kadar çıkarmaktadır."
+        },
+        {
+          "episodeNumber": 7,
+          "title": "The Gap",
+          "airDate": "2025-12-11",
+          "synopsisTr": "Manousos, Carol'la buluşabilmek için tehlikeli bir yolculuğa atılır. Las Vegas'tan eve dönen Carol ise küçük isyanını sürdürmenin yaratıcı yollarını bulur."
+        },
+        {
+          "episodeNumber": 8,
+          "title": "Charm Offensive",
+          "airDate": "2025-12-18",
+          "synopsisTr": "Carol, 'Ötekiler'e karşı bambaşka bir taktik dener ve umduğundan çok daha fazlasını öğrenir. Manousos ise hiç tanımadığı bir yerde gözlerini açar."
+        },
+        {
+          "episodeNumber": 9,
+          "title": "La Chica o El Mundo",
+          "airDate": "2025-12-23",
+          "synopsisTr": "Manousos Albuquerque'ye ulaştığında işler beklenmedik bir şekilde çorbaya döner. Carol ise dünyanın kalan en iyi köşelerinden birine son bir ziyaret gerçekleştirir."
+        }
+      ]
+    }
+  ]
+}
