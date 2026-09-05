@@ -10,6 +10,7 @@ import BreakingBad from './pages/series/BreakingBad/BreakingBad';
 import HouseOfTheDragon from './pages/series/HouseOfTheDragon/HouseOfTheDragon';
 import Severance from './pages/series/Severance/Severance';
 import Pluribus from './pages/series/Pluribus/Pluribus';
+import From from './pages/series/From/From';
 import SeasonDetail from './pages/series/BreakingBad/SeasonDetail/SeasonDetail';
 import HouseOfTheDragonSeasonDetail from './pages/series/HouseOfTheDragon/SeasonDetail/SeasonDetail';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
@@ -21,6 +22,8 @@ import SeveranceSeasonDetail from './pages/series/Severance/SeasonDetail/SeasonD
 import SeveranceEpisodePage from './pages/series/Severance/EpisodePage/EpisodePage';
 import PluribusSeasonDetail from './pages/series/Pluribus/SeasonDetail/SeasonDetail';
 import PluribusEpisodePage from './pages/series/Pluribus/EpisodePage/EpisodePage';
+import FromSeasonDetail from './pages/series/From/SeasonDetail/SeasonDetail';
+import FromEpisodePage from './pages/series/From/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
 import WesterosMap from './pages/series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/series/GameOfThrones/History/History';
@@ -222,6 +225,12 @@ function App() {
               element={<PluribusEpisodePage />}
             />
             <Route path="series/pluribus/seasons/:seasonNumber" element={<PluribusSeasonDetail />} />
+            <Route path="series/from" element={<From />} />
+            <Route
+              path="series/from/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<FromEpisodePage />}
+            />
+            <Route path="series/from/seasons/:seasonNumber" element={<FromSeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
             <Route path="series" element={<Series />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />

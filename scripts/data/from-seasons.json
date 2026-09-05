@@ -1,0 +1,272 @@
+{
+  "seasons": [
+    {
+      "seasonNumber": 1,
+      "title": "Season 1",
+      "airDate": "2022-02-20",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "Long Day's Journey Into Night",
+          "airDate": "2022-02-20",
+          "synopsisTr": "Matthews ailesinin karayolu tatili, çıkışı olmayan ıssız bir kasabaya sapan bir yoldan sonra kâbusa dönüşür. Karavanları devrildiğinde, Şerif Boyd Stevens ve kasaba halkı güneş batmadan onları kurtarmak için yarışa girer."
+        },
+        {
+          "episodeNumber": 2,
+          "title": "The Way Things Are Now",
+          "airDate": "2022-02-27",
+          "synopsisTr": "Colony House'ta Tabitha ve Julie, içine düştükleri bu tekinsiz gerçekliğe alışmaya çalışırken; ormanda Jim, Boyd ve Kristi, Ethan'ın yaralarını iyileştirmeye uğraşır. Beklenmedik bir kaynaktan gelen bir trajedi, kasaba sakinleri arasında yeni bir tehdidin filizlenmesine yol açar."
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Choosing Day",
+          "airDate": "2022-03-06",
+          "synopsisTr": "Matthews ailesi, iki yerleşimden hangisine katılacaklarına karar vermek zorundadır. Jade içinde bulunduğu durumla yüzleşirken, Boyd kasabadaki yaşamın en can alıcı noktasına dokunan, imkânsız bir seçimle karşı karşıya kalır."
+        },
+        {
+          "episodeNumber": 4,
+          "title": "A Rock and a Farway",
+          "airDate": "2022-03-13",
+          "synopsisTr": "Julie yeni arkadaşlarında bir teselli bulurken, Jim ile Tabitha'nın evliliğindeki çatlaklar derinleşir. Ethan, Victor'la birlikte ormana doğru cesur bir adım atar; Peder Khatri, Boyd'u liderlik rolünü kabullenmeye teşvik eder ve Sara'ya dehşet verici yeni bir buyruk gelir."
+        },
+        {
+          "episodeNumber": 5,
+          "title": "Silhouettes",
+          "airDate": "2022-03-20",
+          "synopsisTr": "Jim, Tabitha ve Ethan, eve dönüş yolunu bulma umuduyla bulundukları yerin sırrını çözmeye çalışır. Ellis ve Fatima, Julie'ye kasabanın daha hafif yüzünü gösterirken, Jade yaşadıklarına bir anlam vermeye çabalar ve Boyd bir yol gösterici arayışına girer."
+        },
+        {
+          "episodeNumber": 6,
+          "title": "Book 74",
+          "airDate": "2022-03-27",
+          "synopsisTr": "Boyd'un ormana açılma planı, Kenny'den beklenmedik bir tepki doğurur. Jade, bir deney için Jim'in yardımına başvururken, Tabitha'nın yaptığı ürpertici bir keşif onu cevap arayışında bambaşka bir yola sürükler."
+        },
+        {
+          "episodeNumber": 7,
+          "title": "All Good Things",
+          "airDate": "2022-04-03",
+          "synopsisTr": "Peder Khatri, Boyd'a Sara'nın neden işe yarayabileceğini anlatırken, Jim ile Tabitha birbirlerinde teselli bulur. Colony House'ta Fatima'nın kasabaya gelişinin birinci yıl dönümü için düzenlenen kutlama feci bir şekilde ters gider."
+        },
+        {
+          "episodeNumber": 8,
+          "title": "Broken Windows, Open Doors",
+          "airDate": "2022-04-10",
+          "synopsisTr": "Yeni bir ölümün ardından Boyd, ayrılma kararını sorgulamaya başlar. Kenny yeni rolünü üstlenirken, Jim kasabayı bir radyo kulesi inşa etme fikri etrafında birleştirmeye çalışır; Fatima ise Ellis'i babasıyla barışması için son bir kez ikna etmeye uğraşır."
+        },
+        {
+          "episodeNumber": 9,
+          "title": "Into the Woods",
+          "airDate": "2022-04-17",
+          "synopsisTr": "Boyd ve Sara, ormanın şimdiye dek hiç gitmedikleri kadar derinliklerine inerek yeni ve ürkütücü gizemlerle karşılaşır. Jim'in radyo kulesine olan inancı sarsılırken, beklenmedik bir trajedi Donna'yı çöküşe sürükler; Kenny ile Kristi arasında ise samimi bir an yaşanır."
+        },
+        {
+          "episodeNumber": 10,
+          "title": "Oh, the Places We'll Go",
+          "airDate": "2022-04-24",
+          "synopsisTr": "Boyd, hiç beklemediği bir kaynaktan güç bulur. Jim'in radyo kulesi, onu temelden sarsacak sonuçlar doğururken, Tabitha'nın aylardır kazdığı çukur onu hiç ummadığı bir yere — ve birine — ulaştırır."
+        }
+      ]
+    },
+    {
+      "seasonNumber": 2,
+      "title": "Season 2",
+      "airDate": "2023-04-23",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "Strangers in a Strange Land",
+          "airDate": "2023-04-23",
+          "synopsisTr": "Boyd'un yokluğunda, bir otobüs dolusu habersiz yeni gelenin kasabaya ulaşmasıyla ortaya çıkan kaosu Donna ve Kenny dizginlemeye çalışır. Victor ile Tabitha ise kasabanın altındaki kâbus gibi tünel labirentinde ürpertici bir yolculuğa çıkar."
+        },
+        {
+          "episodeNumber": 2,
+          "title": "The Kindness of Strangers",
+          "airDate": "2023-04-30",
+          "synopsisTr": "Lokantada, kasaba halkı ve yeni gelenler güneşin doğmasını gergin bir bekleyiş içinde geçirir. Matthews'ların evinin altındaki enkazda ise korku diz boyu; Jim ve Tom, paniğe kapılmış bir yolcuyu sessiz tutmaya çalışır."
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Tether",
+          "airDate": "2023-05-07",
+          "synopsisTr": "Kenny ile Ellis, ormanda ürkütücü bir keşifte bulunur. Boyd ise kendisine olanların gerçekliğiyle yüzleşmekte zorlanır."
+        },
+        {
+          "episodeNumber": 4,
+          "title": "This Way Gone",
+          "airDate": "2023-05-14",
+          "synopsisTr": "Boyd'un durumu giderek endişe verici hale gelirken, Sara'nın kasabaya dönüşü onu zor bir konuma sokar. Jim ise kasaba hakkında rahatsız edici yeni bir teori ortaya atar."
+        },
+        {
+          "episodeNumber": 5,
+          "title": "Lullaby",
+          "airDate": "2023-05-21",
+          "synopsisTr": "Sara'nın döndüğü haberi kasabaya yayılırken, Sara bunun bedelini ödemek zorunda kalır. Victor ile Jade ise beklenmedik bir anlaşmaya varır."
+        },
+        {
+          "episodeNumber": 6,
+          "title": "Pas de Deux",
+          "airDate": "2023-05-28",
+          "synopsisTr": "Gelmekte olan yiyecek kıtlığı haberi Colony House'ta gerginliği tırmandırır. Klinikte geçen bir gece ise beklenmedik şekilde dehşete dönüşür."
+        },
+        {
+          "episodeNumber": 7,
+          "title": "Belly of the Beast",
+          "airDate": "2023-06-04",
+          "synopsisTr": "Boyd ve Kristi, Kâbus Yaratığı'nın öldüğü düşüncesinden faydalanmanın yollarını ararken, Jim kendini dengesiz Randall'da beklenmedik bir müttefik bulur."
+        },
+        {
+          "episodeNumber": 8,
+          "title": "Forest for the Trees",
+          "airDate": "2023-06-11",
+          "synopsisTr": "Kasabanın gerçeğine ulaşma çabasında Jim ile Randall, tehlikeli bir plan kurar. Bu sırada yeni bir dehşet biçimi sinsice şekillenmektedir."
+        },
+        {
+          "episodeNumber": 9,
+          "title": "Ball of Magic Fire",
+          "airDate": "2023-06-18",
+          "synopsisTr": "Kasaba sakinleri hayatta kalmalarını tehdit eden ürkütücü yeni bir tehlikeyle karşılaşınca panik her yeri sarar. Jim ise Randall'ı davasına ortak etmenin ne büyük bir hata olduğunu acı şekilde fark eder."
+        },
+        {
+          "episodeNumber": 10,
+          "title": "Once Upon a Time...",
+          "airDate": "2023-06-25",
+          "synopsisTr": "Boyd, artık elinde hiç cevap kalmadığından korkarken kasaba halkı sona hazırlanır. Tabitha ise çocukların kurtuluşun anahtarı olabileceği inancına sımsıkı sarılır."
+        }
+      ]
+    },
+    {
+      "seasonNumber": 3,
+      "title": "Season 3",
+      "airDate": "2024-09-22",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "Shatter",
+          "airDate": "2024-09-22",
+          "synopsisTr": "Hava soğudukça ve kasaba halkı gitgide çaresizleştikçe, Boyd kasabanın elinden kayıp gittiğini hisseder."
+        },
+        {
+          "episodeNumber": 2,
+          "title": "When We Go",
+          "airDate": "2024-09-29",
+          "synopsisTr": "Kasaba, aralarından birine veda ederken Boyd ilerleyecek bir yol bulmakta zorlanır. Fatima'nın sağlığı kötüleşirken, Tabitha beklenmedik bir müttefikten yardım görür."
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Mouse Trap",
+          "airDate": "2024-10-06",
+          "synopsisTr": "Kenny, yiyecek aramak için bir grubu ormana götürür. Donna ile Ellis, Boyd'u tehlikeli bir planından vazgeçirmeye çalışırken; Tabitha zihin bulandıran bir keşifte bulunur ve Fatima, doğmamış bebeğinin geleceğinden endişeye kapılır."
+        },
+        {
+          "episodeNumber": 4,
+          "title": "There and Back Again",
+          "airDate": "2024-10-13",
+          "synopsisTr": "Gece çökerken kasabaya yeni gelenler ulaşınca Boyd zor bir karar vermek zorunda kalır. Victor ise cevap bulma umuduyla geçmişinden gömülü kalmış anıları kazıp çıkarır."
+        },
+        {
+          "episodeNumber": 5,
+          "title": "The Light of Day",
+          "airDate": "2024-10-20",
+          "synopsisTr": "Victor, geçmişinden acı bir hatırlatmayla yüzleşir; Julie yaşadığı travmayla baş etmenin yollarını arar. Kasaba halkı kararlarını sorgulamaya başlarken Boyd herkesi güvende tutmaya çabalar, Tabitha ise yeni çevresine alışmaya çalışır."
+        },
+        {
+          "episodeNumber": 6,
+          "title": "Scar Tissue",
+          "airDate": "2024-10-27",
+          "synopsisTr": "Fatima ile Ellis, hamilelikle ilgili büyük bir karar alır. Boyd ailesinin geleceğinden endişe duyarken, Matthews evinde gerginlik tırmanır ve Randall, korkularını Marielle'e açar."
+        },
+        {
+          "episodeNumber": 7,
+          "title": "These Fragile Lives",
+          "airDate": "2024-11-03",
+          "synopsisTr": "Fatima'nın hamileliğine dair endişeler büyüdükçe herkesin sinirleri gerilir. Jade, ormanda bir ipucu izini takip ederken; Julie ile Randall sıradanlığa dair küçük bir teselli arar."
+        },
+        {
+          "episodeNumber": 8,
+          "title": "Thresholds",
+          "airDate": "2024-11-10",
+          "synopsisTr": "Yaşanan trajedinin ardından suçlamalar havada uçuşur ve gerçekler gün yüzüne çıkar. Victor, uzun süredir gömülü kalmış anılarını geri getirmeye çabalarken; Julie ile Ethan, ormandaki gizemli kalıntıların sırrını çözmeye çalışır."
+        },
+        {
+          "episodeNumber": 9,
+          "title": "Revelations: Chapter One",
+          "airDate": "2024-11-17",
+          "synopsisTr": "Kasaba halkı, aralarından birinin kaybolduğunu öğrenince gerginlik hiç olmadığı kadar tırmanır."
+        },
+        {
+          "episodeNumber": 10,
+          "title": "Revelations: Chapter Two",
+          "airDate": "2024-11-24",
+          "synopsisTr": "Sevdiği biri için zaman tükenirken Boyd sınırlarının sonuna gelir. Randall geçmişinin travmasıyla boğuşurken Victor acı bir gerçeği açığa vurur; Tabitha'nın olağanüstü yolculuğu ise şok edici bir yöne evrilir."
+        }
+      ]
+    },
+    {
+      "seasonNumber": 4,
+      "title": "Season 4",
+      "airDate": "2026-04-19",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "The Arrival",
+          "airDate": "2026-04-19",
+          "synopsisTr": "Kasabaya gelen yeni bir yüz her şeyi alt üst eder. Jade ile Tabitha, Şişe Ağacı'ndaki açığa çıkan gerçekle boğuşurken, Boyd Smiley'nin geri dönüşünün ne anlama geldiğini kavramaya çalışır."
+        },
+        {
+          "episodeNumber": 2,
+          "title": "Fray",
+          "airDate": "2026-04-26",
+          "synopsisTr": "Ürpertici bir keşif kasabayı sarsarken, Jade ile Tabitha az önce öğrendikleri gerçeğin ağırlığı altında ezilir."
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Merrily We Go",
+          "airDate": "2026-05-03",
+          "synopsisTr": "Boyd, Acosta'yı kendi kendinden korumaya çalışırken Julie, yeni keşfettiği yeteneklerinin derinliklerine iner. Tabitha çaresiz bir kumara girişirken, Victor cevap arayışında Ethan'a katılır."
+        },
+        {
+          "episodeNumber": 4,
+          "title": "Of Myths and Monsters",
+          "airDate": "2026-05-10",
+          "synopsisTr": "Uğursuz bir keşif, Boyd'un yakın çevresini alarma geçirir. Julie yeteneklerini kontrol altına almanın bir yolunu ararken, Sara kafasındaki seslerin işkencesine yeniden teslim olur."
+        },
+        {
+          "episodeNumber": 5,
+          "title": "What a Long Strange Trip It's Been",
+          "airDate": "2026-05-17",
+          "synopsisTr": "Boyd ile Jade, cevap bulma umuduyla zihin bulandıran, çaresiz bir yolculuğa çıkar. Yerleşime yapılan bir erzak seferi ise beklenmedik bir dehşete dönüşür."
+        },
+        {
+          "episodeNumber": 6,
+          "title": "The Heart Is a Lonely Hunter",
+          "airDate": "2026-05-31",
+          "synopsisTr": "Boyd ile Jade, Jade'in kafasındaki bilgiye güvenip güvenemeyecekleri konusunda anlaşmazlığa düşer. Yerleşimden gelen derinden rahatsız edici haberler ise herkesi tedirgin eder."
+        },
+        {
+          "episodeNumber": 7,
+          "title": "Best Laid Plans",
+          "airDate": "2026-06-07",
+          "synopsisTr": "Tabitha ile Jade'in rahatsız edici geçmişi gün yüzüne çıkarken, kasabanın bir başka sakini için her şey çözülmeye başlar. Boyd ise tehlikeli bir teoriyi sınamak istemektedir."
+        },
+        {
+          "episodeNumber": 8,
+          "title": "Heavy Is the Head",
+          "airDate": "2026-06-14",
+          "synopsisTr": "Tehlikeli bir plan şekillenmeye başlar — Boyd, herkesi eve götürebilmek için ne kadarını göze almaya hazırdır? Fatima ile Henry rahatsız edici bir ikilemle karşı karşıya kalırken, Victor; Tabitha ve Ethan'ı en kötüsüne hazırlamaya yardım eder."
+        },
+        {
+          "episodeNumber": 9,
+          "title": "The Calm Before",
+          "airDate": "2026-06-21",
+          "synopsisTr": "Kasaba halkı hiç karşılaşmadıkları kadar kritik bir eşiğe gelirken, Boyd cüretkâr ve tehlikeli planını harekete geçirir."
+        },
+        {
+          "episodeNumber": 10,
+          "title": "If a Tree Falls in the Forest...",
+          "airDate": "2026-06-28",
+          "synopsisTr": "Boyd'un kasaba halkını eve götürme çabası, dehşet verici bir dönüm noktasına ulaşır — ve artık hiçbir şey eskisi gibi olmayacaktır."
+        }
+      ]
+    }
+  ]
+}
