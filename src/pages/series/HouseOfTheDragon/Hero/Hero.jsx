@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchProductionById } from '../../../../shared/api/productions';
+import { resolveGenreNames } from '../../../../shared/api/genres';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -34,6 +35,7 @@ function ArrowIcon() {
 export default function Hero() {
   const { t } = useTranslation();
   const [series6, setSeries6] = useState(null);
+  const [genreNames, setGenreNames] = useState([]);
   const pageRef = useRef(null);
   const imageBlock1Ref = useRef(null);
   const imageBlock2Ref = useRef(null);
@@ -50,6 +52,23 @@ export default function Hero() {
   useEffect(() => {
     fetchProductionById('series', 6).then(setSeries6);
   }, []);
+
+  // genreNames backend'den DÖNMÜYOR (yalnız genreIds) — ProductionDetail/
+  // SeriesHero'daki AYNI çözümleme burada da gerekli, aksi halde tür hiç
+  // görünmüyordu (kullanıcı raporu, 2026-09-05).
+  useEffect(() => {
+    if (!series6?.genreIds?.length) {
+      setGenreNames([]);
+      return undefined;
+    }
+    let cancelled = false;
+    resolveGenreNames(series6.genreIds).then((names) => {
+      if (!cancelled) setGenreNames(names);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [series6]);
 
   useLayoutEffect(() => {
     if (series6 == null) return undefined;
@@ -134,21 +153,29 @@ export default function Hero() {
   // TODO: Replace null with a Skeleton UI if needed.
   if (series6 == null) return null;
 
+  const year = series6?.firstAirDate ? new Date(series6.firstAirDate).getFullYear() : '';
+
   return (
     <div className={styles.page} ref={pageRef}>
       <img ref={imageBlock1Ref} className={styles.imageBlock1} src={series6?.coverImageUrl} alt="" />
-      <img ref={imageBlock2Ref} className={styles.imageBlock2} src={series6?.coverImageUrl} alt="" />
-      <Link ref={logoRef} to="/series/house-of-the-dragon" className={styles.logoBlock1}><img src="/src/assets/logos/house-of-the-dragon.webp" alt="House of the Dragon" /></Link>
-      <p ref={titleRef} className={styles.textBlock1}>{series6?.title}</p>
-      <p ref={yearRef} className={styles.textBlock2}>{series6?.firstAirDate}</p>
-      <p ref={genreRef} className={styles.textBlock3}>{series6?.genreNames}</p>
-      <p ref={synopsisRef} className={styles.textBlock4}>{series6?.synopsis}</p>
-      <div ref={imdbLogoRef} className={styles.logoBlock2}><img src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" /></div>
-      <p ref={ratingTextRef} className={styles.textBlock5}>{series6?.externalRating}</p>
-      <button ref={trailerBtnRef} type="button" className={styles.buttonBlock1}>{"▶  Watch Trailer"}</button>
-      <Link ref={seasonsBtnRef} to="/series/house-of-the-dragon/seasons" className={styles.buttonBlock2}>
-        {t('series.exploreSeasonCta')} <ArrowIcon />
-      </Link>
+      <div className={styles.cardWrap}>
+        <img ref={imageBlock2Ref} className={styles.imageBlock2} src={series6?.coverImageUrl} alt="" />
+        <Link ref={logoRef} to="/series/house-of-the-dragon" className={styles.logoBlock1}><img src="/src/assets/logos/house-of-the-dragon.webp" alt="House of the Dragon" /></Link>
+        <p ref={titleRef} className={styles.textBlock1}>{series6?.title}</p>
+        <div className={styles.metaRow}>
+          <p ref={yearRef} className={styles.textBlock2}>{year}</p>
+          <p ref={genreRef} className={styles.textBlock3}>{genreNames.join(' · ')}</p>
+        </div>
+        <p ref={synopsisRef} className={styles.textBlock4}>{series6?.synopsis}</p>
+        <div ref={imdbLogoRef} className={styles.logoBlock2}><img src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" /></div>
+        <p ref={ratingTextRef} className={styles.textBlock5}>{series6?.externalRating}</p>
+        <div className={styles.ctaRow}>
+          <button ref={trailerBtnRef} type="button" className={styles.buttonBlock1}>{"▶  Watch Trailer"}</button>
+          <Link ref={seasonsBtnRef} to="/series/house-of-the-dragon/seasons" className={styles.buttonBlock2}>
+            {t('common.explore')} <ArrowIcon />
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

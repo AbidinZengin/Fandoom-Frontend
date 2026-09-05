@@ -2,6 +2,10 @@
   position: relative;
   width: 100%;
   aspect-ratio: 1360 / 800;
+  /* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
+     padding = 72px) — SeriesHero'daki AYNI teknik: Hero'yu bu kadar yukarı
+     çekip navbar'ın arkasından başlatıyoruz. */
+  margin-top: -72px;
   /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
      cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
   container-type: inline-size;
@@ -44,6 +48,16 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   letter-spacing: -0.03em;
+}
+
+/* Desktop'ta kutu üretmez (position:absolute .textBlock2/3 kendi
+   konumunu korur) — sadece mobilde year+genre'yi TEK satırda yan yana
+   koymak için gerçek flex kutusuna dönüşür (bkz. mobil medya sorgusu).
+   İkisini AYRI grid sütunlarına koymak (eski desen) Explore butonuyla
+   AYNI sütunu paylaştırıp aralarında dev boşluk açıyordu (kullanıcı
+   raporu, 2026-09-05). */
+.metaRow {
+  display: contents;
 }
 
 .textBlock2 {
@@ -111,9 +125,9 @@
   top: 45.165cqw;
   width: 11.86%;
   height: 3.094cqw;
-  /* Metin bilerek transparent — kullanıcı kararı: buton çerçevesi/dolgu
-     kalsın, "Watch Trailer" yazısı görünmesin (2026-09-05). */
-  color: transparent;
+  /* Beyaz zemin + siyah text — Explore (buttonBlock2, transparent/outline)
+     ile kontrast oluşturması için (kullanıcı kararı, 2026-09-05). */
+  color: #000000;
   /* font-size/padding token (px sabit) yerine cqw: 900-1300px aralığında
      (henüz mobil karta düşmeyen dar masaüstü) sabit punto+padding kutuya
      sığmıyor, metin sarılıp Explore butonuna biniyordu (kullanıcı raporu,
@@ -123,14 +137,13 @@
   font-weight: 700;
   white-space: nowrap;
   text-align: center;
-  background: linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.18) 100%);
+  background: #ffffff;
   border-radius: var(--radius-pill);
-  border-color: rgba(255,255,255,0.4);
+  border-color: #ffffff;
   border-width: 1px;
   border-style: solid;
   padding: 0.88cqw 1.76cqw;
-  box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -10px 14px -12px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.4);
-  backdrop-filter: blur(20px) saturate(200%) brightness(1.15);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -140,6 +153,10 @@
   top: 45.165cqw;
   width: 11.92%;
   height: 3.206cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
   color: var(--fg);
   font-size: 0.96cqw;
   font-weight: 700;
@@ -159,74 +176,132 @@
   color: var(--bg);
 }
 
+/* Desktop'ta kutu üretmez (butonlar kendi absolute konumunu korur) —
+   sadece mobilde eşit-genişlikte yatay satıra dönüşür (bkz. mobil medya
+   sorgusu, .ctaRow). */
+.ctaRow {
+  display: contents;
+}
+
+/* Desktop'ta kutu üretmez — sadece mobilde gerçek bir KART kutusuna
+   dönüşür (bkz. mobil medya sorgusu): sayfa (tam genişlik, blurlu/
+   karartılmış poster arka plan) ile kart (keskin cover image, yuvarlak
+   köşeler) ayrımı için (kullanıcı isteği, 2026-09-05: "koyu web sayfası
+   düzenini kaldırın, kartın arka planı cover image, sayfanın arka planı
+   blurlu poster olsun"). */
+.cardWrap {
+  display: contents;
+}
+
 /* Mobil (≤900px) — PageBuilder'ın absolute-pozisyon + cqw sistemi
    (kullanıcı raporu, 2026-09-02: "mobil kısmı asla generate ettiğim gibi
    değil") mobilde güvenilir sonuç vermiyor; bu yüzden mobilde BİLİNÇLİ
-   olarak terk edilip elle yazılmış diğer section'larla (bkz. SeasonRoute
-   .backdrop — AYNI border/radius değerleri) AYNI 900px kırılımı desenine
-   geçiliyor — kullanıcı isteği: "page builder çıktısı olmayan eleman
-   gibi" ayarla.
-   Kullanıcının verdiği referans ekran görüntüsüne (2026-09-02, HotD
-   için) göre TAMAMEN yeniden kuruldu: tüm Hero tek bir kenarlıklı/
-   radius'lu KART (.page'in kendisi border+radius+overflow:hidden alıyor,
-   ekran kenarından margin'le ayrılıyor). Görsel kartın üst ~55%'ini
-   kaplıyor, üstüne IMDb rozeti (sağ üst) absolute bindiriliyor, alt
-   kenarı ::after gradyanıyla kart zeminine yumuşak geçiyor (SeasonRoute
-   .scrim'in aynı fikri). imageBlock1 (blur) ve imageBlock2 (net) AYNI
-   hücrede TAM boyutlu üst üste — imageBlock2 üstte tamamen kaplıyor
-   (kullanıcı isteği: "background blurlu yapıp önüne normal halini
-   koy"). Seri wordmark'ı (logoBlock2) kaldırıldı (kullanıcı kararı,
-   2026-09-05) — başlık SADECE textBlock1 düz metniyle gösteriliyor.
-   Butonlar (Explore solda / Watch Trailer sağda) DOM sırasının TERSİ —
-   grid-column ile görsel sırası zorlanıyor.
+   olarak terk edilip elle yazılmış diğer section'larla AYNI 900px
+   kırılımı desenine geçiliyor.
+   ÜÇÜNCÜ TUR (kullanıcı raporu, 2026-09-05 — grid-auto-flow:dense butonları
+   .page'in gerçek (auto) yüksekliğinin DIŞINA taşırıp overflow:hidden'a
+   kurban ediyordu, canlı DOM ölçümüyle doğrulandı): CSS Grid + dense YERİNE
+   basit, öngörülebilir DİKEY FLEX akışı — her blok kendi satırında sırayla
+   akar, buton çifti kendi ctaRow'unda YATAY flex (bkz. Hero.jsx). imageBlock1
+   (blur) tüm kartı kaplayan absolute arka plan; imageBlock2 (net) normal
+   akışta üst blok; .page::after düz kart rengine KESMEYEN, koyulaşan yarı
+   saydam scrim (metin bölgesinde de blurlu zemin hafifçe görünür kalsın
+   diye — kullanıcı isteği: "textlerin arası image olacak").
 */
 @media (max-width: 900px) {
+  /* İKİ KATMAN (kullanıcı onayı, 2026-09-05): DIŞ = .page, tam genişlikte
+     (kenar boşluksuz), arka planı aşırı bulanık + karartılmış poster
+     (imageBlock1) — "sayfa"nın kendisi. İÇ = .cardWrap, onun ÜSTÜNDE duran
+     yuvarlak köşeli KART — arka planı keskin cover image (imageBlock2),
+     içinde başlık/metin/butonlar. */
   .page {
     position: relative;
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    /* dense — buttonBlock1/2'nin DOM sırası (trailer önce) grid-column
-       atamalarıyla (trailer:2, explore:1) TERS; sparse packing "cursor"
-       ilk satırın 1. sütununa geri DÖNMEZ, ikisini AYRI satırlara
-       düşürüyordu (canlı doğrulama, 2026-09-02). dense bu boşluğu
-       dolduruyor. year/genre gibi DOM sırası sütun sırasıyla ZATEN
-       uyumlu çiftleri etkilemiyor. */
-    grid-auto-flow: row dense;
-    column-gap: var(--space-xs);
-    row-gap: var(--space-md);
     width: auto;
     aspect-ratio: auto;
     height: auto;
     container-type: normal;
-    margin: var(--space-xl) var(--space-page-x);
-    padding: 0 var(--space-lg) var(--space-lg);
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    border-radius: var(--radius-lg);
-    background: var(--card-bg);
+    /* top: -72px — navbar arkası kaydırma (SeriesHero'daki AYNI teknik).
+       Sol/sağ margin YOK — sayfa tam genişlikte, kenar boşluksuz. */
+    margin: -72px 0 var(--space-xl);
+    padding: 0;
+    border: none;
+    border-radius: 0;
     overflow: hidden;
   }
 
-  .page::after {
-    content: '';
-    grid-row: 1;
-    grid-column: 1 / -1;
-    align-self: end;
+  /* Sayfanın kendi arka planı: aşırı bulanıklaştırılmış + karartılmış
+     poster — tam kart/sayfa boyutunda, kenardan kenara. */
+  .imageBlock1 {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    /* global `img { max-width: 100% }` (theme.css) taşma genişliğini
+       kırpıyordu — burada İPTAL edilmeli. */
+    max-width: none;
     width: 100%;
-    height: 55%;
-    background: linear-gradient(to bottom, transparent 0%, var(--card-bg) 92%);
-    pointer-events: none;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+    object-fit: cover;
+    filter: blur(24px) brightness(0.5) saturate(1.15);
   }
 
-  .imageBlock1,
+  /* Kart — sayfanın blurlu zemini üstünde duran, kendi yuvarlak köşeleri
+     olan içerik kutusu. padding-top: %58 poster'ın (imageBlock2) metinden
+     ÖNCE görünür kalacağı alanı rezerve ediyor (genişliğe bağlı yüzde). */
+  .cardWrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    /* İçerik kartın ALTINA yaslanır — kısa synopsis'te boşluk üstte
+       (poster ile başlık arası) kalır, altta butonlar hep aynı çizgide
+       durur (kullanıcı isteği, 2026-09-05: "buton ve synopsis aşağıya
+       insin, başlıklar ortada dikilmesin"). */
+    justify-content: flex-end;
+    gap: var(--space-sm);
+    margin: var(--space-2xl) var(--space-page-x) 0;
+    padding: 58% var(--space-lg) var(--space-lg);
+    /* 4 yapımın en uzun synopsis'i (Severance, ~734px @390px genişlik)
+       standart kabul edildi — kısa metinli yapımlarda kart altında boşluk
+       kalabilir (kullanıcı kararı, 2026-09-05), kartlar arası yükseklik
+       tutarlı olsun diye. */
+    min-height: 736px;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  /* Kartın kendi arka planı: keskin cover image, kartın TAMAMINI kaplar. */
   .imageBlock2 {
-    grid-row: 1;
-    grid-column: 1 / -1;
-    position: static;
-    width: calc(100% + var(--space-lg) * 2);
-    margin-left: calc(var(--space-lg) * -1);
-    height: auto;
-    aspect-ratio: 4 / 3;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
     border-radius: 0;
+    object-fit: cover;
+  }
+
+  .cardWrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* Metin bölgesinde arka plan SİYAHA kesmiyor — cover image her zaman
+       görünür kalıyor, sadece metnin başladığı noktadan (padding-top ile
+       aynı ~58%) itibaren okunurluk için kademeli koyulaşıyor. */
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 52%,
+      rgba(0, 0, 0, 0.35) 64%,
+      rgba(0, 0, 0, 0.62) 80%,
+      rgba(0, 0, 0, 0.78) 100%
+    );
+    pointer-events: none;
   }
 
   .logoBlock1 {
@@ -234,7 +309,7 @@
     top: var(--space-md);
     left: auto;
     right: var(--space-md);
-    z-index: 2;
+    z-index: 3;
     width: 22px;
     height: auto;
   }
@@ -248,7 +323,7 @@
     top: var(--space-md);
     left: auto;
     right: calc(var(--space-md) + 22px + var(--space-2xs));
-    z-index: 2;
+    z-index: 3;
     width: max-content;
     height: auto;
     /* base kural font-size'ı cqw ile veriyordu — mobilde .page'in
@@ -261,18 +336,23 @@
   }
 
   .textBlock1 {
-    grid-column: 1 / -1;
-    position: static;
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: 3;
     width: 100%;
     font-size: var(--text-h2);
+    /* scrim artık hafif (siyaha kesmiyor) — okunurluk text-shadow'a
+       kalıyor, SeriesHero'nun aynı deseni. */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
   }
 
-  .textBlock2 {
-    grid-column: 1;
-  }
-
-  .textBlock3 {
-    grid-column: 2;
+  .metaRow {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
   }
 
   .textBlock2,
@@ -280,31 +360,58 @@
     position: static;
     width: auto;
     font-size: var(--text-sm);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   }
 
   .textBlock4 {
-    grid-column: 1 / -1;
-    position: static;
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: 3;
     width: 100%;
     height: auto;
     font-size: var(--text-base);
     line-height: 1.6;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
   }
 
-  .buttonBlock2 {
-    grid-column: 1;
-    justify-self: start;
-  }
-
-  .buttonBlock1 {
-    grid-column: 2;
-    justify-self: end;
+  /* Buton çifti — desktop'ta kutu üretmez, mobilde EŞİT genişlikte yatay
+     satır (kullanıcı isteği: "tüm butonların boyutları aynı olacak").
+     DOM sırası (trailer önce) `order` ile GÖRSEL sırayla (explore solda)
+     eşleşecek şekilde tersleniyor — grid-dense'in kırılgan halefinin
+     aksine flexbox'ta `order` her zaman güvenilir. */
+  .ctaRow {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    gap: var(--space-sm);
   }
 
   .buttonBlock1,
   .buttonBlock2 {
     position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    box-sizing: border-box;
+    flex: 1 1 0;
     width: auto;
     height: auto;
+    white-space: normal;
+    /* base kural font-size/padding'i cqw ile veriyordu — mobilde .page'in
+       container-type:normal olması cqw'yi geçersiz kılıp butonu neredeyse
+       sıfır boyuta çökertip yamuk/kaymış gösteriyordu (kullanıcı raporu,
+       2026-09-05; aynı kök neden textBlock5'i de etkilemişti). */
+    font-size: var(--text-sm);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .buttonBlock1 {
+    order: 2;
+  }
+
+  .buttonBlock2 {
+    order: 1;
   }
 }

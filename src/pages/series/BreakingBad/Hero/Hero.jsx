@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchProductionById } from '../../../../shared/api/productions';
+import { resolveGenreNames } from '../../../../shared/api/genres';
 import { Link } from 'react-router-dom';
 import styles from './Hero.module.css';
 
@@ -26,29 +27,55 @@ function ArrowIcon() {
 export default function Hero() {
   const { t } = useTranslation();
   const [series5, setSeries5] = useState(null);
+  const [genreNames, setGenreNames] = useState([]);
 
   useEffect(() => {
     fetchProductionById('series', 5).then(setSeries5);
   }, []);
 
+  // genreNames backend'den DÖNMÜYOR (yalnız genreIds) — ProductionDetail/
+  // SeriesHero'daki AYNI çözümleme burada da gerekli, aksi halde tür hiç
+  // görünmüyordu (kullanıcı raporu, 2026-09-05).
+  useEffect(() => {
+    if (!series5?.genreIds?.length) {
+      setGenreNames([]);
+      return undefined;
+    }
+    let cancelled = false;
+    resolveGenreNames(series5.genreIds).then((names) => {
+      if (!cancelled) setGenreNames(names);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [series5]);
+
   // TODO: Replace null with a Skeleton UI if needed.
   if (series5 == null) return null;
+
+  const year = series5?.firstAirDate ? new Date(series5.firstAirDate).getFullYear() : '';
 
   return (
     <div className={styles.page}>
       <img className={styles.imageBlock1} src={series5?.coverImageUrl} alt="" />
-      <img className={styles.imageBlock2} src={series5?.coverImageUrl} alt="" />
-      <p className={styles.textBlock1}>{series5?.title}</p>
-      <p className={styles.textBlock2}>{"2022 "}</p>
-      <p className={styles.textBlock3}>{series5?.genreNames}</p>
-      <p className={styles.textBlock4}>{series5?.synopsis}</p>
-      <div className={styles.logoBlock1}><img src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" /></div>
-      <p className={styles.textBlock5}>{series5?.externalRating}</p>
-      <button type="button" className={styles.buttonBlock1}>{"▶  Watch Trailer"}</button>
-      <Link to="/series/breaking-bad/seasons" className={styles.buttonBlock2}>
-        {t('series.exploreSeasonCta')} <ArrowIcon />
-      </Link>
-      <Link to="/series/breaking-bad" className={styles.logoBlock2}><img src="/src/assets/logos/breaking-bad.svg" alt="Breaking Bad" /></Link>
+      <div className={styles.cardWrap}>
+        <img className={styles.imageBlock2} src={series5?.coverImageUrl} alt="" />
+        <p className={styles.textBlock1}>{series5?.title}</p>
+        <div className={styles.metaRow}>
+          <p className={styles.textBlock2}>{year}</p>
+          <p className={styles.textBlock3}>{genreNames.join(' · ')}</p>
+        </div>
+        <p className={styles.textBlock4}>{series5?.synopsis}</p>
+        <div className={styles.logoBlock1}><img src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" /></div>
+        <p className={styles.textBlock5}>{series5?.externalRating}</p>
+        <div className={styles.ctaRow}>
+          <button type="button" className={styles.buttonBlock1}>{"▶  Watch Trailer"}</button>
+          <Link to="/series/breaking-bad/seasons" className={styles.buttonBlock2}>
+            {t('common.explore')} <ArrowIcon />
+          </Link>
+        </div>
+        <Link to="/series/breaking-bad" className={styles.logoBlock2}><img src="/src/assets/logos/breaking-bad.svg" alt="Breaking Bad" /></Link>
+      </div>
     </div>
   );
 }

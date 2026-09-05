@@ -6,6 +6,10 @@
   justify-content: center;
   overflow: hidden;
   padding: var(--space-3xl) var(--space-page-x);
+  /* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
+     padding = 72px) — SeriesHero'daki AYNI teknik: Hero'yu bu kadar yukarı
+     çekip navbar'ın arkasından başlatıyoruz. */
+  margin-top: -72px;
 }
 
 .got-hero__media {
