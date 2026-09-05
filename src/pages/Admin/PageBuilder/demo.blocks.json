@@ -1,32 +1,33 @@
 [
   {
-    "id": "d99b6dd6-b3f5-49d8-acbe-11c45ed19c61",
-    "componentType": "RECTANGLE",
+    "id": "079541ea-15a9-423f-9d47-3e60cf770810",
+    "componentType": "IMAGE",
     "layout": {
       "base": {
-        "x": 0.08135720947500147,
+        "x": 0,
         "y": 0,
-        "w": 99.918642790525,
+        "w": 100,
         "h": 100
       },
-      "md": {
-        "y": -3.963056872784982e-15,
-        "h": 100,
-        "x": 0.08135720947501568,
-        "w": 99.918642790525
-      },
+      "md": null,
       "lg": null
     },
     "parentId": null,
-    "content": {},
-    "bindings": null,
+    "content": {
+      "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1784664584/fandoom/home/auiyockkcp3rlzoppsps.jpg"
+    },
+    "bindings": {
+      "entityType": "series",
+      "entityId": "3",
+      "field": "posterUrl"
+    },
     "styles": {
       "base": {
         "normal": {
-          "background": "#000000",
-          "opacity": 1,
-          "borderWidth": "3px",
-          "borderColor": "#ffffff"
+          "borderRadius": "var(--radius-sm)",
+          "objectFit": "cover",
+          "objectPosition": "44.306752136231474% 0%",
+          "blur": 5
         },
         "hover": {}
       },
@@ -57,32 +58,22 @@
     "layout": {
       "base": {
         "x": 6.262228732485899,
-        "y": 5.868411885589832,
+        "y": 4.774335868979894,
         "w": 87.47554253502821,
-        "h": 37.349816572486766
+        "h": 86.67108929524437
       },
-      "md": {
-        "x": 6.262228732485899,
-        "y": 4.927913862399346,
-        "w": 87.47554253502821,
-        "h": 59.71913789147777
-      },
-      "lg": {
-        "x": 6.550145254849353,
-        "y": 2.4251698516305993,
-        "w": 87.47554253502821,
-        "h": 83.81598509930197
-      },
+      "md": null,
+      "lg": null,
       "x": null,
       "y": null
     },
     "parentId": null,
     "content": {
-      "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1787917616/fandoom/home/zmeisckehgiclryfz8ab.jpg"
+      "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1784671137/fandoom/home/m2c43tnjwwfgy2rnje2f.png"
     },
     "bindings": {
       "entityType": "series",
-      "entityId": "6",
+      "entityId": "3",
       "field": "coverImageUrl"
     },
     "styles": {
@@ -90,68 +81,11 @@
         "normal": {
           "borderRadius": "var(--radius-lg)",
           "objectFit": "cover",
-          "objectPosition": "38.796869305946935% 46.12330256748652%",
+          "objectPosition": "39.01922951904175% 0%",
           "blur": 0,
           "scale": 1,
-          "filter": "saturate(1.6)",
-          "borderColor": "#ffffff",
-          "borderWidth": "3px"
+          "filter": "saturate(1.6)"
         },
-        "hover": {}
-      },
-      "md": {
-        "normal": {
-          "objectPosition": "38.82280867733328% 2.268144886544303%"
-        },
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "c44eed65-7904-4316-a4ea-50ee2a180bc1",
-    "componentType": "LOGO",
-    "layout": {
-      "base": {
-        "x": 30.877706135704074,
-        "y": 2.2172180616554327,
-        "w": 43.27297210703608,
-        "h": 19.24107719832908
-      },
-      "md": {
-        "y": 0,
-        "h": 22.09805613212645
-      },
-      "lg": {
-        "x": 21.05080434525647,
-        "y": 7.123822325417758,
-        "w": 60.33237639466326,
-        "h": 12.35868768498568
-      }
-    },
-    "parentId": null,
-    "content": {
-      "variant": "house-of-the-dragon",
-      "to": "/series/house-of-the-dragon"
-    },
-    "bindings": null,
-    "styles": {
-      "base": {
-        "normal": {},
         "hover": {}
       },
       "md": {
@@ -180,31 +114,21 @@
     "componentType": "TEXT",
     "layout": {
       "base": {
-        "x": 9.05413197360126,
-        "y": 17.104323544858087,
-        "w": 37.14575761547373,
+        "x": 10.665388795305057,
+        "y": 53.14459016208997,
+        "w": 36.61458608080453,
         "h": null
       },
-      "md": {
-        "x": 10.554131973601264,
-        "y": 35.23886285770861,
-        "w": 68.61564203998083,
-        "h": null
-      },
-      "lg": {
-        "x": 10.554131973601264,
-        "y": 57.73316442055072,
-        "w": 70.01710523970367,
-        "h": null
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
-      "text": "House of the Dragon"
+      "text": "Game of Thrones"
     },
     "bindings": {
       "entityType": "series",
-      "entityId": "6",
+      "entityId": "3",
       "field": "title"
     },
     "styles": {
@@ -223,9 +147,7 @@
         "hover": {}
       },
       "lg": {
-        "normal": {
-          "fontSize": "26px"
-        },
+        "normal": {},
         "hover": {}
       }
     },
@@ -246,31 +168,19 @@
     "componentType": "TEXT",
     "layout": {
       "base": {
-        "x": 9.05413197360126,
-        "y": 24.380863157651657,
+        "x": 10.665388795305057,
+        "y": 61.77919500626553,
         "w": 6,
         "h": null
       },
-      "md": {
-        "x": 10.554131973601264,
-        "y": 40.852311630041406
-      },
-      "lg": {
-        "x": 10.554131973601264,
-        "y": 61.73316442055067,
-        "w": 11.737905152295994,
-        "h": null
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
-      "text": "2022 "
+      "text": "201 "
     },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "6",
-      "field": "firstAirDate"
-    },
+    "bindings": null,
     "styles": {
       "base": {
         "normal": {
@@ -286,9 +196,7 @@
         "hover": {}
       },
       "lg": {
-        "normal": {
-          "fontSize": "12px"
-        },
+        "normal": {},
         "hover": {}
       }
     },
@@ -309,23 +217,13 @@
     "componentType": "TEXT",
     "layout": {
       "base": {
-        "x": 12.876420861590853,
-        "y": 24.139778718435142,
+        "x": 14.48767768329465,
+        "y": 61.77919500626553,
         "w": 24.763751948441453,
         "h": null
       },
-      "md": {
-        "x": 16.55413197360126,
-        "y": 40.852311630041406,
-        "w": 23.42510139790783,
-        "h": 2.186502877071258
-      },
-      "lg": {
-        "x": 19.83381180266837,
-        "y": 61.73316442055067,
-        "w": 60.908209439390156,
-        "h": null
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
@@ -333,7 +231,7 @@
     },
     "bindings": {
       "entityType": "series",
-      "entityId": "6",
+      "entityId": "3",
       "field": "genreNames"
     },
     "styles": {
@@ -351,9 +249,7 @@
         "hover": {}
       },
       "lg": {
-        "normal": {
-          "fontSize": "12px"
-        },
+        "normal": {},
         "hover": {}
       }
     },
@@ -374,31 +270,21 @@
     "componentType": "TEXT",
     "layout": {
       "base": {
-        "x": 8.821678897904805,
-        "y": 27.23237282608081,
-        "w": 45.94599258661839,
-        "h": 12.948367043337964
+        "x": 10.665388795305057,
+        "y": 65.68386375370456,
+        "w": 49.52419783227238,
+        "h": 22.18267624208172
       },
-      "md": {
-        "x": 10.554131973601264,
-        "y": 43.69465055820893,
-        "w": 78.60746210995482,
-        "h": 5.527095605336859
-      },
-      "lg": {
-        "x": 10.554131973601264,
-        "y": 64.99900870110416,
-        "w": 81.32572113797367,
-        "h": 20.468307400354263
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
-      "text": "House of the Dragon is set 172 years before the events of Game of Thrones and chronicles the reign of House Targaryen at the height of its power. When King Viserys I breaks with tradition to name his daughter Rhaenyra his heir, the decision ignites a succession crisis that splits the family — and the realm — into two warring factions. Based on George R.R. Martin's Fire & Blood, the series traces the road to civil war known as the Dance of the Dragons."
+      "text": "Set on the fictional continents of Westeros and Essos, the series chronicles the brutal power struggles among noble families vying for control of the Iron Throne of the Seven Kingdoms, the rising threat of the White Walkers beyond the northern border, and exiled Daenerys Targaryen's quest to reclaim her birthright."
     },
     "bindings": {
       "entityType": "series",
-      "entityId": "6",
+      "entityId": "3",
       "field": "synopsis"
     },
     "styles": {
@@ -415,9 +301,7 @@
         "hover": {}
       },
       "lg": {
-        "normal": {
-          "fontSize": "12px"
-        },
+        "normal": {},
         "hover": {}
       }
     },
@@ -438,23 +322,13 @@
     "componentType": "LOGO",
     "layout": {
       "base": {
-        "x": 84.4247014545762,
-        "y": 8.214911677574142,
-        "w": 8.078981589859469,
-        "h": 4.694709680474609
+        "x": 85.6986338243985,
+        "y": 7.12004148925042,
+        "w": 6.5015221127795595,
+        "h": 7.004824645816027
       },
-      "md": {
-        "x": 82.93257922212268,
-        "y": 5.790977490297795,
-        "w": 9.044888132615213,
-        "h": 5.027562298009858
-      },
-      "lg": {
-        "x": 78.84326710694737,
-        "y": 3.8817899320101197,
-        "w": 11.889073893533215,
-        "h": 3.242032393407639
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
@@ -493,31 +367,21 @@
     "componentType": "TEXT",
     "layout": {
       "base": {
-        "x": 80.79390358875663,
-        "y": 8.693820763084945,
+        "x": 81.67153295946852,
+        "y": 8.069243773410188,
         "w": 6,
-        "h": 3.1439358977350276
+        "h": 6.0556223616562574
       },
-      "md": {
-        "x": 74.47107329380692,
-        "y": 6.600503368890622,
-        "w": 6.358345982925517,
-        "h": 3.4085105408242042
-      },
-      "lg": {
-        "x": 68.8406655522071,
-        "y": 4.00280612871394,
-        "w": 8.681247506340553,
-        "h": 3
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
-      "text": 8.4
+      "text": 9.2
     },
     "bindings": {
       "entityType": "series",
-      "entityId": "6",
+      "entityId": "3",
       "field": "externalRating"
     },
     "styles": {
@@ -531,15 +395,11 @@
         "hover": {}
       },
       "md": {
-        "normal": {
-          "fontSize": "30px"
-        },
+        "normal": {},
         "hover": {}
       },
       "lg": {
-        "normal": {
-          "fontSize": "20px"
-        },
+        "normal": {},
         "hover": {}
       }
     },
@@ -560,28 +420,18 @@
     "componentType": "BUTTON",
     "layout": {
       "base": {
-        "x": 77.0061395025807,
-        "y": 33.7065563477498,
+        "x": 78.30702414706744,
+        "y": 69.04735600238648,
         "w": 12.729017624802133,
-        "h": 4.237485591919036
+        "h": 6.037021014255926
       },
-      "md": {
-        "x": 56.65923821489845,
-        "y": 58.377875547161295,
-        "w": 20.991008070371215,
-        "h": 4.093668598508828
-      },
-      "lg": {
-        "x": 49.28537465772973,
-        "y": 87.96979886620139,
-        "w": 41.44696634275085,
-        "h": 5.554051906181117
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
       "text": "▶  Watch Trailer",
-      "to": ""
+      "to": "https://www.youtube.com/watch?v=KPLWWIOCOOQ"
     },
     "bindings": null,
     "styles": {
@@ -609,9 +459,7 @@
         "hover": {}
       },
       "lg": {
-        "normal": {
-          "fontSize": "var(--text-sm)"
-        },
+        "normal": {},
         "hover": {}
       }
     },
@@ -632,23 +480,13 @@
     "componentType": "BUTTON",
     "layout": {
       "base": {
-        "x": 62.306139502580834,
-        "y": 33.7065563477498,
+        "x": 63.48193448968777,
+        "y": 69.04735600238648,
         "w": 12.764948831112939,
-        "h": 4.391833861552768
+        "h": 6.3584464597914625
       },
-      "md": {
-        "x": 21.783662399653135,
-        "y": 58.19464476516926,
-        "w": 21.097629121225076,
-        "h": 4.276899380500852
-      },
-      "lg": {
-        "x": 7.6686840036819675,
-        "y": 87.96979886620139,
-        "w": 41.61669065404776,
-        "h": 5.707470974410953
-      }
+      "md": null,
+      "lg": null
     },
     "parentId": null,
     "content": {
@@ -675,726 +513,6 @@
           "background": "var(--fg)",
           "color": "var(--bg)"
         }
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "c0a9b32e-68ec-40cd-a781-215b8996bb5d",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 5.3622287324858995,
-        "y": 44.40159308358074,
-        "w": 40.737096638636594,
-        "h": null
-      },
-      "md": {
-        "y": 28.74768372134855
-      },
-      "lg": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "FEATURED TITLES"
-    },
-    "bindings": null,
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "56px",
-          "fontFamily": "'Montserrat', sans-serif",
-          "fontWeight": "600"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "8d92e7f1-e0c3-493e-a917-3f0dd74c6a0b",
-    "componentType": "IMAGE",
-    "layout": {
-      "base": {
-        "x": 23.294421874488464,
-        "y": 53.12508781280264,
-        "w": 15.688449510254456,
-        "h": 30.799415145864785
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 17.81935358087618
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "imageUrl": "https://image.tmdb.org/t/p/w300_and_h450_face/anFx9aTOOYqgS3v7x3R84Kz67ly.jpg"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "5",
-      "field": "posterUrl"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "borderRadius": "var(--radius-lg)",
-          "objectFit": "cover",
-          "borderWidth": "3px",
-          "borderColor": "#ffffff"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "a768f4b8-a7b7-4f90-9a86-d6e3d214ccb4",
-    "componentType": "IMAGE",
-    "layout": {
-      "base": {
-        "x": 41.13312285212176,
-        "y": 53.04581771921787,
-        "w": 15.688449510254456,
-        "h": 30.628400968156157
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 17.81935358087618
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1787917631/fandoom/home/vhgz6whmjb5wjucrmfur.jpg"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "6",
-      "field": "posterUrl"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "borderRadius": "var(--radius-lg)",
-          "objectFit": "cover",
-          "borderWidth": "3px",
-          "borderColor": "#ffffff",
-          "objectPosition": "29.43614780047652% 42.50826095379485%"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "02e9500d-74e1-446f-934e-92d1995aef6e",
-    "componentType": "IMAGE",
-    "layout": {
-      "base": {
-        "x": 58.46222873248572,
-        "y": 52.44581771921788,
-        "w": 15.688449510254456,
-        "h": 31.138144658758147
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 17.81935358087618
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1788353913/fandoom/home/tf6bxoylqooxhbbabje7.jpg"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "7",
-      "field": "posterUrl"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "borderRadius": "var(--radius-lg)",
-          "objectFit": "cover",
-          "borderWidth": "3px",
-          "borderColor": "#ffffff"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "ecfed17a-d965-468d-b34b-62806a620605",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 32.24017281003231,
-        "y": 54.336717362379886,
-        "w": 6,
-        "h": 3.6845625181740087
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 3.7164710554874816
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "02"
-    },
-    "bindings": null,
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "56px",
-          "fontFamily": "'Montserrat', sans-serif",
-          "fontWeight": "500"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "c607b365-b662-41cc-8c42-f632fcd21ebc",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 50.82157236237621,
-        "y": 52.44581771921788,
-        "w": 6,
-        "h": 3.6845625181740087
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 3.7164710554874816
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "03"
-    },
-    "bindings": null,
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "56px",
-          "fontFamily": "'Montserrat', sans-serif",
-          "fontWeight": "500"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "4420938c-ae2b-4ca6-87e7-1a08c3cdae5c",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 68.15067824274016,
-        "y": 52.44581771921788,
-        "w": 6,
-        "h": 3.6845625181740087
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 3.7164710554874816
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "04"
-    },
-    "bindings": null,
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "56px",
-          "fontFamily": "'Montserrat', sans-serif",
-          "fontWeight": "500"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "39668112-76bf-4d64-9bcc-e8369107f13c",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 8.238333075094257,
-        "y": 85.12578808153471,
-        "w": 10.56954917941664,
-        "h": null
-      },
-      "md": {
-        "y": 52.36929104906055
-      },
-      "lg": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "Game of Thrones"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "3",
-      "field": "title"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "16px",
-          "fontFamily": "'Montserrat', sans-serif"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "45f2b889-9602-4b32-990d-5c3cc5617b36",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 26.71830298857211,
-        "y": 85.12578808153471,
-        "w": 10.56954917941664,
-        "h": null
-      },
-      "md": {
-        "y": 52.36929104906055
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "Breaking Bad"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "5",
-      "field": "title"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "16px",
-          "fontFamily": "'Montserrat', sans-serif"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "e6215c0b-3a00-47e8-ad70-9ab65d6c88eb",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 42.84440083308652,
-        "y": 85.22039217531625,
-        "w": 13.1611677356839,
-        "h": null
-      },
-      "md": {
-        "y": 52.36929104906055
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "House of the Dragon"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "6",
-      "field": "title"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "16px",
-          "fontFamily": "'Montserrat', sans-serif"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "f9bbee9e-3816-4256-8415-f2aac3bf279a",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 63.0242930570886,
-        "y": 84.92039217531625,
-        "w": 6.564320861048701,
-        "h": null
-      },
-      "md": {
-        "y": 52.36929104906055
-      },
-      "lg": null,
-      "x": null,
-      "y": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "Severance"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "7",
-      "field": "title"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "16px",
-          "fontFamily": "'Montserrat', sans-serif"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "6e2c43f2-f92f-4088-a2d4-85a164b22624",
-    "componentType": "IMAGE",
-    "layout": {
-      "base": {
-        "x": 5.434509767992711,
-        "y": 53.12508781280264,
-        "w": 15.688449510254456,
-        "h": 30.799415145864785
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 17.81935358087618
-      },
-      "lg": null,
-      "x": null,
-      "y": 3
-    },
-    "parentId": null,
-    "content": {
-      "imageUrl": "https://res.cloudinary.com/b0bc5njd/image/upload/v1784664584/fandoom/home/auiyockkcp3rlzoppsps.jpg"
-    },
-    "bindings": {
-      "entityType": "series",
-      "entityId": "3",
-      "field": "posterUrl"
-    },
-    "styles": {
-      "base": {
-        "normal": {
-          "borderRadius": "var(--radius-lg)",
-          "objectFit": "cover",
-          "borderWidth": "3px",
-          "borderColor": "#ffffff"
-        },
-        "hover": {}
-      },
-      "md": {
-        "normal": {},
-        "hover": {}
-      },
-      "lg": {
-        "normal": {},
-        "hover": {}
-      }
-    },
-    "animation": null,
-    "customCss": "",
-    "locked": false,
-    "hidden": false,
-    "sizing": {
-      "primary": "hug",
-      "cross": "hug"
-    },
-    "fixedCross": null,
-    "fixedPrimary": null,
-    "name": null
-  },
-  {
-    "id": "74f101ad-6698-470b-b48f-00c52a6da1e9",
-    "componentType": "TEXT",
-    "layout": {
-      "base": {
-        "x": 15.807882254510897,
-        "y": 53.73671736237989,
-        "w": 6,
-        "h": 3.6845625181740087
-      },
-      "md": {
-        "y": 34.138189669992805,
-        "h": 3.7164710554874816
-      },
-      "lg": null
-    },
-    "parentId": null,
-    "content": {
-      "text": "01"
-    },
-    "bindings": null,
-    "styles": {
-      "base": {
-        "normal": {
-          "color": "#ffffff",
-          "fontSize": "56px",
-          "fontFamily": "'Montserrat', sans-serif",
-          "fontWeight": "500"
-        },
-        "hover": {}
       },
       "md": {
         "normal": {},

@@ -34,15 +34,42 @@ export function isTypingTarget(el) {
 // (ör. handleCanvasPointerDown'da blok İKİ KEZ eklenmesi) engeller.
 export function trackPointerGesture(onMove, onEnd) {
   let done = false;
+  let rafId = null;
+  let pendingEvent = null;
+  // KÖK NEDEN (kullanıcı raporu: "logo/buton taşırken tıkanıyor, yenilemeden
+  // düzelmiyor"): onMove ESKİDEN her ham pointermove'da senkron çalışıyordu —
+  // ağır render maliyetli block'larda (LOGO'nun blur'lu SVG'si + `zoom` CSS'i,
+  // BUTTON'ın autosize+ResizeObserver'lı textarea'sı) her event bir tam
+  // React render + reflow tetikleyip ana thread'i geride bırakıyor, olay
+  // kuyruğu boşalamayınca sekme donuyordu. Artık event'ler bir sonraki
+  // animasyon karesine kadar `pendingEvent`'te toplanır (coalesce), karede
+  // TEK bir onMove çalışır — konum hâlâ akıcı takip eder, sadece event
+  // başına değil kare başına en fazla bir kez işlenir.
+  const flush = () => {
+    rafId = null;
+    if (pendingEvent) onMove(pendingEvent);
+  };
+  const onPointerMove = (ev) => {
+    pendingEvent = ev;
+    if (rafId == null) rafId = requestAnimationFrame(flush);
+  };
   const finish = () => {
     if (done) return;
     done = true;
-    window.removeEventListener('pointermove', onMove);
+    // Bekleyen bir kare varsa bırakmadan ÖNCE işlenir — aksi halde son
+    // pixel'lik hareket kaybolur, drop anındaki hedef/konum (dropTargetRef,
+    // lastPointerRef) bir kare eskimiş kalırdı.
+    if (rafId != null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+      if (pendingEvent) onMove(pendingEvent);
+    }
+    window.removeEventListener('pointermove', onPointerMove);
     window.removeEventListener('pointerup', finish);
     window.removeEventListener('blur', finish);
     onEnd();
   };
-  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointermove', onPointerMove);
   window.addEventListener('pointerup', finish);
   window.addEventListener('blur', finish);
 }
