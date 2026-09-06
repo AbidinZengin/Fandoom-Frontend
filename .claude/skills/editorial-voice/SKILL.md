@@ -131,6 +131,12 @@ ikinci bir makale değildir.
   zorlanarak sıkıştırılmaz; metinde hiç geçmese de sorun değildir.
   (Önceki "4-8 kez zorunlu" kuralı KALDIRILDI — kullanıcı bu yoğunluğu
   "yapay" buldu.)
+- **"…şey X değil, Y'dir" kalıbı YASAK.** Tez/pitch cümlelerinde bile
+  "ihlal edilen şey rıza değil, rızanın harfidir" tipi genel-özet iskelet
+  cümlesi klişe sayılır — antitez arada bir doğal cümle içinde geçebilir
+  ama BAŞLI BAŞINA cümle iskeleti olarak (özellikle art arda birden çok
+  cümlede) kurulmaz. Somut isim/sahne/detayla kurulan doğrudan cümle
+  tercih edilir. _(2026-09, kullanıcı düzeltmesi)_
 - **Üçlü ritim.** Yeri geldiğinde: *"nal sesleri, gıcırdayan deri ve
   uzun hiçlik aralıkları"* gibi üç öğeli sıralama güçlü bir araçtır ama
   zorunlu değildir.
