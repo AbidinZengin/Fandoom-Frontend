@@ -1,0 +1,115 @@
+.lab {
+  background: var(--bg);
+}
+
+.hero,
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl) var(--space-page-x);
+  text-align: center;
+}
+
+.hero__nav {
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.hero__title {
+  font-size: var(--text-h1);
+  margin: 0;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__text {
+  color: var(--fg-dim);
+  font-size: var(--text-md);
+  max-width: 40ch;
+}
+
+.hero__cta {
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--brand-gradient);
+  color: var(--fg);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.heading {
+  font-size: var(--text-h2);
+  margin: 0;
+}
+
+.cards {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 140px;
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  font-size: var(--text-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.about__media {
+  width: 320px;
+  height: 180px;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about__play {
+  font-size: var(--text-h2);
+  color: var(--fg);
+}
+
+.blog__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+  max-width: 360px;
+}
+
+.blog__item {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--card-bg);
+  color: var(--fg-dim);
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.footer {
+  padding: var(--space-2xl) var(--space-page-x);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-faint);
+  font-size: var(--text-xs);
+  border-top: 1px solid var(--border);
+}

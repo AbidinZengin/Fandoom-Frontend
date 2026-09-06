@@ -21,8 +21,8 @@ export const PRODUCTION_ACCENT = {
     accent: '#c23b3b',
   },
   'stranger-things': {
-    posterGradient: 'linear-gradient(160deg, #0a0512 0%, #1f0e33 45%, #3d0d1a 100%)',
-    accent: '#e0334f',
+    posterGradient: 'linear-gradient(160deg, #0a0512 0%, #1f0e33 45%, #3d0d0d 100%)',
+    accent: '#e2231a',
   },
   'the-bear': {
     posterGradient: 'linear-gradient(160deg, #120a05 0%, #2e1a0a 45%, #4a2410 100%)',

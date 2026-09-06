@@ -11,6 +11,8 @@ import HouseOfTheDragon from './pages/series/HouseOfTheDragon/HouseOfTheDragon';
 import Severance from './pages/series/Severance/Severance';
 import Pluribus from './pages/series/Pluribus/Pluribus';
 import From from './pages/series/From/From';
+import ItWelcomeToDerry from './pages/series/ItWelcomeToDerry/ItWelcomeToDerry';
+import StrangerThings from './pages/series/StrangerThings/StrangerThings';
 import SeasonDetail from './pages/series/BreakingBad/SeasonDetail/SeasonDetail';
 import HouseOfTheDragonSeasonDetail from './pages/series/HouseOfTheDragon/SeasonDetail/SeasonDetail';
 import SeasonEpisodes from './pages/series/GameOfThrones/SeasonEpisodes/SeasonEpisodes';
@@ -24,6 +26,10 @@ import PluribusSeasonDetail from './pages/series/Pluribus/SeasonDetail/SeasonDet
 import PluribusEpisodePage from './pages/series/Pluribus/EpisodePage/EpisodePage';
 import FromSeasonDetail from './pages/series/From/SeasonDetail/SeasonDetail';
 import FromEpisodePage from './pages/series/From/EpisodePage/EpisodePage';
+import ItWelcomeToDerrySeasonDetail from './pages/series/ItWelcomeToDerry/SeasonDetail/SeasonDetail';
+import ItWelcomeToDerryEpisodePage from './pages/series/ItWelcomeToDerry/EpisodePage/EpisodePage';
+import StrangerThingsSeasonDetail from './pages/series/StrangerThings/SeasonDetail/SeasonDetail';
+import StrangerThingsEpisodePage from './pages/series/StrangerThings/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
 import WesterosMap from './pages/series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/series/GameOfThrones/History/History';
@@ -41,7 +47,7 @@ import PageBuilder from './pages/Admin/PageBuilder/PageBuilder';
 import { RequireAuth } from './pages/Admin/RequireAuth';
 import Placeholder from './pages/Placeholder/Placeholder';
 import Account from './pages/Account/Account';
-import FlameLab from './pages/FlameLab/FlameLab';
+import MotionLab from './pages/MotionLab/MotionLab';
 import { LangGate, LegacyRedirect } from './shared/i18n/LangGate';
 import { initMotion } from './motion/setup';
 import {
@@ -231,6 +237,18 @@ function App() {
               element={<FromEpisodePage />}
             />
             <Route path="series/from/seasons/:seasonNumber" element={<FromSeasonDetail />} />
+            <Route path="series/it-welcome-to-derry" element={<ItWelcomeToDerry />} />
+            <Route
+              path="series/it-welcome-to-derry/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<ItWelcomeToDerryEpisodePage />}
+            />
+            <Route path="series/it-welcome-to-derry/seasons/:seasonNumber" element={<ItWelcomeToDerrySeasonDetail />} />
+            <Route path="series/stranger-things" element={<StrangerThings />} />
+            <Route
+              path="series/stranger-things/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<StrangerThingsEpisodePage />}
+            />
+            <Route path="series/stranger-things/seasons/:seasonNumber" element={<StrangerThingsSeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
             <Route path="series" element={<Series />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
@@ -254,8 +272,8 @@ function App() {
                 URL'den (useLocation, bkz. kendi yorumu) liste id'sini okuyup
                 paneli değiştiriyor. */}
             <Route path="account/*" element={<Account />} />
-            {/* Geçici — alev shader'ı onaylanınca kaldırılacak */}
-            <Route path="flame-lab" element={<FlameLab />} />
+            {/* Geçici — PinLoad video mekanizması denemesi, yerleşim onaylanınca kaldırılacak */}
+            <Route path="motion-lab" element={<MotionLab />} />
           </Route>
 
           {/* Prefix'siz eski path'ler — kök "/", "/series/breaking-bad" vb. */}

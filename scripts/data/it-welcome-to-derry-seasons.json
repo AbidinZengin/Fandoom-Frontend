@@ -1,0 +1,116 @@
+{
+  "seasons": [
+    {
+      "seasonNumber": 1,
+      "title": "Season 1",
+      "titleTr": "Sezon 1",
+      "airDate": "2025-10-26",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "The Pilot",
+          "titleTr": "Pilot Bölüm",
+          "airDate": "2025-10-26",
+          "durationMinutes": 54,
+          "synopsis": "Derry, 1962: when a classmate vanishes without a trace, four kids on the town's fringes make a pact to find out what really happened to him. At the same time, Major Leroy Hanlon reports for duty at the local Air Force base, where the welcome is colder than the winter air — and the town keeps its oldest secrets close.",
+          "synopsisTr": "Derry, 1962: bir sınıf arkadaşları iz bırakmadan kaybolunca, kasabanın kıyısında kalmış dört çocuk gerçeği bulmak için söz verir. Aynı sırada Binbaşı Leroy Hanlon, yerel Hava Kuvvetleri üssünde göreve başlar — karşılanışı kış havasından bile soğuktur ve kasaba en eski sırlarını sıkı sıkıya saklar.",
+          "externalRating": 6.9,
+          "externalVoteCount": 143,
+          "tmdbId": 3693446,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/uwKrKvprzNW9ACtSB27MlzOpIHL.jpg"
+        },
+        {
+          "episodeNumber": 2,
+          "title": "The Thing in the Dark",
+          "titleTr": "Karanlıktaki Şey",
+          "airDate": "2025-11-02",
+          "durationMinutes": 66,
+          "synopsis": "Charlotte and Will try to settle into an unfamiliar town that doesn't make settling easy, while Ronnie can't shake the fear that something has already happened to her missing father — a fear the dark corners of Derry do nothing to ease.",
+          "synopsisTr": "Charlotte ve Will, alışmayı hiç kolaylaştırmayan bu yabancı kasabaya tutunmaya çalışırken, Ronnie kayıp babasına bir şey olduğu korkusundan kurtulamaz — Derry'nin karanlık köşeleri de bu korkuyu hafifletmeye niyetli değildir.",
+          "externalRating": 6.5,
+          "externalVoteCount": 106,
+          "tmdbId": 6548351,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/eYjrjLWIwD6qE148NKHKYcdHKjv.jpg"
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Now You See It",
+          "titleTr": "Şimdi Görüyorsun",
+          "airDate": "2025-11-09",
+          "durationMinutes": 59,
+          "synopsis": "Leroy, Pauly and Dick scout a new excavation site for the base's real purpose, unaware that the kids are quietly trying to capture hard evidence of the impossible things they keep seeing around town.",
+          "synopsisTr": "Leroy, Pauly ve Dick, üssün asıl amacı için yeni bir kazı alanı ararken; çocuklar da kasabada durmadan tanık oldukları imkânsız olayları görüntüleyip kanıtlamaya çalışır.",
+          "externalRating": 6.3,
+          "externalVoteCount": 95,
+          "tmdbId": 6548352,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/n4BGtiqwoFYd5ZX3UmdupeENcq.jpg"
+        },
+        {
+          "episodeNumber": 4,
+          "title": "The Great Swirling Apparatus of Our Planet's Function",
+          "titleTr": "Gezegenimizin İşleyişinin Büyük Girdaplı Aygıtı",
+          "airDate": "2025-11-16",
+          "durationMinutes": 63,
+          "synopsis": "The sightings around the kids grow more violent and harder to explain away, Charlotte fights to keep Hank from being sacrificed to the base's agenda, and General Shaw pushes his operation past the point anyone can pretend is routine.",
+          "synopsisTr": "Çocukların etrafında yaşanan olaylar giderek daha şiddetli ve açıklanamaz hâle gelirken, Charlotte Hank'i üssün gündemine kurban etmemek için mücadele eder; General Shaw ise operasyonunu artık kimsenin 'rutin' diyemeyeceği bir noktaya taşır.",
+          "externalRating": 6.4,
+          "externalVoteCount": 87,
+          "tmdbId": 6548353,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/hBKG3nQJ8NzE9U0U5uKQfQD88XY.jpg"
+        },
+        {
+          "episodeNumber": 5,
+          "title": "Neibolt Street",
+          "titleTr": "Neibolt Sokağı",
+          "airDate": "2025-11-23",
+          "durationMinutes": 56,
+          "synopsis": "The military moves in on Neibolt Street in force, chasing an explanation they can control — while the kids slip past them into the sewers below, chasing something the Army was never built to fight.",
+          "synopsisTr": "Ordu, kontrol edebileceği bir açıklama peşinde Neibolt Sokağı'na ağırlığını koyarken; çocuklar askerlerin arasından sıyrılıp kanalizasyona iner — orada peşine düştükleri şey, hiçbir ordunun savaşmak için hazırlanmadığı bir şeydir.",
+          "externalRating": 6.7,
+          "externalVoteCount": 93,
+          "tmdbId": 6548354,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/wDTjvS7dTnIko5JukSzgYSa3QQW.jpg"
+        },
+        {
+          "episodeNumber": 6,
+          "title": "In the Name of the Father",
+          "titleTr": "Babanın Adına",
+          "airDate": "2025-11-30",
+          "durationMinutes": 57,
+          "synopsis": "Haunted by visions he can't outrun, Dick finds an unexpected reckoning waiting for him at the Black Spot, while each of the kids is forced to confront a fear that's theirs alone to face.",
+          "synopsisTr": "Bir türlü kurtulamadığı görüntülerin peşini bırakmadığı Dick, Black Spot'ta beklemediği bir hesaplaşmayla karşılaşır; çocuklardan her biri ise yalnızca kendisine ait bir korkuyla yüzleşmek zorunda kalır.",
+          "externalRating": 6.8,
+          "externalVoteCount": 95,
+          "tmdbId": 6548355,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/6phQvyEMeX84oeRznxnJWAM91dz.jpg"
+        },
+        {
+          "episodeNumber": 7,
+          "title": "The Black Spot",
+          "titleTr": "Black Spot",
+          "airDate": "2025-12-07",
+          "durationMinutes": 62,
+          "synopsis": "A mob's attack on the Black Spot tears open something that had stayed quiet for a long time, and in the wreckage that follows, Dick helps pull another piece of Derry's buried puzzle into the light.",
+          "synopsisTr": "Bir grup lincin Black Spot'a saldırısı, uzun süredir sessiz kalmış bir gücü açığa çıkarır; ardından gelen enkazın içinde Dick, Derry'nin gömülü bulmacasının bir parçasını daha gün yüzüne çıkarmaya yardım eder.",
+          "externalRating": 7.1,
+          "externalVoteCount": 78,
+          "tmdbId": 6548356,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/zOAW0v0WLV7vv636Cx8VfSYSktu.jpg"
+        },
+        {
+          "episodeNumber": 8,
+          "title": "Winter Fire",
+          "titleTr": "Kış Ateşi",
+          "airDate": "2025-12-14",
+          "durationMinutes": 69,
+          "synopsis": "A thick fog swallows Derry whole just as General Shaw commits to his mission no matter the cost, forcing the Hanlons, Rose, Dick and the kids to set aside everything that's kept them apart and fight, together, for what's left of the town.",
+          "synopsisTr": "General Shaw, bedeli ne olursa olsun görevinde ısrar ederken yoğun bir sis Derry'yi bütünüyle yutar; Hanlon ailesi, Rose, Dick ve çocuklar aralarındaki her şeyi bir kenara bırakıp kasabadan geriye kalanı kurtarmak için birlikte savaşmak zorunda kalır.",
+          "externalRating": 7.0,
+          "externalVoteCount": 89,
+          "tmdbId": 6548357,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/8gqmWZUs4GAH1QfqR2u3aXxX5Q2.jpg"
+        }
+      ]
+    }
+  ]
+}
