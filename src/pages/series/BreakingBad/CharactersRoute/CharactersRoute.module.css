@@ -8,18 +8,39 @@
   display: flex;
   flex-direction: column;
   min-height: clamp(560px, 78vh, 820px);
-  background: var(--bg);
+  /* Kendi düz zemini KALDIRILDI (kullanıcı isteği, 2026-09-06: "her sayfa
+     ayrı background kullanmasın, ortak background olsun") — sayfanın
+     paylaşılan atmosferik gradient'i (bkz. BreakingBad.jsx body arka planı)
+     artık bu boşluktan da görünür, section'lar arası kesintisiz akar.
+     Section'lar önceden BİTİŞİKTİ (aralarında hiç boşluk yoktu, gradient'in
+     görüneceği yer yoktu — kullanıcı düzeltmesi: "hiçbir şey değişmedi").
+     Hero/SeasonRoute ile AYNI margin oranı: dikeyde nefes, yatayda 8vw. */
+  margin: var(--space-xl) 8vw;
+  /* Scroll-snap hedefi — Hero/SeasonRoute ile AYNI açıklama: konteyner
+     (body) snap'i BreakingBad.jsx'te açılıyor, başka sayfada etkisiz. */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* SABİT ÇERÇEVE — SeasonRoute.module.css .backdropFrame ile BİREBİR AYNI
+   (kullanıcı isteği: "parallax kullan"). border-radius/border burada durur,
+   içindeki görsel kutusundan taşıp kayar. */
+.backdropFrame {
+  position: absolute;
+  inset: var(--space-xl);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
 }
 
 .backdrop {
   position: absolute;
-  inset: var(--space-xl);
-  width: calc(100% - var(--space-xl) * 2);
-  height: calc(100% - var(--space-xl) * 2);
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
   object-fit: cover;
   object-position: center;
-  border-radius: var(--radius-lg);
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
 }
 
 .scrim {

@@ -1,388 +1,265 @@
-.page {
+/* Referans-tarzı yeniden tasarım (2026-09-06) — bkz. Hero.jsx üst yorumu.
+   Tek sahne: görsel + metin aynı kartın içinde. Kart sayfa arka planından
+   (--bg) sol/sağ/alt margin ile taşar; üst kenar önceki tüm Hero'larla
+   AYNI teknikle navbar'ın arkasından başlar. */
+
+.hero {
   position: relative;
-  width: 100%;
-  aspect-ratio: 1360 / 865.7773803894768;
-  /* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
-     padding = 72px) — SeriesHero'daki AYNI teknik: Hero'yu bu kadar yukarı
-     çekip navbar'ın arkasından başlatıyoruz. */
-  margin-top: -72px;
-  /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
-     cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
-  container-type: inline-size;
-}
-
-.imageBlock1 {
-  position: absolute;
-  left: 0%;
-  top: 0cqw;
-  width: 100%;
-  height: 64.157cqw;
-  filter: blur(5px);
-  object-fit: cover;
-  border-radius: var(--radius-sm);
-  object-position: 44.306752136231474% 0%;
-}
-
-.imageBlock2 {
-  position: absolute;
-  left: 6.26%;
-  top: 2.827cqw;
-  width: 87.48%;
-  height: 51.316cqw;
-  filter: saturate(1.6);
-  object-fit: cover;
+  /* DİĞER Hero'ların aksine (tam-ekran, navbar'ın arkasından başlayan)
+     bu kart 4 kenarda da sayfa arka planından taşan gerçek bir kart —
+     navbar'a yapışmasın diye üstte de aynı margin var (kullanıcı
+     düzeltmesi, 2026-09-06: "azıcık boşluk bırak, navbar'ın altından
+     başlasın"). Yatayda dikeyden daha geniş boşluk: köşe yuvarlaklığı
+     dar kenar boşluğunda gözükmüyordu (kullanıcı düzeltmesi). */
+  /* Token skalası 64px'de (--space-3xl) tavan yapıyor — burada yatay
+     kontrast için skalanın üstünde, viewport-bağıl bir değer (8vw)
+     kullanıldı (kullanıcı kararı: "hero hâlâ çok geniş, kontrast belli
+     olmuyor"); token mu istisna mı olduğu bilerek raporlanıyor. */
+  /* Üst boşluk azaltıldı, alt aynı kaldı (kullanıcı isteği: "tüm kartı çok
+     az daha navbar'a yaklaştır" — sadece üst kenar). */
+  margin: var(--space-sm) 8vw var(--space-lg);
+  min-height: 86vh;
   border-radius: var(--radius-lg);
-  object-position: 39.01922951904175% 0%;
-  scale: 1;
+  overflow: hidden;
+  /* Scroll-snap hedefi (kullanıcı kararı, 2026-09-06: BreakingBad'e özel
+     istisna) — konteyner (body) snap'i BreakingBad.jsx'te AÇILIYOR, bu
+     yüzden bu özellik başka hiçbir sayfada etkisiz kalır. */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  /* Sayfa zemini de koyu olduğu için düz siyah kenar tek başına kartı
+     okutmuyordu (kullanıcı düzeltmesi, 2026-09-06: "arka planın siyah
+     olması hiçbir şeyi ifade etmiyor") — ince ring + gölgeyle belirginleştir. */
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  /* "Havada süzülüyor" hissi (kullanıcı isteği, 2026-09-06): siyah-üstüne-
+     siyah saf gölge görünmez, o yüzden üç katman var — 1) üst kenarda ince
+     ışık çizgisi (kartın kendi kenarı ışık yakalıyormuş gibi), 2) yakın/
+     keskin temas gölgesi (kartı zeminden kesin ayırır), 3) sayfanın kendi
+     --accent'inden (BreakingBad.data.js theme.accent, #245a3e yeşili) çok
+     hafif renkli ambient glow — kart kendi ışığını zemine yayıyormuş gibi
+     durur. color-mix ile üretildiği için tema değişirse glow da otomatik
+     değişir, renk burada hardcode edilmedi. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 40px -14px rgba(0, 0, 0, 0.85),
+    0 60px 130px -30px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
-.textBlock1 {
+/* %120 yükseklik + -%10 üst — parallax taşma payı (kullanıcı isteği,
+   2026-09-06: "parallax kullan"). .hero'nun overflow:hidden'ı taşkını
+   keser, GSAP scrub'ı Hero.jsx'te yPercent ±8 uygular. */
+.image {
   position: absolute;
-  left: 10.67%;
-  top: 31.467cqw;
-  width: 36.61%;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  object-position: 42% 15%;
+}
+
+/* Yönlü, ince vinyet — GoT Hero'daki yumuşak overlay mantığı: fotoğrafın
+   kendi ışığı korunur, sadece metnin durduğu sol-alt köşeye doğru
+   koyulaşır. Eski saturate(1.6)/blur yapay filtreleri KALDIRILDI. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.18) 48%, rgba(0, 0, 0, 0.78) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 42%);
+  pointer-events: none;
+}
+
+/* Sadece SOL taraf (yazının durduğu bölge) — TÜM hero DEĞİL (kullanıcı
+   düzeltmesi: "sadece sol tarafa yazının olduğu"), SeasonRoute/
+   CharactersRoute'a da uygulanmadı (kullanıcı düzeltmesi: "kimse eklemeni
+   söylemedi"). Blur YOK (önceki deneme "çirkin" bulundu) — düz, belirgin
+   opaklıkta siyah, mask-image ile sağa doğru yumuşakça söner. */
+.textFog {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.42);
+  mask-image: linear-gradient(90deg, #000 0%, #000 20%, transparent 42%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 20%, transparent 42%);
+  pointer-events: none;
+}
+
+.topRow {
+  position: absolute;
+  z-index: 3;
+  top: var(--space-xl);
+  left: var(--space-xl);
+  right: var(--space-xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.logo img {
+  width: clamp(140px, 16vw, 220px);
   height: auto;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  /* topRow'un paylaşılan hizasından biraz daha yukarı (kullanıcı isteği:
+     "imdb logosu ve ratei biraz daha üste al") — logo aynı yerde kalıyor. */
+  margin-top: calc(-1 * var(--space-xs));
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: #f6c700;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+}
+
+.imdbLogo {
+  width: 72px;
+  height: auto;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+}
+
+.content {
+  position: absolute;
+  z-index: 3;
+  left: var(--space-xl);
+  bottom: var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  max-width: 640px;
+}
+
+.title {
   margin: 0;
-  color: #f2f2f2;
-  font-size: 3.382cqw;
-  font-family: 'Montserrat', sans-serif;
+  font-size: var(--text-h1);
   font-weight: 700;
   letter-spacing: -0.03em;
+  color: #f2f2f2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-/* Desktop'ta kutu üretmez (position:absolute .textBlock2/3 kendi
-   konumunu korur) — sadece mobilde year+genre'yi TEK satırda yan yana
-   koymak için gerçek flex kutusuna dönüşür (bkz. mobil medya sorgusu).
-   İkisini AYRI grid sütunlarına koymak (eski desen) Explore butonuyla
-   AYNI sütunu paylaştırıp aralarında dev boşluk açıyordu (kullanıcı
-   raporu, 2026-09-05). */
 .metaRow {
-  display: contents;
-}
-
-.textBlock2 {
-  position: absolute;
-  left: 10.67%;
-  top: 36.579cqw;
-  width: 6%;
-  height: auto;
-  margin: 0;
-  color: #a0a19f;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-}
-
-.textBlock3 {
-  position: absolute;
-  left: 14.49%;
-  top: 36.579cqw;
-  width: 24.76%;
-  height: auto;
-  margin: 0;
-  color: #9b9c9a;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-}
-
-.textBlock4 {
-  position: absolute;
-  left: 10.67%;
-  top: 38.89cqw;
-  width: 46.23%;
-  height: 5.755cqw;
-  margin: 0;
-  color: #ffffff;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.logoBlock1 {
-  position: absolute;
-  left: 85.7%;
-  top: 4.214cqw;
-  width: 6.5%;
-  height: 4.144cqw;
-}
-
-.textBlock5 {
-  position: absolute;
-  left: 81.67%;
-  top: 4.775cqw;
-  width: 6%;
-  height: 3.584cqw;
-  margin: 0;
-  color: #f6c700;
-  font-size: 2.206cqw;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-}
-
-.buttonBlock1 {
-  position: absolute;
-  left: 77.58%;
-  top: 40.832cqw;
-  width: 12.73%;
-  height: 3.571cqw;
-  /* Beyaz zemin + siyah text — Explore (buttonBlock2, transparent/outline)
-     ile kontrast oluşturması için (kullanıcı kararı, 2026-09-05). */
-  color: #000000;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  text-align: center;
-  background: #ffffff;
-  border-radius: var(--radius-pill);
-  border-color: #ffffff;
-  border-width: 1px;
-  border-style: solid;
-  padding: var(--space-sm) var(--space-lg);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
-  font-family: 'Montserrat', sans-serif;
-}
-
-.buttonBlock2 {
-  position: absolute;
-  left: 63.48%;
-  top: 40.883cqw;
-  width: 12.76%;
-  height: 3.762cqw;
   display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.synopsis {
+  margin: 0;
+  max-width: 62ch;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+/* Tek birincil CTA — SeriesHero/GoT'un aynı outline+ok deseni (kullanıcı
+   kararı: solid-white PageBuilder butonu yerine sitenin imza pill'i). */
+.ctaExplore {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
+  /* min-width: metin uzunluğu farklı olduğu için (Explore vs ▶ Watch
+     Trailer) otomatik genişlik ikisini eşitlemiyordu (kullanıcı düzeltmesi).
+     SeriesHero'nun aynı çift-buton deseninden (.hero__ctaOutline/Glass)
+     birebir alındı. */
+  min-width: 160px;
+  padding: var(--space-sm) var(--space-lg);
+  border: 2.5px solid var(--fg);
+  border-radius: var(--radius-pill);
+  background: transparent;
   color: var(--fg);
   font-size: var(--text-sm);
   font-weight: 700;
-  text-align: center;
   white-space: nowrap;
-  background: transparent;
-  border-color: var(--fg);
-  border-width: 2.5px;
-  border-style: solid;
-  border-radius: var(--radius-pill);
+  transition: background var(--duration-micro) ease, color var(--duration-micro) ease;
+}
+
+@media (hover: hover) {
+  .ctaExplore:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+}
+
+/* İkincil CTA — kullanıcının ekran görüntüsüyle doğrulanan ORİJİNAL hâl:
+   düz OPAK beyaz zemin + SİYAH kalın yazı (cam/glassmorfik DEĞİL — önceki
+   iki deneme, ikon-only ve glassmorfik, ikisi de reddedildi). Explore ile
+   AYNI padding/font-size, konum SAĞDA (Explore SOLDA). */
+.ctaTrailer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-width: 160px;
   padding: var(--space-sm) var(--space-lg);
-  font-family: 'Montserrat', sans-serif;
+  /* Görünmez ama AYNI kalınlıkta border — ctaExplore'un 2.5px border'ı
+     yüksekliğe eklendiği için bu olmadan iki buton farklı boyutta duruyordu
+     (kullanıcı düzeltmesi: "aynı boyutta olacak"). min-width ikisine de AYNI
+     değerle verildi (kullanıcı düzeltmesi: "eşitle"). */
+  border: 2.5px solid transparent;
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  color: #000000;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
-.buttonBlock2:hover {
-  background: var(--fg);
-  color: var(--bg);
-}
-
-.logoBlock2 {
-  position: absolute;
-  left: 11.73%;
-  top: 4.972cqw;
-  width: 26.4%;
-  height: 20.931cqw;
-}
-
-/* Desktop'ta kutu üretmez (butonlar kendi absolute konumunu korur) —
-   sadece mobilde eşit-genişlikte yatay satıra dönüşür (bkz. mobil medya
-   sorgusu, .ctaRow). */
-.ctaRow {
-  display: contents;
-}
-
-/* Desktop'ta kutu üretmez — sadece mobilde gerçek bir KART kutusuna
-   dönüşür (bkz. mobil medya sorgusu): sayfa (tam genişlik, blurlu/
-   karartılmış poster arka plan) ile kart (keskin cover image, yuvarlak
-   köşeler) ayrımı için (kullanıcı isteği, 2026-09-05: "koyu web sayfası
-   düzenini kaldırın, kartın arka planı cover image, sayfanın arka planı
-   blurlu poster olsun"). */
-.cardWrap {
-  display: contents;
-}
-
-/* Mobil (≤900px) — Pluribus/Severance/HouseOfTheDragon Hero'larıyla
-   BİREBİR aynı iki-katmanlı desen (kullanıcı onayı, 2026-09-05): DIŞ =
-   .page, tam genişlikte (kenar boşluksuz), arka planı aşırı bulanık +
-   karartılmış poster (imageBlock1). İÇ = .cardWrap, onun ÜSTÜNDE duran
-   yuvarlak köşeli KART — arka planı keskin cover image (imageBlock2),
-   içinde başlık/metin/butonlar/wordmark. */
 @media (max-width: 900px) {
-  .page {
-    position: relative;
-    width: auto;
-    aspect-ratio: auto;
-    height: auto;
-    container-type: normal;
-    margin: -72px 0 var(--space-xl);
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    overflow: hidden;
+  .hero {
+    margin: var(--space-md);
+    min-height: 78vh;
   }
 
-  .imageBlock1 {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    max-width: none;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    border-radius: 0;
-    object-fit: cover;
-    filter: blur(24px) brightness(0.5) saturate(1.15);
-  }
-
-  .cardWrap {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    /* İçerik kartın ALTINA yaslanır — kısa synopsis'te boşluk üstte
-       (poster ile başlık arası) kalır, altta butonlar hep aynı çizgide
-       durur (kullanıcı isteği, 2026-09-05: "buton ve synopsis aşağıya
-       insin, başlıklar ortada dikilmesin"). */
-    justify-content: flex-end;
-    gap: var(--space-sm);
-    margin: var(--space-2xl) var(--space-page-x) 0;
-    padding: 58% var(--space-lg) var(--space-lg);
-    /* 4 yapımın en uzun synopsis'i (Severance, ~734px @390px genişlik)
-       standart kabul edildi — BreakingBad'in synopsis'i kısa olduğu için
-       kart altında boşluk kalıyor (kullanıcı kararı, 2026-09-05), tüm
-       kartların yüksekliği tutarlı olsun diye. */
-    min-height: 736px;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .imageBlock2 {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    max-width: none;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    border-radius: 0;
-    object-fit: cover;
-  }
-
-  .cardWrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 52%,
-      rgba(0, 0, 0, 0.35) 64%,
-      rgba(0, 0, 0, 0.62) 80%,
-      rgba(0, 0, 0, 0.78) 100%
-    );
-    pointer-events: none;
-  }
-
-  .logoBlock2 {
-    position: absolute;
-    top: var(--space-lg);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 58%;
-    height: auto;
-    z-index: 3;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
-  }
-
-  .logoBlock1 {
-    position: absolute;
+  .topRow {
     top: var(--space-md);
-    left: auto;
+    left: var(--space-md);
     right: var(--space-md);
-    z-index: 3;
-    width: 22px;
-    height: auto;
   }
 
-  .logoBlock1 img {
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+  .logo img {
+    width: 120px;
   }
 
-  .textBlock5 {
-    position: absolute;
-    top: var(--space-md);
-    left: auto;
-    right: calc(var(--space-md) + 22px + var(--space-2xs));
-    z-index: 3;
-    width: max-content;
-    height: auto;
-    font-size: var(--text-base);
-    white-space: nowrap;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  .content {
+    left: var(--space-md);
+    right: var(--space-md);
+    bottom: var(--space-lg);
+    max-width: none;
   }
 
-  .textBlock1 {
-    position: relative;
-    top: auto;
-    left: auto;
-    z-index: 3;
-    width: 100%;
+  .title {
     font-size: var(--text-h2);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
   }
 
-  .metaRow {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-sm);
+  /* Yüzen panel dar ekranda içerikle çakışıyor — üst şeride, rozetin
+     yanına taşınır. */
+  .previewPanel {
+    top: var(--space-md);
+    right: var(--space-md);
+    bottom: auto;
+    width: 96px;
   }
 
-  .textBlock2,
-  .textBlock3 {
-    position: static;
-    width: auto;
-    font-size: var(--text-sm);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-  }
-
-  .textBlock4 {
-    position: relative;
-    top: auto;
-    left: auto;
-    z-index: 3;
-    width: 100%;
-    height: auto;
-    font-size: var(--text-base);
-    line-height: 1.6;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
-  }
-
-  .ctaRow {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    gap: var(--space-sm);
-  }
-
-  .buttonBlock1,
-  .buttonBlock2 {
-    position: static;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2xs);
-    box-sizing: border-box;
-    flex: 1 1 0;
-    width: auto;
-    height: auto;
-    white-space: normal;
-    font-size: var(--text-sm);
-    padding: var(--space-sm) var(--space-md);
-  }
-
-  .buttonBlock1 {
-    order: 2;
-  }
-
-  .buttonBlock2 {
-    order: 1;
+  .previewCaption {
+    display: none;
   }
 }

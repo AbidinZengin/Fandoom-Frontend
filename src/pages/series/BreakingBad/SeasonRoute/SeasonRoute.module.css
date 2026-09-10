@@ -3,20 +3,45 @@
   display: flex;
   flex-direction: column;
   min-height: clamp(560px, 78vh, 820px);
-  background: var(--bg);
+  /* Kendi düz zemini KALDIRILDI (kullanıcı isteği, 2026-09-06: "her sayfa
+     ayrı background kullanmasın, ortak background olsun") — sayfanın
+     paylaşılan atmosferik gradient'i (bkz. BreakingBad.jsx body arka planı)
+     artık bu boşluktan da görünür, section'lar arası kesintisiz akar.
+     Section'lar önceden BİTİŞİKTİ (aralarında hiç boşluk yoktu, gradient'in
+     görüneceği yer yoktu — kullanıcı düzeltmesi: "hiçbir şey değişmedi").
+     Hero ile AYNI margin oranı: dikeyde nefes, yatayda 8vw. */
+  margin: var(--space-xl) 8vw;
+  /* Scroll-snap hedefi — Hero.module.css .hero ile AYNI açıklama: konteyner
+     (body) snap'i BreakingBad.jsx'te açılıyor, başka sayfada etkisiz. */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* Tam-kaplayan CSS arka planı DEĞİL — diğer görseller gibi kendi radius'lu,
    çerçeveli paneli (kullanıcı düzeltmesi: "background olmayacak o da image
-   olacak radiuslu"). Section'ın içine boşluklu oturur. */
-.backdrop {
+   olacak radiuslu"). Section'ın içine boşluklu oturur.
+   SABİT ÇERÇEVE — border-radius/border/kenarlık burada durur (kullanıcı
+   isteği: "parallax kullan"; parallax için görsel kendi kutusundan büyük
+   olup kayacağı için köşe/çerçeve SABİT bir üst katmanda kalmalı, aksi
+   halde kayarken köşeler de kayar). */
+.backdropFrame {
   position: absolute;
   inset: var(--space-xl);
-  width: calc(100% - var(--space-xl) * 2);
-  height: calc(100% - var(--space-xl) * 2);
-  object-fit: cover;
   border-radius: var(--radius-lg);
   border: 1.5px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+}
+
+/* Parallax hedefi — GoT Hero'daki AYNI teknik: kutusundan taşacak kadar
+   büyük (%120 yükseklik, -%10 üstten), GSAP scrub'ıyla yPercent ±8
+   arasında kayar; .backdropFrame'in overflow:hidden'ı taşkını keser. */
+.backdrop {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
 }
 
 /* Kart yazılarının ve alt ok navigasyonunun okunurluğu için alt kenar

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { fetchProductionDetail, fetchCharactersForSeries } from './CharactersRoute.data';
@@ -57,10 +57,80 @@ export default function CharactersRoute() {
   const [openedIndex, setOpenedIndex] = useState(null);
   const [displayedIndex, setDisplayedIndex] = useState(null);
 
+  const pageRef = useRef(null);
   const trackRef = useRef(null);
   const carouselRef = useRef(null);
   const revealRef = useRef(null);
   const isFirstOpenRender = useRef(true);
+
+  // DÜZELTME (kullanıcı kararı, 2026-09-06): scroll-snap artık İSTENİYOR
+  // (BreakingBad'e ÖZEL istisna — bkz. BreakingBad.jsx body snap'i).
+  // Hero/SeasonRoute ile AYNI TEKRARLANAN desen: sahne aktif olunca
+  // başlık→kart grubu stagger opacity fade-in (y/translate YOK), arka
+  // planda yavaş Ken-Burns mikro-zoom (scale 1→1.02) "hold" boyunca sürer.
+  // Backdrop'un GÖRSELİ hiç değişmiyor (dosya-üstü not: "backgroundun
+  // image'ini değiştirmeden") — Ken-Burns sadece scale, kaynak görsel/
+  // karakter değişimiyle alakasız.
+  useLayoutEffect(() => {
+    // BUG FIX: component `!series || !characters` iken null render ediyor
+    // (aşağıdaki erken return) — bu guard olmadan efekt ilk mount'ta
+    // pageRef.current HENÜZ NULL iken çalışıp gsap.context'e geçersiz scope
+    // veriyordu ("Invalid scope" konsol hatası, sayfa hiç render olmuyordu).
+    // SeasonRoute'taki AYNI desen (`if (!seasons.length) return undefined`).
+    if (!characters?.length) return undefined;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: pageRef.current,
+            start: 'top center',
+            end: 'bottom center',
+            toggleActions: 'play reverse play reverse',
+          },
+        });
+
+        tl.from([`.${styles.kicker}`, `.${styles.title}`], {
+          opacity: 0,
+          duration: 0.28,
+          ease: 'power1.out',
+          stagger: 0.06,
+        }).from(
+          [`.${styles.focus}`, ...trackRef.current.querySelectorAll(`.${styles.cardWrap}`)],
+          { opacity: 0, duration: 0.6, ease: 'power1.out', stagger: 0.08 },
+          '-=0.05'
+        );
+
+        gsap.fromTo(
+          `.${styles.backdrop}`,
+          { scale: 1 },
+          {
+            scale: 1.02,
+            duration: 6,
+            ease: 'power1.inOut',
+            scrollTrigger: {
+              trigger: pageRef.current,
+              start: 'top center',
+              end: 'bottom center',
+              toggleActions: 'play reverse play reverse',
+            },
+          }
+        );
+      });
+
+      mm.add('(prefers-reduced-motion: reduce)', () => {
+        gsap.set([`.${styles.kicker}`, `.${styles.title}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
+          opacity: 1,
+          clearProps: 'opacity',
+        });
+        gsap.set(`.${styles.backdrop}`, { scale: 1, clearProps: 'transform' });
+      });
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, [characters]);
 
   useEffect(() => {
     let cancelled = false;
@@ -161,8 +231,10 @@ export default function CharactersRoute() {
   };
 
   return (
-    <section className={styles.page} data-open={isOpen || undefined}>
-      <img className={styles.backdrop} src={backdropUrl} alt="" aria-hidden="true" />
+    <section className={styles.page} data-open={isOpen || undefined} ref={pageRef}>
+      <div className={styles.backdropFrame}>
+        <img className={styles.backdrop} src={backdropUrl} alt="" aria-hidden="true" />
+      </div>
       <div className={styles.scrim} aria-hidden="true" />
 
       <div className={styles.header}>

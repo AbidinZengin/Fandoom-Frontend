@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
 
@@ -12,11 +11,8 @@ import Hero from './Hero/Hero';
 // eklenmek istenirse: import { TitleSequence } from './TitleSequence/TitleSequence';
 import { fetchProductionDetail, theme } from './BreakingBad.data';
 import styles from './BreakingBad.module.css';
-import SeasonRoute from './SeasonRoute/SeasonRoute';
-import CharactersRoute from './CharactersRoute/CharactersRoute';
 
 export default function BreakingBad() {
-  const { t } = useTranslation();
   const [series, setSeries] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
@@ -58,7 +54,7 @@ export default function BreakingBad() {
     return (
       <>
         <div className={styles['bb-notfound']}>
-          <h1 className={styles['bb-notfound__title']}>{t('common.titleNotFound')}</h1>
+          <h1 className={styles['bb-notfound__title']}>Title not found.</h1>
         </div>
         <Footer />
       </>
@@ -70,8 +66,6 @@ export default function BreakingBad() {
   return (
     <>
       <Hero />
-      <SeasonRoute />
-      <CharactersRoute />
       <Footer />
     </>
   );
