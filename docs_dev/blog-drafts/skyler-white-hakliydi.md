@@ -20,60 +20,6 @@ olduğu WebSearch ile doğrulandı (ScreenRant, "The Reason Why Skyler
 Walked Into The Pool & What It Really Meant"). Cümleler hiçbir kaynaktan
 birebir alınmadı.
 
-## Görseller (kullanıcı seçti, henüz Cloudinary'ye yüklenmedi)
-
-- **Kapak:** `d:\İndirilenler\From Klickpin.com- 478226054155762872-pin-id-478226054155762872.jpg`
-  — Anna Gunn'ın Skyler White olarak stüdyo portresi, koyu gri fon önünde
-  gülümsüyor. `imageAlt` önerisi: "Anna Gunn, Skyler White rolünde stüdyo
-  portresinde."
-- **Yükleme Hatası (ikili/paralel çift):**
-  - `d:\İndirilenler\638470.jpg` — Walter banyoda net odakta, hamile
-    Skyler arka planda yatak odasında bulanık ve uzak duruyor.
-    `imageAlt`: "Walter banyoda net odakta; hamile Skyler arka planda
-    bulanık bir şekilde yatağın kenarında oturuyor."
-  - `d:\İndirilenler\638471.jpg` — aynı evin aynalanmış hâli: bu kez net
-    odakta Skyler, arka planda bulanık oturan Walter.
-    `imageAlt`: "Skyler banyoda net odakta, karnını tutuyor; arka planda
-    Walter bulanık şekilde yatağın kenarında oturuyor."
-  - Bu ikili, "Walt'un bakış açısından yazıldık" argümanının (Gilligan'ın
-    2018 itirafı) birebir görsel karşılığı — aynı ev, aynı an, sadece
-    kimin net odakta olduğu değişiyor. İkisi art arda/yan yana
-    kullanılmalı.
-- **Kapanan Kapılar (havuz sahnesi):**
-  `https://image.tmdb.org/t/p/original/zxcf3ER2rzU9IxCxJEhCCw1MyT.jpg`
-  — Skyler, Walter'ın doğum günü partisinde üstü giyinik hâlde havuza
-  giriyor (S5E4 "Fifty-One"). `imageAlt`: "Skyler, doğum günü partisi
-  sırasında üstü giyinik hâlde havuza giriyor."
-- **Zemin:**
-  `https://image.tmdb.org/t/p/original/vWcFcwMUfeBN8FZEdSSPHGQYrna.jpg`
-  — hamile Skyler, kız kardeşi Marie ile birlikte Walt'un kayıp
-  ilanlarını dağıtıyor (Tuco/RV kaçışı sonrası dönem, S2). `imageAlt`:
-  "Hamile Skyler, kız kardeşi Marie ile birlikte sokakta Walter'ın kayıp
-  ilanlarını dağıtıyor."
-- **Teşhis:**
-  `https://image.tmdb.org/t/p/original/uTAPBgAah14jQbV98Sw7iqJD4W7.jpg`
-  — Walter ve Skyler, depoda önlerindeki dev nakit yığınına bakıyorlar.
-  Bölümün "on kişilik ömre yetecek para" argümanının birebir görsel
-  karşılığı. `imageAlt`: "Walter ve Skyler, bir depoda önlerindeki devasa
-  nakit yığınına bakıyor."
-- **Kusur:**
-  `https://image.tmdb.org/t/p/original/oySKXO1DAvWObqGAfrxEX7iV43L.jpg`
-  — Skyler evde bulduğu para destesini tedirginlikle sayıyor. `imageAlt`:
-  "Skyler, elindeki para destesine endişeyle bakıyor."
-- **İtiraf:**
-  `https://image.tmdb.org/t/p/original/DfqmT2Gel4YPqMLiphjesPcbIU.jpg`
-  — Skyler telefonda dehşet içinde konuşuyor (final sezon telefon
-  sahnesiyle örtüşüyor). `imageAlt`: "Skyler telefonda dehşet dolu bir
-  ifadeyle konuşuyor."
-- **Kullanılmayan yedek:**
-  `https://image.tmdb.org/t/p/original/zfUECD3RhKQ72cXE3JZTpPW5lEL.jpg`
-  — Skyler'ın sert, kararlı yakın plan portresi. Kapak alternatifi ya da
-  Simetri bölümü için kullanılabilir.
-
-Not: Yerel dosya yolları / TMDB URL'leri sadece taslak referansı —
-gerçek yayına almadan önce görseller Cloudinary'ye yüklenmeli (ayrı
-onay gerektiren adım).
-
 ---
 
 **Kicker:** DERİN OKUMA
@@ -207,3 +153,5 @@ By the final season, the show backs up its own argument twice. First in the kitc
 There's an earlier, quieter version of the same moment. One evening Skyler walks into the living room to find her children watching Scarface with Walt — on screen, a man collapses in gunfire at the end of exactly the kind of empire Walt has been building. Walt smiles. The kids are thrilled. Skyler's the only one whose face shows dread, because she's the only one reading the film as a warning rather than entertainment.
 
 What all of this adds up to is this: Skyler White wasn't hated for being wrong. She was hated for being the one person still standing in reality in the middle of someone else's power fantasy. The anger aimed at her was never really a verdict on her — it was a confession about who we forgive, and why.
+
+
