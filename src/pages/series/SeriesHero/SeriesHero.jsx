@@ -284,7 +284,9 @@ export function SeriesHero({ items }) {
               aria-label={t('common.previous')}
               onClick={() => goHero(-1)}
             >
-              ‹
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </button>
             <button
               type="button"
@@ -293,7 +295,9 @@ export function SeriesHero({ items }) {
               aria-label={t('common.next')}
               onClick={() => goHero(1)}
             >
-              ›
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </button>
 
             <div className={styles.hero__dots} ref={dotsRowRef}>
