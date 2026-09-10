@@ -145,13 +145,29 @@ export function SpotlightCard({ item }) {
       return;
     }
 
-    const box = blogExpandedBox();
-
     const scrim = document.createElement('div');
     scrim.dataset.blogFlip = '';
     scrim.style.cssText =
       'position:fixed;inset:0;z-index:69;background:#000;opacity:0;pointer-events:none;';
     document.body.appendChild(scrim);
+
+    // GERÇEK PERSPEKTİF KAMERA HAREKETİ (kullanıcı düzeltmesi): görsel
+    // KENDİSİ hareket etmiyor/büyümüyor — CSS geometrisi (top/left/width/
+    // height) BAŞTAN SONA hedef kutuda (boxTarget) SABİT kalıyor, hiç
+    // tweenlenmiyor. Küçük görünmesi gereken başlangıç anı, salt bir 3D
+    // derinlik (z) farkıyla elde ediliyor: perspektif projeksiyonda ölçek
+    // = P/(P−z), yani mesafeyle TERS ORANTILI (hiperbolik) — düz 2D scale()
+    // gibi doğrusal değil, gerçek bir kameranın yaklaşması gibi hissettirir.
+    // x/y/z ÜÇÜ BİRDEN aynı başlangıç değerlerinden 0'a AYNI easing ile
+    // gider (tek düz 3B çizgi boyunca hareket) — kamera kartın konumundan
+    // kutunun konumuna "uçarak" geliyor, görsel sabit duruyor.
+    const box = blogExpandedBox();
+    const boxTarget = {
+      top: (window.innerHeight - box.height) / 2,
+      left: (window.innerWidth - box.width) / 2,
+      width: box.width,
+      height: box.height,
+    };
 
     const clone = document.createElement('img');
     clone.dataset.blogFlip = '';
@@ -159,27 +175,43 @@ export function SpotlightCard({ item }) {
     clone.alt = '';
     clone.style.cssText =
       `position:fixed;z-index:70;object-fit:cover;pointer-events:none;` +
-      `top:${rect.top}px;left:${rect.left}px;width:${rect.width}px;height:${rect.height}px;` +
+      `top:${boxTarget.top}px;left:${boxTarget.left}px;` +
+      `width:${boxTarget.width}px;height:${boxTarget.height}px;` +
+      `transform-origin:50% 50%;` +
       `border-radius:var(--radius-lg);box-shadow:0 0 50px rgba(0,0,0,0.35);`;
     document.body.appendChild(clone);
     pendingFlip.current = { clone, scrim, handedOff: false };
 
+    // s0: kartın kutuya oranı (genişlik bazlı) — perspektif skalası bu
+    // olacak şekilde z0 çözülür: scale = P/(P−z)  =>  z = P·(s−1)/s.
+    const PERSPECTIVE = 1000;
+    const s0 = rect.width / boxTarget.width;
+    const z0 = (PERSPECTIVE * (s0 - 1)) / s0;
+    // Kartın merkezi ile kutunun merkezi arasındaki fark; bu farkın s0
+    // ile bölünmesi gereken yerel (pre-projeksiyon) x/y ofsetini verir —
+    // aksi halde küçük görünüm kutunun merkezinde belirir, kartın DEĞİL.
+    const boxCenterX = boxTarget.left + boxTarget.width / 2;
+    const boxCenterY = boxTarget.top + boxTarget.height / 2;
+    const cardCenterX = rect.left + rect.width / 2;
+    const cardCenterY = rect.top + rect.height / 2;
+    const x0 = (cardCenterX - boxCenterX) / s0;
+    const y0 = (cardCenterY - boxCenterY) / s0;
+
+    gsap.set(clone, { transformPerspective: PERSPECTIVE, x: x0, y: y0, z: z0 });
+
     gsap
       .timeline({ onComplete: handOff })
-      .to(
+      .to(clone, { x: 0, y: 0, z: 0, duration: 0.6, ease: 'power2.out' }, 0)
+      .to(scrim, { opacity: 1, duration: 0.45, ease: 'power2.out' }, 0)
+      // Push-in enerjisi: SADECE brightness (saturate YOK — griye kaçan
+      // buydu). Ortada hafif kararıp sonda geri açılıyor.
+      .fromTo(
         clone,
-        {
-          top: (window.innerHeight - box.height) / 2,
-          left: (window.innerWidth - box.width) / 2,
-          width: box.width,
-          height: box.height,
-          borderRadius: 'var(--radius-lg)',
-          duration: 0.65,
-          ease: 'power3.inOut',
-        },
+        { filter: 'brightness(1)' },
+        { filter: 'brightness(0.88)', duration: 0.3, ease: 'power1.in' },
         0
       )
-      .to(scrim, { opacity: 1, duration: 0.65, ease: 'power2.inOut' }, 0);
+      .to(clone, { filter: 'brightness(1)', duration: 0.3, ease: 'power1.out' }, 0.3);
   };
 
   if (!item) {
