@@ -1,417 +1,256 @@
-.page {
+/* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
+   padding = 72px) — hero'yu bu kadar yukarı çekip navbar'ın arkasından
+   başlatıyoruz (SeriesHero/diğer dizi Hero'larıyla AYNI teknik). */
+.hero {
   position: relative;
   width: 100%;
-  aspect-ratio: 1360 / 800;
-  /* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
-     padding = 72px) — SeriesHero'daki AYNI teknik: Hero'yu bu kadar yukarı
-     çekip navbar'ın arkasından başlatıyoruz. */
+  min-height: 700px;
+  height: 90vh;
   margin-top: -72px;
-  /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
-     cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: var(--fg);
+}
+
+/* Arka katman: aynı görselin TAM EKRAN blurlu hali (eski Hero sistemindeki
+   imageBlock1'in karşılığı, kullanıcı isteği, 2026-09-11). */
+.hero__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: blur(28px) brightness(0.55) saturate(1.15);
+  transform: scale(1.08);
+}
+
+/* Ön katman: aynı görselin NET hali, kenarlardan içeri (radius'lu "kart"),
+   arka plandan ayırmak için gölge — sinematik sis (.hero__scrim) bunun
+   İÇİNDE, sadece net görseli karartır (eski imageBlock2 + yeni sis).
+   container-type: içerik (rozet/başlık/CTA) artık bu çerçevenin ÇOCUĞU —
+   cqw ile genişliğine oranlı ölçekleniyor. */
+.hero__frame {
+  position: absolute;
+  inset: 4% 6%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   container-type: inline-size;
 }
 
-.imageBlock1 {
+.hero__image {
   position: absolute;
-  left: 0%;
-  top: 0cqw;
+  inset: 0;
   width: 100%;
-  height: 58.824cqw;
-  filter: blur(5px);
+  height: 100%;
   object-fit: cover;
-  border-radius: var(--radius-sm);
-  object-position: 44.306752136231474% 0%;
+  object-position: center 20%;
+  filter: brightness(0.7) saturate(1.1);
 }
 
-.imageBlock2 {
+/* "Sisli" karartma — sol/alttan koyulaşan gradient (metin okunabilirliği
+   için, kullanıcı onayladığı CinematicHero denemesinden taşındı). */
+.hero__scrim {
   position: absolute;
-  left: 6.26%;
-  top: 2.806cqw;
-  width: 87.48%;
-  height: 50.982cqw;
-  filter: saturate(1.6);
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-  object-position: 39.01922951904175% 0%;
-  scale: 1;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.35) 48%, rgba(0, 0, 0, 0) 80%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 42%);
 }
 
-.textBlock1 {
+/* IMDB rozeti — sağ üst köşeye YAKIN, top/right AYNI cqw değeriyle
+   simetrik boşluk. */
+.hero__ratingBadge {
   position: absolute;
-  left: 10.67%;
-  top: 31.259cqw;
-  width: 36.61%;
+  top: 2.5cqw;
+  right: 2.5cqw;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.hero__ratingLogo {
+  width: clamp(56px, 5cqw, 80px);
   height: auto;
+}
+
+.hero__ratingValue {
+  color: #f6c700;
+  font-size: clamp(20px, 2.6cqw, 32px);
+  font-weight: 600;
+}
+
+/* Sol-alt köşeye YAKIN — rozetin sağ-üst köşe mantığıyla AYNI (aynı
+   cqw değeri). */
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  height: 100%;
+  max-width: 62%;
+  padding: 0 2.5cqw;
+  box-sizing: border-box;
+  justify-content: flex-end;
+  padding-bottom: 2.5cqw;
+}
+
+/* Başlık: --text-h1'in (56px tavan) ÜSTÜNE çıkarıldı — bu yüzden token
+   değil özel clamp (skalada bu büyüklükte karşılık yok, bilerek istisna).
+   vw DEĞİL cqw — viewport'a değil .hero__frame'in genişliğine oranlı
+   büyüsün/küçülsün. */
+.hero__title {
   margin: 0;
   color: #f2f2f2;
-  font-size: 3.382cqw;
-  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(32px, 10cqw, 92px);
   font-weight: 700;
   letter-spacing: -0.03em;
 }
 
-/* Desktop'ta kutu üretmez (position:absolute .textBlock2/3 kendi
-   konumunu korur) — sadece mobilde year+genre'yi TEK satırda yan yana
-   koymak için gerçek flex kutusuna dönüşür (bkz. mobil medya sorgusu).
-   İkisini AYRI grid sütunlarına koymak (eski desen) Explore butonuyla
-   AYNI sütunu paylaştırıp aralarında dev boşluk açıyordu (kullanıcı
-   raporu, 2026-09-05). */
-.metaRow {
-  display: contents;
+.hero__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-top: calc(-1 * var(--space-sm));
 }
 
-.textBlock2 {
-  position: absolute;
-  left: 10.67%;
-  top: 36.341cqw;
-  width: 6%;
-  height: auto;
-  margin: 0;
-  color: #a0a19f;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
+.hero__year {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
   font-weight: 600;
 }
 
-.textBlock3 {
-  position: absolute;
-  left: 14.49%;
-  top: 36.341cqw;
-  width: 24.76%;
-  height: auto;
-  margin: 0;
-  color: #9b9c9a;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
+.hero__genres {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
   font-weight: 600;
 }
 
-.textBlock4 {
-  position: absolute;
-  left: 10.67%;
-  top: 38.635cqw;
-  width: 49.52%;
-  height: 13.047cqw;
+.hero__synopsis {
   margin: 0;
-  color: #ffffff;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
+  color: var(--fg);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.logoBlock1 {
-  position: absolute;
-  left: 85.7%;
-  top: 4.188cqw;
-  width: 6.5%;
-  height: 4.118cqw;
+.hero__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
 }
 
-.textBlock5 {
-  position: absolute;
-  left: 81.67%;
-  top: 4.747cqw;
-  width: 6%;
-  height: 3.565cqw;
-  margin: 0;
-  color: #f6c700;
-  font-size: 2.206cqw;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
+.hero__actions {
+  margin-top: var(--space-xs);
 }
 
-.buttonBlock1 {
-  position: absolute;
-  left: 78.74%;
-  top: 45.165cqw;
-  width: 11.86%;
-  height: 3.094cqw;
-  /* Beyaz zemin + siyah text — Explore (buttonBlock2, transparent/outline)
-     ile kontrast oluşturması için (kullanıcı kararı, 2026-09-05). */
-  color: #000000;
-  /* font-size/padding token (px sabit) yerine cqw: 900-1300px aralığında
-     (henüz mobil karta düşmeyen dar masaüstü) sabit punto+padding kutuya
-     sığmıyor, metin sarılıp Explore butonuna biniyordu (kullanıcı raporu,
-     2026-09-05). Diğer text block'lar (ör. textBlock5) zaten cqw kullanıyor
-     — buton bu ölçekten kopmuştu. */
-  font-size: 0.96cqw;
-  font-weight: 700;
-  white-space: nowrap;
-  text-align: center;
-  background: #ffffff;
-  border-radius: var(--radius-pill);
-  border-color: #ffffff;
-  border-width: 1px;
-  border-style: solid;
-  padding: 0.88cqw 1.76cqw;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
-  font-family: 'Montserrat', sans-serif;
-}
-
-.buttonBlock2 {
-  position: absolute;
-  left: 64.3%;
-  top: 45.165cqw;
-  width: 11.92%;
-  height: 3.206cqw;
+.hero__ctaPrimary,
+.hero__ctaSecondary {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  color: var(--fg);
-  font-size: 0.96cqw;
-  font-weight: 700;
-  white-space: nowrap;
-  text-align: center;
-  background: transparent;
-  border-color: var(--fg);
-  border-width: 2.5px;
-  border-style: solid;
+  min-width: 10rem;
+  padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-pill);
-  padding: 0.88cqw 1.76cqw;
-  font-family: 'Montserrat', sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: transform var(--duration-micro) ease, background var(--duration-micro) ease, color var(--duration-micro) ease;
 }
 
-.buttonBlock2:hover {
+.hero__ctaSecondary {
+  color: var(--fg);
+  background: transparent;
+  border: 2.5px solid var(--fg);
+}
+
+.hero__ctaSecondary:hover {
   background: var(--fg);
   color: var(--bg);
 }
 
-/* Desktop'ta kutu üretmez (butonlar kendi absolute konumunu korur) —
-   sadece mobilde eşit-genişlikte yatay satıra dönüşür (bkz. mobil medya
-   sorgusu, .ctaRow). */
-.ctaRow {
-  display: contents;
+.hero__ctaPrimary {
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Desktop'ta kutu üretmez — sadece mobilde gerçek bir KART kutusuna
-   dönüşür (bkz. mobil medya sorgusu): sayfa (tam genişlik, blurlu/
-   karartılmış poster arka plan) ile kart (keskin cover image, yuvarlak
-   köşeler) ayrımı için (kullanıcı isteği, 2026-09-05: "koyu web sayfası
-   düzenini kaldırın, kartın arka planı cover image, sayfanın arka planı
-   blurlu poster olsun"). */
-.cardWrap {
-  display: contents;
-}
-
-/* Mobil (≤900px) — PageBuilder'ın absolute-pozisyon + cqw sistemi
-   (kullanıcı raporu, 2026-09-02: "mobil kısmı asla generate ettiğim gibi
-   değil") mobilde güvenilir sonuç vermiyor; bu yüzden mobilde BİLİNÇLİ
-   olarak terk edilip elle yazılmış diğer section'larla AYNI 900px
-   kırılımı desenine geçiliyor.
-   ÜÇÜNCÜ TUR (kullanıcı raporu, 2026-09-05 — grid-auto-flow:dense butonları
-   .page'in gerçek (auto) yüksekliğinin DIŞINA taşırıp overflow:hidden'a
-   kurban ediyordu, canlı DOM ölçümüyle doğrulandı): CSS Grid + dense YERİNE
-   basit, öngörülebilir DİKEY FLEX akışı — her blok kendi satırında sırayla
-   akar, buton çifti kendi ctaRow'unda YATAY flex (bkz. Hero.jsx). imageBlock1
-   (blur) tüm kartı kaplayan absolute arka plan; imageBlock2 (net) normal
-   akışta üst blok; .page::after düz kart rengine KESMEYEN, koyulaşan yarı
-   saydam scrim (metin bölgesinde de blurlu zemin hafifçe görünür kalsın
-   diye — kullanıcı isteği: "textlerin arası image olacak").
-*/
 @media (max-width: 900px) {
-  /* İKİ KATMAN (kullanıcı onayı, 2026-09-05): DIŞ = .page, tam genişlikte
-     (kenar boşluksuz), arka planı aşırı bulanık + karartılmış poster
-     (imageBlock1) — "sayfa"nın kendisi. İÇ = .cardWrap, onun ÜSTÜNDE duran
-     yuvarlak köşeli KART — arka planı keskin cover image (imageBlock2),
-     içinde başlık/metin/butonlar. */
-  .page {
-    position: relative;
-    width: auto;
-    aspect-ratio: auto;
-    height: auto;
-    container-type: normal;
-    /* top: -72px — navbar arkası kaydırma (SeriesHero'daki AYNI teknik).
-       Sol/sağ margin YOK — sayfa tam genişlikte, kenar boşluksuz. */
-    margin: -72px 0 var(--space-xl);
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    overflow: hidden;
+  .hero {
+    height: 100vh;
+    min-height: 640px;
   }
 
-  /* Sayfanın kendi arka planı: aşırı bulanıklaştırılmış + karartılmış
-     poster — tam kart/sayfa boyutunda, kenardan kenara. */
-  .imageBlock1 {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    /* global `img { max-width: 100% }` (theme.css) taşma genişliğini
-       kırpıyordu — burada İPTAL edilmeli. */
-    max-width: none;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    border-radius: 0;
-    object-fit: cover;
-    filter: blur(24px) brightness(0.5) saturate(1.15);
+  .hero__frame {
+    inset: 2% 3%;
   }
 
-  /* Kart — sayfanın blurlu zemini üstünde duran, kendi yuvarlak köşeleri
-     olan içerik kutusu. padding-top: %58 poster'ın (imageBlock2) metinden
-     ÖNCE görünür kalacağı alanı rezerve ediyor (genişliğe bağlı yüzde). */
-  .cardWrap {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    /* İçerik kartın ALTINA yaslanır — kısa synopsis'te boşluk üstte
-       (poster ile başlık arası) kalır, altta butonlar hep aynı çizgide
-       durur (kullanıcı isteği, 2026-09-05: "buton ve synopsis aşağıya
-       insin, başlıklar ortada dikilmesin"). */
-    justify-content: flex-end;
-    gap: var(--space-sm);
-    margin: var(--space-2xl) var(--space-page-x) 0;
-    padding: 58% var(--space-lg) var(--space-lg);
-    /* 4 yapımın en uzun synopsis'i (Severance, ~734px @390px genişlik)
-       standart kabul edildi — kısa metinli yapımlarda kart altında boşluk
-       kalabilir (kullanıcı kararı, 2026-09-05), kartlar arası yükseklik
-       tutarlı olsun diye. */
-    min-height: 736px;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  /* Kartın kendi arka planı: keskin cover image, kartın TAMAMINI kaplar. */
-  .imageBlock2 {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    max-width: none;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    border-radius: 0;
-    object-fit: cover;
-  }
-
-  .cardWrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    /* Metin bölgesinde arka plan SİYAHA kesmiyor — cover image her zaman
-       görünür kalıyor, sadece metnin başladığı noktadan (padding-top ile
-       aynı ~58%) itibaren okunurluk için kademeli koyulaşıyor. */
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 52%,
-      rgba(0, 0, 0, 0.35) 64%,
-      rgba(0, 0, 0, 0.62) 80%,
-      rgba(0, 0, 0, 0.78) 100%
-    );
-    pointer-events: none;
-  }
-
-  .logoBlock1 {
-    position: absolute;
-    top: var(--space-md);
-    left: auto;
+  .hero__ratingBadge {
+    top: calc(72px + var(--space-sm));
     right: var(--space-md);
-    z-index: 3;
-    width: 22px;
-    height: auto;
   }
 
-  .logoBlock1 img {
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+  .hero__ratingLogo {
+    width: 40px;
   }
 
-  .textBlock5 {
+  .hero__ratingValue {
+    font-size: var(--text-lg);
+  }
+
+  .hero__content {
     position: absolute;
-    top: var(--space-md);
-    left: auto;
-    right: calc(var(--space-md) + 22px + var(--space-2xs));
-    z-index: 3;
-    width: max-content;
+    inset: auto 0 0 0;
     height: auto;
-    /* base kural font-size'ı cqw ile veriyordu — mobilde .page'in
-       container-type:normal olması cqw'yi geçersiz kılıp fontu neredeyse
-       sıfıra çöktürüyordu (kod okuması + canlı doğrulama, 2026-09-02),
-       o yüzden burada MUTLAKA sabit bir token'la ezilmeli. */
-    font-size: var(--text-base);
-    white-space: nowrap;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    max-width: 100%;
+    padding: 0 var(--space-page-x);
+    padding-bottom: var(--space-2xl);
+    padding-top: var(--space-lg);
   }
 
-  .textBlock1 {
-    position: relative;
-    top: auto;
-    left: auto;
-    z-index: 3;
-    width: 100%;
+  .hero__title {
     font-size: var(--text-h2);
-    /* scrim artık hafif (siyaha kesmiyor) — okunurluk text-shadow'a
-       kalıyor, SeriesHero'nun aynı deseni. */
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
   }
 
-  .metaRow {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-sm);
-  }
-
-  .textBlock2,
-  .textBlock3 {
-    position: static;
-    width: auto;
+  .hero__year,
+  .hero__genres {
     font-size: var(--text-sm);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   }
 
-  .textBlock4 {
-    position: relative;
-    top: auto;
-    left: auto;
-    z-index: 3;
-    width: 100%;
-    height: auto;
+  /* Genre sığmayınca kendi İÇİNDE satır kırmasın — TAM SATIR olarak
+     year'ın ALTINA insin. */
+  .hero__meta {
+    flex-wrap: wrap;
+  }
+
+  .hero__synopsis {
     font-size: var(--text-base);
-    line-height: 1.6;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+    -webkit-line-clamp: 3;
   }
 
-  /* Buton çifti — desktop'ta kutu üretmez, mobilde EŞİT genişlikte yatay
-     satır (kullanıcı isteği: "tüm butonların boyutları aynı olacak").
-     DOM sırası (trailer önce) `order` ile GÖRSEL sırayla (explore solda)
-     eşleşecek şekilde tersleniyor — grid-dense'in kırılgan halefinin
-     aksine flexbox'ta `order` her zaman güvenilir. */
-  .ctaRow {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    gap: var(--space-sm);
+  .hero__cta {
+    width: 100%;
   }
 
-  .buttonBlock1,
-  .buttonBlock2 {
-    position: static;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2xs);
-    box-sizing: border-box;
+  .hero__ctaPrimary,
+  .hero__ctaSecondary {
     flex: 1 1 0;
-    width: auto;
-    height: auto;
-    white-space: normal;
-    /* base kural font-size/padding'i cqw ile veriyordu — mobilde .page'in
-       container-type:normal olması cqw'yi geçersiz kılıp butonu neredeyse
-       sıfır boyuta çökertip yamuk/kaymış gösteriyordu (kullanıcı raporu,
-       2026-09-05; aynı kök neden textBlock5'i de etkilemişti). */
-    font-size: var(--text-sm);
-    padding: var(--space-sm) var(--space-md);
+    min-width: 0;
   }
 
-  .buttonBlock1 {
-    order: 2;
-  }
-
-  .buttonBlock2 {
-    order: 1;
+  .hero__actions {
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
   }
 }

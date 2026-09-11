@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
+import SeasonRoute from './SeasonRoute/SeasonRoute';
 
 // OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
 // kararıyla route'tan kaldırıldı (2026-08) — yeni Hero PageBuilder'ın
@@ -66,6 +67,7 @@ export default function BreakingBad() {
   return (
     <>
       <Hero />
+      <SeasonRoute />
       <Footer />
     </>
   );

@@ -6,23 +6,47 @@
   position: relative;
 }
 
+/* ContentActions.module.css'teki .action ile AYNI daire→pill davranışı
+   (kullanıcı isteği, 2026-09-11) — bkz. o dosyadaki yorum. */
 .trigger {
-  display: grid;
-  place-items: center;
-  width: 44px;
+  display: inline-flex;
+  align-items: center;
   height: 44px;
+  min-width: 44px;
   padding: 0;
   border: 1px solid var(--border);
-  border-radius: var(--radius-round);
+  border-radius: var(--radius-pill);
   background: rgba(0, 0, 0, 0.35);
   color: var(--fg-dim);
+  overflow: hidden;
+  white-space: nowrap;
   transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease,
-    transform var(--duration-micro) ease;
+    background var(--duration-fast) ease;
+}
+
+.trigger__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
 }
 
 .trigger svg {
   width: 20px;
   height: 20px;
+}
+
+.trigger__label {
+  max-width: 0;
+  padding-right: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: max-width var(--duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    opacity var(--duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    padding-right var(--duration-base) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .trigger[aria-expanded='true'] {
@@ -31,9 +55,17 @@
 }
 
 @media (hover: hover) {
-  .trigger:hover {
+  .trigger:hover,
+  .trigger:focus-visible {
     color: var(--fg);
-    transform: scale(1.08);
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .trigger:hover .trigger__label,
+  .trigger:focus-visible .trigger__label {
+    max-width: 200px;
+    padding-right: var(--space-md);
+    opacity: 1;
   }
 }
 

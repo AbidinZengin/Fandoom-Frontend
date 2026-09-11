@@ -225,9 +225,6 @@ function App() {
               element={<SeveranceEpisodePage />}
             />
             <Route path="series/severance/seasons/:seasonNumber" element={<SeveranceSeasonDetail />} />
-            {/* GEÇİCİ önizleme rotaları — Hero konsept karşılaştırması, karar sonrası silinecek */}
-            <Route path="preview/severance-artdirector" element={<Severance forceHero="artdirector" />} />
-            <Route path="preview/severance-cinematic" element={<Severance forceHero="cinematic" />} />
             <Route path="series/pluribus" element={<Pluribus />} />
             <Route
               path="series/pluribus/seasons/:seasonNumber/episodes/:episodeNumber"

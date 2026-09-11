@@ -1,378 +1,256 @@
-.page {
+/* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
+   padding = 72px) — hero'yu bu kadar yukarı çekip navbar'ın arkasından
+   başlatıyoruz (SeriesHero/diğer dizi Hero'larıyla AYNI teknik). */
+.hero {
   position: relative;
   width: 100%;
-  aspect-ratio: 1360 / 800;
-  /* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
-     padding = 72px) — SeriesHero'daki AYNI teknik: Hero'yu bu kadar yukarı
-     çekip navbar'ın arkasından başlatıyoruz. */
+  min-height: 700px;
+  height: 90vh;
   margin-top: -72px;
-  /* fontSize'lar cqw (container-width yüzdesi) ile üretiliyor — bkz.
-     cssRules.js fontSizeValue. container-type olmadan cqw çözülmez. */
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: var(--fg);
+}
+
+/* Arka katman: aynı görselin TAM EKRAN blurlu hali (eski Hero sistemindeki
+   imageBlock1'in karşılığı, kullanıcı isteği, 2026-09-11). */
+.hero__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: blur(28px) brightness(0.55) saturate(1.15);
+  transform: scale(1.08);
+}
+
+/* Ön katman: aynı görselin NET hali, kenarlardan içeri (radius'lu "kart"),
+   arka plandan ayırmak için gölge — sinematik sis (.hero__scrim) bunun
+   İÇİNDE, sadece net görseli karartır (eski imageBlock2 + yeni sis).
+   container-type: içerik (rozet/başlık/CTA) artık bu çerçevenin ÇOCUĞU —
+   cqw ile genişliğine oranlı ölçekleniyor. */
+.hero__frame {
+  position: absolute;
+  inset: 4% 6%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   container-type: inline-size;
 }
 
-.imageBlock1 {
+.hero__image {
   position: absolute;
-  left: 0%;
-  top: 0cqw;
+  inset: 0;
   width: 100%;
-  height: 58.824cqw;
-  filter: blur(5px);
+  height: 100%;
   object-fit: cover;
-  border-radius: var(--radius-sm);
-  object-position: 44.306752136231474% 0%;
+  object-position: center 20%;
+  filter: brightness(0.7) saturate(1.1);
 }
 
-.imageBlock2 {
+/* "Sisli" karartma — sol/alttan koyulaşan gradient (metin okunabilirliği
+   için, kullanıcı onayladığı CinematicHero denemesinden taşındı). */
+.hero__scrim {
   position: absolute;
-  left: 6.26%;
-  top: 2.806cqw;
-  width: 87.48%;
-  height: 50.982cqw;
-  filter: saturate(1.6);
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-  object-position: 39.01922951904175% 0%;
-  scale: 1;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.35) 48%, rgba(0, 0, 0, 0) 80%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 42%);
 }
 
-/* Stranger Things wordmark — diğer dizi Hero'larıyla AYNI desen: sol üstte,
-   imageBlock2 (cover kartı) köşesine bindirilmiş logo lockup'ı. Logo
-   3781x1406 (≈2.7:1) — genişlik oranı diğer serilerle aynı tutuldu. */
-.brandLogo {
+/* IMDB rozeti — sağ üst köşeye YAKIN, top/right AYNI cqw değeriyle
+   simetrik boşluk. */
+.hero__ratingBadge {
   position: absolute;
-  left: 16%;
-  top: 9.5cqw;
-  width: 28%;
-  height: auto;
+  top: 2.5cqw;
+  right: 2.5cqw;
   z-index: 2;
-  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
 }
 
-.brandLogo img {
-  display: block;
-  width: 100%;
+.hero__ratingLogo {
+  width: clamp(56px, 5cqw, 80px);
   height: auto;
 }
 
-.textBlock1 {
-  position: absolute;
-  left: 10.67%;
-  top: 27cqw;
-  width: 36.61%;
-  height: auto;
+.hero__ratingValue {
+  color: #f6c700;
+  font-size: clamp(20px, 2.6cqw, 32px);
+  font-weight: 600;
+}
+
+/* Sol-alt köşeye YAKIN — rozetin sağ-üst köşe mantığıyla AYNI (aynı
+   cqw değeri). */
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  height: 100%;
+  max-width: 62%;
+  padding: 0 2.5cqw;
+  box-sizing: border-box;
+  justify-content: flex-end;
+  padding-bottom: 2.5cqw;
+}
+
+/* Başlık: --text-h1'in (56px tavan) ÜSTÜNE çıkarıldı — bu yüzden token
+   değil özel clamp (skalada bu büyüklükte karşılık yok, bilerek istisna).
+   vw DEĞİL cqw — viewport'a değil .hero__frame'in genişliğine oranlı
+   büyüsün/küçülsün. */
+.hero__title {
   margin: 0;
   color: #f2f2f2;
-  font-size: 3.382cqw;
-  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(32px, 10cqw, 92px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  white-space: nowrap;
 }
 
-/* Desktop'ta kutu üretmez (position:absolute .textBlock2/3 kendi
-   konumunu korur) — sadece mobilde year+genre'yi TEK satırda yan yana
-   koymak için gerçek flex kutusuna dönüşür (bkz. mobil medya sorgusu). */
-.metaRow {
-  display: contents;
+.hero__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-top: calc(-1 * var(--space-sm));
 }
 
-.textBlock2 {
-  position: absolute;
-  left: 10.67%;
-  top: 32.1cqw;
-  width: 6%;
-  height: auto;
-  margin: 0;
-  color: #a0a19f;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
+.hero__year {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
   font-weight: 600;
 }
 
-/* width 24.76% -> 45%: diğer dizilerden (3-4 tür) farklı olarak Stranger
-   Things 5 tür taşıyor ("Fantasy · Action · Adventure · Sci-Fi · Mystery") —
-   orijinal genişlikte satır kırılıp alttaki sinopsisle çakışıyordu (capture
-   ile tespit edildi, 2026-09-06). white-space:nowrap ile tek satıra sabitlendi. */
-.textBlock3 {
-  position: absolute;
-  left: 14.49%;
-  top: 32.1cqw;
-  width: 45%;
-  height: auto;
-  margin: 0;
-  color: #9b9c9a;
-  font-size: 1.176cqw;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.textBlock4 {
-  position: absolute;
-  left: 10.67%;
-  top: 34.3cqw;
-  width: 49.52%;
-  height: auto;
-  margin: 0;
-  color: #ffffff;
-  font-size: 1.176cqw;
-  line-height: 1.5;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.logoBlock1 {
-  position: absolute;
-  left: 85.7%;
-  top: 4.188cqw;
-  width: 6.5%;
-  height: 4.118cqw;
-}
-
-.textBlock5 {
-  position: absolute;
-  left: 81.67%;
-  top: 4.747cqw;
-  width: 6%;
-  height: 3.565cqw;
-  margin: 0;
-  color: #f6c700;
-  font-size: 2.206cqw;
-  font-family: 'Montserrat', sans-serif;
+.hero__genres {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
   font-weight: 600;
 }
 
-.buttonBlock1 {
-  position: absolute;
-  left: 78.74%;
-  top: 45.165cqw;
-  width: 11.86%;
-  height: 3.094cqw;
-  color: #000000;
-  font-size: 0.96cqw;
-  font-weight: 700;
-  white-space: nowrap;
-  text-align: center;
-  background: #ffffff;
-  border-radius: var(--radius-pill);
-  border-color: #ffffff;
-  border-width: 1px;
-  border-style: solid;
-  padding: 0.88cqw 1.76cqw;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
-  font-family: 'Montserrat', sans-serif;
+.hero__synopsis {
+  margin: 0;
+  color: var(--fg);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.buttonBlock2 {
-  position: absolute;
-  left: 64.3%;
-  top: 45.165cqw;
-  width: 11.92%;
-  height: 3.206cqw;
+.hero__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.hero__actions {
+  margin-top: var(--space-xs);
+}
+
+.hero__ctaPrimary,
+.hero__ctaSecondary {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  color: var(--fg);
-  font-size: 0.96cqw;
-  font-weight: 700;
-  white-space: nowrap;
-  text-align: center;
-  background: transparent;
-  border-color: var(--fg);
-  border-width: 2.5px;
-  border-style: solid;
+  min-width: 10rem;
+  padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-pill);
-  padding: 0.88cqw 1.76cqw;
-  font-family: 'Montserrat', sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: transform var(--duration-micro) ease, background var(--duration-micro) ease, color var(--duration-micro) ease;
 }
 
-.buttonBlock2:hover {
+.hero__ctaSecondary {
+  color: var(--fg);
+  background: transparent;
+  border: 2.5px solid var(--fg);
+}
+
+.hero__ctaSecondary:hover {
   background: var(--fg);
   color: var(--bg);
 }
 
-.ctaRow {
-  display: contents;
+.hero__ctaPrimary {
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
-.cardWrap {
-  display: contents;
-}
-
-/* Mobil (≤900px) — PageBuilder'ın absolute-pozisyon + cqw sistemi
-   mobilde güvenilir sonuç vermiyor; diğer tüm dizi Hero'larıyla AYNI
-   900px kırılım desenine geçilir (bkz. ItWelcomeToDerry/Hero, aynı yorum). */
 @media (max-width: 900px) {
-  .page {
-    position: relative;
-    width: auto;
-    aspect-ratio: auto;
-    height: auto;
-    container-type: normal;
-    margin: -72px 0 var(--space-xl);
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    overflow: hidden;
+  .hero {
+    height: 100vh;
+    min-height: 640px;
   }
 
-  .imageBlock1 {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    max-width: none;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    border-radius: 0;
-    object-fit: cover;
-    filter: blur(24px) brightness(0.5) saturate(1.15);
+  .hero__frame {
+    inset: 2% 3%;
   }
 
-  .cardWrap {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    margin: var(--space-2xl) var(--space-page-x) 0;
-    padding: 58% var(--space-lg) var(--space-lg);
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .imageBlock2 {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    max-width: none;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    border-radius: 0;
-    object-fit: cover;
-  }
-
-  .cardWrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 52%,
-      rgba(0, 0, 0, 0.35) 64%,
-      rgba(0, 0, 0, 0.62) 80%,
-      rgba(0, 0, 0, 0.78) 100%
-    );
-    pointer-events: none;
-  }
-
-  .brandLogo {
-    position: absolute;
-    top: var(--space-md);
-    left: var(--space-md);
-    z-index: 3;
-    width: 30%;
-    height: auto;
-  }
-
-  .logoBlock1 {
-    position: absolute;
-    top: var(--space-md);
-    left: auto;
+  .hero__ratingBadge {
+    top: calc(72px + var(--space-sm));
     right: var(--space-md);
-    z-index: 3;
-    width: 22px;
-    height: auto;
   }
 
-  .logoBlock1 img {
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+  .hero__ratingLogo {
+    width: 40px;
   }
 
-  .textBlock5 {
+  .hero__ratingValue {
+    font-size: var(--text-lg);
+  }
+
+  .hero__content {
     position: absolute;
-    top: var(--space-md);
-    left: auto;
-    right: calc(var(--space-md) + 22px + var(--space-2xs));
-    z-index: 3;
-    width: max-content;
+    inset: auto 0 0 0;
     height: auto;
-    font-size: var(--text-base);
-    white-space: nowrap;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    max-width: 100%;
+    padding: 0 var(--space-page-x);
+    padding-bottom: var(--space-2xl);
+    padding-top: var(--space-lg);
   }
 
-  .textBlock1 {
-    position: relative;
-    top: auto;
-    left: auto;
-    z-index: 3;
-    width: 100%;
+  .hero__title {
     font-size: var(--text-h2);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
   }
 
-  .metaRow {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-sm);
-  }
-
-  .textBlock2,
-  .textBlock3 {
-    position: static;
-    width: auto;
+  .hero__year,
+  .hero__genres {
     font-size: var(--text-sm);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
   }
 
-  .textBlock4 {
-    position: relative;
-    top: auto;
-    left: auto;
-    z-index: 3;
-    width: 100%;
-    height: auto;
+  /* Genre sığmayınca kendi İÇİNDE satır kırmasın — TAM SATIR olarak
+     year'ın ALTINA insin. */
+  .hero__meta {
+    flex-wrap: wrap;
+  }
+
+  .hero__synopsis {
     font-size: var(--text-base);
-    line-height: 1.6;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+    -webkit-line-clamp: 3;
   }
 
-  .ctaRow {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    gap: var(--space-sm);
+  .hero__cta {
+    width: 100%;
   }
 
-  .buttonBlock1,
-  .buttonBlock2 {
-    position: static;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2xs);
-    box-sizing: border-box;
+  .hero__ctaPrimary,
+  .hero__ctaSecondary {
     flex: 1 1 0;
-    width: auto;
-    height: auto;
-    white-space: normal;
-    font-size: var(--text-sm);
-    padding: var(--space-sm) var(--space-md);
+    min-width: 0;
   }
 
-  .buttonBlock1 {
-    order: 2;
-  }
-
-  .buttonBlock2 {
-    order: 1;
+  .hero__actions {
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
   }
 }

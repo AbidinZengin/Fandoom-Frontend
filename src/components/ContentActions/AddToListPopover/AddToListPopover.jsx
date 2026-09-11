@@ -141,7 +141,10 @@ export function AddToListPopover({ itemId, itemType }) {
         aria-label={t('contentActions.addToList')}
         aria-expanded={open}
       >
-        <ListPlusIcon />
+        <span className={styles.trigger__icon}>
+          <ListPlusIcon />
+        </span>
+        <span className={styles.trigger__label}>{t('contentActions.addToList')}</span>
       </button>
 
       {open && (

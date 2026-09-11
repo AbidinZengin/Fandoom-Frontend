@@ -1,265 +1,254 @@
-/* Referans-tarzı yeniden tasarım (2026-09-06) — bkz. Hero.jsx üst yorumu.
-   Tek sahne: görsel + metin aynı kartın içinde. Kart sayfa arka planından
-   (--bg) sol/sağ/alt margin ile taşar; üst kenar önceki tüm Hero'larla
-   AYNI teknikle navbar'ın arkasından başlar. */
-
+/* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
+   padding = 72px) — hero'yu bu kadar yukarı çekip navbar'ın arkasından
+   başlatıyoruz (SeriesHero/diğer dizi Hero'larıyla AYNI teknik). */
 .hero {
   position: relative;
-  /* DİĞER Hero'ların aksine (tam-ekran, navbar'ın arkasından başlayan)
-     bu kart 4 kenarda da sayfa arka planından taşan gerçek bir kart —
-     navbar'a yapışmasın diye üstte de aynı margin var (kullanıcı
-     düzeltmesi, 2026-09-06: "azıcık boşluk bırak, navbar'ın altından
-     başlasın"). Yatayda dikeyden daha geniş boşluk: köşe yuvarlaklığı
-     dar kenar boşluğunda gözükmüyordu (kullanıcı düzeltmesi). */
-  /* Token skalası 64px'de (--space-3xl) tavan yapıyor — burada yatay
-     kontrast için skalanın üstünde, viewport-bağıl bir değer (8vw)
-     kullanıldı (kullanıcı kararı: "hero hâlâ çok geniş, kontrast belli
-     olmuyor"); token mu istisna mı olduğu bilerek raporlanıyor. */
-  /* Üst boşluk azaltıldı, alt aynı kaldı (kullanıcı isteği: "tüm kartı çok
-     az daha navbar'a yaklaştır" — sadece üst kenar). */
-  margin: var(--space-sm) 8vw var(--space-lg);
-  min-height: 86vh;
+  width: 100%;
+  min-height: 700px;
+  height: 90vh;
+  margin-top: -72px;
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: var(--fg);
+}
+
+/* Arka katman: aynı görselin TAM EKRAN blurlu hali (eski Hero sistemindeki
+   imageBlock1'in karşılığı, kullanıcı isteği, 2026-09-11). */
+.hero__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: blur(28px) brightness(0.55) saturate(1.15);
+  transform: scale(1.08);
+}
+
+/* Ön katman: aynı görselin NET hali, kenarlardan içeri (radius'lu "kart"),
+   arka plandan ayırmak için gölge — sinematik sis (.hero__scrim) bunun
+   İÇİNDE, sadece net görseli karartır (eski imageBlock2 + yeni sis).
+   container-type: içerik (rozet/başlık/CTA) artık bu çerçevenin ÇOCUĞU —
+   cqw ile genişliğine oranlı ölçekleniyor. */
+.hero__frame {
+  position: absolute;
+  inset: 4% 6%;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  /* Scroll-snap hedefi (kullanıcı kararı, 2026-09-06: BreakingBad'e özel
-     istisna) — konteyner (body) snap'i BreakingBad.jsx'te AÇILIYOR, bu
-     yüzden bu özellik başka hiçbir sayfada etkisiz kalır. */
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  /* Sayfa zemini de koyu olduğu için düz siyah kenar tek başına kartı
-     okutmuyordu (kullanıcı düzeltmesi, 2026-09-06: "arka planın siyah
-     olması hiçbir şeyi ifade etmiyor") — ince ring + gölgeyle belirginleştir. */
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  /* "Havada süzülüyor" hissi (kullanıcı isteği, 2026-09-06): siyah-üstüne-
-     siyah saf gölge görünmez, o yüzden üç katman var — 1) üst kenarda ince
-     ışık çizgisi (kartın kendi kenarı ışık yakalıyormuş gibi), 2) yakın/
-     keskin temas gölgesi (kartı zeminden kesin ayırır), 3) sayfanın kendi
-     --accent'inden (BreakingBad.data.js theme.accent, #245a3e yeşili) çok
-     hafif renkli ambient glow — kart kendi ışığını zemine yayıyormuş gibi
-     durur. color-mix ile üretildiği için tema değişirse glow da otomatik
-     değişir, renk burada hardcode edilmedi. */
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 18px 40px -14px rgba(0, 0, 0, 0.85),
-    0 60px 130px -30px color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  container-type: inline-size;
 }
 
-/* %120 yükseklik + -%10 üst — parallax taşma payı (kullanıcı isteği,
-   2026-09-06: "parallax kullan"). .hero'nun overflow:hidden'ı taşkını
-   keser, GSAP scrub'ı Hero.jsx'te yPercent ±8 uygular. */
-.image {
+.hero__image {
   position: absolute;
-  top: -10%;
-  left: 0;
+  inset: 0;
   width: 100%;
-  height: 120%;
+  height: 100%;
   object-fit: cover;
-  object-position: 42% 15%;
+  object-position: center 20%;
+  filter: brightness(0.7) saturate(1.1);
 }
 
-/* Yönlü, ince vinyet — GoT Hero'daki yumuşak overlay mantığı: fotoğrafın
-   kendi ışığı korunur, sadece metnin durduğu sol-alt köşeye doğru
-   koyulaşır. Eski saturate(1.6)/blur yapay filtreleri KALDIRILDI. */
-.overlay {
+/* "Sisli" karartma — sol/alttan koyulaşan gradient (metin okunabilirliği
+   için, kullanıcı onayladığı CinematicHero denemesinden taşındı). */
+.hero__scrim {
   position: absolute;
   inset: 0;
-  z-index: 1;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.18) 48%, rgba(0, 0, 0, 0.78) 100%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 42%);
-  pointer-events: none;
+    linear-gradient(to right, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.35) 48%, rgba(0, 0, 0, 0) 80%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 42%);
 }
 
-/* Sadece SOL taraf (yazının durduğu bölge) — TÜM hero DEĞİL (kullanıcı
-   düzeltmesi: "sadece sol tarafa yazının olduğu"), SeasonRoute/
-   CharactersRoute'a da uygulanmadı (kullanıcı düzeltmesi: "kimse eklemeni
-   söylemedi"). Blur YOK (önceki deneme "çirkin" bulundu) — düz, belirgin
-   opaklıkta siyah, mask-image ile sağa doğru yumuşakça söner. */
-.textFog {
+/* IMDB rozeti — sağ üst köşeye YAKIN, top/right AYNI cqw değeriyle
+   simetrik boşluk. */
+.hero__ratingBadge {
   position: absolute;
-  inset: 0;
+  top: 2.5cqw;
+  right: 2.5cqw;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.42);
-  mask-image: linear-gradient(90deg, #000 0%, #000 20%, transparent 42%);
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 20%, transparent 42%);
-  pointer-events: none;
-}
-
-.topRow {
-  position: absolute;
-  z-index: 3;
-  top: var(--space-xl);
-  left: var(--space-xl);
-  right: var(--space-xl);
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.logo img {
-  width: clamp(140px, 16vw, 220px);
-  height: auto;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
-}
-
-.rating {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  /* topRow'un paylaşılan hizasından biraz daha yukarı (kullanıcı isteği:
-     "imdb logosu ve ratei biraz daha üste al") — logo aynı yerde kalıyor. */
-  margin-top: calc(-1 * var(--space-xs));
-  font-size: var(--text-h2);
-  font-weight: 600;
-  color: #f6c700;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+  gap: var(--space-2xs);
 }
 
-.imdbLogo {
-  width: 72px;
+.hero__ratingLogo {
+  width: clamp(56px, 5cqw, 80px);
   height: auto;
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
 }
 
-.content {
-  position: absolute;
-  z-index: 3;
-  left: var(--space-xl);
-  bottom: var(--space-3xl);
+.hero__ratingValue {
+  color: #f6c700;
+  font-size: clamp(20px, 2.6cqw, 32px);
+  font-weight: 600;
+}
+
+/* Sol-alt köşeye YAKIN — rozetin sağ-üst köşe mantığıyla AYNI (aynı
+   cqw değeri). */
+.hero__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-sm);
-  max-width: 640px;
+  height: 100%;
+  max-width: 62%;
+  padding: 0 2.5cqw;
+  box-sizing: border-box;
+  justify-content: flex-end;
+  padding-bottom: 2.5cqw;
 }
 
-.title {
+/* Başlık: --text-h1'in (56px tavan) ÜSTÜNE çıkarıldı — bu yüzden token
+   değil özel clamp (skalada bu büyüklükte karşılık yok, bilerek istisna).
+   vw DEĞİL cqw — viewport'a değil .hero__frame'in genişliğine oranlı
+   büyüsün/küçülsün. */
+.hero__title {
   margin: 0;
-  font-size: var(--text-h1);
+  color: #f2f2f2;
+  font-size: clamp(32px, 10cqw, 92px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: #f2f2f2;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-.metaRow {
+.hero__meta {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--space-sm);
-  font-size: var(--text-sm);
-  font-weight: 600;
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.hero__year {
   color: var(--fg-muted);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-}
-
-.synopsis {
-  margin: 0;
-  max-width: 62ch;
   font-size: var(--text-base);
-  line-height: 1.5;
-  color: #ffffff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 600;
 }
 
-.ctaRow {
+.hero__genres {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.hero__synopsis {
+  margin: 0;
+  color: var(--fg);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero__cta {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   margin-top: var(--space-xs);
 }
 
-/* Tek birincil CTA — SeriesHero/GoT'un aynı outline+ok deseni (kullanıcı
-   kararı: solid-white PageBuilder butonu yerine sitenin imza pill'i). */
-.ctaExplore {
-  display: inline-flex;
+.hero__actions {
+  margin-top: var(--space-xs);
+}
+
+.hero__ctaPrimary,
+.hero__ctaSecondary {
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  /* min-width: metin uzunluğu farklı olduğu için (Explore vs ▶ Watch
-     Trailer) otomatik genişlik ikisini eşitlemiyordu (kullanıcı düzeltmesi).
-     SeriesHero'nun aynı çift-buton deseninden (.hero__ctaOutline/Glass)
-     birebir alındı. */
-  min-width: 160px;
+  min-width: 10rem;
   padding: var(--space-sm) var(--space-lg);
-  border: 2.5px solid var(--fg);
   border-radius: var(--radius-pill);
-  background: transparent;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: transform var(--duration-micro) ease, background var(--duration-micro) ease, color var(--duration-micro) ease;
+}
+
+.hero__ctaSecondary {
   color: var(--fg);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  white-space: nowrap;
-  transition: background var(--duration-micro) ease, color var(--duration-micro) ease;
+  background: transparent;
+  border: 2.5px solid var(--fg);
 }
 
-@media (hover: hover) {
-  .ctaExplore:hover {
-    background: var(--fg);
-    color: var(--bg);
-  }
+.hero__ctaSecondary:hover {
+  background: var(--fg);
+  color: var(--bg);
 }
 
-/* İkincil CTA — kullanıcının ekran görüntüsüyle doğrulanan ORİJİNAL hâl:
-   düz OPAK beyaz zemin + SİYAH kalın yazı (cam/glassmorfik DEĞİL — önceki
-   iki deneme, ikon-only ve glassmorfik, ikisi de reddedildi). Explore ile
-   AYNI padding/font-size, konum SAĞDA (Explore SOLDA). */
-.ctaTrailer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  min-width: 160px;
-  padding: var(--space-sm) var(--space-lg);
-  /* Görünmez ama AYNI kalınlıkta border — ctaExplore'un 2.5px border'ı
-     yüksekliğe eklendiği için bu olmadan iki buton farklı boyutta duruyordu
-     (kullanıcı düzeltmesi: "aynı boyutta olacak"). min-width ikisine de AYNI
-     değerle verildi (kullanıcı düzeltmesi: "eşitle"). */
-  border: 2.5px solid transparent;
-  border-radius: var(--radius-pill);
-  background: #ffffff;
+.hero__ctaPrimary {
   color: #000000;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  white-space: nowrap;
+  background: #ffffff;
+  border: 1px solid #ffffff;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 900px) {
   .hero {
-    margin: var(--space-md);
-    min-height: 78vh;
+    height: 100vh;
+    min-height: 640px;
   }
 
-  .topRow {
-    top: var(--space-md);
-    left: var(--space-md);
+  .hero__frame {
+    inset: 2% 3%;
+  }
+
+  .hero__ratingBadge {
+    top: calc(72px + var(--space-sm));
     right: var(--space-md);
   }
 
-  .logo img {
-    width: 120px;
+  .hero__ratingLogo {
+    width: 40px;
   }
 
-  .content {
-    left: var(--space-md);
-    right: var(--space-md);
-    bottom: var(--space-lg);
-    max-width: none;
+  .hero__ratingValue {
+    font-size: var(--text-lg);
   }
 
-  .title {
+  .hero__content {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: auto;
+    max-width: 100%;
+    padding: 0 var(--space-page-x);
+    padding-bottom: var(--space-2xl);
+    padding-top: var(--space-lg);
+  }
+
+  .hero__title {
     font-size: var(--text-h2);
   }
 
-  /* Yüzen panel dar ekranda içerikle çakışıyor — üst şeride, rozetin
-     yanına taşınır. */
-  .previewPanel {
-    top: var(--space-md);
-    right: var(--space-md);
-    bottom: auto;
-    width: 96px;
+  .hero__year,
+  .hero__genres {
+    font-size: var(--text-sm);
   }
 
-  .previewCaption {
-    display: none;
+  .hero__meta {
+    flex-wrap: wrap;
+  }
+
+  .hero__synopsis {
+    font-size: var(--text-base);
+    -webkit-line-clamp: 3;
+  }
+
+  .hero__cta {
+    width: 100%;
+  }
+
+  .hero__ctaPrimary,
+  .hero__ctaSecondary {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .hero__actions {
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
   }
 }

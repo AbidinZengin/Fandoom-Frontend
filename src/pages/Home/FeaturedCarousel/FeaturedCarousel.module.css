@@ -52,14 +52,55 @@
 }
 
 /* Dikey dilim — referans oranından (1:3.3) daha dolgun tutuldu (kullanıcı
-   kararı: "biraz fazla ince"). Kartın kutusu sabit kalır (komşular
-   kaymaz); hover'da içteki medya katmanı üstten+alttan taşarak uzar. */
+   kararı: "biraz fazla ince"). Hover'da TÜM kartlar yatayda büyür (önceden
+   sadece Breaking Bad'de vardı, kullanıcı isteğiyle 2026-09-11 hepsine
+   entegre edildi) — width transition, flex-basis/grow DEĞİŞMEZ (flex:0 0
+   auto sabit kalır), o yüzden eski GSAP denemesinde yaşanan flex-model
+   sıçraması burada yok; düz CSS transition yeterli. Komşu kartlar
+   SIKIŞTIRILMAZ — satırın toplam genişliği artar, .featured__row zaten
+   overflow-x:auto olduğu için komşular sadece yana kayar (kullanıcı
+   isteği: "sıkıştırmadan sağa/sola kaydırmalı"). */
 .featured__card {
+  --card-w: clamp(124px, 11.5vw, 168px);
   position: relative;
   flex: 0 0 auto;
-  width: clamp(124px, 11.5vw, 168px);
-  aspect-ratio: 1 / 2.7;
+  width: var(--card-w);
+  /* aspect-ratio DEĞİL sabit height — width hover'da transition'lanırken
+     aspect-ratio yüksekliği de birlikte büyütüyordu (kart hem yatay hem
+     dikey şişiyordu, kullanıcı raporu: "hem dikey hover oluyor hem de
+     büyüyor"). height, width'in aynı clamp'inin ×2.7'si — hover'da width
+     değişse de height SABİT kalır. */
+  height: clamp(334.8px, 31.05vw, 453.6px);
   scroll-snap-align: start;
+  /* Çıkışta (hover biterken) gecikme YOK — anında küçülür, tepkisel
+     hissettirir. Girişteki gecikme aşağıda :hover kuralında. */
+  transition: width 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+  /* Yana scroll ederken imleç sabit kalıp kartlar altından kayınca HER
+     kart sırayla hover'a giriyor, sürekli büyüme/küçülme titremesi
+     oluyordu (kullanıcı raporu). Çözüm: girişte gecikme (dwell time) —
+     imleç bir kartın üstünde bu süreden KISA kalırsa (scroll sırasında
+     olduğu gibi) büyüme hiç başlamaz; gecikme sadece :hover kuralında
+     olduğu için mouse ayrılınca (yukarıdaki temel transition'a döner)
+     anında iptal olur. */
+  .featured__card:hover,
+  .featured__card:focus-visible {
+    width: clamp(280px, 30vw, 460px);
+    transition-delay: 0.18s;
+  }
+
+  /* Komşu küçülme — hover'lanan kartın HEM sol HEM sağ komşusu hafifçe
+     küçülür (kararma değil, sadece boyut — kullanıcı kararı), "iki yöne
+     de yer açma" hissi versin diye. Aynı giriş gecikmesi burada da var —
+     komşular ana karttan ÖNCE tepki vermesin. :has() önceki komşuyu
+     seçmenin tek yolu (CSS'te native "önceki kardeş" seçici yok). */
+  .featured__card:has(+ .featured__card:hover),
+  .featured__card:hover + .featured__card {
+    width: calc(var(--card-w) * 0.82);
+    transition-delay: 0.18s;
+  }
 }
 
 .featured__card-media {
@@ -69,13 +110,6 @@
   /* Poster'i olmayan yapımlar: görsel gelene dek koyu zemin
      (theme'de yüzey token'ı yok — teslim notunda bildirildi). */
   background: rgba(255, 255, 255, 0.04);
-  transition: inset 0.35s cubic-bezier(0.33, 1, 0.68, 1);
-  will-change: inset;
-}
-
-.featured__card:hover .featured__card-media,
-.featured__card:focus-visible .featured__card-media {
-  inset: -7% 0;
 }
 
 .featured__card-poster {
@@ -92,42 +126,28 @@
   filter: none;
 }
 
-/* Yatay odak-büyüme (Breaking Bad, referans video 12s+ hareketi): kart
-   genişliği GSAP ile JS'ten tween'lenir (bkz. FeaturedCarousel.jsx
-   onFocusExpandEnter/Leave) — flex-grow/CSS-transition denendi, flex-model
-   geçişi (flex:0 0 auto → 1 1 168px) anlık sıçrama yarattığı için terk
-   edildi (kullanıcı raporu: "smooth değil"). Burada sadece o tween'in
-   ihtiyaç duyduğu statik kurallar var. */
-
 /* Yatay odak-büyüme SADECE hover yeteneği olan cihazlarda (learned-rules
    [etkileşim]: "genişlik değil hover yeteneği ölçülür" — dokunmatikte hover
-   efektleri tamamen kapalı). Sarmalanmadan önce mobilde bu kart, sabit 25vw
-   genişlikteki poster'ı küçük kart kutusuna göre YANLIŞ kırpıp garip
-   görünüyordu (kullanıcı raporu: "mobilde kötü görünüyor") — @media
-   dışında kalınca poster diğer kartlarla AYNI varsayılan width:100%
-   object-fit:cover'a döner, dokunmatikte fark edilmez bile. */
+   efektleri tamamen kapalı). @media dışında poster diğer kartlarla AYNI
+   varsayılan width:100% object-fit:cover'a döner. */
 @media (hover: hover) {
-  /* Bu kartta imza-uzama (üstten/alttan taşma) devre dışı — büyüme yatayda
-     olduğu için medya katmanı kutuyla birebir örtüşmeli, dikeyde taşmamalı. */
-  .featured__card[data-focus-expand]:hover .featured__card-media,
-  .featured__card[data-focus-expand]:focus-visible .featured__card-media {
-    inset: 0;
-  }
-
   /* KRİTİK — "görsel sabit, sadece görünen kısımları artıyor": width:100%
      object-fit:cover kutuyla BİRLİKTE yeniden ölçeklenir (kullanıcı raporu:
      kart büyüyünce görsel de büyüyor/kayıyor gibi görünüyor). Bunun yerine
      görsel SABİT genişlikte, merkezde konumlanır; kart daralıp genişledikçe
      SADECE üstündeki overflow:hidden penceresi (.featured__card-media)
-     küçülüp büyür — görselin kendi piksel ölçeği/konumu hiç değişmez. */
-  .featured__card[data-focus-expand] .featured__card-poster {
+     küçülüp büyür — görselin kendi piksel ölçeği/konumu hiç değişmez.
+     width kartın hover genişliğinden (clamp 280-460px) HER ZAMAN biraz
+     BÜYÜK tutulur — aksi halde kart görselden daha geniş büyüyünce
+     yanlarda boşluk kalıyordu (kullanıcı raporu, 2026-09-11). */
+  .featured__card-poster {
     position: absolute;
     top: 0;
     /* left/transform = görselin sabit yatay konumu — kullanıcı kararı,
        burada elle ayarlanır (ör. left'i %35-65 arası kaydırmak görselin
        hangi tarafının ortada durduğunu değiştirir). */
     left: 50%;
-    width: 25vw;
+    width: clamp(300px, 32vw, 480px);
     max-width: none;
     transform: translateX(-50%);
   }

@@ -11,19 +11,30 @@ import styles from './FeaturedCarousel.module.css';
 // klonu) kaldırıldı — hedef geometrisi eski OldHero kart düzenine göre
 // kuruluydu ve yeni Hero'da klonu temizleyen kod yoktu (ekranda kalıcı siyah
 // perde + poster kalıyordu). Artık GoT ile aynı, kanıtlanmış imza-şerit
-// geçişini kullanıyor.
-const CINEMATIC_SLUGS = new Set(['game-of-thrones', 'breaking-bad', 'house-of-the-dragon']);
+// geçişini kullanıyor. DÜZELTME (manuel, 2026-09-11): GoT'un TAM kalıbı
+// (şerit açılışı + counter-zoom + kademeli reveal + scroll parallax +
+// scrub-fade) diğer 5 diziye de taşındı — hepsi cinematic hedefi oldu.
+const CINEMATIC_SLUGS = new Set([
+  'game-of-thrones',
+  'breaking-bad',
+  'house-of-the-dragon',
+  'severance',
+  'pluribus',
+  'from',
+  'it-welcome-to-derry',
+  'stranger-things',
+]);
 
-// FOCUS_EXPAND (hover: yatay büyüme) — kullanıcı isteğiyle SADECE Breaking
-// Bad'de, tıklama davranışından (yukarıdaki CINEMATIC_SLUGS) bağımsız.
-const FOCUS_EXPAND_SLUGS = new Set(['breaking-bad']);
+// Yatay odak-büyüme (hover) ARTIK TÜM kartlarda — önceden sadece Breaking
+// Bad'de vardı, kullanıcı isteğiyle (2026-09-11) hepsine entegre edildi.
+// Tıklama davranışından (yukarıdaki CINEMATIC_SLUGS) bağımsız.
 
 // posterUrl TMDb'den sabit küçük boyutlu bir transformla gelir (ör.
 // .../t/p/w300_and_h450_face/...) — normal ~168px kart için yeterli ama
-// focus-expand'da görsel çok daha büyük render edildiği için upscale
-// bulanıklığı çıkıyor (kullanıcı raporu: "kalite aşırı düşüyor").
-// TMDb URL'sindeki boyut segmenti daha büyük bir varyantla değiştirilir;
-// TMDb dışı asset'lerde (ör. yerel /breaking-bad/...) URL değişmeden döner.
+// hover'da görsel çok daha büyük render edildiği için upscale bulanıklığı
+// çıkıyor (kullanıcı raporu: "kalite aşırı düşüyor"). TMDb URL'sindeki
+// boyut segmenti daha büyük bir varyantla değiştirilir; TMDb dışı
+// asset'lerde (ör. yerel /breaking-bad/...) URL değişmeden döner.
 const higherResPoster = (url, size = 'w1280') =>
   url ? url.replace(/\/t\/p\/[^/]+\//, `/t/p/${size}/`) : url;
 
@@ -106,84 +117,6 @@ export function FeaturedCarousel({ play }) {
     tlRef.current?.play();
   }, [play]);
 
-  // ---- FOCUS_EXPAND: mouseenter → hedef kart yatayda büyür, komşular
-  // sıkışır (referans video 12s+). GSAP her karta doğrudan width/height
-  // tween'ler (CSS flex-grow transition denendi, flex-model geçişi anlık
-  // sıçrama yaratıyordu — terk edildi). Height de kilitlenir: width+height
-  // ikisi de inline set olunca aspect-ratio devre dışı kalır, kart boyca
-  // sabit kalır. mouseleave'de orijinal genişliğe geri tween'lenip
-  // clearProps ile CSS'e (clamp responsive) devredilir.
-  const hoverTween = useRef(null);
-  const hoverOriginals = useRef(null);
-
-  useEffect(() => () => hoverTween.current?.kill(), []);
-
-  const onFocusExpandEnter = (e) => {
-    if (!window.matchMedia('(hover: hover)').matches) return;
-    const row = rowRef.current;
-    const cards = row ? [...row.children] : [];
-    const targetIndex = cards.indexOf(e.currentTarget);
-    if (targetIndex === -1) return;
-
-    const rects = cards.map((c) => c.getBoundingClientRect());
-    hoverOriginals.current = rects.map((r) => ({ width: r.width, height: r.height }));
-
-    // Satırın TOPLAM genişliği sabit kalır (satır kayması yaşanmaz);
-    // aktif kart bunun içinden viewport'a göre büyük bir pay alır, geri
-    // kalanı komşulara eşit dağılır — komşular AŞIRI daralmasın diye alt
-    // sınır var(--space-3xl) (kullanıcı düzeltmesi: "diğer elemanlar fazla
-    // küçülüyor").
-    const totalWidth = rects.reduce((sum, r) => sum + r.width, 0);
-    const othersCount = Math.max(cards.length - 1, 1);
-    const minSliver =
-      parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--space-3xl')) || 64;
-    const maxExpandable = Math.max(totalWidth - minSliver * othersCount, minSliver);
-    const expandedWidth = Math.min(window.innerWidth * 0.44, maxExpandable);
-    const shareWidth = Math.max((totalWidth - expandedWidth) / othersCount, minSliver);
-
-    hoverTween.current?.kill();
-    const tl = gsap.timeline();
-    cards.forEach((card, i) => {
-      tl.to(
-        card,
-        {
-          width: i === targetIndex ? expandedWidth : shareWidth,
-          height: rects[i].height,
-          duration: 0.55,
-          ease: 'power3.out',
-        },
-        0
-      );
-    });
-    hoverTween.current = tl;
-  };
-
-  const onFocusExpandLeave = () => {
-    const row = rowRef.current;
-    const originals = hoverOriginals.current;
-    if (!row || !originals) return;
-    hoverOriginals.current = null;
-
-    hoverTween.current?.kill();
-    const tl = gsap.timeline();
-    [...row.children].forEach((card, i) => {
-      const orig = originals[i];
-      if (!orig) return;
-      tl.to(
-        card,
-        {
-          width: orig.width,
-          height: orig.height,
-          duration: 0.5,
-          ease: 'power3.out',
-          clearProps: 'width,height',
-        },
-        0
-      );
-    });
-    hoverTween.current = tl;
-  };
-
   return (
     <section className={styles.featured} ref={sectionRef}>
       <h2 className={styles.featured__heading} ref={headingRef}>
@@ -199,13 +132,8 @@ export function FeaturedCarousel({ play }) {
               to={href}
               key={`${p.type}-${p.id}`}
               className={styles.featured__card}
-              data-focus-expand={FOCUS_EXPAND_SLUGS.has(p.slug) || undefined}
               aria-label={p.title}
               draggable={false}
-              onMouseEnter={FOCUS_EXPAND_SLUGS.has(p.slug) ? onFocusExpandEnter : undefined}
-              onMouseLeave={FOCUS_EXPAND_SLUGS.has(p.slug) ? onFocusExpandLeave : undefined}
-              onFocus={FOCUS_EXPAND_SLUGS.has(p.slug) ? onFocusExpandEnter : undefined}
-              onBlur={FOCUS_EXPAND_SLUGS.has(p.slug) ? onFocusExpandLeave : undefined}
               onClick={(e) => {
                 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -233,7 +161,7 @@ export function FeaturedCarousel({ play }) {
                 {p.posterUrl && (
                   <img
                     className={styles['featured__card-poster']}
-                    src={FOCUS_EXPAND_SLUGS.has(p.slug) ? higherResPoster(p.posterUrl) : p.posterUrl}
+                    src={higherResPoster(p.posterUrl)}
                     alt=""
                     loading="lazy"
                     draggable={false}

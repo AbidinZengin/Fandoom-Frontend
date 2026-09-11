@@ -90,10 +90,21 @@ function CheckCircleIcon({ active }) {
 // paylaşır — backend Watched'a eklerken Watchlist kaydını OTOMATİK siler
 // (Trakt/Letterboxd modeli), bu yüzden toggleWatched watchlisted'ı da
 // optimistic olarak false'a çeker.
-export function ContentActions({ itemId, itemType, shareTitle, shareUrl, isProduction = false }) {
+// only: verilirse SADECE listelenen aksiyonlar render edilir (ör. Severance
+// Hero'da sadece ['like','save','watchlist','follow']) — verilmezse (diğer
+// tüm mevcut kullanım yerlerinde olduğu gibi) davranış DEĞİŞMEZ, hepsi gösterilir.
+export function ContentActions({ itemId, itemType, shareTitle, shareUrl, isProduction = false, only = null }) {
   const { t } = useTranslation();
   const navigate = useLocalizedNavigate();
   const isAuthed = Boolean(getStoredAuth()?.token);
+
+  const showShare = !only || only.includes('share');
+  const showLike = !only || only.includes('like');
+  const showSave = !only || only.includes('save');
+  const showWatchlist = isProduction && (!only || only.includes('watchlist'));
+  const showWatched = isProduction && (!only || only.includes('watched'));
+  const showFollow = isProduction && (!only || only.includes('follow'));
+  const showAddToList = !only || only.includes('addToList');
 
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -108,22 +119,30 @@ export function ContentActions({ itemId, itemType, shareTitle, shareUrl, isProdu
     if (!isAuthed) return undefined;
     let cancelled = false;
 
-    getMyLikeStatus(itemType, itemId).then((res) => {
-      if (!cancelled) setLiked(res.liked);
-    });
-    getMyBookmarkStatus(itemType, itemId).then((res) => {
-      if (!cancelled) setSaved(res.bookmarked);
-    });
-    if (isProduction) {
+    if (showLike) {
+      getMyLikeStatus(itemType, itemId).then((res) => {
+        if (!cancelled) setLiked(res.liked);
+      });
+    }
+    if (showSave) {
+      getMyBookmarkStatus(itemType, itemId).then((res) => {
+        if (!cancelled) setSaved(res.bookmarked);
+      });
+    }
+    if (showFollow) {
       getMyFollowStatus(itemType, itemId).then((res) => {
         if (!cancelled) setFollowing(res.following);
       });
+    }
+    if (showWatchlist) {
       getMySavedItemStatus(itemType, itemId).then((res) => {
         if (!cancelled) {
           setWatchlisted(res.saved);
           setWatchlistItemId(res.savedItemId ?? null);
         }
       });
+    }
+    if (showWatched) {
       getMySavedItemStatus(itemType, itemId, 'WATCHED').then((res) => {
         if (!cancelled) {
           setWatched(res.saved);
@@ -134,7 +153,7 @@ export function ContentActions({ itemId, itemType, shareTitle, shareUrl, isProdu
     return () => {
       cancelled = true;
     };
-  }, [itemType, itemId, isAuthed, isProduction]);
+  }, [itemType, itemId, isAuthed, showLike, showSave, showFollow, showWatchlist, showWatched]);
 
   useEffect(() => {
     if (!copied) return undefined;
@@ -254,77 +273,103 @@ export function ContentActions({ itemId, itemType, shareTitle, shareUrl, isProdu
 
   return (
     <div className={styles.actions}>
-      <div className={styles.actionWrap}>
-        <button type="button" className={styles.action} onClick={share} aria-label={t('contentActions.share')}>
-          <ShareIcon />
-        </button>
-        {copied && (
-          <span className={styles.toast} role="status">
-            {t('contentActions.copied')}
-          </span>
-        )}
-      </div>
-
-      <button
-        type="button"
-        className={styles.action}
-        data-active={liked || undefined}
-        onClick={toggleLike}
-        aria-label={liked ? t('contentActions.unlike') : t('contentActions.like')}
-        aria-pressed={liked}
-      >
-        <HeartIcon active={liked} />
-      </button>
-
-      <button
-        type="button"
-        className={styles.action}
-        data-active={saved || undefined}
-        onClick={toggleSave}
-        aria-label={saved ? t('contentActions.removeFromSaved') : t('contentActions.save')}
-        aria-pressed={saved}
-      >
-        <BookmarkIcon active={saved} />
-      </button>
-
-      {isProduction && (
-        <>
-          <button
-            type="button"
-            className={styles.action}
-            data-active={watchlisted || undefined}
-            onClick={toggleWatchlist}
-            aria-label={watchlisted ? t('contentActions.removeFromWatchlist') : t('contentActions.addToWatchlist')}
-            aria-pressed={watchlisted}
-          >
-            <ClockIcon active={watchlisted} />
+      {showShare && (
+        <div className={styles.actionWrap}>
+          <button type="button" className={styles.action} onClick={share} aria-label={t('contentActions.share')}>
+            <span className={styles.action__icon}>
+              <ShareIcon />
+            </span>
+            <span className={styles.action__label}>{t('contentActions.share')}</span>
           </button>
-
-          <button
-            type="button"
-            className={styles.action}
-            data-active={watched || undefined}
-            onClick={toggleWatched}
-            aria-label={watched ? t('contentActions.unmarkWatched') : t('contentActions.markWatched')}
-            aria-pressed={watched}
-          >
-            <CheckCircleIcon active={watched} />
-          </button>
-
-          <button
-            type="button"
-            className={styles.action}
-            data-active={following || undefined}
-            onClick={toggleFollow}
-            aria-label={following ? t('contentActions.unfollow') : t('contentActions.follow')}
-            aria-pressed={following}
-          >
-            <BellIcon active={following} />
-          </button>
-        </>
+          {copied && (
+            <span className={styles.toast} role="status">
+              {t('contentActions.copied')}
+            </span>
+          )}
+        </div>
       )}
 
-      <AddToListPopover itemId={itemId} itemType={itemType} />
+      {showLike && (
+        <button
+          type="button"
+          className={styles.action}
+          data-active={liked || undefined}
+          onClick={toggleLike}
+          aria-label={liked ? t('contentActions.unlike') : t('contentActions.like')}
+          aria-pressed={liked}
+        >
+          <span className={styles.action__icon}>
+            <HeartIcon active={liked} />
+          </span>
+          <span className={styles.action__label}>{t('contentActions.like')}</span>
+        </button>
+      )}
+
+      {showSave && (
+        <button
+          type="button"
+          className={styles.action}
+          data-active={saved || undefined}
+          onClick={toggleSave}
+          aria-label={saved ? t('contentActions.removeFromSaved') : t('contentActions.save')}
+          aria-pressed={saved}
+        >
+          <span className={styles.action__icon}>
+            <BookmarkIcon active={saved} />
+          </span>
+          <span className={styles.action__label}>{t('contentActions.save')}</span>
+        </button>
+      )}
+
+      {showWatchlist && (
+        <button
+          type="button"
+          className={styles.action}
+          data-active={watchlisted || undefined}
+          onClick={toggleWatchlist}
+          aria-label={watchlisted ? t('contentActions.removeFromWatchlist') : t('contentActions.addToWatchlist')}
+          aria-pressed={watchlisted}
+        >
+          <span className={styles.action__icon}>
+            <ClockIcon active={watchlisted} />
+          </span>
+          <span className={styles.action__label}>{t('contentActions.addToWatchlist')}</span>
+        </button>
+      )}
+
+      {showWatched && (
+        <button
+          type="button"
+          className={styles.action}
+          data-active={watched || undefined}
+          onClick={toggleWatched}
+          aria-label={watched ? t('contentActions.unmarkWatched') : t('contentActions.markWatched')}
+          aria-pressed={watched}
+        >
+          <span className={styles.action__icon}>
+            <CheckCircleIcon active={watched} />
+          </span>
+          <span className={styles.action__label}>{t('contentActions.markWatched')}</span>
+        </button>
+      )}
+
+      {showFollow && (
+        <button
+          type="button"
+          className={styles.action}
+          data-active={following || undefined}
+          onClick={toggleFollow}
+          aria-label={following ? t('contentActions.unfollow') : t('contentActions.follow')}
+          aria-pressed={following}
+        >
+          <span className={styles.action__icon}>
+            <BellIcon active={following} />
+          </span>
+          <span className={styles.action__label}>{t('contentActions.follow')}</span>
+        </button>
+      )}
+
+      {showAddToList && <AddToListPopover itemId={itemId} itemType={itemType} />}
     </div>
   );
 }
