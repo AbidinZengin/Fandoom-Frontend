@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
+import Atmosphere from './Atmosphere/Atmosphere';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
 
 // OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
@@ -16,6 +17,7 @@ import styles from './BreakingBad.module.css';
 export default function BreakingBad() {
   const [series, setSeries] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const backdropRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -66,7 +68,14 @@ export default function BreakingBad() {
 
   return (
     <>
-      <Hero />
+      {/* .intro: Hero + Atmosphere'i saran TEK blurlu arka plan (Severance
+          deseni, 2026-09-12) — iki ayrı <img> kendi kutusuna göre "cover"
+          yapınca aralarında dikiş/yüzey farkı oluşuyordu. */}
+      <div className={styles.intro}>
+        <img ref={backdropRef} className={styles.intro__backdrop} src={series.coverImageUrl} alt="" />
+        <Hero backdropRef={backdropRef} />
+        <Atmosphere />
+      </div>
       <SeasonRoute />
       <Footer />
     </>

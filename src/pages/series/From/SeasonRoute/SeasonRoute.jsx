@@ -29,6 +29,8 @@ export default function SeasonRoute() {
 
   const pageRef = useRef(null);
   const trackRef = useRef(null);
+  const focusRef = useRef(null);
+  const isFirstActiveRender = useRef(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,24 +58,29 @@ export default function SeasonRoute() {
           duration: 0.9,
           ease: 'power3.out',
           stagger: 0.12,
-          scrollTrigger: { trigger: pageRef.current, start: 'top 80%', once: true },
+          scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
         });
 
+        // Focus paneli soldan açığa çıkıyor (Severance ile aynı, kullanıcı
+        // isteği 2026-09-12).
         gsap.from(`.${styles.focus}`, {
           opacity: 0,
-          y: 24,
+          x: -64,
           duration: 0.8,
           ease: 'power3.out',
-          scrollTrigger: { trigger: pageRef.current, start: 'top 70%', once: true },
+          scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
         });
 
+        // İmza "dalga" animasyonu (learned-rules #imza-dalga) — Severance
+        // SeasonRoute ile BİREBİR aynı.
         gsap.from(trackRef.current.querySelectorAll(`.${styles.cardWrap}`), {
           opacity: 0,
-          y: 32,
-          duration: 0.8,
+          x: 140,
+          y: 56,
+          duration: 0.9,
           ease: 'power3.out',
-          stagger: 0.08,
-          scrollTrigger: { trigger: pageRef.current, start: 'top 70%', once: true },
+          stagger: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
         });
       });
 
@@ -93,6 +100,40 @@ export default function SeasonRoute() {
       ctx.revert();
     };
   }, [seasons.length]);
+
+  // Odak panelinin SOLDAN açığa çıkışı — ilk mount'ta yukarıdaki
+  // scroll-trigger zaten aynı işi yaptığı için atlanıyor.
+  useEffect(() => {
+    if (isFirstActiveRender.current) {
+      isFirstActiveRender.current = false;
+      return;
+    }
+    if (!focusRef.current) return;
+    gsap.fromTo(
+      focusRef.current,
+      { x: -64, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }
+    );
+  }, [activeIndex]);
+
+  // Kart hover/focus ile sezon değişince odak paneli geçiş yapar (Severance
+  // ile aynı, kullanıcı isteği 2026-09-12): önceki sezon SAĞA kayıp
+  // kaybolur, yeni sezon SOLDAN açığa çıkar.
+  const activateSeason = (i) => {
+    if (i === activeIndex) return;
+    const focus = focusRef.current;
+    if (!focus) {
+      setActiveIndex(i);
+      return;
+    }
+    gsap.to(focus, {
+      x: 80,
+      opacity: 0,
+      duration: 0.28,
+      ease: 'power2.in',
+      onComplete: () => setActiveIndex(i),
+    });
+  };
 
   if (!series) return null;
 
@@ -116,7 +157,7 @@ export default function SeasonRoute() {
 
       <div className={styles.bottom}>
         {activeSeason && (
-          <div className={styles.focus}>
+          <div className={styles.focus} ref={focusRef}>
             <h3 className={styles.focus__title}>{activeSeason.title}</h3>
             {activeSeason.storyDek && <p className={styles.focus__dek}>{activeSeason.storyDek}</p>}
             <Link
@@ -133,21 +174,25 @@ export default function SeasonRoute() {
           <div className={styles.track} ref={trackRef}>
             {seasons.map((season, i) => (
               <div className={styles.cardWrap} key={season.id}>
-                <button
-                  type="button"
+                <Link
+                  to={`/series/from/seasons/${season.seasonNumber}`}
+                  onClick={() => armInPageNav()}
                   className={styles.card}
                   aria-label={t('series.seasonLabel', { number: season.seasonNumber, title: season.title })}
                   aria-current={i === activeIndex || undefined}
-                  onMouseEnter={() => setActiveIndex(i)}
-                  onFocus={() => setActiveIndex(i)}
-                  onClick={() => setActiveIndex(i)}
+                  onMouseEnter={() => activateSeason(i)}
+                  onFocus={() => activateSeason(i)}
                 >
                   {season.posterUrl && (
                     <img className={styles.card__image} src={season.posterUrl} alt="" loading="lazy" />
                   )}
                   <span className={styles.card__number}>{pad2(season.seasonNumber)}</span>
-                </button>
-                <span className={styles.card__caption}>{season.title}</span>
+
+                  <div className={styles.card__caption}>
+                    <span className={styles.card__title}>{season.title}</span>
+                    {season.storyDek && <span className={styles.card__desc}>{season.storyDek}</span>}
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

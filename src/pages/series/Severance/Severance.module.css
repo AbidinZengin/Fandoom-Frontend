@@ -1,3 +1,24 @@
+/* Hero + Atmosphere'i saran TEK paylaşılan blurlu arka plan (kullanıcı
+   isteği, 2026-09-12) — .intro'nun yüksekliği içindeki iki section'ın
+   (normal akıştaki) toplam yüksekliğinden DOĞAL olarak gelir, .intro__backdrop
+   position:absolute;inset:0 o yüksekliği kaplar. Navbar payı (-72px)
+   Hero'dan buraya taşındı (Hero artık kendi backdrop'unu render etmiyor). */
+.intro {
+  position: relative;
+  margin-top: -72px;
+}
+
+.intro__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: blur(28px) brightness(0.55) saturate(1.15);
+  transform: scale(1.08);
+}
+
 .severance-notfound {
   min-height: 60vh;
   display: flex;

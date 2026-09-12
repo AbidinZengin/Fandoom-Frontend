@@ -24,11 +24,11 @@ function ArrowIcon() {
   );
 }
 
-export default function Hero() {
+export default function Hero({ backdropRef = { current: null } }) {
   const [series6, setSeries6] = useState(null);
   const [genreNames, setGenreNames] = useState([]);
   const pageRef = useRef(null);
-  const backdropRef = useRef(null);
+  const contentRef = useRef(null);
   const imageRef = useRef(null);
   const titleRef = useRef(null);
   const metaRef = useRef(null);
@@ -71,8 +71,14 @@ export default function Hero() {
         if (isCinematicArmed()) {
           const tl = gsap.timeline({ defaults: { ease: 'power2.out', clearProps: 'opacity,transform' } });
 
+          // Backdrop artık Hero'nun DIŞINDA (Atmosphere ile paylaşım için
+          // ata konteynere taşındı) — kapı kapanışı sadece Hero'yu değil
+          // backdrop+Hero'yu saran .intro'yu hedeflemeli, aksi halde
+          // backdrop kapı aralığının dışında hemen tam görünür.
+          const doorTarget = backdropRef.current?.parentElement ?? pageRef.current;
+
           tl.fromTo(
-            pageRef.current,
+            doorTarget,
             { clipPath: 'inset(0% 49.75% 0% 49.75%)' },
             { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.55, ease: 'power3.in', clearProps: 'clipPath' },
             0
@@ -93,22 +99,41 @@ export default function Hero() {
               { opacity: 0, y: 14, duration: 0.6, stagger: 0.08 },
               1.22
             );
-          return;
+        } else {
+          const tl = gsap.timeline({ defaults: { ease: 'power2.out', clearProps: 'opacity,transform' } });
+
+          tl.from(backdropRef.current, { opacity: 0, duration: 1.1 }, 0)
+            .from(imageRef.current, { opacity: 0, y: 28, duration: 1, ease: 'power3.out' }, 0.15)
+            .from(titleRef.current, { opacity: 0, y: 20, duration: 0.8 }, 0.4)
+            .from(metaRef.current, { opacity: 0, y: 14, duration: 0.6 }, 0.7)
+            .from(ratingGroup, { opacity: 0, y: 14, duration: 0.6 }, 0.76)
+            .from(synopsisRef.current, { opacity: 0, y: 16, duration: 0.7 }, 0.82)
+            .from(
+              [actionsRef.current, ctaSecondaryRef.current, ctaPrimaryRef.current],
+              { opacity: 0, y: 14, duration: 0.6, stagger: 0.08 },
+              1.02
+            );
         }
 
-        const tl = gsap.timeline({ defaults: { ease: 'power2.out', clearProps: 'opacity,transform' } });
-
-        tl.from(backdropRef.current, { opacity: 0, duration: 1.1 }, 0)
-          .from(imageRef.current, { opacity: 0, y: 28, duration: 1, ease: 'power3.out' }, 0.15)
-          .from(titleRef.current, { opacity: 0, y: 20, duration: 0.8 }, 0.4)
-          .from(metaRef.current, { opacity: 0, y: 14, duration: 0.6 }, 0.7)
-          .from(ratingGroup, { opacity: 0, y: 14, duration: 0.6 }, 0.76)
-          .from(synopsisRef.current, { opacity: 0, y: 16, duration: 0.7 }, 0.82)
-          .from(
-            [actionsRef.current, ctaSecondaryRef.current, ctaPrimaryRef.current],
-            { opacity: 0, y: 14, duration: 0.6, stagger: 0.08 },
-            1.02
-          );
+        // Scrub-fade: Atmosphere'e geçerken içerik (metinler) yukarı kayıp
+        // solar — Severance Hero'daki AYNI teknik/aralık. Görselin kendisine
+        // (backdrop/image) dokunulmuyor.
+        gsap.fromTo(
+          contentRef.current,
+          { opacity: 1, y: 0 },
+          {
+            opacity: 0,
+            y: -60,
+            ease: 'none',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: pageRef.current,
+              start: '15% top',
+              end: '65% top',
+              scrub: true,
+            },
+          }
+        );
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
@@ -135,7 +160,7 @@ export default function Hero() {
       clearTimeout(timerId);
       ctx.revert();
     };
-  }, [series6]);
+  }, [series6, backdropRef]);
 
   // TODO: Replace null with a Skeleton UI if needed.
   if (series6 == null) return null;
@@ -144,7 +169,6 @@ export default function Hero() {
 
   return (
     <section className={styles.hero} ref={pageRef}>
-      <img ref={backdropRef} className={styles.hero__backdrop} src={series6.coverImageUrl} alt="" />
       <div className={styles.hero__frame}>
         <img ref={imageRef} className={styles.hero__image} src={series6.coverImageUrl} alt="" />
         <div className={styles.hero__scrim} />
@@ -154,7 +178,7 @@ export default function Hero() {
           <img ref={ratingLogoRef} className={styles.hero__ratingLogo} src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" />
         </div>
 
-        <div className={styles.hero__content}>
+        <div ref={contentRef} className={styles.hero__content}>
           <h1 ref={titleRef} className={styles.hero__title}>{series6.title}</h1>
           <div ref={metaRef} className={styles.hero__meta}>
             <span className={styles.hero__year}>{year}</span>

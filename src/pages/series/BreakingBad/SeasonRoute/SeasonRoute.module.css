@@ -67,13 +67,24 @@
   padding: var(--space-3xl) var(--space-page-x) 0;
 }
 
+/* Glassmorphism pill — GoT Highlights'ın .highlights__card-tag'iyle BİREBİR
+   aynı desen (2026-09-12 rollout, tüm dizi sayfalarında ortak "SEASONS"
+   etiketi). */
 .kicker {
+  display: inline-flex;
+  align-items: center;
   margin: 0 0 var(--space-sm);
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: var(--tracking-label);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--fg);
+  color: var(--bg);
 }
 
 /* Referansın tam-uppercase afiş başlığına kasıtlı istisna (learned-rules

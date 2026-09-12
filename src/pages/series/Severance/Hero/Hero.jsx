@@ -15,6 +15,12 @@ import styles from './Hero.module.css';
 // scale ile AYNI ANDA yazdığı için "genişleyip bükülüyormuş" gibi bozuk
 // görünüyordu (kullanıcı raporu). Tüm dizilerde Explore butonu BİREBİR
 // aynı ok ikonunu kullanır.
+//
+// DÜZELTME (manuel, 2026-09-12): blurlu ARKA katman artık burada render
+// edilmiyor — Severance.jsx'te Hero+Atmosphere'i saran TEK bir görsele
+// taşındı (kullanıcı raporu: "iki bölümün blurlu kısımları arasında
+// yüzey farkı/dikiş var"). backdropRef artık dışarıdan prop olarak
+// geliyor, giriş animasyonu (counter-zoom/fade) AYNI şekilde ona uygulanır.
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="3.33" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -24,12 +30,12 @@ function ArrowIcon() {
   );
 }
 
-export default function Hero() {
+export default function Hero({ backdropRef = { current: null } }) {
   const [series, setSeries] = useState(null);
   const [genreNames, setGenreNames] = useState([]);
   const pageRef = useRef(null);
-  const backdropRef = useRef(null);
   const imageRef = useRef(null);
+  const contentRef = useRef(null);
   const titleRef = useRef(null);
   const metaRef = useRef(null);
   const ratingLogoRef = useRef(null);
@@ -68,8 +74,16 @@ export default function Hero() {
         if (isCinematicArmed()) {
           const tl = gsap.timeline({ defaults: { ease: 'power2.out', clearProps: 'opacity,transform' } });
 
+          // DÜZELTME (kullanıcı raporu, 2026-09-12: "açılan animasyon siyah
+          // değil arka planı gösteriyor") — clip-path SADECE pageRef'i (Hero
+          // section) kapatıyordu, ama blurlu backdrop artık Hero'nun DIŞINDA
+          // (Severance.jsx'teki .intro, backdropRef'in parent'ı) — kapı
+          // aralığının dışında backdrop hemen tam görünüyordu. Kapatma hedefi
+          // backdrop+Hero'yu birlikte saran .intro konteynerine taşındı.
+          const doorTarget = backdropRef.current?.parentElement ?? pageRef.current;
+
           tl.fromTo(
-            pageRef.current,
+            doorTarget,
             { clipPath: 'inset(0% 49.75% 0% 49.75%)' },
             { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.55, ease: 'power3.in', clearProps: 'clipPath' },
             0
@@ -105,6 +119,28 @@ export default function Hero() {
               0.95
             );
         }
+
+        // Scrub-fade: SADECE içerik (metinler) — GoT Hero'daki AYNI teknik/
+        // aralık, sonraki bölüme (Atmosphere) geçerken tetiklenir (kullanıcı
+        // isteği, 2026-09-12). Görselin kendisi (backdrop/image) dokunulmuyor
+        // — scale ile aynı anda transform yazınca bozuk görünmüştü (bkz. üst
+        // yorum), o yüzden bu sefer SADECE opacity/y hedefleniyor.
+        gsap.fromTo(
+          contentRef.current,
+          { opacity: 1, y: 0 },
+          {
+            opacity: 0,
+            y: -60,
+            ease: 'none',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: pageRef.current,
+              start: '15% top',
+              end: '65% top',
+              scrub: true,
+            },
+          }
+        );
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
@@ -131,7 +167,7 @@ export default function Hero() {
       clearTimeout(timerId);
       ctx.revert();
     };
-  }, [series]);
+  }, [series, backdropRef]);
 
   if (series == null) return null;
 
@@ -139,7 +175,6 @@ export default function Hero() {
 
   return (
     <section className={styles.hero} ref={pageRef}>
-      <img ref={backdropRef} className={styles.hero__backdrop} src={series.coverImageUrl} alt="" />
       <div className={styles.hero__frame}>
         <img ref={imageRef} className={styles.hero__image} src={series.coverImageUrl} alt="" />
         <div className={styles.hero__scrim} />
@@ -149,7 +184,7 @@ export default function Hero() {
           <img ref={ratingLogoRef} className={styles.hero__ratingLogo} src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" />
         </div>
 
-        <div className={styles.hero__content}>
+        <div ref={contentRef} className={styles.hero__content}>
           <h1 ref={titleRef} className={styles.hero__title}>{series.title}</h1>
           <div ref={metaRef} className={styles.hero__meta}>
             <span className={styles.hero__year}>{year}</span>

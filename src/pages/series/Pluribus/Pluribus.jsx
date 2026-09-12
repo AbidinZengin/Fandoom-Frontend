@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
+import Atmosphere from './Atmosphere/Atmosphere';
 import { fetchProductionDetail, theme } from './Pluribus.data';
 import styles from './Pluribus.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
@@ -9,6 +10,7 @@ export default function Pluribus() {
   const { t } = useTranslation();
   const [series, setSeries] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const backdropRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -59,7 +61,11 @@ export default function Pluribus() {
 
   return (
     <>
-      <Hero />
+      <div className={styles.intro}>
+        <img ref={backdropRef} className={styles.intro__backdrop} src={series.coverImageUrl} alt="" />
+        <Hero backdropRef={backdropRef} />
+        <Atmosphere />
+      </div>
       <SeasonRoute />
       <Footer />
     </>

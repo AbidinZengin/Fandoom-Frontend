@@ -24,11 +24,11 @@ function ArrowIcon() {
   );
 }
 
-export default function Hero() {
+export default function Hero({ backdropRef = { current: null } }) {
   const [series, setSeries] = useState(null);
   const [genreNames, setGenreNames] = useState([]);
   const pageRef = useRef(null);
-  const backdropRef = useRef(null);
+  const contentRef = useRef(null);
   const imageRef = useRef(null);
   const titleRef = useRef(null);
   const metaRef = useRef(null);
@@ -68,8 +68,15 @@ export default function Hero() {
         if (isCinematicArmed()) {
           const tl = gsap.timeline({ defaults: { ease: 'power2.out', clearProps: 'opacity,transform' } });
 
+          // DÜZELTME (Severance'da kök nedeni bulundu, 2026-09-12) — clip-path
+          // SADECE pageRef'i (Hero section) kapatırsa, backdrop artık Hero'nun
+          // DIŞINDaki (StrangerThings.jsx'teki .intro) paylaşılan katmanda
+          // olduğu için kapı aralığının dışında hemen tam görünür. Kapatma
+          // hedefi backdrop+Hero'yu birlikte saran .intro konteynerine taşındı.
+          const doorTarget = backdropRef.current?.parentElement ?? pageRef.current;
+
           tl.fromTo(
-            pageRef.current,
+            doorTarget,
             { clipPath: 'inset(0% 49.75% 0% 49.75%)' },
             { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.55, ease: 'power3.in', clearProps: 'clipPath' },
             0
@@ -105,6 +112,25 @@ export default function Hero() {
               0.95
             );
         }
+
+        // Scrub-fade: SADECE içerik (metinler) — Severance Hero'daki AYNI
+        // teknik/aralık, Atmosphere'e geçerken tetiklenir.
+        gsap.fromTo(
+          contentRef.current,
+          { opacity: 1, y: 0 },
+          {
+            opacity: 0,
+            y: -60,
+            ease: 'none',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: pageRef.current,
+              start: '15% top',
+              end: '65% top',
+              scrub: true,
+            },
+          }
+        );
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
@@ -131,7 +157,7 @@ export default function Hero() {
       clearTimeout(timerId);
       ctx.revert();
     };
-  }, [series]);
+  }, [series, backdropRef]);
 
   if (series == null) return null;
 
@@ -139,7 +165,6 @@ export default function Hero() {
 
   return (
     <section className={styles.hero} ref={pageRef}>
-      <img ref={backdropRef} className={styles.hero__backdrop} src={series.coverImageUrl} alt="" />
       <div className={styles.hero__frame}>
         <img ref={imageRef} className={styles.hero__image} src={series.coverImageUrl} alt="" />
         <div className={styles.hero__scrim} />
@@ -149,7 +174,7 @@ export default function Hero() {
           <img ref={ratingLogoRef} className={styles.hero__ratingLogo} src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" />
         </div>
 
-        <div className={styles.hero__content}>
+        <div ref={contentRef} className={styles.hero__content}>
           <h1 ref={titleRef} className={styles.hero__title}>{series.title}</h1>
           <div ref={metaRef} className={styles.hero__meta}>
             <span className={styles.hero__year}>{year}</span>

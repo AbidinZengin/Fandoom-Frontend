@@ -1,28 +1,14 @@
-/* Navbar sticky + yarı saydam (bkz. Navbar.module.css: 56px logo + 8px*2
-   padding = 72px) — hero'yu bu kadar yukarı çekip navbar'ın arkasından
-   başlatıyoruz (SeriesHero/diğer dizi Hero'larıyla AYNI teknik). */
+/* Navbar payı (72px) artık BU değil, Severance.jsx'teki .intro sarmalayıcı
+   üstleniyor — Hero'nun kendi blurlu arka katmanı yok (bkz. dosya başı
+   yorum, kullanıcı isteği 2026-09-12: tek paylaşılan görsel). */
 .hero {
   position: relative;
   width: 100%;
   min-height: 700px;
   height: 90vh;
-  margin-top: -72px;
   overflow: hidden;
   font-family: var(--font-body);
   color: var(--fg);
-}
-
-/* Arka katman: aynı görselin TAM EKRAN blurlu hali (eski Hero sistemindeki
-   imageBlock1'in karşılığı, kullanıcı isteği, 2026-09-11). */
-.hero__backdrop {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  filter: blur(28px) brightness(0.55) saturate(1.15);
-  transform: scale(1.08);
 }
 
 /* Ön katman: aynı görselin NET hali, kenarlardan içeri (radius'lu "kart"),
