@@ -170,6 +170,7 @@
   },
   "community": {
     "emptyState": "Nothing here yet — be the first to start a thread.",
+    "loadError": "Something went wrong loading this. Please try again.",
     "myLibrary": "My Library",
     "sidebar": {
       "theoryCount": "{{count}} theories",
@@ -198,7 +199,12 @@
     },
     "feed": {
       "readMore": "Read More",
-      "save": "Save",
+      "comments_one": "{{formatted}} Comment",
+      "comments_other": "{{formatted}} Comments",
+      "likes_one": "{{formatted}} Like",
+      "likes_other": "{{formatted}} Likes",
+      "saved_one": "{{formatted}} Saved",
+      "saved_other": "{{formatted}} Saved",
       "tabAll": "All",
       "anonymous": "unknown",
       "timeJustNow": "just now",
@@ -215,8 +221,13 @@
     "composer": {
       "signInPrompt": "Sign in to start a thread",
       "titlePlaceholder": "What's on your mind?",
+      "titleMin": "Title needs at least {{min}} characters ({{count}}/{{min}})",
       "bodyPlaceholder": "Add details (optional)",
-      "imagePlaceholder": "Image link (optional)",
+      "chooseMedia": "Add photo or video ({{count}}/{{max}})",
+      "mediaUploading": "Uploading…",
+      "removeMedia": "Remove",
+      "mediaError": "Couldn't upload the file, try again.",
+      "mediaTooLarge": "{{name}} is too large (max {{max}} MB).",
       "tagPlaceholder": "Add a tag...",
       "removeTag": "Remove tag",
       "submit": "Post",
@@ -227,6 +238,7 @@
       "share": "Share",
       "linkCopied": "Link copied",
       "notFound": "This thread couldn't be found.",
+      "closeGallery": "Close gallery",
       "backToFeed": "← Back to feed"
     }
   },

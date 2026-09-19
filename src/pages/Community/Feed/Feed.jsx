@@ -4,7 +4,7 @@ import { PostComposer } from './PostComposer/PostComposer';
 import { SurfaceFilter } from './SurfaceFilter/SurfaceFilter';
 import { SortBar } from './SortBar/SortBar';
 import { FeedCard } from './FeedCard/FeedCard';
-import { getFeedThreads, sortThreads } from './Feed.data';
+import { getFeedThreads } from './Feed.data';
 import styles from './Feed.module.css';
 
 const PAGE_SIZE = 5;
@@ -13,47 +13,78 @@ const PAGE_SIZE = 5;
 // fan-art route'larını (surface sabit) TEK component karşılar — ayrı bir
 // SurfaceFeed dosyası açmak burada gereksiz kopya olurdu (Karpathy ilkesi:
 // istenenden fazla soyutlama yok); tek fark PostComposer'ın varsayılan
-// yüzeyi ve listenin filtresi.
+// yüzeyi ve listenin filtresi. Sıralama ve sayfalama sunucuda.
 export default function Feed({ surface }) {
   const { t } = useTranslation();
   const [sort, setSort] = useState('hot');
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const [threads, setThreads] = useState(() => getFeedThreads(surface));
+  const [threads, setThreads] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
 
+  // surface/sort değişince veya yeni post atılınca liste baştan yüklenir.
+  // Yarış durumu: eski isteğin cevabı yeni seçimin listesini ezmesin diye
+  // cleanup'ta iptal bayrağı set edilir.
   useEffect(() => {
-    setThreads(getFeedThreads(surface));
-    setVisibleCount(PAGE_SIZE);
-  }, [surface]);
+    let cancelled = false;
+    setLoading(true);
+    setError(false);
+    getFeedThreads({ surface, sort, page: 0, size: PAGE_SIZE })
+      .then((res) => {
+        if (cancelled) return;
+        setThreads(res.threads);
+        setHasMore(res.hasMore);
+        setPage(0);
+      })
+      .catch(() => {
+        if (!cancelled) setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [surface, sort, reloadKey]);
 
-  const sorted = sortThreads(threads, sort);
-  const visible = sorted.slice(0, visibleCount);
-  const hasMore = visibleCount < sorted.length;
-
-  const handlePostCreated = () => {
-    setThreads(getFeedThreads(surface));
-    setVisibleCount((v) => v + 1);
+  const handleLoadMore = async () => {
+    setLoading(true);
+    try {
+      const res = await getFeedThreads({ surface, sort, page: page + 1, size: PAGE_SIZE });
+      setThreads((prev) => [...prev, ...res.threads]);
+      setHasMore(res.hasMore);
+      setPage(page + 1);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-      <PostComposer defaultSurface={surface ?? 'DISCUSSION'} onPostCreated={handlePostCreated} />
+      <PostComposer defaultSurface={surface ?? 'DISCUSSION'} onPostCreated={() => setReloadKey((k) => k + 1)} />
 
       <SurfaceFilter />
 
       <SortBar sort={sort} onChange={setSort} />
 
-      {visible.length === 0 ? (
-        <p className={styles.feed__empty}>{t('community.emptyState')}</p>
+      {error ? (
+        <p className={styles.feed__empty}>{t('community.loadError')}</p>
+      ) : threads.length === 0 ? (
+        !loading && <p className={styles.feed__empty}>{t('community.emptyState')}</p>
       ) : (
         <div className={styles.feed__list}>
-          {visible.map((thread) => (
+          {threads.map((thread) => (
             <FeedCard key={thread.id} thread={thread} />
           ))}
         </div>
       )}
 
-      {hasMore && (
-        <button type="button" className={styles.feed__loadMore} onClick={() => setVisibleCount((v) => v + PAGE_SIZE)}>
+      {hasMore && !error && (
+        <button type="button" className={styles.feed__loadMore} onClick={handleLoadMore} disabled={loading}>
           {t('community.feed.loadMore')}
         </button>
       )}

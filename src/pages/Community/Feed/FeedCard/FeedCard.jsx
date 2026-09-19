@@ -1,65 +1,41 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
+import { useLang } from '../../../../shared/i18n/useLang';
+import { withLangPrefix } from '../../../../shared/i18n/constants';
 import { SURFACES } from '../../../../shared/data/community';
-import { avatarColor } from '../../communityAvatar';
-import { timeAgo } from '../Feed.data';
+import { ThreadAuthor } from '../../ThreadAuthor/ThreadAuthor';
+import { ThreadMedia } from '../../ThreadMedia/ThreadMedia';
+import { ThreadActions } from '../../ThreadActions/ThreadActions';
 import styles from './FeedCard.module.css';
 
-// Tek tip kart (kullanıcı kararı, 2026-09-13 — SurfaceHighlight'ın yerine
-// geçen Feed spec'i): tüm yüzeyler aynı FeedCard şablonunu kullanır.
-// learned-rules [[topluluk-kart]] bu kararla güncellendi. Avatar rengi
-// username'den deterministik üretilir (gerçek profil fotoğrafı yok, ama
-// düz metin yerine sosyal-medya kartı hissi — kullanıcı düzeltmesi,
-// "eski sayfadan çok etkilenmişsin" sonrası görsel dili zenginleştirme).
-// Beğen/Kaydet bu fazda LOKAL optimistic toggle (backend'de THREAD
-// itemType'ı için like/bookmark ucu teyit edilmedi).
+// Tek tip kart (kullanıcı kararı, 2026-09-13): tüm yüzeyler aynı FeedCard
+// şablonunu kullanır. 2026-09-19'da sosyal-medya post kartı referansına
+// uyarlandı: yuvarlak koyu kart → yazar satırı → başlık + özet → medya
+// mozaiği → etiketli aksiyon çubuğu (ThreadAuthor/ThreadMedia/ThreadActions
+// ThreadBody ile ortak). Beğen/Kaydet gerçek uçlara bağlı (useThreadActions).
 export function FeedCard({ thread }) {
   const { t } = useTranslation();
-  const [liked, setLiked] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const lang = useLang();
 
   const surfaceInfo = SURFACES.find((s) => s.key === thread.surface);
-  const to = surfaceInfo ? `${surfaceInfo.to}/${thread.id}` : '#';
-  const primaryTag = thread.tags?.[0];
-  const author = thread.author ?? t('community.feed.anonymous');
+  const to = surfaceInfo ? `${surfaceInfo.to}/${thread.slug}` : '#';
+  const shareUrl = surfaceInfo ? `${window.location.origin}${withLangPrefix(to, lang)}` : window.location.href;
+  // Spoiler işaretli thread'in medyası kartta gösterilmez (detayda tıkla-aç).
+  const showMedia = !thread.spoilerFlagged && thread.media?.length > 0;
 
   return (
     <article className={styles.feedCard}>
       <Link to={to} className={styles.feedCard__link}>
-        <div className={styles.feedCard__meta}>
-          <span className={styles.feedCard__avatar} style={{ background: avatarColor(author) }}>
-            {author.charAt(0).toUpperCase()}
-          </span>
-          <span className={styles.feedCard__author}>@{author}</span>
-          {primaryTag && <span className={styles.feedCard__tag}>#{primaryTag}</span>}
-          {thread.createdAt && <span className={styles.feedCard__time}>{timeAgo(thread.createdAt, t)}</span>}
-        </div>
+        <ThreadAuthor thread={thread} />
         <h3 className={styles.feedCard__title}>{thread.title}</h3>
         {thread.excerpt && <p className={styles.feedCard__excerpt}>{thread.excerpt}</p>}
         <span className={styles.feedCard__readMore}>{t('community.feed.readMore')}</span>
       </Link>
 
-      <div className={styles.feedCard__actions}>
-        <button
-          type="button"
-          className={styles.feedCard__actionButton}
-          data-active={liked}
-          onClick={() => setLiked((v) => !v)}
-        >
-          ♥ {(thread.likeCount ?? 0) + (liked ? 1 : 0)}
-        </button>
-        <span className={styles.feedCard__actionButton}>💬 {thread.commentCount ?? 0}</span>
-        <button
-          type="button"
-          className={styles.feedCard__actionButton}
-          data-active={saved}
-          aria-label={t('community.feed.save')}
-          onClick={() => setSaved((v) => !v)}
-        >
-          🔖
-        </button>
-      </div>
+      {/* Link'in DIŞINDA: galeri/video/+N butonları anchor içinde iç içe interaktif olmasın. */}
+      {showMedia && <ThreadMedia media={thread.media} />}
+
+      <ThreadActions thread={thread} shareUrl={shareUrl} />
     </article>
   );
 }

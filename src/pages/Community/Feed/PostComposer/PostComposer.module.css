@@ -38,7 +38,6 @@
 
 .postComposer__title,
 .postComposer__body,
-.postComposer__image,
 .postComposer__tagInput {
   width: 100%;
   border: 1px solid var(--border);
@@ -56,6 +55,62 @@
 
 .postComposer__body {
   resize: vertical;
+}
+
+.postComposer__hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+}
+
+.postComposer__media {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.postComposer__mediaGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xs);
+}
+
+.postComposer__fileInput {
+  display: none;
+}
+
+.postComposer__surfaceButton:disabled {
+  opacity: 0.5;
+}
+
+/* Önizleme: grid hücresi genişliği + aspect-ratio — px hardcode yok. */
+.postComposer__preview {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.postComposer__previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.postComposer__previewRemove {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: var(--text-base);
+  line-height: 1;
 }
 
 .postComposer__tags {

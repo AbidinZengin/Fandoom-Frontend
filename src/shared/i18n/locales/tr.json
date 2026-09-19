@@ -170,6 +170,7 @@
   },
   "community": {
     "emptyState": "Burada henüz bir şey yok — bir konu başlatan ilk kişi sen ol.",
+    "loadError": "Yüklenirken bir sorun oluştu. Lütfen tekrar dene.",
     "myLibrary": "Kitaplığım",
     "sidebar": {
       "theoryCount": "{{count}} teori",
@@ -198,7 +199,12 @@
     },
     "feed": {
       "readMore": "Devamını Oku",
-      "save": "Kaydet",
+      "comments_one": "{{formatted}} Yorum",
+      "comments_other": "{{formatted}} Yorum",
+      "likes_one": "{{formatted}} Beğeni",
+      "likes_other": "{{formatted}} Beğeni",
+      "saved_one": "{{formatted}} Kayıt",
+      "saved_other": "{{formatted}} Kayıt",
       "tabAll": "Tümü",
       "anonymous": "bilinmeyen",
       "timeJustNow": "az önce",
@@ -215,8 +221,13 @@
     "composer": {
       "signInPrompt": "Konu açmak için giriş yap",
       "titlePlaceholder": "Ne düşünüyorsun?",
+      "titleMin": "Başlık en az {{min}} karakter olmalı ({{count}}/{{min}})",
       "bodyPlaceholder": "Detayları ekle (isteğe bağlı)",
-      "imagePlaceholder": "Görsel linki (isteğe bağlı)",
+      "chooseMedia": "Görsel veya video ekle ({{count}}/{{max}})",
+      "mediaUploading": "Yükleniyor…",
+      "removeMedia": "Kaldır",
+      "mediaError": "Dosya yüklenemedi, tekrar dene.",
+      "mediaTooLarge": "{{name}} çok büyük (en fazla {{max}} MB).",
       "tagPlaceholder": "Etiket ekle...",
       "removeTag": "Etiketi kaldır",
       "submit": "Paylaş",
@@ -227,6 +238,7 @@
       "share": "Paylaş",
       "linkCopied": "Link kopyalandı",
       "notFound": "Bu konu bulunamadı.",
+      "closeGallery": "Galeriyi kapat",
       "backToFeed": "← Akışa dön"
     }
   },

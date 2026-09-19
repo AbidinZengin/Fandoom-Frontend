@@ -47,6 +47,11 @@
   --space-3xl: 64px;
   --space-page-x: clamp(20px, 4vw, 56px); /* sayfa yatay padding deseni */
 
+  /* Sosyal post medya kutusu sınırları (Community thread kartı, kullanıcı
+     düzeltmesi 2026-09-19: "yatayda/dikeyde aşırı uzun oldu"). */
+  --media-max-w: 30rem;
+  --media-max-h: 26rem;
+
   /* Radius scale */
   --radius-sm: 6px;
   --radius-md: 12px;

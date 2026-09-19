@@ -1,0 +1,30 @@
+.threadActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+}
+
+.threadActions__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+/* İkon boyutu font-size'dan gelir (1em) — etiketten büyük durur. */
+.threadActions__item svg {
+  font-size: var(--text-lg);
+}
+
+.threadActions__item[data-active='true'] {
+  color: var(--fg);
+}

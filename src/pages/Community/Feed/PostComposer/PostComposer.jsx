@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import { getStoredAuth } from '../../../../shared/api/authStorage';
+import { uploadImage, uploadVideo } from '../../../../shared/api/media';
 import { createThread } from '../Feed.data';
 import styles from './PostComposer.module.css';
 
@@ -12,16 +13,27 @@ const SURFACE_OPTIONS = [
 ];
 const MAX_TAGS = 3;
 const MIN_TITLE_LENGTH = 10;
+// Limitler backend'le aynı (kullanıcı kararı): thread başına 6 medya, görsel
+// <= 10 MB, video <= 50 MB — istemcide de kontrol edilir ki 50 MB'lık dosya
+// yüklenip 400 yemesin.
+const MAX_MEDIA = 6;
+const MAX_IMAGE_MB = 10;
+const MAX_VIDEO_MB = 50;
+const MEDIA_FOLDER = 'community';
 
-// Oturumsuz kullanıcı /account'a yönlendirilir (spec madde 4.2). Gönderim
-// localStorage'a optimistic yazar (Feed.data.js createThread) — gerçek
-// thread POST ucu Faz 2.
+// Oturumsuz kullanıcı /account'a yönlendirilir (spec madde 4.2) — backend
+// yazma ucu authorId'yi JWT'den aldığı için anonim post mümkün değil.
+// Gönderim gerçek POST /api/community/threads (Feed.data.js createThread).
+// Görsel/video dosya seçimi (çoklu): EditProfileModal ile aynı desen — dosyalar
+// seçilir seçilmez Cloudinary'e yüklenir, sadece dönen {type, url} thread'e gider.
 export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
   const { t } = useTranslation();
+  const mediaInputRef = useRef(null);
+  const [uploadingCount, setUploadingCount] = useState(0);
   const [surface, setSurface] = useState(defaultSurface);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [media, setMedia] = useState([]);
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState([]);
   const [submitting, setSubmitting] = useState(false);
@@ -35,7 +47,39 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
     );
   }
 
-  const isValid = title.trim().length >= MIN_TITLE_LENGTH;
+  const titleLength = title.trim().length;
+  const uploading = uploadingCount > 0;
+  const isValid = titleLength >= MIN_TITLE_LENGTH && !uploading;
+
+  // Seçilen dosyalar sırayla yüklenir (kalan kontenjan kadarı); başarısız
+  // olan atlanır, hata mesajı gösterilir, diğerleri eklenmeye devam eder.
+  const handleMediaFiles = async (fileList) => {
+    const files = Array.from(fileList ?? []).slice(0, MAX_MEDIA - media.length);
+    if (files.length === 0) return;
+    setError(null);
+    setUploadingCount(files.length);
+    const uploaded = [];
+    for (const file of files) {
+      const isVideo = file.type.startsWith('video/');
+      const maxMb = isVideo ? MAX_VIDEO_MB : MAX_IMAGE_MB;
+      if (file.size > maxMb * 1024 * 1024) {
+        setError(t('community.composer.mediaTooLarge', { name: file.name, max: maxMb }));
+        continue;
+      }
+      try {
+        const { url } = await (isVideo ? uploadVideo : uploadImage)(file, MEDIA_FOLDER);
+        uploaded.push({ type: isVideo ? 'VIDEO' : 'IMAGE', url });
+      } catch (err) {
+        setError(err.message || t('community.composer.mediaError'));
+      }
+    }
+    setMedia((prev) => [...prev, ...uploaded]);
+    setUploadingCount(0);
+    // Aynı dosya tekrar seçilebilsin (kaldır → aynı dosyayı yeniden seç).
+    if (mediaInputRef.current) mediaInputRef.current.value = '';
+  };
+
+  const removeMedia = (url) => setMedia((prev) => prev.filter((item) => item.url !== url));
 
   const addTag = () => {
     const clean = tagInput.trim().replace(/^#/, '');
@@ -56,16 +100,18 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
         surface,
         title: title.trim(),
         body: body.trim(),
-        imageUrl: imageUrl.trim(),
+        media,
         tags,
       });
       setTitle('');
       setBody('');
-      setImageUrl('');
+      setMedia([]);
       setTags([]);
       onPostCreated?.(post);
-    } catch {
-      setError(t('community.composer.error'));
+    } catch (err) {
+      // Backend'in gerçek mesajı (400 validasyon, 401 süresi dolmuş token...)
+      // genel "tekrar dene" yerine gösterilir; mesaj yoksa genel metne düşer.
+      setError(err.message || t('community.composer.error'));
     } finally {
       setSubmitting(false);
     }
@@ -94,6 +140,11 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
         onChange={(event) => setTitle(event.target.value)}
         maxLength={140}
       />
+      {titleLength > 0 && titleLength < MIN_TITLE_LENGTH && (
+        <p className={styles.postComposer__hint}>
+          {t('community.composer.titleMin', { min: MIN_TITLE_LENGTH, count: titleLength })}
+        </p>
+      )}
 
       <textarea
         className={styles.postComposer__body}
@@ -103,12 +154,49 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
         rows={3}
       />
 
-      <input
-        className={styles.postComposer__image}
-        placeholder={t('community.composer.imagePlaceholder')}
-        value={imageUrl}
-        onChange={(event) => setImageUrl(event.target.value)}
-      />
+      <div className={styles.postComposer__media}>
+        <input
+          ref={mediaInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime"
+          multiple
+          className={styles.postComposer__fileInput}
+          onChange={(event) => handleMediaFiles(event.target.files)}
+        />
+        {media.length > 0 && (
+          <div className={styles.postComposer__mediaGrid}>
+            {media.map((item) => (
+              <div key={item.url} className={styles.postComposer__preview}>
+                {item.type === 'VIDEO' ? (
+                  <video src={item.url} muted preload="metadata" className={styles.postComposer__previewImage} />
+                ) : (
+                  <img src={item.url} alt="" className={styles.postComposer__previewImage} />
+                )}
+                <button
+                  type="button"
+                  className={styles.postComposer__previewRemove}
+                  onClick={() => removeMedia(item.url)}
+                  aria-label={t('community.composer.removeMedia')}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {media.length < MAX_MEDIA && (
+          <button
+            type="button"
+            className={styles.postComposer__surfaceButton}
+            onClick={() => mediaInputRef.current?.click()}
+            disabled={uploading}
+          >
+            {uploading
+              ? t('community.composer.mediaUploading')
+              : t('community.composer.chooseMedia', { count: media.length, max: MAX_MEDIA })}
+          </button>
+        )}
+      </div>
 
       <div className={styles.postComposer__tags}>
         {tags.map((tag) => (
