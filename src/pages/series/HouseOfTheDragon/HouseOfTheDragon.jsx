@@ -6,6 +6,7 @@ import Atmosphere from './Atmosphere/Atmosphere';
 import { fetchProductionDetail, theme } from './HouseOfTheDragon.data';
 import styles from './HouseOfTheDragon.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 
 // İskelet — Hero ve diğer bölümler henüz yok. Breaking Bad'deki desenle aynı:
 // Hero PageBuilder'ın "Kodu Üret" çıktısı olarak ayrıca eklenecek (bkz.
@@ -42,11 +43,13 @@ export default function HouseOfTheDragon() {
 
     root.style.setProperty('--bg', theme.bg);
     root.style.setProperty('--accent', theme.accent);
+    const restoreGradient = applyAccentGradient('house-of-the-dragon');
     root.style.setProperty('--card-bg', theme.cardBg);
 
     return () => {
       root.style.setProperty('--bg', prev.bg || '#050505');
       root.style.setProperty('--accent', prev.accent || '#a02cd8');
+      restoreGradient();
       root.style.setProperty('--card-bg', prev.cardBg || '#101012');
     };
   }, [series]);

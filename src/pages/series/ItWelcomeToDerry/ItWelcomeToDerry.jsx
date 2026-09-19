@@ -6,6 +6,7 @@ import Atmosphere from './Atmosphere/Atmosphere';
 import { fetchProductionDetail, theme } from './ItWelcomeToDerry.data';
 import styles from './ItWelcomeToDerry.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 export default function ItWelcomeToDerry() {
   const { t } = useTranslation();
   const [series, setSeries] = useState(null);
@@ -37,11 +38,13 @@ export default function ItWelcomeToDerry() {
 
     root.style.setProperty('--bg', theme.bg);
     root.style.setProperty('--accent', theme.accent);
+    const restoreGradient = applyAccentGradient('it-welcome-to-derry');
     root.style.setProperty('--card-bg', theme.cardBg);
 
     return () => {
       root.style.setProperty('--bg', prev.bg || '#050505');
       root.style.setProperty('--accent', prev.accent || '#a02cd8');
+      restoreGradient();
       root.style.setProperty('--card-bg', prev.cardBg || '#101012');
     };
   }, [series]);

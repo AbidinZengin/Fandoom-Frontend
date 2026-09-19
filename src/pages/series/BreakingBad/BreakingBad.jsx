@@ -13,6 +13,7 @@ import SeasonRoute from './SeasonRoute/SeasonRoute';
 // eklenmek istenirse: import { TitleSequence } from './TitleSequence/TitleSequence';
 import { fetchProductionDetail, theme } from './BreakingBad.data';
 import styles from './BreakingBad.module.css';
+import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 
 export default function BreakingBad() {
   const [series, setSeries] = useState(null);
@@ -44,11 +45,13 @@ export default function BreakingBad() {
 
     root.style.setProperty('--bg', theme.bg);
     root.style.setProperty('--accent', theme.accent);
+    const restoreGradient = applyAccentGradient('breaking-bad');
     root.style.setProperty('--card-bg', theme.cardBg);
 
     return () => {
       root.style.setProperty('--bg', prev.bg || '#050505');
       root.style.setProperty('--accent', prev.accent || '#a02cd8');
+      restoreGradient();
       root.style.setProperty('--card-bg', prev.cardBg || '#101012');
     };
   }, [series]);

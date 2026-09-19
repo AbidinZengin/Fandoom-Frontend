@@ -167,15 +167,11 @@
 
 /* Sıra kullanıcı isteğiyle değişti: Explore ÖNCE, Watch Trailer SONRA —
    ama görsel hiyerarşi (outline/filled) korunuyor. */
+/* Explore: dizi accent'inden 3 duraklı gradient halkalı şeffaf buton
+   (ortak desen — src/styles/AccentButton.module.css; pilot, 2026-09-19).
+   Renk/kenar/hover oradan gelir, layout yukarıdaki ortak kuralda kalır. */
 .hero__ctaSecondary {
-  color: var(--fg);
-  background: transparent;
-  border: 2.5px solid var(--fg);
-}
-
-.hero__ctaSecondary:hover {
-  background: var(--fg);
-  color: var(--bg);
+  composes: accentButton from '../../../../styles/AccentButton.module.css';
 }
 
 .hero__ctaPrimary {

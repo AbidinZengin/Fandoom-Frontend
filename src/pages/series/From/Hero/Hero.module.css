@@ -152,15 +152,11 @@
   transition: transform var(--duration-micro) ease, background var(--duration-micro) ease, color var(--duration-micro) ease;
 }
 
+/* Explore: dizi gradient'li halkalı şeffaf buton (ortak desen —
+   src/styles/AccentButton.module.css, 2026-09-20). Renk/kenar/hover oradan
+   gelir, layout yukarıdaki ortak kuralda kalır. */
 .hero__ctaSecondary {
-  color: var(--fg);
-  background: transparent;
-  border: 2.5px solid var(--fg);
-}
-
-.hero__ctaSecondary:hover {
-  background: var(--fg);
-  color: var(--bg);
+  composes: accentButton from '../../../../styles/AccentButton.module.css';
 }
 
 .hero__ctaPrimary {

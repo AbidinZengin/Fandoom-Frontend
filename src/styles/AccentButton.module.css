@@ -1,0 +1,79 @@
+/* Accent-gradient buton deseni (kullanıcı kararı, 2026-09-19; referans: HubX
+   "Discover the Hub"). Eski "beyaz kenarlı şeffaf buton"un yerine:
+   - Dinlenme: şeffaf zemin + üç duraklı (--accent-c1..c3, dizi accent'inden
+     türer) GRADIENT kenar halkası + beyaz yazı.
+   - Hover/odak: halkayla AYNI gradient'le dolar (kenar+zemin tek parça);
+     gradient geçişi transition edilemediği için dolgu ayrı bir katmandır ve
+     opaklığı animasyonlanır.
+   Kullanım: bileşenin kendi modülünde `composes: accentButton from
+   '<göreli>/styles/AccentButton.module.css'` — layout (boyut, gap, padding)
+   bileşende kalır, renk/kenar/hover buradan gelir. */
+.accentButton {
+  --ring-width: 2px;
+  position: relative;
+  isolation: isolate;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--white);
+}
+
+/* Gradient halka: yalnız kenar bandına boyanır (mask-composite: exclude —
+   iç zemin/metin etkilenmez). */
+.accentButton::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: var(--ring-width);
+  background: linear-gradient(90deg, var(--accent-c1), var(--accent-c2), var(--accent-c3));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Hover dolgusu: halkayla BİREBİR aynı gradient — kenar ve zemin tek parça
+   görünür (kullanıcı geri bildirimi, 2026-09-20: "borderla background
+   farklı"; önceki siyaha karışık mat dolgu ayrı bir katman gibi okunuyordu).
+   Blur/backdrop-filter bu desende YOK. Gradient geçişi transition edilemediği
+   için dolgu ayrı bir katmandır, opaklığı animasyonlanır. */
+.accentButton::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  /* Opak taban: gradient duraklarından biri yarı saydam olsa (ör. rgba) bile
+     arkadaki hero görseli dolgudan GÖRÜNMEZ (kullanıcı düzeltmesi,
+     2026-09-20: "arka plan image görünüyor, saydamlık 0 olacak"). */
+  background-color: var(--bg);
+  background-image: linear-gradient(90deg, var(--accent-c1), var(--accent-c2), var(--accent-c3));
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+  pointer-events: none;
+}
+
+.accentButton:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+.accentButton:focus-visible::after,
+.accentButton:active::after {
+  opacity: 1;
+}
+
+/* Hover yalnız gerçek fare hover'ında (dokunmatikte yapışmasın). */
+@media (hover: hover) {
+  .accentButton:hover::after {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accentButton::after {
+    transition: none;
+  }
+}
