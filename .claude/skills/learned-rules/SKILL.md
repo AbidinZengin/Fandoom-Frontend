@@ -532,10 +532,12 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
 - **[topluluk-yanıt]** Silinen yorum/yanıt üç yüzeyde de "[silindi]" olur,
   alt yanıtlar korunur — ağaç/liste bütünlüğü bozulmaz (Reddit modeli).
   _(2026-07, Thread detay araştırması)_
-- **[topluluk-header]** Thread detay header sırası: başlık → yazar(avatar+
-  isim+rozet)+zaman+tag tek meta satırı → oy bloğu (masaüstü dikey-sol,
-  mobil yatay inline — dikey blok dar ekranda yer yer) → aksiyon ikonları
-  (paylaş/kaydet/rapor) sağda. _(2026-07, Reddit/StackOverflow emsali)_
+- **[topluluk-header]** Thread detay sırası (2026-09-19'da feed kartıyla
+  aynı sosyal post diline çekildi; önceki "dikey-sol oy bloğu + sağda aksiyon
+  sütunu" düzeninin YERİNE geçer): yazar satırı → başlık → metin → medya
+  mozaiği (videolar oynatılabilir, hepsi gösterilir) → etiketli aksiyon
+  çubuğu; yorumlar kartın altında paylaşılan `Comments`'te.
+  _(2026-07, Reddit/StackOverflow emsali; 2026-09 kullanıcı referansı)_
 - **[topluluk-composer]** Yanıt kutusu alttan sticky slide-up panel
   (Discourse modeli) — sayfa kaymadan okumaya devam edilir, minimize
   edilebilir, taslak otomatik kaydedilir. StackOverflow'un statik-en-alt
@@ -555,9 +557,24 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
 
 #### Kart/Liste Bileşenleri
 
-- **[topluluk-kart]** Tüm yüzeyler TEK TİP FeedCard şablonu kullanır:
-  @yazar + #tag meta satırı → başlık → 3 satır line-clamp özet + "Devamını
-  Oku" → alt satırda ♥ beğeni / 💬 yorum-sayısı / 🔖 kaydet. Önceki yüzeye-
+- **[topluluk-kart]** Tüm yüzeyler TEK TİP FeedCard şablonu kullanır
+  (2026-09-19'da sosyal post kartı referansına göre güncellendi): avatar
+  (gerçek `author.avatarUrl`, yoksa baş harf) + @yazar, altında "zaman · #tag"
+  → başlık → 3 satır line-clamp özet + "Devamını Oku" → MEDYA MOZAİĞİ (en
+  fazla 3 karo: 1 tek — kendi oranında ölçeklenir ama HEM genişlik
+  (`--media-max-w`) HEM yükseklik (`--media-max-h`) sınırlıdır (theme.css
+  token'ları) ve kartta HER ZAMAN ortalanır (sola yatık kalması reddedildi).
+  Düzen sabit şablon değil ALGORİTMİKTİR: medya oranları tarayıcıda ölçülür,
+  `ThreadMedia.layout.js` satır/sütun adaylarından hedef kutu oranına en
+  yakın olanı seçer (2 yatay → yığılır, 2 dikey → yan yana vb.) —
+  yeni bir düzen gerekirse şablon eklenmez, aday/hedef ayarlanır, kullanıcı iki kez "aşırı uzun oldu"
+  diye düzeltti / 2 yan yana / 3 solda uzun+sağda iki yığılmış; 3'ten
+  fazlaysa 3. karo "+N" olur ve basınca AYNI kutu içinde yana kaydırılabilir
+  küçük galeriye açılır — lightbox/modal YOK, kullanıcı kararı; spoiler
+  işaretliyse gizli) → etiketli aksiyon çubuğu
+  (ikon + sayaç: yorum / beğeni / paylaş(bağlantı kopyala, sayaçsız — backend
+  sayacı yok) / kaydet). Emoji ikon YOK, çizgi SVG. Detay (ThreadBody) aynı
+  parçaları paylaşır. Önceki yüzeye-
   özel farklı kart tasarımları (Discussion'ın okunmadı-göstergeli satırı,
   Theory'nin ayrı oy sütunu, Blog'un kapak+büyük-ilk-kart deseni, Fan
   Art'ın masonry grid'i) kararının YERİNE geçer — kullanıcı kararı,
@@ -641,8 +658,11 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   birbirinden ayrılan bir liste olarak durur (Twitter-tarzı akış). Genel
   `[yüzey]` kuralının ("kart yumuşak+parlak, belirgin radius, hafif glow")
   Community'ye özel İSTİSNASI — FeedCard/PostComposer/ThreadBody/LeftSidebar
-  CTA/RightSidebar widget'larının hepsi bu kurala tabi. _(2026-09,
-  CommunityLayout — kullanıcı kararı: "gri arka gridleri bırak")_
+  CTA/RightSidebar widget'larının hepsi bu kurala tabi. İSTİSNA (2026-09-19):
+  THREAD kartları (FeedCard + ThreadBody) yuvarlak koyu karttır — `--card-bg`
+  + 1px `--border` + `--radius-lg`, feed'de kartlar arası boşlukla; composer
+  ve sidebar'lar düz kalır. _(2026-09, CommunityLayout — kullanıcı kararı:
+  "gri arka gridleri bırak"; thread istisnası: sosyal post kartı referansı)_
 - **[topluluk-görsel]** Community'deki ana CTA butonları (Sign In/Sign Up,
   Post/Paylaş submit, Load More, Follow) SOLID BEYAZ dolgu (`background:
   var(--fg)`) + KOYU metin (`color: var(--bg)`) alır — glassmorfik dolgu
