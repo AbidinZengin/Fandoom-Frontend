@@ -85,18 +85,40 @@ EpisodeStory şemasına bağlı içerik için geçerlidir.)
   işlevsel olur, ders verilmez.
 - **Tez önce, olay sonra.** Her bölüm/sahne bir gözlem veya iddiayla
   açılır; olay yalnızca onu taşıyacak kadar anlatılır.
-- **Özet yasağı.** "Sonra şu oldu, ardından bu oldu" zinciri FAIL. Okur
-  eseri izlemiş/bilmiş varsayılır.
+- **Olay/bağlam anlatımı SERBEST, gereksiz yere kaçınılmaz.** Analizin
+  dayandığı sahne/olay örgüsü izleyicinin takip edebileceği kadar
+  anlatılır — "Sonra şu oldu, ardından bu oldu" zinciri hâlâ FAIL (olay
+  kronolojisi tek başına amaç olamaz) ama okurun eseri zaten bildiği
+  varsayımıyla bağlam atlamak da FAIL. Wikipedia sesi (yayın tarihi,
+  izlenme oranı, ödül listesi) hâlâ yasak — bu madde SADECE anlaşılmak
+  için gereken olay/karakter/kavram bağlamını kapsar.
 - **Eleştirmen, hayran değil.** Kusur açıkça söylenir.
-- **Retorik soru-cevap YOK.** "Peki bu ne anlama geliyor?" diye sorup
-  kendi kendine cevaplama yok; gözlem → çıkarım akışı kullanılır.
+- **Retorik soru-cevap ANA YAPI ARACIDIR.** Soru sorup cevaplayarak
+  ilerlemek FAIL değil — Portal'ın gerçek sesinin omurgası budur ("Peki
+  kadınlar, onların da bir gölgesi yok mudur?", "Peki nedir gölge
+  yansıtması?"). İzleyicinin aklından geçebilecek itirazı önden
+  yakalayıp cevaplamak da ("Şöyle bir soru sorabilirsiniz: ...")
+  meşru bir araçtır.
 - **Kuru ironi, coşku yok.**
-- **Okura güven.** Sembol/gönderme açıklanmaz, kurulur ve bırakılır.
-  Metin kendi zekâsını alkışlamaz.
+- **Okura güven.** Sembol/gönderme açıklanmaz, kurulur ve bırakılır —
+  ama olay/karakter bağlamı (yukarıya bkz.) bundan ayrıdır.
 - **Açılış kalıbı:** genel/tüketilmiş söylemi adlandır ve reddet
   ("bugüne kadar söylenmedik söz kalmadı, ben bugün onlardan
-  konuşmayacağım"), sonra TEK konuya daralt. İstatistik-hook veya
-  sahne-betimlemesiyle AÇMA — ikisi de denenip "yapay" bulundu.
+  konuşmayacağım") YA DA bir alıntı/özdeyişle açıp anlamını sorma
+  ("Kökleri cehenneme uzanmayan bir ağacın dalları cennete yükselemez.
+  Bu söz bize ne anlatmaya çalışır?"), sonra TEK konuya daralt.
+  İstatistik-hook veya sahne-betimlemesiyle AÇMA — ikisi de denenip
+  "yapay" bulundu.
+
+  > **2026-09-17 düzeltmesi:** Yukarıdaki üç madde, kullanıcının
+  > paylaştığı İKİ gerçek Portal video transkriptinden (biri incel/red-
+  > pill/seri katil konulu, biri Black Swan/gölge konulu) sonra
+  > değiştirildi. Önceki hâlleri (özet/expozisyon yasağı, retorik soru
+  > yasağı) golden örnekten (`skyler-white-hakliydi.md`, bir AI
+  > yeniden-yazımı) çıkarılmıştı ve gerçek kaynakla ÇELİŞİYORDU — gerçek
+  > transkriptler hem tam olay örgüsü anlatıyor (örn. Kuğu Gölü baresini
+  > baştan anlatan pasaj) hem sürekli soru-cevapla ilerliyor. Gerçek
+  > kaynak AI yazımından daha yetkilidir, bu üç madde ona göre düzeltildi.
 
 ## 3. Bağlam genişletme — çapraz-alan çıkarımlar
 
@@ -125,20 +147,40 @@ ikinci bir makale değildir.
 
 ## 4. Cümle mekaniği
 
-- **Antitez kalıbı — "X değil, Y"** (TR: `…değil, …` / `…yerine…` /
-  `…den çok…`; EN: `not X but Y` / `X rather than Y`) artık **baskın
-  imza DEĞİL**, serbest kullanılan araçlardan biridir. Doğal akışa
-  zorlanarak sıkıştırılmaz; metinde hiç geçmese de sorun değildir.
-  (Önceki "4-8 kez zorunlu" kuralı KALDIRILDI — kullanıcı bu yoğunluğu
-  "yapay" buldu.)
+- **Antitez kalıbı — "X değil, Y" YASAK, istisnasız.** (TR: `…değil, …`
+  / `…yerine…` / `…den çok…`; EN: `not X but Y` / `X rather than Y`).
+  İddia/gözlem karşıtlık üzerinden değil doğrudan kurulur: ❌ "Bu bir
+  aşk hikâyesi değil" ✅ "Bu, köşeye sıkışmış birinin son hamlesi."
+  > **2026-09-17 kararı:** Üç bağımsız üçüncü parti araç
+  > (`claude-voice-editor`, `riff`, `ECC/brand-voice`) birbirinden
+  > habersiz bu kalıbı generic AI işareti sayıp kendi hard-ban
+  > listesine koydu. Kullanıcı bunu yeterli kanıt sayıp kalıbı kalıcı
+  > olarak yasakladı — golden örneklerdeki (skyler, ozymandias,
+  > alicent) mevcut kullanımları ARTIK ÖRNEK SAYILMAZ, yeni metin
+  > yazılırken taklit edilmez. Bu, dosya başındaki "kural ile örnek
+  > çelişirse örnek kazanır" ilkesinin BİLİNÇLİ istisnasıdır.
 - **Üçlü ritim.** Yeri geldiğinde: *"nal sesleri, gıcırdayan deri ve
   uzun hiçlik aralıkları"* gibi üç öğeli sıralama güçlü bir araçtır ama
   zorunlu değildir.
 - **Vurucu kapanış cümlesi** paragrafın doğal sonucuysa iyidir, ama HER
   paragrafta zorunlu değildir — doğal akışı bozacaksa atlanır.
-- **Şimdiki zaman.** Sahne/olay anlatımı geniş/şimdiki zamandadır.
-- **Şahıs:** "sen/siz" hitabı YOK. "Biz" yalnız izleyici deneyimini
-  anlatırken kullanılır, yazarlık çoğulu olarak değil.
+- **Zaman kipi ESNEK, tek kipte katılaşmaz.** Sahne/olay anlatımı geniş/
+  şimdiki zamanda kalabilir ama art arda 2'den fazla cümle aynı "-yor"
+  ekiyle bitmez — bu haber-spikeri/vaka-raporu ritmi yaratır ve FAIL
+  sayılır. Cümle yapısı bilinçli çeşitlendirilir: yorum/çıkarım cümleleri,
+  bağımlı cümlecikler (çünkü/-dığı için/rağmen), farklı uzunluklar
+  birbirine karışır. "Hikâye anlatma" hissi (X oluyor, Y oluyor, Z
+  oluyor zinciri) portal sesinin tam tersidir — ses bir ARGÜMAN
+  yürütüyor, olay kronolojisi aktarmıyor.
+- **Şahıs:** "siz" hitabı SERBEST — emir kipiyle izleyiciyi doğrudan
+  sahneye çağırmak meşru bir araçtır: *"İyi bir insanı düşünelim"*,
+  *"Şimdi bir FBI dedektifi olduğunuzu hayal edin"*, *"dikkat
+  ederseniz"* (gerçek Portal transkriptlerinden, 2026-09-17). "Biz"
+  temel olarak izleyici deneyimini anlatırken kullanılır, ama yapısal
+  geçiş cümlesinde de serbesttir — *"biz ikincisinden başlayalım"*
+  (ozymandias-kumlarin-arasinda-bir-kral.md). Birinci tekil şahıs
+  ("ben şahsen...") net bir yorumsal duruş bildirirken kullanılabilir —
+  gerçek transkriptte görülen bir kalıp, zorlama değil.
 - **Oyuncu/yaratıcı adı + ne yaptığı.** ✅ *"Mark Addy, Robert'ı kendi
   tacından yorulmuş bir adam olarak oynar."* Salt isim sayma FAIL.
 
@@ -155,6 +197,32 @@ ikinci bir makale değildir.
 ## 6. Yasaklar
 
 - Ünlem işareti, emoji, büyük harfle bağırma.
+- **Em dash (—) YASAK, istisnasız.** 2026-09-17'de kullanıcı bu kararı
+  kesin olarak verdi (bir önceki "paragraf başına en fazla 1" istisnası
+  KALDIRILDI). Cümle iki ayrı cümleye bölünür, virgülle bağlanır ya da
+  iki nokta üst üste kullanılır. Em dash hiçbir koşulda kullanılmaz.
+- **Parantez tek bir dar istisnayla yasak.** Genel yan bilgi parantez
+  içine sıkıştırılmaz. Tek istisna: bölüm/kaynak adını gövde cümlesi
+  içinde belirtmek, örnek: "olayın geçtiği bölüme ('I.F.T.') yakından
+  bakıldığında..." (skyler-white-hakliydi.md). Bunun dışındaki her yan
+  bilgi ya kendi cümlesine çıkarılır ya da tamamen elenir.
+
+  > **2026-09-17 düzeltmesi:** Bu üç madde ("biz" istisnası dahil) ve bir
+  > önceki madde, `claude-voice-editor`/`claude-voice-analyzer`
+  > plugin'leriyle yapılan bir test sırasında golden örneklerin (skyler,
+  > ozymandias, alicent) kendi yazılı kurallarını ihlal ettiği fark
+  > edilince fiili pratiğe uydurulacak şekilde güncellendi — kural
+  > örnekle çelişiyorsa (bkz. dosya başı not) örnek kazanır.
+- **Ardışık eylem betimlemesi (haber spikeri tonu) YASAK.** "Karakter X
+  yapıyor, Y yapıyor, Z yapıyor" biçiminde olay listeleme FAIL — her
+  eylem mutlaka bir çıkarım/yorumla birlikte taşınır, salt aktarılmaz.
+  ✅ *"Görevi sessizce yerine getirip geri çekilmesi, kırılmışlıktan çok
+  erken öğrenilmiş bir hayatta kalma refleksini gösteriyor."*
+  ❌ *"Ağlamıyor, kaçmıyor, görevi yerine getiriyor, geri çekiliyor."*
+- **Şablonlaşmış geçiş kalıbı tekrarı YASAK.** "Ama aslında
+  gördüğümüz...", "Burada ilginç olan..." gibi bir geçiş cümlesi bir
+  metinde en fazla 1 kez kullanılır; ikinci kullanım mekanik/şablon
+  hissi verir ve metnin geri kalanı FARKLI bağlaçlarla ilerler.
 - Boş yüceltme sıfatları: *muhteşem, efsanevi, destansı, unutulmaz,
   epic, iconic, masterpiece*.
 - Klişe eleştirmen kalıpları: *"tam anlamıyla bir başyapıt"*,
@@ -240,15 +308,14 @@ Teslimden önce her madde işaretlenir. İşaretlenmeyen madde = FAIL.
       bağlantısı var, ama ana konuyu boğmuyor (§3 sınırı)
 - [ ] (EpisodeStory ise) üç eksenden en az biri güçlü işlendi
 - [ ] En az bir yerde kusur/eleştiri söylendi
-- [ ] Olay özeti zinciri yok, bölüm/eser ötesi spoiler yok
+- [ ] Bölüm/eser ötesi spoiler yok
 - [ ] BTS trivia'sı sadece tematik paralellik kuruyorsa var
 
 **Ses**
-- [ ] Açılış: genel söylemi adlandır-reddet → daralma kalıbı
-- [ ] Retorik soru sorup kendi cevaplama yok
-- [ ] Antitez kalıbı varsa doğal, zorlama sayıda değil (§4)
+- [ ] Açılış: adlandır-reddet YA DA alıntı-sorgu kalıbı (§2)
+- [ ] Antitez kalıbı ("X değil, Y") hiç geçmiyor (§4)
 - [ ] Pull-quote sayısı 0-2, zorlama değil (§5)
-- [ ] Şimdiki zaman, "sen" hitabı yok
+- [ ] Şimdiki zaman; "siz" hitabı/retorik soru varsa zorlama değil, doğal
 - [ ] Yasak sıfat/klişe listesinden hiçbiri geçmiyor (§6)
 - [ ] Ünlem/emoji yok
 

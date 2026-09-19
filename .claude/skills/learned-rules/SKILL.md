@@ -494,12 +494,15 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   kullanılmaz — hacim ve editöryel kontrol arttıkça nested'e, kullanıcı
   üretimi + çapraz-kesen içerikte flat+küratörlü tag'e kayılır.
   _(2026-07, NN/g "Flat vs. Deep Hierarchies" + Discourse/StackOverflow pratiği)_
-- **[topluluk-navigasyon]** Community ana sayfası hub-and-spoke modelindedir:
-  4 yüzeyden karışık öne-çıkanlar vitrini + her yüzeyin "Tümünü Gör" ile
-  kendi tam listesine (spoke) geçişi — ne tam birleşik akış ne tam ayrı
-  sekmeler tek başına kullanılır. Yeni kullanıcı/boş durum asla çıplak
-  bırakılmaz, editöryel küratörlükle doldurulur (henüz beğeni sinyali yok).
-  _(2026-07, Discourse/Reddit hibrit pratiği)_
+- **[topluluk-navigasyon]** Community ana sayfası SÜREKLİ AKIŞ modelindedir
+  (Twitter/Reddit hibriti, 3-kolon: sol kişisel/kütüphane, orta akış, sağ
+  keşif) — önceki hub-and-spoke vitrin (4 yüzeyden karışık öne-çıkanlar +
+  "Tümünü Gör" ile spoke'a geçiş) kararının YERİNE geçer. Üstteki "evrene
+  göre gez" şeridi (UniverseBrowse) ve yüzey sekmeleri (SurfaceFilter:
+  Tümü/Discussion/Theories/Fan Art) hâlâ TEK global akışın üstünde durur —
+  akış kopyalanmaz, filtrelenir. Yeni kullanıcı/boş durum asla çıplak
+  bırakılmaz kuralı GEÇERLİ kalır. _(2026-09, CommunityLayout — kullanıcı
+  kararı, önceki hub-and-spoke kararının YERİNE geçti)_
 - **[topluluk-feed]** İçerik feed'i infinite scroll + "load more" eşiği
   hibrittir; arama/arşiv gibi hedef-odaklı sayfalarda pagination kullanılır.
   Liste→detay geçişinde scroll pozisyonu oturum içi (~30-60dk) korunur.
@@ -519,11 +522,13 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
 
 #### Thread Detay Sayfası
 
-- **[topluluk-yanıt]** Discussion ve Theory yüzeylerinde yanıtlar nested
-  (Reddit-lite): görsel indent 3 seviyede durur, sonrası "yanıtı görüntüle"
-  ile aynı hizada devam eder. Fan Art yüzeyinde yanıtlar FLAT (YouTube-tarzı,
-  1 seviye) — dallanma gereksiz bilişsel yük, takdir yorumları bağımsız.
-  _(2026-07, Discourse/Reddit/YouTube emsali)_
+- **[topluluk-yanıt]** TÜM yüzeylerde yanıtlar EN FAZLA 2 seviye (üst yorum +
+  1 seviye reply, reply'a tekrar reply YOK) — önceki "Discussion/Theory 3
+  seviye nested, Fan Art flat" kararının YERİNE geçer. Gerekçe: gerçek
+  backend'in polimorfik `/api/community/comments` ucu (paylaşılan `Comments`
+  component'i, `src/components/Comments/`) zaten bu sınırla kuruldu — teorik
+  karar backend'in gerçek kapasitesini aşıyordu. _(2026-09, ThreadDetail —
+  backend kısıtıyla düzeltme)_
 - **[topluluk-yanıt]** Silinen yorum/yanıt üç yüzeyde de "[silindi]" olur,
   alt yanıtlar korunur — ağaç/liste bütünlüğü bozulmaz (Reddit modeli).
   _(2026-07, Thread detay araştırması)_
@@ -550,25 +555,15 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
 
 #### Kart/Liste Bileşenleri
 
-- **[topluluk-kart]** Discussion satırı: okunmadı göstergesi (renk+ikon
-  birlikte, salt renge güvenilmez) → kategori rozeti → başlık (okunmamışsa
-  bold) → altta yazar avatarı+adı → sağda yanıt/görüntülenme sayısı + son
-  yanıt zamanı+kişisi. _(2026-07, Discourse/phpBB emsali)_
-  Discourse'un "son yanıtlayanlar avatar yığını" (en aktif 3 kişinin
-  çakışan küçük avatarı) tıklamadan sosyal kanıt verdiği için benimsenir.
-- **[topluluk-kart]** Theory kartında oy gösterimi kompakt inline ok+sayı
-  (detay sayfasındaki büyük dikey blok DEĞİL), kartın soluna sabit dar
-  sütun. Excerpt max 2 satır, cümle sınırında kesilir (karakter-bazlı
-  otomatik kesme kullanılmaz). _(2026-07, Reddit card-view/StackExchange emsali)_
-- **[topluluk-kart]** Blog kartı: kapak(16:9)→başlık→excerpt→yazar/tarih/
-  okuma-süresi (küçük gri tek satır). İlk kart 2x büyük (Medium/Substack
-  featured deseni), sonrakiler küçük satır — aynı görsel dilde.
-  _(2026-07, Medium/Substack emsali)_
-- **[topluluk-kart]** Fan Art grid'i masonry/justified, orijinal görsel
-  oranı korunur — Instagram'ın kare zorlaması KULLANILMAZ (kompozisyonu
-  bozar). Overlay bilgi masaüstünde hover katmanı, mobilde sabit alt şerit.
-  Sütun: 4-5(geniş masaüstü)→3(masaüstü)→2(tablet)→1(mobil).
-  _(2026-07, Pinterest/DeviantArt/ArtStation emsali)_
+- **[topluluk-kart]** Tüm yüzeyler TEK TİP FeedCard şablonu kullanır:
+  @yazar + #tag meta satırı → başlık → 3 satır line-clamp özet + "Devamını
+  Oku" → alt satırda ♥ beğeni / 💬 yorum-sayısı / 🔖 kaydet. Önceki yüzeye-
+  özel farklı kart tasarımları (Discussion'ın okunmadı-göstergeli satırı,
+  Theory'nin ayrı oy sütunu, Blog'un kapak+büyük-ilk-kart deseni, Fan
+  Art'ın masonry grid'i) kararının YERİNE geçer — kullanıcı kararı,
+  sosyal-medya hibriti tek şablonu tercih etti. _(2026-09, CommunityLayout/
+  FeedCard — kullanıcı kararı, önceki yüzeye-özel kart kararlarının YERİNE
+  geçti)_
 - **[topluluk-kart]** NSFW filtresi spoiler-blur'dan AYRI bir sistemdir:
   hesap seviyesinde kalıcı yaş-onaylı ayar, varsayılan gizli — kart bazında
   tekil "göster" tıklamasıyla karıştırılmaz. _(2026-07, DeviantArt/ArtStation emsali)_
@@ -629,18 +624,33 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   Liste↔detay geçişinde cinematic-şerit reveal KULLANILMAZ (o hero/flagship
   anları için ayrılmış) — basit crossfade/instant + scroll-restore.
   _(2026-07, marka-dili/Community UX kesişimi)_
-- **[topluluk-görsel]** Community sayfaları NÖTR marka temasını kullanır
-  (`--bg`, `--accent` brand-purple) — bir yapım gibi TAM TEMA kurmaz
-  (çoklu-yapım, tek yapıma ait değil). Yapım rengi sadece her kart/thread'in
-  kategori/production tag'inde `--prod-accent` ince tint olarak yaşar
-  (ContentSection'daki mevcut desenin tekrarı). Tipografi istisnasız
-  Montserrat — GoT'un özel display fontu Community'de geçersiz.
-  _(2026-07, marka-dili/Community UX kesişimi)_
-- **[topluluk-görsel]** Birincil CTA ("Yanıtla/Gönder") brand-gradient
-  dolgulu pill — mevcut kural birebir. Oy/vote butonu ACCENT renk (nötr/
-  beyaz DEĞİL) — oylanmış/aktif durumda `--accent` (Community sayfalarında
-  brand-purple, yapım bağlamında `--prod-accent`) dolar.
-  _(2026-07, marka-dili/Community UX kesişimi)_
+- **[topluluk-görsel]** Community sayfaları MONOKROM temalıdır — mor
+  (`--accent` brand-purple) KULLANILMAZ, vurgu tamamen `--fg`/`--fg-dim`/
+  `--fg-muted` gri-beyaz skalasıyla yapılır (tag, aktif tab/buton, "Devamını
+  Oku" linki dahil). Önceki "--accent brand-purple nötr tema" kararının
+  YERİNE geçer. Bir yapım gibi TAM TEMA kurmaz (çoklu-yapım, tek yapıma ait
+  değil) — yapım rengi SADECE her kart/thread'in kategori/production
+  tag'inde (ör. Universes widget'ının evren chip'leri) `--prod-accent` ince
+  tint olarak yaşamaya devam eder, bu istisna korunur. Tipografi istisnasız
+  Montserrat — GoT'un özel display fontu Community'de geçersiz (paylaşılan
+  `Comments` component'i buraya `variant="neutral"` prop'uyla uyarlanır,
+  Blog'daki GoT-fontlu varsayılanı DEĞİŞTİRMEDEN). _(2026-09, CommunityLayout
+  — kullanıcı kararı: "mor rengi bırak artık")_
+- **[topluluk-görsel]** Community'nin "kart" yüzeyi DÜZDÜR (flat) — gri
+  `--card-bg` dolgulu kutu YOK, öğeler ince `border-bottom` ayırıcılarla
+  birbirinden ayrılan bir liste olarak durur (Twitter-tarzı akış). Genel
+  `[yüzey]` kuralının ("kart yumuşak+parlak, belirgin radius, hafif glow")
+  Community'ye özel İSTİSNASI — FeedCard/PostComposer/ThreadBody/LeftSidebar
+  CTA/RightSidebar widget'larının hepsi bu kurala tabi. _(2026-09,
+  CommunityLayout — kullanıcı kararı: "gri arka gridleri bırak")_
+- **[topluluk-görsel]** Community'deki ana CTA butonları (Sign In/Sign Up,
+  Post/Paylaş submit, Load More, Follow) SOLID BEYAZ dolgu (`background:
+  var(--fg)`) + KOYU metin (`color: var(--bg)`) alır — glassmorfik dolgu
+  DEĞİL. Genel "2026-08'den itibaren eklenen her buton glassmorfik" ve
+  önceki "Birincil CTA brand-gradient dolgulu" kararlarının Community'ye
+  özel İSTİSNASI; sitenin geri kalanında (EpisodeBrief vb.) glassmorfik
+  standart değişmedi. _(2026-09, CommunityLayout — kullanıcı kararı:
+  "butonlar arka planı beyaz olacak")_
 
 ### Blog (Kısa Bilgi Deck'i) — Bilgi Mimarisi
 
