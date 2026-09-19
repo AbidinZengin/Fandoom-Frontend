@@ -11,6 +11,12 @@ import { getStoredAuth } from '../../../shared/api/authStorage';
 import { getMySavedItemStatus, addToList, updateSavedItemProgress } from '../../../shared/api/account';
 import { theme as gotTheme } from '../../series/GameOfThrones/GameOfThrones.data';
 import { theme as bbTheme } from '../../series/BreakingBad/BreakingBad.data';
+import { theme as hotdTheme } from '../../series/HouseOfTheDragon/HouseOfTheDragon.data';
+import { theme as stTheme } from '../../series/StrangerThings/StrangerThings.data';
+import { theme as derryTheme } from '../../series/ItWelcomeToDerry/ItWelcomeToDerry.data';
+import { theme as pluribusTheme } from '../../series/Pluribus/Pluribus.data';
+import { theme as fromTheme } from '../../series/From/From.data';
+import { theme as severanceTheme } from '../../series/Severance/Severance.data';
 import { armBlogReturn, readBlogFlip, blogExpandedBox } from '../../../motion/cinematic';
 import { getBlogDetail, getAdjacentBlogs } from './BlogPost.data';
 import { TagChips } from './TagChips/TagChips';
@@ -102,12 +108,28 @@ export default function BlogPost() {
   // DEĞİL (kullanıcı raporu: "renk paleti ve fontu gotta kalmış turuncu").
   // tags asenkron geldiği için (resolveTags) bu effect item'a bağımlı;
   // hiç tag yoksa GoT'a düşer (önceki, tek-yapımlı davranışla geriye uyumlu).
+  // ÖNCEDEN sadece 'breaking-bad' özel durumdu, gerisi hep GoT'a düşüyordu
+  // (kullanıcı raporu, 2026-09-18: "neden game of thrones accentinde" —
+  // her serinin kendi .data.js'inde zaten bir theme export'u var, burası
+  // onları kullanmıyordu). Şimdi TÜM serilerin teması eşleniyor.
   const productionSlug = item?.tags?.[0]?.productionSlug;
-  const activeTheme = productionSlug === 'breaking-bad' ? bbTheme : gotTheme;
-  // Hero başlığının display fontu da AYNI şekilde yapıma bağlı: BB sayfaları
-  // (Hero.module.css) Montserrat kullanıyor, GoT kendi dekoratif fontunu.
+  const THEMES_BY_SLUG = {
+    'breaking-bad': bbTheme,
+    'game-of-thrones': gotTheme,
+    'house-of-the-dragon': hotdTheme,
+    'stranger-things': stTheme,
+    'it-welcome-to-derry': derryTheme,
+    pluribus: pluribusTheme,
+    from: fromTheme,
+    severance: severanceTheme,
+  };
+  const activeTheme = THEMES_BY_SLUG[productionSlug] ?? gotTheme;
+  // Hero başlığının display fontu da AYNI şekilde yapıma bağlı: sadece GoT
+  // kendi dekoratif fontunu kullanır (marka kimliği), diğer TÜM seriler
+  // (BB dahil) sitenin genel display fontu Montserrat'ı kullanıyor — bkz.
+  // ItWelcomeToDerry/Hero.module.css vb. `var(--font-display)`.
   const heroFontFamily =
-    productionSlug === 'breaking-bad' ? "'Montserrat', sans-serif" : "'Game of Thrones', 'Cinzel', serif";
+    productionSlug === 'game-of-thrones' ? "'Game of Thrones', 'Cinzel', serif" : "'Montserrat', sans-serif";
 
   useEffect(() => {
     const root = document.documentElement;
