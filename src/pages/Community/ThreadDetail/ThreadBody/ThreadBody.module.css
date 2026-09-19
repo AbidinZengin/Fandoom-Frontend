@@ -1,9 +1,9 @@
-/* Yuvarlak koyu kart — FeedCard ile aynı yüzey (kullanıcı kararı, 2026-09-19). */
+/* Yuvarlak koyu kart — FeedCard ile aynı yüzey: bordersız, `--bg-soft`
+   (kullanıcı kararı/düzeltmesi, 2026-09-19). */
 .threadBody {
   padding: var(--space-md);
-  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--card-bg);
+  background: var(--bg-soft);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

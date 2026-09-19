@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import { getStoredAuth } from '../../../../shared/api/authStorage';
 import { uploadImage, uploadVideo } from '../../../../shared/api/media';
-import paperPlaneIcon from '../../../../assets/icons/paper-plane.png';
+import sendIcon from '../../../../assets/icons/send.png';
 import { avatarColor } from '../../communityAvatar';
 import { ImageIcon } from '../../ThreadIcons';
 import { createThread } from '../Feed.data';
@@ -250,7 +250,7 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
 
         <button type="submit" className={styles.postComposer__submit} disabled={!isValid || submitting}>
           {t('community.composer.submit')}
-          <img src={paperPlaneIcon} alt="" className={styles.postComposer__submitIcon} />
+          <img src={sendIcon} alt="" className={styles.postComposer__submitIcon} />
         </button>
       </div>
     </form>

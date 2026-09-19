@@ -1,11 +1,11 @@
 /* Yuvarlak koyu kart — kullanıcı kararı (2026-09-19, sosyal post kartı
    referansı): Community'nin önceki "flat" kuralının thread kartları için
-   istisnası; sidebar/composer düz kalır. */
+   istisnası; sidebar/composer düz kalır. BORDERSIZ ve siyah zeminde
+   `--card-bg`'den bir tık koyu gri (`--bg-soft`) — kullanıcı düzeltmesi. */
 .feedCard {
   padding: var(--space-md);
-  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--card-bg);
+  background: var(--bg-soft);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

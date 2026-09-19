@@ -1,9 +1,13 @@
-/* Düz (flat) composer — sosyal composer referansı (2026-09-19): solda avatar,
-   kenarlıksız yazı alanları, çizgi, altta araç çubuğu + Post. Community'nin
-   "düz yüzey" kuralına uyar (kutu/dolgu yok, sadece ince ayırıcı çizgi). */
+/* Sosyal composer referansı (2026-09-19): solda avatar, kenarlıksız yazı
+   alanları, çizgi, altta araç çubuğu + Post. Tüm composer SADECE-BORDER'lı
+   şeffaf bir kutudur (dolgu YOK, 2px gri `--border` çerçeve — kullanıcı
+   "daha kalın" dedi, thread kartlarıyla aynı radius) — kullanıcı kararı,
+   2026-09-19. */
 .postComposer {
-  padding: 0 0 var(--space-md);
-  border-bottom: 1px solid var(--border);
+  padding: var(--space-md);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: transparent;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -61,10 +65,15 @@
   padding: var(--space-2xs) 0;
 }
 
-.postComposer__title::placeholder,
 .postComposer__body::placeholder,
 .postComposer__tagInput::placeholder {
   color: var(--fg-muted);
+}
+
+/* "Ne düşünüyorsun?" beyaz — sönük gri bulundu (kullanıcı düzeltmesi). */
+.postComposer__title::placeholder {
+  color: var(--white);
+  opacity: 1;
 }
 
 .postComposer__title:focus-visible,
@@ -258,7 +267,7 @@
   color: var(--bg);
 }
 
-/* Kağıt uçak ikonu (siyah PNG, kullanıcı asset'i) — yazının SAĞINDA, yazıyla
+/* Gönder ikonu (siyah dolu PNG, kullanıcı asset'i) — yazının SAĞINDA, yazıyla
    aynı boyutta. Pasifken de yazı ve ikon SİYAH kalır, grileşmez (kullanıcı
    düzeltmesi, 2026-09-19). */
 .postComposer__submitIcon {
