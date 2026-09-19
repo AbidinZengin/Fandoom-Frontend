@@ -659,9 +659,13 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   `[yüzey]` kuralının ("kart yumuşak+parlak, belirgin radius, hafif glow")
   Community'ye özel İSTİSNASI — FeedCard/PostComposer/ThreadBody/LeftSidebar
   CTA/RightSidebar widget'larının hepsi bu kurala tabi. İSTİSNA (2026-09-19):
-  THREAD kartları (FeedCard + ThreadBody) yuvarlak koyu karttır — `--card-bg`
-  + 1px `--border` + `--radius-lg`, feed'de kartlar arası boşlukla; composer
-  ve sidebar'lar düz kalır. _(2026-09, CommunityLayout — kullanıcı kararı:
+  THREAD kartları (FeedCard + ThreadBody) yuvarlak koyu karttır — `--bg-soft`
+  (siyah zeminde bir tık koyu gri; `--card-bg` fazla açık bulundu) +
+  `--radius-lg`, BORDER YOK (kullanıcı düzeltmesi), feed'de kartlar arası
+  boşlukla; sidebar'lar düz kalır. COMPOSER (PostComposer) ise SADECE-BORDER'lı
+  şeffaf kutudur: dolgu yok, `2px --border` (1px "çok ince" bulundu) + `--radius-lg` (kullanıcı kararı,
+  2026-09-19; thread kartının tersi — kart dolgulu bordersız, composer
+  bordersız-dolgusuz değil, çerçeveli şeffaf). _(2026-09, CommunityLayout — kullanıcı kararı:
   "gri arka gridleri bırak"; thread istisnası: sosyal post kartı referansı)_
 - **[topluluk-görsel]** Community'deki ana CTA butonları (Sign In/Sign Up,
   Post/Paylaş submit, Load More, Follow) SOLID BEYAZ dolgu (`background:
