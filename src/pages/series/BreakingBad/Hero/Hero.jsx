@@ -5,6 +5,7 @@ import { ENTITY_SCHEMAS } from '../../../../shared/builder/entitySchemas';
 import { isCinematicArmed } from '../../../../motion/cinematic';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import { ContentActions } from '../../../../components/ContentActions/ContentActions';
+import imdbLogo from '../../../../assets/logos/IMDB_Logo_2016.svg.webp';
 import styles from './Hero.module.css';
 
 // Severance Hero şablonuyla BİREBİR aynı yapı (kullanıcı isteği,
@@ -170,7 +171,7 @@ export default function Hero({ backdropRef = { current: null } }) {
 
         <div className={styles.hero__ratingBadge}>
           <span ref={ratingValueRef} className={styles.hero__ratingValue}>{series5.externalRating}</span>
-          <img ref={ratingLogoRef} className={styles.hero__ratingLogo} src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" />
+          <img ref={ratingLogoRef} className={styles.hero__ratingLogo} src={imdbLogo} alt="IMDb" />
         </div>
 
         <div ref={contentRef} className={styles.hero__content}>

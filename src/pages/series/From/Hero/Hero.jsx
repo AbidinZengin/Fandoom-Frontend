@@ -5,6 +5,7 @@ import { isCinematicArmed } from '../../../../motion/cinematic';
 import { fetchProductionById } from '../../../../shared/api/productions';
 import { resolveGenreNames } from '../../../../shared/api/genres';
 import { ContentActions } from '../../../../components/ContentActions/ContentActions';
+import imdbLogo from '../../../../assets/logos/IMDB_Logo_2016.svg.webp';
 import styles from './Hero.module.css';
 
 // Severance/BreakingBad/HotD Hero'suyla BİREBİR aynı giriş deseni
@@ -170,7 +171,7 @@ export default function Hero({ backdropRef = { current: null } }) {
 
         <div className={styles.hero__ratingBadge}>
           <span ref={ratingValueRef} className={styles.hero__ratingValue}>{series.externalRating}</span>
-          <img ref={ratingLogoRef} className={styles.hero__ratingLogo} src="/src/assets/logos/IMDB_Logo_2016.svg.webp" alt="IMDB Logo 2016.Svg" />
+          <img ref={ratingLogoRef} className={styles.hero__ratingLogo} src={imdbLogo} alt="IMDb" />
         </div>
 
         <div ref={contentRef} className={styles.hero__content}>
