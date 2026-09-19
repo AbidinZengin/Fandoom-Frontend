@@ -15,7 +15,7 @@ import { armBlogReturn, readBlogFlip, blogExpandedBox } from '../../../motion/ci
 import { getBlogDetail, getAdjacentBlogs } from './BlogPost.data';
 import { TagChips } from './TagChips/TagChips';
 import { SidebarRelated } from './SidebarRelated/SidebarRelated';
-import { Comments } from './Comments/Comments';
+import { Comments } from '../../../components/Comments/Comments';
 import { ArticleNav } from './ArticleNav/ArticleNav';
 import styles from './BlogPost.module.css';
 
@@ -525,7 +525,7 @@ export default function BlogPost() {
 
       <ArticleNav previous={adjacent.previous} next={adjacent.next} />
 
-      <Comments />
+      <Comments subjectType="BLOG" subjectId={item.id} />
 
       <RelatedContent items={item.relatedBlogs} />
 

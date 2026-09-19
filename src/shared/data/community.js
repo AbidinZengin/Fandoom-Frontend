@@ -3,6 +3,13 @@
 // surface=...` sözleşmesinin taslağıdır (learned-rules "Topluluk" bölümü —
 // Category.surface modeli). Yapım/Evren burada KLASÖR değil, thread'e iliştirilen
 // çapraz-kesen bir alan (productionSlug) — organizasyon ekseni surface'tir.
+//
+// Community/Feed KENDİ mock veri setini kullanır (Feed/Feed.data.js —
+// kullanıcı düzeltmesi, 2026-09-13: bu dosyanın thread'lerini feed için
+// yeniden kullanmak "eski sayfadan bağımsız tasarım" değildi). Bu dosya
+// SADECE News/Home/ProductionDetail'in vitrin amaçlı okuduğu THEORY/NEWS/
+// BLOG thread'leri ve SURFACES (route path bilgisi, FeedCard da kullanır)
+// için kalıcı — o üç sayfaya dokunulmadı.
 
 export const SURFACES = [
   { key: 'DISCUSSION', label: 'Discussion', to: '/community/discussion' },

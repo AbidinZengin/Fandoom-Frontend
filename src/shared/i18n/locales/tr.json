@@ -59,7 +59,25 @@
     "learnMore": "Daha Fazla",
     "articleNavAriaLabel": "Makale gezinmesi",
     "comments": "Yorumlar",
-    "commentsComingSoon": "Yorumlar yakında geliyor.",
+    "commentsEmpty": "Henüz yorum yok — ilk yorumu sen yaz.",
+    "commentsPlaceholder": "Bir yorum yaz...",
+    "commentsSubmit": "Gönder",
+    "commentsLoginPrompt": "Yorum yapmak için giriş yap",
+    "commentsDelete": "Sil",
+    "commentsDeletedPlaceholder": "[silindi]",
+    "commentsUnknownUser": "Kullanıcı",
+    "commentsLoadMore": "Daha fazla yorum",
+    "commentsLoadError": "Yorumlar yüklenemedi.",
+    "commentsPostError": "Yorum gönderilemedi.",
+    "commentsJustNow": "az önce",
+    "commentsMinutesAgo": "{{count}} dk önce",
+    "commentsHoursAgo": "{{count}} sa önce",
+    "commentsDaysAgo": "{{count}} gün önce",
+    "commentsReply": "Yanıtla",
+    "commentsReplyPlaceholder": "{{username}} kullanıcısına yanıt yaz...",
+    "commentsCancel": "Vazgeç",
+    "commentsRepliesCount": "{{count}} yanıt",
+    "commentsMoreReplies": "+{{count}} yanıt daha",
     "spoilerWarning": "Spoiler uyarısı",
     "spoilerHint": "{{season}}. Sezon, {{episode}}. Bölüm'e kadar detay içeriyor",
     "reveal": "Göster",
@@ -151,11 +169,66 @@
     "watchTrailer": "Fragmanı İzle"
   },
   "community": {
-    "lead": "Fandoom'un her köşesinden teoriler, tartışmalar, fan sanatı ve haberler — evrene göre gezinin ya da aşağıdaki bir yüzeye dalın.",
-    "browseByUniverse": "Evrene Göre Gez",
-    "replies": "{{count}} yanıt",
-    "viewAll": "Tümünü Gör",
-    "emptyState": "Burada henüz bir şey yok — bir konu başlatan ilk kişi sen ol."
+    "emptyState": "Burada henüz bir şey yok — bir konu başlatan ilk kişi sen ol.",
+    "myLibrary": "Kitaplığım",
+    "sidebar": {
+      "theoryCount": "{{count}} teori",
+      "likeCount": "{{count}} beğeni",
+      "libraryHeading": "Kitaplığım",
+      "liked": "Beğendiklerim",
+      "saved": "Kaydettiklerim",
+      "watchlist": "İzleme Listem",
+      "following": "Takip Ettiklerim",
+      "listsHeading": "Listelerim",
+      "noLists": "Henüz bir listen yok.",
+      "settings": "Ayarlar",
+      "ctaTitle": "Topluluğa Katıl",
+      "ctaBody": "Teorilere oy ver, tartışmalara katıl, fan sanatını paylaş.",
+      "signIn": "Giriş Yap / Kayıt Ol",
+      "universesHeading": "Evrene Göre Gez",
+      "trendingHeading": "Gündemdekiler",
+      "postCount": "{{count}} gönderi",
+      "recentActivityHeading": "Son Hareketler",
+      "activity": {
+        "commented": "yorum yaptı",
+        "posted": "yeni bir konu açtı"
+      },
+      "whoToFollowHeading": "Takip Edebilecekleriniz",
+      "follow": "Takip Et"
+    },
+    "feed": {
+      "readMore": "Devamını Oku",
+      "save": "Kaydet",
+      "tabAll": "Tümü",
+      "anonymous": "bilinmeyen",
+      "timeJustNow": "az önce",
+      "timeMinutesAgo": "{{count}} dk önce",
+      "timeHoursAgo": "{{count}} sa önce",
+      "timeDaysAgo": "{{count}} gün önce",
+      "sort": {
+        "hot": "Popüler",
+        "new": "Yeni",
+        "top": "En İyi"
+      },
+      "loadMore": "Daha Fazla Yükle"
+    },
+    "composer": {
+      "signInPrompt": "Konu açmak için giriş yap",
+      "titlePlaceholder": "Ne düşünüyorsun?",
+      "bodyPlaceholder": "Detayları ekle (isteğe bağlı)",
+      "imagePlaceholder": "Görsel linki (isteğe bağlı)",
+      "tagPlaceholder": "Etiket ekle...",
+      "removeTag": "Etiketi kaldır",
+      "submit": "Paylaş",
+      "error": "Gönderilemedi, tekrar dene."
+    },
+    "thread": {
+      "spoilerReveal": "Spoiler içerir — görmek için tıkla",
+      "share": "Paylaş",
+      "linkCopied": "Link kopyalandı",
+      "notFound": "Bu konu bulunamadı.",
+      "backToFeed": "← Akışa dön"
+    }
   },
   "productionDetail": {
     "noTheoriesYet": "Henüz teori yok.",

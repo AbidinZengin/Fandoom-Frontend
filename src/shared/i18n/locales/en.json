@@ -59,7 +59,25 @@
     "learnMore": "Learn More",
     "articleNavAriaLabel": "Article navigation",
     "comments": "Comments",
-    "commentsComingSoon": "Comments are coming soon.",
+    "commentsEmpty": "No comments yet — be the first to write one.",
+    "commentsPlaceholder": "Write a comment...",
+    "commentsSubmit": "Post",
+    "commentsLoginPrompt": "Log in to comment",
+    "commentsDelete": "Delete",
+    "commentsDeletedPlaceholder": "[deleted]",
+    "commentsUnknownUser": "User",
+    "commentsLoadMore": "Load more comments",
+    "commentsLoadError": "Comments could not be loaded.",
+    "commentsPostError": "Comment could not be posted.",
+    "commentsJustNow": "just now",
+    "commentsMinutesAgo": "{{count}}m ago",
+    "commentsHoursAgo": "{{count}}h ago",
+    "commentsDaysAgo": "{{count}}d ago",
+    "commentsReply": "Reply",
+    "commentsReplyPlaceholder": "Reply to {{username}}...",
+    "commentsCancel": "Cancel",
+    "commentsRepliesCount": "{{count}} replies",
+    "commentsMoreReplies": "+{{count}} more replies",
     "spoilerWarning": "Spoiler warning",
     "spoilerHint": "Contains details through Season {{season}}, Episode {{episode}}",
     "reveal": "Reveal",
@@ -151,11 +169,66 @@
     "watchTrailer": "Watch Trailer"
   },
   "community": {
-    "lead": "Theories, discussions, fan art and news from every corner of Fandoom — browse by universe or dive into a surface below.",
-    "browseByUniverse": "Browse by Universe",
-    "replies": "{{count}} replies",
-    "viewAll": "View All",
-    "emptyState": "Nothing here yet — be the first to start a thread."
+    "emptyState": "Nothing here yet — be the first to start a thread.",
+    "myLibrary": "My Library",
+    "sidebar": {
+      "theoryCount": "{{count}} theories",
+      "likeCount": "{{count}} likes",
+      "libraryHeading": "My Library",
+      "liked": "Liked",
+      "saved": "Saved",
+      "watchlist": "Watchlist",
+      "following": "Following",
+      "listsHeading": "My Lists",
+      "noLists": "You don't have any lists yet.",
+      "settings": "Settings",
+      "ctaTitle": "Join the Community",
+      "ctaBody": "Vote on theories, join discussions, share fan art.",
+      "signIn": "Sign In / Sign Up",
+      "universesHeading": "Browse by Universe",
+      "trendingHeading": "Trending",
+      "postCount": "{{count}} posts",
+      "recentActivityHeading": "Recent Activity",
+      "activity": {
+        "commented": "commented",
+        "posted": "started a new thread"
+      },
+      "whoToFollowHeading": "Who to Follow",
+      "follow": "Follow"
+    },
+    "feed": {
+      "readMore": "Read More",
+      "save": "Save",
+      "tabAll": "All",
+      "anonymous": "unknown",
+      "timeJustNow": "just now",
+      "timeMinutesAgo": "{{count}}m ago",
+      "timeHoursAgo": "{{count}}h ago",
+      "timeDaysAgo": "{{count}}d ago",
+      "sort": {
+        "hot": "Hot",
+        "new": "New",
+        "top": "Top"
+      },
+      "loadMore": "Load More"
+    },
+    "composer": {
+      "signInPrompt": "Sign in to start a thread",
+      "titlePlaceholder": "What's on your mind?",
+      "bodyPlaceholder": "Add details (optional)",
+      "imagePlaceholder": "Image link (optional)",
+      "tagPlaceholder": "Add a tag...",
+      "removeTag": "Remove tag",
+      "submit": "Post",
+      "error": "Couldn't post, try again."
+    },
+    "thread": {
+      "spoilerReveal": "Contains spoilers — tap to reveal",
+      "share": "Share",
+      "linkCopied": "Link copied",
+      "notFound": "This thread couldn't be found.",
+      "backToFeed": "← Back to feed"
+    }
   },
   "productionDetail": {
     "noTheoriesYet": "No theories yet.",

@@ -1,0 +1,20 @@
+.threadDetail {
+  max-width: 760px;
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.threadDetail__back {
+  align-self: flex-start;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.threadDetail__notFound {
+  color: var(--fg-dim);
+  font-size: var(--text-base);
+}

@@ -1,0 +1,106 @@
+.leftSidebar {
+  position: sticky;
+  top: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.leftSidebar__closeButton {
+  display: none;
+}
+
+.leftSidebar__backdrop {
+  display: none;
+}
+
+.leftSidebar__settings {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}
+
+.leftSidebar__cta {
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.leftSidebar__ctaTitle {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.leftSidebar__ctaBody {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+
+/* Solid beyaz CTA — kullanıcı kararı, 2026-09-13: Community'de glassmorfik/
+   mor yerine düz beyaz dolgu + koyu metin (genel glassmorfik kuralın
+   Community'ye özel istisnası). */
+.leftSidebar__ctaButton {
+  margin-top: var(--space-2xs);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: none;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--fg);
+}
+
+@media (max-width: 768px) {
+  .leftSidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 50;
+    width: 78vw;
+    max-width: 300px;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    padding: var(--space-2xl) var(--space-lg);
+    overflow-y: auto;
+    top: 0;
+    transform: translateX(-100%);
+  }
+
+  .leftSidebar[data-open='true'] {
+    transform: translateX(0);
+  }
+
+  .leftSidebar__closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    width: 36px;
+    height: 36px;
+    margin-bottom: var(--space-md);
+    border-radius: var(--radius-round);
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--fg-muted);
+  }
+
+  .leftSidebar__backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    border: none;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+}

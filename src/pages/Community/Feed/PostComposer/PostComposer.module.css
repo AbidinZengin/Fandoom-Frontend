@@ -1,0 +1,117 @@
+.postComposer {
+  padding: 0 0 var(--space-lg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.postComposer__signedOut {
+  display: block;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--fg-dim);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.postComposer__surfaceRow {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.postComposer__surfaceButton {
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.postComposer__surfaceButton[data-active='true'] {
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.postComposer__title,
+.postComposer__body,
+.postComposer__image,
+.postComposer__tagInput {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-base);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.postComposer__title {
+  font-weight: 600;
+}
+
+.postComposer__body {
+  resize: vertical;
+}
+
+.postComposer__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.postComposer__tagPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.postComposer__tagPill button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: var(--text-base);
+  line-height: 1;
+  padding: 0;
+}
+
+.postComposer__tagInput {
+  flex: 1;
+  min-width: 120px;
+}
+
+.postComposer__error {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--brand-red);
+}
+
+/* Solid beyaz CTA — kullanıcı kararı, 2026-09-13: Community'de glassmorfik/
+   mor yerine düz beyaz dolgu + koyu metin (genel glassmorfik kuralın
+   Community'ye özel istisnası). */
+.postComposer__submit {
+  align-self: flex-end;
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-lg);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--bg);
+}
+
+.postComposer__submit:disabled {
+  opacity: 0.5;
+}

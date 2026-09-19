@@ -4,7 +4,9 @@ import gsap from 'gsap';
 import { Navbar } from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import News from './pages/News/News';
-import Community from './pages/Community/Community';
+import CommunityLayout from './pages/Community/CommunityLayout';
+import Feed from './pages/Community/Feed/Feed';
+import ThreadDetail from './pages/Community/ThreadDetail/ThreadDetail';
 import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
 import BreakingBad from './pages/series/BreakingBad/BreakingBad';
 import HouseOfTheDragon from './pages/series/HouseOfTheDragon/HouseOfTheDragon';
@@ -253,10 +255,16 @@ function App() {
             <Route path="series" element={<Series />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
             <Route path="movies" element={<Placeholder titleKey="navbar.movies" />} />
-            <Route path="community" element={<Community />} />
-            <Route path="community/discussion" element={<Placeholder titleKey="navbar.discussion" />} />
-            <Route path="community/theories" element={<Placeholder titleKey="navbar.theories" />} />
-            <Route path="community/fan-art" element={<Placeholder titleKey="navbar.fanArt" />} />
+            <Route path="community" element={<CommunityLayout />}>
+              <Route index element={<Feed />} />
+              <Route path="discussion" element={<Feed surface="DISCUSSION" />} />
+              <Route path="theories" element={<Feed surface="THEORY" />} />
+              <Route path="fan-art" element={<Feed surface="FAN_ART" />} />
+            </Route>
+            {/* Thread detay — CommunityLayout'un DIŞINDA (3-kolon değil, tam sayfa) */}
+            <Route path="community/discussion/:slug" element={<ThreadDetail />} />
+            <Route path="community/theories/:slug" element={<ThreadDetail />} />
+            <Route path="community/fan-art/:slug" element={<ThreadDetail />} />
             <Route path="news" element={<News />} />
             <Route path="blog/:slug" element={<BlogPostRoute />} />
             <Route path="blog" element={<Blog />} />
