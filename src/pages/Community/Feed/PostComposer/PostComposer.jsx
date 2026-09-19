@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import { getStoredAuth } from '../../../../shared/api/authStorage';
 import { uploadImage, uploadVideo } from '../../../../shared/api/media';
+import paperPlaneIcon from '../../../../assets/icons/paper-plane.png';
+import { avatarColor } from '../../communityAvatar';
+import { ImageIcon } from '../../ThreadIcons';
 import { createThread } from '../Feed.data';
 import styles from './PostComposer.module.css';
 
@@ -24,8 +27,10 @@ const MEDIA_FOLDER = 'community';
 // Oturumsuz kullanıcı /account'a yönlendirilir (spec madde 4.2) — backend
 // yazma ucu authorId'yi JWT'den aldığı için anonim post mümkün değil.
 // Gönderim gerçek POST /api/community/threads (Feed.data.js createThread).
-// Görsel/video dosya seçimi (çoklu): EditProfileModal ile aynı desen — dosyalar
-// seçilir seçilmez Cloudinary'e yüklenir, sadece dönen {type, url} thread'e gider.
+// Düzen (2026-09-19, sosyal composer referansı): solda avatar, sağda başlık +
+// gövde alanları (ayrı, başlık kalın), altında yüzey seçimi, çizgi, ardından
+// araç çubuğu — görsel/video ikonla eklenir (çoklu, EditProfileModal ile aynı
+// desen: seçilir seçilmez Cloudinary'e yüklenir, sadece {type, url} thread'e gider).
 export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
   const { t } = useTranslation();
   const mediaInputRef = useRef(null);
@@ -39,7 +44,8 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  if (!getStoredAuth()?.token) {
+  const auth = getStoredAuth();
+  if (!auth?.token) {
     return (
       <Link to="/account" className={styles.postComposer__signedOut}>
         {t('community.composer.signInPrompt')}
@@ -47,6 +53,7 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
     );
   }
 
+  const username = auth.username ?? '';
   const titleLength = title.trim().length;
   const uploading = uploadingCount > 0;
   const isValid = titleLength >= MIN_TITLE_LENGTH && !uploading;
@@ -117,117 +124,135 @@ export function PostComposer({ defaultSurface = 'DISCUSSION', onPostCreated }) {
     }
   };
 
+  const mediaLabel = t('community.composer.chooseMedia', { count: media.length, max: MAX_MEDIA });
+
   return (
     <form className={styles.postComposer} onSubmit={handleSubmit}>
-      <div className={styles.postComposer__surfaceRow}>
-        {SURFACE_OPTIONS.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            className={styles.postComposer__surfaceButton}
-            data-active={surface === option.key}
-            onClick={() => setSurface(option.key)}
-          >
-            {t(option.labelKey)}
-          </button>
-        ))}
-      </div>
+      <div className={styles.postComposer__row}>
+        <span className={styles.postComposer__avatar} style={{ background: avatarColor(username) }}>
+          {username.charAt(0).toUpperCase()}
+        </span>
 
-      <input
-        className={styles.postComposer__title}
-        placeholder={t('community.composer.titlePlaceholder')}
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-        maxLength={140}
-      />
-      {titleLength > 0 && titleLength < MIN_TITLE_LENGTH && (
-        <p className={styles.postComposer__hint}>
-          {t('community.composer.titleMin', { min: MIN_TITLE_LENGTH, count: titleLength })}
-        </p>
-      )}
+        <div className={styles.postComposer__fields}>
+          <input
+            className={styles.postComposer__title}
+            placeholder={t('community.composer.titlePlaceholder')}
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            maxLength={140}
+          />
+          {titleLength > 0 && titleLength < MIN_TITLE_LENGTH && (
+            <p className={styles.postComposer__hint}>
+              {t('community.composer.titleMin', { min: MIN_TITLE_LENGTH, count: titleLength })}
+            </p>
+          )}
 
-      <textarea
-        className={styles.postComposer__body}
-        placeholder={t('community.composer.bodyPlaceholder')}
-        value={body}
-        onChange={(event) => setBody(event.target.value)}
-        rows={3}
-      />
+          <textarea
+            className={styles.postComposer__body}
+            placeholder={t('community.composer.bodyPlaceholder')}
+            value={body}
+            onChange={(event) => setBody(event.target.value)}
+            rows={2}
+          />
 
-      <div className={styles.postComposer__media}>
-        <input
-          ref={mediaInputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime"
-          multiple
-          className={styles.postComposer__fileInput}
-          onChange={(event) => handleMediaFiles(event.target.files)}
-        />
-        {media.length > 0 && (
-          <div className={styles.postComposer__mediaGrid}>
-            {media.map((item) => (
-              <div key={item.url} className={styles.postComposer__preview}>
-                {item.type === 'VIDEO' ? (
-                  <video src={item.url} muted preload="metadata" className={styles.postComposer__previewImage} />
-                ) : (
-                  <img src={item.url} alt="" className={styles.postComposer__previewImage} />
-                )}
-                <button
-                  type="button"
-                  className={styles.postComposer__previewRemove}
-                  onClick={() => removeMedia(item.url)}
-                  aria-label={t('community.composer.removeMedia')}
-                >
+          {media.length > 0 && (
+            <div className={styles.postComposer__mediaGrid}>
+              {media.map((item) => (
+                <div key={item.url} className={styles.postComposer__preview}>
+                  {item.type === 'VIDEO' ? (
+                    <video src={item.url} muted preload="metadata" className={styles.postComposer__previewImage} />
+                  ) : (
+                    <img src={item.url} alt="" className={styles.postComposer__previewImage} />
+                  )}
+                  <button
+                    type="button"
+                    className={styles.postComposer__previewRemove}
+                    onClick={() => removeMedia(item.url)}
+                    aria-label={t('community.composer.removeMedia')}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className={styles.postComposer__tags}>
+            {tags.map((tag) => (
+              <span key={tag} className={styles.postComposer__tagPill}>
+                #{tag}
+                <button type="button" onClick={() => removeTag(tag)} aria-label={t('community.composer.removeTag')}>
                   ×
                 </button>
-              </div>
+              </span>
+            ))}
+            {tags.length < MAX_TAGS && (
+              <input
+                className={styles.postComposer__tagInput}
+                placeholder={t('community.composer.tagPlaceholder')}
+                value={tagInput}
+                onChange={(event) => setTagInput(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    event.preventDefault();
+                    addTag();
+                  }
+                }}
+              />
+            )}
+          </div>
+
+          <div className={styles.postComposer__surfaceRow}>
+            {SURFACE_OPTIONS.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className={styles.postComposer__surfaceButton}
+                data-active={surface === option.key}
+                onClick={() => setSurface(option.key)}
+              >
+                {t(option.labelKey)}
+              </button>
             ))}
           </div>
-        )}
-        {media.length < MAX_MEDIA && (
-          <button
-            type="button"
-            className={styles.postComposer__surfaceButton}
-            onClick={() => mediaInputRef.current?.click()}
-            disabled={uploading}
-          >
-            {uploading
-              ? t('community.composer.mediaUploading')
-              : t('community.composer.chooseMedia', { count: media.length, max: MAX_MEDIA })}
-          </button>
-        )}
-      </div>
-
-      <div className={styles.postComposer__tags}>
-        {tags.map((tag) => (
-          <span key={tag} className={styles.postComposer__tagPill}>
-            #{tag}
-            <button type="button" onClick={() => removeTag(tag)} aria-label={t('community.composer.removeTag')}>
-              ×
-            </button>
-          </span>
-        ))}
-        {tags.length < MAX_TAGS && (
-          <input
-            className={styles.postComposer__tagInput}
-            placeholder={t('community.composer.tagPlaceholder')}
-            value={tagInput}
-            onChange={(event) => setTagInput(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                addTag();
-              }
-            }}
-          />
-        )}
+        </div>
       </div>
 
       {error && <p className={styles.postComposer__error}>{error}</p>}
 
-      <button type="submit" className={styles.postComposer__submit} disabled={!isValid || submitting}>
-        {t('community.composer.submit')}
-      </button>
+      <div className={styles.postComposer__toolbar}>
+        <div className={styles.postComposer__tools}>
+          <input
+            ref={mediaInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime"
+            multiple
+            className={styles.postComposer__fileInput}
+            onChange={(event) => handleMediaFiles(event.target.files)}
+          />
+          <button
+            type="button"
+            className={styles.postComposer__tool}
+            onClick={() => mediaInputRef.current?.click()}
+            disabled={uploading || media.length >= MAX_MEDIA}
+            aria-label={mediaLabel}
+            title={mediaLabel}
+          >
+            <ImageIcon />
+            {uploading && <span>{t('community.composer.mediaUploading')}</span>}
+            {!uploading && media.length > 0 && (
+              <span>
+                {media.length}/{MAX_MEDIA}
+              </span>
+            )}
+          </button>
+        </div>
+
+        <button type="submit" className={styles.postComposer__submit} disabled={!isValid || submitting}>
+          {t('community.composer.submit')}
+          <img src={paperPlaneIcon} alt="" className={styles.postComposer__submitIcon} />
+        </button>
+      </div>
     </form>
   );
 }
