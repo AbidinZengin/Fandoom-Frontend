@@ -18,10 +18,19 @@
   color: rgba(255, 255, 255, 0.92);
 }
 
+/* Menü butonu kartın sağ üstünde durur — metin ona çarpmasın diye sağdan pay. */
 .threadAuthor__text {
   min-width: 0;
   display: flex;
-  flex-direction: column;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 var(--space-xs);
+  padding-right: calc(var(--space-xl) + var(--space-xs));
+}
+
+.threadAuthor__dot {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
 }
 
 .threadAuthor__name {

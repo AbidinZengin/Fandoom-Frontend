@@ -1,0 +1,156 @@
+.feedSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Yalnız ekran okuyucu için durum metni (canlı bölge duyurur). */
+.feedSkeleton__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.feedSkeleton__card {
+  padding: var(--space-md);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.feedSkeleton__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.feedSkeleton__avatar {
+  flex-shrink: 0;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: var(--radius-round);
+  background: var(--surface-2);
+}
+
+.feedSkeleton__bar {
+  display: block;
+  height: var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+}
+
+.feedSkeleton__bar[data-size='name'] {
+  width: 30%;
+}
+
+.feedSkeleton__bar[data-size='title'] {
+  width: 70%;
+  height: var(--space-md);
+}
+
+.feedSkeleton__bar[data-size='pill'] {
+  width: 20%;
+  height: var(--space-md);
+}
+
+.feedSkeleton__bar[data-size='line'] {
+  width: 100%;
+}
+
+.feedSkeleton__bar[data-size='lineShort'] {
+  width: 60%;
+}
+
+.feedSkeleton__actions {
+  display: flex;
+  gap: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+}
+
+.feedSkeleton__bar[data-size='action'] {
+  width: var(--space-2xl);
+}
+
+/* Liste: gerçek .feed__rows kabıyla aynı — tek hairline kap, çizgili satırlar. */
+.feedSkeleton[data-variant='list'] {
+  gap: 0;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.feedSkeleton__row {
+  display: grid;
+  grid-template-columns: var(--space-2xl) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-md);
+  padding: var(--space-md);
+}
+
+.feedSkeleton__row[data-has-thumb] {
+  grid-template-columns: var(--space-2xl) minmax(0, 1fr) calc(var(--space-3xl) + var(--space-xs));
+}
+
+.feedSkeleton__rowBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.feedSkeleton__bar[data-size='rowMeta'] {
+  width: 35%;
+}
+
+.feedSkeleton__row + .feedSkeleton__row {
+  border-top: 1px solid var(--border);
+}
+
+.feedSkeleton__bar[data-size='vote'] {
+  width: 70%;
+}
+
+.feedSkeleton__bar[data-size='rowTitle'] {
+  width: 85%;
+  height: var(--space-md);
+}
+
+.feedSkeleton__thumb {
+  align-self: center;
+  height: calc(var(--space-3xl) + var(--space-xs));
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+/* Galeri: masonry ile aynı iki kolon, farklı boylu karolar. */
+.feedSkeleton[data-variant='grid'] {
+  display: block;
+  columns: 2;
+  column-gap: var(--space-md);
+}
+
+.feedSkeleton__tile {
+  display: block;
+  margin-bottom: var(--space-md);
+  break-inside: avoid;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+}
+
+.feedSkeleton__tile[data-height='short'] {
+  height: calc(var(--space-3xl) * 3);
+}
+
+.feedSkeleton__tile[data-height='medium'] {
+  height: calc(var(--space-3xl) * 4);
+}
+
+.feedSkeleton__tile[data-height='tall'] {
+  height: calc(var(--space-3xl) * 5);
+}

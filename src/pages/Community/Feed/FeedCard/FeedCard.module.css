@@ -1,14 +1,64 @@
-/* Yuvarlak koyu kart — kullanıcı kararı (2026-09-19, sosyal post kartı
-   referansı): Community'nin önceki "flat" kuralının thread kartları için
-   istisnası; sidebar/composer düz kalır. BORDERSIZ ve siyah zeminde
-   `--card-bg`'den bir tık koyu gri (`--bg-soft`) — kullanıcı düzeltmesi. */
+/* Dolgusuz, hairline çerçeveli kart — 21st.dev pricing referansı (2026-09-20,
+   kullanıcı: "H: referansın birebir yapısı"). Zeminle aynı renk, 1px
+   `--border-card`; hover'da çerçeve `--border-card-hover`'a açılır. */
+/* Rozet üst çerçeveye oturduğu için (yarısı dışarı taşar) kart konumlanır. */
 .feedCard {
+  position: relative;
   padding: var(--space-md);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
-  background: var(--bg-soft);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  transition: border-color var(--duration-fast) ease;
+  /* Giriş: fade + y 12→0 (Community kısa hareket kipi). `backwards` dolgusu
+     gecikme boyunca başlangıç karesini tutar, bitince transform KALMAZ (kart
+     hover/stacking bağlamı etkilenmez). Kart mount olunca oynar — ilk yükleme,
+     sekme/sıralama değişimi ve "load more" ile gelen yeni grup dahil. */
+  animation: feedCardIn var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1) var(--enter-delay, 0ms) backwards;
+}
+
+@keyframes feedCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-sm));
+  }
+}
+
+@media (hover: hover) {
+  .feedCard:hover {
+    border-color: var(--border-card-hover);
+  }
+}
+
+/* Öne çıkan kart (21st.dev pricing "Most Popular"): açık çerçeve + üst kenara
+   oturan rozet. Hover kuralından SONRA gelir — hover'da çerçeve açılmaz. */
+.feedCard[data-featured='true'] {
+  border-color: var(--border-featured);
+}
+
+.feedCard__badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--fg);
+  color: var(--bg);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedCard {
+    transition: none;
+    animation: none;
+  }
 }
 
 .feedCard__link {
@@ -29,10 +79,57 @@
   font-size: var(--text-base);
   line-height: 1.5;
   color: var(--fg-dim);
+  white-space: pre-line;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Kesilen özetin alt kenarı sisle erir; 3 satır sınırı (kullanıcı kararı)
+   korunur, "Devamını Oku" hemen altında durur. */
+.feedCard__excerpt[data-truncated] {
+  mask-image: linear-gradient(to bottom, #000 45%, transparent);
+}
+
+/* Spoiler kapısı: gerçek metin bulanık durur (tıkla-aç, HOVER değil), üstünde
+   etiket. Bulanık metin ekran okuyucudan gizli, seçilemez. */
+.feedCard__spoilerGate {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--space-2xl) + var(--space-md));
+  padding: var(--space-sm) var(--space-md);
+  border: 1px dashed var(--border-card-hover);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  overflow: hidden;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.feedCard__spoilerText {
+  position: absolute;
+  inset: 0;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  text-align: left;
+  color: var(--fg-dim);
+  filter: blur(var(--space-xs));
+  user-select: none;
+  overflow: hidden;
+}
+
+.feedCard__spoilerLabel {
+  position: relative;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 700;
 }
 
 .feedCard__readMore {

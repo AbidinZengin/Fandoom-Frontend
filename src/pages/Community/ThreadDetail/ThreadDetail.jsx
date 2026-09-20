@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Footer } from '../../../components/Footer/Footer';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { Comments } from '../../../components/Comments/Comments';
+import { FeedSkeleton } from '../Feed/FeedSkeleton/FeedSkeleton';
 import { ThreadBody } from './ThreadBody/ThreadBody';
 import { SURFACES } from '../../../shared/data/community';
 import { getThreadBySlug } from './ThreadDetail.data';
 import styles from './ThreadDetail.module.css';
 
-// CommunityLayout'un DIŞINDA — 3-kolon değil, tam sayfa (kullanıcı spec'i).
-// Thread gerçek GET /api/community/threads/{slug} ucundan gelir; yorumlar
-// /api/community/comments (subjectType=THREAD, subjectId=Thread.id).
+const SURFACE_LABEL_KEYS = { DISCUSSION: 'navbar.discussion', THEORY: 'navbar.theories', FAN_ART: 'navbar.fanArt' };
+
+// CommunityLayout'un İÇİNDE (PRD, 2026-09-21): sol/sağ menü ekranda sabit kalır,
+// yalnız orta sütun Feed'den ThreadDetail'e döner — modal/popup YOK, adres
+// çubuğu değişir. Thread gerçek GET /api/community/threads/{slug} ucundan gelir;
+// yorumlar /api/community/comments (subjectType=THREAD, subjectId=Thread.id).
+// Breadcrumb'ta Portal segmenti yok — backend'de Portal modeli gelince araya girer.
 export default function ThreadDetail() {
   const { t } = useTranslation();
   const { slug } = useParams();
@@ -35,39 +39,34 @@ export default function ThreadDetail() {
 
   const { status, thread } = state;
 
-  if (status === 'loading') return null;
+  if (status === 'loading') return <FeedSkeleton label={t('community.feed.loading')} count={1} />;
 
   if (status !== 'ready') {
     return (
-      <>
-        <div className={styles.threadDetail}>
-          <p className={styles.threadDetail__notFound}>
-            {status === 'error' ? t('community.loadError') : t('community.thread.notFound')}
-          </p>
-          <Link to="/community" className={styles.threadDetail__back}>
-            {t('community.thread.backToFeed')}
-          </Link>
-        </div>
-        <Footer />
-      </>
+      <div className={styles.threadDetail}>
+        <p className={styles.threadDetail__notFound}>
+          {status === 'error' ? t('community.loadError') : t('community.thread.notFound')}
+        </p>
+        <Link to="/community" className={styles.threadDetail__back}>
+          {t('community.thread.backToFeed')}
+        </Link>
+      </div>
     );
   }
 
   const surfaceInfo = SURFACES.find((s) => s.key === thread.surface);
 
   return (
-    <>
-      <div className={styles.threadDetail}>
-        <Link to={surfaceInfo?.to ?? '/community'} className={styles.threadDetail__back}>
-          {t('community.thread.backToFeed')}
-        </Link>
+    <div className={styles.threadDetail}>
+      <nav className={styles.threadDetail__breadcrumb} aria-label={t('community.thread.breadcrumb')}>
+        <Link to="/community">{t('navbar.community')}</Link>
+        <span aria-hidden="true">›</span>
+        <Link to={surfaceInfo?.to ?? '/community'}>{t(SURFACE_LABEL_KEYS[thread.surface] ?? 'navbar.community')}</Link>
+      </nav>
 
-        <ThreadBody thread={thread} />
+      <ThreadBody thread={thread} />
 
-        <Comments subjectType="THREAD" subjectId={thread.id} variant="neutral" />
-      </div>
-
-      <Footer />
-    </>
+      <Comments subjectType="THREAD" subjectId={thread.id} variant="neutral" />
+    </div>
   );
 }

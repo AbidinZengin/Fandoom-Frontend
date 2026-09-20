@@ -59,13 +59,14 @@ export async function getThreadBySlug(slug) {
   }
 }
 
-export async function createThread({ surface, title, body, media, tags }) {
+export async function createThread({ surface, title, body, media, tags, spoilerFlagged }) {
   const created = await postThread({
     surface,
     title,
     body: body || undefined,
     media: media?.length ? media : undefined,
     tags,
+    spoilerFlagged: spoilerFlagged || undefined,
   });
   return toThreadCard(created);
 }

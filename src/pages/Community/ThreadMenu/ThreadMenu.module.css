@@ -1,0 +1,114 @@
+/* Kartın sağ üst köşesi; kart `position: relative`. Yükseklik avatarla eşit
+   (--space-xl) ki yazar satırıyla aynı dikey eksende dursun. */
+.threadMenu {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 2;
+}
+
+/* Açıkken yapışkan sekme/sıralama adasının (Feed `z-index: 5`) ÜSTÜNDE durur;
+   kapalıyken tetikleyici adanın altında kalır (scroll'da üstüne binmesin). */
+.threadMenu[data-open] {
+  z-index: 6;
+}
+
+.threadMenu__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--fg-muted);
+  font-size: var(--text-lg);
+  transition: background-color var(--duration-micro) ease;
+}
+
+@media (hover: hover) {
+  .threadMenu__trigger:hover {
+    background: var(--surface-2);
+    color: var(--fg);
+  }
+}
+
+.threadMenu__trigger[aria-expanded='true'] {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+/* Siyah zeminde gölge okunmaz (learned-rules) — ayrım hairline + --surface-2. */
+.threadMenu__list {
+  position: absolute;
+  top: calc(100% + var(--space-2xs));
+  right: 0;
+  min-width: calc(var(--space-3xl) * 3.5);
+  padding: var(--space-2xs);
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  animation: menuIn var(--duration-micro) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-2xs) * -1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .threadMenu__list {
+    animation: none;
+  }
+}
+
+.threadMenu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--fg-dim);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .threadMenu__item:not([aria-disabled='true']):hover {
+    background: var(--border-card);
+    color: var(--fg);
+  }
+}
+
+/* Yıkıcı eylemler (Şikayet/Sil): Community monokrom olduğu için kırmızı YOK
+   (kullanıcı: "renkli bir şey olmayacak") — üstte çizgi + tam beyaz + kalın. */
+.threadMenu__item[data-danger] {
+  margin-top: var(--space-2xs);
+  border-top: 1px solid var(--border-card-hover);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  color: var(--fg);
+  font-weight: 700;
+}
+
+.threadMenu__item[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.threadMenu__soon {
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}

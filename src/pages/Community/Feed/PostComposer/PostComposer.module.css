@@ -1,16 +1,56 @@
 /* Sosyal composer referansı (2026-09-19): solda avatar, kenarlıksız yazı
-   alanları, çizgi, altta araç çubuğu + Post. Tüm composer SADECE-BORDER'lı
-   şeffaf bir kutudur (dolgu YOK, 2px gri `--border` çerçeve — kullanıcı
-   "daha kalın" dedi, thread kartlarıyla aynı radius) — kullanıcı kararı,
-   2026-09-19. */
+   alanları, çizgi, altta araç çubuğu + Post. 2026-09-20: 2px gradient çerçeve
+   yerine feed kartlarıyla AYNI dolgusuz 1px hairline kart (H varyantı). */
 .postComposer {
+  position: relative;
   padding: var(--space-md);
-  border: 2px solid var(--border);
   border-radius: var(--radius-lg);
-  background: transparent;
+  border: 1px solid var(--border-card);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Daralan bölüm (2026-09-20): kapalıyken composer tek satır. 0fr↔1fr grid
+   geçişi içerik yüksekliğini ölçmeden animasyonlar; opacity biraz kısa tutulur
+   ki açılırken içerik kutudan önce belirmesin. Boşluklar bölümlerin İÇİNDE
+   (iç sarmalayıcıya padding verilirse satır 0'a inemez). */
+.postComposer__collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1),
+    opacity var(--duration-micro) ease;
+}
+
+.postComposer__collapse[data-open='true'] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.postComposer__collapseInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.postComposer__section {
+  padding-top: var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.postComposer__footer {
+  padding-top: var(--space-sm);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .postComposer__collapse {
+    transition: none;
+  }
 }
 
 .postComposer__signedOut {
@@ -48,7 +88,6 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
 }
 
 /* Başlık ve gövde AYRI ama kenarlıksız: fark yazı boyutu/ağırlığıyla verilir
@@ -65,12 +104,19 @@
   padding: var(--space-2xs) 0;
 }
 
-.postComposer__body::placeholder,
 .postComposer__tagInput::placeholder {
   color: var(--fg-muted);
 }
 
-/* "Ne düşünüyorsun?" beyaz — sönük gri bulundu (kullanıcı düzeltmesi). */
+/* Gövde contenteditable: placeholder :empty ile çizilir (::placeholder yalnız
+   input/textarea'da çalışır). */
+.postComposer__body:empty::before {
+  content: attr(data-placeholder);
+  color: var(--fg-muted);
+  pointer-events: none;
+}
+
+/* Başlık placeholder'ı beyaz — sönük gri bulundu (kullanıcı düzeltmesi). */
 .postComposer__title::placeholder {
   color: var(--white);
   opacity: 1;
@@ -83,18 +129,28 @@
   outline-offset: var(--space-2xs);
 }
 
+/* Yükseklik avatarla eşit (40px): kapalı tek satırda avatar ve yazı hizalı.
+   Uzun yönlendirici placeholder dar ekranda taşmasın diye "…" ile kesilir. */
 .postComposer__title {
+  text-overflow: ellipsis;
+  height: calc(var(--space-xl) + var(--space-xs));
+  padding-block: 0;
   font-size: var(--text-lg);
   font-weight: 700;
 }
 
 .postComposer__body {
+  min-height: calc(var(--text-base) * 1.5 * 2 + var(--space-xs));
+  max-height: calc(var(--space-3xl) * 4);
+  overflow-y: auto;
   font-size: var(--text-base);
-  resize: none;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .postComposer__hint {
-  margin: 0;
+  margin: var(--space-xs) 0 0;
   font-size: var(--text-sm);
   color: var(--fg-dim);
 }
@@ -172,11 +228,18 @@
   font-size: var(--text-sm);
 }
 
-/* Yüzey seçimi — referanstaki "Herkes yanıtlayabilir" satırının yeri. */
+/* Tür seçimi (zorunlu) — referanstaki "Herkes yanıtlayabilir" satırının yeri. */
 .postComposer__surfaceRow {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-xs);
+}
+
+.postComposer__surfaceLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
 }
 
 .postComposer__surfaceButton {
@@ -198,7 +261,8 @@
 .postComposer__error {
   margin: 0;
   font-size: var(--text-sm);
-  color: var(--brand-red);
+  font-weight: 600;
+  color: var(--fg);
 }
 
 /* Araç çubuğu: solda ikonlar, sağda Post; üstte ince çizgi (referans). */
@@ -237,6 +301,12 @@
 }
 
 .postComposer__tool:hover:not(:disabled) {
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Spoiler aç/kapa: aktifken dolgulu (gönderi spoiler işaretli). */
+.postComposer__tool[data-active='true'] {
   color: var(--fg);
   background: rgba(255, 255, 255, 0.06);
 }

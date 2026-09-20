@@ -132,13 +132,33 @@ export function Navbar() {
           }
         });
 
+        // Yukarı scroll mesafesi (yön değişiminden beri) — bir sayfa navbar'ın
+        // dönüşünü geciktirebilir: <html data-nav-reveal-after="px">. Community
+        // önce kendi yapışkan sekme çubuğunu gösterir, navbar ancak bu kadar
+        // daha yukarı scroll'dan sonra gelir (2026-09-20). Değer yoksa (0)
+        // davranış eskisiyle AYNI: her yukarı scroll'da hemen döner.
+        let lastScroll = 0;
+        let upDistance = 0;
+
         ScrollTrigger.create({
           start: 'top top',
           end: 'max',
           onUpdate: (self) => {
-            if (self.direction === -1) {
+            const scroll = self.scroll();
+            const scrollingUp = self.direction === -1;
+            upDistance = scrollingUp ? upDistance + (lastScroll - scroll) : 0;
+            lastScroll = scroll;
+
+            const revealAfter = Number(document.documentElement.dataset.navRevealAfter) || 0;
+            if (scrollingUp) {
+              // Sayfa başına varınca her durumda görünür.
+              if (upDistance < revealAfter && scroll > 0) return;
+              document.documentElement.dataset.navHidden = 'false';
               hideAnim.play();
             } else {
+              // Gizli/görünür durumu CSS'e yayınlanır (sticky yan çubuklar navbar
+              // kalkınca üstteki boşluğa çıksın diye — Community, 2026-09-20).
+              document.documentElement.dataset.navHidden = 'true';
               hideAnim.reverse();
             }
           },
@@ -146,7 +166,10 @@ export function Navbar() {
       });
     }, navRef);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      delete document.documentElement.dataset.navHidden;
+    };
   }, []);
 
   return (

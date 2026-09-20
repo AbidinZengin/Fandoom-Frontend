@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { getStoredAuth } from '../../shared/api/authStorage';
 import { useLocalizedNavigate } from '../../shared/i18n/useLocalizedNavigate';
 import { likeThread, unlikeThread, bookmarkThread, unbookmarkThread } from '../../shared/api/community';
+import { useFeedStore } from './Feed/useFeedStore';
 
 // FeedCard ve ThreadBody'nin ortak beğen/kaydet mantığı — gerçek uçlara bağlı,
 // optimistic güncelleyip sunucu cevabıyla (kesin sayaç) eşitler, hatada geri alır.
@@ -31,6 +32,7 @@ export function useThreadActions(thread) {
       const res = await (next ? likeThread : unlikeThread)(thread.slug);
       setLiked(res.liked);
       setLikeCount(res.likeCount);
+      useFeedStore.getState().patchThread(thread.id, { isLiked: res.liked, likeCount: res.likeCount });
     } catch {
       setLiked(!next);
       setLikeCount((c) => c + (next ? -1 : 1));
@@ -49,6 +51,7 @@ export function useThreadActions(thread) {
       const res = await (next ? bookmarkThread : unbookmarkThread)(thread.slug);
       setSaved(res.bookmarked);
       setSaveCount(res.bookmarkCount);
+      useFeedStore.getState().patchThread(thread.id, { isBookmarked: res.bookmarked, bookmarkCount: res.bookmarkCount });
     } catch {
       setSaved(!next);
       setSaveCount((c) => c + (next ? -1 : 1));

@@ -1,9 +1,26 @@
+/* Sayfayla kaymaz (sticky); taşan içerik üzerine gelinip kaydırılınca KENDİ
+   İÇİNDE scroll olur, sınırında sayfa scroll'una geçmez. Scrollbar GÖRÜNMEZ
+   (kullanıcı düzeltmesi, 2026-09-20: "scroll ibaresi kalksın") — kaydırma
+   işlevi durur. */
 .rightSidebar {
   position: sticky;
-  top: var(--space-xl);
+  top: var(--sidebar-top);
+  max-height: calc(100vh - var(--sidebar-top) - var(--space-md));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  transition: top var(--nav-shift), max-height var(--nav-shift);
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
+}
+
+.rightSidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.rightSidebar > * {
+  flex-shrink: 0;
 }
 
 @media (max-width: 1200px) {

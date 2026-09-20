@@ -1,90 +1,179 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useNavigationType } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PostComposer } from './PostComposer/PostComposer';
 import { SurfaceFilter } from './SurfaceFilter/SurfaceFilter';
 import { SortBar } from './SortBar/SortBar';
 import { FeedCard } from './FeedCard/FeedCard';
+import { FeedRow } from './FeedRow/FeedRow';
+import { FeedTile } from './FeedTile/FeedTile';
+import { FeedSkeleton } from './FeedSkeleton/FeedSkeleton';
 import { getFeedThreads } from './Feed.data';
+import { FEED_STALE_MS, feedKey, useFeedStore } from './useFeedStore';
+import { useControlsReveal } from './useControlsReveal';
 import styles from './Feed.module.css';
 
-const PAGE_SIZE = 5;
+// PRD "Chameleon Feed": orta akış aktif Post Türü'ne göre görünüm değiştirir —
+// ALL → geniş kartlar (vitrin), Discussion/Theories → sıkışık liste (okuma
+// odası), Fan Art → masonry galeri. Görünüm YALNIZ yüzeyden türer; render
+// farkıdır, ayrı bir istek değil. Veri anahtarı yüzey+sıralamadır ve zustand
+// önbelleğinde durur (useFeedStore): daha önce açılan sekmeye/detaydan geri
+// dönüş ağa gitmez. Sayfa boyutu görünüme göre (kart 5, liste 15, galeri 12).
+const VIEWS = { ALL: 'card', DISCUSSION: 'list', THEORY: 'list', FAN_ART: 'grid' };
+const PAGE_SIZES = { card: 5, list: 15, grid: 12 };
+// Kart girişi kademesi: her sayfa grubunun içinde sıra × 60ms.
+const STAGGER_MS = 60;
 
 // index route'u (surface=undefined, karışık akış) VE discussion/theories/
 // fan-art route'larını (surface sabit) TEK component karşılar — ayrı bir
 // SurfaceFeed dosyası açmak burada gereksiz kopya olurdu (Karpathy ilkesi:
 // istenenden fazla soyutlama yok); tek fark PostComposer'ın varsayılan
 // yüzeyi ve listenin filtresi. Sıralama ve sayfalama sunucuda.
+// Route'lar aynı Feed örneğini yeniden kullanır (remount yok) — bu yüzden
+// hata/"daha fazla" durumları ANAHTARA bağlıdır, sekme değişince eski sekmenin
+// durumu sızmaz; yükleme durumu da türetilir (`!entry && !error`), böylece
+// önbelleksiz sekmede bir kare bile sahte "boş" görünmez.
 export default function Feed({ surface }) {
   const { t } = useTranslation();
-  const [sort, setSort] = useState('hot');
-  const [threads, setThreads] = useState([]);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const navigationType = useNavigationType();
+  const view = VIEWS[surface ?? 'ALL'];
+  const size = PAGE_SIZES[view];
+  const sort = useFeedStore((s) => s.sort);
+  const setSort = useFeedStore((s) => s.setSort);
+  const save = useFeedStore((s) => s.save);
+  const key = feedKey(surface, sort);
+  const entry = useFeedStore((s) => s.entries[key]);
+  const [errorKey, setErrorKey] = useState(null);
+  const [more, setMore] = useState({ key: null, status: 'idle' });
   const [reloadKey, setReloadKey] = useState(0);
+  // Detaydan geri (POP) dönüşte liste kaldığı yere döner; sekme/link ile
+  // gelişte başa iner. Konum İLK RENDER'da okunur (StrictMode'da cleanup
+  // sonradan sıfır yazsa da değer kaybolmaz).
+  const [restoreTo] = useState(() =>
+    navigationType === 'POP' ? (useFeedStore.getState().entries[key]?.scrollY ?? 0) : 0,
+  );
+  const controlsRef = useRef(null);
+  useControlsReveal(controlsRef);
 
-  // surface/sort değişince veya yeni post atılınca liste baştan yüklenir.
-  // Yarış durumu: eski isteğin cevabı yeni seçimin listesini ezmesin diye
-  // cleanup'ta iptal bayrağı set edilir.
+  const threads = entry?.threads ?? [];
+  const page = entry?.page ?? 0;
+  const hasMore = entry?.hasMore ?? false;
+  const error = errorKey === key;
+  const loading = !entry && !error;
+  const moreLoading = more.key === key && more.status === 'loading';
+  const moreFailed = more.key === key && more.status === 'failed';
+
+  // surface/sort değişince (önbellekte taze yoksa) veya yeni post atılınca liste
+  // baştan yüklenir. Yarış durumu: eski isteğin cevabı yeni seçimin listesini
+  // ezmesin diye cleanup'ta iptal bayrağı set edilir.
   useEffect(() => {
+    const cached = useFeedStore.getState().entries[key];
+    if (cached?.loadedAt && Date.now() - cached.loadedAt < FEED_STALE_MS) return undefined;
     let cancelled = false;
-    setLoading(true);
-    setError(false);
-    getFeedThreads({ surface, sort, page: 0, size: PAGE_SIZE })
+    getFeedThreads({ surface, sort, page: 0, size })
       .then((res) => {
         if (cancelled) return;
-        setThreads(res.threads);
-        setHasMore(res.hasMore);
-        setPage(0);
+        setErrorKey(null);
+        save(key, { threads: res.threads, hasMore: res.hasMore, page: 0, loadedAt: Date.now() });
       })
       .catch(() => {
-        if (!cancelled) setError(true);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setErrorKey(key);
       });
     return () => {
       cancelled = true;
     };
-  }, [surface, sort, reloadKey]);
+  }, [key, reloadKey, surface, sort, size, save]);
 
+  useEffect(() => {
+    if (!restoreTo) return undefined;
+    // App'in route scroll sıfırlaması layout effect'te koştuğu için bir sonraki karede.
+    const frame = requestAnimationFrame(() => window.scrollTo(0, restoreTo));
+    return () => cancelAnimationFrame(frame);
+  }, [restoreTo]);
+
+  // Ayrılırken (detay/sekme) kaydırma konumu bu listenin anahtarına yazılır.
+  // Layout effect: cleanup'ı App'in scrollTo(0,0)'ından ÖNCE koşar, yani
+  // window.scrollY hâlâ gerçek konumdur.
+  useLayoutEffect(
+    () => () => {
+      if (useFeedStore.getState().entries[key]) save(key, { scrollY: window.scrollY });
+    },
+    [key, save],
+  );
+
+  // "Daha fazla" cevabı yazılırken önbellek TAZE okunur: bu sırada gelen beğeni
+  // güncellemesi ezilmez, araya giren invalidate() sonrası bayat liste geri
+  // yazılmaz; id ile tekrarsızlaştırılır. Hata listeyi silmez, yeniden denenir.
   const handleLoadMore = async () => {
-    setLoading(true);
+    setMore({ key, status: 'loading' });
     try {
-      const res = await getFeedThreads({ surface, sort, page: page + 1, size: PAGE_SIZE });
-      setThreads((prev) => [...prev, ...res.threads]);
-      setHasMore(res.hasMore);
-      setPage(page + 1);
+      const nextPage = page + 1;
+      const res = await getFeedThreads({ surface, sort, page: nextPage, size });
+      const current = useFeedStore.getState().entries[key];
+      if (current) {
+        const known = new Set(current.threads.map((item) => item.id));
+        save(key, {
+          threads: [...current.threads, ...res.threads.filter((item) => !known.has(item.id))],
+          hasMore: res.hasMore,
+          page: nextPage,
+        });
+      }
+      setMore({ key, status: 'idle' });
     } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
+      setMore({ key, status: 'failed' });
     }
+  };
+
+  const handlePostCreated = () => {
+    useFeedStore.getState().invalidate();
+    setReloadKey((k) => k + 1);
   };
 
   return (
     <>
-      <PostComposer defaultSurface={surface ?? 'DISCUSSION'} onPostCreated={() => setReloadKey((k) => k + 1)} />
+      <PostComposer defaultSurface={surface ?? null} onPostCreated={handlePostCreated} />
 
-      <SurfaceFilter />
-
-      <SortBar sort={sort} onChange={setSort} />
+      {/* Sekmeler + sıralama tek satırda; yapışkan, aşağı scroll'da kaybolur,
+          yukarı scroll'da geri gelir (useControlsReveal). */}
+      <div ref={controlsRef} className={styles.feed__controls}>
+        <SurfaceFilter />
+        <SortBar sort={sort} onChange={setSort} />
+      </div>
 
       {error ? (
         <p className={styles.feed__empty}>{t('community.loadError')}</p>
+      ) : loading ? (
+        <FeedSkeleton label={t('community.feed.loading')} variant={view} />
       ) : threads.length === 0 ? (
-        !loading && <p className={styles.feed__empty}>{t('community.emptyState')}</p>
-      ) : (
+        <p className={styles.feed__empty}>{t('community.emptyState')}</p>
+      ) : view === 'card' ? (
         <div className={styles.feed__list}>
+          {threads.map((thread, index) => (
+            <FeedCard
+              key={thread.id}
+              thread={thread}
+              featured={sort === 'hot' && index === 0 && thread.likeCount + thread.commentCount > 0}
+              enterDelay={(index % size) * STAGGER_MS}
+            />
+          ))}
+        </div>
+      ) : view === 'list' ? (
+        <div className={styles.feed__rows}>
           {threads.map((thread) => (
-            <FeedCard key={thread.id} thread={thread} />
+            <FeedRow key={thread.id} thread={thread} />
+          ))}
+        </div>
+      ) : (
+        <div className={styles.feed__grid}>
+          {threads.map((thread) => (
+            <FeedTile key={thread.id} thread={thread} />
           ))}
         </div>
       )}
 
+      {moreFailed && <p className={styles.feed__moreError}>{t('community.loadError')}</p>}
       {hasMore && !error && (
-        <button type="button" className={styles.feed__loadMore} onClick={handleLoadMore} disabled={loading}>
+        <button type="button" className={styles.feed__loadMore} onClick={handleLoadMore} disabled={moreLoading}>
           {t('community.feed.loadMore')}
         </button>
       )}

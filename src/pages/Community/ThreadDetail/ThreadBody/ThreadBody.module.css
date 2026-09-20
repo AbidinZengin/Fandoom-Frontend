@@ -1,9 +1,9 @@
-/* Yuvarlak koyu kart — FeedCard ile aynı yüzey: bordersız, `--bg-soft`
-   (kullanıcı kararı/düzeltmesi, 2026-09-19). */
+/* FeedCard ile aynı dolgusuz hairline kart (2026-09-20, H varyantı). */
 .threadBody {
+  position: relative;
   padding: var(--space-md);
   border-radius: var(--radius-lg);
-  background: var(--bg-soft);
+  border: 1px solid var(--border-card);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -20,7 +20,7 @@
   aspect-ratio: 16 / 9;
   border-radius: var(--radius-md);
   border: 1px dashed var(--border);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  background: var(--surface-2);
 }
 
 .threadBody__text {
@@ -34,6 +34,7 @@
 
 .threadBody__text p {
   margin: 0;
+  white-space: pre-line;
 }
 
 .threadBody__spoilerGate {
@@ -41,7 +42,7 @@
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-sm);
   border: 1px dashed var(--border);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-2);
   color: var(--fg-dim);
   font-size: var(--text-sm);
   font-weight: 600;

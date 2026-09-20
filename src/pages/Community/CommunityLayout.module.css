@@ -3,8 +3,20 @@
    burada teknik olarak yetersiz kalıyor — 3 kolon 900px'e hiç sığmaz.
    1200px/768px kullanıcı kararıyla bu sayfaya özel kırılımdır. */
 
+/* Community zemini siyah DEĞİL koyu grafittir (`--surface-0`, 2026-09-20): siyah
+   üstünde siyah gölge görünmediği için kartlar yüzmüyordu. Sayfa kabuğu
+   (html/body) `:has` ile boyanır — CSS'le, JS/cleanup'sız; iki Community
+   sayfası (feed + thread detay) `data-community-canvas` taşır. Sayfadan
+   çıkınca `:has` eşleşmesi biter, `theme.css`'in `--bg` zemini geri gelir. */
+:global(html:has([data-community-canvas])),
+:global(body:has([data-community-canvas])) {
+  background: var(--surface-0);
+}
+
+/* İçerik navbar'ın hemen altından başlar (kullanıcı düzeltmesi, 2026-09-20:
+   "çok aşağıdan başlıyor") — üst boşluk kısaltıldı. */
 .communityLayout {
-  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+  padding: var(--space-md) var(--space-page-x) var(--space-3xl);
   max-width: 1440px;
   margin-inline: auto;
 }
@@ -25,13 +37,29 @@
   display: none;
 }
 
+/* --sidebar-top: yan çubukların sticky durduğu üst konum ve iç scroll
+   yüksekliğinin hesabı — Left/RightSidebar okur. Yan çubuklar sayfayla KAYMAZ,
+   içerikleri taşarsa KENDİ İÇLERİNDE scroll olur (kullanıcı kararı,
+   2026-09-20). Değer, çubukların DOĞAL başlangıç konumuna eşit olmalı
+   (navbar bloğu 72px + .communityLayout padding-top 16px = 88px, tarayıcıda
+   ölçüldü) — küçük olursa scroll'un başında sıçrar ("sol bar hareket
+   etmemeli"). Navbar yüksekliği ya da üst padding değişirse bu değer de
+   değişmeli. */
 .communityLayout__grid {
+  --sidebar-top: calc(var(--space-3xl) + var(--space-lg));
   display: grid;
   grid-template-columns: 260px minmax(0, 680px) 280px;
   gap: var(--space-xl);
   justify-content: center;
   align-items: start;
-  margin-top: var(--space-2xl);
+  margin-top: 0;
+}
+
+/* Navbar aşağı scroll'da kalkınca (Navbar.jsx → html[data-nav-hidden='true'])
+   yan çubuklar üstteki boşluğa çıkar; navbar geri gelince tekrar altına iner
+   (kullanıcı isteği, 2026-09-20). Geçiş sidebar modüllerinde (top/max-height). */
+:global(html[data-nav-hidden='true']) .communityLayout__grid {
+  --sidebar-top: var(--space-md);
 }
 
 .communityLayout__main {
@@ -49,7 +77,7 @@
 
 @media (max-width: 768px) {
   .communityLayout {
-    padding-top: var(--space-xl);
+    padding-top: var(--space-md);
   }
 
   .communityLayout__grid {

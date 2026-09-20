@@ -6,6 +6,23 @@
   --bg-soft: #0d0d0f;
   --card-bg: #101012;
 
+  /* Community paleti (2026-09-20) — 21st.dev pricing referansından ölçüldü,
+     tamamen NÖTR (mavi alt-ton yok): #0a0a0a zemin, dolgusuz kartlar 1px #222
+     hairline ile ayrılır (kullanıcı H varyantını seçti: "referansın birebir
+     yapısı, dolgusuz ve #222 çerçeveli"). Siyah + 2 gri + beyaz.
+       --surface-0  Community zemini
+       --surface-2  kart İÇİ hafif dolgu (chip / hover / placeholder)
+       --border-card / -hover  kart hairline'ı ve hover'da açılan hâli
+     Mevcut --bg-soft/--card-bg/--border başka sayfalarda kullanıldığı için
+     dokunulmadı. */
+  --surface-0: #0a0a0a;
+  --surface-2: #171717;
+  --border-card: #222222;
+  --border-card-hover: #323232;
+  --border-featured: #d7d7d7; /* öne çıkan kart çerçevesi + rozet (21st.dev "Most Popular") */
+  --pill-track: #323232; /* segmented kontrol rayı */
+  --pill-active: #cdcdcd; /* segmented seçili pill */
+
   --brand-red: #e8112d;
   --brand-magenta: #e01275;
   --brand-pink: #d5128f;
@@ -99,6 +116,10 @@
   --duration-fast: 0.3s;
   --duration-base: 0.6s;
   --duration-slow: 0.9s;
+  /* Navbar'ın GSAP gizle/göster kaymasıyla (0.4s power2.out) aynı eğri — navbar'a
+     bağlı sticky öğeler (Community yan çubukları, sekme çubuğu) onunla TEK
+     hareket gibi kayar; süre/eğri uyuşmazsa birleşme noktası titrer. */
+  --nav-shift: 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 /* --accent'ten 3 duraklı gradient türetimi (relative color syntax). */

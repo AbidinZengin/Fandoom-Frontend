@@ -1,6 +1,8 @@
+/* Dolgusuz hairline kart (2026-09-20, H varyantı) — thread kartlarıyla aynı. */
 .recentActivity {
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--border);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
 }
 
 .recentActivity__heading {

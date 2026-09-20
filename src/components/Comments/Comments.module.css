@@ -11,6 +11,16 @@
    varsayılan görünümü DEĞİŞMEDİ, bu sadece ek bir varyant. */
 .comments[data-variant='neutral'] {
   --font-got: var(--font-display);
+  /* Community grayscale (2026-09-20): mor --accent yerine gri-beyaz; sadece bu
+     varyantı etkiler, Blog'un varsayılan görünümü aynı kalır. */
+  --accent: var(--fg);
+}
+
+/* --accent artık açık gri olduğu için dolgulu gönder butonu koyu metin ister
+   (Community CTA'ları: solid beyaz + koyu metin). */
+.comments[data-variant='neutral'] .form__submit {
+  background: var(--white);
+  color: var(--bg);
 }
 
 .comments__heading {

@@ -32,11 +32,7 @@ export function Universes() {
             <span className={styles.universes__name}>{universe.name}</span>
             <div className={styles.universes__productions}>
               {universe.productions.map((production) => (
-                <span
-                  key={production.title}
-                  className={styles.universes__tag}
-                  style={{ '--prod-accent': production.theme?.accent }}
-                >
+                <span key={production.title} className={styles.universes__tag}>
                   {production.title}
                 </span>
               ))}

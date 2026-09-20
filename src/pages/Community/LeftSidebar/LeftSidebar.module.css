@@ -1,9 +1,25 @@
+/* Sayfayla kaymaz (sticky); içerik görünür yükseklikten uzunsa yalnız üzerine
+   gelinip kaydırılınca KENDİ İÇİNDE scroll olur, sınırına gelince sayfa
+   scroll'una geçmez (overscroll-behavior: contain). */
 .leftSidebar {
   position: sticky;
-  top: var(--space-xl);
+  top: var(--sidebar-top);
+  max-height: calc(100vh - var(--sidebar-top) - var(--space-md));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  transition: top var(--nav-shift), max-height var(--nav-shift);
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
+}
+
+.leftSidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.leftSidebar > * {
+  flex-shrink: 0;
 }
 
 .leftSidebar__closeButton {
@@ -72,6 +88,7 @@
     border-right: 1px solid var(--border);
     padding: var(--space-2xl) var(--space-lg);
     overflow-y: auto;
+    max-height: none;
     top: 0;
     transform: translateX(-100%);
   }

@@ -20,7 +20,7 @@ export default function CommunityLayout() {
 
   return (
     <>
-      <div className={styles.communityLayout}>
+      <div className={styles.communityLayout} data-community-canvas>
         <h1 className={styles.communityLayout__srHeading}>{t('navbar.community')}</h1>
 
         <button

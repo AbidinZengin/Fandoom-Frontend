@@ -206,6 +206,7 @@
       "saved_one": "{{formatted}} Saved",
       "saved_other": "{{formatted}} Saved",
       "tabAll": "All",
+      "featured": "Most Popular",
       "anonymous": "unknown",
       "timeJustNow": "just now",
       "timeMinutesAgo": "{{count}}m ago",
@@ -216,13 +217,31 @@
         "new": "New",
         "top": "Top"
       },
-      "loadMore": "Load More"
+      "loadMore": "Load More",
+      "loading": "Loading posts",
+      "spoilerRow": "Contains spoilers"
+    },
+    "menu": {
+      "label": "Options",
+      "copyLink": "Copy Link",
+      "shareExternal": "Share Outside the App",
+      "notifications": "Turn Notifications On/Off",
+      "muteBlock": "Mute / Block @{{user}}",
+      "report": "Report",
+      "edit": "Edit",
+      "closeComments": "Close Comments",
+      "delete": "Delete",
+      "soon": "Soon"
     },
     "composer": {
       "signInPrompt": "Sign in to start a thread",
-      "titlePlaceholder": "What's on your mind?",
+      "titlePlaceholder": "Discussion title (e.g. What was Walter White's real goal?)",
       "titleMin": "Title needs at least {{min}} characters ({{count}}/{{min}})",
-      "bodyPlaceholder": "Add details (optional)",
+      "bodyPlaceholder": "Write your theory or discussion details here...",
+      "typeLabel": "Choose a type",
+      "bold": "Bold",
+      "italic": "Italic",
+      "spoiler": "Mark as spoiler",
       "chooseMedia": "Add photo or video ({{count}}/{{max}})",
       "mediaUploading": "Uploading…",
       "removeMedia": "Remove",
@@ -235,6 +254,8 @@
     },
     "thread": {
       "spoilerReveal": "Contains spoilers — tap to reveal",
+      "spoilerShort": "Spoiler",
+      "breadcrumb": "You are here",
       "share": "Share",
       "linkCopied": "Link copied",
       "notFound": "This thread couldn't be found.",

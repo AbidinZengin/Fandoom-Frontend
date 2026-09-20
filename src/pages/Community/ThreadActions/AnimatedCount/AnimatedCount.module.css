@@ -1,0 +1,59 @@
+/* Eski ve yeni değer AYNI grid hücresinde üst üste durur — kutu genişliği
+   ikisinin büyüğü olur, akış zıplamaz. `overflow: clip` satır kutusunun
+   dışına kayan rakamı keser (kayma = tek satır yüksekliği). */
+.count {
+  display: inline-grid;
+  overflow: clip;
+  font-variant-numeric: tabular-nums;
+}
+
+.count__in,
+.count__out {
+  grid-area: 1 / 1;
+  --from: 100%;
+}
+
+.count__in[data-dir='-1'],
+.count__out[data-dir='-1'] {
+  --from: -100%;
+}
+
+.count__in[data-animate] {
+  animation: countIn var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+.count__out {
+  animation: countOut var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+@keyframes countIn {
+  from {
+    transform: translateY(var(--from));
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes countOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(calc(var(--from) * -1));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .count__in[data-animate] {
+    animation: none;
+  }
+
+  .count__out {
+    display: none;
+  }
+}

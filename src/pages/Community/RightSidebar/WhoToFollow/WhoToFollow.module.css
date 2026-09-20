@@ -1,5 +1,8 @@
+/* Dolgusuz hairline kart (2026-09-20, H varyantı) — thread kartlarıyla aynı. */
 .whoToFollow {
-  padding-bottom: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
 }
 
 .whoToFollow__heading {
@@ -31,7 +34,7 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-round);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--surface-2);
   display: flex;
   align-items: center;
   justify-content: center;

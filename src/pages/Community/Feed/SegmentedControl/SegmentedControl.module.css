@@ -1,0 +1,84 @@
+/* Ray + kayan pill (21st.dev pricing toggle). Pill, ölçülen `--pill-x/--pill-w`
+   ile konumlanır; transition yalnız `data-ready` sonrası açılır (ilk konum
+   animasyonsuz). Geçiş süresi/eğrisi Community'nin kısa hareket kipi
+   (0.3s, imza-uzama eğrisi). */
+.segmented {
+  position: relative;
+  align-self: flex-start;
+  display: inline-flex;
+  max-width: 100%;
+  padding: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background: var(--pill-track);
+  /* İçerik üstünde yüzen ada: yumuşak gölge ayrıştırır. */
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.segmented::-webkit-scrollbar {
+  display: none;
+}
+
+.segmented__pill {
+  position: absolute;
+  top: var(--space-2xs);
+  bottom: var(--space-2xs);
+  left: 0;
+  width: var(--pill-w, 0);
+  transform: translateX(var(--pill-x, 0));
+  border-radius: var(--radius-pill);
+  background: var(--pill-active);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented[data-ready='true'] .segmented__pill {
+  opacity: 1;
+  transition:
+    transform var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1),
+    width var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.segmented__item {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: none;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-dim);
+  white-space: nowrap;
+  transition: color var(--duration-fast) ease;
+}
+
+.segmented__item[data-active='true'] {
+  color: var(--bg);
+}
+
+.segmented__item:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: -2px;
+}
+
+@media (hover: hover) {
+  .segmented__item:hover:not([data-active='true']) {
+    color: var(--white);
+  }
+}
+
+/* Sıralama çubuğu gibi ikincil kontroller için kompakt boy. */
+.segmented[data-size='sm'] .segmented__item {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segmented[data-ready='true'] .segmented__pill,
+  .segmented__item {
+    transition: none;
+  }
+}

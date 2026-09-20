@@ -206,6 +206,7 @@
       "saved_one": "{{formatted}} Kayıt",
       "saved_other": "{{formatted}} Kayıt",
       "tabAll": "Tümü",
+      "featured": "En Popüler",
       "anonymous": "bilinmeyen",
       "timeJustNow": "az önce",
       "timeMinutesAgo": "{{count}} dk önce",
@@ -216,13 +217,31 @@
         "new": "Yeni",
         "top": "En İyi"
       },
-      "loadMore": "Daha Fazla Yükle"
+      "loadMore": "Daha Fazla Yükle",
+      "loading": "Gönderiler yükleniyor",
+      "spoilerRow": "Spoiler içerir"
+    },
+    "menu": {
+      "label": "Seçenekler",
+      "copyLink": "Bağlantıyı Kopyala",
+      "shareExternal": "Uygulama Dışında Paylaş",
+      "notifications": "Bildirimleri Aç/Kapat",
+      "muteBlock": "@{{user}} Sessize Al / Engelle",
+      "report": "Şikayet Et",
+      "edit": "Düzenle",
+      "closeComments": "Yorumlara Kapat",
+      "delete": "Sil",
+      "soon": "Yakında"
     },
     "composer": {
       "signInPrompt": "Konu açmak için giriş yap",
-      "titlePlaceholder": "Ne düşünüyorsun?",
+      "titlePlaceholder": "Tartışma başlığı (Örn: Walter White'ın asıl amacı neydi?)",
       "titleMin": "Başlık en az {{min}} karakter olmalı ({{count}}/{{min}})",
-      "bodyPlaceholder": "Detayları ekle (isteğe bağlı)",
+      "bodyPlaceholder": "Teorinizi veya tartışma detaylarını buraya yazın...",
+      "typeLabel": "Tür seç",
+      "bold": "Kalın",
+      "italic": "İtalik",
+      "spoiler": "Spoiler olarak işaretle",
       "chooseMedia": "Görsel veya video ekle ({{count}}/{{max}})",
       "mediaUploading": "Yükleniyor…",
       "removeMedia": "Kaldır",
@@ -235,6 +254,8 @@
     },
     "thread": {
       "spoilerReveal": "Spoiler içerir — görmek için tıkla",
+      "spoilerShort": "Spoiler",
+      "breadcrumb": "Bulunduğun yer",
       "share": "Paylaş",
       "linkCopied": "Link kopyalandı",
       "notFound": "Bu konu bulunamadı.",

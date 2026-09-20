@@ -63,9 +63,15 @@ import {
 // pozisyonu tek frame bile görünmesin) ve yeni sayfa app zemininden (--bg)
 // kısa bir opacity fade ile belirir — arkada görsel olsa da geçiş koyu renk
 // üstünden yumuşar. prefers-reduced-motion'da fade atlanır.
+// Community içi geçiş (sekme değişimi, feed↔thread detay): sol/sağ menü ekranda
+// SABİT kalmalı (PRD) — sayfa fade'i onları da yakıp söndürürdü, o yüzden
+// yalnız fade atlanır (scroll sıfırlama aynen çalışır). İlk giriş fade'i korunur.
+const COMMUNITY_PATH = /^\/(?:[a-z]{2}\/)?community(?:\/|$)/;
+
 function PageTransition({ children }) {
   const { pathname } = useLocation();
   const pageRef = useRef(null);
+  const prevPathname = useRef(null);
 
   useLayoutEffect(() => {
     // Blog'dan geri dönüşte scroll'u RelatedContent kendisi geri yükler
@@ -88,7 +94,9 @@ function PageTransition({ children }) {
     // yanıp sönme yaratır ve component'in kendi crossfade'iyle çakışır.
     // Blog devri/geri dönüşü kendi klonuyla kesintisiz akar — üstüne bir de
     // sayfa fade'i binerse geçiş "yanıp söner".
-    if (isCinematicArmed() || isInPageNavArmed() || isBlogFlipArmed() || isBlogReturnArmed()) {
+    const withinCommunity = COMMUNITY_PATH.test(prevPathname.current ?? '') && COMMUNITY_PATH.test(pathname);
+    prevPathname.current = pathname;
+    if (withinCommunity || isCinematicArmed() || isInPageNavArmed() || isBlogFlipArmed() || isBlogReturnArmed()) {
       return undefined;
     }
 
@@ -260,11 +268,12 @@ function App() {
               <Route path="discussion" element={<Feed surface="DISCUSSION" />} />
               <Route path="theories" element={<Feed surface="THEORY" />} />
               <Route path="fan-art" element={<Feed surface="FAN_ART" />} />
+              {/* Thread detay — layout İÇİNDE: sol/sağ menü sabit kalır, yalnız
+                  orta sütundaki Feed unmount olup yerine ThreadDetail gelir (PRD). */}
+              <Route path="discussion/:slug" element={<ThreadDetail />} />
+              <Route path="theories/:slug" element={<ThreadDetail />} />
+              <Route path="fan-art/:slug" element={<ThreadDetail />} />
             </Route>
-            {/* Thread detay — CommunityLayout'un DIŞINDA (3-kolon değil, tam sayfa) */}
-            <Route path="community/discussion/:slug" element={<ThreadDetail />} />
-            <Route path="community/theories/:slug" element={<ThreadDetail />} />
-            <Route path="community/fan-art/:slug" element={<ThreadDetail />} />
             <Route path="news" element={<News />} />
             <Route path="blog/:slug" element={<BlogPostRoute />} />
             <Route path="blog" element={<Blog />} />

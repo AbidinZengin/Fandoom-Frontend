@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
-import styles from './SurfaceFilter.module.css';
+import { SegmentedControl } from '../SegmentedControl/SegmentedControl';
 
 const TABS = [
   { key: 'all', labelKey: 'community.feed.tabAll', to: '/community' },
@@ -16,18 +15,8 @@ export function SurfaceFilter() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
-  return (
-    <nav className={styles.surfaceFilter} aria-label={t('community.feed.tabAll')}>
-      {TABS.map((tab) => (
-        <Link
-          key={tab.key}
-          to={tab.to}
-          className={styles.surfaceFilter__tab}
-          data-active={pathname.endsWith(tab.to)}
-        >
-          {t(tab.labelKey)}
-        </Link>
-      ))}
-    </nav>
-  );
+  const items = TABS.map((tab) => ({ key: tab.key, to: tab.to, label: t(tab.labelKey) }));
+  const activeKey = TABS.find((tab) => pathname.endsWith(tab.to))?.key;
+
+  return <SegmentedControl items={items} activeKey={activeKey} label={t('community.feed.tabAll')} />;
 }

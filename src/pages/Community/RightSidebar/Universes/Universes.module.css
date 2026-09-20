@@ -1,6 +1,8 @@
+/* Dolgusuz hairline kart (2026-09-20, H varyantı) — thread kartlarıyla aynı. */
 .universes {
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--border);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
 }
 
 .universes__heading {
@@ -42,8 +44,8 @@
 .universes__tag {
   padding: 2px var(--space-xs);
   border-radius: var(--radius-pill);
-  border: 1px solid color-mix(in srgb, var(--prod-accent, var(--accent)) 45%, transparent);
-  color: var(--prod-accent, var(--accent));
+  background: var(--surface-2);
+  color: var(--fg-dim);
   font-size: var(--text-2xs);
   font-weight: 700;
   text-transform: uppercase;

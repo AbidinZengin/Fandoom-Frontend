@@ -1,7 +1,74 @@
+/* Yapışkan kontrol "adaları" — yöne bağlı headroom (useControlsReveal):
+   `data-hidden` durumunu JS belirler, hareketi transition yapar. `--sidebar-top`
+   yan çubuklarla AYNI konumu kullanır (navbar kalkınca birlikte yukarı çıkar).
+   Kullanıcı: "arkadaki siyah background olmadan yüzen bir ada gibi" — kapsayıcı
+   ŞEFFAF, zemin/hairline YOK; yalnız iki pill içerik üstünde yüzer. Şeffaf
+   kapsayıcı tıklamayı yutmasın diye pointer-events kapalı, adalar açık.
+   Gizliyken: ekran dışına kayar + solar + `visibility` (geçiş bitince) ile
+   odak/ekran okuyucudan da çıkar. Süre/eğri navbar'ın GSAP kaymasıyla aynı
+   (`--nav-shift`) — ikisi tek hareket gibi. */
+.feed__controls {
+  position: sticky;
+  top: var(--sidebar-top);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition:
+    top var(--nav-shift),
+    transform var(--nav-shift),
+    opacity var(--nav-shift),
+    visibility 0s;
+}
+
+.feed__controls > * {
+  pointer-events: auto;
+}
+
+.feed__controls[data-hidden='true'] {
+  transform: translateY(calc(-100% - var(--sidebar-top) - var(--space-md)));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    top var(--nav-shift),
+    transform var(--nav-shift),
+    opacity var(--nav-shift),
+    visibility 0s linear 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feed__controls,
+  .feed__controls[data-hidden='true'] {
+    transition: none;
+  }
+}
+
 .feed__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+/* State B: sıkışık liste — tek hairline kap, satırlar çizgiyle ayrılır. */
+.feed__rows {
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.feed__rows > * + * {
+  border-top: 1px solid var(--border);
+}
+
+/* State C: masonry duvar (CSS columns) — karolar kendi oranında akar. */
+.feed__grid {
+  columns: 2;
+  column-gap: var(--space-md);
 }
 
 .feed__empty {
@@ -9,6 +76,14 @@
   text-align: center;
   color: var(--fg-muted);
   font-size: var(--text-base);
+}
+
+.feed__moreError {
+  margin: var(--space-sm) 0 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-dim);
 }
 
 .feed__loadMore {

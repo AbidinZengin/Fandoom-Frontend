@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ThreadAuthor } from '../../ThreadAuthor/ThreadAuthor';
+import { ThreadTags } from '../../ThreadTags/ThreadTags';
+import { ThreadMenu } from '../../ThreadMenu/ThreadMenu';
+import { RichText } from '../../RichText/RichText';
 import { ThreadMedia } from '../../ThreadMedia/ThreadMedia';
 import { ThreadActions } from '../../ThreadActions/ThreadActions';
 import styles from './ThreadBody.module.css';
@@ -16,15 +19,21 @@ export function ThreadBody({ thread }) {
 
   return (
     <article className={styles.threadBody}>
+      <ThreadMenu thread={thread} shareUrl={window.location.href} />
       <ThreadAuthor thread={thread} />
 
-      <h1 className={styles.threadBody__title}>{thread.title}</h1>
+      {/* h2: sayfa h1'i CommunityLayout'taki "Community" başlığıdır (iki h1 olmasın). */}
+      <h2 className={styles.threadBody__title}>{thread.title}</h2>
+
+      <ThreadTags thread={thread} />
 
       {thread.body &&
         (revealed ? (
           <div className={styles.threadBody__text}>
-            {thread.body.split('\n\n').map((paragraph) => (
-              <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+            {thread.body.split('\n\n').map((paragraph, index) => (
+              <p key={index}>
+                <RichText text={paragraph} />
+              </p>
             ))}
           </div>
         ) : (
