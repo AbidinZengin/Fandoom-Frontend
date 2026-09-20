@@ -478,7 +478,8 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   Game of Thrones + House of the Dragon birleşik), tekil yapım başlığı bazlı
   değil — yeni platformda kritik-kütle/"ghost town" riskini azaltır; bir
   yapım gerçekten büyürse ayrışma ileride organik ve düşük risklidir, tersi
-  (baştan ayırıp sonra birleştirmek) zor bir migrasyondur.
+  (baştan ayırıp sonra birleştirmek) zor bir migrasyondur. (2026-09-21: bu
+  ayrım artık PORTAL = Oda'dır, bkz. `[topluluk-organizasyon]`.)
   _(2026-07, Fandom.com'un "Wiki of Westeros" emsali — GoT+HotD tek wiki)_
 - **[topluluk-veri]** News / Blog / Discussion / Theory / Fan Art beş
   yüzeyi TEK çekirdek veri modelinde toplanır (Thread + Post + Vote +
@@ -557,10 +558,18 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
 
 #### Kart/Liste Bileşenleri
 
-- **[topluluk-kart]** Tüm yüzeyler TEK TİP FeedCard şablonu kullanır
+- **[topluluk-kart]** (2026-09-21: bu şablon artık YALNIZ "Tümü" sekmesinin
+  kartıdır — Discussion/Theories liste, Fan Art galeri oldu, bkz.
+  `[topluluk-görünüm]`.) Tüm yüzeyler TEK TİP FeedCard şablonu kullanır
   (2026-09-19'da sosyal post kartı referansına göre güncellendi): avatar
-  (gerçek `author.avatarUrl`, yoksa baş harf) + @yazar, altında "zaman · #tag"
-  → başlık → 3 satır line-clamp özet + "Devamını Oku" → MEDYA MOZAİĞİ (en
+  (gerçek `author.avatarUrl`, yoksa baş harf) + tek satır breadcrumb "@yazar •
+  zaman" (evren alanı backend'e gelince "@yazar ▶ Evren • zaman"; sağ üstte
+  "..." menüsü) → başlık → #hashtag'ler (TÜR PİLL'İ YOK — kullanıcı,
+  2026-09-21: "Discussion/Fan Art amblemlerini kaldır, belirtmemize gerek yok";
+  tür sekme/route ve detay breadcrumb'ından bellidir) →
+  3 satır line-clamp özet (kesilirse alt kenar soldurulur) + "Devamını Oku"
+  (spoiler işaretliyse özet BULANIK + tıkla-aç kapı, medya açılana dek render
+  edilmez) → MEDYA MOZAİĞİ (en
   fazla 3 karo: 1 tek — kendi oranında ölçeklenir ama HEM genişlik
   (`--media-max-w`) HEM yükseklik (`--media-max-h`) sınırlıdır (theme.css
   token'ları) ve kartta HER ZAMAN ortalanır (sola yatık kalması reddedildi).
@@ -612,20 +621,32 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   kendi alt-sayfalarını barındırır: `/support` (ana+SSS arama),
   `/support/faq`, `/support/contact`. _(2026-07, navbar planlama)_
 
-#### Yapım/Evren Organizasyonu — Klasör Değil, Etiket
+#### Portal Organizasyonu — Portal = Oda (Klasör)
 
-- **[topluluk-organizasyon]** Hiçbir yüzey (Blog dahil) yapıma/evrene göre
-  KLASÖR gibi hiyerarşik bölünmez — tek global liste + yapım/evren TAG'i
-  (n-n, çapraz-kesen). Üstüne İKİ giriş noktası eklenir: (1) Community ana
-  sayfasında "evrene göre gez" kartları (Westeros gibi) — tıklanınca o
-  evrenin tag'iyle önceden-süzülmüş görünüm açılır; (2) her global yüzey
-  sayfasının (Haberler/Discussion/Theories/Fan Art) üstünde öne-çıkan
-  evren/yapım chip'leri — hepsi aynı tek kaynağın filtrelenmiş görünümü,
-  veri hiçbir yerde kopyalanmaz/bölünmez. _(2026-07, Community mimari planlama)_
+- **[topluluk-organizasyon]** PORTAL = ODA (KLASÖR) — kullanıcı kararı,
+  2026-09-21: önceki "evren çapraz-kesen tag (n-n)" mantığı Community için
+  TAMAMEN GEÇERSİZDİR ("çöpe gitmeli"). Her post MECBUREN tek bir portala
+  aittir (`Thread.portalId`, zorunlu, n-n değil). Portal yalnız ADMIN
+  tarafından açılır ve yapıma bağlı olmak zorunda değildir (Westeros =
+  GoT + HotD, Genel Sohbet = yapımsız; `PortalProduction` n-n eşlemesi).
+  ÜYELİK gerçek bir KATILIM TABLOSUDUR (`PortalMembership`, Katıl/Ayrıl) —
+  "sadece pasif metrik değil, platformun kalbi": `memberCount`'u ve sol
+  menüdeki "Portallarım" kişiselleştirilmiş akışını besler. Route:
+  `/portal/{slug}`; post URL'i HİBRİTTİR:
+  `/portal/{slug}/post/{id}-{post-slug}` — backend sorguyu ve yönlendirmeyi
+  YALNIZ id ile yapar, slug SEO için süstür (başlık değişse link kırılmaz;
+  FE slug uyuşmazsa kanonik URL'e `replace` eder, modal YOK). Giriş
+  noktaları: sağ menüde "Top Portals" (en trend 5) + "Tüm Portalları
+  Keşfet" → afiş ve üye sayılı dizin sayfası. Bu karar YALNIZ Community
+  (Thread) içindir; Blog'un yapım/sezon/bölüm tag'i (`[blog-veri]`)
+  etkilenmez. FE'ye bağlanma backend'e bağlıdır (bkz. `[topluluk-görünüm]`).
+  Eski kural (2026-07: "hiçbir yüzey yapıma/evrene göre klasör olmaz, tek
+  global liste + tag") bununla SİLİNDİ. _(2026-09, Community PRD)_
 - **[topluluk-organizasyon]** Her yapımın kendi sayfasında (GoT, House of
   the Dragon vb.) 4 küçük "vitrin" kutusu olur (Haberler/Discussion/
   Theories/Fan Art, her biri 2-3 öğe) + "devamı için →" linki ilgili
-  global sayfaya (yapım etiketiyle önceden süzülmüş). Bu, en baştaki
+  global sayfaya (yapımın bağlı olduğu PORTAL'a önceden süzülmüş; 2026-09-21'e
+  kadar "yapım etiketiyle süzülmüş" idi). Bu, en baştaki
   "Community yapım sayfasına gömülmesin" kararıyla ÇELİŞMEZ çünkü tam bir
   bölüm değil, teaser+link-out (Fandom.com DiscussionsRailModule emsali).
   Boş vitrin "0 tartışma" göstermez — davet copy'sine döner ("Bu yapım
@@ -646,27 +667,90 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   `--fg-muted` gri-beyaz skalasıyla yapılır (tag, aktif tab/buton, "Devamını
   Oku" linki dahil). Önceki "--accent brand-purple nötr tema" kararının
   YERİNE geçer. Bir yapım gibi TAM TEMA kurmaz (çoklu-yapım, tek yapıma ait
-  değil) — yapım rengi SADECE her kart/thread'in kategori/production
-  tag'inde (ör. Universes widget'ının evren chip'leri) `--prod-accent` ince
-  tint olarak yaşamaya devam eder, bu istisna korunur. Tipografi istisnasız
+  değil). 2026-09-20 GRAYSCALE kararı: `--prod-accent` istisnası KALDIRILDI —
+  Universes chip'leri dahil arayüz gri (chip = `--surface-2` + `--fg-dim`,
+  hata metni `--fg` + kalın, Comments `variant="neutral"` `--accent`'i
+  `--fg`'e çeker). İSTİSNA: AVATARLAR kendi rengini korur (username'den
+  deterministik `avatarColor`, kullanıcı: "avatarların kendi rengi kalsın gri
+  olmak zorunda değil") — ilk grayscale turunda griye çevrilmişti, geri
+  alındı. Renk ayrıca kullanıcının yüklediği içerikte (avatar fotoğrafı, thread
+  medyası) kalır. Tipografi istisnasız
   Montserrat — GoT'un özel display fontu Community'de geçersiz (paylaşılan
   `Comments` component'i buraya `variant="neutral"` prop'uyla uyarlanır,
   Blog'daki GoT-fontlu varsayılanı DEĞİŞTİRMEDEN). _(2026-09, CommunityLayout
   — kullanıcı kararı: "mor rengi bırak artık")_
-- **[topluluk-görsel]** Community'nin "kart" yüzeyi DÜZDÜR (flat) — gri
-  `--card-bg` dolgulu kutu YOK, öğeler ince `border-bottom` ayırıcılarla
-  birbirinden ayrılan bir liste olarak durur (Twitter-tarzı akış). Genel
-  `[yüzey]` kuralının ("kart yumuşak+parlak, belirgin radius, hafif glow")
-  Community'ye özel İSTİSNASI — FeedCard/PostComposer/ThreadBody/LeftSidebar
-  CTA/RightSidebar widget'larının hepsi bu kurala tabi. İSTİSNA (2026-09-19):
-  THREAD kartları (FeedCard + ThreadBody) yuvarlak koyu karttır — `--bg-soft`
-  (siyah zeminde bir tık koyu gri; `--card-bg` fazla açık bulundu) +
-  `--radius-lg`, BORDER YOK (kullanıcı düzeltmesi), feed'de kartlar arası
-  boşlukla; sidebar'lar düz kalır. COMPOSER (PostComposer) ise SADECE-BORDER'lı
-  şeffaf kutudur: dolgu yok, `2px --border` (1px "çok ince" bulundu) + `--radius-lg` (kullanıcı kararı,
-  2026-09-19; thread kartının tersi — kart dolgulu bordersız, composer
-  bordersız-dolgusuz değil, çerçeveli şeffaf). _(2026-09, CommunityLayout — kullanıcı kararı:
-  "gri arka gridleri bırak"; thread istisnası: sosyal post kartı referansı)_
+- **[topluluk-görsel]** Community kart yüzeyi başlangıçta DÜZDÜ (flat, ince
+  `border-bottom` ayırıcılı Twitter-tarzı akış; "gri arka gridleri bırak").
+  Thread kartları (2026-09-19), composer ve sağ sidebar widget'ları (2026-09-20)
+  YÜZEN karta çevrildi — güncel kural aşağıdaki YÜZEN YÜZEY maddesidir.
+  LeftSidebar (CTA/nav) ve ProfileCard hâlâ düz; onların kararı ayrı (açık).
+  Thread kartı BORDER'sızdır, `--radius-lg`. _(2026-09, CommunityLayout)_
+- **[topluluk-görsel]** Community kartları DOLGUSUZ HAIRLINE KARTTIR
+  (2026-09-20, kullanıcı: "buna benzesin renkler" + H varyantı "referansın
+  birebir yapısı, dolgusuz ve #222 çerçeveli"; referans: 21st.dev pricing
+  component'i, tarayıcıda piksel ölçüldü). Zemin `--surface-0` `#0a0a0a`
+  (`:has([data-community-canvas])` ile, JS'siz); kartlar (FeedCard, ThreadBody,
+  PostComposer, sağ widget'lar) zeminle AYNI renk, `1px solid --border-card`
+  (`#222222`), `--radius-lg`, gölge/dolgu YOK; FeedCard hover'da çerçeve
+  `--border-card-hover`'a (`#323232`) açılır. Kart içi hafif dolgu (chip,
+  hover pill, placeholder) `--surface-2` `#171717`. Palet tamamen NÖTR —
+  mavi alt-ton yasak. Seçili pill (sekme/sıralama, yapılırsa) referanstaki gibi
+  açık gri `#cdcdcd` + `#323232` ray; öne çıkan kart `#d7d7d7` çerçeve.
+  ÖNCEKİ YÜZEN-KART DENEMESİ (dolgulu `#1c1c1c` kart + `--shadow-float-*` +
+  hover'da yükselme + composer'da çerçevesiz) DENENDİ ve H lehine bırakıldı;
+  o denemede öğrenilenler: siyah zeminde gölge okunmaz, `#161618` (1.13:1)
+  algılanmadı, kart açıldıkça `--fg-muted` AA'nın altına iner. Composer'ın
+  eski 2px gradient çerçevesi yerine feed kartlarıyla aynı hairline kart.
+  `--fg-faint` yüzeyde metin için kullanılmaz. Sol sidebar (CTA/nav/profil)
+  hâlâ düz — kart yapılması istendi, sonra geri alındı; kararı açık.
+  _(2026-09, CommunityLayout — kullanıcı kararları)_
+- **[topluluk-etkileşim]** Community akıcılık paketi (2026-09-20, kullanıcı:
+  "yapalım" ×2; hepsi saf CSS, transform/opacity, `--duration-fast` +
+  `cubic-bezier(0.33, 1, 0.68, 1)`, hepsinde `prefers-reduced-motion` kapalı):
+  (1) SEKME + SIRALAMA `SegmentedControl` — ray `--pill-track` `#323232`, seçili
+  pill `--pill-active` `#cdcdcd` + koyu metin, seçim ölçülen `--pill-x/--pill-w`
+  ile KAYARAK geçer (21st.dev toggle); sıralama `size="sm"`. Tek satırda
+  (sekmeler solda, sıralama sağda), `position: sticky; top: var(--sidebar-top)`.
+  YÜZEN ADA: kapsayıcının zemini/hairline'ı YOK (kullanıcı: "arkadaki siyah
+  background olmadan yüzen bir ada gibi") — yalnız iki pill içerik üstünde durur,
+  yumuşak gölgeyle ayrışır; şeffaf kapsayıcı tıklamayı yutmaz (pointer-events).
+  YÖNE BAĞLI, KENDİ BAŞINA SMOOTH HEADROOM (kullanıcı: "sadece smooth şekilde
+  açığa çıkıp kaybolmasını istemiştim"; scroll'a 1:1 bağlı sürüm DENENDİ ve
+  reddedildi — bu, ilk "zamanlı kayma tuhaf" değerlendirmesinin YERİNE geçer,
+  o zamanki gerçek kusurlar bant + süre uyuşmazlığıydı): aşağı scroll'da (≥8px)
+  ada navbar gibi kayarak + solarak kaybolur; yukarı scroll'da KESİNTİSİZ 200px
+  sonra (ölü bölge: titreşim/trackpad ataleti tetiklemez) kayarak + belirerek
+  gelir. Durumu `useControlsReveal` `data-hidden` ile belirler, hareketi CSS
+  transition yapar (`--nav-shift` = navbar'ın 0.4s power2.out eğrisi; gizliyken
+  `visibility` geçiş sonunda kapanır). Tek büyük sıçramadan sonra scroll olayı
+  gelmeyebildiği için hareket durunca (150ms) durum bir kez daha değerlendirilir.
+  Navbar 400px yukarı scroll'da döner (NAV_REVEAL_AFTER) ve ada onun altına
+  kayar; mesafe yön değişiminde sıfırlanır. Ada yapışmadıysa (sayfa başı) hiç
+  gizlenmez. Bu opt-in `<html data-nav-reveal-after>` ile Navbar'a bildirilir ve
+  Community DIŞINDA
+  etkisizdir (varsayılan: yukarı scroll'da hemen döner —
+  Navbar kuralı değişmedi). (2) ÖNE ÇIKAN KART: Hot sıralamada ilk sıradaki, etkileşimi olan
+  thread `--border-featured` `#d7d7d7` çerçeve + üst kenara oturan "Most
+  Popular / En Popüler" rozeti; gerçek sıralamadan TÜRETİLİR, backend'de
+  sabitleme alanı olmadığı için uydurma veri yok. (3) SAYAÇ ANİMASYONU
+  `AnimatedCount`: sayı değişince eski çıkar/yeni girer (artışta aşağıdan,
+  azalışta yukarıdan), yalnız sayı kısmı, ilk render animasyonsuz. (4) COMPOSER
+  DARALIR: kapalıyken tek satır ("Ne düşünüyorsun?"), odakla açılır (grid
+  0fr↔1fr), odak formdan çıkınca VE içerik boşsa daralır (dosya seçici açıkken
+  daralmaz — `document.activeElement` kontrolü); kapalı bölüm `inert`. (5) KART
+  GİRİŞİ: `fade + y 12→0`, mount'ta, grup içi sıra × 60ms kademe ("load more"
+  grubu dahil; aynı thread'lerin yeniden sıralanması yeniden oynatmaz).
+  (6) BEĞENİ/KAYDET POP: yalnız kullanıcı aktif yaptığında ikon 1.3× yaylanır
+  (sayfa yüklenirken zaten beğenilmişler zıplamaz); güncelleme zaten optimistic.
+  _(2026-09, CommunityLayout/Feed)_
+- **[topluluk-layout]** Community 3-kolonunda içerik navbar'ın hemen altından
+  başlar (üst boşluk küçük). Sol/sağ yan çubuklar sayfayla KAYMAZ (sticky) ve
+  sticky konumları doğal başlangıç konumuna EŞİTTİR (yoksa scroll başında
+  sıçrar); taşan içerik yalnız üzerine gelinip kaydırılınca kendi içinde
+  scroll olur, sınırında sayfaya geçmez (`overscroll-behavior: contain`),
+  scrollbar GÖRÜNMEZ. Navbar aşağı scroll'da kalkınca yan çubuklar üstteki
+  boşluğa çıkar, navbar dönünce altına iner (Navbar `html[data-nav-hidden]`
+  yayınlar). Kullanıcı ilk turda "mükemmel" dedi. _(2026-09, CommunityLayout)_
 - **[topluluk-görsel]** Community'deki ana CTA butonları (Sign In/Sign Up,
   Post/Paylaş submit, Load More, Follow) SOLID BEYAZ dolgu (`background:
   var(--fg)`) + KOYU metin (`color: var(--bg)`) alır — glassmorfik dolgu
@@ -675,6 +759,41 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   özel İSTİSNASI; sitenin geri kalanında (EpisodeBrief vb.) glassmorfik
   standart değişmedi. _(2026-09, CommunityLayout — kullanıcı kararı:
   "butonlar arka planı beyaz olacak")_
+- **[topluluk-görünüm]** Orta sütun "Chameleon Feed"dir (kullanıcı PRD'si,
+  2026-09-21): aktif Post Türü'ne göre görünüm değişir — TÜMÜ → geniş
+  FeedCard (vitrin), DISCUSSION/THEORY → zengin konu satırı (`FeedRow`, Discourse
+  tarzı, 2026-09-21 kullanıcı kararı: solda DİKEY upvote bloğu (ok üstte,
+  kalın sayaç altta; aşağı-oy YOK — backend'de karşılığı yok); ortada başlık →
+  başlığın hemen altında tek soluk meta satırı "avatar @yazar • N Yorum •
+  zaman" (soldan sağa ardışık, sağa yaslama YOK) → özetin ilk satırı soluk tek
+  satır; sağda 72x72 küçük resim (`--radius-md`, hairline çerçeve) YALNIZ resim
+  varsa (boş yuva açılmaz); büyük görsel gizli; katılımcı avatarı/"son yanıt"
+  backend'de alan olmadığı için YOK),
+  FAN_ART → masonry galeri (`FeedTile`: odak görsel, başlık/beğeni/yorum yalnız
+  hover'da, dokunmatikte sürekli). Görünüm yalnız yüzeyden türer, render
+  farkıdır. Veri zustand önbelleğindedir (`useFeedStore`, yüzey+sıralama
+  anahtarı, 5 dk taze): açılmış sekmeye/detaydan geri dönüşte AĞ İSTEĞİ YOK,
+  geri (POP) dönüşte scroll konumu geri gelir; beğeni/kaydet önbelleğe
+  yansır, yeni post tüm önbelleği geçersiz kılar. Thread detayı
+  `CommunityLayout`'un İÇİNDEDİR (modal YOK; sol/sağ menü sabit, yalnız orta
+  sütun Feed→ThreadDetail olur) ve `Community › Tür` breadcrumb'ı taşır —
+  önceki "detay tam sayfa, layout dışı" kararının YERİNE geçer. Upvote =
+  backend'in beğeni sayacı. Portal (evren) katmanı, /portal/... route'ları,
+  Portal seçici, Top Portals/dizin sayfası ve metinden #hashtag ayrıştırma
+  BACKEND'e bağlı, sonraya bırakıldı. _(2026-09, Community — kullanıcı PRD'si)_
+- **[topluluk-composer]** Composer gövdesi WYSIWYG'dir (contenteditable,
+  `execCommand`): kalın/italik yazılırken ekranda DOĞRUDAN biçimli görünür,
+  `**`/`_` gibi işaret karakteri kullanıcıya ASLA gösterilmez (kullanıcı:
+  "italic neden ** açıyor, direkt ekranda italic yazı göstersin"). Backend'e
+  düz metin gider (`**kalın**`, `_italik_`, `\n`; `htmlToRichText`), kart +
+  detay `RichText` ile okur (yeni paket yok). Zorunlu alanlar: tür pill'i
+  (varsayılan yok; route yüzeyi önseçer), başlık (>=10), içerik; biri eksikse
+  Post pasif. Spoiler = gönderi seviyesinde tek toggle (`spoilerFlagged`).
+  Community MONOKROM olduğu için yıkıcı menü eylemleri (Şikayet/Sil) KIRMIZI
+  değil, üstte çizgi + tam beyaz + kalın; backend ucu olmayan menü öğeleri
+  "Yakında" pasif durur. Feed yüklenirken gerçek kart anatomili STATİK
+  iskelet (shimmer/spinner yok). _(2026-09, Community Faz 1 — kullanıcı
+  düzeltmesi + "renkli bir şey olmayacak")_
 
 ### Blog (Kısa Bilgi Deck'i) — Bilgi Mimarisi
 
@@ -690,8 +809,9 @@ bölümdeki kural etiketleri dahil.
 - **[blog-yapı]** Blog BAĞIMSIZ bir içerik yüzeyidir (`/blog/:slug`),
   bölüm verisinin içine gömülü bir alan DEĞİL. Bölüm sayfasının altındaki
   "ilgini çekebilir" şeridi aynı tek kaynağın filtrelenmiş VİTRİNİDİR —
-  veri hiçbir yerde kopyalanmaz. `[topluluk-organizasyon]` kuralının
-  Blog'a uygulanmış hâli. _(2026-07, Content Drops mimari planlama;
+  veri hiçbir yerde kopyalanmaz. Eski `[topluluk-organizasyon]` (tek liste +
+  tag) mantığının Blog'a uygulanmış hâli — Community'de o mantık 2026-09-21'de
+  Portal = Oda kararıyla KALDIRILDI, Blog kendi n-n tag'iyle aynen devam eder. _(2026-07, Content Drops mimari planlama;
   2026-08 Blog'a yeniden adlandırıldı)_
 - **[blog-veri]** Blog yazısı↔yapım/sezon/bölüm bağı n-n ÇAPRAZ-KESEN
   tag'dir (`tags: [{ productionSlug, seasonNumber?, episodeNumber? }]`) —
