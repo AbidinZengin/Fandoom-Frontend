@@ -10,9 +10,9 @@ import styles from './FeedRow.module.css';
 
 // State B — Okuma Odası (Discussion/Theories): zengin konu satırı (Discourse/
 // Reddit tarzı, kullanıcı kararı 2026-09-21). Sol: dikey upvote bloğu (ok +
-// sayaç). Orta: başlık → TEK meta satırı "avatar @yazar • yorum • zaman"
-// (başlığın hemen altında, soluk) → özetin ilk satırı (soluk, tek satır).
-// Sağ: 72x72 küçük resim, SADECE resim varsa (yuva açılmaz — resimsiz satırda
+// sayaç). Orta (referans ekran görüntüsü sırası): BÜYÜK kalın başlık →
+// özetin ilk satırı (soluk, tek satır) → TEK soluk meta satırı "avatar @yazar
+// • yorum • zaman". Başlık listenin en göze çarpan öğesidir. Sağ: 72x72 küçük resim, SADECE resim varsa (yuva açılmaz — resimsiz satırda
 // metin tüm genişliği kullanır). Büyük görsel gizlenir; küçük resim ilk GÖRSEL
 // medyadır (video için kare yok); spoiler işaretli postta özet ve küçük resim
 // gösterilmez. Upvote = backend'in beğeni sayacı (aşağı-oy YOK: backend'de
@@ -41,6 +41,16 @@ export function FeedRow({ thread }) {
       <span className={styles.feedRow__body}>
         <span className={styles.feedRow__title}>{thread.title}</span>
 
+        {thread.spoilerFlagged ? (
+          <span className={styles.feedRow__excerpt}>{t('community.feed.spoilerRow')}</span>
+        ) : (
+          thread.excerpt && (
+            <span className={styles.feedRow__excerpt}>
+              <RichText text={thread.excerpt} />
+            </span>
+          )
+        )}
+
         <span className={styles.feedRow__meta}>
           {thread.authorAvatarUrl ? (
             <img src={thread.authorAvatarUrl} alt="" className={styles.feedRow__avatar} />
@@ -66,16 +76,6 @@ export function FeedRow({ thread }) {
             </>
           )}
         </span>
-
-        {thread.spoilerFlagged ? (
-          <span className={styles.feedRow__excerpt}>{t('community.feed.spoilerRow')}</span>
-        ) : (
-          thread.excerpt && (
-            <span className={styles.feedRow__excerpt}>
-              <RichText text={thread.excerpt} />
-            </span>
-          )
-        )}
       </span>
 
       {thumb && <img src={thumb.url} alt="" loading="lazy" className={styles.feedRow__thumb} />}

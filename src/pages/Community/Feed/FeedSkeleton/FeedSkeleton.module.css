@@ -77,12 +77,9 @@
   width: var(--space-2xl);
 }
 
-/* Liste: gerçek .feed__rows kabıyla aynı — tek hairline kap, çizgili satırlar. */
+/* Liste: gerçek satırlarla aynı — her satır AYRI yuvarlak (--radius-md) hairline dikdörtgen. */
 .feedSkeleton[data-variant='list'] {
-  gap: 0;
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  gap: var(--space-sm);
 }
 
 .feedSkeleton__row {
@@ -90,7 +87,9 @@
   grid-template-columns: var(--space-2xl) minmax(0, 1fr);
   align-items: start;
   gap: var(--space-md);
-  padding: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
 }
 
 .feedSkeleton__row[data-has-thumb] {
@@ -107,9 +106,6 @@
   width: 35%;
 }
 
-.feedSkeleton__row + .feedSkeleton__row {
-  border-top: 1px solid var(--border);
-}
 
 .feedSkeleton__bar[data-size='vote'] {
   width: 70%;
@@ -117,13 +113,13 @@
 
 .feedSkeleton__bar[data-size='rowTitle'] {
   width: 85%;
-  height: var(--space-md);
+  height: var(--space-lg);
 }
 
 .feedSkeleton__thumb {
   align-self: center;
   height: calc(var(--space-3xl) + var(--space-xs));
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--surface-2);
 }
 

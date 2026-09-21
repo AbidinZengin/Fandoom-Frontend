@@ -54,15 +54,12 @@
   gap: var(--space-md);
 }
 
-/* State B: sıkışık liste — tek hairline kap, satırlar çizgiyle ayrılır. */
+/* State B: her konu AYRI, yuvarlak (--radius-md) hairline dikdörtgen
+   (kullanıcı, 2026-09-21); satırlar arasında boşluk. */
 .feed__rows {
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.feed__rows > * + * {
-  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 /* State C: masonry duvar (CSS columns) — karolar kendi oranında akar. */
