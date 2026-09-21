@@ -175,8 +175,12 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
 
   const removeMedia = (url) => setMedia((prev) => prev.filter((item) => item.url !== url));
 
+  // `#` alanda SABİT önek olarak durur, kullanıcı yalnız kelimeyi yazar; yine de
+  // yapıştırılan/yazılan #, boşluk ve virgül temizlenir (etiket tek kelime).
+  const cleanTag = (value) => value.replace(/[#,\s]/g, '');
+
   const addTag = () => {
-    const clean = tagInput.trim().replace(/^#/, '');
+    const clean = cleanTag(tagInput);
     if (!clean || tags.includes(clean) || tags.length >= MAX_TAGS) return;
     setTags([...tags, clean]);
     setTagInput('');
@@ -300,19 +304,25 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
                   </span>
                 ))}
                 {tags.length < MAX_TAGS && (
-                  <input
-                    className={styles.postComposer__tagInput}
-                    placeholder={t('community.composer.tagPlaceholder')}
-                    aria-label={t('community.composer.tagPlaceholder')}
-                    value={tagInput}
-                    onChange={(event) => setTagInput(event.target.value)}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter') {
-                        event.preventDefault();
-                        addTag();
-                      }
-                    }}
-                  />
+                  <label className={styles.postComposer__tagField}>
+                    <span className={styles.postComposer__tagHash} aria-hidden="true">
+                      #
+                    </span>
+                    <input
+                      className={styles.postComposer__tagInput}
+                      placeholder={t('community.composer.tagPlaceholder')}
+                      aria-label={t('community.composer.tagPlaceholder')}
+                      value={tagInput}
+                      onChange={(event) => setTagInput(cleanTag(event.target.value))}
+                      onKeyDown={(event) => {
+                        // Enter, boşluk veya virgül etiketi ekler — tek tek, # otomatik.
+                        if (event.key === 'Enter' || event.key === ' ' || event.key === ',') {
+                          event.preventDefault();
+                          addTag();
+                        }
+                      }}
+                    />
+                  </label>
                 )}
               </div>
 

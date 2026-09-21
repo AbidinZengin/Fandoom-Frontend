@@ -247,7 +247,7 @@
       "removeMedia": "Remove",
       "mediaError": "Couldn't upload the file, try again.",
       "mediaTooLarge": "{{name}} is too large (max {{max}} MB).",
-      "tagPlaceholder": "Add a tag...",
+      "tagPlaceholder": "Type a tag, press Enter",
       "removeTag": "Remove tag",
       "submit": "Post",
       "error": "Couldn't post, try again."

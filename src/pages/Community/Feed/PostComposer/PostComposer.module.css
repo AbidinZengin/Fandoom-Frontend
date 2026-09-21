@@ -222,9 +222,24 @@
   padding: 0;
 }
 
-.postComposer__tagInput {
+/* Etiket alanı: sabit "#" öneki + yalnız kelime girişi. */
+.postComposer__tagField {
   flex: 1;
   min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.postComposer__tagHash {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--fg-dim);
+}
+
+.postComposer__tagInput {
+  flex: 1;
+  min-width: 0;
   font-size: var(--text-sm);
 }
 

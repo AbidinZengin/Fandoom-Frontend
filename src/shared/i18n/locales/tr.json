@@ -247,7 +247,7 @@
       "removeMedia": "Kaldır",
       "mediaError": "Dosya yüklenemedi, tekrar dene.",
       "mediaTooLarge": "{{name}} çok büyük (en fazla {{max}} MB).",
-      "tagPlaceholder": "Etiket ekle...",
+      "tagPlaceholder": "Etiket yaz, Enter ile ekle",
       "removeTag": "Etiketi kaldır",
       "submit": "Paylaş",
       "error": "Gönderilemedi, tekrar dene."
