@@ -1,0 +1,172 @@
+{
+  "black-swan": {
+    "tmdbId": 44214,
+    "imdbId": "tt0947798",
+    "title": "Black Swan",
+    "original": "Black Swan",
+    "release": "2010-12-03",
+    "runtime": 108,
+    "status": "Released",
+    "rating": 7.683,
+    "votes": 15896,
+    "budget": 13000000,
+    "revenue": 329398046,
+    "tagline": "\"I just want to be perfect.\"",
+    "country": [
+      "US"
+    ],
+    "lang": "en",
+    "cert": "R",
+    "genres": [
+      "Drama",
+      "Thriller",
+      "Horror"
+    ],
+    "director": [
+      "Darren Aronofsky"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=2Pxc_5f27Kg",
+    "posters": [
+      "1000x1500 oy6.3 https://image.tmdb.org/t/p/original/viWheBd44bouiLCHgNMvahLThqx.jpg",
+      "1000x1500 oy6.3 https://image.tmdb.org/t/p/original/3l3m9O0viLri7prG6AWx2xSte9x.jpg",
+      "2000x3000 oy5.5 https://image.tmdb.org/t/p/original/rH19vkjAzCZ0HIUvrgB3rowm68h.jpg",
+      "2000x3000 oy5.5 https://image.tmdb.org/t/p/original/fmVzY1Ca6DLivhmBVGXdIAoydnM.jpg"
+    ],
+    "backdrops": [
+      "3840x2160 oy6.4 https://image.tmdb.org/t/p/original/eDLp4uFdqP1gpy9oMrutwH6Q64I.jpg",
+      "3508x1973 oy5.7 https://image.tmdb.org/t/p/original/qxTw8OKJLRX1Xb5nR5CcIDnLKoq.jpg",
+      "1920x1080 oy5.3 https://image.tmdb.org/t/p/original/2eHQ748WEPuHMbrzL80OyUl3NqE.jpg",
+      "3504x1971 oy5.0 https://image.tmdb.org/t/p/original/hqh5O4KssfJWI62HGAgrjHXbxhD.jpg"
+    ],
+    "logos": [
+      "409x68 oy3.3 https://image.tmdb.org/t/p/original/oAhjhkTZy9UV9gGDPFEHcogYKlH.png"
+    ]
+  },
+  "dune-part-two": {
+    "tmdbId": 693134,
+    "imdbId": "tt15239678",
+    "title": "Dune: Part Two",
+    "original": "Dune: Part Two",
+    "release": "2024-02-27",
+    "runtime": 167,
+    "status": "Released",
+    "rating": 8.136,
+    "votes": 8597,
+    "budget": 190000000,
+    "revenue": 714844358,
+    "tagline": "Long live the fighters.",
+    "country": [
+      "US"
+    ],
+    "lang": "en",
+    "cert": "PG-13",
+    "genres": [
+      "Science Fiction",
+      "Adventure"
+    ],
+    "director": [
+      "Denis Villeneuve"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=U2Qp5pL3ovA",
+    "posters": [
+      "2000x3000 oy8.0 https://image.tmdb.org/t/p/original/76upJ0fnQ3osESX8mkTyfuXK5Ju.jpg",
+      "2000x3000 oy6.7 https://image.tmdb.org/t/p/original/q6OlEefHppCj4qSfPEzGdsdRCG2.jpg",
+      "1024x1536 oy6.3 https://image.tmdb.org/t/p/original/heM4XKC0jA8fTSNe8F7oUkcJV7Z.jpg",
+      "2000x3000 oy6.1 https://image.tmdb.org/t/p/original/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg"
+    ],
+    "backdrops": [
+      "3840x2160 oy6.1 https://image.tmdb.org/t/p/original/eZ239CUp1d6OryZEBPnO2n87gMG.jpg",
+      "3598x2024 oy6.0 https://image.tmdb.org/t/p/original/24Ov8wnusgnzXwjV1eDm0Lzo5da.jpg",
+      "3598x2024 oy6.0 https://image.tmdb.org/t/p/original/rRBD8ORo9y34tYkAQJVbn4Ml6tu.jpg",
+      "3840x2160 oy5.7 https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg"
+    ],
+    "logos": [
+      "4319x1299 oy4.7 https://image.tmdb.org/t/p/original/eYvF1LhPKuoBxOAmWjFTAK7EPWl.png"
+    ]
+  },
+  "the-batman": {
+    "tmdbId": 414906,
+    "imdbId": "tt1877830",
+    "title": "The Batman",
+    "original": "The Batman",
+    "release": "2022-03-01",
+    "runtime": 177,
+    "status": "Released",
+    "rating": 7.67,
+    "votes": 12546,
+    "budget": 185000000,
+    "revenue": 772775278,
+    "tagline": "Unmask the truth.",
+    "country": [
+      "US"
+    ],
+    "lang": "en",
+    "cert": "PG-13",
+    "genres": [
+      "Crime",
+      "Mystery",
+      "Thriller"
+    ],
+    "director": [
+      "Matt Reeves"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=vc7_mH2PWHs",
+    "posters": [
+      "1000x1500 oy8.5 https://image.tmdb.org/t/p/original/seyWFgGInaLqW7nOZvu0ZC95rtx.jpg",
+      "2000x3000 oy8.2 https://image.tmdb.org/t/p/original/os7LcePjYLyF22CyYSBuD6BhQA5.jpg",
+      "2000x3000 oy7.3 https://image.tmdb.org/t/p/original/pOaKyhMwALpCTg07eQQu0SQCbL9.jpg",
+      "2000x3000 oy5.9 https://image.tmdb.org/t/p/original/26GuBJpd9vLoCdrG5ocadINtt0h.jpg"
+    ],
+    "backdrops": [
+      "3840x2160 oy8.0 https://image.tmdb.org/t/p/original/eUORREWq2ThkkxyiCESCu3sVdGg.jpg",
+      "3840x2160 oy6.1 https://image.tmdb.org/t/p/original/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg",
+      "1927x1080 oy5.9 https://image.tmdb.org/t/p/original/IYUD7rAIXzBM91TT3Z5fILUS7n.jpg",
+      "1424x800 oy5.8 https://image.tmdb.org/t/p/original/4ke48uabb0K6uDcLlSED2ZvvYEb.jpg"
+    ],
+    "logos": [
+      "2634x1148 oy2.1 https://image.tmdb.org/t/p/original/haibnO2TycgulXD1Fj7b94L9m9E.png"
+    ]
+  },
+  "blade-runner-2049": {
+    "tmdbId": 335984,
+    "imdbId": "tt1856101",
+    "title": "Blade Runner 2049",
+    "original": "Blade Runner 2049",
+    "release": "2017-10-04",
+    "runtime": 164,
+    "status": "Released",
+    "rating": 7.6,
+    "votes": 15707,
+    "budget": 150000000,
+    "revenue": 259239658,
+    "tagline": "The key to the future is finally unearthed.",
+    "country": [
+      "US"
+    ],
+    "lang": "en",
+    "cert": "R",
+    "genres": [
+      "Science Fiction",
+      "Drama"
+    ],
+    "director": [
+      "Denis Villeneuve"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=geFtxCSz8xI",
+    "posters": [
+      "2000x3000 oy7.1 https://image.tmdb.org/t/p/original/gPKflMnBQzEHUVwTjx6ilFVCjIp.jpg",
+      "1280x1920 oy6.7 https://image.tmdb.org/t/p/original/marUJF6SHiht1dKjwitj0hOI5Rg.jpg",
+      "2000x3000 oy5.8 https://image.tmdb.org/t/p/original/IEnujqSfn3fcjkEO2oL562KAon.jpg",
+      "1000x1500 oy5.5 https://image.tmdb.org/t/p/original/mABdwROMFSOY6NDpVuDe0sleY8s.jpg"
+    ],
+    "backdrops": [
+      "3840x2160 oy8.0 https://image.tmdb.org/t/p/original/gNdLJU9TxrpGx4dkZidjys3fyy0.jpg",
+      "3840x2160 oy5.4 https://image.tmdb.org/t/p/original/mVr0UiqyltcfqxbAUcLl9zWL8ah.jpg",
+      "3840x2160 oy5.3 https://image.tmdb.org/t/p/original/3bWUP9kyf9BxVc0hmZdqXB2w4UP.jpg",
+      "1920x1080 oy5.3 https://image.tmdb.org/t/p/original/askFH4GSk2u9z3ZE5ypdKIMeqLJ.jpg"
+    ],
+    "logos": [
+      "4319x688 oy2.5 https://image.tmdb.org/t/p/original/1rcckWvL7bEbvVsnqGTbhE0iuBY.png"
+    ]
+  }
+}
