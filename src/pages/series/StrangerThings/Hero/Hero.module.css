@@ -85,16 +85,22 @@
   padding-bottom: 2.5cqw;
 }
 
-/* Başlık: --text-h1'in (56px tavan) ÜSTÜNE çıkarıldı — bu yüzden token
-   değil özel clamp (skalada bu büyüklükte karşılık yok, bilerek istisna).
-   vw DEĞİL cqw — viewport'a değil .hero__frame'in genişliğine oranlı
-   büyüsün/küçülsün. */
+/* Başlık resmi logo görselidir (learned-rules [tipografi]: resmi logo varsa
+   <img> + drop-shadow ile marka glow'u). Genişlik .hero__frame'e oranlı
+   (cqw) ve logonun en-boy oranına göre seçilir — skalada karşılığı yok, bilerek
+   istisna. */
 .hero__title {
-  margin: 0;
-  color: #f2f2f2;
-  font-size: clamp(32px, 10cqw, 92px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  /* alt boşluk: .hero__meta'daki negatif margin-top metin başlığın satır
+     boşluğunu telafi ediyordu; logoda o boşluk yok, aynı token geri verilir. */
+  margin: 0 0 var(--space-sm);
+  line-height: 0;
+}
+
+.hero__logo {
+  display: block;
+  width: clamp(220px, 32cqw, 480px);
+  height: auto;
+  filter: drop-shadow(0 0 28px color-mix(in srgb, var(--accent) 45%, transparent));
 }
 
 .hero__meta {
@@ -200,8 +206,8 @@
     padding-top: var(--space-lg);
   }
 
-  .hero__title {
-    font-size: var(--text-h2);
+  .hero__logo {
+    width: min(72%, 300px);
   }
 
   .hero__year,

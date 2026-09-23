@@ -6,6 +6,7 @@ import { isCinematicArmed } from '../../../../motion/cinematic';
 import { LocalizedLink as Link } from '../../../../shared/i18n/LocalizedLink';
 import { ContentActions } from '../../../../components/ContentActions/ContentActions';
 import imdbLogo from '../../../../assets/logos/IMDB_Logo_2016.svg.webp';
+import titleLogo from '../../../../assets/logos/breaking-bad.svg';
 import styles from './Hero.module.css';
 
 // Severance Hero şablonuyla BİREBİR aynı yapı (kullanıcı isteği,
@@ -78,7 +79,7 @@ export default function Hero({ backdropRef = { current: null } }) {
               0
             )
             .from(imageRef.current, { opacity: 0, y: 28, duration: 1, ease: 'power3.out' }, 0.3)
-            .from(titleRef.current, { opacity: 0, y: 28, duration: 0.9 }, 0.6)
+            .from(titleRef.current, { opacity: 0, scale: 0.92, transformOrigin: '0% 50%', duration: 0.9, clearProps: 'opacity,transform,transformOrigin' }, 0.6)
             .from(metaRef.current, { opacity: 0, y: 14, duration: 0.6 }, 0.82)
             .from(ratingGroup, { opacity: 0, y: 14, duration: 0.6 }, 0.88)
             .from(synopsisRef.current, { opacity: 0, y: 16, duration: 0.7 }, 0.94)
@@ -94,7 +95,7 @@ export default function Hero({ backdropRef = { current: null } }) {
 
         tl.from(backdropRef.current, { opacity: 0, duration: 1.1 }, 0)
           .from(imageRef.current, { opacity: 0, y: 28, duration: 1, ease: 'power3.out' }, 0.15)
-          .from(titleRef.current, { opacity: 0, y: 28, duration: 0.9 }, 0.4)
+          .from(titleRef.current, { opacity: 0, scale: 0.92, transformOrigin: '0% 50%', duration: 0.9, clearProps: 'opacity,transform,transformOrigin' }, 0.4)
           .from(metaRef.current, { opacity: 0, y: 14, duration: 0.6 }, 0.62)
           .from(ratingGroup, { opacity: 0, y: 14, duration: 0.6 }, 0.68)
           .from(synopsisRef.current, { opacity: 0, y: 16, duration: 0.7 }, 0.74)
@@ -175,7 +176,9 @@ export default function Hero({ backdropRef = { current: null } }) {
         </div>
 
         <div ref={contentRef} className={styles.hero__content}>
-          <h1 ref={titleRef} className={styles.hero__title}>{series5.title}</h1>
+          <h1 ref={titleRef} className={styles.hero__title}>
+            <img className={styles.hero__logo} src={titleLogo} alt={series5.title} />
+          </h1>
           <div ref={metaRef} className={styles.hero__meta}>
             <span className={styles.hero__year}>{year}</span>
             <span className={styles.hero__genres}>{series5.genreNames}</span>
