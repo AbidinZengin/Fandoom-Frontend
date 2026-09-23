@@ -1,0 +1,40 @@
+.related {
+  /* SeasonRoute/CharactersRoute çerçevesiyle aynı yatay hiza (kullanıcı
+     isteği: "route ile aynı hizada başlasın"). */
+  margin-inline: 6%;
+  padding-block: var(--space-3xl);
+  background: var(--bg);
+  /* Tam genişlikte TopBlogsRow'un yüzdelik kartı devleşiyordu (kullanıcı:
+     "kocaman oldu"); 2:3 kart ~260px'e sabitlenir. Skalada karşılığı yok. */
+  --row-card-w: clamp(180px, 18vw, 260px);
+}
+
+/* SeasonRoute .title ile aynı afiş başlığı (kullanıcı isteği: "every season
+   every episode gibi kocaman") — tam-uppercase bu section'da kasıtlı. */
+.related__title {
+  margin: 0 0 var(--space-xl);
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+/* TopBlogsRow ilk karta --space-md başlangıç boşluğu verir; kart kenarı da
+   başlık ve route çerçevesiyle aynı çizgide başlasın diye masaüstünde telafi
+   edilir. Mobilde (≤900px) scroll-snap ilk kartı zaten viewport'un sol
+   kenarına yaslıyor — telafi eklenirse kart soldan kırpılır. */
+@media (min-width: 901px) {
+  .related__row {
+    margin-inline-start: calc(-1 * var(--space-md));
+  }
+}
+
+/* Route bölümleriyle aynı mobil çerçeve payı (SeasonRoute ≤900px: 3%). */
+@media (max-width: 900px) {
+  .related {
+    margin-inline: 3%;
+  }
+}

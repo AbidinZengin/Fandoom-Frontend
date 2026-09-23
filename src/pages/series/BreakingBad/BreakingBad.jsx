@@ -3,6 +3,7 @@ import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
 import Atmosphere from './Atmosphere/Atmosphere';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import RelatedBlogs from './RelatedBlogs/RelatedBlogs';
 
 // OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
 // kararıyla route'tan kaldırıldı (2026-08) — yeni Hero PageBuilder'ın
@@ -80,6 +81,7 @@ export default function BreakingBad() {
         <Atmosphere />
       </div>
       <SeasonRoute />
+      <RelatedBlogs seriesId={series.id} />
       <Footer />
     </>
   );

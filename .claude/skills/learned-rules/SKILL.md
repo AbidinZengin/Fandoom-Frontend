@@ -283,6 +283,16 @@ anketi (kullanıcıya sorulan yapılandırılmış sorularla alınan kararlar).
 - **[tipografi]** Behance sinematik referans iskeletleri serif (Constantia
   vb.) kullansa da Fandoom marka fontu Montserrat KALIR — iskelet/topografi
   ödünç alınır, tipografi serife çevrilmez. _(2026-07, Behance referans analizi)_
+- **[tipografi]** `'Game of Thrones'` fontu YALNIZ Game of Thrones içeriğine
+  aittir: başka yapımların blog yüzeylerinde (ilgili-blog şeritleri, kart/
+  geçiş başlıkları) kullanılmaz, Montserrat kalır. _(2026-09, BreakingBad
+  Related Blogs — kullanıcı düzeltmesi: "sadece game of thrones içindi")_
+- **[layout]** Yapım sayfası altındaki "Related Blogs" şeridi Blog hub'daki
+  Top 10 şeridinin (`TopBlogsRow`, `showRank={false}`) aynısıdır, kartlar
+  tam genişlikte devleşmesin diye sabit ~260px; başlığı SeasonRoute'un
+  "Every Season, Every Episode" afiş başlığı boyutundadır (kicker etiketi
+  değil), yalnız o yapıma etiketli bloglar gösterilir. _(2026-09,
+  BreakingBad Related Blogs — kullanıcı düzeltmesi)_
 - **[metin]** Site İKİ DİLLİDİR (TR + EN) — ikisi de yayın kalitesinde,
   biri diğerinin gölgesi değil. Önceki "arayüz metinleri İngilizcedir"
   kuralının YERİNE geçer. İngilizce imla BrE'ye sabittir (`honour`,

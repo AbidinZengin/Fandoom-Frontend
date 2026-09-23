@@ -50,7 +50,10 @@
   /* Kullanıcı isteği: aynı anda ~2.5 kart görünsün (son kart kırpılı sızar —
      RelatedContent'teki "devamı var" sinyaliyle aynı ilke). Yüzde,
      viewport'un (row__viewport) görünen genişliğine göre hesaplanır. */
-  width: calc((100% - 2 * var(--space-xl)) / 2.5);
+  /* --row-card-w: tam genişlik kullanımlarda (BreakingBad Related Blogs) kart
+     devleşmesin diye dışarıdan sabit genişlik verilebilir; verilmezse Blog hub
+     davranışı (yüzdelik ~2.5 kart) aynen sürer. */
+  width: var(--row-card-w, calc((100% - 2 * var(--space-xl)) / 2.5));
   scroll-snap-align: start;
 }
 
@@ -172,6 +175,6 @@
      ("birden fazla blog sığabilsin") üzerine oran 1.2'den gevşetildi —
      ~1.7 kart görünüyor. */
   .row__card {
-    width: calc((100% - var(--space-md)) / 1.7);
+    width: var(--row-card-w, calc((100% - var(--space-md)) / 1.7));
   }
 }

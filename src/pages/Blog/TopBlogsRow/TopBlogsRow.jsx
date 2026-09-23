@@ -17,7 +17,9 @@ const SKELETON_COUNT = 4;
 // kimliği (rütbe rakamı, 2:3 poster) korunur; RelatedContent'in "Dive
 // Deeper" başlığı/nokta göstergesi buraya taşınmadı, istenen hareket/
 // etkileşim fiziğiydi.
-export function TopBlogsRow({ items = [] }) {
+// showRank=false: sıralama anlamı olmayan yerlerde (ör. BreakingBad "Related
+// Blogs" şeridi) rütbe rakamı basılmaz; varsayılan true, Blog hub değişmez.
+export function TopBlogsRow({ items = [], showRank = true }) {
   const pending = items.length === 0;
   const navigate = useNavigate();
   const rootRef = useRef(null);
@@ -336,7 +338,7 @@ export function TopBlogsRow({ items = [] }) {
           {pending
             ? Array.from({ length: SKELETON_COUNT }, (_, i) => (
                 <li className={styles.row__card} key={i} data-reveal>
-                  <span className={styles.row__rank}>{String(i + 1).padStart(2, '0')}</span>
+                  {showRank && <span className={styles.row__rank}>{String(i + 1).padStart(2, '0')}</span>}
                   <div className={styles.row__thumb} data-pending>
                     <span className={styles.row__caption}>
                       <span className={`${styles.bar} ${styles['bar--title']}`} />
@@ -350,7 +352,7 @@ export function TopBlogsRow({ items = [] }) {
                   key={item.id}
                   data-reveal
                 >
-                  <span className={styles.row__rank}>{String(i + 1).padStart(2, '0')}</span>
+                  {showRank && <span className={styles.row__rank}>{String(i + 1).padStart(2, '0')}</span>}
                   <Link
                     to={`/blog/${item.slug}`}
                     className={styles.row__thumb}
