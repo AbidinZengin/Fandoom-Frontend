@@ -1,0 +1,180 @@
+/* Tam ekran medya görüntüleyici. z-index 200: projedeki modal katmanıyla aynı
+   (EditProfileModal) — navbar'ın üstünde. Stage pointer-events:none: boş alan
+   tıklaması kök elemana düşüp kapatır; medya ve butonlar kendi olayını alır. */
+.lightbox {
+  --lightbox-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.9);
+  animation: lightboxIn var(--duration-base) var(--lightbox-ease) both;
+}
+
+/* Fotoğrafın hareketi (karosundan büyüme / karosuna dönüş) Lightbox.jsx'te Web
+   Animations ile yapılır — burada YALNIZ zemin fade olur. Zemin kökün opacity'siyle
+   değil background-color ile solar (kök opacity'si fotoğrafı da soldururdu).
+   Kapanışta onAnimationEnd kökte dinlenir; süre JS animasyonuyla aynı (--duration-base). */
+.lightbox[data-closing] {
+  animation-name: lightboxOut;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+}
+
+@keyframes lightboxIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+}
+
+@keyframes lightboxOut {
+  from {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox {
+    animation: none;
+  }
+}
+
+.lightbox__stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Şerit + slaytlar: her slayt tam sahne genişliğinde, şerit translateX ile kayar.
+   Yumuşak çıkış eğrisi (imza-uzama hover'ıyla aynı ailesi), süre --duration-base. */
+.lightbox__track {
+  display: flex;
+  height: 100%;
+  transition: transform var(--duration-base) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.lightbox__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-3xl);
+  /* Slayt kendi içerik kutusunu cq birimlerine açar (medya ekrana sığacak kadar
+     büyütülürken ölçü buradan alınır). */
+  container-type: size;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__track {
+    transition: none;
+  }
+}
+
+/* Kırpma yok — medyanın tamamı görünür, ekrana sığacak kadar ölçeklenir. */
+.lightbox__media {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  pointer-events: auto;
+}
+
+/* Küçük (düşük çözünürlüklü) medya kendi piksel boyutunda kalıp karttakinden bile
+   KÜÇÜK görünmesin: oran (--ratio, Lightbox.jsx'te medya yüklenince yazılır) biliniyorsa
+   kutu, slayt içeriğine sığabilecek en büyük ölçüye çıkar — büyük medya eskisi gibi
+   sığar, küçük medya büyür. Kutu medyaya sıkı kalır (arka plan tıklaması kapatır). */
+.lightbox__media[data-fit] {
+  width: min(100cqw, calc(100cqh * var(--ratio)));
+  height: auto;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: var(--ratio);
+}
+
+.lightbox__button {
+  position: absolute;
+  width: calc(var(--space-xl) + var(--space-xs));
+  height: calc(var(--space-xl) + var(--space-xs));
+  border: none;
+  border-radius: var(--radius-round);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.lightbox__button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.lightbox__button:focus-visible {
+  outline: 1px solid var(--fg);
+  outline-offset: var(--space-2xs);
+}
+
+@media (hover: hover) {
+  .lightbox__button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.lightbox__button[data-position='prev'] {
+  top: 50%;
+  left: var(--space-md);
+  transform: translateY(-50%);
+}
+
+.lightbox__button[data-position='next'] {
+  top: 50%;
+  right: var(--space-md);
+  transform: translateY(-50%);
+}
+
+.lightbox__button[data-position='close'] {
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+.lightbox__button [data-direction='prev'] {
+  display: flex;
+  transform: rotate(180deg);
+}
+
+.lightbox__button [data-direction='next'] {
+  display: flex;
+}
+
+.lightbox__counter {
+  position: absolute;
+  bottom: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+/* Dar ekranda kenar boşlukları küçülür, oklar medyanın üstüne biner. */
+@media (max-width: 640px) {
+  .lightbox__slide {
+    padding: var(--space-3xl) var(--space-sm);
+  }
+}

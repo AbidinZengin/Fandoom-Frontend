@@ -1,13 +1,14 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronIcon } from '../ThreadIcons';
+import { Lightbox } from './Lightbox';
 import { computeLayout } from './ThreadMedia.layout';
 import { useMediaRatios } from './useMediaRatios';
 import styles from './ThreadMedia.module.css';
 
-// Mozaik en fazla 3 karo gösterir; 3'ten fazlaysa 3. karo "+N" olur ve ona
-// basınca AYNI kutunun içinde yana kaydırılabilir küçük bir galeriye
-// dönüşür (lightbox/modal YOK — kullanıcı kararı, 2026-09-19).
+// Mozaik en fazla 3 karo gösterir; 3'ten fazlaysa 3. karo "+N" olur. Görsel
+// karoları ve "+N" tam ekran Lightbox'ı açar (kullanıcı kararı, 2026-09-23 —
+// önceki "aynı kutuda galeri, lightbox YOK" kararının YERİNE geçti). Video
+// karoları satır içi oynatılır (kendi kontrolleri var), Lightbox'ta da açılır.
 const MOSAIC_MAX = 3;
 // Oranlar ölçülene kadar (kısa süre) kutu bu oranda koyu zeminle yer tutar.
 const PENDING_RATIO = 4 / 3;
@@ -23,15 +24,25 @@ function Tile({ item, className }) {
 
 // computeLayout ağacını çizer: satır/sütun grupları flex-grow ile oranlarına
 // göre paylaşır (satırda çocuğun oranı, sütunda 1/oranı — bkz. layout dosyası).
-function LayoutNode({ node, media, weight, extra, onMore }) {
+function LayoutNode({ node, media, weight, extra, onOpen }) {
+  const { t } = useTranslation();
   const style = { flexGrow: weight };
 
   if (node.kind === 'tile') {
+    const item = media[node.index];
     return (
-      <div className={styles.tile} style={style}>
-        <Tile item={media[node.index]} className={styles.media} />
+      <div className={styles.tile} style={style} data-index={node.index}>
+        <Tile item={item} className={styles.media} />
+        {item.type !== 'VIDEO' && (
+          <button
+            type="button"
+            className={styles.open}
+            onClick={() => onOpen(node.index)}
+            aria-label={t('community.thread.openMedia', { defaultValue: 'Büyüt' })}
+          />
+        )}
         {extra > 0 && node.index === MOSAIC_MAX - 1 && (
-          <button type="button" className={styles.more} onClick={() => onMore(node.index)}>
+          <button type="button" className={styles.more} onClick={() => onOpen(node.index)}>
             +{extra}
           </button>
         )}
@@ -48,7 +59,7 @@ function LayoutNode({ node, media, weight, extra, onMore }) {
           media={media}
           weight={node.kind === 'row' ? child.ratio : 1 / child.ratio}
           extra={extra}
-          onMore={onMore}
+          onOpen={onOpen}
         />
       ))}
     </div>
@@ -56,91 +67,33 @@ function LayoutNode({ node, media, weight, extra, onMore }) {
 }
 
 export function ThreadMedia({ media }) {
-  const { t } = useTranslation();
-  const trackRef = useRef(null);
-  const [current, setCurrent] = useState(0);
-  const [galleryOpen, setGalleryOpen] = useState(false);
+  // null = kapalı; sayı = Lightbox'ın açıldığı medya sırası.
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+  const mosaicRef = useRef(null);
+
+  // Lightbox fotoğrafı bu karonun konumundan büyür ve kapanınca ona döner. Mozaikte
+  // olmayan sıralar (3+) son karoya ("+N") döner. Her çağrıda güncel konum ölçülür
+  // (kapanışta sayfa kaymış olabilir).
+  const getOriginRect = useCallback((index) => {
+    const tile = mosaicRef.current?.querySelector(`[data-index="${Math.min(index, MOSAIC_MAX - 1)}"]`);
+    return tile?.getBoundingClientRect() ?? null;
+  }, []);
 
   const shown = media.slice(0, MOSAIC_MAX);
   const extra = media.length - MOSAIC_MAX;
   const ratios = useMediaRatios(shown);
   const layout = ratios ? computeLayout(ratios) : null;
-  // Galeri de aynı kutu oranını kullanır — açılınca kutu boyutu sıçramaz.
   const boxStyle = { '--ratio': layout ? layout.boxRatio : PENDING_RATIO };
 
-  const openGallery = (startIndex) => {
-    setCurrent(startIndex);
-    setGalleryOpen(true);
-    // Track render'dan sonra oluşur; başlangıç slaytına anlık konumlanır.
-    requestAnimationFrame(() => {
-      const track = trackRef.current;
-      if (track) track.scrollLeft = startIndex * track.clientWidth;
-    });
-  };
-
-  const handleScroll = (event) => {
-    const track = event.currentTarget;
-    setCurrent(Math.round(track.scrollLeft / track.clientWidth));
-  };
-
-  const step = (direction) => {
-    const track = trackRef.current;
-    track?.scrollBy({ left: direction * track.clientWidth, behavior: 'smooth' });
-  };
-
-  if (galleryOpen) {
-    return (
-      <div className={styles.gallery} style={boxStyle}>
-        <div className={styles.gallery__track} ref={trackRef} onScroll={handleScroll} tabIndex={0}>
-          {media.map((item) => (
-            <div key={item.url} className={styles.gallery__slide}>
-              <Tile item={item} className={styles.gallery__media} />
-            </div>
-          ))}
-        </div>
-        <button
-          type="button"
-          className={styles.gallery__button}
-          data-position="prev"
-          onClick={() => step(-1)}
-          disabled={current === 0}
-          aria-label={t('common.previous')}
-        >
-          <span data-direction="prev">
-            <ChevronIcon />
-          </span>
-        </button>
-        <button
-          type="button"
-          className={styles.gallery__button}
-          data-position="next"
-          onClick={() => step(1)}
-          disabled={current === media.length - 1}
-          aria-label={t('common.next')}
-        >
-          <span data-direction="next">
-            <ChevronIcon />
-          </span>
-        </button>
-        <button
-          type="button"
-          className={styles.gallery__button}
-          data-position="close"
-          onClick={() => setGalleryOpen(false)}
-          aria-label={t('community.thread.closeGallery')}
-        >
-          ×
-        </button>
-        <span className={styles.gallery__counter}>
-          {current + 1} / {media.length}
-        </span>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.mosaic} style={boxStyle} data-pending={!layout}>
-      {layout && <LayoutNode node={layout.root} media={media} weight={1} extra={extra} onMore={openGallery} />}
-    </div>
+    <>
+      <div ref={mosaicRef} className={styles.mosaic} style={boxStyle} data-pending={!layout}>
+        {layout && <LayoutNode node={layout.root} media={media} weight={1} extra={extra} onOpen={setLightboxIndex} />}
+      </div>
+      {lightboxIndex !== null && (
+        <Lightbox media={media} initialIndex={lightboxIndex} getOriginRect={getOriginRect} onClose={closeLightbox} />
+      )}
+    </>
   );
 }

@@ -578,8 +578,10 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   yakın olanı seçer (2 yatay → yığılır, 2 dikey → yan yana vb.) —
   yeni bir düzen gerekirse şablon eklenmez, aday/hedef ayarlanır, kullanıcı iki kez "aşırı uzun oldu"
   diye düzeltti / 2 yan yana / 3 solda uzun+sağda iki yığılmış; 3'ten
-  fazlaysa 3. karo "+N" olur ve basınca AYNI kutu içinde yana kaydırılabilir
-  küçük galeriye açılır — lightbox/modal YOK, kullanıcı kararı; spoiler
+  fazlaysa 3. karo "+N" olur; görsel karoları ve "+N" tam ekran LIGHTBOX'ı
+  açar (`ThreadMedia/Lightbox.jsx`: portal, rgba(0,0,0,0.9) zemin, ok/Esc
+  gezinme, body scroll kilidi) — kullanıcı kararı 2026-09-23, önceki "aynı
+  kutuda galeri, lightbox YOK" kararının YERİNE geçti; spoiler
   işaretliyse gizli) → etiketli aksiyon çubuğu
   (ikon + sayaç: yorum / beğeni / paylaş(bağlantı kopyala, sayaçsız — backend
   sayacı yok) / kaydet). Emoji ikon YOK, çizgi SVG. Detay (ThreadBody) aynı
