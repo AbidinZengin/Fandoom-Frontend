@@ -12,14 +12,6 @@ const pad2 = (n) => String(n).padStart(2, '0');
 // Tam arka plan görseli — kullanıcının verdiği asset (çöl gün batımında RV).
 const BACKDROP_URL = '/src/assets/breaking-bad/seasons-backdrop.jpg';
 
-// Kullanıcının referans verdiği Flaticon "arrow-small-right" (uicons rr)
-// ikonunun görsel stiline sadık, ÖZGÜN çizim — yuvarlak uçlu/köşeli
-// çizgi+ok başı (ilk deneme strokeWidth 3.5 "kalın olmuş" diye
-// düzeltildi, 2.5'e indirildi). Flaticon dosyası birebir indirilmedi
-// (ücretsiz katman attribution gerektiriyor, prod site için uygun değil) —
-// aynı görsel, kendi SVG'imizle. Explore butonunda ve carousel navigasyon
-// oklarında ortak kullanılır, `dir="left"` için CSS'te (`.navArrow[data-dir=
-// 'left'] svg`) yatayda aynalanır.
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -29,18 +21,11 @@ function ArrowIcon() {
   );
 }
 
-// DÜZELTME (manuel, 2026-08-20, 3. tur): kullanıcının Dribbble "Seasonal
-// Itineraries" referansına (travel sitesi analizi, bu oturumun başındaki
-// research) BİREBİR sadık yeniden tasarım — önceki iki tur (liste+önizleme
-// paneli, sonra hover+blur-backdrop paneli) tamamen terk edildi. Artık tek
-// tam-genişlik bölüm: sol üstte kicker+büyük başlık, sol altta AKTİF
-// sezonun başlığı+açıklaması+outline "Explore Season" butonu, sağda yatay
-// kaydırmalı, beyaz ince çerçeveli (arka plan dolgusu YOK, sadece görsel+
-// kenarlık) kart carousel'i + altında iki dairesel ok. Kart üstüne HOVER/
-// focus sol metni günceller (bir önceki turdan taşınan kural); navigasyon
-// yalnız Explore butonunda. Kartların kendisi (Highlights emsali: "TÜM
-// kartlar normal parlaklıkta durur, ayırt edici tek şey metin overlay'i")
-// aktif/pasif farkı GÖSTERMEZ — ayırt edici tek şey sol paneldeki metindir.
+// Diğer yapımların (From/Severance/HotD) SeasonRoute'uyla AYNI iskelet ve
+// hareket (kullanıcı isteği: BB'nin farklı olan sürümü diğerlerine
+// hizalandı). Önceki BB'ye özel sapmalar KALDIRILDI: 8vw kenar boşluğu +
+// scroll-snap, parallax'lı backdropFrame, opacity-only/Ken-Burns giriş.
+// Tek fark: backdrop BB'nin kendi asset'i.
 export default function SeasonRoute() {
   const { t } = useTranslation();
   const [series, setSeries] = useState(null);
@@ -48,6 +33,8 @@ export default function SeasonRoute() {
 
   const pageRef = useRef(null);
   const trackRef = useRef(null);
+  const focusRef = useRef(null);
+  const isFirstActiveRender = useRef(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -60,7 +47,6 @@ export default function SeasonRoute() {
   }, []);
 
   const seasons = series?.seasons ?? [];
-  const activeSeason = seasons[activeIndex] ?? null;
 
   useLayoutEffect(() => {
     if (!seasons.length) return undefined;
@@ -68,57 +54,43 @@ export default function SeasonRoute() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // DÜZELTME (kullanıcı kararı, 2026-09-06): scroll-snap artık İSTENİYOR
-      // (BreakingBad'e ÖZEL istisna — bkz. BreakingBad.jsx body snap'i).
-      // Önceki once:true y-translate reveal + scrub-parallax + scrub-fade
-      // YERİNE referans videoya sadık TEKRARLANAN desen: sahne aktif olunca
-      // başlık→kart grubu stagger opacity fade-in (y/translate YOK, pozisyon
-      // sabit), arka planda yavaş Ken-Burns mikro-zoom (scale 1→1.02) "hold"
-      // boyunca sürer; çıkınca tersine sarar, tekrar girince AYNEN tekrarlanır.
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: pageRef.current,
-            start: 'top center',
-            end: 'bottom center',
-            toggleActions: 'play reverse play reverse',
-          },
+        gsap.from([`.${styles.kicker}`, `.${styles.title}`], {
+          opacity: 0,
+          y: 28,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
         });
 
-        tl.from([`.${styles.kicker}`, `.${styles.title}`], {
+        // Focus paneli soldan açığa çıkıyor.
+        gsap.from(`.${styles.focus}`, {
           opacity: 0,
-          duration: 0.28,
-          ease: 'power1.out',
-          stagger: 0.06,
-        }).from(
-          [`.${styles.focus}`, ...trackRef.current.querySelectorAll(`.${styles.cardWrap}`)],
-          { opacity: 0, duration: 0.6, ease: 'power1.out', stagger: 0.08 },
-          '-=0.05'
-        );
+          x: -64,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
+        });
 
-        gsap.fromTo(
-          `.${styles.backdrop}`,
-          { scale: 1 },
-          {
-            scale: 1.02,
-            duration: 6,
-            ease: 'power1.inOut',
-            scrollTrigger: {
-              trigger: pageRef.current,
-              start: 'top center',
-              end: 'bottom center',
-              toggleActions: 'play reverse play reverse',
-            },
-          }
-        );
+        // İmza "dalga" animasyonu (learned-rules #imza-dalga).
+        gsap.from(trackRef.current.querySelectorAll(`.${styles.cardWrap}`), {
+          opacity: 0,
+          x: 140,
+          y: 56,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
+        });
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
         gsap.set([`.${styles.kicker}`, `.${styles.title}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
           opacity: 1,
-          clearProps: 'opacity',
+          y: 0,
+          clearProps: 'transform',
         });
-        gsap.set(`.${styles.backdrop}`, { scale: 1, clearProps: 'transform' });
       });
     }, pageRef);
 
@@ -129,6 +101,39 @@ export default function SeasonRoute() {
       ctx.revert();
     };
   }, [seasons.length]);
+
+  // Odak panelinin SOLDAN açığa çıkışı — ilk mount'ta yukarıdaki
+  // scroll-trigger zaten aynı işi yaptığı için atlanıyor.
+  useEffect(() => {
+    if (isFirstActiveRender.current) {
+      isFirstActiveRender.current = false;
+      return;
+    }
+    if (!focusRef.current) return;
+    gsap.fromTo(
+      focusRef.current,
+      { x: -64, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }
+    );
+  }, [activeIndex]);
+
+  // Kart hover/focus ile sezon değişince odak paneli geçiş yapar: önceki
+  // sezon SAĞA kayıp kaybolur, yeni sezon SOLDAN açığa çıkar.
+  const activateSeason = (i) => {
+    if (i === activeIndex) return;
+    const focus = focusRef.current;
+    if (!focus) {
+      setActiveIndex(i);
+      return;
+    }
+    gsap.to(focus, {
+      x: 80,
+      opacity: 0,
+      duration: 0.28,
+      ease: 'power2.in',
+      onComplete: () => setActiveIndex(i),
+    });
+  };
 
   if (!series) return null;
 
@@ -142,11 +147,7 @@ export default function SeasonRoute() {
 
   return (
     <section className={styles.page} ref={pageRef}>
-      {BACKDROP_URL && (
-        <div className={styles.backdropFrame}>
-          <img className={styles.backdrop} src={BACKDROP_URL} alt="" aria-hidden="true" />
-        </div>
-      )}
+      <img className={styles.backdrop} src={BACKDROP_URL} alt="" aria-hidden="true" />
       <div className={styles.scrim} aria-hidden="true" />
 
       <div className={styles.header}>
@@ -155,43 +156,45 @@ export default function SeasonRoute() {
       </div>
 
       <div className={styles.bottom}>
-        {activeSeason && (
-          <div className={styles.focus}>
-            <h3 className={styles.focus__title}>{activeSeason.title}</h3>
-            {activeSeason.storyDek && <p className={styles.focus__dek}>{activeSeason.storyDek}</p>}
-            <Link
-              to={`/series/breaking-bad/seasons/${activeSeason.seasonNumber}`}
-              onClick={() => armInPageNav()}
-              className={styles.focus__cta}
-            >
-              {t('series.exploreSeasonCta')} <ArrowIcon />
-            </Link>
-          </div>
-        )}
+        <div className={styles.focus} ref={focusRef}>
+          {seasons.map((season, i) => (
+            <div className={styles.focus__item} key={season.id} data-active={i === activeIndex || undefined}>
+              <h3 className={styles.focus__title}>{season.title}</h3>
+              {season.storyDek && <p className={styles.focus__dek}>{season.storyDek}</p>}
+              <Link
+                to={`/series/breaking-bad/seasons/${season.seasonNumber}`}
+                onClick={() => armInPageNav()}
+                className={styles.focus__cta}
+              >
+                {t('series.exploreSeasonCta')} <ArrowIcon />
+              </Link>
+            </div>
+          ))}
+        </div>
 
         <div className={styles.carousel}>
           <div className={styles.track} ref={trackRef}>
-            {/* Tüm sezonlar sırayla, 1'den başlayarak — carousel'in EKRANDAKİ
-                başlangıç konumu (.focus'un genişletilmiş genişliği yüzünden)
-                sağa kaymış olsa da kart sırası/DOM'u normal, hiçbir kart
-                gizlenmiyor/kaydırılmıyor (kullanıcı düzeltmesi). */}
             {seasons.map((season, i) => (
               <div className={styles.cardWrap} key={season.id}>
-                <button
-                  type="button"
+                <Link
+                  to={`/series/breaking-bad/seasons/${season.seasonNumber}`}
+                  onClick={() => armInPageNav()}
                   className={styles.card}
                   aria-label={t('series.seasonLabel', { number: season.seasonNumber, title: season.title })}
                   aria-current={i === activeIndex || undefined}
-                  onMouseEnter={() => setActiveIndex(i)}
-                  onFocus={() => setActiveIndex(i)}
-                  onClick={() => setActiveIndex(i)}
+                  onMouseEnter={() => activateSeason(i)}
+                  onFocus={() => activateSeason(i)}
                 >
                   {season.posterUrl && (
                     <img className={styles.card__image} src={season.posterUrl} alt="" loading="lazy" />
                   )}
                   <span className={styles.card__number}>{pad2(season.seasonNumber)}</span>
-                </button>
-                <span className={styles.card__caption}>{season.title}</span>
+
+                  <div className={styles.card__caption}>
+                    <span className={styles.card__title}>{season.title}</span>
+                    {season.storyDek && <span className={styles.card__desc}>{season.storyDek}</span>}
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

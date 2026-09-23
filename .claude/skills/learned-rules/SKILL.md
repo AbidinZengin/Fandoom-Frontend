@@ -1053,6 +1053,19 @@ kilitlendi.
   hazır olana kadar implementasyon BEKLEMEDE. _(2026-08, Characters
   mimari planlama)_
 
+- **[karakter-layout]** Characters bölümü, BB'ninki DEĞİL, diğer yapımların
+  (From/Severance/HotD) SeasonRoute iskeletini alır: header + solda AKTİF
+  karakterin adı+bio'su + sağda kart şeridi/oklar, imza-dalga girişi, kart
+  hover/tık odak panelini günceller (ayrı detay paneli/CTA yok). BB'nin kendi
+  SeasonRoute'u da diğerlerine hizalandı (Ken-Burns/opacity-only/snap/8vw
+  margin/parallax çerçeve KALDIRILDI); Characters BB sayfasında SeasonRoute'un
+  ALTINDA bölüm olarak durur; ikisi de yatayda Hero çerçevesi genişliğindedir
+  (`margin-inline: 6%`, mobilde 3%). Başlık yok: yalnız SEASONS ile aynı
+  beyaz pill ("Characters"), "Cast" etiketi YOK; bio paneli/glass yüzey YOK.
+  Odak metni (başlık+bio/synopsis) tüm öğeler AYNI grid hücresinde üst üste
+  durarak ölçülür — aktif öğe değişince başlık konumu ve bölüm yüksekliği
+  SABİT kalır. _(2026-09, BB CharactersRoute — kullanıcı düzeltmesi)_
+
 ### Highlights (eski adıyla TabExhibit) — Hero/Intro Sonrası Bölüm
 
 Aşağıdaki kararlar Highlights redesign'ının brainstorming oturumunda

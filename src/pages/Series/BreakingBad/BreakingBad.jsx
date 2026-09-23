@@ -3,6 +3,7 @@ import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
 import Atmosphere from './Atmosphere/Atmosphere';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import CharactersRoute from './CharactersRoute/CharactersRoute';
 import RelatedBlogs from './RelatedBlogs/RelatedBlogs';
 
 // OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
@@ -81,6 +82,7 @@ export default function BreakingBad() {
         <Atmosphere />
       </div>
       <SeasonRoute />
+      <CharactersRoute />
       <RelatedBlogs seriesId={series.id} />
       <Footer />
     </>

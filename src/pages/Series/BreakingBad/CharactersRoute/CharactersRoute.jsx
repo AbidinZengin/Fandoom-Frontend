@@ -1,12 +1,16 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { fetchProductionDetail, fetchCharactersForSeries } from './CharactersRoute.data';
 import styles from './CharactersRoute.module.css';
-import backdropUrl from '../../../../assets/breaking-bad/characters-backdrop.jpg';
 
-// SeasonRoute.jsx'in ARROW ikonuyla birebir aynı (paylaşılan bir icon
-// component'i yok, SeasonRoute da kendi kopyasını tutuyor).
+const pad2 = (n) => String(n).padStart(2, '0');
+
+// Tam arka plan görseli — kullanıcının verdiği TMDB görseli (Severance
+// SeasonRoute ile aynı harici-URL deseni).
+const BACKDROP_URL = 'https://image.tmdb.org/t/p/original/p7ZDvrblpGWScGZX4V0pCycWZN6.jpg';
+
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -16,319 +20,202 @@ function ArrowIcon() {
   );
 }
 
-// SeasonRoute'un İSKELETİNİN BİREBİR AYNISI — `.page` → header +
-// `.bottom`(`.focus` + `.carousel`) yuvası. 3. tur düzeltme (kullanıcı:
-// "carousel yamuk yamuk duruyor" + "arka plan sabit kalmakla beraber sol
-// tarafa image sağ tarafa blurlu açıklaması gelecek"):
-// - Carousel'deki fan/stagger istifi (nth-child translateY + negatif
-//   margin) TAMAMEN kaldırıldı — SeasonRoute'taki gibi düz sıra.
-// - Backdrop ARTIK HİÇ DEĞİŞMİYOR (grup fotoğrafı sabit kalır) — önceki
-//   turda karaktere tıklanınca backdrop'u o karakterin görseline
-//   değiştirmek YANLIŞTI (geniş grup fotoğrafı dikey portre görüntüsüyle
-//   değişince çirkin/aşırı yakınlaşmış bir kırpma çıkıyordu). Bunun
-//   yerine karakterin görseli KENDİ ÇERÇEVESİNDE (kartlarla aynı
-//   bordür/radius dili) `.reveal__media` olarak SOLDA render edilir,
-//   `.panel` SAĞDA açılır.
-// - `.panel`in buzlu camı sabit kalan backdrop'un (+scrim) üstüne biner
-//   (gerçek backdrop-filter, ayrı bulanık kopya YOK) — ton kullanıcının
-//   referans ekran görüntüsündeki gibi HAFİF GRİ (saturate düşürülmüş,
-//   önceki turun "saturate(180%)" fazla renkli/sıcak duran hatası
-//   düzeltildi).
-//
-// `character.quote` BİLİNÇLİ OLARAK kullanılmıyor — backend alanı
-// "TR açıklama (EN orijinal replik)" tek string halinde geliyor (ör.
-// Walter White: "Ben tehlikede değilim Skyler... (I am not in danger,
-// Skyler...)"), render edilince ekranda TR/EN karışık görünüyordu
-// (kullanıcı raporu). Bu tasarımda alıntı hiç gösterilmiyor (referans
-// ekran görüntüsünde de sadece isim+açıklama var, alıntı yok).
-//
-// 4. tur (motion-expert): `.carousel`/`.reveal` artık HER ZAMAN DOM'da —
-// SeasonRow.jsx'in accordion deseniyle aynı mantık (gsap.killTweensOf +
-// ref, gsap.context YOK çünkü scoped seçici kullanılmıyor). Kapanınca
-// `.reveal` içeriği (displayedIndex) fade-out TAMAMLANANA kadar ekranda
-// kalır — açıklama metni aniden kaybolmasın diye. Backdrop'a (`img.
-// backdrop`) HİÇBİR tween uygulanmaz (kullanıcı isteği: "backgroundun
-// image'ini değiştirmeden").
+// BreakingBad sayfasında SeasonRoute'un ALTINDA duran bölüm. Diğer yapımların
+// SeasonRoute'uyla (From/Severance/HotD) AYNI iskelet ve hareket: kicker+başlık
+// üstte, solda AKTİF karakterin adı + bio'su, sağda yatay kart şeridi + iki
+// dairesel ok. Kart hover/focus/tık sol paneli günceller (önceki karakter
+// sağa kayıp çıkar, yenisi soldan açılır). Karakter detayı SADECE Bio olduğu
+// için (learned-rules) ayrı detay paneli/CTA yok — bio zaten odak panelinin
+// kendisi. Glassmorfik yüzey yok (kullanıcı kararı); kicker düz metin.
+// Tema BreakingBad.jsx'ten miras alınır.
 export default function CharactersRoute() {
   const { t } = useTranslation();
-  const [series, setSeries] = useState(null);
   const [characters, setCharacters] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [openedIndex, setOpenedIndex] = useState(null);
-  const [displayedIndex, setDisplayedIndex] = useState(null);
 
   const pageRef = useRef(null);
   const trackRef = useRef(null);
-  const carouselRef = useRef(null);
-  const revealRef = useRef(null);
-  const isFirstOpenRender = useRef(true);
-
-  // DÜZELTME (kullanıcı kararı, 2026-09-06): scroll-snap artık İSTENİYOR
-  // (BreakingBad'e ÖZEL istisna — bkz. BreakingBad.jsx body snap'i).
-  // Hero/SeasonRoute ile AYNI TEKRARLANAN desen: sahne aktif olunca
-  // başlık→kart grubu stagger opacity fade-in (y/translate YOK), arka
-  // planda yavaş Ken-Burns mikro-zoom (scale 1→1.02) "hold" boyunca sürer.
-  // Backdrop'un GÖRSELİ hiç değişmiyor (dosya-üstü not: "backgroundun
-  // image'ini değiştirmeden") — Ken-Burns sadece scale, kaynak görsel/
-  // karakter değişimiyle alakasız.
-  useLayoutEffect(() => {
-    // BUG FIX: component `!series || !characters` iken null render ediyor
-    // (aşağıdaki erken return) — bu guard olmadan efekt ilk mount'ta
-    // pageRef.current HENÜZ NULL iken çalışıp gsap.context'e geçersiz scope
-    // veriyordu ("Invalid scope" konsol hatası, sayfa hiç render olmuyordu).
-    // SeasonRoute'taki AYNI desen (`if (!seasons.length) return undefined`).
-    if (!characters?.length) return undefined;
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: pageRef.current,
-            start: 'top center',
-            end: 'bottom center',
-            toggleActions: 'play reverse play reverse',
-          },
-        });
-
-        tl.from([`.${styles.kicker}`, `.${styles.title}`], {
-          opacity: 0,
-          duration: 0.28,
-          ease: 'power1.out',
-          stagger: 0.06,
-        }).from(
-          [`.${styles.focus}`, ...trackRef.current.querySelectorAll(`.${styles.cardWrap}`)],
-          { opacity: 0, duration: 0.6, ease: 'power1.out', stagger: 0.08 },
-          '-=0.05'
-        );
-
-        gsap.fromTo(
-          `.${styles.backdrop}`,
-          { scale: 1 },
-          {
-            scale: 1.02,
-            duration: 6,
-            ease: 'power1.inOut',
-            scrollTrigger: {
-              trigger: pageRef.current,
-              start: 'top center',
-              end: 'bottom center',
-              toggleActions: 'play reverse play reverse',
-            },
-          }
-        );
-      });
-
-      mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set([`.${styles.kicker}`, `.${styles.title}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
-          opacity: 1,
-          clearProps: 'opacity',
-        });
-        gsap.set(`.${styles.backdrop}`, { scale: 1, clearProps: 'transform' });
-      });
-    }, pageRef);
-
-    return () => ctx.revert();
-  }, [characters]);
+  const focusRef = useRef(null);
+  const isFirstActiveRender = useRef(true);
 
   useEffect(() => {
     let cancelled = false;
-    fetchProductionDetail('series', 'breaking-bad').then((data) => {
-      if (!cancelled) setSeries(data);
-    });
+    fetchProductionDetail('series', 'breaking-bad')
+      .then((series) => fetchCharactersForSeries(series.id))
+      .then((data) => {
+        if (!cancelled) setCharacters(data);
+      });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  useEffect(() => {
-    if (!series) return undefined;
-    let cancelled = false;
-    fetchCharactersForSeries(series.id).then((data) => {
-      if (!cancelled) setCharacters(data);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [series]);
+  const list = characters ?? [];
 
-  const isOpen = openedIndex !== null;
+  useLayoutEffect(() => {
+    if (!list.length) return undefined;
 
-  // Açılışta hemen yeni karakteri göster; kapanışta eskisini fade-out
-  // TAMAMLANANA kadar ekranda tut (aşağıdaki GSAP effect'i temizler) —
-  // aksi halde `.reveal` içeriği openedIndex null olur olmaz aniden
-  // boşalır, fade-out'un ortasında metin/görsel kaybolurdu.
-  useEffect(() => {
-    if (openedIndex !== null) setDisplayedIndex(openedIndex);
-  }, [openedIndex]);
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
 
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    const reveal = revealRef.current;
-    if (!carousel || !reveal) return undefined;
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.from(`.${styles.kicker}`, {
+          opacity: 0,
+          y: 28,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
+        });
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        gsap.from(`.${styles.focus}`, {
+          opacity: 0,
+          x: -64,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
+        });
 
-    if (isFirstOpenRender.current) {
-      isFirstOpenRender.current = false;
-      gsap.set(carousel, { opacity: isOpen ? 0 : 1 });
-      gsap.set(reveal, { opacity: isOpen ? 1 : 0 });
-      return undefined;
-    }
-
-    gsap.killTweensOf([carousel, reveal]);
-
-    if (reduced) {
-      gsap.set(carousel, { opacity: isOpen ? 0 : 1 });
-      gsap.set(reveal, { opacity: isOpen ? 1 : 0 });
-      if (!isOpen) setDisplayedIndex(null);
-      return undefined;
-    }
-
-    if (isOpen) {
-      gsap.to(carousel, { opacity: 0, duration: 0.25, ease: 'power1.in' });
-      gsap.fromTo(
-        reveal,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.15 }
-      );
-    } else {
-      gsap.to(reveal, {
-        opacity: 0,
-        y: 10,
-        duration: 0.25,
-        ease: 'power1.in',
-        onComplete: () => setDisplayedIndex(null),
+        // İmza "dalga" (learned-rules #imza-dalga) — SeasonRoute ile birebir.
+        gsap.from(trackRef.current.querySelectorAll(`.${styles.cardWrap}`), {
+          opacity: 0,
+          x: 140,
+          y: 56,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
+        });
       });
-      gsap.fromTo(carousel, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.15 });
+
+      mm.add('(prefers-reduced-motion: reduce)', () => {
+        gsap.set([`.${styles.kicker}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
+          opacity: 1,
+          y: 0,
+          clearProps: 'transform',
+        });
+      });
+    }, pageRef);
+
+    const timerId = setTimeout(() => ScrollTrigger.refresh(), 250);
+
+    return () => {
+      clearTimeout(timerId);
+      ctx.revert();
+    };
+  }, [list.length]);
+
+  // İlk mount'ta yukarıdaki scroll-trigger zaten aynı işi yapıyor — atla.
+  useEffect(() => {
+    if (isFirstActiveRender.current) {
+      isFirstActiveRender.current = false;
+      return;
     }
+    if (!focusRef.current) return;
+    gsap.fromTo(
+      focusRef.current,
+      { x: -64, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }
+    );
+  }, [activeIndex]);
 
-    return () => gsap.killTweensOf([carousel, reveal]);
-  }, [isOpen]);
-
-  if (!series || !characters || characters.length === 0) return null;
-
-  const displayedCharacter = displayedIndex !== null ? characters[displayedIndex] : null;
+  const activateCharacter = (i) => {
+    if (i === activeIndex) return;
+    const focus = focusRef.current;
+    if (!focus) {
+      setActiveIndex(i);
+      return;
+    }
+    gsap.to(focus, {
+      x: 80,
+      opacity: 0,
+      duration: 0.28,
+      ease: 'power2.in',
+      onComplete: () => setActiveIndex(i),
+    });
+  };
 
   const scrollByCard = (dir) => {
     const track = trackRef.current;
     if (!track) return;
     const card = track.querySelector(`.${styles.cardWrap}`);
-    const step = (card?.offsetWidth ?? 200) + 24;
+    const step = (card?.offsetWidth ?? 220) + 24;
     track.scrollBy({ left: dir * step, behavior: 'smooth' });
   };
 
-  // Yüzen kart açıkken kapanmadan bir önceki/sonraki karaktere geçiş —
-  // isOpen değişmediği için crossfade effect'i (satır ~96) tekrar
-  // tetiklenmez, displayedIndex yalnızca openedIndex'i takip eder.
-  const goToCharacter = (dir) => {
-    if (openedIndex === null) return;
-    const total = characters.length;
-    const next = (openedIndex + dir + total) % total;
-    setOpenedIndex(next);
-    setActiveIndex(next);
-  };
+  if (!characters || characters.length === 0) return null;
 
   return (
-    <section className={styles.page} data-open={isOpen || undefined} ref={pageRef}>
-      <div className={styles.backdropFrame}>
-        <img className={styles.backdrop} src={backdropUrl} alt="" aria-hidden="true" />
-      </div>
+    <section className={styles.page} ref={pageRef}>
+      <img className={styles.backdrop} src={BACKDROP_URL} alt="" aria-hidden="true" />
       <div className={styles.scrim} aria-hidden="true" />
 
       <div className={styles.header}>
-        <p className={styles.kicker}>{t('series.castKicker')}</p>
-        <h2 className={styles.title}>{t('series.charactersHeading')}</h2>
+        <h2 className={styles.kicker}>{t('series.charactersHeading')}</h2>
       </div>
 
       <div className={styles.bottom}>
-        <div className={styles.focus}>
-          {!isOpen && (
-            <button type="button" className={styles.focus__cta} onClick={() => setOpenedIndex(activeIndex)}>
-              {t('series.exploreCharacterCta')} <ArrowIcon />
-            </button>
-          )}
+        <div className={styles.focus} ref={focusRef}>
+          {characters.map((character, i) => (
+            <div className={styles.focus__item} key={character.id} data-active={i === activeIndex || undefined}>
+              <h3 className={styles.focus__title}>{character.name}</h3>
+              {character.description && <p className={styles.focus__dek}>{character.description}</p>}
+            </div>
+          ))}
         </div>
 
-        <div className={styles.stage}>
-          <div className={styles.reveal} ref={revealRef} inert={!isOpen}>
-            {displayedCharacter && (
-              <>
-                <button type="button" className={styles.reveal__close} onClick={() => setOpenedIndex(null)}>
-                  <span className={styles.reveal__closeIcon}>
-                    <ArrowIcon />
+        <div className={styles.carousel}>
+          <div className={styles.track} ref={trackRef}>
+            {characters.map((character, i) => (
+              <div className={styles.cardWrap} key={character.id}>
+                <button
+                  type="button"
+                  className={styles.card}
+                  aria-label={character.name}
+                  aria-current={i === activeIndex || undefined}
+                  onMouseEnter={() => activateCharacter(i)}
+                  onFocus={() => activateCharacter(i)}
+                  onClick={() => activateCharacter(i)}
+                >
+                  {character.imageUrl && (
+                    <img
+                      className={styles.card__image}
+                      src={character.imageUrl}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                      ref={(el) => {
+                        if (el?.complete) el.dataset.loaded = '1';
+                      }}
+                      onLoad={(e) => {
+                        e.currentTarget.dataset.loaded = '1';
+                      }}
+                    />
+                  )}
+                  <span className={styles.card__number}>{pad2(character.billingOrder ?? i + 1)}</span>
+
+                  <span className={styles.card__caption}>
+                    <span className={styles.card__title}>{character.name}</span>
                   </span>
-                  {t('series.backToCharacters')}
                 </button>
-
-                <div className={styles.reveal__body}>
-                  <div className={styles.reveal__media}>
-                    {displayedCharacter.imageUrl && (
-                      <img className={styles.reveal__image} src={displayedCharacter.imageUrl} alt={displayedCharacter.name} />
-                    )}
-                  </div>
-
-                  <div className={styles.reveal__text}>
-                    <span className={styles.panel__label}>{t('series.characterBioLabel')}</span>
-                    <h3 className={styles.panel__name}>{displayedCharacter.name}</h3>
-                    <p className={styles.panel__text}>{displayedCharacter.description}</p>
-                  </div>
-                </div>
-
-                <div className={styles.reveal__nav}>
-                  <button
-                    type="button"
-                    className={styles.navArrow}
-                    data-dir="left"
-                    onClick={() => goToCharacter(-1)}
-                    aria-label={t('common.previous')}
-                  >
-                    <ArrowIcon />
-                  </button>
-                  <button type="button" className={styles.navArrow} onClick={() => goToCharacter(1)} aria-label={t('common.next')}>
-                    <ArrowIcon />
-                  </button>
-                </div>
-              </>
-            )}
+              </div>
+            ))}
           </div>
 
-          <div className={styles.carousel} ref={carouselRef} inert={isOpen}>
-            <div className={styles.track} ref={trackRef}>
-              {characters.map((character, i) => (
-                <div className={styles.cardWrap} key={character.id}>
-                  <button
-                    type="button"
-                    className={styles.card}
-                    aria-current={i === activeIndex || undefined}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    onFocus={() => setActiveIndex(i)}
-                    onClick={() => setOpenedIndex(i)}
-                  >
-                    {character.imageUrl && (
-                      <img className={styles.card__image} src={character.imageUrl} alt="" loading="lazy" />
-                    )}
-                  </button>
-                  <span className={styles.card__caption}>{character.name}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.navRow}>
-              <button
-                type="button"
-                className={styles.navArrow}
-                data-dir="left"
-                onClick={() => scrollByCard(-1)}
-                aria-label={t('common.previous')}
-              >
-                <ArrowIcon />
-              </button>
-              <button type="button" className={styles.navArrow} onClick={() => scrollByCard(1)} aria-label={t('common.next')}>
-                <ArrowIcon />
-              </button>
-            </div>
+          <div className={styles.navRow}>
+            <button
+              type="button"
+              className={styles.navArrow}
+              data-dir="left"
+              onClick={() => scrollByCard(-1)}
+              aria-label={t('common.previous')}
+            >
+              <ArrowIcon />
+            </button>
+            <button type="button" className={styles.navArrow} onClick={() => scrollByCard(1)} aria-label={t('common.next')}>
+              <ArrowIcon />
+            </button>
           </div>
         </div>
       </div>
