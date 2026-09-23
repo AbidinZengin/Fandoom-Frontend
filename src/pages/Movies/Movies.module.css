@@ -1,0 +1,17 @@
+/* Hero artık tam viewport (bkz. SeriesHero.module.css) — sayfa kendi
+   padding/max-width sarmalayıcısını taşımıyor. Başlık, Hero'nun üstüne
+   sabitlenmiş küçük bir köşe etiketi (kullanıcı kararı, 2026-09-05: "sol
+   üst köşede sabit, hero onun altında kalsın"). */
+.movies__badge {
+  position: absolute;
+  z-index: 3;
+  top: calc(72px + var(--space-md));
+  left: var(--space-page-x);
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}

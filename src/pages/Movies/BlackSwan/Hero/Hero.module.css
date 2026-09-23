@@ -1,0 +1,247 @@
+/* Navbar payı (-72px) BlackSwan.jsx'teki .intro'da — backdrop
+   Hero'nun dışına taşındı. */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 700px;
+  height: 90vh;
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: var(--fg);
+}
+
+/* Ön katman: aynı görselin NET hali, kenarlardan içeri (radius'lu "kart"),
+   arka plandan ayırmak için gölge — sinematik sis (.hero__scrim) bunun
+   İÇİNDE, sadece net görseli karartır (eski imageBlock2 + yeni sis).
+   container-type: içerik (rozet/başlık/CTA) artık bu çerçevenin ÇOCUĞU —
+   cqw ile genişliğine oranlı ölçekleniyor. */
+.hero__frame {
+  position: absolute;
+  inset: 4% 6%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  container-type: inline-size;
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: brightness(0.7) saturate(1.1);
+}
+
+/* "Sisli" karartma — sol/alttan koyulaşan gradient (metin okunabilirliği
+   için, kullanıcı onayladığı CinematicHero denemesinden taşındı). */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.35) 48%, rgba(0, 0, 0, 0) 80%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 42%);
+}
+
+/* IMDB rozeti — sağ üst köşeye YAKIN, top/right AYNI cqw değeriyle
+   simetrik boşluk. */
+.hero__ratingBadge {
+  position: absolute;
+  top: 2.5cqw;
+  right: 2.5cqw;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.hero__ratingLogo {
+  width: clamp(56px, 5cqw, 80px);
+  height: auto;
+}
+
+.hero__ratingValue {
+  color: #f6c700;
+  font-size: clamp(20px, 2.6cqw, 32px);
+  font-weight: 600;
+}
+
+/* Sol-alt köşeye YAKIN — rozetin sağ-üst köşe mantığıyla AYNI (aynı
+   cqw değeri). */
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  height: 100%;
+  max-width: 62%;
+  padding: 0 2.5cqw;
+  box-sizing: border-box;
+  justify-content: flex-end;
+  padding-bottom: 2.5cqw;
+}
+
+/* Başlık resmi logo görselidir (learned-rules [tipografi]). Logo kendi
+   rengiyle gelir — renk filtresi/glow uygulanmaz (Dune kararıyla aynı).
+   Kaynak webp şeffaf ve yalnız 500x207 (iki satırlı, açık gri); üst sınır
+   kaynağın çözünürlüğüne göre 460px. Genişlik .hero__frame'e oranlı (cqw),
+   skalada karşılığı yok, bilerek istisna. */
+.hero__title {
+  margin: 0 0 var(--space-sm);
+  line-height: 0;
+}
+
+.hero__logo {
+  display: block;
+  width: clamp(200px, 32cqw, 460px);
+  height: auto;
+}
+
+.hero__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.hero__year {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.hero__genres {
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.hero__synopsis {
+  margin: 0;
+  color: var(--fg);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.hero__actions {
+  margin-top: var(--space-xs);
+}
+
+.hero__ctaPrimary,
+.hero__ctaSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-width: 10rem;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: transform var(--duration-micro) ease, background var(--duration-micro) ease, color var(--duration-micro) ease;
+}
+
+/* Explore: dizi gradient'li halkalı şeffaf buton (ortak desen —
+   src/styles/AccentButton.module.css, 2026-09-20). Renk/kenar/hover oradan
+   gelir, layout yukarıdaki ortak kuralda kalır. */
+.hero__ctaSecondary {
+  composes: accentButton from '../../../../styles/AccentButton.module.css';
+}
+
+.hero__ctaPrimary {
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    height: 100vh;
+    min-height: 640px;
+  }
+
+  .hero__frame {
+    inset: 2% 3%;
+  }
+
+  /* Portre çerçevede görsel yatayda kırpılır; özne (balerin görselin ~%70'inde)
+     kadrajda kalsın diye odak sağa alınır (GoT Hero'daki mobil odak deseni). */
+  .hero__image {
+    object-position: 78% center;
+  }
+
+  .hero__ratingBadge {
+    top: calc(72px + var(--space-sm));
+    right: var(--space-md);
+  }
+
+  .hero__ratingLogo {
+    width: 40px;
+  }
+
+  .hero__ratingValue {
+    font-size: var(--text-lg);
+  }
+
+  .hero__content {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: auto;
+    max-width: 100%;
+    padding: 0 var(--space-page-x);
+    padding-bottom: var(--space-2xl);
+    padding-top: var(--space-lg);
+  }
+
+  .hero__logo {
+    width: min(64%, 260px);
+  }
+
+  .hero__year,
+  .hero__genres {
+    font-size: var(--text-sm);
+  }
+
+  /* Genre sığmayınca kendi İÇİNDE satır kırmasın — TAM SATIR olarak
+     year'ın ALTINA insin. */
+  .hero__meta {
+    flex-wrap: wrap;
+  }
+
+  .hero__synopsis {
+    font-size: var(--text-base);
+    -webkit-line-clamp: 3;
+  }
+
+  .hero__cta {
+    width: 100%;
+  }
+
+  .hero__ctaPrimary,
+  .hero__ctaSecondary {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .hero__actions {
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+  }
+}

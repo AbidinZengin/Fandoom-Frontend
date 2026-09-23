@@ -455,5 +455,8 @@
     "explore": "Explore",
     "watchTrailer": "Watch Trailer",
     "featuredTitles": "Featured Titles"
+  },
+  "moviesHub": {
+    "heading": "Movies"
   }
 }

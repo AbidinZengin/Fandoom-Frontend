@@ -42,6 +42,12 @@ import WesterosMap from './pages/Series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/Series/GameOfThrones/History/History';
 import ProductionDetail from './pages/ProductionDetail/ProductionDetail';
 import Series from './pages/Series/Series';
+import Movies from './pages/Movies/Movies';
+import DunePartTwo from './pages/Movies/DunePartTwo/DunePartTwo';
+import TheBatman from './pages/Movies/TheBatman/TheBatman';
+import BladeRunner2049 from './pages/Movies/BladeRunner2049/BladeRunner2049';
+import Interstellar from './pages/Movies/Interstellar/Interstellar';
+import BlackSwan from './pages/Movies/BlackSwan/BlackSwan';
 import Blog from './pages/Blog/Blog';
 import BlogPost from './pages/Blog/BlogPost/BlogPost';
 import Login from './pages/Admin/Login/Login';
@@ -279,8 +285,13 @@ function App() {
             <Route path="series/the-boys/seasons/:seasonNumber" element={<TheBoysSeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
             <Route path="series" element={<Series />} />
+            <Route path="movies/dune-part-two" element={<DunePartTwo />} />
+            <Route path="movies/the-batman" element={<TheBatman />} />
+            <Route path="movies/blade-runner-2049" element={<BladeRunner2049 />} />
+            <Route path="movies/interstellar" element={<Interstellar />} />
+            <Route path="movies/black-swan" element={<BlackSwan />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
-            <Route path="movies" element={<Placeholder titleKey="navbar.movies" />} />
+            <Route path="movies" element={<Movies />} />
             {/* Yol-siz layout route: /community ve /portal aynı CommunityLayout
                 örneğini paylaşır — aralarında geçişte sol/sağ menü remount olmaz. */}
             <Route element={<CommunityLayout />}>
