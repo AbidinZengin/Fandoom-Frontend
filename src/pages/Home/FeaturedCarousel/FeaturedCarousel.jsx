@@ -3,7 +3,7 @@ import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
 import { armCinematic, CINEMATIC_SLUGS } from '../../../motion/cinematic';
-import { fetchProductions } from './FeaturedCarousel.data';
+import { fetchProductions, POSTER_POSITION } from './FeaturedCarousel.data';
 import styles from './FeaturedCarousel.module.css';
 
 // Cinematic geçişi olan hedefler: gerçek hero görseli olan seri sayfaları.
@@ -150,6 +150,7 @@ export function FeaturedCarousel({ play }) {
                   <img
                     className={styles['featured__card-poster']}
                     src={higherResPoster(p.posterUrl)}
+                    style={{ objectPosition: POSTER_POSITION[p.slug] }}
                     alt=""
                     loading="lazy"
                     draggable={false}
