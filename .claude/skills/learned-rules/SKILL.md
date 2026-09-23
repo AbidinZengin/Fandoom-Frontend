@@ -701,6 +701,9 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   o denemede öğrenilenler: siyah zeminde gölge okunmaz, `#161618` (1.13:1)
   algılanmadı, kart açıldıkça `--fg-muted` AA'nın altına iner. Composer'ın
   eski 2px gradient çerçevesi yerine feed kartlarıyla aynı hairline kart.
+  (2026-09-21: composer çerçevesi bir an kaldırıldı, kullanıcı "eski radius
+  borderlı çerçeve lazım" dedi — hairline çerçeve GERİ GELDİ; kaldırılan yalnız
+  başlık inputunun kendi outline'ıdır.)
   `--fg-faint` yüzeyde metin için kullanılmaz. Sol sidebar (CTA/nav/profil)
   hâlâ düz — kart yapılması istendi, sonra geri alındı; kararı açık.
   _(2026-09, CommunityLayout — kullanıcı kararları)_
@@ -794,6 +797,18 @@ başladığında yeniden tartışılmaması için önceden kilitlendi.
   "Yakında" pasif durur. Feed yüklenirken gerçek kart anatomili STATİK
   iskelet (shimmer/spinner yok). _(2026-09, Community Faz 1 — kullanıcı
   düzeltmesi + "renkli bir şey olmayacak")_
+- **[veri]** İSTİSNA — Portal sayfasında megathread (sabitlenmiş gündem)
+  için kesik çerçeveli boş yuva AÇILMAZ: backend'de sabitleme alanı yok ve boş
+  kutu header ile composer arasında gereksiz boşluk yaratıyor (kullanıcı:
+  "bu discussion title'ın üstündeki boşluğa ne gerek var kaldır"). Alan
+  gelince kart doğrudan eklenir; üye-avatar iskeleti gibi header içi küçük
+  yer tutucular etkilenmez. _(2026-09, Portal sayfası — kullanıcı düzeltmesi)_
+- **[topluluk-composer]** Başlık alanı: placeholder KISA ("Başlık ekle..." /
+  "Add a title..." — uzun örnek cümle YOK), rengi soluk gri (`--fg-muted`);
+  yazılan metin bembeyaz (`--white`); başlık INPUT'unun kendi kutusu/focus
+  outline'ı çizilmez (composer'ın dış hairline çerçevesi durur); kalem ucu ikonu (kullanıcının `pen-nib.svg`'si, `PenNibIcon`)
+  satırın EN SAĞINDA, HER sayfada BEYAZ (`--white`) durur. Önceki "başlık placeholder'ı
+  beyaz" kararının YERİNE geçer. _(2026-09, PostComposer — kullanıcı kararı)_
 
 ### Blog (Kısa Bilgi Deck'i) — Bilgi Mimarisi
 
