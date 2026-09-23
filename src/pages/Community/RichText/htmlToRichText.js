@@ -35,6 +35,14 @@ export function htmlToRichText(root) {
       inner = wrap('**', inner);
     }
     if (['I', 'EM'].includes(node.nodeName) || fontStyle === 'italic') inner = wrap('_', inner);
+    if (node.nodeName === 'A') {
+      const href = node.getAttribute('href');
+      // Replace formatting inside links with just text, or keep it.
+      // Usually keeping it simple is best, but inner contains formatted text.
+      if (href) {
+        inner = `[${inner}](${href})`;
+      }
+    }
     // Blok satırlar (Enter/yapıştırma) önceki satırdan yeni satırla ayrılır.
     if (['DIV', 'P'].includes(node.nodeName) && out && !out.endsWith('\n')) out += '\n';
     out += inner;

@@ -175,6 +175,9 @@
     "sidebar": {
       "theoryCount": "{{count}} theories",
       "likeCount": "{{count}} likes",
+      "portalsHeading": "My portals",
+      "portalsEmpty": "Portals you join will show up here.",
+      "topPortalsHeading": "Top portals",
       "libraryHeading": "My Library",
       "liked": "Liked",
       "saved": "Saved",
@@ -235,9 +238,12 @@
     },
     "composer": {
       "signInPrompt": "Sign in to start a thread",
-      "titlePlaceholder": "Discussion title (e.g. What was Walter White's real goal?)",
+      "titlePlaceholder": "Add a title...",
       "titleMin": "Title needs at least {{min}} characters ({{count}}/{{min}})",
       "bodyPlaceholder": "Write your theory or discussion details here...",
+      "portalLabel": "Choose a portal",
+      "portalPlaceholder": "Select",
+      "portalsError": "Portals could not be loaded, refresh the page.",
       "typeLabel": "Choose a type",
       "bold": "Bold",
       "italic": "Italic",
@@ -251,6 +257,17 @@
       "removeTag": "Remove tag",
       "submit": "Post",
       "error": "Couldn't post, try again."
+    },
+    "portal": {
+      "join": "Join",
+      "joinShort": "+ Join",
+      "joined": "Joined",
+      "members_one": "Member",
+      "members_other": "Members",
+      "threads_one": "Discussion",
+      "threads_other": "Discussions",
+      "notFound": "This portal could not be found.",
+      "postingClosed": "New threads can’t be posted in this portal right now."
     },
     "thread": {
       "spoilerReveal": "Contains spoilers — tap to reveal",
@@ -293,7 +310,6 @@
       "genericError": "Something went wrong, try again"
     },
     "nav": {
-      "profile": "Profile",
       "library": "My Library",
       "watchlist": "Watchlist",
       "following": "Following",

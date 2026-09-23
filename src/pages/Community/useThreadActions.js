@@ -29,7 +29,7 @@ export function useThreadActions(thread) {
     setLiked(next);
     setLikeCount((c) => c + (next ? 1 : -1));
     try {
-      const res = await (next ? likeThread : unlikeThread)(thread.slug);
+      const res = await (next ? likeThread : unlikeThread)(thread.id);
       setLiked(res.liked);
       setLikeCount(res.likeCount);
       useFeedStore.getState().patchThread(thread.id, { isLiked: res.liked, likeCount: res.likeCount });
@@ -48,7 +48,7 @@ export function useThreadActions(thread) {
     setSaved(next);
     setSaveCount((c) => c + (next ? 1 : -1));
     try {
-      const res = await (next ? bookmarkThread : unbookmarkThread)(thread.slug);
+      const res = await (next ? bookmarkThread : unbookmarkThread)(thread.id);
       setSaved(res.bookmarked);
       setSaveCount(res.bookmarkCount);
       useFeedStore.getState().patchThread(thread.id, { isBookmarked: res.bookmarked, bookmarkCount: res.bookmarkCount });

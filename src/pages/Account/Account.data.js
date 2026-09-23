@@ -57,15 +57,11 @@ async function getSystemListItems(lists, listType) {
   return enrichRawItems(detail.items?.content);
 }
 
-// DashboardView'ın Profil/İçeriklerim/Karakterler alt-bölümleri bu tek
-// çağrının sonucunu paylaşır — DashboardView bir kere çeker, prop'la dağıtır.
+// DashboardView'ın İçeriklerim/Karakterler alt-bölümleri bu tek çağrının
+// sonucunu paylaşır — DashboardView bir kere çeker, prop'la dağıtır.
 // "Kaydettiklerim" (saved) bağımsız Bookmark'tan (GET /me/bookmarks) okunur
 // — "Kaydet" butonu (ContentActions) Watchlist/Watched/okuma ilerlemesinden
 // TAMAMEN ayrı bu varlığa yazıyor (kullanıcı kararı, 2026-08-29).
-// "Okumaya Devam Et" (continueReading) AYRI bir kaynak: READLIST sistem
-// listesi, kullanıcı bir şeye tıklamadan BlogPost.jsx'in scroll takibiyle
-// otomatik doldurulur/güncellenir (gerçek progressPercentage). Bitmiş
-// (%100) yazılar "devam et" listesinde anlamsız olduğu için elenir.
 export async function getAccountContent() {
   const [lists, followsPage, likesPage, bookmarksPage, series] = await Promise.all([
     getMyLists(),
@@ -75,9 +71,8 @@ export async function getAccountContent() {
     fetchProductionDetail('series', 'game-of-thrones'),
   ]);
 
-  const [watchlist, continueReading, saved, following, liked, characters] = await Promise.all([
+  const [watchlist, saved, following, liked, characters] = await Promise.all([
     getSystemListItems(lists, 'WATCHLIST'),
-    getSystemListItems(lists, 'READLIST'),
     enrichRawItems(bookmarksPage.content),
     enrichRawItems(followsPage.content),
     enrichRawItems(likesPage.content),
@@ -86,12 +81,24 @@ export async function getAccountContent() {
 
   return {
     watchlist,
-    continueReading: continueReading.filter((item) => (item.progressPercentage ?? 0) < 100),
     saved,
     following,
     liked,
     topCharacters: characters.slice(0, 3),
   };
+}
+
+// "Okumaya Devam Et" (Community/ProfileView) AYRI bir kaynak: READLIST
+// sistem listesi, kullanıcı bir şeye tıklamadan BlogPost.jsx'in scroll
+// takibiyle otomatik doldurulur/güncellenir (gerçek progressPercentage).
+// Bitmiş (%100) yazılar "devam et" listesinde anlamsız olduğu için elenir.
+// getAccountContent'ten AYRI tutulur — Profile Community'ye taşındıktan
+// sonra (2026-09-23) Account'un ağır toplu çağrısını (watchlist/follows/
+// likes/bookmarks/characters) tetiklemeden sadece bu listeyi çeker.
+export async function getContinueReading() {
+  const lists = await getMyLists();
+  const items = await getSystemListItems(lists, 'READLIST');
+  return items.filter((item) => (item.progressPercentage ?? 0) < 100);
 }
 
 // Custom Lists — CustomListsSection kendi fetch/refetch döngüsünü buradan

@@ -10,6 +10,13 @@
   flex-direction: column;
 }
 
+/* Portal sayfasında (kilitli portal) zemin siyah değil, tema renginde — hairline
+   çerçeve orada görünmez olur; çerçeve beyaz çizilir (kullanıcı kararı; ana
+   sayfada değişmez). */
+.postComposer[data-locked] {
+  border-color: var(--white);
+}
+
 /* Daralan bölüm (2026-09-20): kapalıyken composer tek satır. 0fr↔1fr grid
    geçişi içerik yüksekliğini ölçmeden animasyonlar; opacity biraz kısa tutulur
    ki açılırken içerik kutudan önce belirmesin. Boşluklar bölümlerin İÇİNDE
@@ -116,13 +123,38 @@
   pointer-events: none;
 }
 
-/* Başlık placeholder'ı beyaz — sönük gri bulundu (kullanıcı düzeltmesi). */
-.postComposer__title::placeholder {
+/* Başlık: placeholder soluk gri, yazılan metin bembeyaz (kullanıcı kararı,
+   2026-09-21 — önceki "placeholder beyaz" kararının YERİNE geçer). Başlık
+   inputunun KENDİ kutusu/outline'ı yok (imleç odağı gösterir); composer'ın
+   dış hairline çerçevesi (.postComposer) ise duruyor. */
+.postComposer__title {
   color: var(--white);
+}
+
+.postComposer__title::placeholder {
+  color: var(--fg-muted);
   opacity: 1;
 }
 
-.postComposer__title:focus-visible,
+.postComposer__title:focus-visible {
+  outline: none;
+}
+
+.postComposer__titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Kalem ucu ikonu satırın en sağında, HER yerde beyaz (yazmaya davet eden dekor).
+   Boyut font-size'dan (1em) — --text-lg. */
+.postComposer__titleIcon {
+  flex: none;
+  display: flex;
+  color: var(--white);
+  font-size: var(--text-lg);
+}
+
 .postComposer__body:focus-visible,
 .postComposer__tagInput:focus-visible {
   outline: 1px solid var(--fg-faint);
@@ -271,6 +303,102 @@
 .postComposer__surfaceButton[data-active='true'] {
   color: var(--fg);
   background: rgba(255, 255, 255, 0.06);
+}
+
+/* Portal dropdown: yerel <select>, tetikleyici surfaceButton ile aynı pill dili.
+   `appearance: base-select` (özelleştirilebilir select) açılan listeyi stillemeye
+   izin verir: yuvarlak, siyah yüzey (ThreadMenu ile aynı dil). Desteklemeyen
+   tarayıcı `appearance: none` + yerel listeye düşer. Ok ikonu bizim (sağda). */
+.postComposer__selectWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.postComposer__select {
+  appearance: none;
+  padding: var(--space-2xs) var(--space-xl) var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  color-scheme: dark;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.postComposer__select[data-empty] {
+  background: none;
+  color: var(--fg-muted);
+}
+
+.postComposer__select:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.postComposer__selectChevron {
+  position: absolute;
+  right: var(--space-sm);
+  display: flex;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  transform: rotate(90deg);
+  pointer-events: none;
+}
+
+.postComposer__select:disabled + .postComposer__selectChevron {
+  display: none;
+}
+
+@supports (appearance: base-select) {
+  .postComposer__select,
+  .postComposer__select::picker(select) {
+    appearance: base-select;
+  }
+
+  .postComposer__select::picker-icon {
+    display: none;
+  }
+
+  .postComposer__select::picker(select) {
+    margin-top: var(--space-2xs);
+    padding: var(--space-2xs);
+    border: 1px solid var(--border-card-hover);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    color-scheme: dark;
+  }
+
+  .postComposer__select option {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    color: var(--fg-dim);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .postComposer__select option::checkmark {
+    display: none;
+  }
+
+  .postComposer__select option:checked {
+    background: var(--border-card);
+    color: var(--fg);
+  }
+
+  .postComposer__select option:disabled {
+    color: var(--fg-muted);
+  }
+
+  @media (hover: hover) {
+    .postComposer__select option:not(:disabled):hover {
+      background: var(--border-card);
+      color: var(--fg);
+    }
+  }
 }
 
 .postComposer__error {

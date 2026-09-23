@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink } from '../../../../shared/i18n/LocalizedLink';
 import { EditProfileModal } from './EditProfileModal/EditProfileModal';
-import { getCustomLists } from '../../Account.data';
+import { getCustomLists } from '../../../Account/Account.data';
 import styles from './ProfileSection.module.css';
 
 // season route carousel'inin (SeasonRoute.jsx) ok ikonuyla aynısı — proje

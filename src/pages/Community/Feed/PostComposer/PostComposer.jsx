@@ -6,8 +6,8 @@ import { uploadImage, uploadVideo } from '../../../../shared/api/media';
 import sendIcon from '../../../../assets/icons/send.png';
 import { avatarColor } from '../../communityAvatar';
 import { htmlToRichText } from '../../RichText/htmlToRichText';
-import { BoldIcon, ImageIcon, ItalicIcon, SpoilerIcon } from '../../ThreadIcons';
-import { createThread } from '../Feed.data';
+import { BoldIcon, ChevronIcon, ImageIcon, ItalicIcon, PenNibIcon, SpoilerIcon, LinkIcon } from '../../ThreadIcons';
+import { createThread, getPortalOptions } from '../Feed.data';
 import styles from './PostComposer.module.css';
 
 const SURFACE_OPTIONS = [
@@ -15,6 +15,10 @@ const SURFACE_OPTIONS = [
   { key: 'THEORY', labelKey: 'navbar.theories' },
   { key: 'FAN_ART', labelKey: 'navbar.fanArt' },
 ];
+// STAFF_ONLY portala yalnız MODERATOR/ADMIN yazar (backend 403 verir). Saklanan
+// rol bayat olabilir — burada yalnız seçiciyi sadeleştiren bir ipucudur, yetki
+// kararı backend'indir.
+const STAFF_ROLES = ['MODERATOR', 'ADMIN'];
 const MAX_TAGS = 3;
 const MIN_TITLE_LENGTH = 10;
 // Limitler backend'le aynı (kullanıcı kararı): thread başına 6 medya, görsel
@@ -42,7 +46,9 @@ function Collapse({ open, children }) {
   );
 }
 
-export function PostComposer({ defaultSurface = null, onPostCreated }) {
+// `lockedPortal` ({slug, name}): Portal sayfasında composer o odaya kilitli
+// gelir — seçici tek, pasif bir pill olarak durur, liste çekilmez.
+export function PostComposer({ defaultSurface = null, lockedPortal = null, onPostCreated }) {
   const { t } = useTranslation();
   const formRef = useRef(null);
   const bodyRef = useRef(null);
@@ -51,6 +57,12 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
   const [expanded, setExpanded] = useState(false);
   const [uploadingCount, setUploadingCount] = useState(0);
   const [surface, setSurface] = useState(defaultSurface);
+  // Portal = Oda: her thread mecburen tek bir portalda açılır (varsayılan yok,
+  // kullanıcı seçer). status: loading | ready | error.
+  const [pickedPortalSlug, setPickedPortalSlug] = useState(null);
+  const portalSlug = lockedPortal?.slug ?? pickedPortalSlug;
+  const lockedSlug = lockedPortal?.slug;
+  const [portals, setPortals] = useState({ status: 'loading', items: [] });
   // discussion/theories/fan-art route'ları aynı Feed örneğini yeniden kullanır
   // (remount yok) — sekme değişince önseçim de yeni route'un yüzeyine geçer;
   // taslak (başlık/gövde) remount edilmediği için korunur.
@@ -85,6 +97,26 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
     return () => document.removeEventListener('selectionchange', syncFormat);
   }, []);
 
+  const signedIn = Boolean(getStoredAuth()?.token);
+  useEffect(() => {
+    if (!signedIn || lockedSlug) return undefined;
+    let cancelled = false;
+    getPortalOptions()
+      .then((items) => {
+        if (!cancelled) setPortals({ status: 'ready', items });
+      })
+      .catch(() => {
+        if (!cancelled) setPortals({ status: 'error', items: [] });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [signedIn, lockedSlug]);
+
+  const mediaRef = useRef([]);
+  mediaRef.current = media;
+  useEffect(() => () => mediaRef.current.forEach((m) => URL.revokeObjectURL(m.url)), []);
+
   const auth = getStoredAuth();
   if (!auth?.token) {
     return (
@@ -97,9 +129,14 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
   const username = auth.username ?? '';
   const titleLength = title.trim().length;
   const uploading = uploadingCount > 0;
-  // Zorunlu: tür, başlık (>= 10 karakter), içerik. (Alan/evren seçimi backend'de
-  // evren alanı gelince zorunlu olacak — Faz 2.)
-  const isValid = Boolean(surface) && titleLength >= MIN_TITLE_LENGTH && body.trim().length > 0 && !uploading;
+  const isStaff = STAFF_ROLES.includes(auth.role);
+  const portalOptions = portals.items.filter((portal) => portal.postingPolicy === 'OPEN' || isStaff);
+  // Zorunlu: portal, tür, başlık (>= 10 karakter). İçerik opsiyonel.
+  const isValid =
+    Boolean(portalSlug) &&
+    Boolean(surface) &&
+    titleLength >= MIN_TITLE_LENGTH &&
+    !uploading;
   const isEmpty = !title && !body && !tagInput && media.length === 0 && tags.length === 0;
 
   // Gövde WYSIWYG'dir (contenteditable): kalın/italik yazılırken ekranda
@@ -135,6 +172,16 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
     setFormat({ bold: document.queryCommandState('bold'), italic: document.queryCommandState('italic') });
   };
 
+  const applyLink = () => {
+    bodyRef.current?.focus();
+    const selection = window.getSelection();
+    if (!selection.rangeCount || selection.isCollapsed) return;
+    const url = window.prompt(t('community.composer.linkPrompt') ?? 'URL:');
+    if (url) {
+      document.execCommand('createLink', false, url);
+    }
+  };
+
   // Odak formun DIŞINA çıkınca ve içerik boşsa daralır. Kontrol bir sonraki
   // karede yapılır: dosya seçici açılınca pencere odağı gider ama
   // document.activeElement form içinde kalır — o durumda daralmaz.
@@ -145,14 +192,12 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
     });
   };
 
-  // Seçilen dosyalar sırayla yüklenir (kalan kontenjan kadarı); başarısız
-  // olan atlanır, hata mesajı gösterilir, diğerleri eklenmeye devam eder.
-  const handleMediaFiles = async (fileList) => {
+  // Seçilen dosyalar local preview URL ile tutulur, submit edilince yüklenir (orphan media önlemi).
+  const handleMediaFiles = (fileList) => {
     const files = Array.from(fileList ?? []).slice(0, MAX_MEDIA - media.length);
     if (files.length === 0) return;
     setError(null);
-    setUploadingCount(files.length);
-    const uploaded = [];
+    const newMedia = [];
     for (const file of files) {
       const isVideo = file.type.startsWith('video/');
       const maxMb = isVideo ? MAX_VIDEO_MB : MAX_IMAGE_MB;
@@ -160,20 +205,20 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
         setError(t('community.composer.mediaTooLarge', { name: file.name, max: maxMb }));
         continue;
       }
-      try {
-        const { url } = await (isVideo ? uploadVideo : uploadImage)(file, MEDIA_FOLDER);
-        uploaded.push({ type: isVideo ? 'VIDEO' : 'IMAGE', url });
-      } catch (err) {
-        setError(err.message || t('community.composer.mediaError'));
-      }
+      newMedia.push({
+        type: isVideo ? 'VIDEO' : 'IMAGE',
+        file,
+        url: URL.createObjectURL(file), // temporary local preview
+      });
     }
-    setMedia((prev) => [...prev, ...uploaded]);
-    setUploadingCount(0);
-    // Aynı dosya tekrar seçilebilsin (kaldır → aynı dosyayı yeniden seç).
+    setMedia((prev) => [...prev, ...newMedia]);
     if (mediaInputRef.current) mediaInputRef.current.value = '';
   };
 
-  const removeMedia = (url) => setMedia((prev) => prev.filter((item) => item.url !== url));
+  const removeMedia = (url) => {
+    URL.revokeObjectURL(url);
+    setMedia((prev) => prev.filter((item) => item.url !== url));
+  };
 
   // `#` alanda SABİT önek olarak durur, kullanıcı yalnız kelimeyi yazar; yine de
   // yapıştırılan/yazılan #, boşluk ve virgül temizlenir (etiket tek kelime).
@@ -194,14 +239,24 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
     setSubmitting(true);
     setError(null);
     try {
+      setUploadingCount(media.length);
+      const uploadedMedia = [];
+      for (const item of media) {
+        const { url } = await (item.type === 'VIDEO' ? uploadVideo : uploadImage)(item.file, MEDIA_FOLDER);
+        uploadedMedia.push({ type: item.type, url });
+      }
+      setUploadingCount(0);
+
       const post = await createThread({
+        portalSlug,
         surface,
         title: title.trim(),
         body: body.trim(),
-        media,
+        media: uploadedMedia,
         tags,
         spoilerFlagged,
       });
+      media.forEach((m) => URL.revokeObjectURL(m.url));
       setTitle('');
       setBody('');
       setEditorKey((key) => key + 1);
@@ -215,6 +270,7 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
       // Backend'in gerçek mesajı (400 validasyon, 401 süresi dolmuş token...)
       // genel "tekrar dene" yerine gösterilir; mesaj yoksa genel metne düşer.
       setError(err.message || t('community.composer.error'));
+      setUploadingCount(0);
     } finally {
       setSubmitting(false);
     }
@@ -226,6 +282,7 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
     <form
       ref={formRef}
       className={styles.postComposer}
+      data-locked={Boolean(lockedPortal) || undefined}
       onSubmit={handleSubmit}
       onFocus={() => setExpanded(true)}
       onBlur={handleBlur}
@@ -236,15 +293,20 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
         </span>
 
         <div className={styles.postComposer__fields}>
-          <input
-            className={styles.postComposer__title}
-            placeholder={t('community.composer.titlePlaceholder')}
-            aria-label={t('community.composer.titlePlaceholder')}
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            maxLength={140}
-          />
-          {titleLength > 0 && titleLength < MIN_TITLE_LENGTH && (
+          <div className={styles.postComposer__titleRow}>
+            <input
+              className={styles.postComposer__title}
+              placeholder={t('community.composer.titlePlaceholder')}
+              aria-label={t('community.composer.titlePlaceholder')}
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              maxLength={140}
+            />
+            <span className={styles.postComposer__titleIcon} aria-hidden="true">
+              <PenNibIcon />
+            </span>
+          </div>
+          {title.length > 0 && titleLength < MIN_TITLE_LENGTH && (
             <p className={styles.postComposer__hint}>
               {t('community.composer.titleMin', { min: MIN_TITLE_LENGTH, count: titleLength })}
             </p>
@@ -326,6 +388,40 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
                 )}
               </div>
 
+              {/* Portal seçici: dropdown. Yerel <select> — hiçbir şey kaymaz, açılan liste
+                  üst katmanda çizilir (daralan bölümün overflow:hidden'ı kırpmaz).
+                  Görünüm CSS'te (appearance: base-select); desteklemeyen tarayıcı yerel listeyi gösterir. */}
+              <div className={styles.postComposer__surfaceRow}>
+                <span className={styles.postComposer__surfaceLabel}>{t('community.composer.portalLabel')}</span>
+                {!lockedPortal && portals.status === 'error' && (
+                  <span className={styles.postComposer__hint}>{t('community.composer.portalsError')}</span>
+                )}
+                <span className={styles.postComposer__selectWrap}>
+                  <select
+                    className={styles.postComposer__select}
+                    aria-label={t('community.composer.portalLabel')}
+                    value={portalSlug ?? ''}
+                    disabled={Boolean(lockedPortal)}
+                    data-empty={!portalSlug || undefined}
+                    onChange={(event) => setPickedPortalSlug(event.target.value)}
+                  >
+                    {!lockedPortal && (
+                      <option value="" disabled>
+                        {t('community.composer.portalPlaceholder')}
+                      </option>
+                    )}
+                    {(lockedPortal ? [lockedPortal] : portalOptions).map((portal) => (
+                      <option key={portal.slug} value={portal.slug}>
+                        {portal.name}
+                      </option>
+                    ))}
+                  </select>
+                  <span className={styles.postComposer__selectChevron} aria-hidden="true">
+                    <ChevronIcon />
+                  </span>
+                </span>
+              </div>
+
               <div className={styles.postComposer__surfaceRow} role="group" aria-label={t('community.composer.typeLabel')}>
                 <span className={styles.postComposer__surfaceLabel}>{t('community.composer.typeLabel')}</span>
                 {SURFACE_OPTIONS.map((option) => (
@@ -400,6 +496,16 @@ export function PostComposer({ defaultSurface = null, onPostCreated }) {
                 title={t('community.composer.italic')}
               >
                 <ItalicIcon />
+              </button>
+              <button
+                type="button"
+                className={styles.postComposer__tool}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={applyLink}
+                aria-label={t('community.composer.link')}
+                title={t('community.composer.link')}
+              >
+                <LinkIcon />
               </button>
               <button
                 type="button"

@@ -1,0 +1,52 @@
+.portal__missing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.portal__missingText {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.portal__back {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+@media (hover: hover) {
+  .portal__back:hover {
+    color: var(--fg);
+  }
+}
+
+.portal__notice {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* Tek panel (DENEME): --radius-lg'li kap. Tema rengi yalnız TEPEDE ortam ışığıdır:
+   canlı renkten sitenin siyah zeminine (--surface-0) erir ve kalıcı olarak siyahta
+   kalır — kullanıcı aşağı indikçe kırmızı kutunun içinde değil karanlık temadadır.
+   448px = --space-3xl * 7 (header + composer + sekmeler bölgesi). */
+.portal__panel {
+  --portal-fade: calc(var(--space-3xl) * 7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(to bottom, var(--portal-theme) 0%, var(--surface-0) var(--portal-fade));
+}
+
+@media (max-width: 768px) {
+  .portal__panel {
+    padding: var(--space-md);
+  }
+}

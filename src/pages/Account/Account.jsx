@@ -51,7 +51,7 @@ export default function Account() {
   return (
     <div className={styles.account}>
       {profile ? (
-        <DashboardView user={profile} onLogout={handleLogout} onProfileUpdate={setProfile} />
+        <DashboardView onLogout={handleLogout} />
       ) : (
         <AuthView onAuthenticated={handleAuthenticated} />
       )}

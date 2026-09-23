@@ -11,7 +11,7 @@ export function ProfileCard({ profile }) {
   const initial = profile.username?.charAt(0)?.toUpperCase() ?? '?';
 
   return (
-    <Link to="/account" className={styles.profileCard}>
+    <Link to="/community/profile" className={styles.profileCard}>
       <div
         className={styles.profileCard__avatar}
         style={profile.avatarUrl ? { backgroundImage: `url(${profile.avatarUrl})` } : undefined}

@@ -175,6 +175,9 @@
     "sidebar": {
       "theoryCount": "{{count}} teori",
       "likeCount": "{{count}} beğeni",
+      "portalsHeading": "Portallarım",
+      "portalsEmpty": "Katıldığın portallar burada görünür.",
+      "topPortalsHeading": "Öne Çıkan Portallar",
       "libraryHeading": "Kitaplığım",
       "liked": "Beğendiklerim",
       "saved": "Kaydettiklerim",
@@ -235,9 +238,12 @@
     },
     "composer": {
       "signInPrompt": "Konu açmak için giriş yap",
-      "titlePlaceholder": "Tartışma başlığı (Örn: Walter White'ın asıl amacı neydi?)",
+      "titlePlaceholder": "Başlık ekle...",
       "titleMin": "Başlık en az {{min}} karakter olmalı ({{count}}/{{min}})",
       "bodyPlaceholder": "Teorinizi veya tartışma detaylarını buraya yazın...",
+      "portalLabel": "Portal seç",
+      "portalPlaceholder": "Seçiniz",
+      "portalsError": "Portallar yüklenemedi, sayfayı yenile.",
       "typeLabel": "Tür seç",
       "bold": "Kalın",
       "italic": "İtalik",
@@ -251,6 +257,17 @@
       "removeTag": "Etiketi kaldır",
       "submit": "Paylaş",
       "error": "Gönderilemedi, tekrar dene."
+    },
+    "portal": {
+      "join": "Katıl",
+      "joinShort": "+ Katıl",
+      "joined": "Katıldın",
+      "members_one": "Üye",
+      "members_other": "Üye",
+      "threads_one": "Tartışma",
+      "threads_other": "Tartışma",
+      "notFound": "Bu portal bulunamadı.",
+      "postingClosed": "Bu portalda şu an yeni konu açılamıyor."
     },
     "thread": {
       "spoilerReveal": "Spoiler içerir — görmek için tıkla",
@@ -293,7 +310,6 @@
       "genericError": "Bir şeyler ters gitti, tekrar dene"
     },
     "nav": {
-      "profile": "Profil",
       "library": "Kütüphanem",
       "watchlist": "İzleme Listesi",
       "following": "Takip Edilenler",

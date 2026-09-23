@@ -7,6 +7,8 @@ import News from './pages/News/News';
 import CommunityLayout from './pages/Community/CommunityLayout';
 import Feed from './pages/Community/Feed/Feed';
 import ThreadDetail from './pages/Community/ThreadDetail/ThreadDetail';
+import Portal from './pages/Community/Portal/Portal';
+import ProfileView from './pages/Community/ProfileView/ProfileView';
 import GameOfThrones from './pages/series/GameOfThrones/GameOfThrones';
 import BreakingBad from './pages/series/BreakingBad/BreakingBad';
 import HouseOfTheDragon from './pages/series/HouseOfTheDragon/HouseOfTheDragon';
@@ -32,6 +34,9 @@ import ItWelcomeToDerrySeasonDetail from './pages/series/ItWelcomeToDerry/Season
 import ItWelcomeToDerryEpisodePage from './pages/series/ItWelcomeToDerry/EpisodePage/EpisodePage';
 import StrangerThingsSeasonDetail from './pages/series/StrangerThings/SeasonDetail/SeasonDetail';
 import StrangerThingsEpisodePage from './pages/series/StrangerThings/EpisodePage/EpisodePage';
+import TheBoys from './pages/series/TheBoys/TheBoys';
+import TheBoysSeasonDetail from './pages/series/TheBoys/SeasonDetail/SeasonDetail';
+import TheBoysEpisodePage from './pages/series/TheBoys/EpisodePage/EpisodePage';
 import Characters from './pages/series/GameOfThrones/Characters/Characters';
 import WesterosMap from './pages/series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/series/GameOfThrones/History/History';
@@ -66,7 +71,8 @@ import {
 // Community içi geçiş (sekme değişimi, feed↔thread detay): sol/sağ menü ekranda
 // SABİT kalmalı (PRD) — sayfa fade'i onları da yakıp söndürürdü, o yüzden
 // yalnız fade atlanır (scroll sıfırlama aynen çalışır). İlk giriş fade'i korunur.
-const COMMUNITY_PATH = /^\/(?:[a-z]{2}\/)?community(?:\/|$)/;
+// /portal/... de aynı CommunityLayout'un içindedir (Portal = Oda).
+const COMMUNITY_PATH = /^\/(?:[a-z]{2}\/)?(?:community|portal)(?:\/|$)/;
 
 function PageTransition({ children }) {
   const { pathname } = useLocation();
@@ -259,20 +265,34 @@ function App() {
               element={<StrangerThingsEpisodePage />}
             />
             <Route path="series/stranger-things/seasons/:seasonNumber" element={<StrangerThingsSeasonDetail />} />
+            <Route path="series/the-boys" element={<TheBoys />} />
+            <Route
+              path="series/the-boys/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<TheBoysEpisodePage />}
+            />
+            <Route path="series/the-boys/seasons/:seasonNumber" element={<TheBoysSeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
             <Route path="series" element={<Series />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
             <Route path="movies" element={<Placeholder titleKey="navbar.movies" />} />
-            <Route path="community" element={<CommunityLayout />}>
-              <Route index element={<Feed />} />
-              <Route path="discussion" element={<Feed surface="DISCUSSION" />} />
-              <Route path="theories" element={<Feed surface="THEORY" />} />
-              <Route path="fan-art" element={<Feed surface="FAN_ART" />} />
+            {/* Yol-siz layout route: /community ve /portal aynı CommunityLayout
+                örneğini paylaşır — aralarında geçişte sol/sağ menü remount olmaz. */}
+            <Route element={<CommunityLayout />}>
+              <Route path="community" element={<Feed />} />
+              <Route path="community/profile" element={<ProfileView />} />
+              <Route path="community/discussion" element={<Feed surface="DISCUSSION" />} />
+              <Route path="community/theories" element={<Feed surface="THEORY" />} />
+              <Route path="community/fan-art" element={<Feed surface="FAN_ART" />} />
               {/* Thread detay — layout İÇİNDE: sol/sağ menü sabit kalır, yalnız
-                  orta sütundaki Feed unmount olup yerine ThreadDetail gelir (PRD). */}
-              <Route path="discussion/:slug" element={<ThreadDetail />} />
-              <Route path="theories/:slug" element={<ThreadDetail />} />
-              <Route path="fan-art/:slug" element={<ThreadDetail />} />
+                  orta sütundaki Feed unmount olup yerine ThreadDetail gelir (PRD).
+                  Birincil: hibrit URL (id ile sorgulanır, slug süs). Eski
+                  /community/<yüzey>/:slug linkleri ThreadDetail'de kanonik
+                  URL'e replace edilir — paylaşılmış linkler kırılmaz. */}
+              <Route path="portal/:portalSlug" element={<Portal />} />
+              <Route path="portal/:portalSlug/post/:idSlug" element={<ThreadDetail />} />
+              <Route path="community/discussion/:slug" element={<ThreadDetail />} />
+              <Route path="community/theories/:slug" element={<ThreadDetail />} />
+              <Route path="community/fan-art/:slug" element={<ThreadDetail />} />
             </Route>
             <Route path="news" element={<News />} />
             <Route path="blog/:slug" element={<BlogPostRoute />} />

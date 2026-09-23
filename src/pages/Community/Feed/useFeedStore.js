@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // Feed listelerinin oturum-içi önbelleği (PRD: görünüm/sekme değişiminde ve
-// detaydan geri dönüşte gereksiz fetch YOK). Anahtar: yüzey + sıralama — Card/
+// detaydan geri dönüşte gereksiz fetch YOK). Anahtar: portal + yüzey + sıralama — Card/
 // List/Grid görünümü yalnız yüzeyden türediği için (Feed.jsx VIEWS) görünüm
 // değişimi veri değil sadece render değiştirir; daha önce açılmış bir sekmeye
 // dönüş anında, ağ isteği olmadan gelir. Yeni paket değil: projede zustand zaten var.
@@ -9,7 +9,9 @@ import { create } from 'zustand';
 // ([[topluluk-feed]] scroll-restoration kuralı).
 export const FEED_STALE_MS = 5 * 60 * 1000;
 
-export const feedKey = (surface, sort) => `${surface ?? 'ALL'}:${sort}`;
+// Portal sayfası kendi listesini tutar (aynı yüzey+sıralama farklı portalda
+// farklı veridir) — /community akışı `all` kovasında kalır.
+export const feedKey = (surface, sort, portal) => `${portal ?? 'all'}:${surface ?? 'ALL'}:${sort}`;
 
 export const useFeedStore = create((set) => ({
   sort: 'hot',

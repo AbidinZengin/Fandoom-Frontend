@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate } from '../../../shared/i18n/useLocalizedNavigate';
-import { ProfileSection } from './ProfileSection/ProfileSection';
 import { ContentSection } from './ContentSection/ContentSection';
 import { CustomListsSection } from './CustomListsSection/CustomListsSection';
 import { CharactersSection } from './CharactersSection/CharactersSection';
@@ -12,7 +11,6 @@ import { getAccountContent } from '../Account.data';
 import styles from './DashboardView.module.css';
 
 const NAV_ITEMS = [
-  { key: 'profile', labelKey: 'account.nav.profile' },
   { key: 'library', labelKey: 'account.nav.library', isGroupHeader: true },
   { key: 'watchlist', labelKey: 'account.nav.watchlist', isChild: true },
   { key: 'saved', labelKey: 'account.nav.saved', isChild: true },
@@ -46,7 +44,7 @@ function CloseIcon() {
 // sol üstte açar, drawer soldan kayar, backdrop'a veya bir nav öğesine
 // tıklamak kapatır. Masaüstünde (>900px) sidebar zaten normal akışta sabit
 // duruyor — drawer stilleri sadece mobil media query'sinde devreye girer.
-export function DashboardView({ user, onLogout, onProfileUpdate }) {
+export function DashboardView({ onLogout }) {
   const { t } = useTranslation();
   // Kullanıcı isteği (2026-08-31): "/account/lists/:id" artık ayrı bir route
   // elementi DEĞİL, App.jsx aynı <Account/>'u "account/*" wildcard'ıyla
@@ -56,7 +54,7 @@ export function DashboardView({ user, onLogout, onProfileUpdate }) {
   const { pathname } = useLocation();
   const listDetailId = pathname.match(/\/account\/lists\/([^/]+)/)?.[1] ?? null;
   const navigate = useLocalizedNavigate();
-  const [activeSection, setActiveSection] = useState('profile');
+  const [activeSection, setActiveSection] = useState('watchlist');
   const [contentOpen, setContentOpen] = useState(true);
   const [content, setContent] = useState(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -89,9 +87,6 @@ export function DashboardView({ user, onLogout, onProfileUpdate }) {
   const renderSection = () => {
     if (listDetailId) {
       return <ListDetail id={listDetailId} />;
-    }
-    if (activeSection === 'profile') {
-      return <ProfileSection user={user} continueReading={content?.continueReading} onProfileUpdate={onProfileUpdate} />;
     }
     if (activeSection === 'watchlist') {
       return (
@@ -161,7 +156,7 @@ export function DashboardView({ user, onLogout, onProfileUpdate }) {
       <nav
         className={styles.dashboard__sidebar}
         data-open={mobileNavOpen}
-        aria-label={t('account.nav.profile')}
+        aria-label={t('navbar.accountAriaLabel')}
       >
         <button
           type="button"

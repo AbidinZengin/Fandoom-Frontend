@@ -1,0 +1,35 @@
+/* sm = 24px (--space-lg), md = 40px (--space-xl + --space-xs) — token türevi. */
+.portalIcon {
+  flex: none;
+  display: block;
+  object-fit: cover;
+  border: 1px solid var(--border-card);
+  background: var(--surface-2);
+}
+
+.portalIcon[data-size='sm'] {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: var(--radius-sm);
+}
+
+.portalIcon[data-size='md'] {
+  width: calc(var(--space-xl) + var(--space-xs));
+  height: calc(var(--space-xl) + var(--space-xs));
+  border-radius: var(--radius-md);
+}
+
+.portalIcon[data-fallback] {
+  display: grid;
+  place-items: center;
+  color: var(--fg-dim);
+  font-weight: 800;
+}
+
+.portalIcon[data-fallback][data-size='sm'] {
+  font-size: var(--text-xs);
+}
+
+.portalIcon[data-fallback][data-size='md'] {
+  font-size: var(--text-md);
+}

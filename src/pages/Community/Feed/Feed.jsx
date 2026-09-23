@@ -29,19 +29,25 @@ const STAGGER_MS = 60;
 // SurfaceFeed dosyası açmak burada gereksiz kopya olurdu (Karpathy ilkesi:
 // istenenden fazla soyutlama yok); tek fark PostComposer'ın varsayılan
 // yüzeyi ve listenin filtresi. Sıralama ve sayfalama sunucuda.
+// `portal` ({slug, name, canPost}, Portal sayfasından): akış yalnız o odanın
+// thread'leridir; PRD gereği portal içinde liste görünümü YOK — tüm türler
+// kartla akar, tür sekmeleri `?surface=` ile aynı sayfada süzer (Portal.jsx),
+// composer portalı kilitli gelir
+// (canPost=false: ARCHIVED / STAFF_ONLY → composer hiç çıkmaz).
 // Route'lar aynı Feed örneğini yeniden kullanır (remount yok) — bu yüzden
 // hata/"daha fazla" durumları ANAHTARA bağlıdır, sekme değişince eski sekmenin
 // durumu sızmaz; yükleme durumu da türetilir (`!entry && !error`), böylece
 // önbelleksiz sekmede bir kare bile sahte "boş" görünmez.
-export default function Feed({ surface }) {
+export default function Feed({ surface, portal }) {
   const { t } = useTranslation();
   const navigationType = useNavigationType();
-  const view = VIEWS[surface ?? 'ALL'];
+  const portalSlug = portal?.slug;
+  const view = portal ? 'card' : VIEWS[surface ?? 'ALL'];
   const size = PAGE_SIZES[view];
   const sort = useFeedStore((s) => s.sort);
   const setSort = useFeedStore((s) => s.setSort);
   const save = useFeedStore((s) => s.save);
-  const key = feedKey(surface, sort);
+  const key = feedKey(surface, sort, portalSlug);
   const entry = useFeedStore((s) => s.entries[key]);
   const [errorKey, setErrorKey] = useState(null);
   const [more, setMore] = useState({ key: null, status: 'idle' });
@@ -70,7 +76,7 @@ export default function Feed({ surface }) {
     const cached = useFeedStore.getState().entries[key];
     if (cached?.loadedAt && Date.now() - cached.loadedAt < FEED_STALE_MS) return undefined;
     let cancelled = false;
-    getFeedThreads({ surface, sort, page: 0, size })
+    getFeedThreads({ surface, sort, page: 0, size, portal: portalSlug })
       .then((res) => {
         if (cancelled) return;
         setErrorKey(null);
@@ -82,7 +88,7 @@ export default function Feed({ surface }) {
     return () => {
       cancelled = true;
     };
-  }, [key, reloadKey, surface, sort, size, save]);
+  }, [key, reloadKey, surface, sort, size, portalSlug, save]);
 
   useEffect(() => {
     if (!restoreTo) return undefined;
@@ -108,7 +114,7 @@ export default function Feed({ surface }) {
     setMore({ key, status: 'loading' });
     try {
       const nextPage = page + 1;
-      const res = await getFeedThreads({ surface, sort, page: nextPage, size });
+      const res = await getFeedThreads({ surface, sort, page: nextPage, size, portal: portalSlug });
       const current = useFeedStore.getState().entries[key];
       if (current) {
         const known = new Set(current.threads.map((item) => item.id));
@@ -131,12 +137,18 @@ export default function Feed({ surface }) {
 
   return (
     <>
-      <PostComposer defaultSurface={surface ?? null} onPostCreated={handlePostCreated} />
+      {portal ? (
+        portal.canPost && (
+          <PostComposer defaultSurface={surface ?? null} lockedPortal={portal} onPostCreated={handlePostCreated} />
+        )
+      ) : (
+        <PostComposer defaultSurface={surface ?? null} onPostCreated={handlePostCreated} />
+      )}
 
       {/* Sekmeler + sıralama tek satırda; yapışkan, aşağı scroll'da kaybolur,
           yukarı scroll'da geri gelir (useControlsReveal). */}
       <div ref={controlsRef} className={styles.feed__controls}>
-        <SurfaceFilter />
+        <SurfaceFilter portalSlug={portalSlug} />
         <SortBar sort={sort} onChange={setSort} />
       </div>
 

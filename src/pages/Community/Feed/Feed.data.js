@@ -1,7 +1,7 @@
 // Feed'in veri erişim katmanı — gerçek /api/community/** uçlarına bağlı
 // (mock thread seti ve localStorage optimistic kaldırıldı). Component'ler
 // backend cevabına değil, buradaki kart şekline (author string) bağlıdır.
-import { getFeed, getThread, postThread } from '../../../shared/api/community';
+import { getFeed, getPortal, getPortals, getThread, joinPortal, leavePortal, postThread } from '../../../shared/api/community';
 
 // FeedCard ve ThreadBody arasında paylaşılan zaman etiketi — ikisi de aynı
 // thread verisini gösterir, tek yerde tanımlı.
@@ -17,7 +17,8 @@ export function timeAgo(iso, t) {
 export const SORT_OPTIONS = ['hot', 'new', 'top'];
 
 // ThreadSummaryResponse / ThreadDetailResponse → kart şekli. `id` numeric
-// Thread.id (Comments subjectId'si), `slug` route parametresi. Profili
+// Thread.id (Comments subjectId'si + hibrit URL'in kimliği), `slug` URL'in
+// süsü. `portal` {slug, name} her thread cevabında gelir. Profili
 // silinmiş yazarda author null gelir — kart "unknown" etiketine düşer.
 function toThreadCard(res) {
   return {
@@ -40,27 +41,56 @@ function toThreadCard(res) {
     media: res.media ?? [],
     spoilerFlagged: res.spoilerFlagged ?? false,
     productionSlug: res.productionSlug ?? undefined,
+    portal: res.portal ?? undefined,
     createdAt: res.createdAt,
   };
 }
 
-export async function getFeedThreads({ surface, sort, page, size }) {
-  const res = await getFeed({ surface, sort, page, size });
+export async function getFeedThreads({ surface, sort, page, size, portal }) {
+  const res = await getFeed({ surface, sort, page, size, portal });
   return { threads: res.content.map(toThreadCard), hasMore: !res.last };
 }
 
-// 404 (slug yok / DELETED / HIDDEN) → null; diğer hatalar çağırana fırlar.
-export async function getThreadBySlug(slug) {
+// 404 (yok / DELETED / HIDDEN / portalı HIDDEN) → null; diğer hatalar çağırana
+// fırlar. `idOrSlug`: hibrit URL'de id, eski /community/<yüzey>/<slug> linkinde slug.
+export async function getThreadByIdOrSlug(idOrSlug) {
   try {
-    return toThreadCard(await getThread(slug));
+    return toThreadCard(await getThread(idOrSlug));
   } catch (error) {
     if (error.status === 404) return null;
     throw error;
   }
 }
 
-export async function createThread({ surface, title, body, media, tags, spoilerFlagged }) {
+// PortalDetailResponse → sayfa şekli (alanlar sözleşmeyle aynı). 404 (yok /
+// HIDDEN) → null; diğer hatalar çağırana fırlar.
+export async function getPortalBySlug(slug) {
+  try {
+    return await getPortal(slug);
+  } catch (error) {
+    if (error.status === 404) return null;
+    throw error;
+  }
+}
+
+// {member, memberCount} döner.
+export async function setPortalMembership(slug, member) {
+  return member ? joinPortal(slug) : leavePortal(slug);
+}
+
+// Composer'ın portal seçicisi: yalnız ACTIVE portallar (ARCHIVED'da yazma kapalı,
+// HIDDEN zaten dönmez), en kalabalıktan başlayarak. Dizin size'ı 50'de kırpar —
+// portal sayısı bunu aşarsa seçici arama/sayfalama ister (şimdilik 9 seed).
+export async function getPortalOptions() {
+  const res = await getPortals({ sort: 'members', size: 50 });
+  return res.content
+    .filter((portal) => portal.status === 'ACTIVE')
+    .map(({ slug, name, postingPolicy }) => ({ slug, name, postingPolicy }));
+}
+
+export async function createThread({ portalSlug, surface, title, body, media, tags, spoilerFlagged }) {
   const created = await postThread({
+    portalSlug,
     surface,
     title,
     body: body || undefined,

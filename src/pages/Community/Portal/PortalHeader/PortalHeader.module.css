@@ -1,0 +1,211 @@
+/* 120px ikon = --space-2xl * 2.5 (token türevi, hardcode yok). */
+.portalHeader {
+  --portal-icon: calc(var(--space-2xl) * 2.5);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-xl) 0 var(--space-md);
+}
+
+/* Ambient: orta sütunun tepesinden başlayıp siyaha eriyen bulanık zemin. Banner
+   yoksa nötr gradient. Üstüne karartma (::after) — net ön bileşen kontrastla
+   ayrışsın (learned-rules ambient-blur). */
+.portalHeader__ambient {
+  position: absolute;
+  z-index: -1;
+  inset: calc(var(--space-xl) * -1) 0 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), transparent);
+  background-size: cover;
+  background-position: center;
+  /* Eliptik maske: yanlar ve alt kenar çok duraklı yumuşak erir, sert dikdörtgen kenarı kalmaz. */
+  -webkit-mask-image: radial-gradient(ellipse 75% 100% at 50% 0%, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 100% at 50% 0%, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 100%);
+  pointer-events: none;
+}
+
+.portalHeader[data-has-banner] .portalHeader__ambient {
+  filter: blur(var(--space-xl)) saturate(1.3);
+}
+
+.portalHeader[data-has-banner] .portalHeader__ambient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(5, 5, 5, 0.35), rgba(5, 5, 5, 0.8));
+}
+
+.portalHeader__identity {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-lg);
+}
+
+.portalHeader__icon {
+  flex: none;
+  width: var(--portal-icon);
+  height: var(--portal-icon);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  object-fit: cover;
+  background: var(--surface-2);
+}
+
+/* İkon yoksa baş harf — avatar fallback kalıbı, monokrom. */
+.portalHeader__icon[data-fallback] {
+  display: grid;
+  place-items: center;
+  color: var(--fg-dim);
+  font-size: var(--text-h1);
+  font-weight: 800;
+}
+
+.portalHeader__text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.portalHeader__name {
+  margin: 0;
+  color: var(--white);
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.portalHeader__description {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.portalHeader__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* Birincil CTA solid beyaz (learned-rules [topluluk-görsel]); üyeyken çerçeveli. */
+.portalHeader__join {
+  padding: var(--space-xs) var(--space-xl);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--white);
+  background: var(--white);
+  color: var(--bg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.portalHeader__join[data-joined] {
+  background: none;
+  color: var(--fg);
+}
+
+.portalHeader__join:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Üst üste binen avatar iskeleti (backend'de üye listesi yok). */
+.portalHeader__avatars {
+  display: flex;
+  opacity: 0.5;
+}
+
+.portalHeader__avatars i {
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-round);
+  background: var(--surface-0);
+}
+
+.portalHeader__avatars i + i {
+  margin-left: calc(var(--space-xs) * -1);
+}
+
+.portalHeader__stats {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--fg-dim);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* ATMOSFER varyantı (portal.accentColor var): header'ın KENDİ arka planı/kutusu
+   yok — sis ve radius Portal.jsx'teki tek panele aittir (Spotify gibi). Burada
+   yalnız içerik: ikon panele orantılı yarıçap; ad "dergi kapağı" boyutunda
+   (--text-h1, 56px tavan), alt başlık --text-base. */
+.portalHeader[data-variant='atmosphere'] {
+  /* 144px ikon = --space-2xl * 3; mobilde 96px = --space-2xl * 2. */
+  --portal-icon: calc(var(--space-2xl) * 3);
+  padding: 0;
+}
+
+/* Alta hizalı (Spotify): ikonun alt kenarı Join butonunun alt kenarıyla aynı çizgide. */
+.portalHeader[data-variant='atmosphere'] .portalHeader__identity {
+  align-items: flex-end;
+  gap: var(--space-lg);
+}
+
+.portalHeader[data-variant='atmosphere'] .portalHeader__icon {
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: 0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.35);
+}
+
+.portalHeader[data-variant='atmosphere'] .portalHeader__name {
+  font-size: var(--text-h1);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.portalHeader[data-variant='atmosphere'] .portalHeader__description {
+  margin-top: var(--space-2xs);
+  color: var(--fg-dim);
+  font-size: var(--text-base);
+}
+
+.portalHeader[data-variant='atmosphere'] .portalHeader__actions {
+  margin-top: var(--space-sm);
+}
+
+.portalHeader[data-variant='atmosphere'] .portalHeader__join {
+  padding: var(--space-2xs) var(--space-lg);
+}
+
+.portalHeader[data-variant='atmosphere'] .portalHeader__stats {
+  color: var(--fg-dim);
+}
+
+/* 80px ikon = --space-3xl + --space-md. */
+@media (max-width: 768px) {
+  .portalHeader {
+    --portal-icon: calc(var(--space-3xl) + var(--space-md));
+  }
+}
+
+@media (max-width: 768px) {
+  .portalHeader[data-variant='atmosphere'] {
+    --portal-icon: calc(var(--space-2xl) * 2);
+  }
+}
+
+@media (max-width: 480px) {
+  .portalHeader__identity,
+  .portalHeader[data-variant='atmosphere'] .portalHeader__identity {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

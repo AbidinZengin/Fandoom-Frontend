@@ -4,7 +4,9 @@ import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { ProfileCard } from './ProfileCard/ProfileCard';
 import { LibraryNav } from './LibraryNav/LibraryNav';
 import { ListsNav } from './ListsNav/ListsNav';
-import { hasStoredSession, getSidebarProfile, getSidebarLists } from './LeftSidebar.data';
+import { PortalsNav } from './PortalsNav/PortalsNav';
+import { useMyPortalsStore } from '../useMyPortalsStore';
+import { hasStoredSession, getSidebarProfile, getSidebarLists, getSidebarPortals } from './LeftSidebar.data';
 import styles from './LeftSidebar.module.css';
 
 // Oturum durumuna göre render — Account.jsx'teki aynı desen (token varsa
@@ -15,6 +17,9 @@ export function LeftSidebar({ mobileOpen, onClose }) {
   const [profile, setProfile] = useState(null);
   const [checkingSession, setCheckingSession] = useState(true);
   const [lists, setLists] = useState([]);
+  const [portals, setPortals] = useState([]);
+  // Katıl/Ayrıl (portal sayfası veya Top Portals) sonrası liste yeniden çekilir.
+  const portalsVersion = useMyPortalsStore((s) => s.version);
 
   useEffect(() => {
     let cancelled = false;
@@ -45,6 +50,20 @@ export function LeftSidebar({ mobileOpen, onClose }) {
     };
   }, [profile]);
 
+  // Portallarım: hata halinde liste boş kalır (boş durum metni), sidebar bozulmaz.
+  useEffect(() => {
+    if (!profile) return undefined;
+    let cancelled = false;
+    getSidebarPortals()
+      .then((data) => {
+        if (!cancelled) setPortals(data);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [profile, portalsVersion]);
+
   return (
     <>
       {mobileOpen && (
@@ -69,6 +88,7 @@ export function LeftSidebar({ mobileOpen, onClose }) {
         {checkingSession ? null : profile ? (
           <>
             <ProfileCard profile={profile} />
+            <PortalsNav portals={portals} onNavigate={onClose} />
             <LibraryNav onNavigate={onClose} />
             <ListsNav lists={lists} onNavigate={onClose} />
             <Link to="/account" className={styles.leftSidebar__settings} onClick={onClose}>
