@@ -2,28 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
-import { armCinematic } from '../../../motion/cinematic';
+import { armCinematic, CINEMATIC_SLUGS } from '../../../motion/cinematic';
 import { fetchProductions } from './FeaturedCarousel.data';
 import styles from './FeaturedCarousel.module.css';
 
 // Cinematic geçişi olan hedefler: gerçek hero görseli olan seri sayfaları.
-// DÜZELTME (manuel): Breaking Bad'in özel HERO_FLIP mekaniği (büyüyen poster
-// klonu) kaldırıldı — hedef geometrisi eski OldHero kart düzenine göre
-// kuruluydu ve yeni Hero'da klonu temizleyen kod yoktu (ekranda kalıcı siyah
-// perde + poster kalıyordu). Artık GoT ile aynı, kanıtlanmış imza-şerit
-// geçişini kullanıyor. DÜZELTME (manuel, 2026-09-11): GoT'un TAM kalıbı
-// (şerit açılışı + counter-zoom + kademeli reveal + scroll parallax +
-// scrub-fade) diğer 5 diziye de taşındı — hepsi cinematic hedefi oldu.
-const CINEMATIC_SLUGS = new Set([
-  'game-of-thrones',
-  'breaking-bad',
-  'house-of-the-dragon',
-  'severance',
-  'pluribus',
-  'from',
-  'it-welcome-to-derry',
-  'stranger-things',
-]);
+// CINEMATIC_SLUGS artık motion/cinematic.js'te (tek kaynak) — PageTransition de
+// aynı listeyi kullanıp her girişte reveal'i arm ediyor. Buradaki tıklama
+// ayrıca eski sayfayı ~0.3s karartır (carousel'e özgü ön hareket).
+// Geçmiş: Breaking Bad'in HERO_FLIP klon mekaniği kaldırıldı, tüm yapımlar GoT'un
+// kanıtlanmış imza-şerit geçişini kullanıyor (2026-09-11 kararı).
 
 // Yatay odak-büyüme (hover) ARTIK TÜM kartlarda — önceden sadece Breaking
 // Bad'de vardı, kullanıcı isteğiyle (2026-09-11) hepsine entegre edildi.

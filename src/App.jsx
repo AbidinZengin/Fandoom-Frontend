@@ -58,7 +58,9 @@ import MotionLab from './pages/MotionLab/MotionLab';
 import { LangGate, LegacyRedirect } from './shared/i18n/LangGate';
 import { initMotion } from './motion/setup';
 import {
+  armCinematic,
   isCinematicArmed,
+  isCinematicHeroPath,
   isInPageNavArmed,
   isBlogFlipArmed,
   isBlogReturnArmed,
@@ -84,6 +86,10 @@ function PageTransition({ children }) {
     // (bırakılan konum) — burada başa sarmak küçülen klonun ineceği kartı
     // ekrandan çıkarırdı.
     if (isBlogReturnArmed()) return;
+    // Cinematic Hero'lu yapım sayfasına HER giriş şerit reveal alır (yalnız
+    // carousel değil): bayrak burada kurulur, Hero mount'ta okur, aşağıdaki
+    // sayfa fade'i de bu yüzden atlanır.
+    if (isCinematicHeroPath(pathname)) armCinematic();
     // Sayfa içi bölüm/sezon değişiminde sayfa yerinde durur — başa sarmak
     // kullanıcıyı yerinden oynatır.
     if (!isInPageNavArmed()) window.scrollTo(0, 0);

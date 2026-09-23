@@ -12,6 +12,34 @@ export function armCinematic() {
   armedAt = performance.now();
 }
 
+// Cinematic Hero'su olan yapımlar (Series + Movies). Şerit reveal artık YALNIZ
+// carousel tıklamasına bağlı değil: bu yapımların kök sayfasına HER giriş
+// (hub, navbar, doğrudan URL, geri) PageTransition'da otomatik arm edilir.
+export const CINEMATIC_SLUGS = new Set([
+  'game-of-thrones',
+  'breaking-bad',
+  'house-of-the-dragon',
+  'severance',
+  'pluribus',
+  'from',
+  'it-welcome-to-derry',
+  'stranger-things',
+  'the-boys',
+  'dune-part-two',
+  'the-batman',
+  'blade-runner-2049',
+  'interstellar',
+  'black-swan',
+]);
+
+const HERO_ROOT_PATH = /^\/(?:[a-z]{2}\/)?(?:series|movies)\/([^/]+)\/?$/;
+
+/** Path (dil önekli olabilir) cinematic Hero'lu bir yapımın KÖK sayfası mı? */
+export function isCinematicHeroPath(pathname) {
+  const slug = HERO_ROOT_PATH.exec(pathname)?.[1];
+  return slug !== undefined && CINEMATIC_SLUGS.has(slug);
+}
+
 /** Hedef sayfa mount'unda: geçiş carousel'den mi tetiklendi? */
 export function isCinematicArmed() {
   return armedAt > 0 && performance.now() - armedAt < ARM_WINDOW_MS;
