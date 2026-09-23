@@ -115,7 +115,9 @@ async function putSeasonPoster(season, posterUrl) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${AUTH_TOKEN}`,
     },
-    body: JSON.stringify({ id: season.id, seasonNumber: season.seasonNumber, title: season.title, posterUrl }),
+    // PUT tüm kaynağı değiştirir — titleTr/airDate gibi alanlar düşmesin diye
+    // mevcut sezon nesnesi spread'lenir (fetch-episode-stills.mjs ile aynı desen).
+    body: JSON.stringify({ ...season, posterUrl }),
   });
   if (!res.ok) {
     const body = await res.json().catch(() => null);

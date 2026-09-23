@@ -24,6 +24,10 @@ export const PRODUCTION_ACCENT = {
     posterGradient: 'linear-gradient(160deg, #0a0512 0%, #1f0e33 45%, #3d0d0d 100%)',
     accent: '#e2231a',
   },
+  'the-boys': {
+    posterGradient: 'linear-gradient(160deg, #050a12 0%, #0c2340 45%, #4a0f14 100%)',
+    accent: '#38a3ff',
+  },
   'the-bear': {
     posterGradient: 'linear-gradient(160deg, #120a05 0%, #2e1a0a 45%, #4a2410 100%)',
     accent: '#e08a2e',

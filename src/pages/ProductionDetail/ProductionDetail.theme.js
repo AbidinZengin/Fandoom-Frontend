@@ -34,6 +34,12 @@ export const themeBySlug = {
     fg: '#efe6ff',
     gradient: 'linear-gradient(160deg, #0a0512 0%, #1f0e33 45%, #3d0d1a 100%)',
   },
+  'the-boys': {
+    bg: '#050505',
+    accent: '#38a3ff',
+    fg: '#eaf3ff',
+    gradient: 'linear-gradient(160deg, #050a12 0%, #0c2340 45%, #4a0f14 100%)',
+  },
   'the-bear': {
     bg: '#120a05',
     accent: '#e08a2e',
