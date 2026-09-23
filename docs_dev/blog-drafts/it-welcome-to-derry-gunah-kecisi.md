@@ -31,10 +31,11 @@ servis ediliyor, HBO'nun resmi basın kiti bot-engeli (403) yüzünden bu
 oturumda erişilemedi. Cloudinary'ye yükleme AYRI onay gerektirir, burada
 sadece kaynak notu düşülüyor.
 
-- **Kapak/Dek:** `https://image.tmdb.org/t/p/original/nyy3BITeIjviv6PFIXtqvc8i6xi.jpg`
-  — dizinin TMDb'deki resmi ana posteri (2000×3000, kaynak: TMDb,
-  atıf şartıyla hotlink için uygun: "This product uses the TMDb API
-  but is not endorsed or certified by TMDb").
+- **Kapak/Dek:** `https://image.tmdb.org/t/p/original/ycnDQVqHerSaQWQkemHcXOPOnA0.jpg`
+  — kullanıcının seçtiği görsel (2026-09-20; önceki aday ana poster
+  nyy3BITe… yerine geçti). Kaynak: TMDb, atıf şartıyla hotlink için
+  uygun: "This product uses the TMDb API but is not endorsed or
+  certified by TMDb".
 - **Gelen:** `https://images.thedirect.com/media/photos/2charlotte_iIyBgIB.png`
   — Taylour Paige, Charlotte Hanlon rolünde (kaynak: TheDirect, ikincil
   rehost).
