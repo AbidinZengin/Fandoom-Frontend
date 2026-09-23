@@ -10,7 +10,7 @@ import styles from './FeaturedCarousel.module.css';
 // blogExpandedBox, dönüş restore efekti) TAŞINMADI — burada tıklama yalnız
 // kendi görsel seçili durumunu değiştirir (Hero'dan bağımsız, SeriesHero
 // düzeltmesiyle aynı ilke).
-export function FeaturedCarousel({ items }) {
+export function FeaturedCarousel({ items, basePath }) {
   const rootRef = useRef(null);
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
@@ -96,7 +96,7 @@ export function FeaturedCarousel({ items }) {
             <li className={styles.row__card} key={item.id}>
               <span className={styles.row__rank}>{String(i + 1).padStart(2, '0')}</span>
               <Link
-                to={`/series/${item.slug}`}
+                to={`${basePath}/${item.slug}`}
                 className={styles.row__thumb}
                 data-active={i === selectedIndex || undefined}
                 aria-current={i === selectedIndex}

@@ -25,6 +25,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--cover-position, center);
   opacity: 0;
 }
 
@@ -46,7 +47,7 @@
 .hero__rating {
   position: absolute;
   z-index: 2;
-  top: var(--space-xl);
+  top: calc(72px + var(--space-md));
   right: var(--space-xl);
   display: flex;
   align-items: center;
@@ -270,6 +271,10 @@
 }
 
 @media (max-width: 640px) {
+  .hero__layer {
+    object-position: var(--cover-position-mobile, center);
+  }
+
   .hero__content {
     left: var(--space-md);
     right: var(--space-md);

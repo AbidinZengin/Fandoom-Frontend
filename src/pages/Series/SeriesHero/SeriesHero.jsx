@@ -6,10 +6,7 @@ import { fetchProductionDetail } from '../../../shared/api/productions';
 import { resolveGenreNames } from '../../../shared/api/genres';
 import { FeaturedCarousel } from './FeaturedCarousel/FeaturedCarousel';
 import imdbLogo from '../../../assets/logos/IMDB_Logo_2016.svg.webp';
-import bbLogo from '../../../assets/logos/breaking-bad.svg';
-import hotdLogo from '../../../assets/logos/house-of-the-dragon.webp';
-import severanceLogo from '../../../assets/logos/severance.webp';
-import gotLogo from '../../../assets/logos/got.webp';
+import { KNOWN_LOGOS, LOGO_LAYOUT, COVER_POSITION } from './SeriesHero.data';
 import styles from './SeriesHero.module.css';
 
 // Tam ekran, çerçevesiz sinematik Hero (2026-09-05 kararı — eski
@@ -19,22 +16,7 @@ import styles from './SeriesHero.module.css';
 // çerçeve YOK, atmosfer gerçek fotoğrafın kendi ışığından geliyor (sahte
 // renk çıkarımı yok — buton renkleri sabit), metin sol-altta, sessiz
 // numaralı sinematik crossfade geçiş (otomatik + ok + sürükleme).
-const KNOWN_LOGOS = {
-  'breaking-bad': bbLogo,
-  'house-of-the-dragon': hotdLogo,
-  severance: severanceLogo,
-  'game-of-thrones': gotLogo,
-};
-
-// Her yapımın logosu KENDİ Hero'sunda farklı yerde/boyutta durur (bkz. eski
-// PageBuilder referansları) — birebir korundu.
-const LOGO_LAYOUT = {
-  'house-of-the-dragon': { top: '4%', left: '50%', width: '58%', transform: 'translateX(-50%)' },
-  severance: { top: '4%', left: '50%', width: '58%', transform: 'translateX(-50%)' },
-  'game-of-thrones': { top: '4%', left: '50%', width: '50%', transform: 'translateX(-50%)' },
-  'breaking-bad': { top: '10%', left: '6.3%', width: '30%', transform: 'none' },
-};
-
+// Yapıma özel logo/cover ayarları için bkz. SeriesHero.data.js.
 const ROTATION_SIZE = 5;
 const AUTO_ADVANCE_MS = 6500;
 const TRANSITION_S = 0.9;
@@ -63,7 +45,7 @@ function ArrowIcon() {
   );
 }
 
-export function SeriesHero({ items }) {
+export function SeriesHero({ items, basePath = '/series' }) {
   const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
   const [details, setDetails] = useState({});
@@ -137,6 +119,9 @@ export function SeriesHero({ items }) {
     if (!idle) return;
 
     idle.src = coverImage;
+    const position = COVER_POSITION[current?.slug];
+    idle.style.setProperty('--cover-position', position?.desktop ?? 'center');
+    idle.style.setProperty('--cover-position-mobile', position?.mobile ?? position?.desktop ?? 'center');
     gsap.killTweensOf([idle, front]);
     // z-index 0/1'de tutuluyor — .hero__scrim'in kendi z-index'i (1) DOM
     // sırası gereği (scrim iki <img>'den SONRA gelir) eşitlikte üstte kalır,
@@ -266,7 +251,7 @@ export function SeriesHero({ items }) {
           {detail?.synopsis && <p className={styles.hero__synopsis}>{detail.synopsis}</p>}
 
           <div className={styles.hero__ctaRow}>
-            <Link className={styles.hero__ctaOutline} to={`/series/${current.slug}`}>
+            <Link className={styles.hero__ctaOutline} to={`${basePath}/${current.slug}`}>
               {t('seriesHub.explore')} <ArrowIcon />
             </Link>
             <button type="button" className={styles.hero__ctaGlass}>
@@ -322,7 +307,7 @@ export function SeriesHero({ items }) {
 
       <div className={styles.hero__row}>
         <h3 className={styles.hero__rowLabel}>{t('seriesHub.featuredTitles')}</h3>
-        <FeaturedCarousel items={items} />
+        <FeaturedCarousel items={items} basePath={basePath} />
       </div>
     </div>
   );
