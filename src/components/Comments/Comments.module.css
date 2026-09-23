@@ -136,6 +136,13 @@
   gap: var(--space-sm);
 }
 
+/* Optimistic gönderim: sunucu onaylayana dek yorum/yanıt soluk durur. */
+.item[data-pending],
+.replyItem[data-pending] {
+  opacity: 0.6;
+  transition: opacity var(--duration-fast) ease;
+}
+
 /* Avatar kolonu, item satırının TAM YÜKSEKLİĞİNE (align-items:stretch
    sayesinde, metin ne kadar uzun olursa olsun) gerilir — altındaki
    .item__rail bu sayede metin uzunluğunu hesaba katmadan avatarın

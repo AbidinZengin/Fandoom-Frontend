@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate } from '../../shared/i18n/useLocalizedNavigate';
 import { getStoredAuth } from '../../shared/api/authStorage';
@@ -71,16 +71,31 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [body, setBody] = useState('');
-  const [posting, setPosting] = useState(false);
   const [error, setError] = useState(null);
 
   // Yanıt kompozeri: aynı anda tek yorumda açık (id) + taslak metni.
   const [activeReplyId, setActiveReplyId] = useState(null);
+  // Hata dönüşünde "şu an başka yanıt yazılıyor mu" bilgisi await sonrası bayat
+  // closure'dan değil güncel değerden okunur.
+  const activeReplyIdRef = useRef(null);
+  activeReplyIdRef.current = activeReplyId;
   const [replyBody, setReplyBody] = useState('');
-  const [postingReply, setPostingReply] = useState(false);
   // Yanıtlar varsayılan AÇIK gelir (zaten fetch'e gömülü, ekstra istek yok);
   // id burada varsa KAPALI demektir.
   const [collapsedReplies, setCollapsedReplies] = useState({});
+
+  // Optimistic gönderimler await'ten sonra state'e dokunur; konu değiştiyse veya
+  // component kalktıysa (anahtar sıfırlanır) sonuç yok sayılır — eski konunun
+  // yorumu yeni listeye, taslağı yeni konunun formuna karışmasın.
+  const subjectKey = `${subjectType}:${subjectId}`;
+  const activeKeyRef = useRef(subjectKey);
+  const tempSeqRef = useRef(0);
+  useEffect(() => {
+    activeKeyRef.current = subjectKey;
+    return () => {
+      activeKeyRef.current = null;
+    };
+  }, [subjectKey]);
 
   useEffect(() => {
     if (subjectId == null) return undefined;
@@ -120,6 +135,25 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
     }
   };
 
+  // Sunucu cevabı beklenmeden gösterilen geçici yorum (isPending); id `temp-`
+  // önekli, cevap gelince gerçek kayıtla değiştirilir. Sayaç, aynı milisaniyede
+  // art arda gönderimlerde id çakışmasını önler.
+  const createTempComment = (text, extra) => {
+    const auth = getStoredAuth();
+    tempSeqRef.current += 1;
+    return {
+      id: `temp-${Date.now()}-${tempSeqRef.current}`,
+      body: text,
+      author: { username: auth?.username, avatarUrl: auth?.avatarUrl ?? null },
+      createdAt: new Date().toISOString(),
+      likeCount: 0,
+      isLiked: false,
+      deleted: false,
+      isPending: true,
+      ...extra,
+    };
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isAuthed) {
@@ -128,17 +162,23 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
     }
     const trimmed = body.trim();
     if (trimmed.length < 2) return;
-    setPosting(true);
+    const key = activeKeyRef.current;
+    const temp = createTempComment(trimmed, { replies: [], replyCount: 0 });
     setError(null);
+    setComments((cs) => [temp, ...cs]);
+    setTotalElements((n) => n + 1);
+    setBody('');
     try {
       const created = await postComment({ subjectType, subjectId, body: trimmed });
-      setComments((cs) => [{ ...created, replies: [] }, ...cs]);
-      setTotalElements((n) => n + 1);
-      setBody('');
+      if (activeKeyRef.current !== key) return;
+      setComments((cs) => cs.map((c) => (c.id === temp.id ? { ...created, replies: [] } : c)));
     } catch (err) {
+      if (activeKeyRef.current !== key) return;
+      setComments((cs) => cs.filter((c) => c.id !== temp.id));
+      setTotalElements((n) => n - 1);
+      // Yazılan metin kaybolmasın — kullanıcı bu arada yenisini yazmadıysa geri konur.
+      setBody((current) => current || trimmed);
       setError(err.message ?? t('blog.commentsPostError'));
-    } finally {
-      setPosting(false);
     }
   };
 
@@ -183,23 +223,31 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
   const submitReply = async (parent) => {
     const trimmed = replyBody.trim();
     if (trimmed.length < 2) return;
-    setPostingReply(true);
+    const key = activeKeyRef.current;
+    const temp = createTempComment(trimmed, { parentId: parent.id });
+    const patchParent = (updater) => setComments((cs) => cs.map((c) => (c.id === parent.id ? updater(c) : c)));
+    setError(null);
+    patchParent((c) => ({ ...c, replies: [...(c.replies ?? []), temp], replyCount: (c.replyCount ?? 0) + 1 }));
+    setCollapsedReplies((prev) => ({ ...prev, [parent.id]: false }));
+    setActiveReplyId(null);
+    setReplyBody('');
     try {
       const created = await postComment({ subjectType, subjectId, body: trimmed, parentId: parent.id });
-      setComments((cs) =>
-        cs.map((c) =>
-          c.id === parent.id
-            ? { ...c, replies: [...(c.replies ?? []), created], replyCount: (c.replyCount ?? 0) + 1 }
-            : c
-        )
-      );
-      setCollapsedReplies((prev) => ({ ...prev, [parent.id]: false }));
-      setActiveReplyId(null);
-      setReplyBody('');
+      if (activeKeyRef.current !== key) return;
+      patchParent((c) => ({ ...c, replies: c.replies.map((r) => (r.id === temp.id ? created : r)) }));
     } catch (err) {
+      if (activeKeyRef.current !== key) return;
+      patchParent((c) => ({
+        ...c,
+        replies: c.replies.filter((r) => r.id !== temp.id),
+        replyCount: Math.max((c.replyCount ?? 1) - 1, 0),
+      }));
+      // Yanıt kutusu kapalıysa ve başka bir yanıt yazılmıyorsa metinle birlikte geri açılır.
+      if (activeReplyIdRef.current == null) {
+        setActiveReplyId(parent.id);
+        setReplyBody(trimmed);
+      }
       setError(err.message ?? t('blog.commentsPostError'));
-    } finally {
-      setPostingReply(false);
     }
   };
 
@@ -211,18 +259,18 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
           className={styles.likeButton}
           data-active={comment.isLiked || undefined}
           onClick={() => toggleLike(comment)}
-          disabled={!isAuthed}
+          disabled={!isAuthed || comment.isPending}
           aria-pressed={comment.isLiked}
         >
           <HeartIcon active={comment.isLiked} />
           {comment.likeCount > 0 && comment.likeCount}
         </button>
-        {canReply && isAuthed && (
+        {canReply && isAuthed && !comment.isPending && (
           <button type="button" className={styles.replyButton} onClick={() => openReply(comment)}>
             {t('blog.commentsReply')}
           </button>
         )}
-        {comment.author?.username === myUsername && (
+        {comment.author?.username === myUsername && !comment.isPending && (
           <button type="button" className={styles.deleteButton} onClick={() => handleDelete(comment)}>
             {t('blog.commentsDelete')}
           </button>
@@ -252,7 +300,7 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
           <button type="button" className={styles.replyForm__cancel} onClick={() => setActiveReplyId(null)}>
             {t('blog.commentsCancel')}
           </button>
-          <button type="submit" className={styles.form__submit} disabled={postingReply || replyBody.trim().length < 2}>
+          <button type="submit" className={styles.form__submit} disabled={replyBody.trim().length < 2}>
             {t('blog.commentsSubmit')}
           </button>
         </div>
@@ -276,7 +324,7 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
             maxLength={2000}
             rows={3}
           />
-          <button type="submit" className={styles.form__submit} disabled={posting || body.trim().length < 2}>
+          <button type="submit" className={styles.form__submit} disabled={body.trim().length < 2}>
             {t('blog.commentsSubmit')}
           </button>
         </form>
@@ -299,7 +347,7 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
               const replies = comment.replies ?? [];
               const collapsed = collapsedReplies[comment.id];
               return (
-                <li key={comment.id} className={styles.item}>
+                <li key={comment.id} className={styles.item} data-pending={comment.isPending || undefined}>
                   <div className={styles.item__avatarCol}>
                     <Avatar author={comment.author} />
                     {replies.length > 0 && !collapsed && <div className={styles.item__rail} aria-hidden="true" />}
@@ -334,7 +382,7 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
                     {replies.length > 0 && !collapsed && (
                       <ul className={styles.replies}>
                         {replies.map((reply) => (
-                          <li key={reply.id} className={styles.replyItem}>
+                          <li key={reply.id} className={styles.replyItem} data-pending={reply.isPending || undefined}>
                             <Avatar author={reply.author} small />
                             <div className={styles.item__body}>
                               <div className={styles.item__meta}>
