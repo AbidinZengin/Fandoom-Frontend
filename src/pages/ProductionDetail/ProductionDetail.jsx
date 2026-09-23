@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
 import { Footer } from '../../components/Footer/Footer';
 import { ContentActions } from '../../components/ContentActions/ContentActions';
-import { fetchProductionDetail, resolveGenreNames, theories } from './ProductionDetail.data';
+import { fetchProductionDetail, resolveGenreNames, theories, fetchContentWarnings } from './ProductionDetail.data';
 import { themeBySlug, defaultTheme } from './ProductionDetail.theme';
 
 export default function ProductionDetail({ type }) {
@@ -12,22 +12,30 @@ export default function ProductionDetail({ type }) {
   const { slug } = useParams();
   const [production, setProduction] = useState(null);
   const [genreNames, setGenreNames] = useState([]);
+  const [contentWarnings, setContentWarnings] = useState([]);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     setProduction(null);
     setGenreNames([]);
+    setContentWarnings([]);
     setNotFound(false);
 
     fetchProductionDetail(type, slug)
       .then((data) => {
         if (cancelled) return null;
         setProduction(data);
-        return resolveGenreNames(data.genreIds);
-      })
-      .then((names) => {
-        if (!cancelled && names) setGenreNames(names);
+        
+        // Trigger both genre resolution and content warnings fetch simultaneously
+        const genrePromise = resolveGenreNames(data.genreIds);
+        const warningsPromise = fetchContentWarnings(type, data.id);
+        
+        Promise.all([genrePromise, warningsPromise]).then(([names, warnings]) => {
+          if (cancelled) return;
+          if (names) setGenreNames(names);
+          if (warnings) setContentWarnings(warnings);
+        });
       })
       .catch(() => {
         if (!cancelled) setNotFound(true);
@@ -102,6 +110,26 @@ export default function ProductionDetail({ type }) {
         {genreNames.length > 0 && (
           <p style={{ marginTop: 10, fontSize: 12, color: 'var(--fg-muted)' }}>{genreNames.join(' · ')}</p>
         )}
+        
+        {contentWarnings.length > 0 && (
+          <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap' }}>
+            {contentWarnings.map((warning) => (
+              <span key={warning.id} style={{ 
+                padding: '4px 8px', 
+                backgroundColor: 'rgba(239, 68, 68, 0.15)', 
+                color: '#ef4444', 
+                borderRadius: '4px', 
+                fontSize: '11px',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                border: '1px solid rgba(239, 68, 68, 0.3)'
+              }}>
+                ⚠️ {warning.tagName}
+              </span>
+            ))}
+          </div>
+        )}
+
         <div style={{ marginTop: 20 }}>
           <ContentActions
             itemId={production.id}
