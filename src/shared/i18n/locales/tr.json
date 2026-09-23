@@ -247,6 +247,8 @@
       "typeLabel": "Tür seç",
       "bold": "Kalın",
       "italic": "İtalik",
+      "link": "Bağlantı ekle",
+      "linkPrompt": "Eklenecek bağlantının URL'sini girin:",
       "spoiler": "Spoiler olarak işaretle",
       "chooseMedia": "Görsel veya video ekle ({{count}}/{{max}})",
       "mediaUploading": "Yükleniyor…",

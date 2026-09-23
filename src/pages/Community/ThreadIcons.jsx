@@ -116,6 +116,24 @@ export function SpoilerIcon() {
   );
 }
 
+// Onay / vazgeç (composer bağlantı girdisi): metin glyph'i çok ince kaldığı için
+// çizgi ikon, diğerlerinden bir tık kalın (2).
+export function CheckIcon() {
+  return (
+    <svg {...BASE} strokeWidth={2} fill="none">
+      <path d="M4 12.5l5 5L20 6.5" />
+    </svg>
+  );
+}
+
+export function CloseIcon() {
+  return (
+    <svg {...BASE} strokeWidth={2} fill="none">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  );
+}
+
 export function ArrowUpIcon() {
   return (
     <svg {...BASE} fill="none">

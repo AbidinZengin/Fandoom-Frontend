@@ -29,7 +29,7 @@ function parse(text) {
       ) : italic !== undefined ? (
         <em key={match.index}>{parse(italic)}</em>
       ) : (
-        <a key={match.index} href={linkUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>
+        <a key={match.index} href={/^(https?|mailto|tel):/i.test(linkUrl) ? linkUrl : '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>
           {parse(linkText)}
         </a>
       ),

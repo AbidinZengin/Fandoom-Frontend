@@ -233,6 +233,62 @@
   gap: var(--space-xs);
 }
 
+/* Etiket önerileri: satırın altında, üstteki içeriğin ÜSTÜNE biner (absolute).
+   Portal dropdown'ıyla aynı yüzey dili (--surface-2, hairline, --radius-md).
+   Daralan bölümün iç sarmalayıcısı overflow:hidden olduğu için liste açıkken
+   overflow:visible'a geçilir — liste yalnız bölüm tam açıkken (kullanıcı yazarken)
+   çizildiğinden açılış/kapanış animasyonu etkilenmez. */
+.postComposer__tags {
+  position: relative;
+}
+
+.postComposer__collapseInner:has(.postComposer__tagSuggestions) {
+  overflow: visible;
+}
+
+.postComposer__tagSuggestions {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  min-width: 50%;
+  max-width: 100%;
+  margin-top: var(--space-2xs);
+  padding: var(--space-2xs);
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+}
+
+.postComposer__tagSuggestion {
+  padding: var(--space-xs) var(--space-sm);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--fg-dim);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.postComposer__tagSuggestion:focus-visible {
+  background: var(--border-card);
+  color: var(--fg);
+  outline: none;
+}
+
+@media (hover: hover) {
+  .postComposer__tagSuggestion:hover {
+    background: var(--border-card);
+    color: var(--fg);
+  }
+}
+
 .postComposer__tagPill {
   display: inline-flex;
   align-items: center;
@@ -422,6 +478,44 @@
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+}
+
+/* Bağlantı girdisi (inline): araç çubuğunda ikon grubunun YERİNE geçer, Post
+   butonu sağda kalır. Hairline çerçeveli pill; odak çerçevenin kendisinde
+   görünür (input'un kendi outline'ı yok). */
+.postComposer__linkPopover {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0 var(--space-2xs) 0 var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+}
+
+.postComposer__linkPopover:focus-within {
+  border-color: var(--fg-faint);
+}
+
+.postComposer__linkInput {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-xs) 0;
+  border: none;
+  background: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+}
+
+.postComposer__linkInput::placeholder {
+  color: var(--fg-muted);
+}
+
+.postComposer__linkInput:focus-visible {
+  outline: none;
 }
 
 .postComposer__tool {

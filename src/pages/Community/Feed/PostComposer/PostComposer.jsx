@@ -6,7 +6,7 @@ import { uploadImage, uploadVideo } from '../../../../shared/api/media';
 import sendIcon from '../../../../assets/icons/send.png';
 import { avatarColor } from '../../communityAvatar';
 import { htmlToRichText } from '../../RichText/htmlToRichText';
-import { BoldIcon, ChevronIcon, ImageIcon, ItalicIcon, PenNibIcon, SpoilerIcon, LinkIcon } from '../../ThreadIcons';
+import { BoldIcon, CheckIcon, ChevronIcon, CloseIcon, ImageIcon, ItalicIcon, PenNibIcon, SpoilerIcon, LinkIcon } from '../../ThreadIcons';
 import { createThread, getPortalOptions } from '../Feed.data';
 import styles from './PostComposer.module.css';
 
@@ -20,6 +20,9 @@ const SURFACE_OPTIONS = [
 // kararı backend'indir.
 const STAFF_ROLES = ['MODERATOR', 'ADMIN'];
 const MAX_TAGS = 3;
+// Geçici mock — backend popüler etiket ucu gelince değişecek (öneri listesi
+// backend'den beslenecek; şu an /api/community altında karşılığı yok).
+const POPULAR_TAGS = ['breakingbad', 'theory', 'fanart', 'spoilers', 'questions', 'eastereggs', 'lore'];
 const MIN_TITLE_LENGTH = 10;
 // Limitler backend'le aynı (kullanıcı kararı): thread başına 6 medya, görsel
 // <= 10 MB, video <= 50 MB — istemcide de kontrol edilir ki 50 MB'lık dosya
@@ -78,9 +81,16 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
   // Kalın/italik butonlarının aktif durumu — imlecin bulunduğu metne göre.
   const [format, setFormat] = useState({ bold: false, italic: false });
   const [spoilerFlagged, setSpoilerFlagged] = useState(false);
+  // Bağlantı girdisi araç çubuğunda inline açılır; input odağı alınca editör
+  // seçimi kaybolacağı için Range burada saklanır.
+  const [showLinkInput, setShowLinkInput] = useState(false);
+  const [linkUrl, setLinkUrl] = useState('');
+  const [savedRange, setSavedRange] = useState(null);
   const [media, setMedia] = useState([]);
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState([]);
+  // Öneri listesini Escape / odak çıkışı kapatır; yeni harf yazılınca yeniden açılır.
+  const [suggestionsClosed, setSuggestionsClosed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -172,13 +182,61 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
     setFormat({ bold: document.queryCommandState('bold'), italic: document.queryCommandState('italic') });
   };
 
-  const applyLink = () => {
-    bodyRef.current?.focus();
+  const closeLinkInput = () => {
+    setShowLinkInput(false);
+    setLinkUrl('');
+    setSavedRange(null);
+  };
+
+  // Yalnız imleç/seçim editörün içindeyse açılır; Range, input odağı alınca
+  // kaybolacak seçimi geri yüklemek için saklanır.
+  const handleLinkClick = () => {
     const selection = window.getSelection();
-    if (!selection.rangeCount || selection.isCollapsed) return;
-    const url = window.prompt(t('community.composer.linkPrompt') ?? 'URL:');
-    if (url) {
-      document.execCommand('createLink', false, url);
+    if (!selection?.rangeCount || !bodyRef.current?.contains(selection.anchorNode)) return;
+    setSavedRange(selection.getRangeAt(0).cloneRange());
+    setShowLinkInput(true);
+  };
+
+  // Editöre odağı ve kaydedilen seçimi geri verir; ikisi de ekleme ve vazgeçmede gerekir.
+  const restoreEditorSelection = () => {
+    bodyRef.current?.focus();
+    if (!savedRange) return null;
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(savedRange);
+    return selection;
+  };
+
+  const confirmLink = () => {
+    const url = linkUrl.trim();
+    if (!url || !savedRange) return;
+
+    const selection = restoreEditorSelection();
+    // Metin seçilmemişse URL'in kendisi metin olarak eklenir ve o metin bağlanır.
+    if (savedRange.collapsed) {
+      const textNode = document.createTextNode(url);
+      savedRange.insertNode(textNode);
+      savedRange.selectNode(textNode);
+      selection.removeAllRanges();
+      selection.addRange(savedRange);
+    }
+    document.execCommand('createLink', false, url);
+    closeLinkInput();
+  };
+
+  const cancelLink = () => {
+    restoreEditorSelection();
+    closeLinkInput();
+  };
+
+  const handleLinkKeyDown = (event) => {
+    // Enter formu göndermesin — yalnız bağlantıyı ekler.
+    if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
+      event.preventDefault();
+      confirmLink();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      cancelLink();
     }
   };
 
@@ -232,6 +290,33 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
   };
 
   const removeTag = (tag) => setTags(tags.filter((existing) => existing !== tag));
+
+  // Öneri: yazılanla başlayan, henüz eklenmemiş popüler etiketler (büyük/küçük harf duyarsız).
+  const tagQuery = cleanTag(tagInput).toLowerCase();
+  const tagSuggestions =
+    tagQuery && tags.length < MAX_TAGS
+      ? POPULAR_TAGS.filter(
+          (popular) => popular.startsWith(tagQuery) && !tags.some((tag) => tag.toLowerCase() === popular),
+        )
+      : [];
+  const showSuggestions = tagSuggestions.length > 0 && !suggestionsClosed;
+
+  const pickSuggestion = (popular) => {
+    if (tags.length >= MAX_TAGS) return;
+    setTags([...tags, popular]);
+    setTagInput('');
+  };
+
+  const handleTagsBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) setSuggestionsClosed(true);
+  };
+
+  const handleTagsKeyDown = (event) => {
+    if (event.key === 'Escape' && showSuggestions) {
+      event.preventDefault();
+      setSuggestionsClosed(true);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -356,7 +441,7 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
                 </div>
               )}
 
-              <div className={styles.postComposer__tags}>
+              <div className={styles.postComposer__tags} onBlur={handleTagsBlur} onKeyDown={handleTagsKeyDown}>
                 {tags.map((tag) => (
                   <span key={tag} className={styles.postComposer__tagPill}>
                     #{tag}
@@ -375,7 +460,10 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
                       placeholder={t('community.composer.tagPlaceholder')}
                       aria-label={t('community.composer.tagPlaceholder')}
                       value={tagInput}
-                      onChange={(event) => setTagInput(cleanTag(event.target.value))}
+                      onChange={(event) => {
+                        setTagInput(cleanTag(event.target.value));
+                        setSuggestionsClosed(false);
+                      }}
                       onKeyDown={(event) => {
                         // Enter, boşluk veya virgül etiketi ekler — tek tek, # otomatik.
                         if (event.key === 'Enter' || event.key === ' ' || event.key === ',') {
@@ -385,6 +473,27 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
                       }}
                     />
                   </label>
+                )}
+                {/* Öneriler: input'un altında absolute; onMouseDown engeli input odağını korur
+                    (blur tıklamayı yutmasın). Tab ile butonlara da ulaşılır. */}
+                {showSuggestions && (
+                  <div
+                    className={styles.postComposer__tagSuggestions}
+                    role="group"
+                    aria-label={t('community.composer.tagPlaceholder')}
+                  >
+                    {tagSuggestions.map((popular) => (
+                      <button
+                        key={popular}
+                        type="button"
+                        className={styles.postComposer__tagSuggestion}
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => pickSuggestion(popular)}
+                      >
+                        #{popular}
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
 
@@ -447,6 +556,40 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
           {error && <p className={styles.postComposer__error}>{error}</p>}
 
           <div className={styles.postComposer__toolbar}>
+            {showLinkInput ? (
+              <div className={styles.postComposer__linkPopover}>
+                <input
+                  className={styles.postComposer__linkInput}
+                  type="text"
+                  inputMode="url"
+                  placeholder="https://"
+                  aria-label={t('community.composer.linkPrompt')}
+                  value={linkUrl}
+                  onChange={(event) => setLinkUrl(event.target.value)}
+                  onKeyDown={handleLinkKeyDown}
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  className={styles.postComposer__tool}
+                  onClick={confirmLink}
+                  disabled={!linkUrl.trim()}
+                  aria-label={t('community.composer.link')}
+                  title={t('community.composer.link')}
+                >
+                  <CheckIcon />
+                </button>
+                <button
+                  type="button"
+                  className={styles.postComposer__tool}
+                  onClick={cancelLink}
+                  aria-label={t('community.composer.linkCancel', { defaultValue: 'Vazgeç' })}
+                  title={t('community.composer.linkCancel', { defaultValue: 'Vazgeç' })}
+                >
+                  <CloseIcon />
+                </button>
+              </div>
+            ) : (
             <div className={styles.postComposer__tools}>
               <input
                 ref={mediaInputRef}
@@ -501,7 +644,7 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
                 type="button"
                 className={styles.postComposer__tool}
                 onMouseDown={(event) => event.preventDefault()}
-                onClick={applyLink}
+                onClick={handleLinkClick}
                 aria-label={t('community.composer.link')}
                 title={t('community.composer.link')}
               >
@@ -519,6 +662,7 @@ export function PostComposer({ defaultSurface = null, lockedPortal = null, onPos
                 <SpoilerIcon />
               </button>
             </div>
+            )}
 
             <button type="submit" className={styles.postComposer__submit} disabled={!isValid || submitting}>
               {t('community.composer.submit')}

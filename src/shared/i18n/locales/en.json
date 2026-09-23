@@ -247,6 +247,8 @@
       "typeLabel": "Choose a type",
       "bold": "Bold",
       "italic": "Italic",
+      "link": "Add link",
+      "linkPrompt": "Enter the URL for the link:",
       "spoiler": "Mark as spoiler",
       "chooseMedia": "Add photo or video ({{count}}/{{max}})",
       "mediaUploading": "Uploading…",
