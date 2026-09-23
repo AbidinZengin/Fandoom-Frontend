@@ -14,6 +14,17 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
+        // Tarayıcı Vite ile AYNI origin'de konuşur, CORS gerekmez. Ama tünelle
+        // (trycloudflare vb.) dışa açınca POST'lar `Origin: https://…tunnel` taşır
+        // ve backend'in CORS listesi (localhost:3000/5173) 403 "Invalid CORS
+        // request" döner — giriş/kayıt/post bozulur. Origin'i düşürünce backend
+        // isteği CORS dışı (aynı-origin) sayar; tünel adresi her seferinde değiştiği
+        // için listeye eklemek yerine dev proxy'de çözülür.
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq) => {
+            proxyReq.removeHeader('origin');
+          });
+        },
       },
     },
     // localtunnel/ngrok gibi araçlarla geçici dışa açımda Vite'ın host
