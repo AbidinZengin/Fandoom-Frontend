@@ -12,7 +12,7 @@ import { join, basename } from 'node:path';
 const [, , sourceDir, targetDir] = process.argv;
 if (!sourceDir || !targetDir) {
   console.error('Kullanım: node scripts/promote-hero.mjs <kaynak-klasör> <hedef-klasör>');
-  console.error('Örnek:   node scripts/promote-hero.mjs src/pages/series/Severance/Hero2 src/pages/series/Severance/Hero');
+  console.error('Örnek:   node scripts/promote-hero.mjs src/pages/Series/Severance/Hero2 src/pages/Series/Severance/Hero');
   process.exit(1);
 }
 

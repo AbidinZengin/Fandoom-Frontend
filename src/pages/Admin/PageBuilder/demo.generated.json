@@ -1431,7 +1431,7 @@
     "generatedAt": "2026-09-02T19:04:07.296Z",
     "targetDir": "series/Severance",
     "name": "Hero2",
-    "path": "src/pages/series/Severance/Hero2",
+    "path": "src/pages/Series/Severance/Hero2",
     "blocks": [
       {
         "id": "079541ea-15a9-423f-9d47-3e60cf770810",
@@ -2114,7 +2114,7 @@
     "generatedAt": "2026-09-02T18:53:55.790Z",
     "targetDir": "series/Severance",
     "name": "Hero1",
-    "path": "src/pages/series/Severance/Hero1",
+    "path": "src/pages/Series/Severance/Hero1",
     "blocks": [
       {
         "id": "079541ea-15a9-423f-9d47-3e60cf770810",
@@ -2704,7 +2704,7 @@
     "generatedAt": "2026-09-02T18:31:07.670Z",
     "targetDir": "series/BreakingBad",
     "name": "Hero1",
-    "path": "src/pages/series/BreakingBad/Hero1",
+    "path": "src/pages/Series/BreakingBad/Hero1",
     "blocks": [
       {
         "id": "079541ea-15a9-423f-9d47-3e60cf770810",
@@ -3294,7 +3294,7 @@
     "generatedAt": "2026-09-02T18:07:34.585Z",
     "targetDir": "series/HouseOfTheDragon",
     "name": "Hero1",
-    "path": "src/pages/series/HouseOfTheDragon/Hero1",
+    "path": "src/pages/Series/HouseOfTheDragon/Hero1",
     "blocks": [
       {
         "id": "079541ea-15a9-423f-9d47-3e60cf770810",

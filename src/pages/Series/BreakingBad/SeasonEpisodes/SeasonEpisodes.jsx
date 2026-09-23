@@ -11,7 +11,7 @@ import styles from './SeasonEpisodes.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// GoT'un SeasonEpisodes'unun (src/pages/series/GameOfThrones/SeasonEpisodes)
+// GoT'un SeasonEpisodes'unun (src/pages/Series/GameOfThrones/SeasonEpisodes)
 // BİREBİR aynısı — kullanıcı kararı, 2026-08: "yeni bir varyant uydurulmaz"
 // (learned-rules [yapı]). Önceki özel-tasarım denemeleri (SeasonMenu —
 // PageBuilder codegen sabit-canvas; SeasonRoute — Dribbble travel-carousel,

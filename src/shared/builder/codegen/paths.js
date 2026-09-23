@@ -5,7 +5,7 @@
 // bu yüzden elle hesaplanır.
 //
 // Örnek: targetDir "series/GameOfThrones/Intro" (3 segment) → üretilen
-// dosya src/pages/series/GameOfThrones/Intro/<Ad>/<Ad>.jsx'te oturur —
+// dosya src/pages/Series/GameOfThrones/Intro/<Ad>/<Ad>.jsx'te oturur —
 // src/'e dönmek için 5 kez "../" gerekir (pages, series, GameOfThrones,
 // Intro, <Ad> — beş klasör derinliği).
 export function relativeImportPrefix(targetDir) {

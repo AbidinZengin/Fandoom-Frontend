@@ -98,7 +98,7 @@ function buildSeasonBlocks(en, tr) {
 
 async function main() {
   const { getSeasonStory } = await import(
-    pathToFileURL(resolve('src/pages/series/Severance/SeasonDetail/SeasonStory/SeasonStory.data.js')).href
+    pathToFileURL(resolve('src/pages/Series/Severance/SeasonDetail/SeasonStory/SeasonStory.data.js')).href
   );
   const en = getSeasonStory(seasonFilter);
   if (!en) throw new Error(`SeasonStory.data.js'te Season ${seasonFilter} içeriği yok.`);

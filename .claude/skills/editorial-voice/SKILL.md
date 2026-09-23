@@ -25,7 +25,7 @@ kurallara çevirir.
 referanstır. Yeni bir metin yazarken üslup için BUNU aç.
 
 **Yapı için golden örnek (SADECE EpisodeStory veri şeması):**
-`src/pages/series/GameOfThrones/EpisodePage/EpisodeStory/EpisodeStory.data.js`
+`src/pages/Series/GameOfThrones/EpisodePage/EpisodeStory/EpisodeStory.data.js`
 → `'1-1'`. **Dikkat:** bu örnek eski antitez-ağırlıklı sesle yazıldı, o
 tonu artık KOPYALAMA — sadece alan şeması (`thesis`, `kicker`, `quote`
 vb.) için bakılır. *(Rapor: bu eski içerik ileride yeni sesle yeniden

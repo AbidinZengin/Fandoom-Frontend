@@ -66,7 +66,7 @@ deseni; Cloudinary yazımı da [[db-cloudinary-yazma-onayi]] kapsamında.
 
 ### 7. Sayfa iskeleti — `component-dev`
 
-`src/pages/series/<Name>/` altında Hero, SeasonDetail, SeasonRoute,
+`src/pages/Series/<Name>/` altında Hero, SeasonDetail, SeasonRoute,
 EpisodePage. Mevcut bir seri (HouseOfTheDragon/Severance) referans
 implementasyon olarak okunur.
 

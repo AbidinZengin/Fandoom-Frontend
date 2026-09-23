@@ -8,7 +8,7 @@ import RelatedBlogs from './RelatedBlogs/RelatedBlogs';
 // OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
 // kararıyla route'tan kaldırıldı (2026-08) — yeni Hero PageBuilder'ın
 // "Kodu Üret" çıktısı, kendi verisini kendi çeker (bkz. Hero/Hero.jsx).
-// Eski dosyalar BİLEREK silinmedi, bkz. src/pages/series/BreakingBad/OldHero/.
+// Eski dosyalar BİLEREK silinmedi, bkz. src/pages/Series/BreakingBad/OldHero/.
 // TitleSequence (eski Hero — jenerik periyodik-tablo animasyonu) kullanıcı
 // kararıyla sayfadan kaldırıldı (2026-08); dosya BİLEREK silinmedi, geri
 // eklenmek istenirse: import { TitleSequence } from './TitleSequence/TitleSequence';
