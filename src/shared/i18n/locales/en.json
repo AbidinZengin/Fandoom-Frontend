@@ -157,6 +157,16 @@
     "artifactsHeading": "Legendary Artifacts",
     "diveDeeperHeading": "Dive Deeper",
     "relatedBlogsHeading": "Related Blogs",
+    "trivia": {
+      "title": "Trivia",
+      "tags": {
+        "BEHIND_THE_SCENES": "Behind the Scenes",
+        "EASTER_EGG": "Easter Egg",
+        "CASTING": "Casting",
+        "GOOF": "Goof",
+        "LORE": "Lore"
+      }
+    },
     "realmKicker": "Realm",
     "worldMapAriaLabel": "World map",
     "worldMapAlt": "Map of Westeros",

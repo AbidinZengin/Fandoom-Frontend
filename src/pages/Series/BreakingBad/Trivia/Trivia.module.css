@@ -1,0 +1,165 @@
+.trivia {
+  /* SeasonRoute/CharactersRoute/RelatedBlogs çerçevesiyle aynı yatay hiza. */
+  margin-inline: 6%;
+  padding-block: var(--space-3xl);
+  background: var(--bg);
+  /* Skalada karşılığı olmayan yerel değerler (teslim özetinde token/istisna
+     kararı bekliyor): deste kart genişliği (poster oranı 2:3). Alt kartların
+     sağa taşma payı (--trivia-deck-depth) Trivia.jsx'ten gelir. */
+  --trivia-deck-w: 340px;
+}
+
+/* RelatedBlogs/SeasonRoute afiş başlığıyla aynı stil; tek satır olduğu için
+   yalnız beyaz tonu. */
+.trivia__title {
+  margin: 0 0 var(--space-xl);
+  font-family: var(--font-display);
+  font-size: calc(var(--text-h1) * 1.3);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--white);
+  overflow-wrap: anywhere;
+}
+
+/* --- Card deck: kartlar aynı kutuya üst üste biner; ölçek/sağa kayma/z-index
+   framer-motion'dan gelir. Alt kartlar sağa taşar; taşma payı sağdan düşülür
+   ki kart + görünen alt kartlar birlikte ortalansın. --- */
+.trivia__deck {
+  position: relative;
+  isolation: isolate;
+  padding-right: var(--trivia-deck-depth);
+}
+
+/* Klavye odağı bölüm genişliğindeki kutuya değil üst kartın kendisine çizilir. */
+.trivia__deck:focus-visible {
+  outline: none;
+}
+
+.trivia__deck:focus-visible .trivia__item--top .trivia__card {
+  outline: 2px solid color-mix(in srgb, var(--white) 60%, transparent);
+  outline-offset: 2px;
+}
+
+.trivia__stack {
+  position: relative;
+  width: min(100%, var(--trivia-deck-w));
+  aspect-ratio: 2 / 3;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.trivia__item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  /* Alttaki kartlara tıklanmaz. */
+  pointer-events: none;
+}
+
+.trivia__item--top {
+  pointer-events: auto;
+  cursor: grab;
+  /* Yatay sürükleme kart içindir, dikey kaydırma sayfaya kalır. */
+  touch-action: pan-y;
+}
+
+.trivia__item--top:active {
+  cursor: grabbing;
+}
+
+.trivia__drag {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+/* --- Kart: deste üst üste bindiği için zemin OPAK (yarı saydam olsa alttaki
+   kartın metni üsttekinin içinden görünürdü). --- */
+.trivia__card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+  padding: var(--space-lg);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--white) 8%, var(--card-bg));
+  user-select: none;
+}
+
+.trivia__image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) ease;
+}
+
+.trivia__image--loaded {
+  opacity: 1;
+}
+
+/* Görselli kartta metin okunabilirliği: alttan koyu perde. */
+.trivia__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(5, 5, 5, 0.92) 0%, rgba(5, 5, 5, 0.65) 40%, rgba(5, 5, 5, 0) 78%);
+}
+
+.trivia__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+/* Referans: açık renkli pill, koyu metin, normal-case. Accent yok. */
+.trivia__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--white) 92%, transparent);
+  color: var(--card-bg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.trivia__tagIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.trivia__cardTitle {
+  margin: var(--space-2xs) 0 0;
+  color: var(--white);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.trivia__content {
+  margin: 0;
+  color: var(--fg);
+  font-size: var(--text-base);
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .trivia {
+    margin-inline: 3%;
+  }
+}

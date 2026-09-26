@@ -1065,6 +1065,21 @@ kilitlendi.
   Odak metni (başlık+bio/synopsis) tüm öğeler AYNI grid hücresinde üst üste
   durarak ölçülür — aktif öğe değişince başlık konumu ve bölüm yüksekliği
   SABİT kalır. _(2026-09, BB CharactersRoute — kullanıcı düzeltmesi)_
+- **[trivia-layout]** BB Trivia bölümü CARD DECK'tir (bento grid reddedildi):
+  DİKEY poster kart (2:3), alttaki kartlar üsttekinin SAĞ kenarından görünür
+  (aşağı kaymaz), üst kart yatay sürüklenip |x|>100px ile atılır ve dizinin
+  SONUNA gider. Kullanıcının verdiği referans ekran görüntüleri esastır. Bu
+  bölüm için framer-motion kullanıcı kararıyla eklendi ("yeni paket eklenmez"
+  kuralının onaylı istisnası, yalnız Trivia'da; sayfanın geri kalanı GSAP).
+  _(2026-09, BB Trivia — kullanıcı düzeltmesi)_
+- **[trivia-renk]** Trivia kartlarında ve çevresinde ACCENT renk YOK: arka
+  ışıma, hover glow/border, tonlu zemin ve etiket pill'i dahil. Etiket açık
+  (beyaz) pill + koyu metin, başlık büyük ve kalın, tam kaplı fotoğraf üstünde
+  alttan koyu scrim. _(2026-09, BB Trivia — kullanıcı düzeltmesi: "üstüne
+  gelince yeşil olmasın", "accent herhangi bir şey kullanma")_
+- **[trivia-spoiler]** Trivia'da spoiler mekanizması YOK (blur + tıkla-aç
+  kaldırıldı); `isSpoiler` arayüzde kullanılmaz. `[topluluk-spoiler]`
+  kuralından bilerek ayrışır. _(2026-09, BB Trivia — kullanıcı kararı)_
 
 ### Highlights (eski adıyla TabExhibit) — Hero/Intro Sonrası Bölüm
 

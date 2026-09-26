@@ -157,6 +157,16 @@
     "artifactsHeading": "Efsanevi Eşyalar",
     "diveDeeperHeading": "Derinlemesine",
     "relatedBlogsHeading": "İlgili Yazılar",
+    "trivia": {
+      "title": "Kısa Bilgiler",
+      "tags": {
+        "BEHIND_THE_SCENES": "Kamera Arkası",
+        "EASTER_EGG": "Easter Egg",
+        "CASTING": "Oyuncu Seçimi",
+        "GOOF": "Hata",
+        "LORE": "Lore"
+      }
+    },
     "realmKicker": "Krallık",
     "worldMapAriaLabel": "Dünya haritası",
     "worldMapAlt": "Westeros haritası",
