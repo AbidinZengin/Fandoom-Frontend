@@ -40,7 +40,18 @@ const AUTH_TOKEN = process.env.AUTH_TOKEN || null;
 // yazma izni DEĞİLDİR (ilk sürümde token'a bağlıydı ve istemeden Cloudinary'e yükledi).
 const DRY_RUN = !process.argv.includes('--write');
 
-const MOVIE_SLUGS = ['black-swan', 'dune-part-two', 'the-batman', 'blade-runner-2049'];
+const MOVIE_SLUGS = [
+  'black-swan',
+  'dune-part-two',
+  'the-batman',
+  'blade-runner-2049',
+  'mulholland-drive',
+  'parasite',
+  'zodiac',
+  'the-fall',
+  'anatomy-of-a-fall',
+  'requiem-for-a-dream',
+];
 
 if (DRY_RUN) {
   console.warn('dry-run (--write yok): Cloudinary ve backend\'e HİÇBİR ŞEY yazılmaz.\n');
@@ -93,6 +104,9 @@ async function createMovie(slug) {
     slug: MOVIE_SLUG,
     posterSourceUrl: POSTER_SOURCE_URL,
     coverSourceUrl: COVER_SOURCE_URL,
+    // Önceden yüklenmiş URL'ler doluysa Cloudinary'e tekrar yüklenmez (POST 401 sonrası retry için)
+    posterUrl: EXISTING_POSTER_URL,
+    coverImageUrl: EXISTING_COVER_URL,
     _not,
     ...movieFields
   } = JSON.parse(readFileSync(resolve(`scripts/data/${slug}-movie.json`), 'utf8'));
@@ -107,8 +121,8 @@ async function createMovie(slug) {
   if (DRY_RUN) {
     const body = {
       ...movieFields,
-      posterUrl: `<Cloudinary'e yüklenecek: ${POSTER_SOURCE_URL}>`,
-      coverImageUrl: `<Cloudinary'e yüklenecek: ${COVER_SOURCE_URL}>`,
+      posterUrl: EXISTING_POSTER_URL || `<Cloudinary'e yüklenecek: ${POSTER_SOURCE_URL}>`,
+      coverImageUrl: EXISTING_COVER_URL || `<Cloudinary'e yüklenecek: ${COVER_SOURCE_URL}>`,
       externalRatingUpdatedAt: new Date().toISOString().slice(0, 19),
     };
     console.log(`[${slug}] dry-run — POST ${BACKEND_BASE_URL}/movies gövdesi (YAZILMADI):`);
@@ -116,13 +130,23 @@ async function createMovie(slug) {
     return;
   }
 
-  console.log(`[${slug}] Poster Cloudinary'e yükleniyor...`);
-  const posterUrl = await uploadToCloudinary(POSTER_SOURCE_URL, `${slug}-poster`);
-  console.log(`  ✓ ${posterUrl}`);
+  let posterUrl = EXISTING_POSTER_URL;
+  if (posterUrl) {
+    console.log(`[${slug}] Poster zaten yüklü, atlandı: ${posterUrl}`);
+  } else {
+    console.log(`[${slug}] Poster Cloudinary'e yükleniyor...`);
+    posterUrl = await uploadToCloudinary(POSTER_SOURCE_URL, `${slug}-poster`);
+    console.log(`  ✓ ${posterUrl}`);
+  }
 
-  console.log(`[${slug}] Cover Cloudinary'e yükleniyor...`);
-  const coverImageUrl = await uploadToCloudinary(COVER_SOURCE_URL, `${slug}-cover`);
-  console.log(`  ✓ ${coverImageUrl}`);
+  let coverImageUrl = EXISTING_COVER_URL;
+  if (coverImageUrl) {
+    console.log(`[${slug}] Cover zaten yüklü, atlandı: ${coverImageUrl}`);
+  } else {
+    console.log(`[${slug}] Cover Cloudinary'e yükleniyor...`);
+    coverImageUrl = await uploadToCloudinary(COVER_SOURCE_URL, `${slug}-cover`);
+    console.log(`  ✓ ${coverImageUrl}`);
+  }
 
   const body = {
     ...movieFields,

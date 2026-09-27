@@ -48,6 +48,12 @@ import TheBatman from './pages/Movies/TheBatman/TheBatman';
 import BladeRunner2049 from './pages/Movies/BladeRunner2049/BladeRunner2049';
 import Interstellar from './pages/Movies/Interstellar/Interstellar';
 import BlackSwan from './pages/Movies/BlackSwan/BlackSwan';
+import MulhollandDrive from './pages/Movies/MulhollandDrive/MulhollandDrive';
+import Parasite from './pages/Movies/Parasite/Parasite';
+import Zodiac from './pages/Movies/Zodiac/Zodiac';
+import TheFall from './pages/Movies/TheFall/TheFall';
+import AnatomyOfAFall from './pages/Movies/AnatomyOfAFall/AnatomyOfAFall';
+import RequiemForADream from './pages/Movies/RequiemForADream/RequiemForADream';
 import Blog from './pages/Blog/Blog';
 import BlogPost from './pages/Blog/BlogPost/BlogPost';
 import Login from './pages/Admin/Login/Login';
@@ -290,6 +296,12 @@ function App() {
             <Route path="movies/blade-runner-2049" element={<BladeRunner2049 />} />
             <Route path="movies/interstellar" element={<Interstellar />} />
             <Route path="movies/black-swan" element={<BlackSwan />} />
+            <Route path="movies/mulholland-drive" element={<MulhollandDrive />} />
+            <Route path="movies/parasite" element={<Parasite />} />
+            <Route path="movies/zodiac" element={<Zodiac />} />
+            <Route path="movies/the-fall" element={<TheFall />} />
+            <Route path="movies/anatomy-of-a-fall" element={<AnatomyOfAFall />} />
+            <Route path="movies/requiem-for-a-dream" element={<RequiemForADream />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
             <Route path="movies" element={<Movies />} />
             {/* Yol-siz layout route: /community ve /portal aynı CommunityLayout
