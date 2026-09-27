@@ -5,8 +5,10 @@
   padding-block: var(--space-3xl);
   background: var(--bg);
   /* Tam genişlikte TopBlogsRow'un yüzdelik kartı devleşiyordu (kullanıcı:
-     "kocaman oldu"); 2:3 kart ~260px'e sabitlenir. Skalada karşılığı yok. */
-  --row-card-w: clamp(180px, 18vw, 260px);
+     "kocaman oldu"); 2:3 kart üst sınırlı sabitlenir. 2026-09-26'da kullanıcı
+     isteğiyle büyütüldü (260px → 340px tavan, mobil taban 180px → 280px).
+     Skalada karşılığı yok. */
+  --row-card-w: clamp(280px, 24vw, 340px);
 }
 
 /* SeasonRoute .title ile aynı afiş başlığı (kullanıcı isteği: "every season
