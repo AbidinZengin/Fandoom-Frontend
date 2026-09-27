@@ -1,12 +1,9 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence, MotionConfig, motion, useMotionValue, useTransform } from 'framer-motion';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { getSeriesTrivia } from './Trivia.data';
+import { getSeriesTrivia, getTriviaTagLabels } from './Trivia.data';
 import styles from './Trivia.module.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 // DOM'da yalnız ilk VISIBLE kart basılır (performans); alttakiler index'e göre
 // küçülür (%5) ve sağa kayar (referans: kartlar üsttekinin sağ kenarından
@@ -60,7 +57,7 @@ function TagIcon({ tag }) {
 // İki katman: dıştaki <li> deste konumunu (ölçek/sağa kayma/z-index/çıkış)
 // yönetir, içteki <div> sürükleme + dönüşü. Tek katmanda x hem deste ofseti hem
 // sürükleme olurdu ve alt kartlar ofsetle birlikte dönerdi.
-function DeckCard({ item, index, total, onThrow }) {
+function DeckCard({ item, index, total, onThrow, tagLabels }) {
   const { t } = useTranslation();
   const isTop = index === 0;
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -110,7 +107,7 @@ function DeckCard({ item, index, total, onThrow }) {
             {tag && (
               <span className={styles['trivia__tag']}>
                 <TagIcon tag={tag} />
-                {t(`series.trivia.tags.${tag}`, { defaultValue: tag })}
+                {tagLabels[tag] ?? t(`series.trivia.tags.${tag}`, { defaultValue: tag })}
               </span>
             )}
             {item.title && <h3 className={styles['trivia__cardTitle']}>{item.title}</h3>}
@@ -122,6 +119,9 @@ function DeckCard({ item, index, total, onThrow }) {
   );
 }
 
+// Kayıtta hem tag hem tags[] gelir; filtre tags[]'e bakar.
+const tagsOf = (item) => (item.tags?.length ? item.tags : item.tag ? [item.tag] : []);
+
 // Breaking Bad sayfasında Karakterler ile Related Blogs arasında duran card
 // deck: en üstteki kart sürüklenip atılır, altındakiler yay animasyonuyla öne
 // gelir. Kayıt yoksa (ya da çekme başarısızsa) bölüm hiç basılmaz, sahte veri
@@ -130,21 +130,48 @@ export default function Trivia({ seriesId }) {
   const { t } = useTranslation();
   // Deste girdisi { uid, item }: atılan kart sona AYNI item'la ama YENİ uid'le
   // eklenir; key değiştiği için çıkış animasyonu oynar.
+  const [items, setItems] = useState(null);
   const [deck, setDeck] = useState(null);
+  const [activeTag, setActiveTag] = useState(null);
+  // Etiket kodu → dile göre çözülmüş ad (GET /api/trivia/tags). Uç yoksa/hata verirse boş kalır,
+  // etiket adları i18n yedeğine (ve o da yoksa koda) düşer.
+  const [tagLabels, setTagLabels] = useState({});
   const [exitDir, setExitDir] = useState(1);
   const lap = useRef(0);
+  // Her kart YENİ uid alır (key değişince çıkış/giriş animasyonu oynar).
+  const buildDeck = (list) => list.map((item) => ({ uid: `${item.id}-${++lap.current}`, item }));
   const titleId = useId();
   const titleRef = useRef(null);
+  const titleLeadRef = useRef(null);
+  const titleActionRef = useRef(null);
   const deckRef = useRef(null);
+  const panelRef = useRef(null);
+  const layoutRef = useRef(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getTriviaTagLabels()
+      .then((labels) => {
+        if (!cancelled) setTagLabels(labels);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     getSeriesTrivia(seriesId)
       .then((data) => {
-        if (!cancelled) setDeck(data.map((item) => ({ uid: `${item.id}-0`, item })));
+        if (cancelled) return;
+        setItems(data);
+        setDeck(buildDeck(data));
       })
       .catch(() => {
-        if (!cancelled) setDeck([]);
+        if (cancelled) return;
+        setItems([]);
+        setDeck([]);
       });
     return () => {
       cancelled = true;
@@ -153,29 +180,64 @@ export default function Trivia({ seriesId }) {
 
   const ready = Boolean(deck?.length);
 
-  // Başlık ve deste viewport'a gelince TEK SEFER belirir. GSAP hedefi deste
-  // kapsayıcısıdır; kartların transform'unu framer-motion yönettiği için GSAP
-  // kartlara dokunmaz.
-  useEffect(() => {
+  // Filtre chip'leri kayıtlardaki etiketlerden türer (en sık kullanılan önde);
+  // sahte/sabit liste yok. Etiket fazlalığı backend verisinin işidir (kullanıcı
+  // backend'den düzeltir), ön yüzde gizlenmez.
+  const tagOptions = useMemo(() => {
+    const counts = new Map();
+    (items ?? []).forEach((item) => {
+      tagsOf(item).forEach((tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1));
+    });
+    return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([tag]) => tag);
+  }, [items]);
+
+  const selectTag = (tag) => {
+    if (tag === activeTag) return;
+    setActiveTag(tag);
+    setExitDir(1);
+    setDeck(buildDeck(tag ? items.filter((item) => tagsOf(item).includes(tag)) : items));
+  };
+
+  // Giriş animasyonu bölüm ekrana girince TEK SEFER oynar: başlığın iki
+  // satırı soldan kayarak (kademeli), ardından kontrol bloğu soldan, deste
+  // aşağıdan yükselerek. Tetikleyici KULLANICI KAYDIRMASINDA ölçülen canlı
+  // konumdur; ne ScrollTrigger'ın ne IntersectionObserver'ın yükleme anındaki
+  // konumu kullanılır: Trivia, üstündeki bölümler (Related Blogs vb.) veriyi
+  // çekip render edilene kadar geçici olarak sayfanın en üstünde durur, o anki
+  // konum "ekranda" görünür ve animasyon kullanıcı henüz oraya gelmeden oynayıp
+  // bitiyordu. useLayoutEffect: gizli başlangıç hâli ilk boyamadan önce
+  // uygulanır. Kartların transform'unu framer-motion yönettiği için GSAP yalnız
+  // sarmalayıcılara dokunur.
+  useLayoutEffect(() => {
     if (!ready) return undefined;
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.from(titleRef.current, {
-          opacity: 0,
-          x: -120,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: titleRef.current, start: 'top 85%', once: true },
-        });
-        gsap.from(deckRef.current, {
-          opacity: 0,
-          y: 40,
-          duration: 0.9,
-          ease: 'power3.out',
-          clearProps: 'opacity,transform',
-          scrollTrigger: { trigger: deckRef.current, start: 'top 85%', once: true },
-        });
+        const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+        tl.from(
+          [titleLeadRef.current, titleActionRef.current],
+          { opacity: 0, x: -120, duration: 0.9, stagger: 0.12, clearProps: 'opacity,transform' },
+          0,
+        )
+          .from(deckRef.current, { opacity: 0, y: 40, duration: 0.9, clearProps: 'opacity,transform' }, 0.15)
+          .from(panelRef.current, { opacity: 0, x: -64, duration: 0.8, clearProps: 'opacity,transform' }, 0.25);
+
+        const stop = () => {
+          window.removeEventListener('scroll', check);
+          window.removeEventListener('resize', check);
+        };
+        function check() {
+          if (layoutRef.current.getBoundingClientRect().top >= window.innerHeight * 0.85) return;
+          tl.play();
+          stop();
+        }
+        window.addEventListener('scroll', check, { passive: true });
+        window.addEventListener('resize', check);
+        // Yükleme anında kontrol YOK (geçici konum yanıltır); yalnız kullanıcı
+        // zaten kaydırmışsa ya da sayfa kaydırılamayacak kadar kısaysa hemen bak.
+        const scrollable = document.documentElement.scrollHeight > window.innerHeight + 50;
+        if (window.scrollY > 0 || !scrollable) check();
+        return stop;
       });
     });
     return () => ctx.revert();
@@ -200,29 +262,64 @@ export default function Trivia({ seriesId }) {
 
   return (
     <section className={styles.trivia} aria-labelledby={titleId}>
-      <h2 className={styles['trivia__title']} id={titleId} ref={titleRef}>
-        {t('series.trivia.title')}
-      </h2>
-      <MotionConfig reducedMotion="user">
-        <div
-          className={styles['trivia__deck']}
-          ref={deckRef}
-          role="group"
-          aria-labelledby={titleId}
-          tabIndex={0}
-          onKeyDown={handleKeyDown}
-          // Alt kartların sağa taşma payı JS'teki kayma adımından türer.
-          style={{ '--trivia-deck-depth': `${(VISIBLE - 1) * X_STEP}px` }}
-        >
-          <ul className={styles['trivia__stack']}>
-            <AnimatePresence initial={false} custom={exitDir}>
-              {visible.map((entry, index) => (
-                <DeckCard key={entry.uid} item={entry.item} index={index} total={deck.length} onThrow={throwTop} />
+      {/* Split: solda başlık + kontrol bloğu (alt başlık, etiket filtreleri),
+          sağda deste; deste başlıkla aynı hizadan başlar. Dikey yapıda önce
+          başlık ve kontroller, altında deste. */}
+      <div className={styles['trivia__layout']} ref={layoutRef}>
+        <div className={styles['trivia__panel']}>
+          <h2 className={styles['trivia__title']} id={titleId} ref={titleRef}>
+            <span ref={titleLeadRef} className={styles['trivia__titleLead']}>{t('series.trivia.titleLead')}</span>
+            <span ref={titleActionRef} className={styles['trivia__titleAction']}>{t('series.trivia.titleAction')}</span>
+          </h2>
+
+          <div className={styles['trivia__controls']} ref={panelRef}>
+            <p className={styles['trivia__subtitle']}>{t('series.trivia.subtitle')}</p>
+            <div className={styles['trivia__filters']} role="group" aria-labelledby={titleId}>
+              {[null, ...tagOptions].map((tag) => (
+                <button
+                  type="button"
+                  key={tag ?? 'all'}
+                  className={styles['trivia__chip']}
+                  aria-pressed={tag === activeTag}
+                  onClick={() => selectTag(tag)}
+                >
+                  {tag
+                    ? (tagLabels[tag] ?? t(`series.trivia.tags.${tag}`, { defaultValue: tag }))
+                    : t('series.trivia.filterAll')}
+                </button>
               ))}
-            </AnimatePresence>
-          </ul>
+            </div>
+          </div>
         </div>
-      </MotionConfig>
+
+        <MotionConfig reducedMotion="user">
+          <div
+            className={styles['trivia__deck']}
+            ref={deckRef}
+            role="group"
+            aria-labelledby={titleId}
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
+            // Alt kartların sağa taşma payı JS'teki kayma adımından türer.
+            style={{ '--trivia-deck-depth': `${(VISIBLE - 1) * X_STEP}px` }}
+          >
+            <ul className={styles['trivia__stack']}>
+              <AnimatePresence initial={false} custom={exitDir}>
+                {visible.map((entry, index) => (
+                  <DeckCard
+                    key={entry.uid}
+                    item={entry.item}
+                    index={index}
+                    total={deck.length}
+                    onThrow={throwTop}
+                    tagLabels={tagLabels}
+                  />
+                ))}
+              </AnimatePresence>
+            </ul>
+          </div>
+        </MotionConfig>
+      </div>
     </section>
   );
 }

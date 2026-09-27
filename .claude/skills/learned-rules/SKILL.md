@@ -289,7 +289,9 @@ anketi (kullanıcıya sorulan yapılandırılmış sorularla alınan kararlar).
   Related Blogs — kullanıcı düzeltmesi: "sadece game of thrones içindi")_
 - **[layout]** Yapım sayfası altındaki "Related Blogs" şeridi Blog hub'daki
   Top 10 şeridinin (`TopBlogsRow`, `showRank={false}`) aynısıdır, kartlar
-  tam genişlikte devleşmesin diye sabit ~260px; başlığı SeasonRoute'un
+  tam genişlikte devleşmesin diye üst sınırlı sabit genişlik (~340px tavan,
+  2026-09-26'da 260px'ten büyütüldü); BB sayfasında Trivia'dan ÖNCE gelir
+  (sıra: Karakterler, Related Blogs, Trivia, PortalBanner); başlığı SeasonRoute'un
   "Every Season, Every Episode" afiş başlığı boyutundadır (kicker etiketi
   değil), yalnız o yapıma etiketli bloglar gösterilir. _(2026-09,
   BreakingBad Related Blogs — kullanıcı düzeltmesi)_
@@ -1068,14 +1070,30 @@ kilitlendi.
 - **[trivia-layout]** BB Trivia bölümü CARD DECK'tir (bento grid reddedildi):
   DİKEY poster kart (2:3), alttaki kartlar üsttekinin SAĞ kenarından görünür
   (aşağı kaymaz), üst kart yatay sürüklenip |x|>100px ile atılır ve dizinin
-  SONUNA gider. Kullanıcının verdiği referans ekran görüntüleri esastır. Bu
+  SONUNA gider. Yerleşim SPLIT: deste sağ %50'de sağa yaslı, sol %50 kontrol
+  paneli: büyük punto soluk gri alt başlık + kayıtlardaki etiketlerden türeyen
+  filtre chip'leri (Tümü + etiketler, aktif chip beyaz dolgu, desteyi süzer).
+  "Kartları fırlatarak inceleyin" ipucu İSTENMEDİ, eklenmez (kullanıcı:
+  "kartı fırlatarak kısmını yapma"). Dikey yapıda panel üstte, deste altta.
+  Bölüm başlığı iki satır: "THE COMPLETE" (üst, beyaz) / "BREAKDOWN" (alt,
+  gri) — diğer bölüm başlıklarının renk sırasının TERSİ; "Trivia" değil.
+  TR karşılığı "TÜM / DETAYLARIYLA". Başlık sol sütunun içindedir ve deste
+  BAŞLIKLA aynı hizadan başlar (alt başlıkla değil; kart üst kenarı başlığın
+  büyük harf üst çizgisine oturur), sağ sütunun soluna yakın durur (sağ kenara
+  yaslı değil, filtrelerle boşluk kapanır). Giriş animasyonu diğer bölümler
+  gibidir: başlığın iki satırı SOLDAN kayarak kademeli, sonra kontrol bloğu
+  soldan, deste aşağıdan; tetik KULLANICI KAYDIRMASINDA ölçülen canlı konumdur
+  (ScrollTrigger/IntersectionObserver DEĞİL: Trivia, üstündeki bölümler
+  render edilene kadar geçici olarak sayfanın en üstünde durduğu için yükleme
+  anındaki konum yanıltıp animasyonu kullanıcı gelmeden bitiriyordu). Kullanıcının verdiği referans ekran görüntüleri esastır. Bu
   bölüm için framer-motion kullanıcı kararıyla eklendi ("yeni paket eklenmez"
-  kuralının onaylı istisnası, yalnız Trivia'da; sayfanın geri kalanı GSAP).
+  kuralının onaylı istisnası, Trivia ve BB Characters'ta; sayfanın geri kalanı GSAP).
   _(2026-09, BB Trivia — kullanıcı düzeltmesi)_
 - **[trivia-renk]** Trivia kartlarında ve çevresinde ACCENT renk YOK: arka
   ışıma, hover glow/border, tonlu zemin ve etiket pill'i dahil. Etiket açık
   (beyaz) pill + koyu metin, başlık büyük ve kalın, tam kaplı fotoğraf üstünde
-  alttan koyu scrim. _(2026-09, BB Trivia — kullanıcı düzeltmesi: "üstüne
+  alttan koyu scrim; kart çerçevesi 3px beyaz (Blog kartları ve Karakterler
+  sahnesiyle aynı). _(2026-09, BB Trivia — kullanıcı düzeltmesi: "üstüne
   gelince yeşil olmasın", "accent herhangi bir şey kullanma")_
 - **[trivia-spoiler]** Trivia'da spoiler mekanizması YOK (blur + tıkla-aç
   kaldırıldı); `isSpoiler` arayüzde kullanılmaz. `[topluluk-spoiler]`

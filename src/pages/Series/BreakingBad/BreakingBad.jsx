@@ -84,8 +84,8 @@ export default function BreakingBad() {
       </div>
       <SeasonRoute />
       <CharactersRoute />
-      <Trivia seriesId={series.id} />
       <RelatedBlogs seriesId={series.id} />
+      <Trivia seriesId={series.id} />
       <Footer />
     </>
   );

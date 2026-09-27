@@ -9,26 +9,115 @@
   --trivia-deck-w: 340px;
 }
 
-/* RelatedBlogs/SeasonRoute afiş başlığıyla aynı stil; tek satır olduğu için
-   yalnız beyaz tonu. */
+/* RelatedBlogs/SeasonRoute afiş başlığıyla aynı stil, iki satır alt alta.
+   Kullanıcı isteğiyle renk sırası diğer bölümlerin TERSİ: üst satır beyaz,
+   alt satır gri. */
 .trivia__title {
-  margin: 0 0 var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  /* Başlık ile panel/deste arası açıldı (kullanıcı: "başlıktan ayrı olsun"). */
+  margin: 0 0 var(--space-3xl);
   font-family: var(--font-display);
   font-size: calc(var(--text-h1) * 1.3);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.03em;
   text-transform: uppercase;
-  color: var(--white);
   overflow-wrap: anywhere;
+}
+
+.trivia__titleLead {
+  color: var(--white);
+}
+
+.trivia__titleAction {
+  color: color-mix(in srgb, var(--fg) 72%, transparent);
+}
+
+/* --- Split: solda başlık + kontroller, sağda deste (%50 / %50). Deste
+   başlıkla aynı hizadan başlar (align-items: start). Dikey yapıda (≤1023px)
+   önce başlık ve kontroller, altında deste. --- */
+.trivia__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: var(--space-3xl);
+}
+
+.trivia__panel {
+  min-width: 0;
+}
+
+.trivia__controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Alt başlık: büyük punto, soluk gri. */
+.trivia__subtitle {
+  max-width: 28ch;
+  margin: 0;
+  color: color-mix(in srgb, var(--fg) 55%, transparent);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* Etiket filtreleri: desteyi süzer. Nötr yarı saydam chip, aktif olan beyaz
+   dolgu + koyu metin (accent yok). */
+.trivia__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.trivia__chip {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .trivia__chip:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+
+.trivia__chip[aria-pressed='true'] {
+  border-color: var(--white);
+  background: var(--white);
+  color: var(--card-bg);
+}
+
+.trivia__chip:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
 }
 
 /* --- Card deck: kartlar aynı kutuya üst üste biner; ölçek/sağa kayma/z-index
    framer-motion'dan gelir. Alt kartlar sağa taşar; taşma payı sağdan düşülür
-   ki kart + görünen alt kartlar birlikte ortalansın. --- */
+   ki kart + görünen alt kartlar birlikte kutuya sığsın. Deste sağ sütunun
+   soluna yakın durur: sağ kenara yaslanınca filtrelerle arasındaki boşluk çok
+   açılıyordu (kullanıcı: "merkeze çekin", sonra "biraz daha sola kaysın").
+   Üst kenar, başlığın büyük harf üst çizgisiyle hizalanır: satır kutusunun
+   üstünden harf üstüne ~%13 punto boşluk vardır. --- */
 .trivia__deck {
   position: relative;
   isolation: isolate;
+  justify-self: start;
+  margin-top: calc(var(--text-h1) * 1.3 * 0.13);
+  margin-left: var(--space-xl);
+  width: min(100%, calc(var(--trivia-deck-w) + var(--trivia-deck-depth)));
   padding-right: var(--trivia-deck-depth);
 }
 
@@ -88,6 +177,9 @@
   min-width: 0;
   padding: var(--space-lg);
   overflow: hidden;
+  /* 3px beyaz çerçeve: Blog kartları ve Karakterler sahnesiyle aynı kalınlık
+     (kullanıcı kararı); alt kartların kenarını da ayırır. */
+  border: 3px solid rgba(255, 255, 255, 0.7);
   border-radius: var(--radius-lg);
   background: color-mix(in srgb, var(--white) 8%, var(--card-bg));
   user-select: none;
@@ -156,6 +248,24 @@
   color: var(--fg);
   font-size: var(--text-base);
   line-height: 1.55;
+}
+
+@media (max-width: 1023px) {
+  .trivia__layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  /* Dikey yapı: panel üstte, deste altta ortalı; başlık altı boşluğu dar. */
+  .trivia__title {
+    margin-bottom: var(--space-xl);
+  }
+
+  .trivia__deck {
+    justify-self: center;
+    margin-top: 0;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 900px) {

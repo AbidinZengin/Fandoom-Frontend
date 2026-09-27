@@ -158,7 +158,10 @@
     "diveDeeperHeading": "Derinlemesine",
     "relatedBlogsHeading": "İlgili Yazılar",
     "trivia": {
-      "title": "Kısa Bilgiler",
+      "titleLead": "Tüm",
+      "titleAction": "Detaylarıyla",
+      "subtitle": "Breaking Bad evrenine dair bilinmeyenleri ve set arkası sırlarını keşfedin.",
+      "filterAll": "Tümü",
       "tags": {
         "BEHIND_THE_SCENES": "Kamera Arkası",
         "EASTER_EGG": "Easter Egg",
