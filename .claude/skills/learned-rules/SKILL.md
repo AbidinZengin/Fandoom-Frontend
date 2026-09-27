@@ -1055,18 +1055,25 @@ kilitlendi.
   hazır olana kadar implementasyon BEKLEMEDE. _(2026-08, Characters
   mimari planlama)_
 
-- **[karakter-layout]** Characters bölümü, BB'ninki DEĞİL, diğer yapımların
-  (From/Severance/HotD) SeasonRoute iskeletini alır: header + solda AKTİF
-  karakterin adı+bio'su + sağda kart şeridi/oklar, imza-dalga girişi, kart
-  hover/tık odak panelini günceller (ayrı detay paneli/CTA yok). BB'nin kendi
-  SeasonRoute'u da diğerlerine hizalandı (Ken-Burns/opacity-only/snap/8vw
-  margin/parallax çerçeve KALDIRILDI); Characters BB sayfasında SeasonRoute'un
-  ALTINDA bölüm olarak durur; ikisi de yatayda Hero çerçevesi genişliğindedir
-  (`margin-inline: 6%`, mobilde 3%). Başlık yok: yalnız SEASONS ile aynı
-  beyaz pill ("Characters"), "Cast" etiketi YOK; bio paneli/glass yüzey YOK.
-  Odak metni (başlık+bio/synopsis) tüm öğeler AYNI grid hücresinde üst üste
-  durarak ölçülür — aktif öğe değişince başlık konumu ve bölüm yüksekliği
-  SABİT kalır. _(2026-09, BB CharactersRoute — kullanıcı düzeltmesi)_
+- **[karakter-layout]** BB Characters bölümü MASTER-DETAIL'dir (2026-09-26'da
+  önceki kart-şeridi/karusel tasarımının YERİNE geçti; diğer yapımlar
+  SeasonRoute iskeletinde kalır): kicker pill'i, "The Faces of the Story."
+  başlığı ve çerçeveli arka plan AYNEN korunur. Masaüstü (≥1024px) ~%55 liste /
+  ~%45 sahne; sahne fotoğrafı esnemez, ortada max 480px (2:3), yuvarlak köşeli
+  çerçevede ve SABİT durur; kayan taraf isim listesidir: liste fotoğraf
+  yüksekliğinde bir pencere olup kendi içinde kayar (sayfayı uzatmaz, açık
+  bio ile ~5-6 isim görünür), satır çizgileri max 600px. Liste: yuvarlak
+  avatar + büyük ad; tıklanan satırın altında bio akordeon gibi açılır
+  (framer-motion height 0 ↔ auto), aynı anda tek bio açık; aktif avatar BEYAZ
+  halka + glow (accent yok). Fotoğraf değişimi AnimatePresence mode="wait":
+  eskisi erir, yenisi bulanıklıktan netleşir. ≤1023px AKORDEON YOK: sıra
+  başlık, büyük fotoğraf, yatay kayan isim+avatar chip şeridi (seçilen chip
+  ortalanır), altta SABİT bio kutusu (bio'lar aynı grid hücresinde, kutu boyu
+  zıplamaz). Yalnız
+  backend'deki alanlar kullanılır (name, description, imageUrl): oyuncu adı
+  vb. eklenmez, avatar ve sahne aynı imageUrl'dir. Liste artık panelin
+  ortasında olduğu için arka plan scrim'i tüm zemini koyultur (yalnız alt kenar
+  değil). _(2026-09, BB CharactersRoute — kullanıcı spec'i)_
 - **[trivia-layout]** BB Trivia bölümü CARD DECK'tir (bento grid reddedildi):
   DİKEY poster kart (2:3), alttaki kartlar üsttekinin SAĞ kenarından görünür
   (aşağı kaymaz), üst kart yatay sürüklenip |x|>100px ile atılır ve dizinin

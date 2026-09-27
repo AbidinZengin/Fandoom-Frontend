@@ -1,59 +1,152 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { fetchProductionDetail, fetchCharactersForSeries } from './CharactersRoute.data';
 import styles from './CharactersRoute.module.css';
 
-const pad2 = (n) => String(n).padStart(2, '0');
-
 // Tam arka plan görseli — kullanıcının verdiği TMDB görseli (Severance
 // SeasonRoute ile aynı harici-URL deseni).
 const BACKDROP_URL = 'https://image.tmdb.org/t/p/original/p7ZDvrblpGWScGZX4V0pCycWZN6.jpg';
 
-function ArrowIcon() {
+const EASE_OUT = [0.22, 1, 0.36, 1];
+const ACCORDION_TRANSITION = { duration: 0.5, ease: EASE_OUT };
+const ACCORDION_MS = ACCORDION_TRANSITION.duration * 1000;
+const PHOTO_TRANSITION = { duration: 0.45, ease: 'easeOut' };
+const PHOTO_BLUR = 'blur(12px)';
+
+// Dikey yapıya geçilen aralık (CSS'teki @media (max-width: 1023px) ile AYNI):
+// bu aralıkta akordeon yerine yatay seçici + sabit bio kutusu basılır.
+const COMPACT_QUERY = '(max-width: 1023px)';
+
+function subscribeCompact(callback) {
+  const mq = window.matchMedia(COMPACT_QUERY);
+  mq.addEventListener('change', callback);
+  return () => mq.removeEventListener('change', callback);
+}
+
+const getCompact = () => window.matchMedia(COMPACT_QUERY).matches;
+
+function useIsCompact() {
+  return useSyncExternalStore(subscribeCompact, getCompact, () => false);
+}
+
+// Seçilen chip şeritte ortaya kayar; yalnız yatay (block: 'nearest' sayfayı
+// dikeyde oynatmaz).
+function centerChip(el) {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+}
+
+// Sahne fotoğrafı: yüklenene kadar koyu zemin kalır, yüklenince bulanıklıktan
+// netleşerek gelir (skeleton/blur-up yok, görsel fade-in kuralı). Çıkışta
+// yalnız erir (opacity 0). AnimatePresence mode="wait" ile eski çıkmadan yenisi
+// girmez.
+function ScenePhoto({ src }) {
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  // Önbellekten gelen görselde onLoad tetiklenmeyebilir.
+  useEffect(() => {
+    if (imgRef.current?.complete) setLoaded(true);
+  }, []);
+
   return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <line x1="4.5" y1="12" x2="19" y2="12" />
-      <polyline points="13.5 6.5 19.5 12 13.5 17.5" />
-    </svg>
+    <motion.img
+      ref={imgRef}
+      className={styles.scene__photo}
+      src={src}
+      alt=""
+      draggable={false}
+      onLoad={() => setLoaded(true)}
+      initial={{ opacity: 0, filter: PHOTO_BLUR }}
+      animate={loaded ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: PHOTO_BLUR }}
+      exit={{ opacity: 0 }}
+      transition={PHOTO_TRANSITION}
+    />
   );
 }
 
-// BreakingBad sayfasında SeasonRoute'un ALTINDA duran bölüm. Diğer yapımların
-// SeasonRoute'uyla (From/Severance/HotD) AYNI iskelet ve hareket: kicker+başlık
-// üstte, solda AKTİF karakterin adı + bio'su, sağda yatay kart şeridi + iki
-// dairesel ok. Kart hover/focus/tık sol paneli günceller (önceki karakter
-// sağa kayıp çıkar, yenisi soldan açılır). Karakter detayı SADECE Bio olduğu
-// için (learned-rules) ayrı detay paneli/CTA yok — bio zaten odak panelinin
-// kendisi. Glassmorfik yüzey yok (kullanıcı kararı); kicker düz metin.
-// Tema BreakingBad.jsx'ten miras alınır.
+// Görseli olmayan karakterde boş daire yerine baş harf.
+function Avatar({ character }) {
+  if (!character.imageUrl) {
+    return (
+      <span className={`${styles.avatar} ${styles['avatar--empty']}`} aria-hidden="true">
+        {character.name?.[0]}
+      </span>
+    );
+  }
+  return (
+    <img
+      className={styles.avatar}
+      src={character.imageUrl}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      draggable={false}
+    />
+  );
+}
+
+// BreakingBad sayfasında SeasonRoute'un ALTINDA duran bölüm (Master-Detail):
+// solda karakter listesi + tıklanan satırın altında akordeon gibi açılan bio,
+// sağda seçime göre fotoğrafı eriyerek değişen "karakter sahnesi". Kicker +
+// "The Faces of the Story." başlığı ve arka plan çerçevesi önceki tasarımdan
+// AYNEN korunur. Karakter verisinde ayrı avatar/portre alanı ve oyuncu adı
+// yok: avatar ve sahne fotoğrafı imageUrl'i kullanır, oyuncu adı basılmaz
+// (sahte veri basılmaz). Tema BreakingBad.jsx'ten miras alınır.
 export default function CharactersRoute() {
   const { t } = useTranslation();
   const [characters, setCharacters] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeId, setActiveId] = useState(null);
+  const baseId = useId();
+  const isCompact = useIsCompact();
 
   const pageRef = useRef(null);
-  const trackRef = useRef(null);
-  const focusRef = useRef(null);
-  const isFirstActiveRender = useRef(true);
+  const listRef = useRef(null);
+  const itemRefs = useRef(new Map());
+  const isFirstActive = useRef(true);
 
   useEffect(() => {
     let cancelled = false;
     fetchProductionDetail('series', 'breaking-bad')
       .then((series) => fetchCharactersForSeries(series.id))
       .then((data) => {
-        if (!cancelled) setCharacters(data);
+        if (!cancelled) {
+          setCharacters(data);
+          setActiveId(data[0]?.id ?? null);
+        }
       });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  const list = characters ?? [];
+  const count = characters?.length ?? 0;
+  // Masaüstünde seçilen satır, akordeon (önceki bio'nun kapanması + yenisinin
+  // açılması) oturduktan sonra listenin en üstüne kayar; yoksa alttaki bir
+  // satırın bio'su pencerenin dışında kalırdı.
+  useEffect(() => {
+    if (isFirstActive.current) {
+      isFirstActive.current = false;
+      return undefined;
+    }
+    if (isCompact) return undefined;
+    const timer = setTimeout(() => {
+      const li = itemRefs.current.get(activeId);
+      if (!listRef.current || !li) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      listRef.current.scrollTo({ top: li.offsetTop, behavior: reduce ? 'auto' : 'smooth' });
+    }, ACCORDION_MS);
+    return () => clearTimeout(timer);
+  }, [activeId, isCompact]);
+
+  // Reveal hedefi kipe göre değişir: masaüstünde liste, dikey yapıda seçici şerit.
+  const pickerClass = isCompact ? styles.selector : styles.list;
 
   useLayoutEffect(() => {
-    if (!list.length) return undefined;
+    if (!count) return undefined;
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -64,33 +157,44 @@ export default function CharactersRoute() {
           y: 28,
           duration: 0.9,
           ease: 'power3.out',
-          stagger: 0.12,
           scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
         });
 
-        gsap.from(`.${styles.focus}`, {
+        // Başlığın iki satırı SOLDAN kayarak girer, kademeli — SeasonRoute ile
+        // birebir. Header yatayda kırpar, yazı kartın dışına taşmaz.
+        gsap.from([`.${styles.titleLead}`, `.${styles.titleAction}`], {
+          opacity: 0,
+          x: -120,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12,
+          delay: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
+        });
+
+        gsap.from(`.${pickerClass}`, {
           opacity: 0,
           x: -64,
           duration: 0.8,
           ease: 'power3.out',
+          clearProps: 'opacity,transform',
           scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
         });
 
-        // İmza "dalga" (learned-rules #imza-dalga) — SeasonRoute ile birebir.
-        gsap.from(trackRef.current.querySelectorAll(`.${styles.cardWrap}`), {
+        gsap.from(`.${styles.scene}`, {
           opacity: 0,
-          x: 140,
           y: 56,
           duration: 0.9,
           ease: 'power3.out',
-          stagger: 0.12,
+          clearProps: 'opacity,transform',
           scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
         });
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set([`.${styles.kicker}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
+        gsap.set([`.${styles.kicker}`, `.${styles.titleLead}`, `.${styles.titleAction}`, `.${pickerClass}`, `.${styles.scene}`], {
           opacity: 1,
+          x: 0,
           y: 0,
           clearProps: 'transform',
         });
@@ -103,47 +207,22 @@ export default function CharactersRoute() {
       clearTimeout(timerId);
       ctx.revert();
     };
-  }, [list.length]);
+  }, [count, pickerClass]);
 
-  // İlk mount'ta yukarıdaki scroll-trigger zaten aynı işi yapıyor — atla.
-  useEffect(() => {
-    if (isFirstActiveRender.current) {
-      isFirstActiveRender.current = false;
-      return;
-    }
-    if (!focusRef.current) return;
-    gsap.fromTo(
-      focusRef.current,
-      { x: -64, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }
-    );
-  }, [activeIndex]);
+  if (!count) return null;
 
-  const activateCharacter = (i) => {
-    if (i === activeIndex) return;
-    const focus = focusRef.current;
-    if (!focus) {
-      setActiveIndex(i);
-      return;
-    }
-    gsap.to(focus, {
-      x: 80,
-      opacity: 0,
-      duration: 0.28,
-      ease: 'power2.in',
-      onComplete: () => setActiveIndex(i),
-    });
-  };
+  const active = characters.find((c) => c.id === activeId) ?? characters[0];
+  const bioBoxId = `${baseId}-bio`;
 
-  const scrollByCard = (dir) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector(`.${styles.cardWrap}`);
-    const step = (card?.offsetWidth ?? 220) + 24;
-    track.scrollBy({ left: dir * step, behavior: 'smooth' });
-  };
-
-  if (!characters || characters.length === 0) return null;
+  const scene = (
+    <div className={styles.scene}>
+      <div className={styles.scene__frame}>
+        <AnimatePresence mode="wait" initial={false}>
+          {active.imageUrl && <ScenePhoto key={active.id} src={active.imageUrl} />}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
 
   return (
     <section className={styles.page} ref={pageRef}>
@@ -151,74 +230,111 @@ export default function CharactersRoute() {
       <div className={styles.scrim} aria-hidden="true" />
 
       <div className={styles.header}>
-        <h2 className={styles.kicker}>{t('series.charactersHeading')}</h2>
+        <p className={styles.kicker}>{t('series.charactersHeading')}</p>
+        <h2 className={styles.title}>
+          <span className={styles.titleLead}>{t('series.charactersTitleLead')}</span>
+          <span className={styles.titleAction}>{t('series.charactersTitleAction')}</span>
+        </h2>
       </div>
 
-      <div className={styles.bottom}>
-        <div className={styles.focus} ref={focusRef}>
-          {characters.map((character, i) => (
-            <div className={styles.focus__item} key={character.id} data-active={i === activeIndex || undefined}>
-              <h3 className={styles.focus__title}>{character.name}</h3>
-              {character.description && <p className={styles.focus__dek}>{character.description}</p>}
-            </div>
-          ))}
-        </div>
+      <MotionConfig reducedMotion="user">
+        <div className={styles.bottom}>
+          {isCompact ? (
+            <>
+              {scene}
 
-        <div className={styles.carousel}>
-          <div className={styles.track} ref={trackRef}>
-            {characters.map((character, i) => (
-              <div className={styles.cardWrap} key={character.id}>
-                <button
-                  type="button"
-                  className={styles.card}
-                  aria-label={character.name}
-                  aria-current={i === activeIndex || undefined}
-                  onMouseEnter={() => activateCharacter(i)}
-                  onFocus={() => activateCharacter(i)}
-                  onClick={() => activateCharacter(i)}
-                >
-                  {character.imageUrl && (
-                    <img
-                      className={styles.card__image}
-                      src={character.imageUrl}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      draggable={false}
-                      ref={(el) => {
-                        if (el?.complete) el.dataset.loaded = '1';
-                      }}
-                      onLoad={(e) => {
-                        e.currentTarget.dataset.loaded = '1';
-                      }}
-                    />
-                  )}
-                  <span className={styles.card__number}>{pad2(character.billingOrder ?? i + 1)}</span>
-
-                  <span className={styles.card__caption}>
-                    <span className={styles.card__title}>{character.name}</span>
-                  </span>
-                </button>
+              {/* Dikey yapı: akordeon YOK. Yatay kayan isim/avatar şeridi
+                  seçer, seçili karakterin bio'su altta sabit kutuda değişir. */}
+              <div className={styles.selector} role="group" aria-label={t('series.charactersHeading')}>
+                {characters.map((character) => (
+                  <button
+                    type="button"
+                    key={character.id}
+                    className={styles.chip}
+                    data-active={character.id === active.id || undefined}
+                    aria-pressed={character.id === active.id}
+                    aria-controls={bioBoxId}
+                    onClick={(e) => {
+                      setActiveId(character.id);
+                      centerChip(e.currentTarget);
+                    }}
+                  >
+                    <Avatar character={character} />
+                    <span className={styles.chip__name}>{character.name}</span>
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
 
-          <div className={styles.navRow}>
-            <button
-              type="button"
-              className={styles.navArrow}
-              data-dir="left"
-              onClick={() => scrollByCard(-1)}
-              aria-label={t('common.previous')}
-            >
-              <ArrowIcon />
-            </button>
-            <button type="button" className={styles.navArrow} onClick={() => scrollByCard(1)} aria-label={t('common.next')}>
-              <ArrowIcon />
-            </button>
-          </div>
+              {/* Tüm bio'lar AYNI grid hücresinde üst üste durur, kutu en uzun
+                  metne göre ölçülür: karakter değişince kutu boyu zıplamaz. */}
+              <div className={styles.bioBox} id={bioBoxId} aria-live="polite">
+                {characters.map((character) => (
+                  <div
+                    className={styles.bioBox__item}
+                    key={character.id}
+                    data-active={character.id === active.id || undefined}
+                  >
+                    {character.description && <p className={styles.bioBox__text}>{character.description}</p>}
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.listWrap}>
+              <ul className={styles.list} ref={listRef}>
+                {characters.map((character) => {
+                  const isActive = character.id === active.id;
+                  const panelId = `${baseId}-bio-${character.id}`;
+                  return (
+                    <li
+                      className={styles.item}
+                      key={character.id}
+                      ref={(el) => {
+                        if (el) itemRefs.current.set(character.id, el);
+                        else itemRefs.current.delete(character.id);
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className={styles.row}
+                        data-active={isActive || undefined}
+                        aria-expanded={isActive}
+                        aria-controls={panelId}
+                        onClick={() => setActiveId(character.id)}
+                      >
+                        <Avatar character={character} />
+                        <span className={styles.row__name}>{character.name}</span>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {isActive && (
+                          <motion.div
+                            key="bio"
+                            id={panelId}
+                            role="region"
+                            aria-label={character.name}
+                            className={styles.bio}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={ACCORDION_TRANSITION}
+                          >
+                            {character.description && <p className={styles.bio__text}>{character.description}</p>}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </li>
+                  );
+                })}
+              </ul>
+              </div>
+
+              {scene}
+            </>
+          )}
         </div>
-      </div>
+      </MotionConfig>
     </section>
   );
 }
