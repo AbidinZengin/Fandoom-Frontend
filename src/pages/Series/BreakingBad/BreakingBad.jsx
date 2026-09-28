@@ -6,6 +6,7 @@ import SeasonRoute from './SeasonRoute/SeasonRoute';
 import CharactersRoute from './CharactersRoute/CharactersRoute';
 import Trivia from './Trivia/Trivia';
 import RelatedBlogs from './RelatedBlogs/RelatedBlogs';
+import PortalBanner from './PortalBanner/PortalBanner';
 
 // OldHero (eski SeriesHero editör sistemiyle çalışan hero) kullanıcı
 // kararıyla route'tan kaldırıldı (2026-08) — yeni Hero PageBuilder'ın
@@ -86,6 +87,7 @@ export default function BreakingBad() {
       <CharactersRoute />
       <RelatedBlogs seriesId={series.id} />
       <Trivia seriesId={series.id} />
+      <PortalBanner productionSlug="breaking-bad" />
       <Footer />
     </>
   );

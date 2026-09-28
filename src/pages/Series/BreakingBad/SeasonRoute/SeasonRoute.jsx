@@ -55,12 +55,24 @@ export default function SeasonRoute() {
       const mm = gsap.matchMedia();
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.from([`.${styles.kicker}`, `.${styles.title}`], {
+        gsap.from(`.${styles.kicker}`, {
           opacity: 0,
           y: 28,
           duration: 0.9,
           ease: 'power3.out',
+          scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
+        });
+
+        // Başlığın iki satırı SOLDAN kayarak girer, kademeli (kullanıcı isteği;
+        // PortalBanner hook'uyla aynı hareket). Header yatayda kırpar, yazı
+        // kartın dışına taşmaz.
+        gsap.from([`.${styles.titleLead}`, `.${styles.titleAction}`], {
+          opacity: 0,
+          x: -120,
+          duration: 0.9,
+          ease: 'power3.out',
           stagger: 0.12,
+          delay: 0.12,
           scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
         });
 
@@ -86,8 +98,9 @@ export default function SeasonRoute() {
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set([`.${styles.kicker}`, `.${styles.title}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
+        gsap.set([`.${styles.kicker}`, `.${styles.titleLead}`, `.${styles.titleAction}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
           opacity: 1,
+          x: 0,
           y: 0,
           clearProps: 'transform',
         });
@@ -152,7 +165,10 @@ export default function SeasonRoute() {
 
       <div className={styles.header}>
         <p className={styles.kicker}>{t('series.seasonsHeading')}</p>
-        <h2 className={styles.title}>{t('series.everySeasonEveryEpisode')}</h2>
+        <h2 className={styles.title}>
+          <span className={styles.titleLead}>{t('series.everySeasonLead')}</span>
+          <span className={styles.titleAction}>{t('series.everyEpisodeAction')}</span>
+        </h2>
       </div>
 
       <div className={styles.bottom}>

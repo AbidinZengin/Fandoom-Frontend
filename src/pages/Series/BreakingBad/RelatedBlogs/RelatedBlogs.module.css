@@ -11,17 +11,29 @@
   --row-card-w: clamp(280px, 24vw, 340px);
 }
 
-/* SeasonRoute .title ile aynı afiş başlığı (kullanıcı isteği: "every season
-   every episode gibi kocaman") — tam-uppercase bu section'da kasıtlı. */
+/* SeasonRoute/CharactersRoute başlığıyla BİREBİR aynı stil (kullanıcı isteği,
+   2026-09-24): iki satır alt alta, --text-h1'in 1.3 katı, 900 ağırlık, büyük
+   harf, sıkı satır aralığı; ilk satır gri (--fg'nin %72'si), ikincisi beyaz.
+   Tam-uppercase bu section'da kasıtlı. */
 .related__title {
+  display: flex;
+  flex-direction: column;
   margin: 0 0 var(--space-xl);
-  max-width: 20ch;
   font-family: var(--font-display);
-  font-size: var(--text-h1);
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: calc(var(--text-h1) * 1.3);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  color: var(--fg);
+  overflow-wrap: anywhere;
+}
+
+.related__titleLead {
+  color: color-mix(in srgb, var(--fg) 72%, transparent);
+}
+
+.related__titleAction {
+  color: var(--white);
 }
 
 /* TopBlogsRow ilk karta --space-md başlangıç boşluğu verir; kart kenarı da

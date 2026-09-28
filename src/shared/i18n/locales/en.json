@@ -158,7 +158,8 @@
     "artifactsKicker": "Artifacts",
     "artifactsHeading": "Legendary Artifacts",
     "diveDeeperHeading": "Dive Deeper",
-    "relatedBlogsHeading": "Related Blogs",
+    "relatedBlogsTitleLead": "More Along",
+    "relatedBlogsTitleAction": "the Same Lines.",
     "trivia": {
       "titleLead": "The Complete",
       "titleAction": "Breakdown",
@@ -172,6 +173,14 @@
         "LORE": "Lore"
       }
     },
+    "portalBanner": {
+      "cta": "Go to Portal",
+      "kicker": "Community",
+      "heading": "Recent Discussions",
+      "hookLead": "Share your theory.",
+      "hookAction": "Join the community.",
+      "invite": "Be the first to start a discussion about this show"
+    },
     "realmKicker": "Realm",
     "worldMapAriaLabel": "World map",
     "worldMapAlt": "Map of Westeros",
@@ -180,6 +189,8 @@
     "exploreEpisodesCta": "Explore Episodes ›",
     "episodesHeading": "Episodes",
     "everySeasonEveryEpisode": "Every Season, Every Episode.",
+    "everySeasonLead": "Every Season,",
+    "everyEpisodeAction": "Every Episode.",
     "exploreSeasonCta": "Explore Season",
     "seasonLabel": "Season {{number}}: {{title}}",
     "watchTrailer": "Watch Trailer"

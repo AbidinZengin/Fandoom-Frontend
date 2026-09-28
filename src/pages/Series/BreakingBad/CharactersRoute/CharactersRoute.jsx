@@ -40,9 +40,9 @@ function centerChip(el) {
 }
 
 // Sahne fotoğrafı: yüklenene kadar koyu zemin kalır, yüklenince bulanıklıktan
-// netleşerek gelir (skeleton/blur-up yok, görsel fade-in kuralı). Çıkışta
-// yalnız erir (opacity 0). AnimatePresence mode="wait" ile eski çıkmadan yenisi
-// girmez.
+// netleşerek gelir (skeleton/blur-up yok, görsel fade-in kuralı). Eski ve yeni
+// görsel ÜST ÜSTE (mode="wait" değil) çapraz-erir: aradaki boşlukta zemin rengi
+// (gri) görünmesin diye.
 function ScenePhoto({ src }) {
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef(null);
@@ -100,13 +100,15 @@ export default function CharactersRoute() {
   const { t } = useTranslation();
   const [characters, setCharacters] = useState(null);
   const [activeId, setActiveId] = useState(null);
+  // Masaüstü akordeonunda bio varsayılan KAPALI gelir; sadece satıra
+  // tıklanınca açılır (activeId'den ayrı — o sahne fotoğrafını sürer).
+  const [expandedId, setExpandedId] = useState(null);
   const baseId = useId();
   const isCompact = useIsCompact();
 
   const pageRef = useRef(null);
   const listRef = useRef(null);
   const itemRefs = useRef(new Map());
-  const isFirstActive = useRef(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -128,19 +130,15 @@ export default function CharactersRoute() {
   // açılması) oturduktan sonra listenin en üstüne kayar; yoksa alttaki bir
   // satırın bio'su pencerenin dışında kalırdı.
   useEffect(() => {
-    if (isFirstActive.current) {
-      isFirstActive.current = false;
-      return undefined;
-    }
-    if (isCompact) return undefined;
+    if (isCompact || expandedId == null) return undefined;
     const timer = setTimeout(() => {
-      const li = itemRefs.current.get(activeId);
+      const li = itemRefs.current.get(expandedId);
       if (!listRef.current || !li) return;
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       listRef.current.scrollTo({ top: li.offsetTop, behavior: reduce ? 'auto' : 'smooth' });
     }, ACCORDION_MS);
     return () => clearTimeout(timer);
-  }, [activeId, isCompact]);
+  }, [expandedId, isCompact]);
 
   // Reveal hedefi kipe göre değişir: masaüstünde liste, dikey yapıda seçici şerit.
   const pickerClass = isCompact ? styles.selector : styles.list;
@@ -217,7 +215,7 @@ export default function CharactersRoute() {
   const scene = (
     <div className={styles.scene}>
       <div className={styles.scene__frame}>
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence initial={false}>
           {active.imageUrl && <ScenePhoto key={active.id} src={active.imageUrl} />}
         </AnimatePresence>
       </div>
@@ -284,7 +282,7 @@ export default function CharactersRoute() {
               <div className={styles.listWrap}>
               <ul className={styles.list} ref={listRef}>
                 {characters.map((character) => {
-                  const isActive = character.id === active.id;
+                  const isActive = character.id === expandedId;
                   const panelId = `${baseId}-bio-${character.id}`;
                   return (
                     <li
@@ -301,7 +299,10 @@ export default function CharactersRoute() {
                         data-active={isActive || undefined}
                         aria-expanded={isActive}
                         aria-controls={panelId}
-                        onClick={() => setActiveId(character.id)}
+                        onClick={() => {
+                          setActiveId(character.id);
+                          setExpandedId((prev) => (prev === character.id ? null : character.id));
+                        }}
                       >
                         <Avatar character={character} />
                         <span className={styles.row__name}>{character.name}</span>

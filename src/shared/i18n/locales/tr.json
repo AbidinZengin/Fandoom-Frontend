@@ -158,7 +158,8 @@
     "artifactsKicker": "Eşyalar",
     "artifactsHeading": "Efsanevi Eşyalar",
     "diveDeeperHeading": "Derinlemesine",
-    "relatedBlogsHeading": "İlgili Yazılar",
+    "relatedBlogsTitleLead": "Aynı Çizgide",
+    "relatedBlogsTitleAction": "Daha Fazlası.",
     "trivia": {
       "titleLead": "Tüm",
       "titleAction": "Detaylarıyla",
@@ -172,6 +173,14 @@
         "LORE": "Lore"
       }
     },
+    "portalBanner": {
+      "cta": "Portala Git",
+      "kicker": "Topluluk",
+      "heading": "Son Tartışmalar",
+      "hookLead": "Teorini paylaş.",
+      "hookAction": "Topluluğa katıl.",
+      "invite": "Bu yapım hakkında ilk tartışmayı sen başlat"
+    },
     "realmKicker": "Krallık",
     "worldMapAriaLabel": "Dünya haritası",
     "worldMapAlt": "Westeros haritası",
@@ -180,6 +189,8 @@
     "exploreEpisodesCta": "Bölümleri Keşfet ›",
     "episodesHeading": "Bölümler",
     "everySeasonEveryEpisode": "Her Sezon, Her Bölüm.",
+    "everySeasonLead": "Her Sezon,",
+    "everyEpisodeAction": "Her Bölüm.",
     "exploreSeasonCta": "Sezonu Keşfet",
     "seasonLabel": "{{number}}. Sezon: {{title}}",
     "watchTrailer": "Fragmanı İzle"
