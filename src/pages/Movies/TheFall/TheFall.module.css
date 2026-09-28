@@ -1,0 +1,30 @@
+/* Hero'yu saran blurlu arka plan (Pluribus deseninin birebir portu) — navbar
+   payı (-72px) buraya ait. */
+.intro {
+  position: relative;
+  margin-top: -72px;
+}
+
+.intro__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: blur(28px) brightness(0.55) saturate(1.15);
+  transform: scale(1.08);
+}
+
+.the-fall-notfound {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.the-fall-notfound__title {
+  font-size: var(--text-h1);
+  color: var(--fg-muted);
+  font-weight: 700;
+}

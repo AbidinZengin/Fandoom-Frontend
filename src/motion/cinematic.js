@@ -30,6 +30,7 @@ export const CINEMATIC_SLUGS = new Set([
   'blade-runner-2049',
   'interstellar',
   'black-swan',
+  'mulholland-drive',
 ]);
 
 const HERO_ROOT_PATH = /^\/(?:[a-z]{2}\/)?(?:series|movies)\/([^/]+)\/?$/;

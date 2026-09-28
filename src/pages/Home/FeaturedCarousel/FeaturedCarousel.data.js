@@ -8,4 +8,5 @@ export { fetchProductions } from '../../../shared/api/productions';
 // dikey odak (object-position); listede olmayan yapımlar varsayılan "center".
 export const POSTER_POSITION = {
   'the-boys': 'center top',
+  'mulholland-drive': 'center top',
 };
