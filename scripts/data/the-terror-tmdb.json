@@ -1,0 +1,264 @@
+{
+ "tmdbId": 75191,
+ "imdbId": "tt2708480",
+ "name": "The Terror",
+ "original_name": "The Terror",
+ "first_air_date": "2018-03-26",
+ "last_air_date": "2019-10-14",
+ "status": "Canceled",
+ "in_production": false,
+ "genres": [
+  "Mystery",
+  "Drama",
+  "Sci-Fi & Fantasy"
+ ],
+ "origin_country": [
+  "US"
+ ],
+ "original_language": "en",
+ "vote_average": 7.4,
+ "vote_count": 1053,
+ "contentRating": "TV-14",
+ "tagline": "",
+ "overview": "A chilling anthology series featuring stories of people in terrifying situations inspired by true historical events.",
+ "seasons": [
+  {
+   "season_number": 1,
+   "name": "Season 1",
+   "air_date": "2018-03-26",
+   "poster_path": "/uFcbGP58In6oyfm8gU1XZLyCz91.jpg",
+   "overview": "A Royal Naval expedition voyages into unchartered territory as the crew attempts to discover the Northwest Passage. Faced with treacherous conditions, limited resources, dwindling hope and fear of the unknown, the crew is pushed to the brink of extinction.",
+   "episodes": [
+    {
+     "id": 1403419,
+     "episode_number": 1,
+     "name": "Go for Broke",
+     "air_date": "2018-03-26",
+     "runtime": 44,
+     "overview": "An accident at sea cripples a Royal Navy expedition 200 miles from finding the Northwest Passage, forcing its captains to make dire choices.",
+     "still_path": "/2STj5CZwZi4aNa5BA5IP3TV9nku.jpg",
+     "vote_average": 7.605,
+     "vote_count": 57
+    },
+    {
+     "id": 1460634,
+     "episode_number": 2,
+     "name": "Gore",
+     "air_date": "2018-03-26",
+     "runtime": 41,
+     "overview": "After a long winter trapped in the ice, scouting parties are sent out in search of open water. One of the teams makes a frightening discovery.",
+     "still_path": "/9spzYJ3dfYnLDIIDD7yQuwbxpyx.jpg",
+     "vote_average": 7.2,
+     "vote_count": 50
+    },
+    {
+     "id": 1460635,
+     "episode_number": 3,
+     "name": "The Ladder",
+     "air_date": "2018-04-02",
+     "runtime": 41,
+     "overview": "With something now stalking the ships, the captains debate their options, testing their loyalty to one another against their duty to their crews.",
+     "still_path": "/vCFSNLP4glLfvT3RJ98iYTNPpZ3.jpg",
+     "vote_average": 7.521,
+     "vote_count": 47
+    },
+    {
+     "id": 1464299,
+     "episode_number": 4,
+     "name": "Punished, as a Boy",
+     "air_date": "2018-04-09",
+     "runtime": 45,
+     "overview": "A cunning attack on the ships proves the men are not battling an ordinary bear and that the region's Inuit culture may hold a key to their survival.",
+     "still_path": "/5i9uyNPebTMhCxqLzDSI9hxUYIJ.jpg",
+     "vote_average": 7.359,
+     "vote_count": 46
+    },
+    {
+     "id": 1464300,
+     "episode_number": 5,
+     "name": "First Shot a Winner, Lads",
+     "air_date": "2018-04-16",
+     "runtime": 41,
+     "overview": "A strange illness begins to show itself while another more familiar one jeopardizes the expedition's most valuable resource: its captain's judgment.",
+     "still_path": "/1d8KQWNS5hWgEhUL4zyHrlnUYyj.jpg",
+     "vote_average": 7.567,
+     "vote_count": 45
+    },
+    {
+     "id": 1464430,
+     "episode_number": 6,
+     "name": "A Mercy",
+     "air_date": "2018-04-23",
+     "runtime": 45,
+     "overview": "With the end of their provisions in sight, officers contemplate a tough, risky strategy while struggling to raise the men's worsening spirits.",
+     "still_path": "/xvgpQN8oWPBKMmivirnqWU6J59Q.jpg",
+     "vote_average": 7.573,
+     "vote_count": 41
+    },
+    {
+     "id": 1464431,
+     "episode_number": 7,
+     "name": "Horrible from Supper",
+     "air_date": "2018-04-30",
+     "runtime": 45,
+     "overview": "As the men make new attempts to find rescue, a series of shocking events underscores how vulnerable and exposed their situation has become.",
+     "still_path": "/cCgsnHXnet7IYOLhdaPheYXUmKS.jpg",
+     "vote_average": 7.438,
+     "vote_count": 40
+    },
+    {
+     "id": 1464432,
+     "episode_number": 8,
+     "name": "Terror Camp Clear",
+     "air_date": "2018-05-07",
+     "runtime": 45,
+     "overview": "Deaths under mysterious circumstances create paranoia among the men, and some of the crew may be considering mutiny.",
+     "still_path": "/jYd4Idpdobf30SCe30nQA8BwNKF.jpg",
+     "vote_average": 7.776,
+     "vote_count": 38
+    },
+    {
+     "id": 1464433,
+     "episode_number": 9,
+     "name": "The C, the C, the Open C",
+     "air_date": "2018-05-14",
+     "runtime": 54,
+     "overview": "Hope comes in strange forms, and the question of what the men are willing to do to survive begins to be settled in both noble and horrifying ways.",
+     "still_path": "/xhuswtrivC0ERmtDF8O8vp5DOlU.jpg",
+     "vote_average": 7.419,
+     "vote_count": 37
+    },
+    {
+     "id": 1464434,
+     "episode_number": 10,
+     "name": "We Are Gone",
+     "air_date": "2018-05-21",
+     "runtime": 52,
+     "overview": "The expedition's epic journey reaches its climax as men find themselves in a final confrontation with the Inuit mythology they've trespassed into.",
+     "still_path": "/uQ87RqEo1kSItSyfnIx6fw8tbd2.jpg",
+     "vote_average": 7.655,
+     "vote_count": 42
+    }
+   ]
+  },
+  {
+   "season_number": 2,
+   "name": "Infamy",
+   "air_date": "2019-08-12",
+   "poster_path": "/t01hdxSg2ke6NxqGKOymKi4w2x4.jpg",
+   "overview": "During World War II, a series of bizarre deaths haunt a Japanese-American community, and a young man attempts to understand and combat the malevolent entity responsible.",
+   "episodes": [
+    {
+     "id": 1753913,
+     "episode_number": 1,
+     "name": "A Sparrow in a Swallow's Nest",
+     "air_date": "2019-08-12",
+     "runtime": 49,
+     "overview": "In 1941, Chester Nakayama finds himself caught between his insular Japanese American neighborhood on Terminal Island, California, and his current life as an all-American guy. When extreme circumstances push both his community and personal life to the brink, Chester must grapple with what kind of a man he wants to be, all while someone watches closely.",
+     "still_path": "/ktgfT6u05GbR0wTnWiR0nCBOM8s.jpg",
+     "vote_average": 5.333,
+     "vote_count": 24
+    },
+    {
+     "id": 1867575,
+     "episode_number": 2,
+     "name": "All the Demons Are Still in Hell",
+     "air_date": "2019-08-19",
+     "runtime": 41,
+     "overview": "After Pearl Harbor, the Terminal Islanders are evicted from their homes and must find shelter elsewhere. While Henry, separated from his family, faces injustice at the hands of the government, Chester engages in a paranoid search for answers.",
+     "still_path": "/a4ZsJwHXVsnXJKOVk0WdA3QldIx.jpg",
+     "vote_average": 5.136,
+     "vote_count": 22
+    },
+    {
+     "id": 1867576,
+     "episode_number": 3,
+     "name": "Gaman",
+     "air_date": "2019-08-26",
+     "runtime": 41,
+     "overview": "As the Terminal Islanders adjust to their new surroundings, Chester tries to provide for his family, while fending off the evil that follows him. Henry reels from the trauma of his imprisonment. Asako sees bad omens. Amy takes up a new job.",
+     "still_path": "/rhF4k44f3WKZIlj59X9AcRwLiTk.jpg",
+     "vote_average": 5.35,
+     "vote_count": 20
+    },
+    {
+     "id": 1867577,
+     "episode_number": 4,
+     "name": "The Weak Are Meat",
+     "air_date": "2019-09-02",
+     "runtime": 41,
+     "overview": "Chester, in search of a better life, is treated with hostility by his fellow Americans; Luz hopes to be accepted by Henry and Asako in their new home as the Japanese American community celebrates Obon, a festival to commemorate the dead.",
+     "still_path": "/sQpnWJzRmyY39OSEv7AuqNYHgBp.jpg",
+     "vote_average": 5.632,
+     "vote_count": 19
+    },
+    {
+     "id": 1867578,
+     "episode_number": 5,
+     "name": "Shatter Like a Pearl",
+     "air_date": "2019-09-09",
+     "runtime": 41,
+     "overview": "The Japanese Americans are forced to undertake a humiliating exercise that divides the community; Chester comes face to face with a man who forces him to question his very nature; Luz, stricken by grief, is forced to make an important choice.",
+     "still_path": "/hHtpLdlAGCvFn6j6N5aad6KD8xg.jpg",
+     "vote_average": 5.556,
+     "vote_count": 18
+    },
+    {
+     "id": 1867579,
+     "episode_number": 6,
+     "name": "Taizo",
+     "air_date": "2019-09-16",
+     "runtime": 41,
+     "overview": "A story of the past provides insight into the present evil that stalks the Terminal Islanders; Chester returns home to his family; Henry and Asako are faced with a difficult decision.",
+     "still_path": "/uYHfYMCjoBg0e67j8CLqz8NjRvW.jpg",
+     "vote_average": 5.471,
+     "vote_count": 17
+    },
+    {
+     "id": 1867580,
+     "episode_number": 7,
+     "name": "My Perfect World",
+     "air_date": "2019-09-23",
+     "runtime": 41,
+     "overview": "The Nakayamas have been torn apart; Chester searches for the person he believes can help, by any means necessary; an outbreak in the community forces Amy to act, though she's caught between doing what she's told and doing what's right.",
+     "still_path": "/aWBbHH8PxqheatoCAYtjyvSzIBV.jpg",
+     "vote_average": 4.889,
+     "vote_count": 18
+    },
+    {
+     "id": 1867581,
+     "episode_number": 8,
+     "name": "My Sweet Boy",
+     "air_date": "2019-09-30",
+     "runtime": 41,
+     "overview": "Chester and Luz have reached a turning point in their relationship; Amy must take matters into her own hands as she's tormented by a powerful nemesis; Chester meets a boy who gives him answers.",
+     "still_path": "/AozDGmldFdBm5VcMyrZteYjV0mJ.jpg",
+     "vote_average": 4.778,
+     "vote_count": 18
+    },
+    {
+     "id": 1867582,
+     "episode_number": 9,
+     "name": "Come and Get Me",
+     "air_date": "2019-10-07",
+     "runtime": 38,
+     "overview": "The Terminal Islanders return home to find that things have changed since they left; the Nakayamas, still tense from the pain they've inflicted on one another, must come together to battle the spirit that threatens their future.",
+     "still_path": "/kARwAoE5h5mRWsu0Kd83NimdQ4Q.jpg",
+     "vote_average": 5.167,
+     "vote_count": 18
+    },
+    {
+     "id": 1867583,
+     "episode_number": 10,
+     "name": "Into the Afterlife",
+     "air_date": "2019-10-14",
+     "runtime": 45,
+     "overview": "Henry and Asako look to the past to provide answers to their current turmoil; Chester and Luz grapple with their identities in hopes of saving those who are dearest to them; Amy and Yamato-san struggle to once again assimilate into American life.",
+     "still_path": "/iJDoUkyjAEHDL7JdhuMwHcfFEfW.jpg",
+     "vote_average": 5.316,
+     "vote_count": 19
+    }
+   ]
+  }
+ ]
+}

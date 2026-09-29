@@ -1,0 +1,29 @@
+{
+  "_not": "Taslak series gövdesi (POST /api/series için) — HENÜZ backend'e yazılmadı. Görseller kullanıcı onaylı (2026-09-29).",
+  "slug": "silo",
+  "title": "Silo",
+  "titleTr": "Silo",
+  "originalTitle": "Silo",
+  "synopsis": "Outside is a toxic wasteland, or so the ten thousand people living in a giant underground silo have always been told. Their world has 144 floors, strict rules about what can be asked and who can have children, and one law above all: anyone who says they want to go outside is sent out to die. Juliette, a mechanic who has spent her life fixing things down in the depths, becomes the sheriff after a series of deaths that nobody wants explained. Across three seasons, her search for the truth leads through a buried history, a rebellion, and a system built to make sure nobody ever finds out what is really going on.",
+  "synopsisTr": "Dışarısı zehirli bir çorak arazi; en azından dev bir yeraltı siloda yaşayan on bin kişiye hep böyle söylendi. Dünyaları 144 kattan oluşur; neyin sorulabileceğine ve kimin çocuk sahibi olabileceğine dair katı kuralları vardır ve hepsinin üstünde tek bir yasa durur: dışarı çıkmak istediğini söyleyen biri ölmeye gönderilir. Hayatını derinliklerde bir şeyleri onararak geçirmiş bir makinist olan Juliette, kimsenin açıklanmasını istemediği bir dizi ölümün ardından şerif olur. Üç sezon boyunca gerçeği arayışı onu gömülü bir tarihin, bir isyanın ve kimsenin gerçekte neler olup bittiğini asla öğrenmemesi için kurulmuş bir sistemin içinden geçirir.",
+  "firstAirDate": "2023-05-04",
+  "lastAirDate": "2026-09-03",
+  "status": "ONGOING",
+  "posterSourceUrl": "https://image.tmdb.org/t/p/original/2MOuSwzam4IUIBEvKUDBsQUtGtc.jpg",
+  "coverSourceUrl": "https://image.tmdb.org/t/p/original/uTWhbLc7Bj4qNSdW3ZvZKL8cOHv.jpg",
+  "logoSourceUrl": "https://image.tmdb.org/t/p/original/orJ5TfInOu5CzgFIDs4avqEg0wu.png",
+  "trailerUrl": null,
+  "contentRating": "TV-MA",
+  "originCountry": "US",
+  "originalLanguage": "en",
+  "externalRating": 8.22,
+  "externalVoteCount": 2739,
+  "imdbId": "tt14688458",
+  "tmdbId": 125988,
+  "franchiseId": null,
+  "genreIds": [
+    2,
+    5
+  ],
+  "producerIds": []
+}

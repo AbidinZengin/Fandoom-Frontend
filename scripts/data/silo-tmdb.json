@@ -1,0 +1,402 @@
+{
+ "tmdbId": 125988,
+ "imdbId": "tt14688458",
+ "name": "Silo",
+ "original_name": "Silo",
+ "first_air_date": "2023-05-04",
+ "last_air_date": "2026-09-03",
+ "status": "Returning Series",
+ "in_production": true,
+ "genres": [
+  "Sci-Fi & Fantasy",
+  "Drama"
+ ],
+ "origin_country": [
+  "US"
+ ],
+ "original_language": "en",
+ "vote_average": 8.22,
+ "vote_count": 2739,
+ "contentRating": "TV-MA",
+ "tagline": "The key to the future lies in the past.",
+ "overview": "In a ruined and toxic future, thousands live in a giant silo deep underground. After its sheriff breaks a cardinal rule and residents die mysteriously, engineer Juliette starts to uncover shocking secrets and the truth about the silo.",
+ "seasons": [
+  {
+   "season_number": 1,
+   "name": "Season 1",
+   "air_date": "2023-05-04",
+   "poster_path": "/ay0fwyIFEZ71NBXzyaN6d0OGxgu.jpg",
+   "overview": "In a bleak dystopian future, humanity clings to survival deep underground within the confines of a colossal silo. Juliette, an engineer tasked with unraveling the mystery behind the death of a colleague, uncovers startling secrets that threaten the very fabric of their enclosed world.",
+   "episodes": [
+    {
+     "id": 2964686,
+     "episode_number": 1,
+     "name": "Freedom Day",
+     "air_date": "2023-05-04",
+     "runtime": 62,
+     "overview": "Sheriff Becker's plans for the future are thrown off course after his wife meets a hacker with information about the silo.",
+     "still_path": "/rpZhJcWPpyLvPC5Vid61GD6JHVu.jpg",
+     "vote_average": 7.476,
+     "vote_count": 145
+    },
+    {
+     "id": 4281661,
+     "episode_number": 2,
+     "name": "Holston's Pick",
+     "air_date": "2023-05-04",
+     "runtime": 52,
+     "overview": "Juliette, an engineer, pieces together what might have led to a co-worker's mysterious death.",
+     "still_path": "/bRYHFClG8YkTJTy8fx73hgCd8Ac.jpg",
+     "vote_average": 7.333,
+     "vote_count": 132
+    },
+    {
+     "id": 4281667,
+     "episode_number": 3,
+     "name": "Machines",
+     "air_date": "2023-05-11",
+     "runtime": 66,
+     "overview": "In her hunt for a new sheriff, Mayor Jahns clashes with Bernard. Juliette strikes a deal to keep the generator running.",
+     "still_path": "/8hQB4jxk9ydj55Mrl9sY95smV7.jpg",
+     "vote_average": 7.464,
+     "vote_count": 126
+    },
+    {
+     "id": 4281669,
+     "episode_number": 4,
+     "name": "Truth",
+     "air_date": "2023-05-18",
+     "runtime": 49,
+     "overview": "Juliette tries gaining the trust of Deputy Marnes as they work to uncover the truth about recent tragedies.",
+     "still_path": "/x3fMuXhTx5f91tQgjXNzopo5B5g.jpg",
+     "vote_average": 6.942,
+     "vote_count": 121
+    },
+    {
+     "id": 4281672,
+     "episode_number": 5,
+     "name": "The Janitor's Boy",
+     "air_date": "2023-05-25",
+     "runtime": 54,
+     "overview": "Sims appoints Billings as chief deputy to keep tabs on Juliette, whose efforts to solve two murders lead to a showdown.",
+     "still_path": "/yzLUNo2jU82N5rdRG0xZ2A2ed79.jpg",
+     "vote_average": 6.887,
+     "vote_count": 115
+    },
+    {
+     "id": 4281674,
+     "episode_number": 6,
+     "name": "The Relic",
+     "air_date": "2023-06-01",
+     "runtime": 55,
+     "overview": "During her investigation, Juliette uncovers disturbing secrets about someone she thought she knew.",
+     "still_path": "/k5UxYAS4Xmcsn3GZdCklXGMIBMd.jpg",
+     "vote_average": 6.859,
+     "vote_count": 110
+    },
+    {
+     "id": 4281675,
+     "episode_number": 7,
+     "name": "The Flamekeepers",
+     "air_date": "2023-06-08",
+     "runtime": 51,
+     "overview": "Bernard seeks Juliette's cooperation as he grows increasingly concerned about the silo's security. Juliette asks her father for a favor.",
+     "still_path": "/ukzV8BZbjlIU6WOKdoZqhHMg2yi.jpg",
+     "vote_average": 7.174,
+     "vote_count": 112
+    },
+    {
+     "id": 4281676,
+     "episode_number": 8,
+     "name": "Hanna",
+     "air_date": "2023-06-15",
+     "runtime": 48,
+     "overview": "New information causes Juliette to see her family's past differently—and she finally gains access to the silo's biggest secrets.",
+     "still_path": "/sZaeOvZYS4evALQtm2wfC3eJxit.jpg",
+     "vote_average": 7.356,
+     "vote_count": 111
+    },
+    {
+     "id": 4281678,
+     "episode_number": 9,
+     "name": "The Getaway",
+     "air_date": "2023-06-22",
+     "runtime": 48,
+     "overview": "Racked with guilt, Billings sets off on a personal mission, only to discover a mind-blowing clue from Juliette.",
+     "still_path": "/mogTf95jiLdvSXwnjpQcIs6Wxh2.jpg",
+     "vote_average": 7.412,
+     "vote_count": 108
+    },
+    {
+     "id": 4281679,
+     "episode_number": 10,
+     "name": "Outside",
+     "air_date": "2023-06-29",
+     "runtime": 49,
+     "overview": "Juliette's fate seems sealed when certain truths finally come to light.",
+     "still_path": "/qcqkEv0S8Re5V2UV9LFUWzHYyq3.jpg",
+     "vote_average": 7.798,
+     "vote_count": 121
+    }
+   ]
+  },
+  {
+   "season_number": 2,
+   "name": "Season 2",
+   "air_date": "2024-11-14",
+   "poster_path": "/rY2LTYNkLdfWJAoa7whge0HGFik.jpg",
+   "overview": "Stranded outside her silo with a failing suit, Juliette Nichols races against time, stunned to find another silo nearby that could be her only hope for survival. Meanwhile, unrest brews inside her original silo as Bernard Holland rallies citizens to maintain order amid rising questions about their world. As Juliette faces unexpected dangers near the new silo, hidden truths about the silos’ origins and the world beyond begin to surface, deepening the mystery.",
+   "episodes": [
+    {
+     "id": 5501094,
+     "episode_number": 1,
+     "name": "The Engineer",
+     "air_date": "2024-11-14",
+     "runtime": 48,
+     "overview": "Juliette finds sanctuary in a silo long ago destroyed by war, thinking she's alone.",
+     "still_path": "/kB5wWdEknKlBJ8iGEYQyTJWTSZv.jpg",
+     "vote_average": 6.838,
+     "vote_count": 114
+    },
+    {
+     "id": 5501095,
+     "episode_number": 2,
+     "name": "Order",
+     "air_date": "2024-11-21",
+     "runtime": 42,
+     "overview": "In Silo 18, shock and unrest take hold in the wake of Juliette doing what no one's done before.",
+     "still_path": "/gB2lEpKUvTshTdq00IRjQHFgG4J.jpg",
+     "vote_average": 6.645,
+     "vote_count": 100
+    },
+    {
+     "id": 5501096,
+     "episode_number": 3,
+     "name": "Solo",
+     "air_date": "2024-11-26",
+     "runtime": 54,
+     "overview": "Bernard turns to Judge Meadows for help. Billings begins to wonder if he's being lied to. Juliette finally meets the man in the vault.",
+     "still_path": "/dY1nJnRuuhC0stZqNWShBYqk93H.jpg",
+     "vote_average": 6.862,
+     "vote_count": 98
+    },
+    {
+     "id": 5501098,
+     "episode_number": 4,
+     "name": "The Harmonium",
+     "air_date": "2024-12-05",
+     "runtime": 54,
+     "overview": "Juliette sets out on a dangerous quest to retrieve a suit so she can return home and save her silo. Mechanical plans a meeting with Judge Meadows.",
+     "still_path": "/lSsLzD8eVZaju4XUGmoTGSvZq2C.jpg",
+     "vote_average": 6.647,
+     "vote_count": 95
+    },
+    {
+     "id": 5501099,
+     "episode_number": 5,
+     "name": "Descent",
+     "air_date": "2024-12-12",
+     "runtime": 49,
+     "overview": "Sims finds himself with a new position. Juliette learns Solo isn't being honest. Bernard and Lukas make an important discovery.",
+     "still_path": "/y2KEcaL7GLj5uYXP0t7C0d0R5B6.jpg",
+     "vote_average": 6.451,
+     "vote_count": 92
+    },
+    {
+     "id": 5501101,
+     "episode_number": 6,
+     "name": "Barricades",
+     "air_date": "2024-12-19",
+     "runtime": 43,
+     "overview": "Bernard enacts a plan to root out Knox, Shirley, and Walker. Billings takes a stand. Solo saves Juliette's life and wants something in return.",
+     "still_path": "/aAPo83kOC5mfgcOado49ijWITVo.jpg",
+     "vote_average": 6.403,
+     "vote_count": 88
+    },
+    {
+     "id": 5501102,
+     "episode_number": 7,
+     "name": "The Dive",
+     "air_date": "2024-12-26",
+     "runtime": 51,
+     "overview": "Lukas is assigned a mission. Mechanical sends a powerful message. Juliette embarks on a perilous descent—and confronts a new danger.",
+     "still_path": "/z60fohHAWgfhpVjZRZq4M1Itw7Z.jpg",
+     "vote_average": 6.569,
+     "vote_count": 80
+    },
+    {
+     "id": 5501103,
+     "episode_number": 8,
+     "name": "The Book of Quinn",
+     "air_date": "2025-01-02",
+     "runtime": 47,
+     "overview": "Juliette discovers something's happened to Solo. Bernard makes an offer to Walker. Lukas meets with Salvador Quinn's descendants.",
+     "still_path": "/krzYmEQZ3ugR5MFqOMQJrv2pcnh.jpg",
+     "vote_average": 6.269,
+     "vote_count": 78
+    },
+    {
+     "id": 5501104,
+     "episode_number": 9,
+     "name": "The Safeguard",
+     "air_date": "2025-01-09",
+     "runtime": 59,
+     "overview": "Billings' faith is shaken. Lukas heads to the down deep. Knox identifies the traitor. Juliette uncovers the truth about Solo's past.",
+     "still_path": "/aNgT4AEffmGwiabRD03riCz1aWr.jpg",
+     "vote_average": 6.929,
+     "vote_count": 78
+    },
+    {
+     "id": 5501105,
+     "episode_number": 10,
+     "name": "Into the Fire",
+     "air_date": "2025-01-16",
+     "runtime": 59,
+     "overview": "The rebels make their move—and so does Juliette.",
+     "still_path": "/coz4XyEQ59IbkJ3UYB9Nr8UW8ur.jpg",
+     "vote_average": 7.202,
+     "vote_count": 94
+    }
+   ]
+  },
+  {
+   "season_number": 3,
+   "name": "Season 3",
+   "air_date": "2026-07-02",
+   "poster_path": "/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+   "overview": "Season three reveals an origin story set centuries earlier, while continuing the saga of a dystopian society of 10,000 people living underground under mysterious circumstances. In the present, Juliette Nichols survives her forced \"cleaning\" but returns with memory loss as the silo recovers from rebellion and faces a dangerous new threat. Meanwhile, in the \"Before Times,\" journalist Helen Drew and Congressman Daniel Keene uncover a conspiracy that pulls them into a chain of events with catastrophic, irreversible consequences.",
+   "episodes": [
+    {
+     "id": 7173957,
+     "episode_number": 1,
+     "name": "Who Are You?",
+     "air_date": "2026-07-02",
+     "runtime": 56,
+     "overview": "New mayor Juliette can't remember anything from her time outside—or her past.",
+     "still_path": "/nIvrv95n7gukebcCEUeZJDy9iEp.jpg",
+     "vote_average": 6.977,
+     "vote_count": 88
+    },
+    {
+     "id": 7173958,
+     "episode_number": 2,
+     "name": "It's All Good",
+     "air_date": "2026-07-09",
+     "runtime": 51,
+     "overview": "Billings investigates a disappearance. Daniel Keene has a run-in with a reporter.",
+     "still_path": "/u4kB03bgyjnwDEIpBkpjqTvdcbz.jpg",
+     "vote_average": 6.671,
+     "vote_count": 76
+    },
+    {
+     "id": 7173959,
+     "episode_number": 3,
+     "name": "A Dark Web",
+     "air_date": "2026-07-16",
+     "runtime": 49,
+     "overview": "Juliette takes control of her recovery process. Helen suffers consequences of her investigation.",
+     "still_path": "/rlfEJJlIAlFEcw6nNfYpyNUbTPR.jpg",
+     "vote_average": 6.555,
+     "vote_count": 73
+    },
+    {
+     "id": 7173960,
+     "episode_number": 4,
+     "name": "Whatever You Do, Don't Go Home",
+     "air_date": "2026-07-23",
+     "runtime": 48,
+     "overview": "The race to evade Camille leads Juliette to a shocking discovery. Daniel seeks help from a friend.",
+     "still_path": "/pYnJjrdS64krUWUAGB4ckZsqN1r.jpg",
+     "vote_average": 6.873,
+     "vote_count": 67
+    },
+    {
+     "id": 7173961,
+     "episode_number": 5,
+     "name": "Memory",
+     "air_date": "2026-07-30",
+     "runtime": 52,
+     "overview": "The events following Juliette's return come to light—and unexpected allies are made.",
+     "still_path": "/zcbjuLkbVPHSphOHClKQM0v1Zjf.jpg",
+     "vote_average": 7.148,
+     "vote_count": 64
+    },
+    {
+     "id": 7173962,
+     "episode_number": 6,
+     "name": "The Drive",
+     "air_date": "2026-08-06",
+     "runtime": 55,
+     "overview": "Billings and Hank stumble on a new mystery. Daniel and Helen receive a surprising proposition.",
+     "still_path": "/hCUVzq1FghJlS75KIG2Ttxua4AL.jpg",
+     "vote_average": 6.698,
+     "vote_count": 63
+    },
+    {
+     "id": 7173963,
+     "episode_number": 7,
+     "name": "Radio",
+     "air_date": "2026-08-13",
+     "runtime": 55,
+     "overview": "Juliette sends Lukas and Kennedy on a mission, as a desperate Camille threatens Robert to tell the truth.",
+     "still_path": "/hT47PUyS6fQrmukmbyXrL9nBgKc.jpg",
+     "vote_average": 7.21,
+     "vote_count": 62
+    },
+    {
+     "id": 7173964,
+     "episode_number": 8,
+     "name": "Gray Goo",
+     "air_date": "2026-08-20",
+     "runtime": 56,
+     "overview": "Knox's father Gus comes clean about a secret. Charlotte makes a life-changing decision.",
+     "still_path": "/qZiRIiFbjCSttNe3uNHsi6hoxWV.jpg",
+     "vote_average": 7.433,
+     "vote_count": 60
+    },
+    {
+     "id": 7173965,
+     "episode_number": 9,
+     "name": "Farewell",
+     "air_date": "2026-08-27",
+     "runtime": 62,
+     "overview": "The entire silo is stunned by an announcement from Camille. Daniel and Helen attend a special event.",
+     "still_path": "/fl5tbMRYYQ6eWEuU5E5wN3qRXrK.jpg",
+     "vote_average": 8.217,
+     "vote_count": 60
+    },
+    {
+     "id": 7173966,
+     "episode_number": 10,
+     "name": "Troy",
+     "air_date": "2026-09-03",
+     "runtime": 61,
+     "overview": "A leader wakes to a new world.",
+     "still_path": "/cWfqa602Kcka7zRaLMq9TRhLJkH.jpg",
+     "vote_average": 8.679,
+     "vote_count": 56
+    }
+   ]
+  },
+  {
+   "season_number": 4,
+   "name": "Season 4",
+   "air_date": "2027-07-08",
+   "poster_path": null,
+   "overview": "",
+   "episodes": [
+    {
+     "id": 7768410,
+     "episode_number": 1,
+     "name": "Episode 1",
+     "air_date": "2027-07-08",
+     "runtime": null,
+     "overview": "",
+     "still_path": null,
+     "vote_average": 0,
+     "vote_count": 0
+    }
+   ]
+  }
+ ]
+}

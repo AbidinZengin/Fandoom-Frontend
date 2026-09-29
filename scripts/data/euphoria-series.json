@@ -1,0 +1,28 @@
+{
+  "_not": "Taslak series gövdesi (POST /api/series için) — HENÜZ backend'e yazılmadı. Görseller kullanıcı onaylı (2026-09-29).",
+  "slug": "euphoria",
+  "title": "Euphoria",
+  "titleTr": "Euphoria",
+  "originalTitle": "Euphoria",
+  "synopsis": "Rue Bennett comes home from rehab with no intention of staying clean, and the first person she finds is her dealer. Then a new girl called Jules turns up at a party, and for the first time in years Rue has something to want that isn't a pill. Across three seasons, this glossy, bruised HBO drama follows a circle of friends through addiction, obsession, betrayal and the pressure to perform a perfect life online, tracing how the choices they make as teenagers harden into the lives they end up living. It is loud, beautiful and often hard to watch, and it never pretends that survival is the same thing as being okay.",
+  "synopsisTr": "Rue Bennett rehabilitasyondan ayık kalmaya niyeti olmadan döner ve ilk bulduğu kişi satıcısı olur. Sonra bir partide Jules adında yeni bir kız belirir ve Rue yıllar sonra ilk kez bir hapdan başka bir şeyi istemeye başlar. Üç sezon boyunca bu parlak ve yaralı HBO draması, bir arkadaş çevresini bağımlılığın, takıntının, ihanetin ve internette kusursuz bir hayat oynama baskısının içinden geçirir; gençken verilen kararların nasıl yaşanan hayata dönüştüğünü izler. Yüksek sesli, güzel ve çoğu zaman izlemesi zor bir dizi; hayatta kalmanın iyi olmakla aynı şey olmadığını hiç saklamaz.",
+  "firstAirDate": "2019-06-16",
+  "lastAirDate": "2026-05-31",
+  "status": "ENDED",
+  "posterSourceUrl": "https://image.tmdb.org/t/p/original/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+  "coverSourceUrl": "https://image.tmdb.org/t/p/original/oKt4J3TFjWirVwBqoHyIvv5IImd.jpg",
+  "logoSourceUrl": "https://image.tmdb.org/t/p/original/hp9ztcz0fMyztCKeQmNQg0F5dao.png",
+  "trailerUrl": null,
+  "contentRating": "TV-MA",
+  "originCountry": "US",
+  "originalLanguage": "en",
+  "externalRating": 8.3,
+  "externalVoteCount": 11097,
+  "imdbId": "tt8772296",
+  "tmdbId": 85552,
+  "franchiseId": null,
+  "genreIds": [
+    2
+  ],
+  "producerIds": []
+}

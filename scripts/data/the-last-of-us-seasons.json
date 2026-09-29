@@ -1,0 +1,228 @@
+{
+  "seasons": [
+    {
+      "seasonNumber": 1,
+      "title": "Season 1",
+      "titleTr": "Sezon 1",
+      "airDate": "2023-01-15",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "When You're Lost in the Darkness",
+          "titleTr": "When You're Lost in the Darkness",
+          "airDate": "2023-01-15",
+          "durationMinutes": 81,
+          "synopsis": "On the day the outbreak begins, Joel loses something he never recovers from. Twenty years later he smuggles goods through a quarantine zone in Boston, until a resistance leader offers him a truck in return for taking a teenage girl out of the city. The job goes wrong at the first checkpoint.",
+          "synopsisTr": "Salgının başladığı gün Joel, hiç toparlanamayacağı bir şeyi kaybeder. Yirmi yıl sonra Boston karantina bölgesinde kaçakçılık yapar; bir direniş lideri ona bir kamyon karşılığında genç bir kızı şehirden çıkarmasını önerir. İş ilk kontrol noktasında ters gider.",
+          "externalRating": 8.3,
+          "externalVoteCount": 348,
+          "tmdbId": 2181581,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/3VeY1k8wFyhcrMyQ8jpGegh9beU.jpg"
+        },
+        {
+          "episodeNumber": 2,
+          "title": "Infected",
+          "titleTr": "Infected",
+          "airDate": "2023-01-22",
+          "durationMinutes": 53,
+          "synopsis": "An opening in Jakarta shows a scientist reaching a grim conclusion about the fungus before anyone else. In Boston, Joel and Ellie cross a ruined city, and the people who hired them begin to understand what Ellie might be. A hard choice is forced on one of them.",
+          "synopsisTr": "Cakarta'daki bir açılış, bir bilim insanının mantar hakkında başkalarından önce vardığı karanlık sonucu gösterir. Boston'da Joel ve Ellie yıkılmış bir şehri geçer; onları tutanlar Ellie'nin ne olabileceğini anlamaya başlar. İçlerinden biri zor bir seçime zorlanır.",
+          "externalRating": 8.1,
+          "externalVoteCount": 308,
+          "tmdbId": 4071039,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/vGf7chl6XL7o3yYc8A5m3kjz8px.jpg"
+        },
+        {
+          "episodeNumber": 3,
+          "title": "Long, Long Time",
+          "titleTr": "Long, Long Time",
+          "airDate": "2023-01-29",
+          "durationMinutes": 77,
+          "synopsis": "Joel and Ellie reach a fortified town run by two men who have made a life out of surviving alone. A long flashback tells how they found one another and what it cost. The stop leaves Joel with a reluctant promise to take Ellie further than he ever meant to.",
+          "synopsisTr": "Joel ve Ellie, tek başına hayatta kalmayı yaşam biçimine dönüştürmüş iki adamın yönettiği tahkim edilmiş bir kasabaya varır. Uzun bir geri dönüş, birbirlerini nasıl bulduklarını ve bunun neye mal olduğunu anlatır. Bu durak, Joel'un Ellie'yi hiç niyet etmediği kadar uzağa götürmeye dair isteksiz bir söz vermesiyle biter.",
+          "externalRating": 7.1,
+          "externalVoteCount": 376,
+          "tmdbId": 4071040,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/fmaiMjbLXaeRyq2so0EXf3hrpyc.jpg"
+        },
+        {
+          "episodeNumber": 4,
+          "title": "Please Hold to My Hand",
+          "titleTr": "Please Hold to My Hand",
+          "airDate": "2023-02-05",
+          "durationMinutes": 47,
+          "synopsis": "Near Kansas City, raiders ambush Joel and Ellie, and Ellie shows she can hold her own. Joel begins teaching her how to shoot. A local leader is hunting someone across the city, and two strangers finish the episode by catching the pair off guard.",
+          "synopsisTr": "Kansas City yakınlarında haydutlar Joel ve Ellie'ye pusu kurar ve Ellie kendini savunabildiğini gösterir. Joel ona ateş etmeyi öğretmeye başlar. Yerel bir lider şehirde birini arıyordur; bölüm, iki yabancının ikiliyi hazırlıksız yakalamasıyla biter.",
+          "externalRating": 7.6,
+          "externalVoteCount": 258,
+          "tmdbId": 4071041,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/nYPkaj0a5m4Y9xHdDADtnzh6zOL.jpg"
+        },
+        {
+          "episodeNumber": 5,
+          "title": "Endure and Survive",
+          "titleTr": "Endure and Survive",
+          "airDate": "2023-02-12",
+          "durationMinutes": 60,
+          "synopsis": "The strangers turn out to be two brothers, and a wary truce lets all four try to slip out through the tunnels. Ellie and the younger brother find an unlikely friendship. A hard choice made earlier by the older one catches up with them at the worst possible time.",
+          "synopsisTr": "Yabancıların iki kardeş olduğu ortaya çıkar ve temkinli bir ateşkes dördünün de tünellerden sıvışmasına izin verir. Ellie ile küçük kardeş beklenmedik bir dostluk kurar. Büyük kardeşin daha önce verdiği zor bir karar, en kötü anda onları yakalar.",
+          "externalRating": 8.2,
+          "externalVoteCount": 249,
+          "tmdbId": 4071042,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/ztzxqW4IAVQRVimxhIfryP4CuI9.jpg"
+        },
+        {
+          "episodeNumber": 6,
+          "title": "Kin",
+          "titleTr": "Kin",
+          "airDate": "2023-02-19",
+          "durationMinutes": 61,
+          "synopsis": "Joel and Ellie reach a thriving settlement in Wyoming, where Joel's brother is waiting. Ellie learns something about Joel's past, and Joel considers leaving her behind. They set out again together toward the next stage of the journey.",
+          "synopsisTr": "Joel ve Ellie, Joel'un kardeşinin beklediği Wyoming'deki gelişen bir yerleşime ulaşır. Ellie, Joel'un geçmişi hakkında bir şey öğrenir ve Joel onu geride bırakmayı düşünür. Yolculuğun bir sonraki aşamasına doğru yeniden birlikte yola çıkarlar.",
+          "externalRating": 8,
+          "externalVoteCount": 229,
+          "tmdbId": 4071043,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/zW9AIy0PVhYfmukqBcUvlvi4mKc.jpg"
+        },
+        {
+          "episodeNumber": 7,
+          "title": "Left Behind",
+          "titleTr": "Left Behind",
+          "airDate": "2023-02-26",
+          "durationMinutes": 57,
+          "synopsis": "With Joel wounded and helpless, Ellie has to carry them both. Flashbacks tell the story of the friend who once showed her what it felt like to be seen, and what a single night in an abandoned mall meant to the two of them. In the present she has to stitch a wound with hands that are still shaking.",
+          "synopsisTr": "Joel yaralı ve çaresizken Ellie ikisini de taşımak zorundadır. Geri dönüşler, ona bir zamanlar görülmenin nasıl bir şey olduğunu hissettiren arkadaşın hikâyesini ve terk edilmiş bir alışveriş merkezindeki tek bir gecenin ikisi için ne anlama geldiğini anlatır. Şimdiki zamanda Ellie, hâlâ titreyen elleriyle bir yarayı dikmek zorundadır.",
+          "externalRating": 6.6,
+          "externalVoteCount": 239,
+          "tmdbId": 4071045,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/oNyC68bnOoVAiJnKVsRNY9YDbl6.jpg"
+        },
+        {
+          "episodeNumber": 8,
+          "title": "When We Are in Need",
+          "titleTr": "When We Are in Need",
+          "airDate": "2023-03-05",
+          "durationMinutes": 52,
+          "synopsis": "Alone in winter, Ellie bargains with a preacher over medicine for Joel and finds out too late what kind of man he is. The community that follows her is far more dangerous than any infected. What she has to do to survive changes her, and Joel finds her afterwards.",
+          "synopsisTr": "Kışın yalnız kalan Ellie, Joel'un ilacı için bir vaizle pazarlık eder ve onun nasıl bir adam olduğunu çok geç öğrenir. Onu izleyen topluluk herhangi bir enfekteden çok daha tehlikelidir. Hayatta kalmak için yapmak zorunda kaldıkları onu değiştirir ve Joel sonrasında onu bulur.",
+          "externalRating": 8.1,
+          "externalVoteCount": 220,
+          "tmdbId": 4071046,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/iNbhbEOt1KAeqr5iyL9QOAZzgzT.jpg"
+        },
+        {
+          "episodeNumber": 9,
+          "title": "Look for the Light",
+          "titleTr": "Look for the Light",
+          "airDate": "2023-03-12",
+          "durationMinutes": 46,
+          "synopsis": "A flashback shows the night Ellie was born. In the present, Joel and Ellie finally reach their destination, where Joel learns what the cure will cost. What he does next, and the lie he tells her afterwards, will shape everything that follows.",
+          "synopsisTr": "Bir geri dönüş, Ellie'nin doğduğu geceyi gösterir. Şimdiki zamanda Joel ve Ellie sonunda varış noktasına ulaşır ve Joel tedavinin neye mal olacağını öğrenir. Sonra yaptığı şey ve ardından ona söylediği yalan, olacak her şeyi belirler.",
+          "externalRating": 8,
+          "externalVoteCount": 219,
+          "tmdbId": 4071047,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/4WZ9E8IGl9tkka9JPh325Lc1kfh.jpg"
+        }
+      ]
+    },
+    {
+      "seasonNumber": 2,
+      "title": "Season 2",
+      "titleTr": "Sezon 2",
+      "airDate": "2025-04-13",
+      "episodes": [
+        {
+          "episodeNumber": 1,
+          "title": "Future Days",
+          "titleTr": "Future Days",
+          "airDate": "2025-04-13",
+          "durationMinutes": 59,
+          "synopsis": "Five years later, Joel and Ellie live in Jackson with a truce between them that never quite feels like peace. A dance, a kiss and an argument tell us where each of them stands. Far from town, people from Joel's past begin to move toward the settlement.",
+          "synopsisTr": "Beş yıl sonra Joel ve Ellie, aralarında asla tam barışa dönüşmeyen bir ateşkesle Jackson'da yaşar. Bir dans, bir öpücük ve bir tartışma her birinin nerede durduğunu gösterir. Kasabadan uzakta, Joel'un geçmişinden insanlar yerleşime doğru ilerlemeye başlar.",
+          "externalRating": 6.9,
+          "externalVoteCount": 175,
+          "tmdbId": 5517228,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/rNTeUQ0C2eRyOlSoPToHV3adTYb.jpg"
+        },
+        {
+          "episodeNumber": 2,
+          "title": "Through the Valley",
+          "titleTr": "Through the Valley",
+          "airDate": "2025-04-20",
+          "durationMinutes": 57,
+          "synopsis": "A massive horde bears down on Jackson while the settlement scrambles to defend itself. The cost is high. In a lodge nearby, someone finally confronts Joel about the past, and Ellie watches something she can never take back.",
+          "synopsisTr": "Devasa bir sürü Jackson'a doğru ilerlerken yerleşim kendini savunmak için koşuşturur. Bedel ağır olur. Yakındaki bir kulübede biri sonunda Joel'la geçmişi hakkında yüzleşir ve Ellie, geri alamayacağı bir şeye tanık olur.",
+          "externalRating": 7.7,
+          "externalVoteCount": 170,
+          "tmdbId": 5517229,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/y5hH64UU5QSbsVOarLsdk0sD5Rm.jpg"
+        },
+        {
+          "episodeNumber": 3,
+          "title": "The Path",
+          "titleTr": "The Path",
+          "airDate": "2025-04-27",
+          "durationMinutes": 57,
+          "synopsis": "Three months on, Ellie is still consumed by what happened. She decides to go after those responsible, and Dina refuses to let her go alone. They set out for Seattle, and along the way find evidence that the city is more dangerous than either had imagined.",
+          "synopsisTr": "Üç ay sonra Ellie olanların içinde hâlâ kaybolmuş durumdadır. Sorumluların peşine düşmeye karar verir ve Dina onun yalnız gitmesine izin vermez. Seattle'a doğru yola çıkarlar; yolda şehrin ikisinin de hayal ettiğinden daha tehlikeli olduğuna dair izler bulurlar.",
+          "externalRating": 6.2,
+          "externalVoteCount": 140,
+          "tmdbId": 5994269,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/naQJx4p1H8pjnS2fntzK6Jtcak9.jpg"
+        },
+        {
+          "episodeNumber": 4,
+          "title": "Day One",
+          "titleTr": "Day One",
+          "airDate": "2025-05-04",
+          "durationMinutes": 53,
+          "synopsis": "A flashback shows how a former soldier ended up leading one of Seattle's factions. In the present, Ellie and Dina take shelter and grow closer while exploring a city full of things they do not understand. A confession changes what both of them think they are doing there.",
+          "synopsisTr": "Bir geri dönüş, eski bir askerin Seattle'ın gruplarından birini yönetmeye nasıl geldiğini gösterir. Şimdiki zamanda Ellie ve Dina, anlamadıkları şeylerle dolu bir şehri keşfederken sığınır ve yakınlaşır. Bir itiraf, ikisinin orada ne yaptıklarını düşündüklerini değiştirir.",
+          "externalRating": 6.2,
+          "externalVoteCount": 129,
+          "tmdbId": 5994270,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/agq0JjJXYJclLH7iQWmVJxUb0CV.jpg"
+        },
+        {
+          "episodeNumber": 5,
+          "title": "Feel Her Love",
+          "titleTr": "Feel Her Love",
+          "airDate": "2025-05-11",
+          "durationMinutes": 45,
+          "synopsis": "Ellie and Dina go looking for someone in a hospital, and the trip takes them into places where their enemies have already been. Ellie pushes further than she planned, and what she does to get an answer stays with her. The episode closes on a memory of Joel.",
+          "synopsisTr": "Ellie ve Dina bir hastanede birini aramaya gider ve yolculuk onları düşmanlarının çoktan geçtiği yerlere götürür. Ellie planladığından daha ileri gider ve bir cevap almak için yaptığı şey onunla kalır. Bölüm, Joel'a dair bir anıyla kapanır.",
+          "externalRating": 6.4,
+          "externalVoteCount": 110,
+          "tmdbId": 5994271,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/o79Zkjoe2bNKslh8Dr7mcm8gyg.jpg"
+        },
+        {
+          "episodeNumber": 6,
+          "title": "The Price",
+          "titleTr": "The Price",
+          "airDate": "2025-05-18",
+          "durationMinutes": 60,
+          "synopsis": "A long flashback follows Ellie through the years after the first season, through birthdays, small acts of tenderness and a growing distance from Joel. The past also brings out what she never knew about what Joel did to protect her, and what he refused to regret.",
+          "synopsisTr": "Uzun bir geri dönüş, Ellie'yi ilk sezondan sonraki yıllarda, doğum günlerinden, küçük şefkat anlarından ve Joel'dan giderek artan mesafeden geçirir. Geçmiş ayrıca Joel'un onu korumak için yaptıklarını ve pişman olmayı reddettiği şeyi gün yüzüne çıkarır.",
+          "externalRating": 6.7,
+          "externalVoteCount": 111,
+          "tmdbId": 5994272,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/iyqiOrn1253erbEpX9UeSPYXhTh.jpg"
+        },
+        {
+          "episodeNumber": 7,
+          "title": "Convergence",
+          "titleTr": "Convergence",
+          "airDate": "2025-05-25",
+          "durationMinutes": 50,
+          "synopsis": "Ellie is shaken by what she has already done, and the search for the people she is after leads her to a place where everything comes to a head. An ambush changes the odds for everyone. The episode ends on a gunshot and a cut backward in time.",
+          "synopsisTr": "Ellie daha önce yaptıklarıyla sarsılır ve peşinde olduğu insanların araştırması onu her şeyin düğümlendiği bir yere götürür. Bir pusu herkesin şansını değiştirir. Bölüm bir silah sesiyle ve zamanda geriye bir kesmeyle biter.",
+          "externalRating": 6.2,
+          "externalVoteCount": 106,
+          "tmdbId": 5994273,
+          "stillSourceUrl": "https://image.tmdb.org/t/p/original/5xCYzdb4ASjn6wZQr5esz5aRf5U.jpg"
+        }
+      ]
+    }
+  ]
+}

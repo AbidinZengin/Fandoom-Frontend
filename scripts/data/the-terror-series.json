@@ -1,0 +1,30 @@
+{
+  "_not": "Taslak series gövdesi (POST /api/series için) — HENÜZ backend'e yazılmadı. Görseller kullanıcı onaylı (2026-09-29).",
+  "slug": "the-terror",
+  "title": "The Terror",
+  "titleTr": "The Terror",
+  "originalTitle": "The Terror",
+  "synopsis": "An anthology of slow, patient horror in which the real terror is what people do to each other once they are cut off from everything that used to hold them together. The first season follows the doomed Franklin expedition of 1845, two ships frozen into the Arctic ice while starvation, bad food, and a creature out of Inuit legend take the crew one by one. The second season moves to 1942 California, where the Japanese American community of Terminal Island is uprooted and sent to an internment camp, and a vengeful spirit follows one family into it. Both are period pieces built on real disasters, and both ask what survival costs.",
+  "synopsisTr": "Yavaş ve sabırlı bir korkunun antolojisi; asıl dehşet, insanların kendilerini bir arada tutan her şeyden koptuklarında birbirlerine yaptıklarıdır. İlk sezon, 1845'teki kaderi belli Franklin seferini izler: iki gemi Arktik buzuna hapsolmuştur, açlık, bozuk yiyecek ve Inuit efsanesinden çıkmış bir yaratık mürettebatı tek tek alır. İkinci sezon 1942 Kaliforniyası'na geçer; Terminal Island'daki Japon Amerikalı topluluk yerinden edilip bir enterne kampına gönderilir ve intikamcı bir ruh bir aileyi kampa kadar izler. İkisi de gerçek felaketlere dayanan dönem hikâyeleri ve ikisi de hayatta kalmanın neye mal olduğunu sorar.",
+  "firstAirDate": "2018-03-26",
+  "lastAirDate": "2019-10-14",
+  "status": "ENDED",
+  "posterSourceUrl": "https://image.tmdb.org/t/p/original/fUVn5mScv83FfwrRUUR694yA7bd.jpg",
+  "coverSourceUrl": "https://image.tmdb.org/t/p/original/ssyZgYScV9eClakZDwu4sPrgMmy.jpg",
+  "logoSourceUrl": "https://image.tmdb.org/t/p/original/A0zSekpeo39bD1LTfzKFyJb3bBg.png",
+  "trailerUrl": null,
+  "contentRating": "TV-14",
+  "originCountry": "US",
+  "originalLanguage": "en",
+  "externalRating": 7.4,
+  "externalVoteCount": 1053,
+  "imdbId": "tt2708480",
+  "tmdbId": 75191,
+  "franchiseId": null,
+  "genreIds": [
+    2,
+    6,
+    8
+  ],
+  "producerIds": []
+}

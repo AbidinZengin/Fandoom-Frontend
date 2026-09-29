@@ -1,0 +1,32 @@
+{
+  "_not": "Taslak series gövdesi (POST /api/series için) — HENÜZ backend'e yazılmadı. Görseller kullanıcı onaylı (poster P3, cover B6, logo L3, 2026-09-29).",
+  "slug": "invincible",
+  "title": "Invincible",
+  "titleTr": "Invincible",
+  "originalTitle": "Invincible",
+  "synopsis": "Mark Grayson is seventeen and the son of the most celebrated hero on Earth, the near-invincible Omni-Man. When his own powers finally kick in, he expects a life of flying, fighting and following in his father's footsteps. Instead, he learns that the man he idolises has kept a secret that puts the entire planet at stake, and that being a hero is less about strength than about what you are prepared to lose. Across four seasons, this adult animated series follows Mark through betrayal, grief, alien wars and a dangerous new sense of his own power, mixing graphic violence with an unusually tender family drama.",
+  "synopsisTr": "Mark Grayson on yedi yaşında ve Dünya'nın en ünlü kahramanı, neredeyse yenilmez Omni-Man'in oğlu. Kendi güçleri de sonunda ortaya çıktığında uçmakla, dövüşmekle ve babasının izinde yürümekle geçecek bir hayat bekler. Onun yerine, hayranlık duyduğu adamın bütün gezegeni tehlikeye atan bir sır sakladığını ve kahraman olmanın güçten çok, neyi kaybetmeye razı olduğunla ilgili olduğunu öğrenir. Dört sezon boyunca bu yetişkin animasyon dizisi, Mark'ı ihanetin, yasın, uzaylı savaşlarının ve kendi gücüne dair tehlikeli yeni bir farkındalığın içinden geçirir; çarpıcı şiddeti alışılmadık ölçüde yumuşak bir aile draması ile harmanlar.",
+  "firstAirDate": "2021-03-25",
+  "lastAirDate": "2026-04-22",
+  "status": "ONGOING",
+  "posterSourceUrl": "https://image.tmdb.org/t/p/original/lxVS24ZhG3WQf3IMbkFIg6olT6A.jpg",
+  "coverSourceUrl": "https://image.tmdb.org/t/p/original/9qrroces8C6R9aKr08hACNPVXdZ.jpg",
+  "logoSourceUrl": "https://image.tmdb.org/t/p/original/cxmablg3d7nqpzBOyHE6a0DNAAw.png",
+  "trailerUrl": null,
+  "contentRating": "TV-MA",
+  "originCountry": "US",
+  "originalLanguage": "en",
+  "externalRating": 8.63,
+  "externalVoteCount": 6089,
+  "imdbId": "tt6741278",
+  "tmdbId": 95557,
+  "franchiseId": null,
+  "genreIds": [
+    2,
+    3,
+    4,
+    5,
+    11
+  ],
+  "producerIds": []
+}

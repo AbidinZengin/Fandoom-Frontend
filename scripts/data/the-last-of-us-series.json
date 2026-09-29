@@ -1,0 +1,30 @@
+{
+  "_not": "Taslak series gövdesi (POST /api/series için) — HENÜZ backend'e yazılmadı. Görseller kullanıcı onaylı (2026-09-29).",
+  "slug": "the-last-of-us",
+  "title": "The Last of Us",
+  "titleTr": "The Last of Us",
+  "originalTitle": "The Last of Us",
+  "synopsis": "A fungus has turned much of humanity into something that no longer looks back at you, and twenty years on the survivors live behind military walls or in the wild. Joel, a smuggler who lost his daughter on the first day of the outbreak, is paid to move a fourteen-year-old girl named Ellie across a broken America. She may be the one person who can end the disease, and the trip forces a hard man to care about something again. The series pairs its infected with something colder and more human, and keeps asking what people will do to protect the ones they love once the rules have gone.",
+  "synopsisTr": "Bir mantar insanlığın büyük kısmını artık size bakmayan bir şeye dönüştürmüş ve yirmi yıl sonra hayatta kalanlar ya askeri duvarların arkasında ya da vahşi doğada yaşıyor. Salgının ilk gününde kızını kaybeden kaçakçı Joel, on dört yaşındaki Ellie'yi yıkılmış bir Amerika'dan geçirmesi için tutulur. Ellie hastalığı bitirebilecek tek kişi olabilir ve bu yolculuk sertleşmiş bir adamı yeniden bir şeyi önemsemeye zorlar. Dizi, enfekte olmuşları çok daha soğuk ve insani bir şeyle eşleştirir ve kurallar ortadan kalktığında insanların sevdiklerini korumak için neler yapabileceğini sormayı sürdürür.",
+  "firstAirDate": "2023-01-15",
+  "lastAirDate": "2025-05-25",
+  "status": "ONGOING",
+  "posterSourceUrl": "https://image.tmdb.org/t/p/original/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg",
+  "coverSourceUrl": "https://image.tmdb.org/t/p/original/lY2DhbA7Hy44fAKddr06UrXWWaQ.jpg",
+  "logoSourceUrl": "https://image.tmdb.org/t/p/original/msYtgZbEo8tAOJ37T50kgqulpKf.png",
+  "trailerUrl": null,
+  "contentRating": "TV-MA",
+  "originCountry": "US",
+  "originalLanguage": "en",
+  "externalRating": 8.405,
+  "externalVoteCount": 7373,
+  "imdbId": "tt3581920",
+  "tmdbId": 100088,
+  "franchiseId": null,
+  "genreIds": [
+    2,
+    5,
+    8
+  ],
+  "producerIds": []
+}

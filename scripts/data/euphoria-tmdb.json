@@ -1,0 +1,315 @@
+{
+ "tmdbId": 85552,
+ "imdbId": "tt8772296",
+ "name": "Euphoria",
+ "original_name": "Euphoria",
+ "first_air_date": "2019-06-16",
+ "last_air_date": "2026-05-31",
+ "status": "Ended",
+ "in_production": false,
+ "genres": [
+  "Drama"
+ ],
+ "origin_country": [
+  "US"
+ ],
+ "original_language": "en",
+ "vote_average": 8.3,
+ "vote_count": 11097,
+ "contentRating": "TV-MA",
+ "tagline": "Feel something.",
+ "overview": "A group of high school students navigate love and friendships in a world of drugs, sex, trauma, and social media.",
+ "seasons": [
+  {
+   "season_number": 1,
+   "name": "Season 1",
+   "air_date": "2019-06-16",
+   "poster_path": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
+   "overview": "A group of high school students navigate love and friendships in a world of drugs, sex, trauma, and social media.",
+   "episodes": [
+    {
+     "id": 1662883,
+     "episode_number": 1,
+     "name": "Pilot",
+     "air_date": "2019-06-16",
+     "runtime": 54,
+     "overview": "Seventeen-year-old Rue returns home from rehab with no plans to stay clean.",
+     "still_path": "/u59av3aNA9zLXxBvy40hAQzJ2Hw.jpg",
+     "vote_average": 7.859,
+     "vote_count": 230
+    },
+    {
+     "id": 1791486,
+     "episode_number": 2,
+     "name": "Stuntin' Like My Daddy",
+     "air_date": "2019-06-23",
+     "runtime": 61,
+     "overview": "On the first day of school, Rue has a new friend, Jules, but struggles to put the past behind her.",
+     "still_path": "/4NCKs8RMxevYrBzuqGI4usEprUL.jpg",
+     "vote_average": 7.572,
+     "vote_count": 90
+    },
+    {
+     "id": 1796466,
+     "episode_number": 3,
+     "name": "Made You Look",
+     "air_date": "2019-06-30",
+     "runtime": 57,
+     "overview": "Kat starts camming. Jules falls for a boy online. Rue is confronted at NA, and Cassie visits McKay at college.",
+     "still_path": "/sgs0AMFBHPenfwIsxqLSGqbnOhw.jpg",
+     "vote_average": 7.7,
+     "vote_count": 75
+    },
+    {
+     "id": 1796467,
+     "episode_number": 4,
+     "name": "Shook Ones Pt. II",
+     "air_date": "2019-07-07",
+     "runtime": 56,
+     "overview": "Rue, trying to get clean for Jules, chaperones Gia at the carnival. Jules encounters Cal with his family.",
+     "still_path": "/CkshIxWHj1yI0Xqh84dgDfAAfG.jpg",
+     "vote_average": 8.133,
+     "vote_count": 75
+    },
+    {
+     "id": 1796468,
+     "episode_number": 5,
+     "name": "'03 Bonnie and Clyde",
+     "air_date": "2019-07-14",
+     "runtime": 53,
+     "overview": "Maddy and Nate must deal with a police investigation. Rue and Jules each reflect on their relationship.",
+     "still_path": "/3ff187LdnqgrrOQWlzGShPR5sLS.jpg",
+     "vote_average": 7.636,
+     "vote_count": 70
+    },
+    {
+     "id": 1796469,
+     "episode_number": 6,
+     "name": "The Next Episode",
+     "air_date": "2019-07-21",
+     "runtime": 51,
+     "overview": "On Halloween, Rue worries about her reliance on Jules when she starts acting strange.",
+     "still_path": "/40TkPAIhEhZkSOB7EIeaysAb6Ni.jpg",
+     "vote_average": 7.299,
+     "vote_count": 67
+    },
+    {
+     "id": 1833346,
+     "episode_number": 7,
+     "name": "The Trials and Tribulations of Trying to Pee While Depressed",
+     "air_date": "2019-07-28",
+     "runtime": 60,
+     "overview": "Rue gets depressed and watches 22 straight episodes of a British reality show.​ Jules visits an old friend.",
+     "still_path": "/vMQsSORQsV2tfUw1ezyGiCbO6l8.jpg",
+     "vote_average": 7.625,
+     "vote_count": 64
+    },
+    {
+     "id": 1833347,
+     "episode_number": 8,
+     "name": "And Salt the Earth Behind You",
+     "air_date": "2019-08-04",
+     "runtime": 65,
+     "overview": "It's the winter formal at East Highland.",
+     "still_path": "/kLsHM3fxgYMPw4Cwg3oZDAnenV2.jpg",
+     "vote_average": 7.561,
+     "vote_count": 74
+    }
+   ]
+  },
+  {
+   "season_number": 2,
+   "name": "Season 2",
+   "air_date": "2022-01-09",
+   "poster_path": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
+   "overview": "The lines between fantasy and reality begin to blur as Kat contemplates ending her relationship and Jules, craving Rue's affection, ponders hers. Rue pursues a new dangerous business venture as she sinks deep into her addiction, largely caused by her guilt-ridden new friend Eliott. Cassie struggles with her celibacy and starts to drift, while Lexi pours herself into mounting a school play. Nate is in full redemption, trying to redeem the mistakes of his father.",
+   "episodes": [
+    {
+     "id": 3351646,
+     "episode_number": 1,
+     "name": "Trying to Get to Heaven Before They Close the Door",
+     "air_date": "2022-01-09",
+     "runtime": 62,
+     "overview": "Rue and Jules cross paths for the first time since Christmas as East Highland rings in the new year.",
+     "still_path": "/8rW1LANR14YRkT8poSziWOiRa5U.jpg",
+     "vote_average": 8.2,
+     "vote_count": 74
+    },
+    {
+     "id": 3429678,
+     "episode_number": 2,
+     "name": "Out of Touch",
+     "air_date": "2022-01-16",
+     "runtime": 58,
+     "overview": "As the new semester kicks off, Jules questions Rue and Elliot’s new friendship, while Cal hunts for answers.",
+     "still_path": "/nee4LaQLFGSiMeBomd3xKjj9ysI.jpg",
+     "vote_average": 7.445,
+     "vote_count": 55
+    },
+    {
+     "id": 3429680,
+     "episode_number": 3,
+     "name": "Ruminations: Big and Little Bullys",
+     "air_date": "2022-01-23",
+     "runtime": 61,
+     "overview": "Rue pursues a new business venture, Cassie settles into a routine, and Cal finds a target.",
+     "still_path": "/nibFSc6mQLHeFAkfKEifnObtYRR.jpg",
+     "vote_average": 7.57,
+     "vote_count": 57
+    },
+    {
+     "id": 3463605,
+     "episode_number": 4,
+     "name": "You Who Cannot See, Think of Those Who Can",
+     "air_date": "2022-01-30",
+     "runtime": 62,
+     "overview": "Jules and Elliot grow closer, Maddy celebrates her birthday and Cal takes a trip down memory lane.",
+     "still_path": "/nuTsLlLNacklbITyQPRvKOAtXlg.jpg",
+     "vote_average": 7.74,
+     "vote_count": 50
+    },
+    {
+     "id": 3464329,
+     "episode_number": 5,
+     "name": "Stand Still Like the Hummingbird",
+     "air_date": "2022-02-06",
+     "runtime": 54,
+     "overview": "Fate has a way of catching up with those who try to outrun it.",
+     "still_path": "/muzj1UxcvashpXQGwpAXDtRJf98.jpg",
+     "vote_average": 8.817,
+     "vote_count": 60
+    },
+    {
+     "id": 3464332,
+     "episode_number": 6,
+     "name": "A Thousand Little Trees of Blood",
+     "air_date": "2022-02-13",
+     "runtime": 61,
+     "overview": "Rue tries to recover, Lexi questions putting on her play and Nate celebrates his newfound freedom.",
+     "still_path": "/a4FJJ4jPpYc34jmtXzgm2uAS6V7.jpg",
+     "vote_average": 7.717,
+     "vote_count": 46
+    },
+    {
+     "id": 3480499,
+     "episode_number": 7,
+     "name": "The Theater and Its Double",
+     "air_date": "2022-02-20",
+     "runtime": 59,
+     "overview": "Art imitates life as the East Highland crew watches their complicated dynamics play out onstage.",
+     "still_path": "/1qXV8oAPhIqkqaNouwb9JC28SfV.jpg",
+     "vote_average": 7.7,
+     "vote_count": 66
+    },
+    {
+     "id": 3480500,
+     "episode_number": 8,
+     "name": "All My Life, My Heart Has Yearned for a Thing I Cannot Name",
+     "air_date": "2022-02-27",
+     "runtime": 62,
+     "overview": "As the show goes on, fragments of memories collide with the present and future.",
+     "still_path": "/po4G5fgneIoiuk7TWlvcusWM1HS.jpg",
+     "vote_average": 7.938,
+     "vote_count": 64
+    }
+   ]
+  },
+  {
+   "season_number": 3,
+   "name": "Season 3",
+   "air_date": "2026-04-11",
+   "poster_path": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+   "overview": "Five years have passed for the former students of East Highland High, and life for them has underwent serious changes.",
+   "episodes": [
+    {
+     "id": 6847931,
+     "episode_number": 1,
+     "name": "Andale",
+     "air_date": "2026-04-12",
+     "runtime": 62,
+     "overview": "A few years after high school, Rue's debts finally catch up with her. Hoping to finance her dream wedding, Cassie tries to become internet famous – to the disapproval of Nate, who's juggling the demands of running Cal's business.",
+     "still_path": "/hbz0xyNFagcXKcBAYbxDJ31wn9M.jpg",
+     "vote_average": 6.617,
+     "vote_count": 47
+    },
+    {
+     "id": 6951286,
+     "episode_number": 2,
+     "name": "America My Dream",
+     "air_date": "2026-04-19",
+     "runtime": 60,
+     "overview": "Maddy arrived in the city with no money, a suitcase full of clothes, and a plan.",
+     "still_path": "/hnRxdmQRxz3dhAuwOHkGpAauhaq.jpg",
+     "vote_average": 6.955,
+     "vote_count": 33
+    },
+    {
+     "id": 6951287,
+     "episode_number": 3,
+     "name": "The Ballad of Paladin",
+     "air_date": "2026-04-26",
+     "runtime": 60,
+     "overview": "While in art school, Jules learns she can fund her dreams by going on dates with rich men. Having worked her way up in Alamo's organization, Rue is sent on a special mission with Bishop. Meanwhile, Cassie's storybook wedding doesn't go as planned.",
+     "still_path": "/pjzzBxorSBsEkvVsISvIuP8aVaa.jpg",
+     "vote_average": 7.071,
+     "vote_count": 28
+    },
+    {
+     "id": 6951288,
+     "episode_number": 4,
+     "name": "Kitty Likes to Dance",
+     "air_date": "2026-05-03",
+     "runtime": 62,
+     "overview": "Rue is offered a risky deal that draws her deeper into Alamo's world. While Nate battles the city council, Maddy gives Cassie a mission that could skyrocket her new career, and Lexi enlists Jules to create an original painting for LA Nights.",
+     "still_path": "/1DpoRaiA7weWvLSL4PsZPPHwmvI.jpg",
+     "vote_average": 7.261,
+     "vote_count": 23
+    },
+    {
+     "id": 6951289,
+     "episode_number": 5,
+     "name": "This Little Piggy",
+     "air_date": "2026-05-10",
+     "runtime": 61,
+     "overview": "She would never say it out loud, but Nate going broke finally granted Cassie permission to follow her dreams.",
+     "still_path": "/8jbiRbDPLpfcS8D1SeanKiDdbG9.jpg",
+     "vote_average": 5.875,
+     "vote_count": 20
+    },
+    {
+     "id": 6951290,
+     "episode_number": 6,
+     "name": "Stand Still and See",
+     "air_date": "2026-05-17",
+     "runtime": 60,
+     "overview": "Rue makes a deal with the devil in the form of a promise to Alamo...and gives a word of warning to Maddy. Later, Cassie gets her first real taste of stardom on the set of LA Nights, and Rue paints Jules a picture of her ideal future.",
+     "still_path": "/1lvXuZV4A8yoidLbntLtpQnzZaH.jpg",
+     "vote_average": 6.854,
+     "vote_count": 24
+    },
+    {
+     "id": 6951291,
+     "episode_number": 7,
+     "name": "Rain or Shine",
+     "air_date": "2026-05-24",
+     "runtime": 78,
+     "overview": "Under intense financial pressure, Maddy schemes to get Cassie back in the spotlight. Meanwhile, Rue obsesses over the sign God gave her.",
+     "still_path": "/dlIpRRIH6t6jVpDcsQhwmMotEpY.jpg",
+     "vote_average": 6.773,
+     "vote_count": 22
+    },
+    {
+     "id": 6951292,
+     "episode_number": 8,
+     "name": "In God We Trust",
+     "air_date": "2026-05-31",
+     "runtime": 93,
+     "overview": "Danger closes in on all sides as Rue's double-dealing finally reaches its breaking point. While the medical van speeds towards the border, Maddy and Cassie must band together – and Alamo is struck by a life-changing epiphany.",
+     "still_path": "/asmuTZNYmsKOzWPOS3CwIk63xjw.jpg",
+     "vote_average": 6.917,
+     "vote_count": 24
+    }
+   ]
+  }
+ ]
+}
