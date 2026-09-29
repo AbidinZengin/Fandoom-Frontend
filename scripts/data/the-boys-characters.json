@@ -1,0 +1,111 @@
+{
+  "characters": [
+    {
+      "name": "Billy Butcher",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/7/77/Butcher_s3.jpg",
+      "description": "Billy Butcher is a vigilante with a personal grudge against Vought's flagship superhero team, the Seven, and above all against its leader, Homelander. He recruits Hughie Campbell and assembles a crew of outsiders to expose how heroes are manufactured, sold and protected. Gruff, foul-mouthed and single-minded, Butcher trusts almost no one and will bend nearly any rule to get to his target.",
+      "descriptionTr": "Billy Butcher, Vought'un amiral gemisi süper kahraman takımı Seven'a ve her şeyden çok lideri Homelander'a kişisel bir hesabı olan bir kanun kaçağı intikamcıdır. Hughie Campbell'ı yanına alır ve kahramanların nasıl üretilip satıldığını ve korunduğunu ifşa etmek için dışlanmışlardan bir ekip kurar. Kaba, ağzı bozuk ve tek hedefe kilitlenmiş Butcher neredeyse kimseye güvenmez ve hedefine ulaşmak için hemen her kuralı eğer.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Hughie Campbell",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/b/ba/Hughie_s3.jpg",
+      "description": "Hugh 'Hughie' Campbell is an ordinary electronics-store clerk whose life changes when A-Train runs straight through his girlfriend. Dragged into Billy Butcher's war on the Seven, he brings a conscience and a stubborn decency that the rest of the crew often lacks. Anxious and out of his depth at the start, he keeps finding out how far he is willing to go.",
+      "descriptionTr": "Hugh 'Hughie' Campbell, A-Train'in kız arkadaşının içinden geçip gitmesiyle hayatı değişen sıradan bir elektronik mağazası çalışanıdır. Billy Butcher'ın Seven'a karşı savaşına sürüklenince, ekibin geri kalanında çoğu zaman eksik olan bir vicdanı ve inatçı bir dürüstlüğü getirir. Başta tedirgin ve altından kalkamayacağı bir işin içindedir, sonra ne kadar ileri gidebileceğini keşfetmeye devam eder.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Homelander",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/e/ed/Homelander_S4.jpg",
+      "description": "Homelander is the leader of the Seven and Vought's most valuable asset, a man with the power of a god and the emotional stability of a spoiled child. To the public he is the smiling, flag-draped face of American heroism. Behind the image, his need for adoration and control makes him the most dangerous person in the world.",
+      "descriptionTr": "Homelander, Seven'ın lideri ve Vought'un en değerli varlığıdır; bir tanrının gücüne ve şımarık bir çocuğun duygusal dengesine sahiptir. Halk için gülümseyen, bayrağa sarınmış Amerikan kahramanlığının yüzüdür. İmajın arkasında ise sevilme ve kontrol ihtiyacı onu dünyanın en tehlikeli insanı yapar."
+    },
+    {
+      "name": "Starlight",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/f/f2/Annie_S4.jpg",
+      "description": "Annie January, known as Starlight, joins the Seven as a hopeful young hero who believes in what the team is supposed to stand for. She quickly learns how the machine really works and chooses to fight it from the inside. Idealistic and resilient, she becomes one of the few people who can stand up to Homelander.",
+      "descriptionTr": "Starlight olarak bilinen Annie January, ekibin temsil etmesi gereken değerlere inanan umutlu bir genç kahraman olarak Seven'a katılır. Sistemin gerçekte nasıl işlediğini çabuk öğrenir ve onunla içeriden savaşmayı seçer. İdealist ve dirençli olan Annie, Homelander'a karşı durabilen az sayıdaki kişiden biri olur."
+    },
+    {
+      "name": "Mother's Milk",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/f/f0/Mothers_Milk_s3.jpg",
+      "description": "Marvin T. Milk, better known as Mother's Milk or M.M., is a former Marine and one of the core members of the Boys. Fiercely devoted to his family, he is the crew's voice of caution and conscience, the one who keeps asking what all this is costing them. Disciplined and stubborn, he puts a soldier's planning behind Butcher's crusade.",
+      "descriptionTr": "Mother's Milk ya da M.M. olarak bilinen Marvin T. Milk, eski bir deniz piyadesi ve Boys'un çekirdek üyelerinden biridir. Ailesine son derece bağlıdır ve ekibin temkin ve vicdan sesidir; bütün bunların onlara neye mal olduğunu soran kişidir. Disiplinli ve inatçı yapısıyla Butcher'ın kampanyasının arkasına bir askerin planlamasını koyar.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Frenchie",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/4/4c/Frenchie_s3.jpg",
+      "description": "Frenchie is the Boys' weapons and explosives specialist, a quick-witted Frenchman with a criminal past he would rather not discuss. He improvises where others plan, and his loyalty to the crew runs deeper than his jokes suggest. His bond with Kimiko gives him a reason to be better than the man he used to be.",
+      "descriptionTr": "Frenchie, Boys'un silah ve patlayıcı uzmanıdır; konuşmayı tercih etmediği bir suç geçmişi olan, hazırcevap bir Fransız'dır. Başkaları plan yaparken o doğaçlama çalışır ve ekibe olan sadakati şakalarının gösterdiğinden daha derindir. Kimiko'yla kurduğu bağ ona eskiden olduğu adamdan daha iyisi olmak için bir sebep verir.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Kimiko",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/4/4c/Kimiko_S4.jpg",
+      "description": "Kimiko Miyashiro is a powerful and mysterious fighter who becomes an ally of the Boys. She communicates without speaking and fights with remarkable strength and resilience. Her bond with the crew, especially Frenchie, gives her a place she has never had before.",
+      "descriptionTr": "Kimiko Miyashiro, Boys'un müttefiki olan güçlü ve gizemli bir savaşçıdır. Konuşmadan iletişim kurar ve olağanüstü bir güç ve dayanıklılıkla dövüşür. Ekiple, özellikle Frenchie'yle kurduğu bağ ona daha önce hiç sahip olmadığı bir yer verir."
+    },
+    {
+      "name": "A-Train",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/b/b3/A-Train_s3.jpg",
+      "description": "Reggie Franklin, known as A-Train, is the fastest man alive and a member of the Seven. His first scene in the series, running straight through Hughie's girlfriend, sets the entire story in motion. Under pressure to stay on top, he has to live with what speed and fame have cost him.",
+      "descriptionTr": "A-Train olarak bilinen Reggie Franklin, dünyanın en hızlı adamı ve Seven üyesidir. Dizideki ilk sahnesinde Hughie'nin kız arkadaşının içinden geçip gitmesi tüm hikâyeyi başlatır. Zirvede kalma baskısı altında, hızın ve şöhretin ona neye mal olduğuyla yaşamak zorundadır.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Queen Maeve",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/0/04/301_promo_Maeve.jpg",
+      "description": "Maggie Shaw, known as Queen Maeve, is one of the founding members of the Seven and among its most experienced heroes. Years inside Vought's system have left her weary and disillusioned with the image she is paid to sell. Her past choices weigh on her as the team's darker side comes into view.",
+      "descriptionTr": "Queen Maeve olarak bilinen Maggie Shaw, Seven'ın kurucu üyelerinden biri ve en deneyimli kahramanlarındandır. Vought'un sisteminde geçen yıllar onu, satmakla görevli olduğu imajdan yorgun ve hayal kırıklığına uğramış bırakmıştır. Ekibin karanlık yüzü ortaya çıkarken geçmiş tercihleri üzerine ağır bir yük olur.",
+      "cloudinaryCrop": "c_crop,x_1250,y_0,w_1333,h_2000"
+    },
+    {
+      "name": "The Deep",
+      "billingOrder": 10,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/a/af/Deep_S4.jpg",
+      "description": "Kevin Moskowitz, known as The Deep, is a member of the Seven who can breathe underwater and communicate with sea life. Hungry for status and the public's approval, he is forever trying to matter in a team of bigger names. His need to belong keeps pulling him toward the wrong choices.",
+      "descriptionTr": "The Deep olarak bilinen Kevin Moskowitz, su altında nefes alabilen ve deniz canlılarıyla iletişim kurabilen bir Seven üyesidir. Statü ve halkın onayına aç olan Deep, daha büyük isimlerle dolu bir takımda önemli olmaya çalışır. Bir yere ait olma ihtiyacı onu sürekli yanlış seçimlere sürükler."
+    },
+    {
+      "name": "Black Noir",
+      "billingOrder": 11,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/e/e7/Black_Noir_s3.jpg",
+      "description": "Black Noir is the silent, masked member of the Seven, a lethal fighter who is never seen without his suit. He does not speak, and what he thinks of the team he serves stays hidden behind the mask. Whatever he knows, he keeps to himself, which makes him one of the hardest people in the Seven to read.",
+      "descriptionTr": "Black Noir, Seven'ın sessiz ve maskeli üyesidir; takımı olmadan asla görülmeyen ölümcül bir savaşçıdır. Konuşmaz ve hizmet ettiği takım hakkında ne düşündüğü maskesinin ardında gizli kalır. Ne bilirse bilsin kendine saklar, bu da onu Seven içinde çözülmesi en zor kişilerden biri yapar.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Soldier Boy",
+      "billingOrder": 12,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/c/ce/Soldier_Boy_s3.jpg",
+      "description": "Soldier Boy is a legendary hero from decades past, a super-powered soldier who was once the most celebrated name in American heroism. He returns into a world that has changed around him, and his arrival draws both the Boys and Homelander into his orbit. Volatile and proud, he is a relic of the era that first turned heroes into brands.",
+      "descriptionTr": "Soldier Boy, onlarca yıl öncesinden gelen efsanevi bir kahramandır; bir zamanlar Amerikan kahramanlığının en çok kutlanan ismi olan süper güçlü bir askerdir. Etrafında değişmiş bir dünyaya geri döner ve gelişi hem Boys'u hem Homelander'ı yörüngesine çeker. Öfkeli ve gururlu bir figür olarak, kahramanları ilk kez markaya dönüştüren çağın bir kalıntısıdır.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Victoria Neuman",
+      "billingOrder": 13,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/2/2d/Victoria_Neuman_s3.jpg",
+      "description": "Victoria Neuman is a rising congresswoman who builds her public image as a fierce critic of Vought and the unchecked power of superheroes. Poised and politically sharp, she draws both admirers and enemies as her influence grows. Her rise puts her at the center of a fight between Vought and those who want it held to account.",
+      "descriptionTr": "Victoria Neuman, kamuoyundaki imajını Vought'un ve süper kahramanların denetimsiz gücünün sert bir eleştirmeni olarak kuran, yükselen bir kongre üyesidir. Soğukkanlı ve siyaseten keskin olan Neuman, nüfuzu büyüdükçe hem hayranlar hem düşmanlar çeker. Yükselişi onu Vought ile onu hesap vermeye zorlamak isteyenler arasındaki mücadelenin merkezine koyar.",
+      "cloudinaryCrop": "c_crop,g_north,w_0.55,h_0.55"
+    },
+    {
+      "name": "Stan Edgar",
+      "billingOrder": 14,
+      "imageSource": "https://static.wikia.nocookie.net/amazons-the-boys/images/5/59/StanEdgarS2prof.png",
+      "description": "Stan Edgar is the CEO of Vought International, a composed and calculating executive who treats superheroes as products and politics as a market. He rarely raises his voice, because he rarely has to. His long view of the company makes him one of the most quietly powerful figures in the story.",
+      "descriptionTr": "Stan Edgar, Vought International'ın CEO'sudur; süper kahramanlara ürün, siyasete pazar gözüyle bakan soğukkanlı ve hesapçı bir yöneticidir. Sesini nadiren yükseltir, çünkü buna nadiren ihtiyaç duyar. Şirkete dair uzun vadeli bakışı onu hikâyedeki en sessizce güçlü figürlerden biri yapar."
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import Atmosphere from './Atmosphere/Atmosphere';
 import { fetchProductionDetail, theme } from './Severance.data';
 import styles from './Severance.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import CharactersRoute from './CharactersRoute/CharactersRoute';
 import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 export default function Severance() {
   const { t } = useTranslation();
@@ -74,6 +75,7 @@ export default function Severance() {
         <Atmosphere />
       </div>
       <SeasonRoute />
+      <CharactersRoute />
       <Footer />
     </>
   );

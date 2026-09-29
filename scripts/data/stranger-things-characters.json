@@ -1,0 +1,95 @@
+{
+  "characters": [
+    {
+      "name": "Joyce Byers",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/0/0c/Joyce_portrait.jpg",
+      "description": "Joyce Byers is a single mother in Hawkins, Indiana, whose life turns upside down when her youngest son Will vanishes without a trace. Refusing to accept the official explanation, she insists he is still out there and follows every strange sign, no matter how unbelievable it sounds to those around her. Fierce and stubborn, she is the emotional anchor of the search.",
+      "descriptionTr": "Joyce Byers, Indiana'nın Hawkins kasabasında yaşayan bekâr bir annedir; küçük oğlu Will iz bırakmadan kaybolunca hayatı altüst olur. Resmi açıklamayı kabul etmeyi reddeder, oğlunun hâlâ dışarıda bir yerde olduğunda ısrar eder ve çevresindekilere ne kadar inanılmaz gelirse gelsin her tuhaf işaretin peşine düşer. Kararlı ve inatçı yapısıyla aramanın duygusal dayanağıdır."
+    },
+    {
+      "name": "Jim Hopper",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/7/7c/Jim_Hopper_-_Season_5_Poster_Vers2.jpg",
+      "description": "Jim Hopper is the chief of police in Hawkins, a gruff, world-weary lawman who at first seems content to let the town's quiet days pass. Will Byers's disappearance pulls him into an investigation that grows far larger than a missing-person case. Beneath the hard exterior he carries a private grief, and it shapes how he protects the people around him.",
+      "descriptionTr": "Jim Hopper, Hawkins'in polis şefidir; başlarda kasabanın sakin günlerinin akıp gitmesine razı görünen huysuz ve yorgun bir kanun adamıdır. Will Byers'ın kayboluşu onu, kayıp vakasından çok daha büyük bir soruşturmanın içine çeker. Sert dış görünüşünün altında kişisel bir yas taşır ve bu, çevresindekileri koruma biçimini şekillendirir."
+    },
+    {
+      "name": "Eleven",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/a/a6/Jane_Hopper_-_Season_5_Poster_Vers2.jpg",
+      "description": "Eleven is a girl with extraordinary psychokinetic abilities who escapes from Hawkins National Laboratory and stumbles into a group of boys searching for their missing friend. She speaks little and has never known an ordinary childhood, but she quickly forms a fierce bond with the friends who take her in. Her powers make her the group's most valuable ally and its most hunted member.",
+      "descriptionTr": "Eleven, Hawkins Ulusal Laboratuvarı'ndan kaçan ve kayıp arkadaşlarını arayan bir grup çocuğun yoluna çıkan, olağanüstü psikokinetik güçlere sahip bir kızdır. Az konuşur ve hiç sıradan bir çocukluk yaşamamıştır, ama onu yanına alan arkadaşlarıyla hızla güçlü bir bağ kurar. Güçleri onu grubun en değerli müttefiki ve en çok aranan üyesi yapar."
+    },
+    {
+      "name": "Dustin Henderson",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/2/23/Dustin_Henderson_-_Season_5_Vol._2_Poster.jpg",
+      "description": "Dustin Henderson is one of the four friends at the center of the story, a curly-haired, quick-witted kid who trades in gadgets, gear and gallows humor. He is loud and loyal in equal measure, and his curiosity drives many of the group's discoveries. Whatever the danger, he is rarely the one to leave a friend behind.",
+      "descriptionTr": "Dustin Henderson, hikâyenin merkezindeki dört arkadaştan biridir; kıvırcık saçlı, hazırcevap, aletlere ve teknik malzemelere meraklı bir çocuktur. Gürültücü olduğu kadar sadıktır ve merakı grubun pek çok keşfini sürükler. Tehlike ne olursa olsun bir arkadaşını geride bırakan taraf nadiren o olur."
+    },
+    {
+      "name": "Max Mayfield",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/3/32/Max_Mayfield_-_Season_5_Vol._2_Poster.jpg",
+      "description": "Max Mayfield arrives in Hawkins as the new girl, a skilled skateboarder and arcade regular who is not easily impressed by the boys' circle. Her guarded manner hides a difficult home life, and she gradually earns a place among the friends. Sharp and independent, she never lets anyone speak for her.",
+      "descriptionTr": "Max Mayfield, Hawkins'e yeni gelen kız olarak çıkar karşımıza; usta bir kaykaycı ve atari salonu müdavimidir, erkek çocukların çevresinden kolay etkilenmez. Temkinli tavrı zor bir ev yaşamını gizler ve zamanla arkadaş grubunda kendine bir yer edinir. Keskin ve bağımsızdır, kimsenin kendi adına konuşmasına izin vermez."
+    },
+    {
+      "name": "Billy Hargrove",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/9/95/Billy_S2_Textless_Poster.png",
+      "description": "Billy Hargrove is Max's older stepbrother, who moves to Hawkins from California with a muscle car, a swagger and a short temper. He turns heads around town and quickly makes a reputation for aggression. His volatility casts a long shadow over Max's life.",
+      "descriptionTr": "Billy Hargrove, Max'in üvey ağabeyidir; Kaliforniya'dan Hawkins'e bir spor arabayla, kendine güvenen tavırları ve sivri huyuyla taşınır. Kasabada dikkat çeker ve kısa sürede sert biri olarak ün yapar. Öfke patlamaları Max'in hayatına uzun bir gölge düşürür."
+    },
+    {
+      "name": "Vecna",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/8/8b/Vecna_S4.jpg",
+      "description": "Vecna is a supernatural predator from the Upside Down who hunts troubled teenagers in Hawkins, feeding on their guilt and trauma. His attacks leave a trail of unexplained deaths that the town cannot make sense of. To the friends who track him, he is the most dangerous enemy they have faced.",
+      "descriptionTr": "Vecna, Ters Dünya'dan gelen ve Hawkins'te sorunlu gençleri avlayan doğaüstü bir yırtıcıdır; onların suçluluk ve travmalarıyla beslenir. Saldırıları, kasabanın anlam veremediği açıklanamaz ölümlerden oluşan bir iz bırakır. Onu takip eden arkadaşlar için karşılaştıkları en tehlikeli düşmandır."
+    },
+    {
+      "name": "Mike Wheeler",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/d/d2/Mike_Wheeler_-_Season_5_Vol._2_Poster.jpg",
+      "description": "Mike Wheeler is the de facto leader of a group of four friends in Hawkins who spend their weekends playing Dungeons & Dragons in his basement. When his friend Will vanishes, he is the one who refuses to stop searching, and he is the first to shelter the strange girl the boys find in the woods. Loyal and stubborn, he keeps the group together.",
+      "descriptionTr": "Mike Wheeler, hafta sonlarını bodrumunda Zindanlar ve Ejderhalar oynayarak geçiren dört arkadaşlık Hawkins grubunun fiilî lideridir. Arkadaşı Will kaybolunca aramayı bırakmayı reddeden odur ve ormanda bulunan tuhaf kıza ilk sığınak sağlayan da o olur. Sadık ve inatçı yapısıyla grubu bir arada tutar."
+    },
+    {
+      "name": "Lucas Sinclair",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/d/d9/Lucas_Sinclair_-_Season_5_Vol._2_Poster.jpg",
+      "description": "Lucas Sinclair is one of the four friends who ride their bikes around Hawkins, and the group's skeptic and practical thinker. He is wary of Eleven at first and insists on caution before trust, but he is fiercely loyal to his friends. Sharp instincts and steady nerves make him a reliable member of the search.",
+      "descriptionTr": "Lucas Sinclair, Hawkins'te bisikletle dolaşan dört arkadaştan biridir ve grubun şüpheci, pratik düşünen üyesidir. Eleven'a ilk başta temkinli yaklaşır ve güvenden önce dikkat gerektiğini savunur, ancak arkadaşlarına karşı son derece sadıktır. Keskin sezgileri ve soğukkanlılığı onu aramada güvenilir bir isim yapar."
+    },
+    {
+      "name": "Will Byers",
+      "billingOrder": 10,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/6/61/Will_Byers_-_Season_5_Vol._2_Poster.jpg",
+      "description": "Will Byers is Joyce's youngest son, a quiet, artistic boy who plays Dungeons & Dragons with his three closest friends. His sudden disappearance one night in 1983 sets the entire story in motion. The search for him draws together his family, his friends and the town's police chief.",
+      "descriptionTr": "Will Byers, Joyce'un en küçük oğludur; en yakın üç arkadaşıyla Zindanlar ve Ejderhalar oynayan sessiz ve sanatsal bir çocuktur. 1983'te bir gece aniden ortadan kaybolması bütün hikâyeyi başlatır. Onu arama çabası ailesini, arkadaşlarını ve kasabanın emniyet müdürünü bir araya getirir."
+    },
+    {
+      "name": "Steve Harrington",
+      "billingOrder": 11,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/f/fb/Steve_Harrington_-_Season_5_Vol._2_Poster.jpg",
+      "description": "Steve Harrington is a popular Hawkins High student with a carefully kept image, known at first for his hair and his reputation. Over time the swagger gives way to a protective, dependable streak, and he becomes an unlikely ally to kids younger than himself. He is often the one who steps in when things turn dangerous.",
+      "descriptionTr": "Steve Harrington, Hawkins Lisesi'nin popüler öğrencilerinden biridir; özenle kurduğu imajıyla, önce saçları ve ünüyle tanınır. Zamanla gösterişin yerini koruyucu ve güvenilir bir taraf alır ve kendinden küçük çocukların beklenmedik müttefiki olur. İşler tehlikeli hale geldiğinde çoğu zaman öne çıkan odur."
+    },
+    {
+      "name": "Nancy Wheeler",
+      "billingOrder": 12,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/5/59/Nancy_Wheeler_-_Season_5_Vol._2_Poster.jpg",
+      "description": "Nancy Wheeler is Mike's older sister, a diligent Hawkins High student who begins to question the official story after a friend disappears. Determined and persistent, she turns to investigation and journalism to uncover what the adults would rather keep hidden. She is willing to face real danger for the truth.",
+      "descriptionTr": "Nancy Wheeler, Mike'ın ablasıdır; çalışkan bir Hawkins Lisesi öğrencisi olarak bir arkadaşı kaybolunca resmî anlatıyı sorgulamaya başlar. Kararlı ve ısrarcı yapısıyla yetişkinlerin saklamayı tercih ettiği gerçekleri ortaya çıkarmak için soruşturma ve gazeteciliğe yönelir. Gerçek uğruna tehlikeyi göze almaktan çekinmez."
+    },
+    {
+      "name": "Robin Buckley",
+      "billingOrder": 13,
+      "imageSource": "https://static.wikia.nocookie.net/strangerthings8338/images/1/1d/Robin_Buckley_-_Season_5_Poster_Vers2.jpg",
+      "description": "Robin Buckley is a sharp-tongued, quick-witted Hawkins teen who works alongside Steve and soon becomes one of his closest friends. She plays in the school band and has a real talent for codebreaking. Her humor is her first defense, and her loyalty runs deeper than she lets on.",
+      "descriptionTr": "Robin Buckley, Steve'le birlikte çalışan ve kısa sürede en yakın arkadaşlarından biri olan, dilli düdük ve hazırcevap bir Hawkins gencidir. Okul bandosunda çalar ve şifre çözmede gerçek bir yeteneği vardır. Mizahı ilk savunma hattıdır, sadakati ise göründüğünden derindir."
+    }
+  ]
+}

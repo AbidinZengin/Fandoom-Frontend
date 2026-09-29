@@ -7,13 +7,9 @@ import { fetchProductionDetail } from '../../../../shared/api/productions';
 import { armInPageNav } from '../../../../motion/cinematic';
 import styles from './SeasonRoute.module.css';
 
-const pad2 = (n) => String(n).padStart(2, '0');
-
-// Breaking Bad / House of the Dragon SeasonRoute'unun birebir kopyası
-// (kullanıcı isteği). DÜZELTME (manuel, 2026-09-12): dinamik
-// series.coverImageUrl yerine BB/HotD ile AYNI desene (sabit BACKDROP_URL)
-// dönüldü — kullanıcı bu bölüm için özellikle bu TMDb görselini verdi.
 const BACKDROP_URL = 'https://image.tmdb.org/t/p/original/9xDCTGhEWpz206PCiimRGmK67rV.jpg';
+
+const pad2 = (n) => String(n).padStart(2, '0');
 
 function ArrowIcon() {
   return (
@@ -24,6 +20,8 @@ function ArrowIcon() {
   );
 }
 
+// Breaking Bad SeasonRoute'un BİREBİR kopyası (kullanıcı isteği). Arka plan
+// hero'dan farklı: kullanıcının verdiği TMDb backdrop'u.
 export default function SeasonRoute() {
   const { t } = useTranslation();
   const [series, setSeries] = useState(null);
@@ -45,7 +43,6 @@ export default function SeasonRoute() {
   }, []);
 
   const seasons = series?.seasons ?? [];
-  const activeSeason = seasons[activeIndex] ?? null;
 
   useLayoutEffect(() => {
     if (!seasons.length) return undefined;
@@ -54,23 +51,27 @@ export default function SeasonRoute() {
       const mm = gsap.matchMedia();
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        // DÜZELTME (kullanıcı raporu, 2026-09-12: "component gelene kadar
-        // animasyon bitiyor") — tetik noktaları çok erkendi (top 70-80%,
-        // section daha yarısı bile görünmeden animasyon oynayıp bitiyordu).
-        // top 55/45% ile section görünüme daha çok girdikten SONRA tetikleniyor.
-        gsap.from([`.${styles.kicker}`, `.${styles.title}`], {
+        gsap.from(`.${styles.kicker}`, {
           opacity: 0,
           y: 28,
           duration: 0.9,
           ease: 'power3.out',
-          stagger: 0.12,
           scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
         });
 
-        // Focus paneli (Season başlığı + açıklama + CTA) soldan açığa çıkıyor
-        // (kullanıcı isteği, 2026-09-12) — kicker/title/kartlarla AYNI fade
-        // in/out mantığı (opacity + scrollTrigger once) korunuyor, sadece
-        // dikey y yerine yatay x offset kullanılıyor.
+        // Başlığın iki satırı SOLDAN kayarak girer, kademeli — CharactersRoute
+        // ile aynı hareket. Header yatayda kırpar, yazı kartın dışına taşmaz.
+        gsap.from([`.${styles.titleLead}`, `.${styles.titleAction}`], {
+          opacity: 0,
+          x: -120,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12,
+          delay: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
+        });
+
+        // Focus paneli soldan açığa çıkıyor.
         gsap.from(`.${styles.focus}`, {
           opacity: 0,
           x: -64,
@@ -79,10 +80,7 @@ export default function SeasonRoute() {
           scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
         });
 
-        // İmza "dalga" animasyonu (learned-rules SKILL.md #imza-dalga,
-        // kullanıcı isteği 2026-09-12: kartlar "sağdan dalga" ile gelsin) —
-        // değerler FeaturedCarousel ile BİREBİR aynı: x:140, y:56, 0.9s,
-        // power3.out, stagger 0.12.
+        // İmza "dalga" animasyonu (learned-rules #imza-dalga).
         gsap.from(trackRef.current.querySelectorAll(`.${styles.cardWrap}`), {
           opacity: 0,
           x: 140,
@@ -95,8 +93,9 @@ export default function SeasonRoute() {
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set([`.${styles.kicker}`, `.${styles.title}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
+        gsap.set([`.${styles.kicker}`, `.${styles.titleLead}`, `.${styles.titleAction}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
           opacity: 1,
+          x: 0,
           y: 0,
           clearProps: 'transform',
         });
@@ -112,8 +111,7 @@ export default function SeasonRoute() {
   }, [seasons.length]);
 
   // Odak panelinin SOLDAN açığa çıkışı — ilk mount'ta yukarıdaki
-  // scroll-trigger zaten aynı işi yaptığı için burada atlanıyor, sadece
-  // activateSeason'ın tetiklediği SONRAKİ değişimlerde çalışır.
+  // scroll-trigger zaten aynı işi yaptığı için atlanıyor.
   useEffect(() => {
     if (isFirstActiveRender.current) {
       isFirstActiveRender.current = false;
@@ -127,11 +125,8 @@ export default function SeasonRoute() {
     );
   }, [activeIndex]);
 
-  // Kart hover/focus ile sezon değişince odak paneli geçiş yapar (kullanıcı
-  // isteği, 2026-09-12): önceki sezon SAĞA kayıp kaybolur, yeni sezon
-  // SOLDAN açığa çıkar — scroll-tetikli ilk giriş animasyonuyla AYNI yön
-  // dili, sadece scroll değil hover kaynaklı. İlk mount'ta (scroll-trigger
-  // zaten devrede) tekrar oynamaması için isFirstActiveRender ile atlanıyor.
+  // Kart hover/focus ile sezon değişince odak paneli geçiş yapar: önceki
+  // sezon SAĞA kayıp kaybolur, yeni sezon SOLDAN açığa çıkar.
   const activateSeason = (i) => {
     if (i === activeIndex) return;
     const focus = focusRef.current;
@@ -165,34 +160,33 @@ export default function SeasonRoute() {
 
       <div className={styles.header}>
         <p className={styles.kicker}>{t('series.seasonsHeading')}</p>
-        <h2 className={styles.title}>{t('series.everySeasonEveryEpisode')}</h2>
+        <h2 className={styles.title}>
+          <span className={styles.titleLead}>{t('series.everySeasonLead')}</span>
+          <span className={styles.titleAction}>{t('series.everyEpisodeAction')}</span>
+        </h2>
       </div>
 
       <div className={styles.bottom}>
-        {activeSeason && (
-          <div className={styles.focus} ref={focusRef}>
-            <h3 className={styles.focus__title}>{activeSeason.title}</h3>
-            {activeSeason.storyDek && <p className={styles.focus__dek}>{activeSeason.storyDek}</p>}
-            <Link
-              to={`/series/severance/seasons/${activeSeason.seasonNumber}`}
-              onClick={() => armInPageNav()}
-              className={styles.focus__cta}
-            >
-              {t('series.exploreSeasonCta')} <ArrowIcon />
-            </Link>
-          </div>
-        )}
+        <div className={styles.focus} ref={focusRef}>
+          {seasons.map((season, i) => (
+            <div className={styles.focus__item} key={season.id} data-active={i === activeIndex || undefined}>
+              <h3 className={styles.focus__title}>{season.title}</h3>
+              {season.storyDek && <p className={styles.focus__dek}>{season.storyDek}</p>}
+              <Link
+                to={`/series/severance/seasons/${season.seasonNumber}`}
+                onClick={() => armInPageNav()}
+                className={styles.focus__cta}
+              >
+                {t('series.exploreSeasonCta')} <ArrowIcon />
+              </Link>
+            </div>
+          ))}
+        </div>
 
         <div className={styles.carousel}>
           <div className={styles.track} ref={trackRef}>
             {seasons.map((season, i) => (
               <div className={styles.cardWrap} key={season.id}>
-                {/* Kart artık DOĞRUDAN sezona götüren bir Link — önceden
-                    sadece odak panelini güncelliyordu, gerçek gidiş için
-                    ayrı "Explore Season" CTA'sına (solda, karttan uzak)
-                    tıklamak gerekiyordu (kullanıcı raporu: fazladan
-                    tıklama + imleç mesafesi). Hover/focus önizlemesi AYNEN
-                    kalıyor, CTA ikincil/erişilebilirlik yolu olarak duruyor. */}
                 <Link
                   to={`/series/severance/seasons/${season.seasonNumber}`}
                   onClick={() => armInPageNav()}
@@ -207,10 +201,6 @@ export default function SeasonRoute() {
                   )}
                   <span className={styles.card__number}>{pad2(season.seasonNumber)}</span>
 
-                  {/* Blog kartlarındaki (ReviewCard) AYNI alt-overlay deseni
-                      (kullanıcı isteği, 2026-09-12) — başlık + açıklama
-                      (storyDek) artık poster üstünde gradient panelde,
-                      2 satırla kırpılıyor. */}
                   <div className={styles.card__caption}>
                     <span className={styles.card__title}>{season.title}</span>
                     {season.storyDek && <span className={styles.card__desc}>{season.storyDek}</span>}

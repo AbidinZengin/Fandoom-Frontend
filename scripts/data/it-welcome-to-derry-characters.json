@@ -1,0 +1,81 @@
+{
+  "characters": [
+    {
+      "name": "Charlotte Hanlon",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/4/45/CharlotteHanlon.png",
+      "description": "Charlotte Hanlon follows her husband, Major Leroy Hanlon, to Derry when he is posted to the local Air Force base. She and her son Will try to settle into a town that makes settling in hard, and she quickly senses that Derry keeps its secrets closer than its neighbors. When the base's agenda begins to swallow people she has come to know, Charlotte refuses to stand aside and fights to protect them.",
+      "descriptionTr": "Charlotte Hanlon, Binbaşı Leroy Hanlon'un eşi olarak, kocası yerel Hava Kuvvetleri üssüne atanınca Derry'ye taşınır. Oğlu Will'le birlikte yerleşmeyi zorlaştıran bir kasabaya alışmaya çalışır ve Derry'nin sırlarını komşularından bile sıkı sakladığını çabuk fark eder. Üssün gündemi tanıdığı insanları yutmaya başlayınca kenarda durmayı reddeder ve onları korumak için mücadele eder."
+    },
+    {
+      "name": "Leroy Hanlon",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/4/45/Leroy_Hanlon_%281962%29.png",
+      "description": "Major Leroy Hanlon reports for duty at Derry's Air Force base in 1962, where the welcome turns out to be colder than the winter air. A disciplined officer who believes in the chain of command, he is slowly drawn into the base's real purpose in the area. The deeper he goes, the harder it becomes to keep his duty to the uniform separate from his duty to his family.",
+      "descriptionTr": "Binbaşı Leroy Hanlon, 1962'de Derry'deki Hava Kuvvetleri üssünde göreve başlar ve karşılamanın kış soğuğundan bile daha buz gibi olduğunu görür. Komuta zincirine inanan disiplinli bir subay olarak, üssün bölgedeki gerçek amacına yavaş yavaş çekilir. Ne kadar derine inerse, üniformaya olan görevini ailesine olan görevinden ayırmak o kadar zorlaşır."
+    },
+    {
+      "name": "Will Hanlon",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/2/28/William_Hanlon.png",
+      "description": "Will is the Hanlons' son, a thoughtful kid who has just been uprooted and dropped into an unfamiliar Derry classroom. Quiet and observant, he notices things the adults around him prefer to explain away. As the strange events in town escalate, he finds himself close to the group of kids who refuse to look the other way.",
+      "descriptionTr": "Will, Hanlon ailesinin oğludur; köklerinden koparılıp tanımadığı bir Derry sınıfına bırakılmış, düşünceli bir çocuktur. Sessiz ve gözlemci yapısıyla çevresindeki yetişkinlerin geçiştirmeyi tercih ettiği şeyleri fark eder. Kasabadaki tuhaf olaylar tırmandıkça, başka yöne bakmayı reddeden çocuk grubuna yaklaşır."
+    },
+    {
+      "name": "Ronnie Grogan",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/9/90/Ronnie_Grogan.png",
+      "description": "Ronnie is one of the kids who make a pact to find out what really happened to a vanished classmate. She carries a private fear that something has already happened to her missing father, and Derry's dark corners do nothing to ease it. Her determination to find answers is fueled as much by that fear as by courage.",
+      "descriptionTr": "Ronnie, kaybolan bir sınıf arkadaşlarına gerçekte ne olduğunu bulmak için söz veren çocuklardan biridir. Kayıp babasının başına çoktan bir şey geldiği korkusunu içinde taşır ve Derry'nin karanlık köşeleri bu korkuyu hafifletmez. Cevap bulma kararlılığını cesaretinden kadar bu korku da besler."
+    },
+    {
+      "name": "Lilly Bainbridge",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/5/5a/Lilly_Bainbridge%28-1%29.png",
+      "description": "Lilly Bainbridge is one of the misfit kids of 1962 Derry who make a pact to find out what really happened to a vanished classmate. She joins the others in trying to capture hard evidence of the impossible things they keep seeing around town. As the sightings turn more violent, she is forced to face a fear that is hers alone.",
+      "descriptionTr": "Lilly Bainbridge, kaybolan bir sınıf arkadaşlarına gerçekte ne olduğunu bulmak için söz veren 1962 Derry'sinin uyumsuz çocuklarından biridir. Diğerleriyle birlikte kasabada gördükleri imkânsız olaylara dair somut kanıt yakalamaya çalışır. Gözlenen olaylar şiddetlendikçe yalnızca kendisine ait bir korkuyla yüzleşmek zorunda kalır."
+    },
+    {
+      "name": "Marge Truman",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/a/a3/Marge_Tozier.png",
+      "description": "Marge Truman is one of the misfit kids of 1962 Derry who refuse to look away when a classmate disappears. She takes part in the group's effort to gather proof of what is happening in town. As the danger grows, she has to face a fear that only she can confront.",
+      "descriptionTr": "Marge Truman, bir sınıf arkadaşları kaybolduğunda başka yöne bakmayı reddeden 1962 Derry'sinin uyumsuz çocuklarından biridir. Grubun kasabada olup bitenlere dair kanıt toplama çabasına katılır. Tehlike büyüdükçe yalnızca kendisinin yüzleşebileceği bir korkuyla karşılaşır."
+    },
+    {
+      "name": "Dick Hallorann",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/e/ee/Dick_Hallorann_in_1962.png",
+      "description": "Dick Hallorann is an airman at the Derry base whose visions he cannot outrun. He scouts excavation sites alongside Leroy and Pauly without fully knowing what the base is really looking for. Haunted and wary, he keeps running into a past that is waiting for him in Derry.",
+      "descriptionTr": "Dick Hallorann, Derry üssünde görev yapan ve gördüğü vizyonlardan kaçamayan bir askerdir. Üssün gerçekte neyin peşinde olduğunu tam bilmeden Leroy ve Pauly'yle birlikte kazı alanlarını keşfeder. Ürkek ve temkinli tavrıyla, Derry'de kendisini bekleyen bir geçmişle tekrar tekrar karşılaşır."
+    },
+    {
+      "name": "General Shaw",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/f/f6/Francis_Shaw_%281962%29.png",
+      "description": "General Francis Shaw commands the military operation at Derry's Air Force base. He pushes his mission past the point where anyone can pretend it is routine. As a thick fog swallows the town, he commits to that mission no matter the cost.",
+      "descriptionTr": "General Francis Shaw, Derry'deki Hava Kuvvetleri üssünde yürütülen askeri operasyonun başındadır. Görevini kimsenin sıradan gibi davranamayacağı noktanın ötesine taşır. Yoğun bir sis kasabayı yuttuğunda, bedeli ne olursa olsun bu göreve bağlı kalmaya karar verir."
+    },
+    {
+      "name": "Rose",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/4/4b/Rose-1962.png",
+      "description": "Rose is a Derry shopkeeper who knows the town's history better than most of its residents. She keeps her own counsel, but the events of that winter push her into the same fight as the Hanlons, Dick and the kids. Her knowledge of what came before makes her one of the few who understand what Derry is really facing.",
+      "descriptionTr": "Rose, Derry'nin tarihini sakinlerinin çoğundan iyi bilen bir dükkân sahibidir. Kendi sözünü içinde tutar, ancak o kışın olayları onu Hanlon ailesi, Dick ve çocuklarla aynı mücadelenin içine çeker. Öncesinde yaşananlara dair bilgisi, onu Derry'nin gerçekte neyle karşı karşıya olduğunu anlayan az sayıda kişiden biri yapar."
+    },
+    {
+      "name": "Pauly Russo",
+      "billingOrder": 10,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/d/db/Paul_russo.png",
+      "description": "Captain Pauly Russo serves at the Derry Air Force base and is one of the officers who scouts new excavation sites with Leroy and Dick. He follows the base's orders while sensing that the mission is not what it seems. Blunt and dutiful, he stands between the military's agenda and the town it is quietly reshaping.",
+      "descriptionTr": "Yüzbaşı Pauly Russo, Derry Hava Kuvvetleri üssünde görev yapar ve Leroy ile Dick'le birlikte yeni kazı alanlarını keşfeden subaylardan biridir. Üssün emirlerini yerine getirirken görevin göründüğü gibi olmadığını sezer. Açık sözlü ve görev bilincine sahip biri olarak, ordunun gündemi ile onun sessizce dönüştürdüğü kasaba arasında durur."
+    },
+    {
+      "name": "Pennywise",
+      "billingOrder": 11,
+      "imageSource": "https://static.wikia.nocookie.net/stephenking/images/a/a2/Pennywise-Welcome-to-derry.jpg",
+      "description": "Pennywise is the ancient evil lurking beneath Derry, a shapeshifting presence that surfaces as a clown and preys on the town's children. It thrives on fear and reveals itself in the dark corners of the town, at the carnival and in the sewers below. Long before 1962, Derry had already learned to look away from it.",
+      "descriptionTr": "Pennywise, Derry'nin altında pusuya yatmış kadim kötülüktür; palyaço kılığında ortaya çıkan ve kasabanın çocuklarını avlayan biçim değiştirici bir varlıktır. Korkuyla beslenir ve kendini kasabanın karanlık köşelerinde, karnavalda ve altındaki kanalizasyonda gösterir. 1962'den çok önce Derry ondan başka yöne bakmayı çoktan öğrenmişti."
+    }
+  ]
+}

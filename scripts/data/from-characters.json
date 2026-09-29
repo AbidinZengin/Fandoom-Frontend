@@ -1,0 +1,95 @@
+{
+  "characters": [
+    {
+      "name": "Boyd Stevens",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/6/67/Boyd_Stevens_pro.jpeg",
+      "description": "Boyd Stevens is the sheriff of the town and the person most residents turn to when the sun starts to go down. Since the day he arrived, he has taken on the burden of keeping people alive and keeping the town's routines intact. As the weeks pass and the pressure mounts, he keeps searching for a way to get everyone home, even when it means questioning the very rules he set.",
+      "descriptionTr": "Boyd Stevens, kasabanın şerifidir ve güneş batmaya başladığında çoğu sakinin yöneldiği kişidir. Geldiği günden beri insanları hayatta tutmanın ve kasabanın düzenini ayakta tutmanın yükünü omuzlamıştır. Haftalar geçtikçe ve baskı arttıkça herkesi eve götürmenin bir yolunu aramaya devam eder; bu, kendi koyduğu kuralları sorgulamak anlamına gelse bile."
+    },
+    {
+      "name": "Tabitha Matthews",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/9/9d/Tabitha_Matthews_pro.jpeg",
+      "description": "Tabitha Matthews is on a family road trip with her husband Jim and their children Julie and Ethan when a detour lands them in a town they cannot leave. She holds her family together through the nightmare while her marriage is tested by the strain. Refusing to accept the town's terms, she keeps digging for answers, in every sense of the word.",
+      "descriptionTr": "Tabitha Matthews, kocası Jim ve çocukları Julie ile Ethan'la aile yol gezisindeyken, bir sapma yüzünden çıkamayacakları bir kasabaya düşer. Kabus boyunca ailesini bir arada tutarken evliliği de yaşanan gerilimle sınanır. Kasabanın şartlarını kabul etmeyi reddeder ve cevap ararken kelimenin tam anlamıyla kazmaya devam eder."
+    },
+    {
+      "name": "Jim Matthews",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/d/da/Jim_Matthews_pro.jpeg",
+      "description": "Jim Matthews is a former amusement park engineer and the husband of Tabitha and father of Julie and Ethan. When his family becomes trapped in the Town, his fierce protectiveness takes over everything else. An optimistic bulldozer by nature, he keeps insisting that things will be fine and doggedly pursues his own theories about how to get everyone out.",
+      "descriptionTr": "Jim Matthews, eski bir lunapark mühendisi; Tabitha'nın eşi, Julie ve Ethan'ın babasıdır. Ailesi Kasaba'da mahsur kalınca ailesini koruma içgüdüsü her şeyin önüne geçer. Doğası gereği iyimser ve dik başlı biri olarak her şeyin yoluna gireceği konusunda ısrar eder ve herkesi çıkarmanın yolu hakkında kendi teorilerinin peşinden inatla gider."
+    },
+    {
+      "name": "Julie Matthews",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/9/92/Julie_Matthews_Season_3.png",
+      "description": "Julie Matthews is the teenage daughter of Jim and Tabitha and the older sister of Ethan. Closer to her father, she has a tense relationship with her mother, who she feels treats her like a child. She chooses to live at Colony House, apart from her family, and slowly learns to stand on her own.",
+      "descriptionTr": "Julie Matthews, Jim ile Tabitha'nın ergenlik çağındaki kızı ve Ethan'ın ablasıdır. Babasına daha yakındır, kendisine çocuk gibi davrandığını düşündüğü annesiyle arası gergindir. Ailesinden ayrı olarak Koloni Evi'nde yaşamayı seçer ve yavaş yavaş kendi ayakları üzerinde durmayı öğrenir."
+    },
+    {
+      "name": "Ethan Matthews",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/a/ac/Ethan_Matthews_Season_three.png",
+      "description": "Ethan Matthews is the young son of Jim and Tabitha and Julie's younger brother. He adapts to life in the Town more easily than most, treating the experience like a quest from one of his favorite books. He also forms an unexpected friendship with Victor.",
+      "descriptionTr": "Ethan Matthews, Jim ile Tabitha'nın küçük oğlu ve Julie'nin kardeşidir. Kasaba'daki hayata çoğu kişiden daha kolay uyum sağlar ve yaşadıklarına en sevdiği kitaplardaki bir macera gibi bakar. Victor'la beklenmedik bir dostluk kurar."
+    },
+    {
+      "name": "Sara Myers",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/e/e4/Sarah_Myers_Season_3.png",
+      "description": "Sara Myers is trapped in the Town with her brother Nathan and works as a waitress at the Diner. Soft, quiet and deeply feeling, she is also unbending. She seems unusually connected to the Township, receiving visions and voices that cost her dearly and that she has learned to tell apart.",
+      "descriptionTr": "Sara Myers, erkek kardeşi Nathan'la birlikte Kasaba'da mahsur kalmıştır ve Diner'da garsonluk yapar. Yumuşak, sessiz ve derin hisseden biri olsa da esnemez bir yanı vardır. Kasaba'yla alışılmadık bir bağ taşır; kendisine çok pahalıya mal olan vizyonlar ve sesler alır ve bunları ayırt etmeyi öğrenmiştir."
+    },
+    {
+      "name": "Jade Herrera",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/c/c7/Jade_Herrera_Season_3.png",
+      "description": "Jade Herrera is a wealthy software developer who becomes trapped in the Town on the same day as the Matthews family. He struggles to adjust, and his abrasive, arrogant personality strains his relationships with the other residents. He still puts his intellect to work trying to solve the mysteries of the Town.",
+      "descriptionTr": "Jade Herrera, Matthews ailesiyle aynı gün Kasaba'da mahsur kalan zengin bir yazılım geliştiricisidir. Yeni durumuna uyum sağlamakta zorlanır; sert ve kibirli kişiliği diğer sakinlerle ilişkilerini zedeler. Yine de zekâsını Kasaba'nın gizemlerini çözmeye harcar."
+    },
+    {
+      "name": "Kenny Liu",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/1/1a/Kenny_Liu_pro.jpeg",
+      "description": "Kenny Liu is a young resident of Colony House who is pushed into responsibility earlier than he expected. He steps up when the community needs him, and he later leads groups into the forest to look for food. Practical and reliable, he grows into one of the people Boyd depends on.",
+      "descriptionTr": "Kenny Liu, Colony House'un genç sakinlerinden biridir ve beklediğinden erken sorumluluk almak zorunda kalır. Topluluğun ona ihtiyacı olduğunda öne çıkar, daha sonra yiyecek aramak için gruplara öncülük ederek ormana girer. Pratik ve güvenilir yapısıyla Boyd'un dayandığı kişilerden biri olur."
+    },
+    {
+      "name": "Victor Kavanaugh",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/3/3f/Victor_pro.jpeg",
+      "description": "Victor Kavanaugh is a peculiar resident of Colony House who has been trapped in the Township since he was a young boy. He is the longest-surviving person there and knows the town's mysteries better than anyone. To keep his sanity through constant losses, he draws his memories so that the pictures will remember for him.",
+      "descriptionTr": "Victor Kavanaugh, Koloni Evi'nin tuhaf sakinlerinden biridir ve daha küçük bir çocukken Kasaba'da mahsur kalmıştır. Orada en uzun süre hayatta kalan kişidir ve Kasaba'nın gizemlerini herkesten iyi bilir. Sürekli kayıplar karşısında aklını korumak için anılarını çizer, böylece resimler onun yerine hatırlar."
+    },
+    {
+      "name": "Kristi Miller",
+      "billingOrder": 10,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/3/30/Kristi_Miller_Season_3.png",
+      "description": "Kristi Miller is a third-year medical student who became trapped in the Township, separated from her fiancee. She is the de facto doctor for everyone trapped with her and runs the makeshift Clinic in Town.",
+      "descriptionTr": "Kristi Miller, nişanlısından ayrı düşerek Kasaba'da mahsur kalan üçüncü sınıf bir tıp öğrencisidir. Onunla birlikte mahsur kalan herkes için fiili doktordur ve Kasaba'daki derme çatma Klinik'i yönetir."
+    },
+    {
+      "name": "Ellis Stevens",
+      "billingOrder": 11,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/4/4f/Ellis_Stevens_Season_3.png",
+      "description": "Ellis Stevens is a skilled artist and the son of Sheriff Boyd Stevens. His relationship with his father is fraught, and he lives at Colony House. He is in a loving relationship with Fatima Hassan.",
+      "descriptionTr": "Ellis Stevens, yetenekli bir sanatçı ve Şerif Boyd Stevens'ın oğludur. Babasıyla ilişkisi sorunludur ve Koloni Evi'nde yaşar. Fatima Hassan'la sevgi dolu bir ilişki yürütür."
+    },
+    {
+      "name": "Fatima",
+      "billingOrder": 12,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/d/d4/Fatima_Hassan_pro.jpeg",
+      "description": "Fatima is a resident of Colony House who has lived through her own share of the town's hardships. Warm and perceptive, she looks after the people around her and pushes them to make amends before it is too late. Her arrival in town is marked each year at Colony House with a gathering.",
+      "descriptionTr": "Fatima, Colony House'un sakinlerinden biridir ve kasabanın zorluklarından kendi payına düşeni yaşamıştır. Sıcak ve sezgisel yapısıyla çevresindekilere göz kulak olur ve onları çok geç olmadan barışmaya iter. Kasabaya gelişinin yıl dönümü Colony House'ta bir toplantıyla anılır."
+    },
+    {
+      "name": "Donna",
+      "billingOrder": 13,
+      "imageSource": "https://static.wikia.nocookie.net/from/images/5/55/Donna_Raines_Season_3.png",
+      "description": "Donna is a longtime Colony House resident and one of the steady hands in the community. When Boyd is away, she and Kenny step in to manage the chaos, and she often tries to talk him out of his most dangerous plans. Firm and pragmatic, she is part of the circle that keeps the town running.",
+      "descriptionTr": "Donna, Colony House'un uzun süredir yaşayan sakinlerinden biridir ve topluluğun sağlam ellerinden biridir. Boyd yokken Kenny'yle birlikte kaosu yönetmek için devreye girer ve onu en tehlikeli planlarından vazgeçirmeye çalışır. Kararlı ve pratik yapısıyla kasabayı ayakta tutan çevrenin bir parçasıdır."
+    }
+  ]
+}

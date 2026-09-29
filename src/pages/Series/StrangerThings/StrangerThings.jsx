@@ -6,6 +6,7 @@ import Atmosphere from './Atmosphere/Atmosphere';
 import { fetchProductionDetail, theme } from './StrangerThings.data';
 import styles from './StrangerThings.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import CharactersRoute from './CharactersRoute/CharactersRoute';
 import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 export default function StrangerThings() {
   const { t } = useTranslation();
@@ -70,6 +71,7 @@ export default function StrangerThings() {
         <Atmosphere />
       </div>
       <SeasonRoute />
+      <CharactersRoute />
       <Footer />
     </>
   );

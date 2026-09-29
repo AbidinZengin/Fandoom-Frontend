@@ -6,6 +6,7 @@ import Atmosphere from './Atmosphere/Atmosphere';
 import { fetchProductionDetail, theme } from './TheBoys.data';
 import styles from './TheBoys.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import CharactersRoute from './CharactersRoute/CharactersRoute';
 import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 export default function TheBoys() {
   const { t } = useTranslation();
@@ -70,6 +71,7 @@ export default function TheBoys() {
         <Atmosphere />
       </div>
       <SeasonRoute />
+      <CharactersRoute />
       <Footer />
     </>
   );

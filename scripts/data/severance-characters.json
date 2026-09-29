@@ -1,0 +1,67 @@
+{
+  "characters": [
+    {
+      "name": "Mark Scout",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/2/27/2x01-2.jpg",
+      "description": "Mark Scout leads the Macrodata Refinement team at Lumon Industries. Outside the office he is a grieving widower who took the severance procedure to get through the workday without carrying his loss into it. When a new colleague arrives to fill a vacancy on his team, the calm routine he has built on the severed floor begins to shift.",
+      "descriptionTr": "Mark Scout, Lumon Industries'te Makro Veri İyileştirme ekibinin başındadır. Ofisin dışında yasını tutan bir dul olan Mark, kaybını iş gününe taşımamak için ayrıştırma prosedürünü kabul etmiştir. Ekibindeki boşluğu doldurmak için yeni bir çalışma arkadaşı gelince, ayrıştırılmış katta kurduğu sakin düzen değişmeye başlar."
+    },
+    {
+      "name": "Helly Riggs",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/4/48/Helly-106.jpg",
+      "description": "Helly Riggs is the newest member of the Macrodata Refinement team, joining to fill a vacancy. She refuses to accept her situation quietly and pushes back against the rules of the severed floor from her very first day. Her stubbornness forces her colleagues to question things they had long stopped questioning.",
+      "descriptionTr": "Helly Riggs, boşalan yeri doldurmak için katılan Makro Veri İyileştirme ekibinin en yeni üyesidir. Durumunu sessizce kabul etmez ve ilk günden itibaren ayrıştırılmış katın kurallarına karşı çıkar. İnadı, çalışma arkadaşlarını uzun süredir sorgulamayı bıraktıkları şeyleri yeniden sorgulamaya zorlar."
+    },
+    {
+      "name": "Seth Milchick",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/5/57/2x04-6.jpg",
+      "description": "Seth Milchick supervises the severed floor at Lumon with a polished, upbeat manner. He keeps the employees on track, enforces the rules and smooths over anything that threatens the routine. His friendly tone sits alongside a firm loyalty to the company's expectations.",
+      "descriptionTr": "Seth Milchick, Lumon'un ayrıştırılmış katını cilalı ve neşeli bir tavırla yönetir. Çalışanları yolda tutar, kuralları uygular ve düzeni tehdit eden her şeyi yumuşatır. Samimi üslubu, şirketin beklentilerine duyduğu sağlam bağlılıkla yan yanadır."
+    },
+    {
+      "name": "Dylan George",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/5/54/Dylan-105.jpg",
+      "description": "Dylan George is a Macrodata Refinement employee who takes the job's small rewards very seriously. He is competitive, quick with a joke and proud of his standing on the team. Beneath the banter he is as curious about the world beyond the office as his colleagues are.",
+      "descriptionTr": "Dylan George, işin küçük ödüllerini çok ciddiye alan bir Makro Veri İyileştirme çalışanıdır. Rekabetçidir, espriye hızlıdır ve ekipteki yeriyle gurur duyar. Şakaların altında, ofisin ötesindeki dünyayı en az meslektaşları kadar merak eder."
+    },
+    {
+      "name": "Irving Bailiff",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/5/5c/2x04-4.jpg",
+      "description": "Irving Bailiff is the most rule-abiding member of the Macrodata Refinement team and a devoted student of Lumon's founder, Kier Eagan. Meticulous and reserved, he takes pride in doing the work properly. Even so, the questions raised on the floor begin to unsettle his certainty.",
+      "descriptionTr": "Irving Bailiff, Makro Veri İyileştirme ekibinin kurallara en bağlı üyesi ve Lumon'un kurucusu Kier Eagan'ın sadık bir takipçisidir. Titiz ve içine kapanık biri olarak işi doğru yapmakla gurur duyar. Buna rağmen, katta ortaya atılan sorular kesinliğini sarsmaya başlar."
+    },
+    {
+      "name": "Ms. Casey",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/3/3f/Casey-105.jpg/revision/latest/scale-to-width-down/3200",
+      "description": "Ms. Casey is the wellness counselor on the severed floor, meeting with employees in a soft, soothing register. Her sessions are meant to keep them calm and content with their work. Her gentle manner makes her one of the more memorable presences in Lumon's corridors.",
+      "descriptionTr": "Bayan Casey, ayrıştırılmış kattaki sağlık danışmanıdır ve çalışanlarla yumuşak, yatıştırıcı bir tonla görüşür. Seansları onları sakin ve işlerinden memnun tutmak içindir. Nazik tavrı, onu Lumon koridorlarının akılda kalan figürlerinden biri yapar."
+    },
+    {
+      "name": "Harmony Cobel",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/9/96/2x08-5.jpg",
+      "description": "Harmony Cobel manages the severed floor and is fiercely devoted to Lumon and to Kier Eagan's legacy. She watches over Mark and his team closely and expects the work to be done exactly as intended. Composed and exacting, she guards the company's methods with conviction.",
+      "descriptionTr": "Harmony Cobel, ayrıştırılmış katı yönetir ve Lumon'a ile Kier Eagan'ın mirasına şiddetle bağlıdır. Mark ve ekibini yakından gözetler ve işin tam olarak amaçlandığı gibi yapılmasını bekler. Soğukkanlı ve titiz biri olarak şirketin yöntemlerini inançla korur."
+    },
+    {
+      "name": "Burt Goodman",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/1/15/2x06-5.jpg",
+      "description": "Burt Goodman is the head of Optics and Design at Lumon Industries, a soft-spoken man who has spent decades working on the severed floor. Measured and courteous, he keeps to the rules of the company while forming a rare, quiet bond with a colleague from another department. Behind his gentle manner is someone who has learned exactly how much the company expects from its employees.",
+      "descriptionTr": "Burt Goodman, Lumon Industries'in Optik ve Tasarım biriminin başındadır; ayrılmış katta on yıllardır çalışan, yumuşak sesli bir adamdır. Ölçülü ve nazik tavrıyla şirketin kurallarına uyar, başka bir departmandan bir çalışma arkadaşıyla ise nadir görülen sessiz bir bağ kurar. Nazik tavrının ardında, şirketin çalışanlarından tam olarak ne beklediğini öğrenmiş biri vardır."
+    },
+    {
+      "name": "Devon Scout-Hale",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/severance-series/images/8/81/Devon-109.jpg",
+      "description": "Devon Scout-Hale is Mark Scout's sister, the one person outside Lumon who sees how much his grief has hollowed him out. Warm, direct and fiercely protective, she pushes him to face his loss instead of hiding inside his work. When strange messages begin to reach her from his life at Lumon, she is the first to take them seriously.",
+      "descriptionTr": "Devon Scout-Hale, Mark Scout'un kız kardeşidir ve Lumon dışında yas tuttuğu kayıp yüzünden ne kadar içine kapandığını gören tek kişidir. Sıcak, açık sözlü ve sonuna kadar koruyucu olan Devon, onu işine saklanmak yerine kaybıyla yüzleşmeye zorlar. Mark'ın Lumon'daki hayatından tuhaf mesajlar ulaşmaya başladığında bunları ilk ciddiye alan kişi olur."
+    }
+  ]
+}

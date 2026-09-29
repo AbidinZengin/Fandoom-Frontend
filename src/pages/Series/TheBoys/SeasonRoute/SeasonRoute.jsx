@@ -7,12 +7,10 @@ import { fetchProductionDetail } from '../../../../shared/api/productions';
 import { armInPageNav } from '../../../../motion/cinematic';
 import styles from './SeasonRoute.module.css';
 
+const BACKDROP_URL = 'https://image.tmdb.org/t/p/original/pWJe5XWJCW3qYwlefEvRiUsdCDX.jpg';
+
 const pad2 = (n) => String(n).padStart(2, '0');
 
-// Breaking Bad / House of the Dragon SeasonRoute'unun birebir kopyası
-// (kullanıcı isteği). Tek fark: sabit BACKDROP_URL yerine backend'den zaten
-// gelen series.coverImageUrl kullanılır — Hero.jsx'te de aynı alan
-// kullanılıyor, yeni bir Cloudinary asset'i yüklemeye gerek kalmadı.
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -22,6 +20,8 @@ function ArrowIcon() {
   );
 }
 
+// Breaking Bad SeasonRoute'un BİREBİR kopyası (kullanıcı isteği). Arka plan
+// hero'dan farklı: TMDb backdrop'u (ekip yıkık bir şehrin önünde).
 export default function SeasonRoute() {
   const { t } = useTranslation();
   const [series, setSeries] = useState(null);
@@ -43,7 +43,6 @@ export default function SeasonRoute() {
   }, []);
 
   const seasons = series?.seasons ?? [];
-  const activeSeason = seasons[activeIndex] ?? null;
 
   useLayoutEffect(() => {
     if (!seasons.length) return undefined;
@@ -52,18 +51,27 @@ export default function SeasonRoute() {
       const mm = gsap.matchMedia();
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        // Tetik noktaları geciktirildi (top 80/70% → 55/45%) — section
-        // görünüme yeterince girmeden animasyon bitmesin diye.
-        gsap.from([`.${styles.kicker}`, `.${styles.title}`], {
+        gsap.from(`.${styles.kicker}`, {
           opacity: 0,
           y: 28,
           duration: 0.9,
           ease: 'power3.out',
-          stagger: 0.12,
           scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
         });
 
-        // Focus paneli soldan açığa çıkıyor (Severance ile aynı desen).
+        // Başlığın iki satırı SOLDAN kayarak girer, kademeli — CharactersRoute
+        // ile aynı hareket. Header yatayda kırpar, yazı kartın dışına taşmaz.
+        gsap.from([`.${styles.titleLead}`, `.${styles.titleAction}`], {
+          opacity: 0,
+          x: -120,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.12,
+          delay: 0.12,
+          scrollTrigger: { trigger: pageRef.current, start: 'top 55%', once: true },
+        });
+
+        // Focus paneli soldan açığa çıkıyor.
         gsap.from(`.${styles.focus}`, {
           opacity: 0,
           x: -64,
@@ -72,8 +80,7 @@ export default function SeasonRoute() {
           scrollTrigger: { trigger: pageRef.current, start: 'top 45%', once: true },
         });
 
-        // İmza "dalga" animasyonu (learned-rules #imza-dalga) — x:140,
-        // y:56, 0.9s, power3.out, stagger 0.12.
+        // İmza "dalga" animasyonu (learned-rules #imza-dalga).
         gsap.from(trackRef.current.querySelectorAll(`.${styles.cardWrap}`), {
           opacity: 0,
           x: 140,
@@ -86,8 +93,9 @@ export default function SeasonRoute() {
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set([`.${styles.kicker}`, `.${styles.title}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
+        gsap.set([`.${styles.kicker}`, `.${styles.titleLead}`, `.${styles.titleAction}`, `.${styles.focus}`, `.${styles.cardWrap}`], {
           opacity: 1,
+          x: 0,
           y: 0,
           clearProps: 'transform',
         });
@@ -103,8 +111,7 @@ export default function SeasonRoute() {
   }, [seasons.length]);
 
   // Odak panelinin SOLDAN açığa çıkışı — ilk mount'ta yukarıdaki
-  // scroll-trigger zaten aynı işi yaptığı için burada atlanıyor, sadece
-  // activateSeason'ın tetiklediği SONRAKİ değişimlerde çalışır.
+  // scroll-trigger zaten aynı işi yaptığı için atlanıyor.
   useEffect(() => {
     if (isFirstActiveRender.current) {
       isFirstActiveRender.current = false;
@@ -119,8 +126,7 @@ export default function SeasonRoute() {
   }, [activeIndex]);
 
   // Kart hover/focus ile sezon değişince odak paneli geçiş yapar: önceki
-  // sezon SAĞA kayıp kaybolur, yeni sezon SOLDAN açığa çıkar (Severance ile
-  // aynı desen).
+  // sezon SAĞA kayıp kaybolur, yeni sezon SOLDAN açığa çıkar.
   const activateSeason = (i) => {
     if (i === activeIndex) return;
     const focus = focusRef.current;
@@ -149,48 +155,57 @@ export default function SeasonRoute() {
 
   return (
     <section className={styles.page} ref={pageRef}>
-      {series.coverImageUrl && <img className={styles.backdrop} src={series.coverImageUrl} alt="" aria-hidden="true" />}
+      <img className={styles.backdrop} src={BACKDROP_URL} alt="" aria-hidden="true" />
       <div className={styles.scrim} aria-hidden="true" />
 
       <div className={styles.header}>
         <p className={styles.kicker}>{t('series.seasonsHeading')}</p>
-        <h2 className={styles.title}>{t('series.everySeasonEveryEpisode')}</h2>
+        <h2 className={styles.title}>
+          <span className={styles.titleLead}>{t('series.everySeasonLead')}</span>
+          <span className={styles.titleAction}>{t('series.everyEpisodeAction')}</span>
+        </h2>
       </div>
 
       <div className={styles.bottom}>
-        {activeSeason && (
-          <div className={styles.focus} ref={focusRef}>
-            <h3 className={styles.focus__title}>{activeSeason.title}</h3>
-            {activeSeason.storyDek && <p className={styles.focus__dek}>{activeSeason.storyDek}</p>}
-            <Link
-              to={`/series/the-boys/seasons/${activeSeason.seasonNumber}`}
-              onClick={() => armInPageNav()}
-              className={styles.focus__cta}
-            >
-              {t('series.exploreSeasonCta')} <ArrowIcon />
-            </Link>
-          </div>
-        )}
+        <div className={styles.focus} ref={focusRef}>
+          {seasons.map((season, i) => (
+            <div className={styles.focus__item} key={season.id} data-active={i === activeIndex || undefined}>
+              <h3 className={styles.focus__title}>{season.title}</h3>
+              {season.storyDek && <p className={styles.focus__dek}>{season.storyDek}</p>}
+              <Link
+                to={`/series/the-boys/seasons/${season.seasonNumber}`}
+                onClick={() => armInPageNav()}
+                className={styles.focus__cta}
+              >
+                {t('series.exploreSeasonCta')} <ArrowIcon />
+              </Link>
+            </div>
+          ))}
+        </div>
 
         <div className={styles.carousel}>
           <div className={styles.track} ref={trackRef}>
             {seasons.map((season, i) => (
               <div className={styles.cardWrap} key={season.id}>
-                <button
-                  type="button"
+                <Link
+                  to={`/series/the-boys/seasons/${season.seasonNumber}`}
+                  onClick={() => armInPageNav()}
                   className={styles.card}
                   aria-label={t('series.seasonLabel', { number: season.seasonNumber, title: season.title })}
                   aria-current={i === activeIndex || undefined}
                   onMouseEnter={() => activateSeason(i)}
                   onFocus={() => activateSeason(i)}
-                  onClick={() => activateSeason(i)}
                 >
                   {season.posterUrl && (
                     <img className={styles.card__image} src={season.posterUrl} alt="" loading="lazy" />
                   )}
                   <span className={styles.card__number}>{pad2(season.seasonNumber)}</span>
-                </button>
-                <span className={styles.card__caption}>{season.title}</span>
+
+                  <div className={styles.card__caption}>
+                    <span className={styles.card__title}>{season.title}</span>
+                    {season.storyDek && <span className={styles.card__desc}>{season.storyDek}</span>}
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

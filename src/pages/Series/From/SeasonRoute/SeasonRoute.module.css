@@ -4,6 +4,9 @@
   flex-direction: column;
   min-height: clamp(560px, 78vh, 820px);
   background: var(--bg);
+  /* Hero çerçevesiyle (.hero__frame, inset 4% 6%) AYNI yatay genişlik —
+     sağda/solda boşluk kalır (kullanıcı isteği). */
+  margin-inline: 6%;
 }
 
 /* Tam-kaplayan CSS arka planı DEĞİL — diğer görseller gibi kendi radius'lu,
@@ -11,8 +14,8 @@
    aynı desen). Section'ın içine boşluklu oturur. */
 .backdrop {
   position: absolute;
-  inset: var(--space-xl);
-  width: calc(100% - var(--space-xl) * 2);
+  inset: var(--space-xl) 0;
+  width: 100%;
   height: calc(100% - var(--space-xl) * 2);
   object-fit: cover;
   border-radius: var(--radius-lg);
@@ -24,7 +27,7 @@
    köşeler backdrop'un dışına taşmasın. */
 .scrim {
   position: absolute;
-  inset: var(--space-xl);
+  inset: var(--space-xl) 0;
   border-radius: var(--radius-lg);
   background: linear-gradient(
     to bottom,
@@ -39,11 +42,15 @@
   position: relative;
   z-index: 1;
   padding: var(--space-3xl) var(--space-page-x) 0;
+  /* Başlık soldan kayarak girer: kartın sol kenarında yatayda kırpılır (dikeyde
+     kırpma yok — `clip` kaydırma kabı oluşturmaz). */
+  overflow-x: clip;
 }
 
-/* Glassmorphism pill — GoT Highlights'ın .highlights__card-tag'iyle
-   BİREBİR aynı desen (Severance SeasonRoute ile aynı, kullanıcı isteği
-   2026-09-12). */
+/* Glassmorphism pill — GoT Highlights'ın .highlights__card-tag'iyle BİREBİR
+   aynı desen (kullanıcı düzeltmesi, 2026-09-12: "hotd ile değil got en
+   alttaki componentle aynı" — EpisodeBrief'in daha koyu "liquid glass"
+   pili DEĞİL, bu açık/frosted beyaz pil). */
 .kicker {
   display: inline-flex;
   align-items: center;
@@ -61,17 +68,31 @@
   color: var(--bg);
 }
 
-/* Referansın tam-uppercase afiş başlığına kasıtlı istisna (BreakingBad/
-   HouseOfTheDragon SeasonRoute'la aynı) — bu section'a özel. */
+/* Başlık PortalBanner hook'uyla AYNI stil (kullanıcı isteği, 2026-09-24): iki
+   satır alt alta, --text-h1'in 1.3 katı (token türevi), 900 ağırlık, büyük
+   harf, sıkı satır aralığı; ilk satır sönük gri, ikincisi beyaz. Tam-uppercase
+   afiş başlığına kasıtlı istisna (bu section'a özel). */
 .title {
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  max-width: 20ch;
   font-family: var(--font-display);
-  font-size: var(--text-h1);
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: calc(var(--text-h1) * 1.3);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  color: var(--fg);
+  overflow-wrap: anywhere;
+}
+
+/* Gri satır bulutlu zeminde sönük kalıyordu: --fg-muted (#8a8a8a) yerine
+   --fg'nin %72'si (kullanıcı: "biraz açabiliriz"). Skalada karşılığı yok. */
+.titleLead {
+  color: color-mix(in srgb, var(--fg) 72%, transparent);
+}
+
+.titleAction {
+  color: var(--white);
 }
 
 .bottom {
@@ -87,6 +108,19 @@
 .focus {
   flex: 0 0 clamp(460px, 42vw, 600px);
   padding-bottom: var(--space-3xl);
+  /* Tüm sezonların metni AYNI hücrede üst üste durur, hücre en uzun metne
+     göre ölçülür — aktif sezon değişince başlık konumu ve bileşen boyu
+     SABİT kalır (kullanıcı raporu: synopsis uzunluğu yeri oynatıyordu). */
+  display: grid;
+}
+
+.focus__item {
+  grid-area: 1 / 1;
+  align-self: start;
+}
+
+.focus__item:not([data-active]) {
+  visibility: hidden;
 }
 
 .focus__title {
@@ -193,8 +227,9 @@
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
 }
 
-/* Blog kartlarıyla (ReviewCard.module.css) BİREBİR aynı alt-overlay deseni
-   (Severance SeasonRoute ile aynı, kullanıcı isteği 2026-09-12). */
+/* Blog kartlarıyla (ReviewCard.module.css) BİREBİR aynı alt-overlay
+   deseni (kullanıcı isteği, 2026-09-12) — poster üstünde gradient panel,
+   önceden posterin ALTINDA sade bir metin satırıydı. */
 .card__caption {
   position: absolute;
   z-index: 1;
@@ -256,24 +291,22 @@
 }
 
 @media (max-width: 900px) {
-  /* Hero'daki AYNI mobil yükseklik deseni (Severance SeasonRoute ile aynı
-     düzeltme, kullanıcı isteği 2026-09-12). */
+  /* Hero'daki AYNI mobil yükseklik deseni (kullanıcı isteği, 2026-09-12:
+     "kısa kalıyor, herodaki kadar tüm sayfayı kaplasın") — clamp(...78vh)
+     mobilde çok kısa kalıyordu. */
+  /* Yükseklik metin uzunluğuna bağlı DEĞİL: focus hücresi en uzun metne
+     göre sabit olduğundan auto yükseklik her sezonda aynı; min-height
+     ekranı kaplar. Yatay boşluk Hero'nun mobil çerçevesi (inset 2% 3%). */
   .page {
-    height: 100vh;
-    min-height: 640px;
+    height: auto;
+    min-height: max(640px, 100vh);
+    margin-inline: 3%;
   }
 
-  .backdrop {
-    left: var(--space-md);
-    right: var(--space-md);
-    width: calc(100% - var(--space-md) * 2);
-  }
-
-  .scrim {
-    left: var(--space-md);
-    right: var(--space-md);
-  }
-
+  /* .page 100vh'e uzayınca .bottom (flex:1) çok daha büyük bir alan aldı,
+     ama justify-content varsayılanı flex-start olduğu için içerik (focus +
+     carousel) üstte kalıp altta boş alan bırakıyordu (kullanıcı raporu:
+     "yukarda asılı kaldı") — flex-end ile Hero'daki gibi alta yaslanıyor. */
   .bottom {
     flex-direction: column;
     align-items: stretch;
@@ -281,12 +314,22 @@
     gap: var(--space-xl);
   }
 
+  /* flex-end + flex:1 boşluğu üstte bırakıyordu ama yeterince aşağı
+     itmiyordu (kullanıcı raporu) — margin-top ile "SEASON 1"nin başladığı
+     nokta GARANTİ aşağı çekiliyor, flex dağıtımına bağlı kalmadan. */
   .focus {
     flex: none;
     margin-top: var(--space-3xl);
     padding-bottom: 0;
   }
 
+  /* Asıl kök neden: .carousel masaüstü kuralından flex:1 miras alıyordu,
+     .bottom (column) içinde GERİLİP kendi içeriğinin (track+navRow)
+     ALTINDA boşluk bırakıyordu — dıştan flex-end doğru çalışsa da grup
+     kendi içinde yukarıda asılı duruyordu (kullanıcı raporu: "hala
+     yukarda"). flex:none ile carousel kendi içerik boyutuna küçülüyor,
+     tüm boşluk .bottom'un flex-end'i sayesinde TEK PARÇA üstte toplanıp
+     grup komple sayfanın en altına yaslanıyor. */
   .carousel {
     flex: none;
   }
@@ -295,10 +338,15 @@
     flex: 0 0 clamp(140px, 38vw, 180px);
   }
 
+  /* Ok butonları sola yaslıydı (flex-start varsayılanı) — ortalandı
+     (kullanıcı isteği). */
   .navRow {
     justify-content: center;
   }
 
+  /* Masaüstünde "KOCAMAN" (--text-h1, 56px'e kadar) kasıtlıydı — 140-180px
+     genişlikteki mobil kartta poster üstündeki kendi başlık yazısıyla
+     çakışıyordu (kullanıcı raporu). */
   .card__number {
     font-size: var(--text-h2);
   }
