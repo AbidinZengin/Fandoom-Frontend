@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "The Batman",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/the-batman-batman.jpg",
+      "description": "Two years into his campaign against Gotham's underworld, the Batman is still more fear than symbol. He prowls the city's rooftops and back alleys, using intimidation as a weapon. When a killer begins leaving him riddles, the hunt turns personal and forces him to ask what he is really fighting for.",
+      "descriptionTr": "Gotham'ın yeraltı dünyasına karşı verdiği mücadelenin ikinci yılında Batman hâlâ bir simgeden çok bir korkudur. Şehrin çatılarında ve arka sokaklarında dolaşır, yıldırmayı bir silah olarak kullanır. Bir katil ona bilmeceler bırakmaya başlayınca av kişiselleşir ve onu gerçekte ne için savaştığını sorgulamaya zorlar."
+    },
+    {
+      "name": "Bruce Wayne",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/the-batman-bruce-wayne.jpg",
+      "description": "Bruce Wayne is the reclusive heir of one of Gotham's founding families, living almost entirely in the shadow of his parents' deaths. He rarely appears in public, and most of what he is exists behind the mask. The case of the killer forces the man and the myth into the same room.",
+      "descriptionTr": "Bruce Wayne, Gotham'ın kurucu ailelerinden birinin içine kapanık varisidir ve neredeyse tamamen ebeveynlerinin ölümünün gölgesinde yaşar. Nadiren toplum önüne çıkar ve kim olduğunun çoğu maskenin arkasında durur. Katilin davası, adamı ve efsaneyi aynı odaya sokmaya zorlar."
+    },
+    {
+      "name": "Selina Kyle",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/the-batman-selina-kyle.jpg",
+      "description": "Selina Kyle is a waitress at a club by night and a thief who moves through Gotham's underside. Sharp, guarded and resourceful, she has her own reasons to search for what the city's powerful are hiding. She crosses paths with the Batman and challenges the way he sees the city.",
+      "descriptionTr": "Selina Kyle, geceleri bir kulüpte garsonluk yapan ve Gotham'ın alt katmanlarında dolaşan bir hırsızdır. Keskin, temkinli ve becerikli biri olarak, şehrin güçlülerinin sakladığı şeyi aramak için kendi nedenlerine sahiptir. Batman'le yolları kesişir ve onun şehre bakışına meydan okur."
+    },
+    {
+      "name": "James Gordon",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/the-batman-james-gordon.jpg",
+      "description": "Lieutenant James Gordon is one of the few honest cops in a corrupt Gotham police force. He is also the only officer who works openly with the Batman, trusting him enough to bring him to the crime scenes no one else wants to touch.",
+      "descriptionTr": "Teğmen James Gordon, yozlaşmış Gotham polis teşkilatının az sayıdaki dürüst polislerinden biridir. Ayrıca Batman'le açıkça çalışan tek polistir; ona başka kimsenin dokunmak istemediği olay yerlerini gösterecek kadar güvenir."
+    }
+  ]
+}

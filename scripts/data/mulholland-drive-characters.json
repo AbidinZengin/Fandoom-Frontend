@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Betty Elms",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/mulholland-drive-betty-elms.jpg",
+      "description": "Betty Elms is an aspiring actress from a small town who arrives in Los Angeles with big hopes and an easy optimism. She is staying in her aunt's apartment when she finds a stranger already inside. Curious and generous, she decides to help the woman find out who she is.",
+      "descriptionTr": "Betty Elms, küçük bir kasabadan büyük umutlarla ve kolay bir iyimserlikle Los Angeles'a gelen hevesli bir oyuncudur. Teyzesinin dairesinde kalırken içeride zaten bir yabancının olduğunu görür. Meraklı ve cömert biri olarak, bu kadının kim olduğunu bulmasına yardım etmeye karar verir."
+    },
+    {
+      "name": "Rita",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/mulholland-drive-rita.jpg",
+      "description": "Rita is a woman who survives a car crash on Mulholland Drive and stumbles into a stranger's apartment with no memory of who she is. Taking her name from a poster on the wall, she and Betty begin to piece together the clues she carries with her.",
+      "descriptionTr": "Rita, Mulholland Drive'da bir araba kazasından sağ çıkan ve kim olduğunu hatırlamadan bir yabancının dairesine sığınan bir kadındır. Adını duvardaki bir afişten alır ve Betty'yle birlikte, yanında taşıdığı ipuçlarını birleştirmeye başlar."
+    },
+    {
+      "name": "Adam Kesher",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/mulholland-drive-adam-kesher.jpg",
+      "description": "Adam Kesher is a young film director in the middle of casting his next picture. When shadowy figures begin to pressure him to cast a specific actress, his control over his own film starts to slip away.",
+      "descriptionTr": "Adam Kesher, bir sonraki filminin oyuncu seçimini yapan genç bir yönetmendir. Gölgeli figürler belli bir oyuncuyu seçmesi için ona baskı yapmaya başlayınca, kendi filmi üzerindeki kontrolü elinden kayıp gitmeye başlar."
+    }
+  ]
+}

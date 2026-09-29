@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Nina Sayers",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/black-swan-nina-sayers.jpg",
+      "description": "Nina Sayers is a devoted dancer in a New York ballet company, technically flawless and driven by an almost painful need for perfection. She lives with her controlling mother, Erica, in a small, carefully kept apartment. When the company's director, Thomas Leroy, casts her as the Swan Queen in a new production of Swan Lake, the role demands something her discipline alone cannot give.",
+      "descriptionTr": "Nina Sayers, New York'taki bir bale topluluğunun kendini adamış dansçısıdır; teknik açıdan kusursuzdur ve neredeyse acı verici bir mükemmellik ihtiyacıyla hareket eder. Kontrolcü annesi Erica ile küçük ve özenle düzenlenmiş bir dairede yaşar. Topluluğun yönetmeni Thomas Leroy onu Kuğu Gölü'nün yeni prodüksiyonunda Kuğu Kraliçesi olarak seçtiğinde, rol tek başına disiplinin veremeyeceği bir şey ister."
+    },
+    {
+      "name": "Lily",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/black-swan-lily.jpg",
+      "description": "Lily is a dancer who joins the company from San Francisco. Relaxed, magnetic and unbothered by the rules Nina lives by, she moves through the studio with an ease Nina envies. Their friendship and rivalry become one of the story's central relationships.",
+      "descriptionTr": "Lily, topluluğa San Francisco'dan katılan bir dansçıdır. Rahat, çekici ve Nina'nın uyduğu kurallara aldırmayan biridir; stüdyoda Nina'nın imrendiği bir rahatlıkla hareket eder. Aralarındaki dostluk ve rekabet, hikâyenin merkezindeki ilişkilerden biri olur."
+    },
+    {
+      "name": "Beth Macintyre",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/black-swan-beth-macintyre.jpg",
+      "description": "Beth Macintyre is the company's longtime prima ballerina, the face of the company for years. As the season ends, her time in the spotlight is being quietly closed, and Nina, who has admired her for a long time, watches what that does to her.",
+      "descriptionTr": "Beth Macintyre, topluluğun uzun yıllardır prima balerinidir ve yıllarca topluluğun yüzü olmuştur. Sezon sona ererken onun ışıktaki zamanı sessizce kapanmaktadır ve onu uzun süredir hayranlıkla izleyen Nina, bunun ona neler yaptığını görür."
+    }
+  ]
+}

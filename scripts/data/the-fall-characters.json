@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Roy Walker",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/the-fall-roy-walker.jpg",
+      "description": "Roy Walker is a stuntman in 1920s Los Angeles who lands in a hospital bed after a fall on a film set. Bruised, bitter and stuck in a room of strangers, he begins telling a young patient an epic tale to pass the time. The story he invents starts to take on a life of its own.",
+      "descriptionTr": "Roy Walker, 1920'lerin Los Angeles'ında bir film setinde düştükten sonra kendini hastane yatağında bulan bir dublördür. Yaralı, acı dolu ve yabancılarla dolu bir odada sıkışmış hâlde, zaman geçirmek için genç bir hastaya destansı bir hikâye anlatmaya başlar. Uydurduğu hikâye kendi hayatını yaşamaya başlar."
+    },
+    {
+      "name": "Alexandria",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/the-fall-alexandria.jpg",
+      "description": "Alexandria is a curious, imaginative young girl recovering in the same hospital after breaking her arm. Drawn to Roy's storytelling, she asks him for more and more, and pictures the tale in her own way. Her innocence gives the story its heart.",
+      "descriptionTr": "Alexandria, aynı hastanede kolunu kırdıktan sonra iyileşmeye çalışan meraklı ve hayal gücü geniş küçük bir kızdır. Roy'un hikâye anlatışına kapılır, ondan daha fazlasını ister ve hikâyeyi kendi bildiği şekilde gözünde canlandırır. Masumiyeti, hikâyeye kalbini verir."
+    },
+    {
+      "name": "The Black Bandit",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/the-fall-the-black-bandit.jpg",
+      "description": "The Black Bandit is the masked hero at the center of Roy's tale, a fighter who sets out across strange and beautiful landscapes to avenge a wrong. He is joined by a band of unlikely allies, each with a reason of their own to stand against the tyrant Governor Odious.",
+      "descriptionTr": "Kara Haydut, Roy'un hikâyesinin merkezindeki maskeli kahramandır; bir haksızlığın intikamını almak için tuhaf ve güzel manzaralarda yola çıkan bir savaşçıdır. Ona, her birinin zalim Vali Odious'a karşı durmak için kendi nedeni olan olası olmayan müttefikler eşlik eder."
+    }
+  ]
+}

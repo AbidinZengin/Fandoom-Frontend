@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "K",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/blade-runner-2049-k.jpg",
+      "description": "K is a Los Angeles police officer and a blade runner, a replicant who hunts older replicant models that have gone rogue. Living a quiet, closed-off life in a decaying city, he follows orders and keeps his feelings in check. A discovery made on one of his assignments sends him searching for something that could change what he believes about himself.",
+      "descriptionTr": "K, Los Angeles polisinde görev yapan bir blade runner'dır; başıboş kalmış eski replikant modellerini avlayan bir replikanttır. Çürüyen bir şehirde sessiz ve kapalı bir hayat yaşar, emirlere uyar ve duygularını kontrol altında tutar. Görevlerinden birinde yaptığı bir keşif, onu kendisi hakkında inandığı şeyi değiştirebilecek bir şeyin peşine düşürür."
+    },
+    {
+      "name": "Rick Deckard",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/blade-runner-2049-deckard.jpg",
+      "description": "Rick Deckard is a former blade runner who disappeared decades ago and has lived in isolation ever since. Weathered and guarded, he holds a history that others are willing to go to great lengths to find. K's search eventually leads him to Deckard's door.",
+      "descriptionTr": "Rick Deckard, on yıllar önce ortadan kaybolmuş ve o zamandan beri yalnızlık içinde yaşayan eski bir blade runner'dır. Yıpranmış ve temkinli biri olarak, başkalarının bulmak için her şeyi yapmaya hazır olduğu bir geçmişi taşır. K'nin arayışı sonunda onu Deckard'ın kapısına getirir."
+    },
+    {
+      "name": "Joi",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/blade-runner-2049-joi.jpg",
+      "description": "Joi is K's holographic companion, an artificial intelligence programmed to care for him. Warm and curious, she gives his small apartment a sense of home. She wants to be more than what she was made to be, and K wants the same for her.",
+      "descriptionTr": "Joi, K'nin holografik arkadaşıdır; ona bakmak üzere programlanmış bir yapay zekâdır. Sıcak ve meraklı biri olarak, K'nin küçük dairesine bir yuva duygusu verir. Yaratıldığından daha fazlası olmak ister ve K da onun için aynısını ister."
+    },
+    {
+      "name": "Luv",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/blade-runner-2049-luv.jpg",
+      "description": "Luv is the loyal and ruthless right hand of the industrialist Niander Wallace. Cold, precise and fiercely devoted to her master, she carries out his will without hesitation. Her path keeps crossing K's as both follow the same trail.",
+      "descriptionTr": "Luv, sanayici Niander Wallace'ın sadık ve acımasız sağ koludur. Soğuk, kesin ve efendisine şiddetle bağlı biri olarak, onun isteğini tereddütsüz yerine getirir. Her ikisi de aynı izi sürdükleri için yolu sürekli K'ninkiyle kesişir."
+    }
+  ]
+}

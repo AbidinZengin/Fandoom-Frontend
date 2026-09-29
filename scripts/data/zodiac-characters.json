@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Robert Graysmith",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/zodiac-robert-graysmith.jpg",
+      "description": "Robert Graysmith is a quiet political cartoonist at the San Francisco Chronicle who becomes fascinated by the ciphers and letters sent to the newspaper by the Zodiac killer. A puzzle-lover by nature, he starts to look at the case from an outsider's angle. What begins as curiosity slowly becomes the driving force of his life.",
+      "descriptionTr": "Robert Graysmith, San Francisco Chronicle'da çalışan sessiz bir siyasi karikatüristtir ve Zodiac katilinin gazeteye gönderdiği şifrelere ve mektuplara kafayı takar. Doğası gereği bir bulmaca meraklısı olarak, davaya bir yabancının gözüyle bakmaya başlar. Merakla başlayan şey, yavaş yavaş hayatının itici gücüne dönüşür."
+    },
+    {
+      "name": "Paul Avery",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/zodiac-paul-avery.jpg",
+      "description": "Paul Avery is the Chronicle's flamboyant crime reporter, a sharp, sardonic journalist who covers the Zodiac case from the start. Confident and quick with a line, he becomes one of the killer's most visible targets in the press.",
+      "descriptionTr": "Paul Avery, Chronicle'ın gösterişli suç muhabiridir; keskin ve alaycı bir gazeteci olarak Zodiac davasını en başından takip eder. Kendine güvenen ve lafı çabuk yapıştıran biri olarak, katilin basındaki en görünür hedeflerinden biri olur."
+    },
+    {
+      "name": "David Toschi",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/zodiac-david-toschi.jpg",
+      "description": "Inspector David Toschi is a San Francisco homicide detective assigned to the Zodiac investigation alongside his partner, William Armstrong. Meticulous and stubborn, he follows every lead the case offers, even as the trail keeps going cold.",
+      "descriptionTr": "Müfettiş David Toschi, ortağı William Armstrong ile birlikte Zodiac soruşturmasına atanan bir San Francisco cinayet masası dedektifidir. Titiz ve inatçı biri olarak, dava iz bıraktıkça her ipucunu takip eder; iz soğumaya devam etse bile."
+    }
+  ]
+}

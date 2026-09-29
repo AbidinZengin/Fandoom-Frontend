@@ -1,0 +1,46 @@
+{
+  "characters": [
+    {
+      "name": "Cooper",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/interstellar-cooper.jpg",
+      "description": "Joseph Cooper is a former NASA test pilot who now farms corn on a dying Earth, raising his son Tom and daughter Murph alone. Practical and restless, he never stopped wanting to look up at the stars. When a mysterious signal points him back to a secret NASA program, he is offered a chance to help humanity find a new home, at the cost of leaving his children behind.",
+      "descriptionTr": "Joseph Cooper, ölmekte olan bir Dünya'da mısır yetiştiren, oğlu Tom ve kızı Murph'ü tek başına büyüten eski bir NASA test pilotudur. Pratik ve huzursuz biridir; yıldızlara bakma isteğinden hiç vazgeçmemiştir. Gizemli bir sinyal onu gizli bir NASA programına yönlendirince, insanlığa yeni bir yuva bulma şansı önüne çıkar, ama bunun bedeli çocuklarından ayrılmaktır."
+    },
+    {
+      "name": "Amelia Brand",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/interstellar-amelia-brand.jpg",
+      "description": "Dr. Amelia Brand is a NASA scientist and astronaut aboard the Endurance, and the daughter of Professor John Brand, who leads the program. Disciplined and deeply committed to the mission, she believes some instincts matter as much as data. Her loyalty to the people she has lost is a force she cannot fully separate from the science.",
+      "descriptionTr": "Dr. Amelia Brand, Endurance'ta görev alan bir NASA bilim insanı ve astronotudur; programı yöneten Profesör John Brand'in kızıdır. Disiplinli ve göreve derinden bağlı biri olarak, bazı sezgilerin veri kadar önemli olduğuna inanır. Kaybettiği insanlara duyduğu bağlılık, bilimden tamamen ayıramadığı bir güçtür."
+    },
+    {
+      "name": "Murph",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/interstellar-murph.jpg",
+      "description": "Murphy Cooper is Cooper's sharp, stubborn ten-year-old daughter, named after the law that says anything that can go wrong will. She is convinced a ghost is trying to communicate with her through the books in her bedroom, and she refuses to let the idea go. Her curiosity and her bond with her father run through the whole story.",
+      "descriptionTr": "Murphy Cooper, Cooper'ın zeki ve inatçı on yaşındaki kızıdır; adını, ters gidebilecek her şeyin ters gideceğini söyleyen yasadan alır. Yatak odasındaki kitaplar aracılığıyla bir hayaletin kendisiyle iletişim kurmaya çalıştığına ikna olmuştur ve bu düşünceyi bırakmayı reddeder. Merakı ve babasıyla bağı, hikâyenin tamamında yer alır."
+    },
+    {
+      "name": "Tom Cooper",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/interstellar-tom.jpg",
+      "description": "Tom is Cooper's older son, a steady, practical young man who stays on the family farm. While his sister looks to the sky for answers, he builds his life on the land, and the two grow apart as the years pass.",
+      "descriptionTr": "Tom, Cooper'ın büyük oğludur; aile çiftliğinde kalan, sakin ve pratik bir gençtir. Kız kardeşi cevapları gökyüzünde ararken o hayatını toprağın üzerine kurar ve yıllar geçtikçe ikisi birbirinden uzaklaşır."
+    },
+    {
+      "name": "Romilly",
+      "billingOrder": 5,
+      "localImagePath": "scripts/output/character-crops/interstellar-romilly.jpg",
+      "description": "Dr. Romilly is an astrophysicist and one of the scientists aboard the Endurance. Thoughtful and measured, he is the crew's mind for the physics of the journey, and he carries the weight of a mission that will cost him years of his life.",
+      "descriptionTr": "Dr. Romilly, Endurance'ın mürettebatındaki bilim insanlarından biri olan bir astrofizikçidir. Düşünceli ve ölçülü biri olarak, yolculuğun fiziğinden sorumlu isimdir ve yıllarını götürecek bir görevin ağırlığını taşır."
+    },
+    {
+      "name": "Dr. Mann",
+      "billingOrder": 6,
+      "localImagePath": "scripts/output/character-crops/interstellar-mann.jpg",
+      "description": "Dr. Mann is one of the twelve Lazarus pioneers, an accomplished scientist who traveled ahead of the Endurance to survey a distant world. His signal is one of the reasons the crew sets out at all.",
+      "descriptionTr": "Dr. Mann, on iki Lazarus öncüsünden biri olan ve Endurance'tan önce uzak bir dünyayı incelemek için yola çıkan başarılı bir bilim insanıdır. Mürettebatın yola çıkmasının nedenlerinden biri, onun gönderdiği sinyaldir."
+    }
+  ]
+}

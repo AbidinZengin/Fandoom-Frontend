@@ -1,0 +1,39 @@
+{
+  "characters": [
+    {
+      "name": "Paul Atreides",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/dune-part-two-paul-atreides.jpg",
+      "description": "Paul Atreides is the young heir of the fallen House Atreides, now hiding among the Fremen of the desert planet Arrakis. Trained by the Bene Gesserit and haunted by visions of a possible future, he is torn between a life he could build in the desert and a war he fears. The Fremen begin to look at him as more than an outsider.",
+      "descriptionTr": "Paul Atreides, çöl gezegeni Arrakis'te Fremenler arasında saklanan, yıkılmış Atreides Hanesi'nin genç varisidir. Bene Gesserit tarafından eğitilmiş ve olası bir geleceğin görüntüleriyle dolu biri olarak, çölde kurabileceği bir hayat ile korktuğu bir savaş arasında kalır. Fremenler ona artık bir yabancıdan fazlası olarak bakmaya başlar."
+    },
+    {
+      "name": "Chani",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/dune-part-two-chani.jpg",
+      "description": "Chani is a Fremen fighter who knows the desert as home. Proud and direct, she is skeptical of outsiders and of prophecies that promise salvation from elsewhere. She wants her people's freedom to be won on Arrakis, by Arrakis.",
+      "descriptionTr": "Chani, çölü yuvası olarak bilen bir Fremen savaşçısıdır. Gururlu ve açık sözlüdür; yabancılara ve başka yerlerden kurtuluş vaat eden kehanetlere şüpheyle bakar. Halkının özgürlüğünün Arrakis'te, Arrakis tarafından kazanılmasını ister."
+    },
+    {
+      "name": "Lady Jessica",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/dune-part-two-jessica.jpg",
+      "description": "Lady Jessica is Paul's mother and a Bene Gesserit trained in the order's disciplines. Having survived the fall of House Atreides beside her son, she has her own designs for what the Fremen believe about him and for the future she wants him to have.",
+      "descriptionTr": "Lady Jessica, Paul'ün annesi ve tarikatın disiplinlerinde eğitilmiş bir Bene Gesserit'tir. Atreides Hanesi'nin düşüşünden oğluyla birlikte sağ çıkmış olarak, Fremenlerin onun hakkında inandıkları şeyler ve oğlu için istediği gelecek konusunda kendi planları vardır."
+    },
+    {
+      "name": "Stilgar",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/dune-part-two-stilgar.jpg",
+      "description": "Stilgar is the leader of the Fremen of Sietch Tabr. A believer in the old prophecy, he sees in Paul the signs of a promised messiah and offers him a place among his people. His faith gives him a certainty that others around him do not share.",
+      "descriptionTr": "Stilgar, Sietch Tabr Fremenlerinin lideridir. Eski kehanetin bir müminidir; Paul'de vaat edilmiş bir kurtarıcının işaretlerini görür ve ona halkı arasında bir yer sunar. İnancı ona, çevresindekilerin paylaşmadığı bir kesinlik verir."
+    },
+    {
+      "name": "Feyd-Rautha",
+      "billingOrder": 5,
+      "localImagePath": "scripts/output/character-crops/dune-part-two-feyd-rautha.jpg",
+      "description": "Feyd-Rautha Harkonnen is the Baron's nephew and heir to House Harkonnen's ruthless legacy. Trained as a gladiator and a killer, he is quick, cruel and hungry to prove himself. He becomes the deadliest new threat to Paul's rise.",
+      "descriptionTr": "Feyd-Rautha Harkonnen, Baron'un yeğeni ve Harkonnen Hanesi'nin acımasız mirasının varisidir. Gladyatör ve katil olarak yetiştirilmiş, hızlı, zalim ve kendini kanıtlamaya aç biridir. Paul'ün yükselişi için ortaya çıkan en ölümcül yeni tehdit olur."
+    }
+  ]
+}
