@@ -37,6 +37,21 @@ import StrangerThingsEpisodePage from './pages/Series/StrangerThings/EpisodePage
 import TheBoys from './pages/Series/TheBoys/TheBoys';
 import TheBoysSeasonDetail from './pages/Series/TheBoys/SeasonDetail/SeasonDetail';
 import TheBoysEpisodePage from './pages/Series/TheBoys/EpisodePage/EpisodePage';
+import Invincible from './pages/Series/Invincible/Invincible';
+import InvincibleSeasonDetail from './pages/Series/Invincible/SeasonDetail/SeasonDetail';
+import InvincibleEpisodePage from './pages/Series/Invincible/EpisodePage/EpisodePage';
+import Silo from './pages/Series/Silo/Silo';
+import SiloSeasonDetail from './pages/Series/Silo/SeasonDetail/SeasonDetail';
+import SiloEpisodePage from './pages/Series/Silo/EpisodePage/EpisodePage';
+import TheLastOfUs from './pages/Series/TheLastOfUs/TheLastOfUs';
+import TheLastOfUsSeasonDetail from './pages/Series/TheLastOfUs/SeasonDetail/SeasonDetail';
+import TheLastOfUsEpisodePage from './pages/Series/TheLastOfUs/EpisodePage/EpisodePage';
+import Euphoria from './pages/Series/Euphoria/Euphoria';
+import EuphoriaSeasonDetail from './pages/Series/Euphoria/SeasonDetail/SeasonDetail';
+import EuphoriaEpisodePage from './pages/Series/Euphoria/EpisodePage/EpisodePage';
+import TheTerror from './pages/Series/TheTerror/TheTerror';
+import TheTerrorSeasonDetail from './pages/Series/TheTerror/SeasonDetail/SeasonDetail';
+import TheTerrorEpisodePage from './pages/Series/TheTerror/EpisodePage/EpisodePage';
 import Characters from './pages/Series/GameOfThrones/Characters/Characters';
 import WesterosMap from './pages/Series/GameOfThrones/WorldMap/WorldMap';
 import History from './pages/Series/GameOfThrones/History/History';
@@ -289,6 +304,36 @@ function App() {
               element={<TheBoysEpisodePage />}
             />
             <Route path="series/the-boys/seasons/:seasonNumber" element={<TheBoysSeasonDetail />} />
+            <Route path="series/invincible" element={<Invincible />} />
+            <Route
+              path="series/invincible/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<InvincibleEpisodePage />}
+            />
+            <Route path="series/invincible/seasons/:seasonNumber" element={<InvincibleSeasonDetail />} />
+            <Route path="series/silo" element={<Silo />} />
+            <Route
+              path="series/silo/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<SiloEpisodePage />}
+            />
+            <Route path="series/silo/seasons/:seasonNumber" element={<SiloSeasonDetail />} />
+            <Route path="series/the-last-of-us" element={<TheLastOfUs />} />
+            <Route
+              path="series/the-last-of-us/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<TheLastOfUsEpisodePage />}
+            />
+            <Route path="series/the-last-of-us/seasons/:seasonNumber" element={<TheLastOfUsSeasonDetail />} />
+            <Route path="series/euphoria" element={<Euphoria />} />
+            <Route
+              path="series/euphoria/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<EuphoriaEpisodePage />}
+            />
+            <Route path="series/euphoria/seasons/:seasonNumber" element={<EuphoriaSeasonDetail />} />
+            <Route path="series/the-terror" element={<TheTerror />} />
+            <Route
+              path="series/the-terror/seasons/:seasonNumber/episodes/:episodeNumber"
+              element={<TheTerrorEpisodePage />}
+            />
+            <Route path="series/the-terror/seasons/:seasonNumber" element={<TheTerrorSeasonDetail />} />
             <Route path="series/:slug" element={<ProductionDetail type="series" />} />
             <Route path="series" element={<Series />} />
             <Route path="movies/dune-part-two" element={<DunePartTwo />} />

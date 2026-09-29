@@ -40,6 +40,36 @@ export const themeBySlug = {
     fg: '#eaf3ff',
     gradient: 'linear-gradient(160deg, #050a12 0%, #0c2340 45%, #4a0f14 100%)',
   },
+  invincible: {
+    bg: '#050505',
+    accent: '#f2c230',
+    fg: '#fbf3d6',
+    gradient: 'linear-gradient(160deg, #06090f 0%, #10254a 45%, #4a3c08 100%)',
+  },
+  'silo': {
+    bg: '#050505',
+    accent: '#f0a030',
+    fg: '#fcecd6',
+    gradient: 'linear-gradient(160deg, #0a0a0a 0%, #48300e 45%, #90601d 100%)',
+  },
+  'the-last-of-us': {
+    bg: '#050505',
+    accent: '#9db35b',
+    fg: '#ebf0de',
+    gradient: 'linear-gradient(160deg, #0a0a0a 0%, #2f361b 45%, #5e6b37 100%)',
+  },
+  'euphoria': {
+    bg: '#050505',
+    accent: '#b67cf0',
+    fg: '#f0e5fc',
+    gradient: 'linear-gradient(160deg, #0a0a0a 0%, #372548 45%, #6d4a90 100%)',
+  },
+  'the-terror': {
+    bg: '#050505',
+    accent: '#8fb8d8',
+    fg: '#e9f1f7',
+    gradient: 'linear-gradient(160deg, #0a0a0a 0%, #2b3741 45%, #566e82 100%)',
+  },
   'the-bear': {
     bg: '#120a05',
     accent: '#e08a2e',

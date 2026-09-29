@@ -28,6 +28,26 @@ export const PRODUCTION_ACCENT = {
     posterGradient: 'linear-gradient(160deg, #050a12 0%, #0c2340 45%, #4a0f14 100%)',
     accent: '#38a3ff',
   },
+  invincible: {
+    posterGradient: 'linear-gradient(160deg, #06090f 0%, #10254a 45%, #4a3c08 100%)',
+    accent: '#f2c230',
+  },
+  'silo': {
+    posterGradient: 'linear-gradient(160deg, #0a0a0a 0%, #48300e 45%, #90601d 100%)',
+    accent: '#f0a030',
+  },
+  'the-last-of-us': {
+    posterGradient: 'linear-gradient(160deg, #0a0a0a 0%, #2f361b 45%, #5e6b37 100%)',
+    accent: '#9db35b',
+  },
+  'euphoria': {
+    posterGradient: 'linear-gradient(160deg, #0a0a0a 0%, #372548 45%, #6d4a90 100%)',
+    accent: '#b67cf0',
+  },
+  'the-terror': {
+    posterGradient: 'linear-gradient(160deg, #0a0a0a 0%, #2b3741 45%, #566e82 100%)',
+    accent: '#8fb8d8',
+  },
   'the-bear': {
     posterGradient: 'linear-gradient(160deg, #120a05 0%, #2e1a0a 45%, #4a2410 100%)',
     accent: '#e08a2e',
@@ -53,4 +73,9 @@ export const PRODUCTION_BUTTON_GRADIENT = {
   'house-of-the-dragon': ['#33342efa', 'hwb(4 8% 67%)', '#780505'], // koyu füme (kullanıcı değeri birebir) → hwb(4 8% 67%) koyu bordo → #780505 kırmızı
   'breaking-bad': ['#262626fa', 'hwb(160 16% 82%)', '#0b2311'], // koyu gri (kullanıcı değeri birebir) → hwb(160 16% 82%) koyu yeşil → #0b2311 koyu orman yeşili
   'stranger-things': ['#070b4efa', 'hsl(0, 73%, 16%)', '#950707'], // koyu lacivert (kullanıcı değeri birebir) → koyu bordo hsl(0,73%,16%) → rgb(149,7,7) kırmızı
+  invincible: ['#f2c230', '#796118', '#0a0a0a'], // tek renk: kostüm sarısı (accent) → yarı koyulaşmış sarı → siyaha yakın (kullanıcı kararı, 2026-09-30)
+  'silo': ['#f0a030', '#714b17', '#0a0a0a'], // tek renk: accent → yarı koyulaşmış → siyaha yakın (Invincible ile aynı kural)
+  'the-last-of-us': ['#9db35b', '#4a542b', '#0a0a0a'], // tek renk: accent → yarı koyulaşmış → siyaha yakın (Invincible ile aynı kural)
+  'euphoria': ['#b67cf0', '#563a71', '#0a0a0a'], // tek renk: accent → yarı koyulaşmış → siyaha yakın (Invincible ile aynı kural)
+  'the-terror': ['#8fb8d8', '#435666', '#0a0a0a'], // tek renk: accent → yarı koyulaşmış → siyaha yakın (Invincible ile aynı kural)
 };
