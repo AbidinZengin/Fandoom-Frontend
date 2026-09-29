@@ -14,3 +14,7 @@ export const theme = {
   accent: '#5b6472',
   cardBg: '#101012',
 };
+
+// Atmosphere üst başlığı (eyebrow) editöryel metindir, kullanıcı seçene kadar
+// boş (null) kalır ve gizlenir.
+export const ATMOSPHERE_EYEBROW = null;

@@ -3,6 +3,8 @@
 .intro {
   position: relative;
   margin-top: -72px;
+  /* Blurlu arka plan taşıp alttaki bölümlerin yanında renkli şerit bırakıyordu: taşan kısım kırpılır. */
+  overflow: clip;
 }
 
 .intro__backdrop {

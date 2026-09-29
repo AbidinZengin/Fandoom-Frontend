@@ -3,6 +3,10 @@
 .intro {
   position: relative;
   margin-top: -72px;
+  /* Blurlu arka plan (scale 1.08 + blur) kutunun dışına taşıp alttaki
+     bölümlerin yanında yeşil/renkli şerit bırakıyordu: dışarıya taşan kısım
+     kırpılır, arka plan simsiyah kalır. `clip` kaydırma kabı oluşturmaz. */
+  overflow: clip;
 }
 
 .intro__backdrop {

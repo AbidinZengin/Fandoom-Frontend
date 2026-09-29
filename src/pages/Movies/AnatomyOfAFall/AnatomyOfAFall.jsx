@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../../../components/Footer/Footer';
 import Hero from './Hero/Hero';
-import { fetchProductionDetail, theme } from './AnatomyOfAFall.data';
+import Atmosphere from './Atmosphere/Atmosphere';
+import CharactersRoute from './CharactersRoute/CharactersRoute';
+import { fetchProductionDetail, theme, ATMOSPHERE_EYEBROW } from './AnatomyOfAFall.data';
 import styles from './AnatomyOfAFall.module.css';
 
 export default function AnatomyOfAFall() {
@@ -63,7 +65,9 @@ export default function AnatomyOfAFall() {
       <div className={styles.intro}>
         <img ref={backdropRef} className={styles.intro__backdrop} src={movie.coverImageUrl} alt="" />
         <Hero backdropRef={backdropRef} />
+        <Atmosphere movie={movie} eyebrow={ATMOSPHERE_EYEBROW} />
       </div>
+      <CharactersRoute />
       <Footer />
     </>
   );

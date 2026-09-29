@@ -1,0 +1,67 @@
+{
+  "characters": [
+    {
+      "name": "Ki-taek",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/parasite-ki-taek.jpg",
+      "description": "Kim Ki-taek is the patriarch of the Kim family, an easygoing, quick-witted man who has spent years piecing together a living from odd jobs. His household shares a cramped semi-basement apartment, where he keeps everyone's spirits up with a joke and a shrug. Beneath the humor is a father who badly wants a way out for his family.",
+      "descriptionTr": "Kim Ki-taek, Kim ailesinin reisidir; yıllarını ufak tefek işlerle geçimini sağlayarak geçirmiş, rahat tavırlı ve hazırcevap bir adamdır. Ailesiyle birlikte dar bir yarı bodrum dairede yaşar ve herkesin moralini bir espri ve omuz silkişiyle ayakta tutar. Mizahının altında, ailesi için bir çıkış yolu bulmayı çok isteyen bir baba yatar."
+    },
+    {
+      "name": "Chung-sook",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/parasite-chung-sook.jpg",
+      "description": "Chung-sook is the Kim family's no-nonsense matriarch, a former athlete who runs the household with a firm hand and a dry sense of humor. She is the one who calls the family back to earth when their plans run too far ahead. Her loyalty to her husband and children is absolute.",
+      "descriptionTr": "Chung-sook, Kim ailesinin lâfını esirgemeyen matriyarkıdır; eski bir sporcu olarak evi sağlam bir elle ve kuru bir mizah anlayışıyla yönetir. Planlar fazla ileri gittiğinde aileyi yeniden yere indiren kişidir. Kocasına ve çocuklarına bağlılığı tamdır."
+    },
+    {
+      "name": "Ki-woo",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/parasite-ki-woo.jpg",
+      "description": "Kim Ki-woo is the family's eldest child, a bright young man who has repeatedly failed the university entrance exam but never stopped studying. When a friend hands him a chance to tutor English for a wealthy household, he steps into a world far from his basement home. Charming and ambitious, he believes one good opportunity is all it takes.",
+      "descriptionTr": "Kim Ki-woo, ailenin büyük çocuğudur; üniversite giriş sınavını defalarca kaybetmiş ama çalışmayı hiç bırakmamış zeki bir gençtir. Bir arkadaşı ona zengin bir hanede İngilizce özel ders verme şansı sunduğunda, bodrum evinden çok uzak bir dünyaya adım atar. Cana yakın ve hırslı biri olarak, tek bir iyi fırsatın yettiğine inanır."
+    },
+    {
+      "name": "Ki-jung",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/parasite-ki-jung.jpg",
+      "description": "Kim Ki-jung is the family's sharp-tongued younger sibling, resourceful, unsentimental and gifted at graphic work. She sizes up a situation faster than anyone else in the household and rarely lets emotion slow her down. Where her brother dreams, she calculates.",
+      "descriptionTr": "Kim Ki-jung, ailenin dilini esirgemeyen küçük kardeşidir; becerikli, duygusallıktan uzak ve grafik işlerde yetenekli biridir. Bir durumu evdeki herkesten hızlı tartar ve duyguların kendisini yavaşlatmasına nadiren izin verir. Ağabeyi hayal ederken o hesap yapar."
+    },
+    {
+      "name": "Park Dong-ik",
+      "billingOrder": 5,
+      "localImagePath": "scripts/output/character-crops/parasite-park-dong-ik.jpg",
+      "description": "Park Dong-ik is the founder of a successful IT company and the head of the Park household, which lives in a striking modernist house. Polished, courteous and precise, he prizes order and clear boundaries in both business and home life. He treats the people who work for him with a politeness that always keeps a certain distance.",
+      "descriptionTr": "Park Dong-ik, başarılı bir bilişim şirketinin kurucusu ve çarpıcı modernist bir evde yaşayan Park ailesinin reisidir. Kibar, özenli ve titiz biri olarak hem iş hem ev hayatında düzeni ve net sınırları önemser. Yanında çalışan insanlara, her zaman belli bir mesafeyi koruyan bir nezaketle davranır."
+    },
+    {
+      "name": "Park Yeon-kyo",
+      "billingOrder": 6,
+      "localImagePath": "scripts/output/character-crops/parasite-park-yeon-kyo.jpg",
+      "description": "Park Yeon-kyo is Dong-ik's young, warm-hearted wife, devoted to her children and anxious to find the right people to look after them. Trusting by nature, she is quick to believe a good recommendation and to welcome newcomers into the family home. Her generosity is sincere, and so is her tendency to worry.",
+      "descriptionTr": "Park Yeon-kyo, Dong-ik'in genç ve sıcak kalpli eşidir; çocuklarına düşkündür ve onlarla ilgilenecek doğru insanları bulmak için kaygılıdır. Doğası gereği güvenen biri olarak iyi bir tavsiyeye çabuk inanır ve yeni gelenleri aile evine kolayca kabul eder. Cömertliği içtendir, endişelenme eğilimi de öyle."
+    },
+    {
+      "name": "Da-hye",
+      "billingOrder": 7,
+      "localImagePath": "scripts/output/character-crops/parasite-da-hye.jpg",
+      "description": "Da-hye is the Parks' teenage daughter, guarded and observant, preparing for her English exams at home. Her private tutoring sessions become one of the doors through which a new person enters the household. Beneath her reserve is a girl who is quicker to notice things than the adults around her.",
+      "descriptionTr": "Da-hye, Park ailesinin ergenlik çağındaki kızıdır; ketum ve gözlemcidir, evde İngilizce sınavlarına hazırlanır. Özel ders saatleri, yeni bir kişinin haneye girdiği kapılardan biri olur. Çekingenliğinin altında, çevresindeki yetişkinlerden daha çabuk fark eden bir kız yatar."
+    },
+    {
+      "name": "Da-song",
+      "billingOrder": 8,
+      "localImagePath": "scripts/output/character-crops/parasite-da-song.jpg",
+      "description": "Da-song is the Parks' young son, an imaginative, restless boy with a passion for drawing and for the adventures of Native American scouts. His backyard tent and his energy fill the house with noise. He has a child's uncanny knack for noticing what the grown-ups miss.",
+      "descriptionTr": "Da-song, Park ailesinin küçük oğludur; hayal gücü geniş, yerinde duramayan, resim yapmaya ve Kızılderili izcilerin maceralarına tutkulu bir çocuktur. Arka bahçedeki çadırı ve enerjisi evi gürültüyle doldurur. Büyüklerin gözden kaçırdığını fark etme konusunda bir çocuğa özgü tuhaf bir yeteneği vardır."
+    },
+    {
+      "name": "Moon-gwang",
+      "billingOrder": 9,
+      "localImagePath": "scripts/output/character-crops/parasite-moon-gwang.jpg",
+      "description": "Moon-gwang is the Park family's housekeeper, a composed, exacting woman who has kept the household running for years. She knows every corner of the house and how the family likes things done. Her quiet efficiency makes her indispensable, and she guards her place with care.",
+      "descriptionTr": "Moon-gwang, Park ailesinin ev yardımcısıdır; yıllardır evin düzenini ayakta tutan, ölçülü ve titiz bir kadındır. Evin her köşesini ve ailenin işlerin nasıl yapılmasını istediğini bilir. Sessiz verimliliği onu vazgeçilmez kılar ve yerini büyük bir özenle korur."
+    }
+  ]
+}

@@ -14,3 +14,6 @@ export const theme = {
   accent: '#7c8f5a',
   cardBg: '#101012',
 };
+
+// Atmosphere üst başlığı (eyebrow), kullanıcı onaylı editöryel metin (2026-09-30).
+export const ATMOSPHERE_EYEBROW = 'Above Ground, Below Ground';
