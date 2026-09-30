@@ -1,0 +1,100 @@
+{
+  "characters": [
+    {
+      "name": "Juliette Nichols",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/5/5f/Juliette_Nichols.jpg/revision/latest?cb=20241206190331",
+      "description": "Juliette is an engineer from the Down Deep, the lowest levels of the silo, who spends her days fixing the machines that keep everyone alive. When she unexpectedly becomes the sheriff, she brings the same stubbornness to a murder investigation that she brings to a broken pump. Her refusal to accept the official story is what ultimately sets her against the people who run the silo.",
+      "descriptionTr": "Juliette, silonun en alt katları olan Down Deep'ten gelen ve günlerini herkesi hayatta tutan makineleri onarmakla geçiren bir mühendistir. Beklenmedik biçimde şerif olduğunda, bozuk bir pompaya gösterdiği inadı bir cinayet soruşturmasına da taşır. Resmi hikâyeyi kabul etmeyi reddetmesi, onu sonunda silo'yu yönetenlerin karşısına koyan şeydir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Bernard Holland",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/7/77/Bernard_Holland.jpg/revision/latest?cb=20241206190304",
+      "description": "Bernard is the head of the silo's IT department and, in time, its interim mayor. He is soft-spoken, courteous and almost always calm, and he speaks about order and safety as if he truly believes in them. The people who underestimate him tend to find out how much of the silo he has quietly been holding in his hands.",
+      "descriptionTr": "Bernard, silonun IT departmanının başkanı ve zamanla geçici belediye başkanıdır. Yumuşak konuşan, kibar ve neredeyse her zaman sakin biridir; düzen ve güvenlikten, gerçekten inanıyormuş gibi bahseder. Onu hafife alanlar, silonun ne kadarını sessizce elinde tuttuğunu genellikle geç öğrenir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Holston Becker",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/8/8c/HolstonBecker-Infobox.png/revision/latest?cb=20250319133128",
+      "description": "Holston is the well-liked, respected sheriff of the silo, a man who believes that an oath only means something if you keep it when it is hard. His life is shaped by his wife, and by a loss that makes him ask questions he had never dared to ask. The choice he makes at the end of his story is the one that starts everything else.",
+      "descriptionTr": "Holston, silonun sevilen ve saygı duyulan şerifidir; bir yeminin ancak zor olduğunda tutulursa anlam taşıdığına inanan bir adamdır. Hayatını karısı şekillendirir ve bir kayıp, hiç sormaya cesaret etmediği soruları sormasına yol açar. Hikâyesinin sonunda verdiği karar, geri kalan her şeyi başlatan karardır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Allison Becker",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/1/12/AllisonBecker-Infobox.png/revision/latest?cb=20250317194020",
+      "description": "Allison is an IT technician, Holston's wife and, in her own way, a quiet troublemaker. She asks why the rules are so many and why the silo's history was erased, questions that the people in charge would rather nobody ask. What she does about those questions changes the lives of everyone who loves her.",
+      "descriptionTr": "Allison bir IT teknisyeni, Holston'ın karısı ve kendi yolunda sessiz bir başbelasıdır. Neden bu kadar çok kural olduğunu ve silonun tarihinin neden silindiğini sorar; yönetenlerin kimsenin sormamasını tercih ettiği sorulardır bunlar. Bu sorularla ne yaptığı, onu seven herkesin hayatını değiştirir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Lukas Kyle",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/a/ae/Lukas_Kyle.jpg/revision/latest?cb=20241206190308",
+      "description": "Lukas is a systems analyst in IT, gentle, curious and more loyal than is always good for him. He becomes one of Juliette's few allies inside an organisation that is slowly closing around her. His story is about how hard it is to stay decent when staying safe and doing the right thing point in different directions.",
+      "descriptionTr": "Lukas, IT'de çalışan bir sistem analistidir; nazik, meraklı ve kendisi için her zaman iyi olmayacak kadar sadıktır. Juliette'in yavaş yavaş etrafında kapanan bir kurumun içindeki az sayıdaki müttefikinden biri olur. Hikâyesi, güvende kalmakla doğru olanı yapmak farklı yönleri gösterdiğinde dürüst kalmanın ne kadar zor olduğuyla ilgilidir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Solo",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/c/c1/Solo_Infobox.jpg/revision/latest?cb=20241206190314",
+      "description": "Solo is the survivor of another silo, a man who has lived alone in its locked IT vault since he was a child, following his father's last instruction. He talks to himself, to the walls and to the ghosts of his past, and he has long since stopped expecting to see another person. When someone finally arrives, he has to decide whether trust is still possible.",
+      "descriptionTr": "Solo, başka bir silonun hayatta kalanıdır; çocukluğundan beri, babasının son talimatını izleyerek kilitli IT kasasında yalnız yaşar. Kendi kendine, duvarlara ve geçmişinin hayaletlerine konuşur ve başka bir insan görmeyi çoktan beklemez olmuştur. Sonunda biri geldiğinde, güvenin hâlâ mümkün olup olmadığına karar vermek zorundadır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Robert Sims",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/7/7e/RobertSims-Infobox.png/revision/latest?cb=20250323155252",
+      "description": "Robert Sims is the head of security for the silo's Judicial branch, the department that enforces the rules. He is composed, patient and entirely convinced that the silo's order is worth whatever it costs. He is the face of the system's quiet menace, and he rarely needs to raise his voice.",
+      "descriptionTr": "Robert Sims, kuralları uygulayan silonun Yargı biriminin güvenlik başkanıdır. Sakin, sabırlı ve silonun düzeninin ne pahasına olursa olsun değdiğinden tamamen emindir. Sistemin sessiz tehdidinin yüzüdür ve sesini yükseltmesine nadiren gerek kalır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Martha Walker",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/e/e8/Martha_Walker_Infobox.jpg/revision/latest?cb=20241127131037",
+      "description": "Martha is an older electrical engineer in the Down Deep and one of Juliette's closest confidantes. She has seen the silo change over decades and carries a long memory of how things used to work. Her calm advice, and her refusal to be impressed by power, make her one of the most grounded people in the story.",
+      "descriptionTr": "Martha, Down Deep'te çalışan yaşlı bir elektrik mühendisi ve Juliette'in en yakın sırdaşlarından biridir. Silonun onlarca yıl boyunca nasıl değiştiğini görmüş ve işlerin eskiden nasıl yürüdüğüne dair uzun bir hafıza taşır. Sakin tavsiyeleri ve iktidardan etkilenmeyi reddetmesi, onu hikâyenin en ayakları yere basan kişilerinden biri yapar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Paul Billings",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/2/26/PaulBillings-Infobox.png/revision/latest?cb=20250323154610",
+      "description": "Paul Billings is a former member of Judicial who becomes Juliette's chief deputy and, later, the silo's sheriff. He is competent, dutiful and caught between his loyalty to the chain of command and what he has begun to suspect. His decisions show how an honest person can be slowly pulled in two directions.",
+      "descriptionTr": "Paul Billings, Yargı biriminden gelen ve Juliette'in başyardımcısı, daha sonra silonun şerifi olan biridir. Yetkin, görev bilincine sahip ve emir komuta zincirine sadakati ile şüphelenmeye başladığı şey arasında kalmıştır. Kararları, dürüst bir insanın yavaş yavaş iki yöne nasıl çekilebileceğini gösterir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Knox",
+      "billingOrder": 10,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/3/38/Knox_Infobox.jpg/revision/latest?cb=20241127130825",
+      "description": "Deagan Knox is the head of Mechanical in Silo 18, the department that keeps the lights on and the water running. He is practical, direct and deeply loyal to the people who work under him. When unrest grows, he is the one who has to hold the department together.",
+      "descriptionTr": "Deagan Knox, Silo 18'in ışıkları ve suyu ayakta tutan Mekanik departmanının başkanıdır. Pratik, doğrudan ve yanında çalışan insanlara derinden bağlıdır. Huzursuzluk arttığında departmanı bir arada tutması gereken kişi odur.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Shirley Campbell",
+      "billingOrder": 11,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/1/1d/Shirley_Campbell_Infobox.jpg/revision/latest?cb=20241127130222",
+      "description": "Shirley Campbell works in Mechanical and is one of Juliette's closest friends. She is warm, fearless and quick to say what she thinks. When Juliette is taken from her, she becomes a leading voice in the growing unrest in the lower levels.",
+      "descriptionTr": "Shirley Campbell, Mekanik'te çalışır ve Juliette'in en yakın arkadaşlarından biridir. Sıcakkanlı, korkusuz ve düşündüğünü söylemekte hızlıdır. Juliette elinden alındığında, alt katlarda büyüyen huzursuzluğun önde gelen seslerinden biri olur.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Ruth Jahns",
+      "billingOrder": 12,
+      "imageSource": "https://static.wikia.nocookie.net/silo/images/e/ed/RuthJahns-Infobox.png/revision/latest?cb=20250323155346",
+      "description": "Ruth Jahns is the popular mayor of Silo 18, a steady presence who tries to keep the silo's peace through diplomacy. She is the one who brings the job of sheriff to a mechanic in the Down Deep. Her authority is tested as the silo's secrets begin to surface.",
+      "descriptionTr": "Ruth Jahns, Silo 18'in sevilen belediye başkanıdır; silonun huzurunu diplomasiyle korumaya çalışan istikrarlı bir varlıktır. Down Deep'teki bir makiniste şeriflik görevini getiren kişidir. Silonun sırları yüzeye çıkmaya başladıkça otoritesi sınanır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    }
+  ]
+}

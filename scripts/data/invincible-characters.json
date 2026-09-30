@@ -1,0 +1,100 @@
+{
+  "characters": [
+    {
+      "name": "Mark Grayson",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/a/a3/Invincible_%28Mark_Grayson%29.png/revision/latest?cb=20260714054306",
+      "description": "Mark Grayson is a seventeen-year-old who grows up believing that his father is the greatest hero on Earth, and then inherits powers of his own. He takes the name Invincible and tries to live up to a legacy he only half understands, all while juggling school, friendships and first love. Over four seasons, the thing he fears most is not a villain but the possibility that he might turn into his father.",
+      "descriptionTr": "Mark Grayson, babasının Dünya'nın en büyük kahramanı olduğuna inanarak büyüyen ve sonra kendi güçlerini miras alan on yedi yaşında bir gençtir. Invincible adını alır ve yalnızca yarısını anladığı bir mirasın hakkını vermeye çalışır; bunu yaparken okul, arkadaşlıklar ve ilk aşkla da uğraşır. Dört sezon boyunca en çok korktuğu şey bir kötü değil, babasına dönüşme ihtimalidir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Nolan Grayson",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/6/63/Omni-ManProfile.png/revision/latest?cb=20250719143231",
+      "description": "Nolan Grayson, better known as Omni-Man, is the most admired hero on the planet and a devoted father who trains his son to follow in his footsteps. Behind the cape lies a truth about where he comes from and what he was sent to do, and it shatters his family. What he chooses afterwards, far from Earth, shapes the rest of the story.",
+      "descriptionTr": "Nolan Grayson, daha çok Omni-Man olarak bilinir; gezegenin en hayran olunan kahramanı ve oğlunu kendi izinde yetiştiren adanmış bir babadır. Pelerinin ardında nereden geldiğine ve ne için gönderildiğine dair bir gerçek yatar ve bu gerçek ailesini paramparça eder. Dünya'dan uzakta sonra yaptığı seçimler hikâyenin geri kalanını şekillendirir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Debbie Grayson",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/c/cb/DebbieProfile.png/revision/latest?cb=20210619071405",
+      "description": "Debbie is Mark's mother and the person who has held the Grayson household together through everything. She is human, which makes her the one who pays the highest price when the secrets of her family come out. Her story is about learning to rebuild her life, and to stay a mother, in a world of people who can move mountains.",
+      "descriptionTr": "Debbie, Mark'ın annesi ve Grayson ailesini her şeyin içinde bir arada tutan kişidir. İnsandır ve bu yüzden ailesinin sırları ortaya çıktığında en ağır bedeli o öder. Hikâyesi, dağları yerinden oynatabilen insanların dünyasında hayatını yeniden kurmayı ve anne kalmayı öğrenmekle ilgilidir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Atom Eve",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/7/74/Atom-EveProfile.png/revision/latest?cb=20250520153227",
+      "description": "Samantha Eve Wilkins, known as Atom Eve, can rearrange matter at the atomic level, and she uses that power with more care for ordinary people than almost any hero alive. She joins Mark's circle as a fellow member of the Teen Team and becomes one of the few people he can be completely honest with. Her sense of responsibility is as big as her powers.",
+      "descriptionTr": "Samantha Eve Wilkins, namıdiğer Atom Eve, maddeyi atomik düzeyde yeniden düzenleyebilir ve bu gücü neredeyse hiçbir kahramanın göstermediği bir özenle sıradan insanlar için kullanır. Genç Takım'ın bir üyesi olarak Mark'ın çevresine katılır ve onun tamamen dürüst olabildiği az sayıdaki insandan biri olur. Sorumluluk duygusu güçleri kadar büyüktür.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Cecil Stedman",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/f/f1/CecilProfile.png/revision/latest?cb=20250812171717",
+      "description": "Cecil Stedman is the head of the Global Defense Agency, the organisation that cleans up after heroes and villains alike. He is pragmatic to the point of ruthlessness, convinced that the price of protecting billions justifies almost any method. The people who work for him, including Mark, slowly learn how far he is willing to go.",
+      "descriptionTr": "Cecil Stedman, kahramanların ve kötülerin ardından ortalığı toparlayan kuruluş Küresel Savunma Teşkilatı'nın başkanıdır. Acımasızlık sınırına varacak kadar pragmatiktir ve milyarları korumanın bedelinin hemen her yöntemi haklı çıkardığına inanır. Onun için çalışanlar, Mark dahil, ne kadar ileri gitmeye razı olduğunu yavaş yavaş öğrenir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Rex Splode",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/8/87/Rex-SplodeProfile.png/revision/latest?cb=20260319022803",
+      "description": "Rex Sloan, known as Rex Splode, is a member of the Teen Team who can make anything he touches explode, and he has the confidence to match. He plays the joker and the troublemaker, but his loyalty to his friends runs deeper than the jokes suggest. His arc takes a serious turn as the stakes of the story rise.",
+      "descriptionTr": "Rex Sloan, namıdiğer Rex Splode, Genç Takım'ın dokunduğu her şeyi patlatabilen ve bu güce uygun özgüvene sahip üyesidir. Şakacı ve başbelası rolünü oynar, ama arkadaşlarına bağlılığı şakalarından daha derindir. Hikâyenin riskleri yükseldikçe hikâyesi ciddi bir dönüş alır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Robot",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/e/ed/RobotProfile.png/revision/latest?cb=20260319125812",
+      "description": "Robot is a brilliant, calculating inventor who runs the Guardians of the Globe and the Teen Team from behind a mask of calm authority. His intelligence is matched by his willingness to manipulate the people around him for what he believes is the greater good. Few characters in the show have a stranger relationship with trust.",
+      "descriptionTr": "Robot, sakin bir otoritenin maskesinin ardından Dünya Muhafızları'nı ve Genç Takım'ı yöneten parlak ve hesapçı bir mucittir. Zekâsı, daha büyük iyilik olduğuna inandığı şey için çevresindekileri manipüle etme isteğiyle eşleşir. Dizide güvenle onunkinden daha tuhaf bir ilişkisi olan karakter azdır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Allen the Alien",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/6/6c/Allen.png/revision/latest?cb=20260116144809",
+      "description": "Allen is an envoy from the Coalition of Planets, a being who has spent his life opposing the empire that Mark's father comes from. He arrives on Earth as a warning and stays as an ally, carrying the weight of a war the planet does not yet understand. His dry, tired humour hides how much he has lost.",
+      "descriptionTr": "Allen, Mark'ın babasının geldiği imparatorluğa karşı hayatını geçirmiş bir varlık, Gezegenler Koalisyonu'nun elçisidir. Dünya'ya bir uyarı olarak gelir ve müttefik olarak kalır; gezegenin henüz anlamadığı bir savaşın yükünü taşır. Kuru ve yorgun mizahı ne kadar şey kaybettiğini saklar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Battle Beast",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/0/02/Battle_Beast.png/revision/latest?cb=20260505004520",
+      "description": "Battle Beast is a legendary warrior whose only code is to seek out worthy opponents. He fights with a clear, almost joyful honour and has no interest in politics or conquest. When he turns his attention to Earth, even the strongest heroes see that they are facing someone who cannot be talked out of a fight.",
+      "descriptionTr": "Battle Beast, tek kuralı değerli rakipler aramak olan efsanevi bir savaşçıdır. Net, neredeyse neşeli bir onurla dövüşür ve siyasete ya da fetihe ilgisi yoktur. Dikkatini Dünya'ya çevirdiğinde en güçlü kahramanlar bile kendisini bir dövüşten vazgeçirilemeyecek biriyle karşı karşıya bulur.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Angstrom Levy",
+      "billingOrder": 10,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/c/cd/AngstromS3.png/revision/latest?cb=20260703031023",
+      "description": "Angstrom Levy is a scientist who opens doors between parallel worlds, and whose obsession with them eventually costs him everything. After an experiment goes terribly wrong, he becomes a mutated, vengeful figure who blames the hero for what has happened. His ability to reach other versions of reality makes him one of the most dangerous enemies Mark has ever faced.",
+      "descriptionTr": "Angstrom Levy, paralel dünyalar arasında kapılar açan ve bunlara takıntısı sonunda her şeyine mal olan bir bilim insanıdır. Bir deney korkunç biçimde ters gittikten sonra mutasyona uğramış, intikamcı bir figüre dönüşür ve olanlar için kahramanı suçlar. Gerçekliğin başka versiyonlarına ulaşabilmesi onu Mark'ın karşılaştığı en tehlikeli düşmanlardan biri yapar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Thragg",
+      "billingOrder": 11,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/b/be/GrandRegentThragg-render.png/revision/latest?cb=20260714065038",
+      "description": "Thragg is the Grand Regent of Viltrum, the ruler of an empire built on conquest and the strongest of his kind. He is calm, patient and entirely without doubt that his people will inherit the universe. When the war with the Coalition turns against him, he proves that cold discipline can be more frightening than rage.",
+      "descriptionTr": "Thragg, fetih üzerine kurulu bir imparatorluğun hükümdarı ve türünün en güçlüsü olan Viltrum'un Büyük Naibi'dir. Sakin, sabırlı ve halkının evreni miras alacağından hiçbir şüphesi yoktur. Koalisyonla savaş aleyhine döndüğünde soğuk disiplinin öfkeden daha korkutucu olabileceğini kanıtlar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Conquest",
+      "billingOrder": 12,
+      "imageSource": "https://static.wikia.nocookie.net/amazon-invincible/images/a/af/Viltrumite_Conquest.png/revision/latest?cb=20260716064356",
+      "description": "Conquest is a Viltrumite warrior sent to Earth to judge how its conquest is going, and he does not like what he finds. He is brutal, disciplined and certain that mercy is a weakness. His clash with Mark is one of the most punishing the show has staged.",
+      "descriptionTr": "Conquest, Dünya'nın fethinin nasıl gittiğini değerlendirmek üzere gönderilen bir Viltrumlu savaşçıdır ve bulduğu şeyi beğenmez. Acımasız, disiplinli ve merhametin bir zayıflık olduğundan emindir. Mark'la çatışması dizinin sahnelediği en yıpratıcı çatışmalardan biridir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    }
+  ]
+}

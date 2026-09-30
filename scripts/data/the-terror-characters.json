@@ -1,0 +1,60 @@
+{
+  "characters": [
+    {
+      "name": "Francis Crozier",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/the-terror/images/3/31/Captain_Francis.png/revision/latest?cb=20180303235028",
+      "description": "Captain Francis Crozier commands HMS Terror, a veteran Arctic officer who distrusts the optimism of the expedition he is part of. He is an Irishman in a navy that rarely forgave it, a man who drinks to quiet a long history of disappointment. When the ships are trapped and the command falls to him, he becomes the clear-eyed leader the crew did not know they needed.",
+      "descriptionTr": "Kaptan Francis Crozier, HMS Terror'ın komutanıdır; dahil olduğu seferin iyimserliğine güvenmeyen, deneyimli bir Arktik subayıdır. Nadiren affeden bir donanmada İrlandalı biridir ve uzun bir hayal kırıklığı geçmişini susturmak için içer. Gemiler mahsur kalıp komuta ona geçtiğinde, mürettebatın ihtiyaç duyduğunu bilmediği açık görüşlü lider olur.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "James Fitzjames",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/the-terror/images/3/36/James_Fitzjames.png/revision/latest?cb=20180304000200",
+      "description": "Commander James Fitzjames is the charismatic captain of HMS Erebus, a naval officer who seems to have been born for the job. He is witty, ambitious and more aware than he lets on of the things that stand between him and the life he wants. As the expedition grows desperate, his optimism becomes both a comfort and a burden.",
+      "descriptionTr": "Komutan James Fitzjames, HMS Erebus'un karizmatik kaptanıdır; bu iş için doğmuş gibi görünen bir donanma subayıdır. Esprili, hırslı ve kendisiyle istediği hayat arasındaki engellerin farkında olduğunu belli ettiğinden fazla biçimde bilir. Sefer çaresizleştikçe iyimserliği hem bir teselli hem de bir yük olur.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "John Franklin",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/the-terror/images/e/e3/John_Franklin.png/revision/latest?cb=20180304000034",
+      "description": "Sir John Franklin is the leader of the expedition, a celebrated explorer who is certain that the Northwest Passage is within reach. He is warm, romantic and devoted to the idea of British destiny. His refusal to consider that he might be wrong sets the terms for everything that follows.",
+      "descriptionTr": "Sör John Franklin, seferin lideri; Kuzeybatı Geçidi'nin erişilebilir mesafede olduğundan emin, ünlü bir kâşiftir. Sıcak, romantik ve Britanya'nın kaderi fikrine adanmıştır. Yanılmış olabileceğini düşünmeyi reddetmesi, sonrasında olan her şeyin şartlarını belirler.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Harry Goodsir",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/the-terror/images/a/ab/Henry_Goodsir.png/revision/latest?cb=20180304000611",
+      "description": "Harry Goodsir is the young assistant surgeon and naturalist, more comfortable among specimens and questions than among officers. He is gentle, curious and the first to suspect that the tinned food the expedition depends on may be part of what is killing the men. His scientific stubbornness becomes one of the expedition's few sources of hope.",
+      "descriptionTr": "Harry Goodsir, genç yardımcı cerrah ve doğa bilimcidir; subaylardan çok örnekler ve sorular arasında rahattır. Nazik, meraklıdır ve seferin dayandığı konserve yiyeceklerin erkekleri öldüren şeyin bir parçası olabileceğinden şüphelenen ilk kişidir. Bilimsel inadı, seferin az sayıdaki umut kaynağından biri olur.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Cornelius Hickey",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/the-terror/images/a/a5/Cornelius_Hickey.png/revision/latest?cb=20180304000910",
+      "description": "Cornelius Hickey is the caulker's mate on HMS Terror, a charming, sharp-witted man with a real talent for reading what other people want to hear. He hides a great deal behind his easy smile. As discipline breaks down, he becomes the centre of a dangerous faction that has no loyalty but to itself.",
+      "descriptionTr": "Cornelius Hickey, HMS Terror'da kalafat ustasının yardımcısıdır; çekici, hazırcevap ve başkalarının ne duymak istediğini okumakta gerçek bir yeteneği olan biridir. Rahat gülümsemesinin ardında çok şey saklar. Disiplin çöktükçe yalnızca kendisine sadakat bilen tehlikeli bir grubun merkezi olur.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Thomas Blanky",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/the-terror/images/6/67/Thomas_Blanky.png/revision/latest?cb=20180304001535",
+      "description": "Thomas Blanky is the ice master, a veteran whaler who has spent his life reading the sea and its dangers. He is practical, loyal and respected by both officers and men. When the ice closes around the ships, his judgement is one of the few things the crew can trust.",
+      "descriptionTr": "Thomas Blanky, buz ustası; hayatını denizi ve tehlikelerini okuyarak geçirmiş deneyimli bir balina avcısıdır. Pratik, sadık ve hem subaylar hem erler tarafından saygı görür. Buz gemilerin etrafını kapattığında, muhakemesi mürettebatın güvenebildiği az şeyden biridir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Lady Silence",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/the-terror/images/e/e3/Lady_Silence.png/revision/latest?cb=20180304001219",
+      "description": "Lady Silence is a young Netsilik woman who arrives at the ships without a voice and with a sense of purpose the crew do not understand. She is watchful, capable and connected to a world that the expedition has no map for. The men take her for a stranger; in truth she understands the danger better than any of them.",
+      "descriptionTr": "Lady Silence, gemilere sesi olmadan ve mürettebatın anlamadığı bir amaç duygusuyla gelen genç bir Netsilik kadınıdır. Dikkatli, yetkin ve seferin haritasının olmadığı bir dünyayla bağlantılıdır. Adamlar onu yabancı sanır; gerçekte tehlikeyi hepsinden daha iyi anlar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    }
+  ]
+}

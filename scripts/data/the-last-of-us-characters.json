@@ -1,0 +1,116 @@
+{
+  "characters": [
+    {
+      "name": "Joel Miller",
+      "billingOrder": 1,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/1/12/HBO_S2_Joel_Miller_infobox.png/revision/latest?cb=20250604034050",
+      "description": "Joel is a smuggler who lost his daughter on the first night of the outbreak and has spent twenty years making sure nothing can hurt him like that again. When he is paid to take a teenage girl across the country, he expects a job, not a second chance at being a father. The man who finishes that journey is not the one who began it, and the choices he makes along the way are the ones everyone else has to live with.",
+      "descriptionTr": "Joel, salgının ilk gecesinde kızını kaybetmiş ve yirmi yıldır başka hiçbir şeyin ona bu şekilde zarar verememesi için uğraşmış bir kaçakçıdır. Genç bir kızı ülkenin öbür ucuna götürmek için para aldığında bir iş bekler, babalık için ikinci bir şans değil. Bu yolculuğu bitiren adam, başlayan adam değildir ve yolda verdiği kararlar, herkesin birlikte yaşamak zorunda kaldığı kararlardır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Ellie Williams",
+      "billingOrder": 2,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/0/0d/HBO_S2_Ellie_Williams_infobox.png/revision/latest?cb=20250604033621",
+      "description": "Ellie is a fourteen-year-old who has grown up inside a military quarantine zone and has never seen what the outside looks like. She is sharp-tongued, curious and far more capable than anyone expects, and she carries a secret that may matter more than the cure anyone is chasing. As the years pass, her loyalty to the people she loves turns into something that costs her dearly.",
+      "descriptionTr": "Ellie, askeri bir karantina bölgesinde büyümüş ve dış dünyanın nasıl göründüğünü hiç görmemiş on dört yaşında bir kızdır. Sivri dilli, meraklı ve herkesin beklediğinden çok daha yetkindir; herkesin peşinden koştuğu tedaviden daha önemli olabilecek bir sır taşır. Yıllar geçtikçe sevdiği insanlara olan bağlılığı ona çok pahalıya mal olan bir şeye dönüşür.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Tess Servopoulos",
+      "billingOrder": 3,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/d/d5/Part_I_Tess_infobox.png/revision/latest?cb=20230215183628",
+      "description": "Tess is Joel's smuggling partner, hard, pragmatic and absolutely loyal to the few people she trusts. She is the first to believe that the girl they are asked to move might be worth the risk. Her choices at the end of her own journey set the terms for everything that comes after.",
+      "descriptionTr": "Tess, Joel'un kaçakçılık ortağıdır; sert, pragmatik ve güvendiği az sayıdaki insana mutlak sadıktır. Taşımaları istenen kızın riske değebileceğine inanan ilk kişidir. Kendi yolculuğunun sonunda yaptığı seçimler, sonrasında gelen her şeyin şartlarını belirler.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Tommy Miller",
+      "billingOrder": 4,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/0/0b/HBO_S2_Tommy_Miller_infobox.png/revision/latest?cb=20250604034303",
+      "description": "Tommy is Joel's younger brother, a former soldier who left the quarantine zone to build something better. He helps found a thriving settlement in Wyoming and finds a life that Joel has long stopped believing in. He is gentler than his brother, but not any less stubborn.",
+      "descriptionTr": "Tommy, Joel'un küçük kardeşi ve daha iyi bir şey kurmak için karantina bölgesini terk etmiş eski bir askerdir. Wyoming'de gelişen bir yerleşimin kurulmasına yardım eder ve Joel'un çoktan inanmayı bıraktığı bir hayat bulur. Ağabeyinden daha yumuşaktır, ama inatçılıkta ondan geri kalmaz.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Marlene",
+      "billingOrder": 5,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/6/6b/HBO_Marlene_infobox.png/revision/latest?cb=20230215202226",
+      "description": "Marlene is the leader of the Fireflies, a resistance movement with a plan to end the pandemic at any cost. She made a promise to a dying friend to protect her daughter, and she has spent years wrestling with what that promise requires. She believes in the cause with a clarity that can be mistaken for coldness.",
+      "descriptionTr": "Marlene, salgını her ne pahasına olursa olsun bitirme planı olan direniş hareketi Fireflies'ın lideridir. Ölmekte olan bir arkadaşına kızını koruma sözü vermiş ve bu sözün ne gerektirdiğiyle yıllarca boğuşmuştur. Davaya soğukluk sanılabilecek bir netlikle inanır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Bill",
+      "billingOrder": 6,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/e/e0/HBO_Bill_infobox.png/revision/latest?cb=20230215200850",
+      "description": "Bill is a paranoid survivalist who turned an entire town into a fortress and planned to live out his days alone. He is gruff, suspicious and sure that the world ended the way he always said it would. Under the armour there is a man who turns out to be capable of deep love.",
+      "descriptionTr": "Bill, tüm bir kasabayı kaleye çeviren ve günlerini yalnız geçirmeyi planlayan paranoyak bir hayatta kalma uzmanıdır. Kaba, şüpheci ve dünyanın hep söylediği gibi bittiğinden emindir. Zırhın altında derin bir sevgiye kadir olduğu ortaya çıkan bir adam vardır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Frank",
+      "billingOrder": 7,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/0/0b/HBO_Frank_infobox.png/revision/latest?cb=20230215202129",
+      "description": "Frank is the man who walks into Bill's trap and ends up changing his life. Warm, funny and endlessly patient, he sees something in Bill that nobody else has bothered to look for. Their story is one of the quiet, enduring love stories of the series.",
+      "descriptionTr": "Frank, Bill'in tuzağına yürüyüp hayatını değiştiren adamdır. Sıcak, esprili ve sonsuz sabırlıdır; Bill'de kimsenin aramaya zahmet etmediği bir şey görür. Hikâyeleri dizinin sessiz ve kalıcı aşk hikâyelerinden biridir.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Henry Burrell",
+      "billingOrder": 8,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/2/2d/HBO_Henry_infobox.png/revision/latest?cb=20230215202006",
+      "description": "Henry is an older brother who has spent years protecting a younger one in a city that is hunting him. He is quick, resourceful and haunted by a choice he made to keep his brother alive. When he crosses paths with Joel and Ellie, the four of them have to decide whether to trust one another.",
+      "descriptionTr": "Henry, kendisini avlayan bir şehirde yıllardır küçük kardeşini koruyan bir ağabeydir. Hızlı, becerikli ve kardeşini hayatta tutmak için verdiği bir kararın perişan ettiği bir adamdır. Joel ve Ellie ile yolları kesiştiğinde dördü birbirlerine güvenip güvenemeyeceklerine karar vermek zorunda kalır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Sam Burrell",
+      "billingOrder": 9,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/7/71/HBO_Sam_infobox.png/revision/latest?cb=20230215202036",
+      "description": "Sam is Henry's eight-year-old brother, a deaf boy who sees the world with a wide-eyed calm that puts everyone around him at ease. He makes a quick friend of Ellie, who is not used to being looked at that way. His story is short and unforgettable.",
+      "descriptionTr": "Sam, Henry'nin sekiz yaşındaki kardeşi; çevresindeki herkesi rahatlatan, gözleri iri iri açık bir sakinlikle dünyaya bakan sağır bir çocuktur. Bu şekilde bakılmaya alışık olmayan Ellie ile çabucak arkadaş olur. Hikâyesi kısa ve unutulmazdır.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Kathleen Coghlan",
+      "billingOrder": 10,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/e/eb/Kathleen.png/revision/latest?cb=20230203015151",
+      "description": "Kathleen leads the resistance in Kansas City after the fall of its old regime, and her grief has hardened into a campaign of revenge. She will tear a city apart to find one man. Her single-mindedness makes her more dangerous than most of the infected.",
+      "descriptionTr": "Kathleen, eski rejimin çöküşünün ardından Kansas City'deki direnişi yönetir ve yası bir intikam kampanyasına dönüşmüştür. Bir adamı bulmak için bir şehri yerle bir eder. Tek yöne bakan kararlılığı onu enfekte olmuşların çoğundan daha tehlikeli yapar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "David",
+      "billingOrder": 11,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/e/eb/HBO_S1_David_infobox.jpg/revision/latest?cb=20230301220332",
+      "description": "David is a charismatic preacher who leads a desperate community through a brutal winter. He speaks gently, offers shelter and puts on the face of a father to the people who follow him. What he actually wants from a lonely girl turns out to be something much darker.",
+      "descriptionTr": "David, acımasız bir kışta çaresiz bir topluluğa önderlik eden karizmatik bir vaizdir. Yumuşak konuşur, barınak sunar ve kendisini izleyen insanlara bir baba yüzü takınır. Yalnız bir kızdan gerçekte istediği şey çok daha karanlık çıkar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Abby Anderson",
+      "billingOrder": 12,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/d/d1/HBO_S2_Abby_Anderson_infobox.png/revision/latest?cb=20250604033335",
+      "description": "Abby is a soldier in a well-organised militia with a grievance she has carried for years. She is physically formidable, disciplined and capable of great tenderness toward the people she trusts. Her pursuit of justice puts her on a collision course with someone who is just as determined as she is.",
+      "descriptionTr": "Abby, yıllardır taşıdığı bir dert olan, iyi örgütlenmiş bir milisin askeridir. Fiziksel olarak güçlü, disiplinli ve güvendiği insanlara karşı büyük bir şefkate kadirdir. Adalet arayışı onu, kendisi kadar kararlı biriyle çarpışma rotasına sokar.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Dina",
+      "billingOrder": 13,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/3/32/HBO_S2_Dina_infobox.png/revision/latest?cb=20250604033459",
+      "description": "Dina is warm, funny and quick to call out anyone who takes themselves too seriously. She is one of the few people in Jackson who can make Ellie laugh and one of the few who can make her stop and think. When Ellie sets off on a dangerous journey, Dina refuses to let her go alone.",
+      "descriptionTr": "Dina, sıcakkanlı, esprili ve kendini fazla ciddiye alan herkesi uyarmakta hızlıdır. Jackson'da Ellie'yi güldürebilen ve durup düşündürebilen az sayıdaki insandan biridir. Ellie tehlikeli bir yolculuğa çıktığında Dina onun yalnız gitmesine izin vermez.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    },
+    {
+      "name": "Jesse",
+      "billingOrder": 14,
+      "imageSource": "https://static.wikia.nocookie.net/thelastofus/images/7/7c/HBO_S2_Jesse_infobox.png/revision/latest?cb=20250604033931",
+      "description": "Jesse is a steady, capable member of the Jackson community who looks out for the people he cares about. He is close to Dina and wants to do right by her. When the people he trusts head into danger, he follows them.",
+      "descriptionTr": "Jesse, Jackson topluluğunun sakin ve yetkin bir üyesidir ve değer verdiği insanları kollar. Dina'ya yakındır ve onun için doğru olanı yapmak ister. Güvendiği insanlar tehlikeye doğru yola çıktığında onları izler.",
+      "cloudinaryCrop": "c_fill,g_north,ar_2:3,w_900"
+    }
+  ]
+}
