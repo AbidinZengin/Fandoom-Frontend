@@ -1,0 +1,102 @@
+{
+  "characters": [
+    {
+      "name": "Rhaenyra Targaryen",
+      "billingOrder": 1,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/01_Rhaenyra.jpg",
+      "description": "The only child of King Viserys I, Rhaenyra Targaryen breaks precedent as the first woman named heir to the Iron Throne. The choice deeply unsettles a Westeros nobility unused to female rule, especially the Hightowers, who back her half-brother Aegon instead. After her father's death, she goes to war alongside her uncle and husband Daemon to defend her crown against the family of her childhood friend Alicent.",
+      "descriptionTr": "Kral I. Viserys'in tek çocuğu olan Rhaenyra Targaryen, babası tarafından Demir Taht'ın varisi ilan edilen ilk kadın olarak büyük bir emsali kırar. Bu seçim, erkek üstünlüğüne alışkın Westeros soylularını ve özellikle üvey kardeşi Aegon'u destekleyen Hightower ailesini derinden rahatsız eder. Babasının ölümünün ardından tacını korumak için amcası ve eşi Daemon'la birlikte, çocukluk arkadaşı Alicent'ın ailesine karşı kanlı bir iç savaşa sürüklenir."
+    },
+    {
+      "name": "Daemon Targaryen",
+      "billingOrder": 2,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/02_Daemon.jpg",
+      "description": "King Viserys's younger, far more ruthless brother, Prince Daemon Targaryen is a dangerous warrior torn between his own ambition and his loyalty to his niece Rhaenyra. Once seen as heir to the Iron Throne before losing his claim, he carries that grudge for years before marrying Rhaenyra and becoming both her fiercest ally and her greatest liability. He rides the dragon Caraxes, the Blood Wyrm, and is feared for his ruthlessness on the battlefield.",
+      "descriptionTr": "Kral Viserys'in daha genç, daha acımasız kardeşi olan Prens Daemon Targaryen, kendi hırsı ile yeğeni Rhaenyra'ya duyduğu sadakat arasında sıkışıp kalmış tehlikeli bir savaşçıdır. Bir zamanlar Demir Taht'ın varisi olarak görülürken payını kaybetmenin öfkesini yıllarca taşır, sonradan Rhaenyra'yla evlenip onun en güçlü müttefiki ve en büyük tehdidi haline gelir. Kara Kral Ölümü ejderhası Caraxes'i süren Daemon, savaş alanındaki acımasızlığıyla tanınır."
+    },
+    {
+      "name": "Alicent Hightower",
+      "billingOrder": 3,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/03_Alicent.jpg",
+      "description": "Rhaenyra's childhood best friend, Alicent Hightower becomes one of the most powerful women at court after her father Otto offers her as a bride to King Viserys. As queen, she sets aside their old friendship to protect her own children, especially her eldest son Aegon, becoming Rhaenyra's fiercest rival. Reluctantly drawn into the court's intrigues, she ultimately sits at the center of the decisions that spark the war.",
+      "descriptionTr": "Rhaenyra'nın çocukluk arkadaşı olan Alicent Hightower, babası Otto'nun eliyle Kral Viserys'e eş olarak sunulduktan sonra saraydaki en güçlü kadınlardan birine dönüşür. Kraliçe olarak kendi çocuklarının, özellikle büyük oğlu Aegon'un, geleceğini korumak adına eski dostluğunu bir kenara bırakıp Rhaenyra'nın en büyük rakibi haline gelir. Sarayın entrikalarına gönülsüzce sürüklense de, sonunda savaşı tetikleyen kararların merkezinde yer alır."
+    },
+    {
+      "name": "Viserys I Targaryen",
+      "billingOrder": 4,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/04_Viserys.jpg",
+      "description": "The fifth Targaryen king, Viserys is known for his peaceable, conciliatory nature but struggles increasingly to hold his throne and his family together. Naming his daughter Rhaenyra his heir defies Westerosi tradition, and through years of illness he's torn between upholding that choice and containing the rivalries brewing at court. His death is the spark that finally ignites the long-suppressed war for succession.",
+      "descriptionTr": "Beşinci Targaryen kralı olan Viserys, barışçıl ve uzlaşmacı tabiatıyla tanınan ama tahtını ve ailesini bir arada tutmakta giderek zorlanan bir hükümdardır. Kızı Rhaenyra'yı varisi ilan ederek Westeros geleneğine meydan okur, ancak yıllar süren hastalığı boyunca bu kararın arkasında durmakla saray içi çekişmeleri bastırmak arasında sıkışıp kalır. Ölümü, uzun süredir bastırılmış taht kavgasının patlak vermesine neden olur."
+    },
+    {
+      "name": "Otto Hightower",
+      "billingOrder": 5,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/05_Otto.jpg",
+      "description": "The Hand of the King to Viserys, Otto Hightower is the sharpest and most patient schemer at court. After positioning his daughter Alicent as the king's bride, he devotes all his political capital to placing his own grandson Aegon on the Iron Throne. Opposed to Rhaenyra's claim from the very start, Otto is a patient but ruthless strategist who turns House Hightower into the realm's most influential power.",
+      "descriptionTr": "Kral Viserys'in El'i olan Otto Hightower, sarayın en keskin zekâlı ve en sabırlı entrikacısıdır. Kızı Alicent'ı krala eş olarak konumlandırdıktan sonra tüm siyasi gücünü, kendi torunu Aegon'u Demir Taht'a oturtmaya adar. Rhaenyra'nın varisliğine baştan beri karşı çıkan Otto, Hightower hanesini krallığın en etkili gücü haline getiren sabırlı ama acımasız bir stratejisttir."
+    },
+    {
+      "name": "Criston Cole",
+      "billingOrder": 6,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/06_Criston.jpg",
+      "description": "The son of a common castle steward, Ser Criston Cole rises through sheer swordsmanship to the Kingsguard and briefly becomes Rhaenyra's closest protector. After a short, disastrous affair between them leaves him bitter and humiliated, Criston switches sides entirely, becoming Aegon's most loyal and most ruthless commander. He's known as much for his brutality on the battlefield as for the personal fury behind his betrayal.",
+      "descriptionTr": "Sıradan bir kale muhafızının oğlu olan Ser Criston Cole, kılıç ustalığıyla Kral Muhafızları'na kadar yükselir ve bir süre Rhaenyra'nın en yakın koruyucusu olur. Aralarında yaşanan kısa ve yıkıcı bir ilişkinin ardından acı ve gururla dolan Criston, safını tamamen değiştirip Aegon'un en sadık ve en acımasız komutanına dönüşür. Savaş alanındaki vahşiliği kadar, ihanetinin arkasındaki kişisel öfkesiyle de tanınır."
+    },
+    {
+      "name": "Corlys Velaryon",
+      "billingOrder": 7,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/07_Corlys.jpg",
+      "description": "Known as \"the Sea Snake,\" Lord Corlys Velaryon is a legendary mariner who has sailed around the world nine times and is one of the wealthiest men in Westeros. Alongside his wife, Princess Rhaenys, he ties House Velaryon's fortunes to Rhaenyra's claim, later backing his grandchildren's own place in the succession. Even in old age, he's known for a stubborn pride that refuses to let him step back from the battlefield.",
+      "descriptionTr": "\"Deniz Yılanı\" lakaplı Lord Corlys Velaryon, kendi filosuyla dokuz kez dünyayı dolaşmış efsanevi bir denizci ve Westeros'un en zengin adamlarından biridir. Karısı Prenses Rhaenys'le birlikte, Velaryon hanesinin gücünü Targaryen tahtına bağlamak için önce Rhaenyra'yı, sonra torunlarının hak iddialarını destekler. Yaşlılığında bile savaş meydanından çekilmeyen inatçı bir gururla tanınır."
+    },
+    {
+      "name": "Rhaenys Targaryen",
+      "billingOrder": 8,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/08_Rhaenys.jpg",
+      "description": "Known as \"the Queen Who Never Was,\" Princess Rhaenys Targaryen was passed over for the Iron Throne years earlier for no reason but her sex. Determined that history not repeat itself, she becomes one of Rhaenyra's staunchest supporters and doesn't hesitate to ride her dragon Meleys into battle. One of the court's most experienced and clear-eyed voices, she guides both her husband Corlys and House Velaryon.",
+      "descriptionTr": "\"Es geçilen kraliçe\" olarak anılan Prenses Rhaenys Targaryen, sadece kadın olduğu için yıllar önce Demir Taht'a olan hak iddiasından mahrum bırakılmıştır. Bu adaletsizliği bir daha yaşamasın diye Rhaenyra'nın varisliğini kararlılıkla destekler ve ejderhası Meleys'i savaşa sürmekten çekinmez. Sarayın en tecrübeli ve en soğukkanlı seslerinden biri olarak, hem kocası Corlys'e hem de Velaryon hanesine yön verir."
+    },
+    {
+      "name": "Aegon II Targaryen",
+      "billingOrder": 9,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/09_Aegon.jpg",
+      "description": "The eldest son of Alicent and Viserys, Aegon Targaryen is an insecure prince who never truly wanted the crown but is pushed onto the throne by his mother's and grandfather's ambition. Despite his father naming Rhaenyra heir, his supporters champion him as the \"male heir\" and rush to crown him the moment Viserys dies. His fragile ego and tendency to shirk responsibility destabilize the realm from the moment he takes the throne.",
+      "descriptionTr": "Alicent ve Viserys'in büyük oğlu olan Aegon Targaryen, hiçbir zaman kral olmayı gerçekten istemeyen ama annesinin ve büyükbabasının hırsıyla tahta oturtulan güvensiz bir prenstir. Babası Rhaenyra'yı varis ilan etmiş olsa da destekçileri onu \"erkek varis\" olarak öne çıkarır ve Viserys ölür ölmez aceleyle taç giydirilir. Kırılgan egosu ve sorumluluktan kaçma eğilimi, tahta oturduğu andan itibaren krallığı istikrarsızlaştırır."
+    },
+    {
+      "name": "Aemond Targaryen",
+      "billingOrder": 10,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/10_Aemond.jpg",
+      "description": "The second son of Alicent and Viserys, Aemond Targaryen loses an eye as a child during a fight with Rhaenyra's sons, a wound he never forgets. Growing up overlooked in his brother Aegon's shadow, he channels that resentment into claiming the dragon Vhagar, becoming one of the realm's most powerful and dangerous fighters. Cold, calculating, and ruthless, he's directly responsible for some of the war's most devastating turns.",
+      "descriptionTr": "Alicent ve Viserys'in ikinci oğlu olan Aemond Targaryen, çocukken Rhaenyra'nın çocuklarıyla girdiği bir kavgada bir gözünü kaybeder ve bu yarayı asla unutmaz. Kardeşi Aegon'un gölgesinde büyüyüp hor görülmenin öfkesini taşırken, ejderhası Vhagar'ı ele geçirerek krallığın en güçlü ve en tehlikeli savaşçılarından birine dönüşür. Soğukkanlı, hesapçı ve acımasız kişiliğiyle, savaşın en yıkıcı anlarından doğrudan sorumludur."
+    },
+    {
+      "name": "Jacaerys Velaryon",
+      "billingOrder": 11,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/11_Jacaerys_cropped.jpg",
+      "description": "Rhaenyra's eldest son, Prince Jacaerys \"Jace\" Velaryon is raised as his mother's heir despite court gossip questioning his true parentage. He learns to ride his dragon, Vermax, at a young age, and once war breaks out he's sent on dangerous missions to rally allies across the realm. A serious, duty-bound prince, he does everything he can to hold his mother's cause together.",
+      "descriptionTr": "Rhaenyra'nın büyük oğlu olan Prens Jacaerys \"Jace\" Velaryon, gerçek babasının kimliğine dair sarayda dönen dedikodulara rağmen annesinin varisi olarak yetiştirilir. Genç yaşta ejderhası Vermax'ı sürmeyi öğrenir ve savaş patlak verdiğinde krallığın dört bir yanındaki müttefikleri toplamak için tehlikeli görevlere gönderilir. Sorumluluk duygusu güçlü, ağırbaşlı bir prens olarak, annesinin davasını ayakta tutmak için elinden geleni yapar."
+    },
+    {
+      "name": "Helaena Targaryen",
+      "billingOrder": 12,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/12_Helaena.jpg",
+      "description": "The daughter of Alicent and Viserys, Princess Helaena Targaryen is married to her brother Aegon and lives a withdrawn, oddly detached life apart from the court's brutal games. Known for her quiet fondness for observing insects, she also carries an unsettling gift for glimpsing the future before it happens. One of the war's cruelest blows lands directly on her and her children.",
+      "descriptionTr": "Alicent ve Viserys'in kızı olan Prenses Helaena Targaryen, kardeşi Aegon'la evlendirilir ve sarayın acımasız oyunlarından uzak, içine kapanık ve tuhaf bir dünyada yaşar. Böcekleri gözlemlemekten hoşlandığı bilinen sessiz kişiliğinin ardında, geleceği önceden sezen rahatsız edici bir sezgi gücü taşır. Savaşın en acımasız darbelerinden biri doğrudan ona ve çocuklarına yönelir."
+    },
+    {
+      "name": "Larys Strong",
+      "billingOrder": 13,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/13_Larys.jpg",
+      "description": "Known as \"Clubfoot,\" Lord Larys Strong is a master of court espionage who owes true loyalty to no one. Serving as Master of Coin on the Small Council, he ruthlessly uses the secrets he gathers both to serve Alicent and to advance his own position. His calm, unsettling patience makes him one of the court's most dangerous and unpredictable figures.",
+      "descriptionTr": "\"Topal\" lakaplı Lord Larys Strong, sarayın gölgelerinde çalışan, kimseye gerçek sadakat beslemeyen bir casusluk ustasıdır. Küçük Konsey'de Hazine Efendisi olarak görev yaparken, topladığı sırları hem Alicent'a hizmet etmek hem de kendi konumunu güçlendirmek için acımasızca kullanır. Sakin ve rahatsız edici sabrı, onu sarayın en tehlikeli ve en öngörülemez figürlerinden biri yapar."
+    },
+    {
+      "name": "Mysaria",
+      "billingOrder": 14,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/hotd_real/14_Mysaria.jpg",
+      "description": "Also known as \"the White Worm,\" Mysaria is a sharp, resourceful woman who builds one of King's Landing's largest spy networks from the streets of Flea Bottom upward. Once Daemon's mistress and closest confidante, she never forgets being cast aside and becomes a political force in her own right. Her loyalties shift constantly, but she stays one step ahead by controlling the flow of the court's most secret information.",
+      "descriptionTr": "\"Beyaz Kurt\" olarak da anılan Mysaria, Flea Bottom'un sokaklarından Kral Şehri'nin en geniş casusluk ağlarından birini kuran keskin zekâlı bir kadındır. Bir zamanlar Daemon'un metresi ve en yakın sırdaşı olan Mysaria, terk edilmenin acısını unutmadan kendi başına siyasi bir güç haline gelir. Sadakatleri sürekli değişse de, sarayın gizli bilgi akışını elinde tutarak her zaman bir adım önde kalır."
+    }
+  ]
+}

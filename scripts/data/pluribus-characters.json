@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Carol Sturka",
+      "billingOrder": 1,
+      "imageSource": "https://image.tmdb.org/t/p/original/qZNZUVqN4jQlO4MqGVoWNdPSxfy.jpg",
+      "description": "A reclusive romance novelist living in Albuquerque, Carol Sturka is one of the vanishingly few people left immune to \"the Joining,\" the mysterious event that fuses nearly all of humanity into a single, serene collective consciousness. Reeling from the loss of her wife Helen in the event's opening hours, she meets the collective's efforts to bring her into the fold with open hostility. Prickly and misanthropic by nature, she becomes a reluctant hero searching for a way to undo what's been done to the world.",
+      "descriptionTr": "Albuquerque'de yaşayan içine kapanık bir romantik roman yazarı olan Carol Sturka, dünya nüfusunun neredeyse tamamını tek bir huzurlu kolektif bilince dönüştüren gizemli \"Katılım\" olayına bağışıklık gösteren avuç içi kadar insandan biridir. Eşi Helen'i olayın ilk anlarında kaybetmenin yasıyla boğuşurken, kolektifin kendisini de \"katılmaya\" ikna etme çabalarına öfkeyle direnir. Huysuz ve insan sevmez tabiatıyla, dünyayı eski haline döndürmenin bir yolunu arayan gönülsüz bir kahramana dönüşür."
+    },
+    {
+      "name": "Zosia",
+      "billingOrder": 2,
+      "imageSource": "https://www.tvline.com/img/gallery/tvlines-performer-of-the-week-karolina-wydra/intro-1766187425.jpg",
+      "description": "Zosia is the collective consciousness's chosen emissary, sent to communicate directly with Carol Sturka on behalf of \"the Others.\" Stripped of fear and ego, her calm, untroubled manner stands in sharp contrast to Carol's grief-fueled hostility. She strives to be the collective's humane face, even as its consent-free methods occasionally cast doubt on what really lies behind that serenity.",
+      "descriptionTr": "Zosia, insanlığın büyük çoğunluğunu birleştiren kolektif bilincin Carol Sturka ile iletişim kurmak üzere gönderdiği elçisidir. Korku ve egodan arınmış sakin tavrı, Carol'ın öfke ve yasla yüklü direnişine keskin bir tezat oluşturur. Kolektifin insancıl yüzü olmaya çalışsa da, rızaya dayanmayan yöntemleri zaman zaman bu sakinliğin ardındaki gerçek niyeti sorgulatır."
+    },
+    {
+      "name": "Manousos Oviedo",
+      "billingOrder": 3,
+      "imageSource": "https://static0.colliderimages.com/wordpress/wp-content/uploads/2025/12/pluribus-episode-7-carlos-manuel-vesga-1.jpg?&fit=crop&w=1200",
+      "description": "A Colombian immigrant running a self-storage facility in Asunción, Paraguay, Manousos Oviedo is one of the handful of people worldwide left immune to \"the Joining,\" though he wasn't even discovered until 33 hours after the event, missing the initial official count. Having already rebuilt his life once from nothing, he now refuses to lose what little stability he's managed to hold onto. His resistance comes not from stubbornness but from hard-won survival instinct.",
+      "descriptionTr": "Paraguay'ın Asunción kentinde bir kendi-depolama tesisi işleten Kolombiyalı bir göçmen olan Manousos Oviedo, dünyadaki bağışıklı avuç içi insandan biridir; ancak \"Katılım\"dan 33 saat sonra fark edildiği için ilk resmi sayıma bile giremez. Bir kez her şeyini geride bırakıp yeniden inşa etmiş biri olarak, şimdi elindeki azıcık istikrarı da kaybetmeyi reddeder."
+    },
+    {
+      "name": "Helen",
+      "billingOrder": 4,
+      "localImagePath": "C:/Users/dell/.claude/jobs/eaed868d/tmp/realstills/helen_cropped.jpg",
+      "description": "Helen is Carol Sturka's wife, infected and lost during the very first wave of \"the Joining,\" gone from the story before the series' opening episode even ends. Though her screen time is brief, she lingers through flashbacks as the emotional core of Carol's grief and stubborn resistance.",
+      "descriptionTr": "Helen, Carol Sturka'nın eşidir. \"Katılım\" olayının ilk yayılışı sırasında enfekte olup hayatını kaybeder ve dizinin daha ilk bölümü bitmeden hikâyeden çıkar. Ekranda geçirdiği süre kısıtlı olsa da varlığı, geri dönüşlerle Carol'ın yasının ve direncinin duygusal merkezinde kalmaya devam eder."
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import Atmosphere from './Atmosphere/Atmosphere';
 import { fetchProductionDetail, theme } from './HouseOfTheDragon.data';
 import styles from './HouseOfTheDragon.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
+import CharactersRoute from './CharactersRoute/CharactersRoute';
 import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 
 // İskelet — Hero ve diğer bölümler henüz yok. Breaking Bad'deki desenle aynı:
@@ -75,6 +76,7 @@ export default function HouseOfTheDragon() {
         <Atmosphere />
       </div>
       <SeasonRoute />
+      <CharactersRoute />
       <Footer />
     </>
   );
