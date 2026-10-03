@@ -4,7 +4,7 @@ import Hero from './Hero/Hero';
 import Atmosphere from './Atmosphere/Atmosphere';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
 import CharactersRoute from './CharactersRoute/CharactersRoute';
-import Trivia from './Trivia/Trivia';
+import Trivia from '../../../components/Trivia/Trivia';
 import RelatedBlogs from './RelatedBlogs/RelatedBlogs';
 import PortalBanner from './PortalBanner/PortalBanner';
 
@@ -86,7 +86,7 @@ export default function BreakingBad() {
       <SeasonRoute />
       <CharactersRoute />
       <RelatedBlogs seriesId={series.id} />
-      <Trivia seriesId={series.id} />
+      <Trivia seriesId={series.id} title={series.title} />
       <PortalBanner productionSlug="breaking-bad" />
       <Footer />
     </>

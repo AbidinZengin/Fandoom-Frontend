@@ -1,0 +1,150 @@
+{
+  "itemId": 7,
+  "itemType": "series",
+  "items": [
+    {
+      "n": 1,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "Pilot a door factory wrote",
+      "titleTr": "Pilotu bir kapı fabrikası yazdırdı",
+      "content": "Dan Erickson came up with Severance while working at a door factory after finishing his master's degree in television writing. He sent the pilot script to Ben Stiller's company Red Hour Productions in 2015 as a writing sample.",
+      "contentTr": "Dan Erickson, televizyon yazarlığı yüksek lisansını bitirdikten sonra bir kapı fabrikasında çalışırken Severance fikrini buldu. Pilot senaryoyu 2015'te Ben Stiller'ın yapım şirketi Red Hour Productions'a yazı örneği olarak gönderdi.",
+      "image": { "source": "tmdb", "key": "B2" }
+    },
+    {
+      "n": 2,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "A script that waited five years",
+      "titleTr": "Beş yıl bekleyen senaryo",
+      "content": "Stiller says he read the pilot at least five years before the series premiered and called it the longest project he has ever worked on. Apple TV+ ordered the series in November 2019, with Stiller directing and Adam Scott attached as the lead.",
+      "contentTr": "Stiller, pilotu dizi yayınlanmadan en az beş yıl önce okuduğunu ve bunun üzerinde çalıştığı en uzun iş olduğunu söylüyor. Apple TV+ diziyi Kasım 2019'da onayladı; yönetmen Stiller, başrol Adam Scott olarak belirlendi.",
+      "image": { "source": "tmdb", "key": "B35" }
+    },
+    {
+      "n": 3,
+      "tags": ["LORE"],
+      "title": "Lumon is a real building",
+      "titleTr": "Lumon gerçek bir bina",
+      "content": "The exterior of Lumon Industries is the former Bell Labs complex in Holmdel, New Jersey, which opened in 1962. The production also used its ground floor interiors. The building was later reborn as Bell Works, a mixed-use space with shops, offices and a library.",
+      "contentTr": "Lumon Industries'in dış cephesi, 1962'de açılan New Jersey Holmdel'deki eski Bell Labs kompleksi. Yapım zemin kat iç mekanlarını da kullandı. Bina sonradan dükkanların, ofislerin ve bir kütüphanenin bulunduğu karma kullanımlı Bell Works'e dönüştü.",
+      "image": { "source": "commons", "key": "Bell Labs Holmdel.jpg" }
+    },
+    {
+      "n": 4,
+      "tags": ["LORE"],
+      "title": "The architect never saw it finished",
+      "titleTr": "Mimar binanın bittiğini görmedi",
+      "content": "Bell Labs Holmdel was designed by Eero Saarinen, who died in 1961, a year before it opened. His firm completed the project. Production designer Jeremy Hindle also cited Saarinen as a major influence on the look of Lumon.",
+      "contentTr": "Bell Labs Holmdel'i Eero Saarinen tasarladı; Saarinen, bina açılmadan bir yıl önce, 1961'de öldü ve projeyi firması tamamladı. Yapım tasarımcısı Jeremy Hindle de Lumon'un görünümünde Saarinen'i büyük bir ilham kaynağı olarak gösteriyor.",
+      "image": { "source": "commons", "key": "Portrait of Eero Saarinen.jpg" }
+    },
+    {
+      "n": 5,
+      "tags": ["LORE"],
+      "title": "A water tower shaped like a transistor",
+      "titleTr": "Transistör şeklinde su kulesi",
+      "content": "The complex has a three-legged modernist water tower that resembles a transistor, the device invented by Bell Labs scientists. In real life the building stood nearly empty for years and was close to demolition in 2006.",
+      "contentTr": "Kompleksin, Bell Labs bilim insanlarının icat ettiği transistöre benzeyen üç ayaklı modernist bir su kulesi var. Gerçek hayatta bina yıllarca neredeyse boş kaldı ve 2006'da yıkılmaya yaklaştı.",
+      "image": { "source": "commons", "key": "Bell Works Transistor Water Tower, Wide Angle (110125).jpg" }
+    },
+    {
+      "n": 6,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "Found on a blog",
+      "titleTr": "Bir blogda bulundu",
+      "content": "Cinematographer Jessica Lee Gagné found Bell Labs while researching locations with Jeremy Hindle, after the location manager warned the search would be hard. She came across photos of the abandoned building on a blog and thought it was amazing.",
+      "contentTr": "Görüntü yönetmeni Jessica Lee Gagné, lokasyon sorumlusu aramanın zor olacağını söyledikten sonra Jeremy Hindle ile yaptığı araştırma sırasında Bell Labs'i buldu. Terk edilmiş binanın fotoğraflarına bir blogda rastladı ve çok etkilendi.",
+      "image": { "source": "commons", "key": "Bell Works Exterior Closeup (December 2025).jpg" }
+    },
+    {
+      "n": 7,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "The endless hallway is a set",
+      "titleTr": "Bitmeyen koridor bir dekor",
+      "content": "Lumon's severed floor was built on soundstages in the Bronx. It includes about 140 feet of reconfigurable hallways and an 80 by 40 foot Macrodata Refinement room with a low ceiling. The hallways connect, so the camera had to be repositioned constantly.",
+      "contentTr": "Lumon'un ayrılmış katı Bronx'taki ses stüdyolarında kuruldu. Yaklaşık 140 fitlik yeniden düzenlenebilir koridorlar ve 80'e 40 fitlik alçak tavanlı bir Macrodata Refinement odası içeriyor. Koridorlar birbirine bağlandığı için kamera sürekli yeniden konumlandırılmak zorunda kaldı.",
+      "image": { "source": "tmdb", "key": "S1E3" }
+    },
+    {
+      "n": 8,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "400 cars, none by accident",
+      "titleTr": "400 araba, hiçbiri tesadüf değil",
+      "content": "The production sourced around 400 cars from the 1980s and 1990s for the Lumon parking lot, and each one was placed deliberately to keep the look consistent.",
+      "contentTr": "Yapım, Lumon otoparkı için 1980'ler ve 1990'lardan yaklaşık 400 araba temin etti ve görünüm tutarlı kalsın diye her biri bilinçli olarak yerleştirildi.",
+      "image": { "source": "tmdb", "key": "B53" }
+    },
+    {
+      "n": 9,
+      "tags": ["LORE"],
+      "title": "A spaceship that is just an office",
+      "titleTr": "Sadece bir ofis olan uzay gemisi",
+      "content": "Lumon's design was partly inspired by Jacques Tati's comedy Playtime. Hindle describes it as being like a spaceship that is also just an office, and blends corporate looks from the 1960s, 70s and 80s.",
+      "contentTr": "Lumon'un tasarımı kısmen Jacques Tati'nin komedisi Playtime'dan esinlendi. Hindle onu hem bir uzay gemisi hem de sadece bir ofis gibi tarif ediyor ve 1960'lar, 70'ler ve 80'lerin kurumsal görünümlerini harmanlıyor.",
+      "image": { "source": "tmdb", "key": "B22" }
+    },
+    {
+      "n": 10,
+      "tags": ["CASTING"],
+      "title": "The audition that left footprints",
+      "titleTr": "İzler bırakan seçme çekimi",
+      "content": "Britt Lower filmed her Helly audition tape in her bathroom and kicked the door so hard that the footprints are still on it. After watching it, Stiller reportedly knew immediately that she was the one.",
+      "contentTr": "Britt Lower, Helly için seçme kaydını banyosunda çekti ve kapıya o kadar sert tekme attı ki ayak izleri hâlâ orada duruyor. Stiller kaydı izleyince hemen onun doğru kişi olduğunu anladığını söylüyor.",
+      "image": { "source": "tmdb", "key": "B18" }
+    },
+    {
+      "n": 11,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "The pilot had the roles reversed",
+      "titleTr": "Pilotta roller tersti",
+      "content": "In Erickson's original pilot, the roles of Mark and Helly were reversed. That version also featured disembodied legs, an idea that did not make it into the final series.",
+      "contentTr": "Erickson'ın ilk pilotunda Mark ve Helly'nin rolleri tersti. Bu sürümde ayrıca vücuttan ayrı bacaklar vardı; fikir final dizisine girmedi.",
+      "image": { "source": "tmdb", "key": "B49" }
+    },
+    {
+      "n": 12,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "A real neurosurgeon on set",
+      "titleTr": "Sette gerçek bir beyin cerrahı",
+      "content": "A real neurosurgeon demonstrated the chip insertion procedure for the cast and appears in the second episode.",
+      "contentTr": "Gerçek bir beyin cerrahı çip yerleştirme işlemini oyunculara gösterdi ve ikinci bölümde kendisi de görünüyor.",
+      "image": { "source": "tmdb", "key": "B48" }
+    },
+    {
+      "n": 13,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "Genuine surprise on the dance floor",
+      "titleTr": "Dans pistinde gerçek şaşkınlık",
+      "content": "The Music Dance Experience was shot like a music video with a choreographer. The cast did not know about the dance lights beforehand, so their surprise when they switched on is genuine.",
+      "contentTr": "Müzik Dans Deneyimi bir koreografla müzik videosu gibi çekildi. Oyuncular dans ışıklarından önceden haberdar değildi; ışıklar yandığındaki şaşkınlıkları gerçek.",
+      "image": { "source": "tmdb", "key": "B16" }
+    },
+    {
+      "n": 14,
+      "tags": ["CASTING"],
+      "title": "The one time Milchick broke",
+      "titleTr": "Milchick'in karakterden çıktığı tek an",
+      "content": "Tramell Tillman says he broke character only once during filming: in the kind eyes scene with Adam Scott.",
+      "contentTr": "Tramell Tillman, çekimler boyunca yalnızca bir kez karakterden çıktığını söylüyor: Adam Scott ile oynadığı kind eyes sahnesinde.",
+      "image": { "source": "tmdb", "key": "B52" }
+    },
+    {
+      "n": 15,
+      "tags": ["EASTER_EGG"],
+      "title": "If you could be any kind of door",
+      "titleTr": "Hangi tür kapı olmak isterdin?",
+      "content": "In season two, Dylan interviews at a company called Great Doors, where he is asked what kind of door he would be and answers Pocket. It is a wink at Erickson's own mind-numbing job at a door factory.",
+      "contentTr": "İkinci sezonda Dylan, Great Doors adlı bir şirkette mülakata girer; hangi tür kapı olmak istediği sorulur ve Pocket cevabını verir. Bu, Erickson'ın sıkıcı kapı fabrikası işine bir göz kırpma.",
+      "image": { "source": "tmdb", "key": "S2E9" }
+    },
+    {
+      "n": 16,
+      "tags": ["BEHIND_THE_SCENES"],
+      "title": "Two Emmys for the opening titles",
+      "titleTr": "Açılış jeneriğine iki Emmy",
+      "content": "The surreal title sequence was created by Oliver Latta (Extraweg) and Teddy Blanks. The first season's titles won the 2022 Primetime Emmy for Outstanding Title Design, and the second season's won again in 2025.",
+      "contentTr": "Gerçeküstü açılış jeneriğini Oliver Latta (Extraweg) ve Teddy Blanks yarattı. Birinci sezonun jeneriği 2022 Primetime Emmy'de En İyi Jenerik Tasarımı ödülünü aldı, ikinci sezonunki 2025'te yeniden kazandı.",
+      "image": { "source": "tmdb", "key": "B15" }
+    }
+  ]
+}

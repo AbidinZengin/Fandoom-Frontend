@@ -7,6 +7,7 @@ import { fetchProductionDetail, theme } from './Severance.data';
 import styles from './Severance.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
 import CharactersRoute from './CharactersRoute/CharactersRoute';
+import Trivia from '../../../components/Trivia/Trivia';
 import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 export default function Severance() {
   const { t } = useTranslation();
@@ -76,6 +77,7 @@ export default function Severance() {
       </div>
       <SeasonRoute />
       <CharactersRoute />
+      <Trivia seriesId={series.id} title={series.title} />
       <Footer />
     </>
   );

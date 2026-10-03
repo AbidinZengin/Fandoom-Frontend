@@ -126,7 +126,7 @@ const tagsOf = (item) => (item.tags?.length ? item.tags : item.tag ? [item.tag] 
 // deck: en üstteki kart sürüklenip atılır, altındakiler yay animasyonuyla öne
 // gelir. Kayıt yoksa (ya da çekme başarısızsa) bölüm hiç basılmaz, sahte veri
 // basılmaz.
-export default function Trivia({ seriesId }) {
+export default function Trivia({ seriesId, title }) {
   const { t } = useTranslation();
   // Deste girdisi { uid, item }: atılan kart sona AYNI item'la ama YENİ uid'le
   // eklenir; key değiştiği için çıkış animasyonu oynar.
@@ -273,7 +273,7 @@ export default function Trivia({ seriesId }) {
           </h2>
 
           <div className={styles['trivia__controls']} ref={panelRef}>
-            <p className={styles['trivia__subtitle']}>{t('series.trivia.subtitle')}</p>
+            <p className={styles['trivia__subtitle']}>{t('series.trivia.subtitle', { title })}</p>
             <div className={styles['trivia__filters']} role="group" aria-labelledby={titleId}>
               {[null, ...tagOptions].map((tag) => (
                 <button

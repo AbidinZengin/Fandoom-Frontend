@@ -163,7 +163,7 @@
     "trivia": {
       "titleLead": "The Complete",
       "titleAction": "Breakdown",
-      "subtitle": "Discover the untold facts and behind-the-scenes secrets of the Breaking Bad universe.",
+      "subtitle": "Discover the untold facts and behind-the-scenes secrets of the {{title}} universe.",
       "filterAll": "All",
       "tags": {
         "BEHIND_THE_SCENES": "Behind the Scenes",
