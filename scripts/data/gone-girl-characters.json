@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Nick Dunne",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/gone-girl-nick-dunne.jpg",
+      "description": "Nick Dunne is the husband who comes home on his fifth anniversary to find his wife missing and a living room that looks like a struggle. He is charming in front of the cameras and strangely off-script when it counts, and the town starts to wonder which of those men is the real one.",
+      "descriptionTr": "Nick Dunne, beşinci yıldönümünde eve döndüğünde karısının kaybolduğunu ve bir boğuşma izi taşıyan oturma odasını bulan kocadır. Kameraların önünde cana yakın, önemli anlarda ise tuhaf biçimde senaryo dışıdır; kasaba bu iki adamdan hangisinin gerçek olduğunu merak etmeye başlar."
+    },
+    {
+      "name": "Amy Dunne",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/gone-girl-amy-dunne.jpg",
+      "description": "Amy Dunne is the woman at the center of the case, the inspiration for her parents' children's book series and a wife whose diary tells one version of her marriage. As the investigation widens, her own story and the way other people remember her begin to pull in different directions.",
+      "descriptionTr": "Amy Dunne, soruşturmanın merkezindeki kadındır; ailesinin çocuk kitabı serisine ilham olmuş ve günlüğü evliliğinin tek bir versiyonunu anlatan bir eştir. Soruşturma genişledikçe, kendi anlattığı hikâye ile başkalarının onu hatırlama biçimi farklı yönlere çekilmeye başlar."
+    },
+    {
+      "name": "Desi Collings",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/gone-girl-desi-collings.jpg",
+      "description": "Desi Collings is a wealthy, old-fashioned figure from Amy's past who has never quite let go of her. He lives in a lakeside house full of careful details, and his devotion has the polished calm of someone who is used to getting what he wants.",
+      "descriptionTr": "Desi Collings, Amy'nin geçmişinden gelen, onu hiçbir zaman gerçekten bırakmamış, zengin ve eski kafalı bir figürdür. Özenli ayrıntılarla dolu bir göl evinde yaşar ve bağlılığı, istediğini almaya alışmış birinin cilalı sakinliğini taşır."
+    },
+    {
+      "name": "Tanner Bolt",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/gone-girl-tanner-bolt.jpg",
+      "description": "Tanner Bolt is the high-profile defense attorney known for taking on cases where the husband is already convicted on television. When Nick calls him in, the question quickly shifts from what happened to how it will look.",
+      "descriptionTr": "Tanner Bolt, kocanın daha televizyonda mahkûm edildiği davaları üstlenmesiyle tanınan ünlü bir savunma avukatıdır. Nick onu devreye soktuğunda soru çok geçmeden ne olduğundan çok nasıl görüneceğine kayar."
+    }
+  ]
+}

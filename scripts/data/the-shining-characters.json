@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Jack Torrance",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/the-shining-jack-torrance.jpg",
+      "description": "Jack Torrance is a writer and former teacher who takes the winter caretaker job at the Overlook Hotel, hoping the quiet will let him finish a book and stay sober. The isolation does the opposite, and his temper and sense of reality start to loosen along with the roads.",
+      "descriptionTr": "Jack Torrance, sessizliğin bir kitabı bitirmesine ve ayık kalmasına yardımcı olacağını umarak Overlook Oteli'nde kış bekçiliğini kabul eden yazar ve eski öğretmendir. Yalnızlık tam tersi bir etki yapar; öfkesi ve gerçeklik algısı, yollarla birlikte gevşemeye başlar."
+    },
+    {
+      "name": "Wendy Torrance",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/the-shining-wendy-torrance.jpg",
+      "description": "Wendy Torrance is Jack's wife, practical, loyal and used to smoothing things over. She keeps the household running through the winter, and as the hotel closes in, she becomes the one who has to protect her son.",
+      "descriptionTr": "Wendy Torrance, Jack'in pratik, sadık ve ortalığı yatıştırmaya alışkın karısıdır. Kış boyunca evi ayakta tutar; otel çepeçevre sardıkça oğlunu korumak zorunda kalan kişi o olur."
+    },
+    {
+      "name": "Danny Torrance",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/the-shining-danny-torrance.jpg",
+      "description": "Danny Torrance is Jack and Wendy's young son, a quiet boy who senses things others can't. He feels the hotel's wrongness before anyone else does, and his visions are the clearest warning the family gets.",
+      "descriptionTr": "Danny Torrance, Jack ve Wendy'nin küçük oğludur; başkalarının hissedemediği şeyleri sezen sessiz bir çocuktur. Otelin tuhaflığını herkesten önce hisseder ve vizyonları ailenin aldığı en net uyarıdır."
+    },
+    {
+      "name": "Delbert Grady",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/the-shining-delbert-grady.jpg",
+      "description": "Delbert Grady is the polite, formal waiter Jack meets at the Overlook, a man whose manners are perfect and whose stories about the hotel do not quite add up. He speaks to Jack with calm authority and a very particular idea of what a caretaker should do.",
+      "descriptionTr": "Delbert Grady, Jack'in Overlook'ta tanıştığı kibar, resmî tavırlı garsondur; görgüsü kusursuzdur, otel hakkındaki hikâyeleri ise bir türlü tutmaz. Jack'le sakin bir otoriteyle ve bir bekçinin ne yapması gerektiği hakkında çok özel bir fikirle konuşur."
+    }
+  ]
+}

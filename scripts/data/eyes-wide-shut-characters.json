@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Bill Harford",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/eyes-wide-shut-bill-harford.jpg",
+      "description": "Dr. Bill Harford is a successful New York physician who thinks of his marriage as secure. After his wife's confession shakes that certainty, he spends a long night drifting through the city, getting closer to doors he has never had a reason to open.",
+      "descriptionTr": "Dr. Bill Harford, evliliğini güvende sanan başarılı bir New York doktorudur. Karısının itirafı bu kesinliği sarstıktan sonra uzun bir gece boyunca şehirde dolaşır ve hiç açmak için bir nedeni olmadığı kapılara yaklaşır."
+    },
+    {
+      "name": "Alice Harford",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/eyes-wide-shut-alice-harford.jpg",
+      "description": "Alice Harford is Bill's wife, a former gallery manager who is sharp, warm and no longer willing to pretend she has no inner life. A single honest conversation at the end of a party changes what the two of them can say to each other.",
+      "descriptionTr": "Alice Harford, Bill'in karısıdır; eski bir galeri yöneticisi olan Alice keskin, sıcak ve artık bir iç dünyasının olmadığını varsaymaya razı olmayan biridir. Bir partinin sonunda yapılan tek bir dürüst konuşma, ikisinin birbirine söyleyebileceklerini değiştirir."
+    },
+    {
+      "name": "Victor Ziegler",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/eyes-wide-shut-victor-ziegler.jpg",
+      "description": "Victor Ziegler is a wealthy, well-connected patient and friend of Bill's who hosts the Christmas party at the start of the story. He is easy company and generous with advice, and he knows more about the city's private rooms than he first lets on.",
+      "descriptionTr": "Victor Ziegler, Bill'in zengin, bağlantıları güçlü hasta ve arkadaşıdır; hikâyenin başındaki Noel partisine ev sahipliği yapar. Sohbeti kolay, tavsiyeleri cömerttir ve şehrin özel odaları hakkında ilk göründüğünden fazlasını bilir."
+    }
+  ]
+}

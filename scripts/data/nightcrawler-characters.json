@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Lou Bloom",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/nightcrawler-lou-bloom.jpg",
+      "description": "Lou Bloom is a quick-talking, sleepless drifter in Los Angeles who talks about business like a self-help book and watches people like a predator. Once he discovers freelance crime footage, he pours every ounce of that intensity into one thing: getting the shot nobody else will.",
+      "descriptionTr": "Lou Bloom, Los Angeles'ta uykusuz dolaşan, iş hakkında bir kişisel gelişim kitabı gibi konuşan ve insanlara bir avcı gibi bakan hızlı konuşkan bir serseridir. Serbest suç görüntüleri dünyasını keşfedince tüm o yoğunluğu tek bir şeye harcar: kimsenin alamadığı kareyi almak."
+    },
+    {
+      "name": "Nina Romina",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/nightcrawler-nina-romina.jpg",
+      "description": "Nina Romina is the veteran news director at a low-rated morning station, and she wants the kind of footage that keeps viewers from changing the channel. She becomes Lou's first buyer, and she is more comfortable with that arrangement than she probably should be.",
+      "descriptionTr": "Nina Romina, izlenme oranı düşük bir sabah kanalının tecrübeli haber yönetmenidir ve izleyicinin kanalı değiştirmesini engelleyecek türden görüntü ister. Lou'nun ilk alıcısı olur ve bu düzenden muhtemelen olması gerekenden daha rahattır."
+    },
+    {
+      "name": "Rick",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/nightcrawler-rick.jpg",
+      "description": "Rick is a young man with no money and no prospects who takes the assistant job Lou offers him. He drives, follows the scanner and, before long, is the only person close enough to see how far Lou will go.",
+      "descriptionTr": "Rick, parasız ve geleceği belirsiz bir genç adamdır ve Lou'nun önerdiği yardımcılık işini kabul eder. Araba kullanır, telsizi takip eder ve çok geçmeden Lou'nun nereye kadar gideceğini görebilecek kadar yakın olan tek kişi hâline gelir."
+    },
+    {
+      "name": "Joe Loder",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/nightcrawler-joe-loder.jpg",
+      "description": "Joe Loder is an established nightcrawler with a bigger crew and a sharper reputation on the L.A. scanner circuit. He is the rival Lou measures himself against, and he looks at the newcomer with something between amusement and warning.",
+      "descriptionTr": "Joe Loder, daha büyük bir ekibi ve Los Angeles'ın telsiz çevresinde daha sağlam bir ünü olan köklü bir gece avcısıdır. Lou'nun kendini ölçtüğü rakiptir ve yeni geleni eğlence ile uyarı arasında bir bakışla süzer."
+    }
+  ]
+}

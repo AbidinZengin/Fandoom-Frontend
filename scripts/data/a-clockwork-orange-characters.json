@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Alex DeLarge",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/a-clockwork-orange-alex.jpg",
+      "description": "Alex DeLarge is the charming, violent leader of a teenage gang in a near-future England, who narrates his own story in the slang Nadsat. He loves Beethoven as much as he loves a night of trouble, and the film follows what the state does to him once he is caught.",
+      "descriptionTr": "Alex DeLarge, yakın gelecekteki bir İngiltere'de genç bir çetenin çekici ve şiddet düşkünü liderdir; kendi hikâyesini Nadsat argosuyla anlatır. Beethoven'ı bir gece kavgası kadar sever ve film, yakalandıktan sonra devletin ona ne yaptığını izler."
+    },
+    {
+      "name": "Dim",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/a-clockwork-orange-dim.jpg",
+      "description": "Dim is the heavy of Alex's gang, more muscle than brains, and the one most eager to start a fight. He follows Alex's lead until the day he decides he has had enough of taking orders.",
+      "descriptionTr": "Dim, Alex'in çetesinin ağır topudur; kafadan çok kas gücüyle öne çıkar ve kavgayı ilk başlatmak isteyen kişidir. Emir almaktan bıktığı güne kadar Alex'in peşinden gider."
+    },
+    {
+      "name": "Mr. Alexander",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/a-clockwork-orange-mr-alexander.jpg",
+      "description": "Mr. Alexander is a writer who uses a wheelchair and lives with his wife in a modern house at the edge of town, which Alex and his gang break into early in the film. Their paths cross again years later, and he has not forgotten.",
+      "descriptionTr": "Mr. Alexander, tekerlekli sandalye kullanan bir yazardır ve karısıyla kasabanın kenarındaki modern bir evde yaşar; Alex ve çetesi filmin başında bu eve girer. Yolları sonradan yeniden kesişir ve o hiçbir şeyi unutmamıştır."
+    },
+    {
+      "name": "P. R. Deltoid",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/a-clockwork-orange-p-r-deltoid.jpg",
+      "description": "P. R. Deltoid is Alex's probation officer, an overworked official who tries to keep him out of trouble and has long since stopped believing his excuses. He is one of the few adults who actually knows Alex's record.",
+      "descriptionTr": "P. R. Deltoid, Alex'in gözetim memurudur; işten bunalmış bir görevli olarak onu başı belaya girmekten uzak tutmaya çalışır ve mazeretlerine çoktan inanmayı bırakmıştır. Alex'in sicilini gerçekten bilen birkaç yetişkinden biridir."
+    }
+  ]
+}

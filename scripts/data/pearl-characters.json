@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Pearl",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/pearl-pearl.jpg",
+      "description": "Pearl is a young farm wife in 1918 Texas who is certain she was meant for something larger than chores and her father's sickbed. Her husband is away at war and the movie house is her only escape, and the gap between the life she imagines and the one she has is where everything in the film begins.",
+      "descriptionTr": "Pearl, 1918 Teksas'ında, kendini ev işlerinden ve babasının hasta yatağından çok daha büyük bir şeye layık gören genç bir çiftlik kadınıdır. Kocası savaştadır ve tek kaçışı sinemadır; hayal ettiği hayatla yaşadığı hayat arasındaki boşluk, filmdeki her şeyin başladığı yerdir."
+    },
+    {
+      "name": "Ruth",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/pearl-ruth.jpg",
+      "description": "Ruth is Pearl's German-born mother, devout and unbending, who runs the farm and the household with a tight grip. She cares for her husband and keeps a close watch on her daughter, and she has no patience for Pearl's talk of the stage.",
+      "descriptionTr": "Ruth, Pearl'ün Almanya doğumlu, dindar ve katı annesidir; çiftliği ve evi sıkı bir elle yönetir. Kocasına bakar, kızını yakından izler ve Pearl'ün sahne hayalleri karşısında hiç sabrı yoktur."
+    },
+    {
+      "name": "The Projectionist",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/pearl-projectionist.jpg",
+      "description": "The Projectionist works at the town's movie house, and he is the first person who takes Pearl's dreams seriously. He shows her glimpses of a bigger world, which is exactly why she holds on to him.",
+      "descriptionTr": "Gösterici, kasabanın sinemasında çalışır ve Pearl'ün hayallerini ciddiye alan ilk kişidir. Ona daha büyük bir dünyanın kırıntılarını gösterir; Pearl'ün ona tutunmasının nedeni de tam olarak budur."
+    },
+    {
+      "name": "Mitsy",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/pearl-mitsy.jpg",
+      "description": "Mitsy is Pearl's sister-in-law, a cheerful young woman from town who bikes through the cornfields and seems to live the easy, ordinary life Pearl envies. She is the person Pearl measures herself against.",
+      "descriptionTr": "Mitsy, Pearl'ün baldızıdır; mısır tarlalarında bisikletle dolaşan, kasabadan neşeli bir genç kadındır ve Pearl'ün imrendiği kolay, sıradan bir hayat yaşıyor gibi görünür. Pearl'ün kendini ölçtüğü kişidir."
+    }
+  ]
+}

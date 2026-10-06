@@ -51,6 +51,13 @@ const MOVIE_SLUGS = [
   'the-fall',
   'anatomy-of-a-fall',
   'requiem-for-a-dream',
+  'midsommar',
+  'pearl',
+  'nightcrawler',
+  'gone-girl',
+  'the-shining',
+  'a-clockwork-orange',
+  'eyes-wide-shut',
 ];
 
 if (DRY_RUN) {

@@ -1,0 +1,39 @@
+{
+  "characters": [
+    {
+      "name": "Dani Ardor",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/midsommar-dani.jpg",
+      "description": "Dani Ardor is a grad student who loses her family in a single night and has almost nobody left to lean on. She follows her boyfriend and his friends to Sweden because staying home alone is worse, and she spends most of the trip trying to work out whether she is allowed to need anyone.",
+      "descriptionTr": "Dani Ardor, ailesini tek bir gecede kaybeden ve yaslanacak neredeyse kimsesi kalmayan bir yüksek lisans öğrencisidir. Evde yalnız kalmak daha kötü olduğu için sevgilisinin ve arkadaşlarının peşinden İsveç'e gider; yolculuğun çoğunu, birine ihtiyaç duymaya hakkı olup olmadığını anlamaya çalışarak geçirir."
+    },
+    {
+      "name": "Christian Hughes",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/midsommar-christian.jpg",
+      "description": "Christian Hughes is Dani's boyfriend, an anthropology student who has been meaning to end the relationship for a long time. He is friendly and agreeable on the surface, and the trip is as much about his thesis as it is about keeping the peace.",
+      "descriptionTr": "Christian Hughes, Dani'nin sevgilisi olan bir antropoloji öğrencisidir ve ilişkiyi bitirmeyi uzun zamandır aklından geçirir. Dışarıdan sıcakkanlı ve uyumludur; bu yolculuk onun için tez kadar, ortalığı yatıştırma meselesidir de."
+    },
+    {
+      "name": "Pelle",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/midsommar-pelle.jpg",
+      "description": "Pelle grew up in the Hårga commune and is the one who invites his American friends to its midsummer festival. He is gentle with Dani from the first day, and he is the person who explains the village's customs to the visitors.",
+      "descriptionTr": "Pelle, Hårga topluluğunda büyümüştür ve Amerikalı arkadaşlarını yaz ortası festivaline davet eden kişidir. İlk günden itibaren Dani'ye karşı nazik davranır; köyün geleneklerini konuklara anlatan da odur."
+    },
+    {
+      "name": "Josh",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/midsommar-josh.jpg",
+      "description": "Josh is an anthropology student writing his own thesis on European folk traditions, and he sees the festival as a chance to document something rarely seen. He takes the project seriously and gets prickly when anyone suggests another way to work.",
+      "descriptionTr": "Josh, Avrupa halk gelenekleri üzerine kendi tezini yazan bir antropoloji öğrencisidir ve festivali nadir görülen bir şeyi belgeleme fırsatı olarak görür. Projeyi ciddiye alır ve biri farklı bir çalışma biçimi önerdiğinde hemen gerilir."
+    },
+    {
+      "name": "Mark",
+      "billingOrder": 5,
+      "localImagePath": "scripts/output/character-crops/midsommar-mark.jpg",
+      "description": "Mark is the loud one in the group, more interested in girls and a good time than in anthropology. He joins the trip mainly for the Swedish summer, and he treats the village like a holiday camp until it stops behaving like one.",
+      "descriptionTr": "Mark, grubun gürültücü üyesidir; antropolojiden çok kızlara ve eğlenceye ilgi duyar. Yolculuğa esas olarak İsveç yazı için katılır ve köy tatil kampı gibi davranmayı bırakana kadar orayı öyle görür."
+    }
+  ]
+}
