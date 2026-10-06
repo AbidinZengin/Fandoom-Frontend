@@ -78,4 +78,11 @@ export const PRODUCTION_BUTTON_GRADIENT = {
   'the-last-of-us': ['#9db35b', '#4a542b', '#0a0a0a'], // tek renk: accent → yarı koyulaşmış → siyaha yakın (Invincible ile aynı kural)
   'euphoria': ['#b67cf0', '#563a71', '#0a0a0a'], // tek renk: accent → yarı koyulaşmış → siyaha yakın (Invincible ile aynı kural)
   'the-terror': ['#8fb8d8', '#435666', '#0a0a0a'], // tek renk: accent → yarı koyulaşmış → siyaha yakın (Invincible ile aynı kural)
+  midsommar: ['#0a0a0a', '#665523', '#d9b44a'], // tek renk: siyaha yakın (sol) → yarı koyulaşmış → accent (sağ) (kullanıcı kararı, 2026-10-05)
+  pearl: ['#0a0a0a', '#541216', '#b3262e'], // tek renk: siyaha yakın (sol) → yarı koyulaşmış → accent (sağ) (kullanıcı kararı, 2026-10-05)
+  nightcrawler: ['#0a0a0a', '#694b17', '#e0a030'], // tek renk: siyaha yakın (sol) → yarı koyulaşmış → accent (sağ) (kullanıcı kararı, 2026-10-05)
+  'gone-girl': ['#0a0a0a', '#434d54', '#8fa3b3'], // tek renk: siyaha yakın (sol) → yarı koyulaşmış → accent (sağ) (kullanıcı kararı, 2026-10-05)
+  'the-shining': ['#0a0a0a', '#5e281d', '#c8553d'], // tek renk: siyaha yakın (sol) → yarı koyulaşmış → accent (sağ) (kullanıcı kararı, 2026-10-05)
+  'a-clockwork-orange': ['#0a0a0a', '#6d3814', '#e8782a'], // tek renk: siyaha yakın (sol) → yarı koyulaşmış → accent (sağ) (kullanıcı kararı, 2026-10-05)
+  'eyes-wide-shut': ['#0a0a0a', '#4f1823', '#a8324a'], // tek renk: siyaha yakın (sol) → yarı koyulaşmış → accent (sağ) (kullanıcı kararı, 2026-10-05)
 };

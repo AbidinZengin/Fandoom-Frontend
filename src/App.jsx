@@ -69,6 +69,13 @@ import Zodiac from './pages/Movies/Zodiac/Zodiac';
 import TheFall from './pages/Movies/TheFall/TheFall';
 import AnatomyOfAFall from './pages/Movies/AnatomyOfAFall/AnatomyOfAFall';
 import RequiemForADream from './pages/Movies/RequiemForADream/RequiemForADream';
+import Midsommar from './pages/Movies/Midsommar/Midsommar';
+import Pearl from './pages/Movies/Pearl/Pearl';
+import Nightcrawler from './pages/Movies/Nightcrawler/Nightcrawler';
+import GoneGirl from './pages/Movies/GoneGirl/GoneGirl';
+import TheShining from './pages/Movies/TheShining/TheShining';
+import AClockworkOrange from './pages/Movies/AClockworkOrange/AClockworkOrange';
+import EyesWideShut from './pages/Movies/EyesWideShut/EyesWideShut';
 import Blog from './pages/Blog/Blog';
 import BlogPost from './pages/Blog/BlogPost/BlogPost';
 import Login from './pages/Admin/Login/Login';
@@ -347,6 +354,13 @@ function App() {
             <Route path="movies/the-fall" element={<TheFall />} />
             <Route path="movies/anatomy-of-a-fall" element={<AnatomyOfAFall />} />
             <Route path="movies/requiem-for-a-dream" element={<RequiemForADream />} />
+            <Route path="movies/midsommar" element={<Midsommar />} />
+            <Route path="movies/pearl" element={<Pearl />} />
+            <Route path="movies/nightcrawler" element={<Nightcrawler />} />
+            <Route path="movies/gone-girl" element={<GoneGirl />} />
+            <Route path="movies/the-shining" element={<TheShining />} />
+            <Route path="movies/a-clockwork-orange" element={<AClockworkOrange />} />
+            <Route path="movies/eyes-wide-shut" element={<EyesWideShut />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
             <Route path="movies" element={<Movies />} />
             {/* Yol-siz layout route: /community ve /portal aynı CommunityLayout
