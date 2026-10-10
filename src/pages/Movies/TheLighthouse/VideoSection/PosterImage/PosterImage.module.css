@@ -1,0 +1,17 @@
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+
+.poster[data-loaded] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster {
+    transition: none;
+  }
+}

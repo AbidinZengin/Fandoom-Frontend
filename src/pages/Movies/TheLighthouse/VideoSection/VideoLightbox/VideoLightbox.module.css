@@ -1,0 +1,347 @@
+/* Zemin/hareket dili Community Lightbox'ıyla aynı: kök fixed, zemin
+   background-color ile solar (kök opacity'si çerçeveyi de soldururdu), çerçevenin
+   hareketi (karttan büyüme / karta dönüş) VideoLightbox.jsx'te Web Animations ile
+   yapılır — süre --duration-base. Kapanışta onAnimationEnd kökte dinlenir. */
+.lightbox {
+  --lightbox-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-page-x);
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.9);
+  animation: lightboxIn var(--duration-base) var(--lightbox-ease) both;
+}
+
+.lightbox[data-closing] {
+  animation-name: lightboxOut;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+}
+
+@keyframes lightboxIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+}
+
+@keyframes lightboxOut {
+  from {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+/* Çerçeve + alt chrome tek dikey yığın; genişlik hem ekran genişliğine hem
+   yüksekliğine sığar (16:9 çerçeve + ~200px chrome payı). */
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: min(100%, 1100px, calc((100dvh - 240px) * 16 / 9));
+  min-width: min(100%, 320px);
+  margin: auto;
+}
+
+/* Kart çerçevesiyle aynı dil: 3px beyaz %70, yumuşak radius + hafif glow. */
+.dialog__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  box-shadow: 0 0 var(--space-2xl) rgba(255, 255, 255, 0.12);
+}
+
+.dialog__poster {
+  position: absolute;
+  inset: 0;
+}
+
+/* Oynatıcı poster'in üstünde durur, oynamaya başlayınca belirir (poster → video
+   yumuşak geçiş). YouTube'un iframe'i kapı hâlinde tüm kutuyu doldurur. */
+.dialog__player {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+
+.dialog__player[data-started] {
+  opacity: 1;
+}
+
+.dialog__player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Bar + künye çerçeve yerine oturduktan sonra yukarı süzülerek gelir; kapanışta
+   hızlıca solar. `backwards`: animasyon bitince taban değer (1) devralır. */
+.chrome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  animation: chromeIn var(--duration-base) ease var(--duration-fast) backwards;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.chrome[data-closing] {
+  opacity: 0;
+}
+
+@keyframes chromeIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-md));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Glassmorfik kontrol barı (projenin yeni-buton standardı): yarı-saydam katman +
+   blur + ince kenar halkası + iç highlight. Çerçevenin ALTINDA durur, videonun
+   üstüne binmez. */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px) saturate(1.4) brightness(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4) brightness(1.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.35);
+}
+
+.lightbox__button {
+  --button-size: calc(var(--space-xl) + var(--space-xs));
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-size);
+  height: var(--button-size);
+  padding: var(--space-xs);
+  border: 0;
+  border-radius: var(--radius-round);
+  color: var(--white);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) ease,
+    opacity var(--duration-fast) ease;
+}
+
+.lightbox__button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.lightbox__button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: var(--space-2xs);
+}
+
+@media (hover: hover) {
+  .lightbox__button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Oynat/duraklat barın birincil eylemi: dolgulu beyaz daire, koyu ikon. */
+.bar__play {
+  color: var(--bg);
+  background: var(--white);
+}
+
+@media (hover: hover) {
+  .bar__play:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.85);
+  }
+}
+
+.bar__time {
+  flex: 0 0 auto;
+  min-width: 9ch;
+  margin-inline: var(--space-xs);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--fg);
+}
+
+.bar__seek {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* İlerleme çubuğu: dolgu --progress ile (JS'ten) çizilir. */
+.bar__slider {
+  display: block;
+  width: 100%;
+  height: var(--space-md);
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.bar__slider:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.bar__slider:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: var(--space-2xs);
+  border-radius: var(--radius-sm);
+}
+
+.bar__slider::-webkit-slider-runnable-track {
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--white) var(--progress, 0%),
+    rgba(255, 255, 255, 0.25) var(--progress, 0%)
+  );
+}
+
+.bar__slider::-moz-range-track {
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--white) var(--progress, 0%),
+    rgba(255, 255, 255, 0.25) var(--progress, 0%)
+  );
+}
+
+.bar__slider::-webkit-slider-thumb {
+  width: var(--space-md);
+  height: var(--space-md);
+  margin-top: calc((var(--space-2xs) - var(--space-md)) / 2);
+  border: 0;
+  border-radius: var(--radius-round);
+  background: var(--white);
+  box-shadow: 0 0 var(--space-sm) rgba(255, 255, 255, 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.bar__slider::-moz-range-thumb {
+  width: var(--space-md);
+  height: var(--space-md);
+  border: 0;
+  border-radius: var(--radius-round);
+  background: var(--white);
+  box-shadow: 0 0 var(--space-sm) rgba(255, 255, 255, 0.5);
+}
+
+.meta {
+  padding: 0 var(--space-xs);
+}
+
+.meta__title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--white);
+}
+
+.meta__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}
+
+.meta__link {
+  transition: color var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .meta__link:hover {
+    color: var(--white);
+  }
+}
+
+.meta__link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Kapat butonu: sağ üst köşe, aynı glass dil. */
+.lightbox__close {
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+
+/* Dar ekran: slider tam satır olarak barın üstüne geçer, butonlar altta dağılır. */
+@media (max-width: 640px) {
+  .lightbox {
+    padding: var(--space-3xl) var(--space-md) var(--space-xl);
+  }
+
+  .dialog {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .bar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: var(--radius-lg);
+  }
+
+  .bar__seek {
+    order: -1;
+    flex: 1 0 100%;
+  }
+
+  .bar__time {
+    margin-inline: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .chrome {
+    animation: none;
+  }
+
+  .dialog__player,
+  .lightbox__button {
+    transition: none;
+  }
+}

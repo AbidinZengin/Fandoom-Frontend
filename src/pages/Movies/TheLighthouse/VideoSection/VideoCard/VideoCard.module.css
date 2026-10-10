@@ -1,0 +1,141 @@
+.card {
+  --play-size: 72px;
+  flex: 0 0 auto;
+  width: clamp(280px, 34vw, 480px);
+  scroll-snap-align: start;
+}
+
+/* Çerçeve Blog/karakter kartlarıyla aynı: 3px beyaz %70, yumuşak radius. */
+.card__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  transition:
+    transform var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .card:hover .card__frame {
+    transform: scale(1.02);
+    box-shadow: 0 0 var(--space-xl) rgba(255, 255, 255, 0.18);
+  }
+}
+
+.card__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.card__poster:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: -6px;
+  border-radius: var(--radius-lg);
+}
+
+.card__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+/* Glassmorfik buton: yarı-saydam katman + blur + ince kenar halkası. */
+.card__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--play-size);
+  height: var(--play-size);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-round);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px) saturate(1.4) brightness(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4) brightness(1.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+  transition:
+    background var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .card:hover .card__play {
+    background: rgba(255, 255, 255, 0.24);
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+.card__playIcon {
+  width: 36%;
+  height: 36%;
+  /* Üçgenin optik merkezi geometrik merkezinin sağındadır; hafif sağa itilir. */
+  margin-left: 6%;
+  fill: var(--white);
+}
+
+.card__meta {
+  padding: var(--space-md) var(--space-2xs) 0;
+}
+
+.card__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--white);
+}
+
+.card__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.card__link {
+  transition: color var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .card__link:hover {
+    color: var(--white);
+  }
+}
+
+.card__link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Dokunmatikte hover efektleri kapalı; indirgenmiş harekette geçişler de. */
+@media (prefers-reduced-motion: reduce) {
+  .card__frame,
+  .card__play {
+    transition: none;
+  }
+}
