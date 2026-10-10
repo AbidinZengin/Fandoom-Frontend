@@ -1,0 +1,99 @@
+.imageUrlInput {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+
+.imageUrlInput__preview {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-card);
+  background: var(--bg-soft);
+  font-size: var(--text-xs);
+  color: var(--fg-faint);
+  text-align: center;
+}
+
+.imageUrlInput__preview[data-empty] {
+  border-style: dashed;
+}
+
+.imageUrlInput__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageUrlInput__spinner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.imageUrlInput__spinner::after {
+  content: '';
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: var(--radius-round);
+  border: 2px solid var(--fg-faint);
+  border-top-color: var(--fg);
+  animation: imageUrlInput-spin 0.8s linear infinite;
+}
+
+@keyframes imageUrlInput-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.imageUrlInput__side {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.imageUrlInput__side > input[type='url'] {
+  align-self: stretch;
+}
+
+.imageUrlInput__file {
+  display: none;
+}
+
+.imageUrlInput__button {
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-lg);
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.imageUrlInput__button:hover {
+  border-color: var(--fg-muted);
+}
+
+.imageUrlInput__button:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.imageUrlInput__error {
+  font-size: var(--text-sm);
+  color: var(--brand-red);
+}

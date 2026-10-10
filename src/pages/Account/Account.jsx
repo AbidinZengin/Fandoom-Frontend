@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { takeReturnTo } from '../../shared/navigation/returnTo';
 import { AuthView } from './AuthView/AuthView';
 import { DashboardView } from './DashboardView/DashboardView';
 import { getStoredAuth } from '../../shared/api/authStorage';
@@ -10,6 +12,7 @@ import styles from './Account.module.css';
 // yenilendiğinde token duruyorsa profil tazelenir, oturum KORUNUR (prototip
 // dönemindeki "yenilemede sıfırlanır" sınırlaması kalktı).
 export default function Account() {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [checkingSession, setCheckingSession] = useState(true);
 
@@ -37,7 +40,12 @@ export default function Account() {
   const handleAuthenticated = () => {
     setCheckingSession(true);
     getMyProfile()
-      .then(setProfile)
+      .then((data) => {
+        setProfile(data);
+        // Giriş, başka bir sayfadan (yorum, admin paneli…) gelindiyse oraya döner.
+        const back = takeReturnTo();
+        if (back) navigate(back, { replace: true });
+      })
       .finally(() => setCheckingSession(false));
   };
 

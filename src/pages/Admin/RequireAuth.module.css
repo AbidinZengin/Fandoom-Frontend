@@ -1,0 +1,27 @@
+.requireAuth {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--space-3xl) var(--space-page-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.requireAuth__title {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  margin: 0;
+}
+
+.requireAuth__text {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+}
+
+.requireAuth__link {
+  align-self: flex-start;
+  color: var(--fg);
+  font-size: var(--text-base);
+  text-decoration: underline;
+}

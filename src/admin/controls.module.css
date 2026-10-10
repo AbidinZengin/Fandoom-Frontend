@@ -1,0 +1,28 @@
+/* Panelin ortak form kontrolü (input / select / textarea) — her kontrol
+   `className={controls.control}` ile bunu alır. */
+.control {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-base);
+  color-scheme: dark;
+  transition: border-color var(--duration-micro);
+}
+
+.control::placeholder {
+  color: var(--fg-faint);
+}
+
+.control:hover {
+  border-color: var(--border-card-hover);
+}
+
+.control:focus-visible {
+  outline: none;
+  border-color: var(--fg);
+}

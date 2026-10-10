@@ -1,0 +1,39 @@
+.iconButton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-round);
+  background: var(--card-bg);
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: color var(--duration-micro), border-color var(--duration-micro);
+}
+
+.iconButton:hover:not(:disabled) {
+  color: var(--fg);
+  border-color: var(--border-card-hover);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.iconButton:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.iconButton--danger:hover:not(:disabled) {
+  color: var(--brand-red);
+  border-color: var(--brand-red);
+}
+
+.iconButton__icon {
+  width: 18px;
+  height: 18px;
+}

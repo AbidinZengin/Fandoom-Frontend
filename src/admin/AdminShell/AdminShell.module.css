@@ -1,0 +1,68 @@
+/* Panele özel boyutlar — theme.css skalasında karşılığı yok (kullanıcı
+   onayıyla panel kapsamına ait, `--admin-*` olarak burada tutulur). */
+.adminShell {
+  --admin-rail-w: 64px;
+  --admin-rail-w-open: 240px;
+
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.adminShell__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+
+/* İçerik, KAPALI rail genişliği kadar boşluk bırakır; rail açılınca içerik
+   kaymaz, rail üstüne biner. */
+.adminShell__main {
+  padding-left: calc(var(--admin-rail-w) + var(--space-sm) * 2);
+}
+
+.adminShell__mobileBar {
+  display: none;
+}
+
+.adminShell__content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+}
+
+.adminShell__menuButton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: var(--space-xs);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-round);
+  background: var(--card-bg);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.adminShell__menuButton:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .adminShell__main {
+    padding-left: 0;
+  }
+
+  .adminShell__mobileBar {
+    display: flex;
+    padding: var(--space-md) var(--space-page-x) 0;
+  }
+
+  .adminShell__content {
+    padding-top: var(--space-lg);
+  }
+}

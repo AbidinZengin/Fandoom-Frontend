@@ -1,0 +1,43 @@
+.addBlockBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  background: var(--card-bg);
+}
+
+.addBlockBar__label {
+  margin-right: var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.addBlockBar__button {
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--duration-micro), background var(--duration-micro);
+}
+
+.addBlockBar__button:hover {
+  border-color: var(--fg-muted);
+  background: var(--surface-2);
+}
+
+.addBlockBar__button:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}

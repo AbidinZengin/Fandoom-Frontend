@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { Suspense, lazy, useEffect, useLayoutEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useParams } from 'react-router-dom';
 import gsap from 'gsap';
 import { Navbar } from './components/Navbar/Navbar';
@@ -78,18 +78,23 @@ import AClockworkOrange from './pages/Movies/AClockworkOrange/AClockworkOrange';
 import EyesWideShut from './pages/Movies/EyesWideShut/EyesWideShut';
 import Blog from './pages/Blog/Blog';
 import BlogPost from './pages/Blog/BlogPost/BlogPost';
-import Login from './pages/Admin/Login/Login';
-import BlogList from './pages/Admin/BlogList/BlogList';
-import BlogEditor from './pages/Admin/BlogEditor/BlogEditor';
 import SeriesHeroList from './pages/Admin/SeriesHeroList/SeriesHeroList';
 import SeriesHeroEditor from './pages/Admin/SeriesHeroEditor/SeriesHeroEditor';
-import AdminHome from './pages/Admin/AdminHome/AdminHome';
 import PageBuilder from './pages/Admin/PageBuilder/PageBuilder';
+import AdminLayout from './pages/Admin/AdminLayout/AdminLayout';
 import { RequireAuth } from './pages/Admin/RequireAuth';
+
+// Yeni admin paneli (src/admin) lazy-load — public bundle'a girmez.
+const AdminShell = lazy(() => import('./admin/AdminShell/AdminShell'));
+const AdminGenel = lazy(() => import('./admin/Genel/Genel'));
+const AdminBlogList = lazy(() => import('./admin/Blogs/BlogList/BlogList'));
+const AdminBlogEditor = lazy(() => import('./admin/Blogs/BlogEditor/BlogEditor'));
+const AdminEntityRoute = lazy(() => import('./admin/entities/AdminEntityRoute/AdminEntityRoute'));
 import Placeholder from './pages/Placeholder/Placeholder';
 import Account from './pages/Account/Account';
 import MotionLab from './pages/MotionLab/MotionLab';
 import { LangGate, LegacyRedirect } from './shared/i18n/LangGate';
+import { trackLocation } from './shared/navigation/returnTo';
 import { initMotion } from './motion/setup';
 import {
   armCinematic,
@@ -111,9 +116,14 @@ import {
 const COMMUNITY_PATH = /^\/(?:[a-z]{2}\/)?(?:community|portal)(?:\/|$)/;
 
 function PageTransition({ children }) {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const pageRef = useRef(null);
   const prevPathname = useRef(null);
+
+  // Giriş sonrası "geldiğin yere dön" için son içerik konumu (shared/navigation).
+  useEffect(() => {
+    trackLocation(pathname + search);
+  }, [pathname, search]);
 
   useLayoutEffect(() => {
     // Blog'dan geri dönüşte scroll'u RelatedContent kendisi geri yükler
@@ -173,6 +183,15 @@ function BlogPostRoute() {
   return <BlogPost key={slug} />;
 }
 
+// Yeni admin paneli (/admin, /admin/blogs…) kendi kabuğunu taşır → public
+// Navbar gizlenir. Eski araçlar (PageBuilder, SeriesHero) Navbar'lı kalır
+// (PageBuilder `100vh - 56px`'e göre yazıldı).
+function PublicNavbar() {
+  const { pathname } = useLocation();
+  const hasOwnShell = /^\/admin(\/(blogs|series|movies)(\/.*)?)?\/?$/.test(pathname);
+  return hasOwnShell ? null : <Navbar />;
+}
+
 function App() {
   useEffect(() => {
     initMotion();
@@ -188,67 +207,38 @@ function App() {
   return (
     <BrowserRouter>
       {/* Navbar geçiş fade'inin DIŞINDA — route değişiminde yenilenmez */}
-      <Navbar />
+      <PublicNavbar />
       <PageTransition>
         <Routes>
-          {/* Admin — dil prefix'ine dahil değil, path'ler değişmedi */}
-          <Route path="/admin/login" element={<Login />} />
-          <Route
-            path="/admin"
-            element={
-              <RequireAuth>
-                <AdminHome />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/admin/page-builder"
-            element={
-              <RequireAuth>
-                <PageBuilder />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/admin/blogs"
-            element={
-              <RequireAuth>
-                <BlogList />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/admin/blogs/new"
-            element={
-              <RequireAuth>
-                <BlogEditor />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/admin/blogs/:id"
-            element={
-              <RequireAuth>
-                <BlogEditor />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/admin/series-hero"
-            element={
-              <RequireAuth>
-                <SeriesHeroList />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/admin/series-hero/:seriesId"
-            element={
-              <RequireAuth>
-                <SeriesHeroEditor />
-              </RequireAuth>
-            }
-          />
+          {/* Admin — dil prefix'ine dahil değil, path'ler değişmedi. Tek
+              RequireAuth guard'ı (rol kontrollü) hepsini sarar; sidebar
+              kabuğu (AdminLayout) yalnız liste/ana sayfalarda, tam ekran
+              editörler kabuğun dışında. */}
+          <Route element={<RequireAuth />}>
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={null}>
+                  <AdminShell />
+                </Suspense>
+              }
+            >
+              <Route index element={<AdminGenel />} />
+              <Route path="blogs" element={<AdminBlogList />} />
+              <Route path="blogs/new" element={<AdminBlogEditor />} />
+              <Route path="blogs/:id" element={<AdminBlogEditor />} />
+              {/* Kayıt defterindeki üst-seviye varlıklar ve iç içe alt varlıkları: yol
+                  AdminEntityRoute içinde çözülür. Segmentler STATİK olmak zorunda: `*` ya da
+                  `:entity` rotası, public `/:lang/series/:slug` ile (lang=admin) puan eşitliğine
+                  düşüp ana sayfaya yönleniyordu. Yeni üst-seviye varlık = buraya bir satır. */}
+              <Route path="series/*" element={<AdminEntityRoute />} />
+            </Route>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/series-hero" element={<SeriesHeroList />} />
+            </Route>
+            <Route path="/admin/page-builder" element={<PageBuilder />} />
+            <Route path="/admin/series-hero/:seriesId" element={<SeriesHeroEditor />} />
+          </Route>
           {/* Dil-prefixli uygulama — path'ler /:lang'e göre relative */}
           <Route path="/:lang" element={<LangGate />}>
             <Route index element={<Home />} />

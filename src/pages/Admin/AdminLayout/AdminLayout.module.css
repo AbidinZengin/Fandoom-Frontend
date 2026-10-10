@@ -1,0 +1,107 @@
+.adminLayout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-page-x) var(--space-3xl);
+}
+
+.adminLayout__sidebar {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.adminLayout__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.adminLayout__link {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+  transition: color var(--duration-micro), background var(--duration-micro);
+}
+
+.adminLayout__link:hover {
+  color: var(--fg);
+}
+
+.adminLayout__link--active {
+  color: var(--fg);
+  background: var(--border);
+}
+
+.adminLayout__user {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.adminLayout__username {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.adminLayout__role {
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+}
+
+.adminLayout__logout {
+  align-self: flex-start;
+  margin-top: var(--space-xs);
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.adminLayout__logout:hover {
+  color: var(--fg);
+}
+
+.adminLayout__content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Sayfaların kendi max-width + yatay padding'i kabuğun içinde ikiye
+   katlanmasın — içerik sidebar'ın yanında tam genişlik kullanır. */
+.adminLayout__content > section {
+  max-width: none;
+  padding: 0;
+}
+
+/* ≤900px: sidebar üstte yatay şerit — projenin mobil kırılımı. */
+@media (max-width: 900px) {
+  .adminLayout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .adminLayout__sidebar {
+    flex: none;
+  }
+
+  .adminLayout__nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

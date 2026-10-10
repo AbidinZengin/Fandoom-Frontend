@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import { ContentSection } from './ContentSection/ContentSection';
@@ -8,7 +8,12 @@ import { CharactersSection } from './CharactersSection/CharactersSection';
 import { SettingsSection } from './SettingsSection/SettingsSection';
 import { ListDetail } from '../ListDetail/ListDetail';
 import { getAccountContent } from '../Account.data';
+import { getStoredAuth } from '../../../shared/api/authStorage';
 import styles from './DashboardView.module.css';
+
+// Admin paneline giriş yetkisi olan roller — gerçek erişim kontrolü panelin
+// kendi guard'ında (RequireAuth); burası yalnız bağlantının görünürlüğü.
+const ADMIN_ROLES = ['EDITOR', 'MODERATOR', 'ADMIN'];
 
 const NAV_ITEMS = [
   { key: 'library', labelKey: 'account.nav.library', isGroupHeader: true },
@@ -54,6 +59,7 @@ export function DashboardView({ onLogout }) {
   const { pathname } = useLocation();
   const listDetailId = pathname.match(/\/account\/lists\/([^/]+)/)?.[1] ?? null;
   const navigate = useLocalizedNavigate();
+  const isStaff = ADMIN_ROLES.includes(getStoredAuth()?.role);
   const [activeSection, setActiveSection] = useState('watchlist');
   const [contentOpen, setContentOpen] = useState(true);
   const [content, setContent] = useState(null);
@@ -203,6 +209,13 @@ export function DashboardView({ onLogout }) {
               </li>
             );
           })}
+          {isStaff && (
+            <li className={styles.dashboard__navItem}>
+              <Link to="/admin" className={`${styles.dashboard__navButton} ${styles.dashboard__navLink}`}>
+                {t('account.nav.admin')}
+              </Link>
+            </li>
+          )}
         </ul>
 
         <button type="button" className={styles.dashboard__logout} onClick={onLogout}>

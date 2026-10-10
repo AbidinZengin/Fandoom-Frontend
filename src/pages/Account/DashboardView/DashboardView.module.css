@@ -47,6 +47,10 @@
   background: rgba(255, 255, 255, 0.06);
 }
 
+.dashboard__navLink {
+  display: block;
+}
+
 .dashboard__navChildItem {
   padding-left: var(--space-md);
   margin-left: var(--space-sm);

@@ -1,0 +1,18 @@
+.capsuleMeter {
+  display: flex;
+  gap: var(--space-2xs);
+  height: var(--space-2xl);
+}
+
+.capsuleMeter__cell {
+  flex: 1;
+  border-radius: var(--radius-pill);
+  border: 1.5px dashed currentColor;
+  opacity: 0.35;
+}
+
+.capsuleMeter__cell--filled {
+  background: currentColor;
+  border-style: solid;
+  opacity: 1;
+}

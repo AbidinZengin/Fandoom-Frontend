@@ -1,0 +1,73 @@
+.accountBlock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.accountBlock__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-round);
+  background: var(--surface-2);
+  border: 1px solid var(--border-card-hover);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* Etiket alanı yalnız rail açıkken görünür (SideRail `data-expanded`). */
+.accountBlock__info,
+.accountBlock__logout {
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity var(--duration-micro);
+}
+
+:global([data-admin-rail][data-expanded='true']) .accountBlock__info,
+:global([data-admin-rail][data-expanded='true']) .accountBlock__logout {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.accountBlock__info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.accountBlock__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.accountBlock__role {
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+}
+
+.accountBlock__logout {
+  flex: none;
+  min-height: 44px;
+  padding: 0 var(--space-xs);
+  background: none;
+  border: none;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.accountBlock__logout:hover {
+  color: var(--fg);
+}

@@ -1,0 +1,65 @@
+.linkCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-height: 44px; /* dokunma hedefi tabanı */
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  background: var(--card-bg);
+  color: var(--fg);
+  transition:
+    border-color var(--duration-micro),
+    transform var(--duration-fast),
+    box-shadow var(--duration-fast);
+}
+
+/* Hover efekti yalnız gerçek hover yeteneği olan cihazlarda (learned-rules). */
+@media (hover: hover) {
+  .linkCard:hover {
+    border-color: var(--border-card-hover);
+    transform: scale(1.015);
+    box-shadow: 0 10px 28px rgba(255, 255, 255, 0.04);
+  }
+}
+
+.linkCard:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.linkCard__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+
+.linkCard__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.linkCard__title {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.linkCard__desc {
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.linkCard__arrow {
+  flex: none;
+  width: var(--space-md);
+  height: var(--space-md);
+  color: var(--fg-muted);
+}

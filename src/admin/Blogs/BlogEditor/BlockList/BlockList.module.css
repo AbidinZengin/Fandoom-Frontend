@@ -1,0 +1,15 @@
+.blockList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.blockList__empty {
+  margin: 0;
+  padding: var(--space-2xl) var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-card-hover);
+  text-align: center;
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}

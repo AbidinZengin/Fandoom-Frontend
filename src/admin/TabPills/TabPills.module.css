@@ -1,0 +1,35 @@
+.tabPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.tabPills__tab {
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-lg);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  color: var(--fg-muted);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--duration-micro), background var(--duration-micro);
+}
+
+.tabPills__tab:hover {
+  color: var(--fg);
+}
+
+.tabPills__tab--active,
+.tabPills__tab--active:hover {
+  border-color: transparent;
+  background: var(--white);
+  color: var(--bg);
+}
+
+.tabPills__tab:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}

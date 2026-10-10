@@ -1,0 +1,47 @@
+.multiSelect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.multiSelect__pill {
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-pill);
+  background: var(--bg-soft);
+  color: var(--fg-muted);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--duration-micro), background var(--duration-micro);
+}
+
+.multiSelect__pill:hover:not(:disabled) {
+  color: var(--fg);
+  border-color: var(--border-card-hover);
+}
+
+.multiSelect__pill--on,
+.multiSelect__pill--on:hover:not(:disabled) {
+  border-color: transparent;
+  background: var(--white);
+  color: var(--bg);
+}
+
+.multiSelect__pill:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.multiSelect__pill:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.multiSelect__status {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}

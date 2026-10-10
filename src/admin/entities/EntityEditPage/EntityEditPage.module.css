@@ -1,0 +1,113 @@
+.entityEdit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.entityEdit__back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 44px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.entityEdit__back:hover {
+  color: var(--fg);
+}
+
+.entityEdit__back:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.entityEdit__backIcon {
+  width: var(--space-md);
+  height: var(--space-md);
+}
+
+.entityEdit__status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}
+
+.entityEdit__notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card-hover);
+  background: var(--card-bg);
+  font-size: var(--text-sm);
+}
+
+.entityEdit__notice p {
+  margin: 0;
+}
+
+.entityEdit__notice--error {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  border-color: var(--brand-red);
+}
+
+.entityEdit__confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.entityEdit__confirm button {
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.entityEdit__confirm .entityEdit__confirmDelete {
+  border-color: var(--brand-red);
+  color: var(--brand-red);
+}
+
+.entityEdit__noticeActions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.entityEdit__noticeActions button {
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-lg);
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.entityEdit__noticeActions button:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
