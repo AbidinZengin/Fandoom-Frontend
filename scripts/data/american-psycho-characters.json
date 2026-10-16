@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Patrick Bateman",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/american-psycho-patrick-bateman.jpg",
+      "description": "Patrick Bateman is an investment banker who has made himself into the perfect product of his world: groomed, fit, fluent in brand names and completely hollow. He describes himself as an idea of a person rather than a real one, and spends the film trying to feel anything at all.",
+      "descriptionTr": "Patrick Bateman, kendini dünyasının kusursuz bir ürününe dönüştürmüş bir yatırım bankacısıdır: bakımlı, formda, marka isimlerine hâkim ve tamamen boş. Kendini gerçek bir insan değil, bir insan fikri olarak tanımlar ve film boyunca herhangi bir şey hissetmeye çalışır."
+    },
+    {
+      "name": "Evelyn Williams",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/american-psycho-evelyn-williams.jpg",
+      "description": "Evelyn Williams is Patrick's fiancée, a socialite more interested in dinner parties and wedding plans than in the man she is marrying. Chatty and oblivious, she is exactly the kind of partner Patrick's image requires.",
+      "descriptionTr": "Evelyn Williams, Patrick'in nişanlısıdır; evleneceği adamdan çok akşam yemeği davetleri ve düğün planlarıyla ilgilenen bir sosyetiktir. Geveze ve olan bitenden habersizdir; tam da Patrick'in imajının gerektirdiği türden bir eştir."
+    },
+    {
+      "name": "Luis Carruthers",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/american-psycho-luis-carruthers.jpg",
+      "description": "Luis Carruthers is one of Patrick's colleagues, nervous, eager to please and the owner of a business card that Patrick finds unbearably good. He is also hiding a secret of his own, and misreads Patrick's attention in a way neither of them expects.",
+      "descriptionTr": "Luis Carruthers, Patrick'in iş arkadaşlarından biridir; gergin, herkesi memnun etmeye hevesli ve Patrick'in dayanılmaz derecede iyi bulduğu bir kartvizitin sahibidir. Kendine ait bir sırrı da saklamaktadır ve Patrick'in ilgisini ikisinin de beklemediği bir şekilde yanlış yorumlar."
+    }
+  ]
+}

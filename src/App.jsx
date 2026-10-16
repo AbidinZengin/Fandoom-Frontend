@@ -72,10 +72,27 @@ import RequiemForADream from './pages/Movies/RequiemForADream/RequiemForADream';
 import Midsommar from './pages/Movies/Midsommar/Midsommar';
 import Pearl from './pages/Movies/Pearl/Pearl';
 import Nightcrawler from './pages/Movies/Nightcrawler/Nightcrawler';
+import TaxiDriver from './pages/Movies/TaxiDriver/TaxiDriver';
 import GoneGirl from './pages/Movies/GoneGirl/GoneGirl';
 import TheShining from './pages/Movies/TheShining/TheShining';
 import AClockworkOrange from './pages/Movies/AClockworkOrange/AClockworkOrange';
 import EyesWideShut from './pages/Movies/EyesWideShut/EyesWideShut';
+import Obsession from './pages/Movies/Obsession/Obsession';
+import TheLighthouse from './pages/Movies/TheLighthouse/TheLighthouse';
+import WutheringHeights from './pages/Movies/WutheringHeights/WutheringHeights';
+import Frankenstein from './pages/Movies/Frankenstein/Frankenstein';
+import ProjectHailMary from './pages/Movies/ProjectHailMary/ProjectHailMary';
+import TheSilenceOfTheLambs from './pages/Movies/TheSilenceOfTheLambs/TheSilenceOfTheLambs';
+import Enemy from './pages/Movies/Enemy/Enemy';
+import GirlInterrupted from './pages/Movies/GirlInterrupted/GirlInterrupted';
+import Sinister from './pages/Movies/Sinister/Sinister';
+import Weapons from './pages/Movies/Weapons/Weapons';
+import CallMeByYourName from './pages/Movies/CallMeByYourName/CallMeByYourName';
+import Challengers from './pages/Movies/Challengers/Challengers';
+import Mickey17 from './pages/Movies/Mickey17/Mickey17';
+import TheOdyssey from './pages/Movies/TheOdyssey/TheOdyssey';
+import Memento from './pages/Movies/Memento/Memento';
+import AmericanPsycho from './pages/Movies/AmericanPsycho/AmericanPsycho';
 import Blog from './pages/Blog/Blog';
 import BlogPost from './pages/Blog/BlogPost/BlogPost';
 import SeriesHeroList from './pages/Admin/SeriesHeroList/SeriesHeroList';
@@ -347,10 +364,27 @@ function App() {
             <Route path="movies/midsommar" element={<Midsommar />} />
             <Route path="movies/pearl" element={<Pearl />} />
             <Route path="movies/nightcrawler" element={<Nightcrawler />} />
+            <Route path="movies/taxi-driver" element={<TaxiDriver />} />
             <Route path="movies/gone-girl" element={<GoneGirl />} />
             <Route path="movies/the-shining" element={<TheShining />} />
             <Route path="movies/a-clockwork-orange" element={<AClockworkOrange />} />
             <Route path="movies/eyes-wide-shut" element={<EyesWideShut />} />
+            <Route path="movies/obsession" element={<Obsession />} />
+            <Route path="movies/the-lighthouse" element={<TheLighthouse />} />
+            <Route path="movies/wuthering-heights" element={<WutheringHeights />} />
+            <Route path="movies/frankenstein" element={<Frankenstein />} />
+            <Route path="movies/project-hail-mary" element={<ProjectHailMary />} />
+            <Route path="movies/the-silence-of-the-lambs" element={<TheSilenceOfTheLambs />} />
+            <Route path="movies/enemy" element={<Enemy />} />
+            <Route path="movies/girl-interrupted" element={<GirlInterrupted />} />
+            <Route path="movies/sinister" element={<Sinister />} />
+            <Route path="movies/weapons" element={<Weapons />} />
+            <Route path="movies/call-me-by-your-name" element={<CallMeByYourName />} />
+            <Route path="movies/challengers" element={<Challengers />} />
+            <Route path="movies/mickey-17" element={<Mickey17 />} />
+            <Route path="movies/the-odyssey" element={<TheOdyssey />} />
+            <Route path="movies/memento" element={<Memento />} />
+            <Route path="movies/american-psycho" element={<AmericanPsycho />} />
             <Route path="movies/:slug" element={<ProductionDetail type="movie" />} />
             <Route path="movies" element={<Movies />} />
             {/* Yol-siz layout route: /community ve /portal aynı CommunityLayout

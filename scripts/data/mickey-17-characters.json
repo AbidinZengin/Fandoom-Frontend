@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Mickey Barnes",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/mickey-17-mickey-barnes.jpg",
+      "description": "Mickey Barnes is a meek, accommodating man who has died sixteen times in the line of duty and answers the question \"what's it like to die?\" more often than anyone should. Seventeen is gentle and apologetic; Eighteen, printed from the same memories, is angrier and has no intention of being disposable.",
+      "descriptionTr": "Mickey Barnes, görev başında on altı kez ölmüş, uysal ve her şeye boyun eğen bir adamdır; \"ölmek nasıl bir şey?\" sorusunu kimsenin cevaplamaması gerektiği kadar sık cevaplar. On Yedi yumuşak ve özür dileyendir; aynı anılarla basılan On Sekiz ise daha öfkelidir ve harcanabilir olmaya hiç niyeti yoktur."
+    },
+    {
+      "name": "Nasha Barunduke",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/mickey-17-nasha-barunduke.jpg",
+      "description": "Nasha Barunduke is a security agent on the expedition and the one person who loves Mickey in every version of him. Fierce, funny and fiercely loyal, she treats his deaths as a personal insult and is the first to see that Seventeen and Eighteen are not quite the same man.",
+      "descriptionTr": "Nasha Barunduke, seferin güvenlik görevlisi ve Mickey'yi her versiyonunda seven tek kişidir. Sert, komik ve son derece sadıktır; Mickey'nin ölümlerini kişisel bir hakaret gibi karşılar ve On Yedi ile On Sekiz'in tam olarak aynı adam olmadığını ilk fark eden odur."
+    },
+    {
+      "name": "Kenneth Marshall",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/mickey-17-kenneth-marshall.jpg",
+      "description": "Kenneth Marshall is a twice-failed politician who leads the colony mission like a televangelist leading a rally. Vain, petty and obsessed with his own image, he sees Niflheim as a fresh start for a purer humanity and Mickey as a piece of equipment.",
+      "descriptionTr": "Kenneth Marshall, iki kez başarısız olmuş bir politikacıdır ve koloni seferini bir televizyon vaizinin miting yönetmesi gibi yönetir. Kibirli, küçük hesaplı ve kendi imajına takıntılıdır; Niflheim'ı daha saf bir insanlık için yeni bir başlangıç, Mickey'yi ise bir ekipman parçası olarak görür."
+    },
+    {
+      "name": "Timo",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/mickey-17-timo.jpg",
+      "description": "Timo is Mickey's old friend, the business partner whose failed macaron shop left them both owing money to a very dangerous man. Charming and entirely self-serving, he got a comfortable job on the ship by letting Mickey sign up for the worst one.",
+      "descriptionTr": "Timo, Mickey'nin eski arkadaşı ve batan makaron dükkânı yüzünden ikisini de çok tehlikeli bir adama borçlu bırakan iş ortağıdır. Çekici ve tamamen çıkarcıdır; Mickey'nin en kötü işe yazılmasına göz yumarak gemide kendine rahat bir iş bulmuştur."
+    }
+  ]
+}

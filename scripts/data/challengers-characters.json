@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Tashi Donaldson",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/challengers-tashi-donaldson.jpg",
+      "description": "Tashi Donaldson was a teenage tennis phenomenon who lost her career to a single injury and rebuilt herself as her husband's coach. Brilliant, controlling and impossible to read, she still thinks about the game more clearly than anyone on the court.",
+      "descriptionTr": "Tashi Donaldson, tek bir sakatlıkla kariyerini kaybeden ve kendini kocasının koçu olarak yeniden kuran genç bir tenis fenomeniydi. Parlak, kontrolcü ve okunması imkânsızdır; oyunu hâlâ korttaki herkesten daha net düşünür."
+    },
+    {
+      "name": "Art Donaldson",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/challengers-art-donaldson.jpg",
+      "description": "Art Donaldson is a polite, disciplined champion who has won almost everything except the one title he is missing. Exhausted and quietly unsure whether he even wants to keep playing, he has built his whole life around doing what Tashi thinks is best.",
+      "descriptionTr": "Art Donaldson, eksik olan tek kupa dışında neredeyse her şeyi kazanmış kibar ve disiplinli bir şampiyondur. Yorgundur ve oynamaya devam etmek isteyip istemediğinden için için emin değildir; bütün hayatını Tashi'nin en doğru bulduğu şeyi yapmak üzerine kurmuştur."
+    },
+    {
+      "name": "Patrick Zweig",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/challengers-patrick-zweig.jpg",
+      "description": "Patrick Zweig was once Art's doubles partner and the more gifted of the two. Charming, reckless and now ranked far below where he should be, he plays like he has nothing to lose, because he mostly doesn't.",
+      "descriptionTr": "Patrick Zweig, bir zamanlar Art'ın çiftler partneri ve ikisinin daha yetenekli olanıydı. Çekici, pervasız ve şimdi olması gerekenin çok altında bir sıralamada olan Patrick, kaybedecek hiçbir şeyi yokmuş gibi oynar; çünkü gerçekten de pek yoktur."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Sandra Voyter",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/anatomy-of-a-fall-sandra-voyter.jpg",
+      "description": "Sandra Voyter is a German novelist living in a remote chalet in the French Alps with her husband, Samuel, and their young son, Daniel. After Samuel is found dead in the snow outside the house, she becomes the main suspect. Composed and guarded, she must defend herself in court while her private life and her marriage are laid bare.",
+      "descriptionTr": "Sandra Voyter, Fransız Alpleri'ndeki ıssız bir şaltede kocası Samuel ve küçük oğlu Daniel ile yaşayan Alman bir romancıdır. Samuel evin önünde karların içinde ölü bulunduktan sonra baş şüpheli olur. Kendine hâkim ve temkinli biri olarak, özel hayatı ve evliliği ortaya serilirken mahkemede kendini savunmak zorunda kalır."
+    },
+    {
+      "name": "Daniel",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/anatomy-of-a-fall-daniel.jpg",
+      "description": "Daniel is Sandra and Samuel's eleven-year-old son, who has limited vision after an accident when he was younger. Quiet and observant, he lives with his family in near isolation. As the case develops, he becomes a witness whose account may matter more than anyone's.",
+      "descriptionTr": "Daniel, Sandra ve Samuel'in on bir yaşındaki oğludur ve küçükken geçirdiği bir kaza nedeniyle görüşü sınırlıdır. Sessiz ve gözlemci biri olarak ailesiyle neredeyse tecrit içinde yaşar. Dava ilerledikçe, anlatımı herkesinkinden daha önemli olabilecek bir tanığa dönüşür."
+    },
+    {
+      "name": "Advocate General",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/anatomy-of-a-fall-advocate-general.jpg",
+      "description": "The Advocate General is the prosecutor who argues the case against Sandra in court. Sharp, relentless and skilled at reading a person from their past, he builds his argument from the details of the couple's life together.",
+      "descriptionTr": "Başsavcı, mahkemede Sandra aleyhine davayı savunan savcıdır. Keskin, amansız ve bir insanı geçmişinden okumakta usta biri olarak, argümanını çiftin birlikte geçirdiği hayatın ayrıntılarından kurar."
+    },
+    {
+      "name": "Samuel Maleski",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/anatomy-of-a-fall-samuel-maleski.jpg",
+      "description": "Samuel Maleski is Sandra's husband, a teacher who has moved his family to the isolated chalet he grew up near. Warm but frustrated, he struggles with his own unfinished writing and with the balance of his marriage. His death is the event that sets the whole story in motion.",
+      "descriptionTr": "Samuel Maleski, Sandra'nın kocasıdır; ailesini büyüdüğü yerin yakınındaki ıssız şalteye taşımış bir öğretmendir. Sıcak ama hayal kırıklığı dolu biri olarak, bitmemiş yazısıyla ve evliliğinin dengesiyle boğuşur. Ölümü, tüm hikâyeyi harekete geçiren olaydır."
+    }
+  ]
+}

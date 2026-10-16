@@ -1,0 +1,33 @@
+{
+  "_not": "Taslak karakter seti. TMDb profil görselleri: Jake Gyllenhaal /ct2Gh2sJSxd4yaMrSsqSt1HpIC3.jpg, Mélanie Laurent /i99ogEo4gQyanCmHWYYoS6hsUqL.jpg, Sarah Gadon /sWBMkqjRiszNrvaLE2SSedG9szT.jpg, Isabella Rossellini /z0zojT6nwDxi35HMcXlVpBfuBAU.jpg. localImagePath kırpmaları henüz üretilmedi.",
+  "characters": [
+    {
+      "name": "Adam Bell / Anthony Claire",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/enemy-adam-bell.jpg",
+      "description": "Adam Bell is a quiet history professor who gives the same lecture to the same tired faces and goes home to a flat that seems to be waiting for him to leave. When he finds a stranger with his face in the background of a film, the curiosity grows into something he cannot put down. Anthony Claire is the other man, an actor with a wife, a leather jacket and a confidence Adam has never owned, and he does not take kindly to being looked for.",
+      "descriptionTr": "Adam Bell, aynı dersi aynı yorgun yüzlere anlatan ve evine dönünce dairenin onun çıkmasını bekliyormuş gibi durduğu sessiz bir tarih profesörüdür. Bir filmin arka planında kendi yüzünü taşıyan bir yabancı bulduğunda merak, elinden bırakamayacağı bir şeye dönüşür. Anthony Claire öteki adamdır; karısı, deri ceketi ve Adam'ın hiç sahip olmadığı bir özgüveni olan bir oyuncudur ve aranmaktan hoşlanmaz."
+    },
+    {
+      "name": "Mary",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/enemy-mary.jpg",
+      "description": "Mary is Adam's girlfriend, who comes and goes from his flat and has begun to sense that something in him has slipped out of reach. She asks few questions, and the ones she does ask make clear that she already suspects the answers will not please her.",
+      "descriptionTr": "Mary, Adam'ın dairesine gelip giden sevgilisidir ve içinde bir şeyin elinden kaydığını sezmeye başlamıştır. Az soru sorar, sorduğu sorular da cevapların hoşuna gitmeyeceğinden zaten şüphelendiğini belli eder."
+    },
+    {
+      "name": "Helen",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/enemy-helen.jpg",
+      "description": "Helen is Anthony's wife, heavily pregnant and tired of a husband who disappears into his own evenings. She is the first to notice that something is off, and she is the one person in the story who looks at the situation with her eyes fully open.",
+      "descriptionTr": "Helen, Anthony'nin hamile eşidir ve kendi akşamlarında kaybolan bir kocadan yorulmuştur. Bir şeylerin ters gittiğini ilk fark eden odur ve hikâyede duruma gözleri tamamen açık bakan tek kişidir."
+    },
+    {
+      "name": "Adam's Mother",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/enemy-mother.jpg",
+      "description": "Adam's mother is a composed, impeccably dressed woman who meets her son's questions with a patient, practised calm. She knows more about his past than she is willing to say over lunch, and her silence answers as much as it hides.",
+      "descriptionTr": "Adam'ın annesi, oğlunun sorularını sabırlı ve alışılmış bir sakinlikle karşılayan, kusursuz giyimli ve ölçülü bir kadındır. Oğlunun geçmişi hakkında bir öğle yemeğinde söylemek istediğinden fazlasını bilir ve sessizliği sakladığı kadar cevap da verir."
+    }
+  ]
+}

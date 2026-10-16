@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Odysseus",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/the-odyssey-odysseus.jpg",
+      "description": "Odysseus is the King of Ithaca, the strategist behind the wooden horse and the most famous liar in Greek legend. Proud, resourceful and stubborn to the point of recklessness, he has won the war and now has to survive the journey home.",
+      "descriptionTr": "Odysseus, İthaka Kralı, tahta atın arkasındaki strateji ustası ve Yunan efsanesinin en ünlü yalancısıdır. Gururlu, becerikli ve pervasızlık derecesinde inatçıdır; savaşı kazanmıştır ve şimdi eve dönüş yolculuğunu atlatması gerekir."
+    },
+    {
+      "name": "Penelope",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/the-odyssey-penelope.jpg",
+      "description": "Penelope is the Queen of Ithaca, who has waited years for a husband most people believe is dead. Every bit as clever as Odysseus, she keeps the suitors filling her halls at bay with patience, politics and carefully managed promises.",
+      "descriptionTr": "Penelope, çoğu kişinin öldüğüne inandığı kocasını yıllardır bekleyen İthaka Kraliçesidir. En az Odysseus kadar zekidir; salonlarını dolduran talipleri sabır, siyaset ve dikkatle yönettiği vaatlerle uzakta tutar."
+    },
+    {
+      "name": "Telemachus",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/the-odyssey-telemachus.jpg",
+      "description": "Telemachus is the son Odysseus left behind as an infant, now a young man with no memory of his father and a palace full of men waiting for him to fail. Restless and angry, he is trying to work out what kind of man, and what kind of king, he is meant to be.",
+      "descriptionTr": "Telemakhos, Odysseus'un bebekken geride bıraktığı oğludur; artık babasına dair hiçbir anısı olmayan ve sarayı başarısız olmasını bekleyen adamlarla dolu genç bir adamdır. Huzursuz ve öfkelidir; nasıl bir adam ve nasıl bir kral olması gerektiğini anlamaya çalışır."
+    },
+    {
+      "name": "Antinous",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/the-odyssey-antinous.jpg",
+      "description": "Antinous is the boldest and most arrogant of Penelope's suitors, the one the others follow. He eats the king's food, drinks the king's wine and openly treats Ithaca's throne as something already his.",
+      "descriptionTr": "Antinous, Penelope'nin talipleri arasında en cüretkâr ve en kibirli olanı, diğerlerinin peşinden gittiği kişidir. Kralın yemeğini yer, kralın şarabını içer ve İthaka tahtına açıkça çoktan kendisinin olan bir şey gibi davranır."
+    }
+  ]
+}

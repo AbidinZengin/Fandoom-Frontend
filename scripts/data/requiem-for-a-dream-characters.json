@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Sara Goldfarb",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/requiem-for-a-dream-sara-goldfarb.jpg",
+      "description": "Sara Goldfarb is a widow living alone in a Brooklyn apartment near Coney Island, passing her days in front of the television. Lonely and proud of her son Harry, she receives a phone call that gives her a goal to hope for. She holds on to it tightly.",
+      "descriptionTr": "Sara Goldfarb, Coney Island yakınındaki bir Brooklyn dairesinde tek başına yaşayan ve günlerini televizyonun karşısında geçiren bir dultur. Yalnız ve oğlu Harry ile gurur duyan biri olarak, ona umut edebileceği bir hedef veren bir telefon alır. Ona sıkıca tutunur."
+    },
+    {
+      "name": "Harry Goldfarb",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/requiem-for-a-dream-harry-goldfarb.jpg",
+      "description": "Harry Goldfarb is Sara's restless son, a young man with big plans and too little patience for slow ones. With his friend Tyrone and his girlfriend Marion, he dreams of a business that will get them out of the neighborhood and into a better life.",
+      "descriptionTr": "Harry Goldfarb, Sara'nın huzursuz oğludur; büyük planları olan ve yavaş olanlara karşı sabrı az olan genç bir adamdır. Arkadaşı Tyrone ve kız arkadaşı Marion ile birlikte, onları mahalleden çıkarıp daha iyi bir hayata taşıyacak bir iş hayal eder."
+    },
+    {
+      "name": "Marion Silver",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/requiem-for-a-dream-marion-silver.jpg",
+      "description": "Marion Silver is Harry's girlfriend, a creative and ambitious young woman who dreams of opening her own fashion boutique. Tender with Harry and determined about her future, she is closely tied to the plan the group makes.",
+      "descriptionTr": "Marion Silver, Harry'nin kız arkadaşıdır; kendi moda butiğini açmayı hayal eden yaratıcı ve hırslı bir genç kadındır. Harry'ye karşı şefkatli, geleceği konusunda kararlı biri olarak, grubun yaptığı plana yakından bağlıdır."
+    },
+    {
+      "name": "Tyrone C. Love",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/requiem-for-a-dream-tyrone-c-love.jpg",
+      "description": "Tyrone C. Love is Harry's closest friend, a young man who wants to make his mother proud and leave the street life behind. Loyal and quick with a joke, he works alongside Harry on the plan that is supposed to change both their lives.",
+      "descriptionTr": "Tyrone C. Love, Harry'nin en yakın arkadaşıdır; annesini gururlandırmak ve sokak hayatını geride bırakmak isteyen genç bir adamdır. Sadık ve espri yapmakta hızlı biri olarak, ikisinin de hayatını değiştirmesi beklenen plan üzerinde Harry'yle birlikte çalışır."
+    }
+  ]
+}

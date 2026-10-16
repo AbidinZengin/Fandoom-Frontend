@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Victor Frankenstein",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/frankenstein-victor-frankenstein.jpg",
+      "description": "Victor Frankenstein is a brilliant, impatient scientist who cannot stand an unanswered question. His ambition is real and so is his talent, but he has never once planned for what comes after the experiment works.",
+      "descriptionTr": "Victor Frankenstein, cevapsız bir soruya tahammül edemeyen parlak ve sabırsız bir bilim insanıdır. Hırsı da yeteneği de gerçektir; ama deney işe yaradıktan sonra ne olacağını hiç planlamamıştır."
+    },
+    {
+      "name": "The Creature",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/frankenstein-the-creature.jpg",
+      "description": "The Creature wakes into a body and a world he did not choose, with no language, no name and no idea why people flinch. What he learns, and from whom, decides what he becomes.",
+      "descriptionTr": "Yaratık, seçmediği bir bedende ve bir dünyada uyanır; dili, adı ve insanların neden ürktüğüne dair bir fikri yoktur. Neyi, kimden öğrendiği neye dönüşeceğini belirler."
+    },
+    {
+      "name": "Elizabeth",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/frankenstein-elizabeth.jpg",
+      "description": "Elizabeth is one of the few people who looks at Victor's work without flattering him. Curious and clear-eyed, she keeps asking the question he would rather not hear.",
+      "descriptionTr": "Elizabeth, Victor'un işine ona yaranmadan bakabilen az sayıdaki insandan biridir. Meraklı ve berrak gözlü biri olarak onun duymak istemediği soruyu sormaya devam eder."
+    }
+  ]
+}

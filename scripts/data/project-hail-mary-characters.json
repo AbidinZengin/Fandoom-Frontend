@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Ryland Grace",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/project-hail-mary-ryland-grace.jpg",
+      "description": "Ryland Grace is a science teacher who ended up on a ship he does not remember boarding. He is funny, nervous and better at improvising than he gives himself credit for, and the answer to why he was chosen comes back to him one memory at a time.",
+      "descriptionTr": "Ryland Grace, hatırlamadığı bir gemiye binmiş olan bir fen öğretmenidir. Esprili, gergin ve kendine tanıdığından daha iyi doğaçlama yapabilen biridir; neden seçildiğinin cevabı ona anı anı geri gelir."
+    },
+    {
+      "name": "Rocky",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/project-hail-mary-rocky.jpg",
+      "description": "Rocky is an engineer from another star system who is on the same errand as Grace and has no spoken language in common with him. What starts as caution between two strangers turns into the film's most dependable friendship.",
+      "descriptionTr": "Rocky, başka bir yıldız sisteminden gelen bir mühendistir; Grace'le aynı görevdedir ve onunla ortak bir konuşma dili yoktur. İki yabancı arasındaki temkin, filmin en güvenilir dostluğuna dönüşür."
+    },
+    {
+      "name": "Eva Stratt",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/project-hail-mary-eva-stratt.jpg",
+      "description": "Eva Stratt is the official who runs the effort to save Earth, and she does it with total focus and very little patience for the comfort of the people she needs. She makes hard choices quickly and does not apologise for them.",
+      "descriptionTr": "Eva Stratt, Dünya'yı kurtarma çabasını yöneten yetkilidir; bunu tam bir odakla ve ihtiyaç duyduğu insanların rahatı için çok az sabırla yapar. Zor kararları hızlı verir ve bunlar için özür dilemez."
+    }
+  ]
+}

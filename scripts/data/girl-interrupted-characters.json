@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Susanna Kaysen",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/girl-interrupted-susanna.jpg",
+      "description": "Susanna Kaysen is an eighteen-year-old who wants to be a writer and cannot explain, even to herself, why she swallowed the pills. Watchful and quietly sardonic, she spends her time on the ward taking notes on everyone, including the people deciding what is wrong with her.",
+      "descriptionTr": "Susanna Kaysen, yazar olmak isteyen ve hapları neden yuttuğunu kendine bile açıklayamayan on sekiz yaşında bir kızdır. Dikkatli ve sessizce alaycıdır; koğuştaki zamanını herkes hakkında not tutarak geçirir, ona neyin yanlış olduğuna karar verenler de buna dahildir."
+    },
+    {
+      "name": "Lisa Rowe",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/girl-interrupted-lisa.jpg",
+      "description": "Lisa Rowe has been at Claymoore for years and knows exactly how to run circles around the staff. Magnetic, funny and cruel in the same breath, she escapes whenever she likes, and her approval quickly becomes the thing Susanna wants most.",
+      "descriptionTr": "Lisa Rowe yıllardır Claymoore'dadır ve personeli nasıl parmağında oynatacağını çok iyi bilir. Aynı nefeste hem büyüleyici, hem komik, hem de acımasızdır; canı istediğinde kaçar ve onun onayı kısa sürede Susanna'nın en çok istediği şeye dönüşür."
+    },
+    {
+      "name": "Daisy Randone",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/girl-interrupted-daisy.jpg",
+      "description": "Daisy Randone is the ward's privileged patient, with a private room, weekend visits home and a father who brings her roast chicken. She keeps everyone at arm's length behind a fragile, perfectly arranged surface that Lisa is determined to crack.",
+      "descriptionTr": "Daisy Randone, koğuşun ayrıcalıklı hastasıdır: özel bir odası, hafta sonu ev izinleri ve ona fırın tavuk getiren bir babası vardır. Herkesi kırılgan ve kusursuzca düzenlenmiş bir yüzeyin ardında uzak tutar; Lisa ise o yüzeyi çatlatmaya kararlıdır."
+    }
+  ]
+}

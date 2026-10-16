@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Elio Perlman",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/call-me-by-your-name-elio.jpg",
+      "description": "Elio Perlman is a precocious seventeen-year-old who plays piano, speaks three languages and knows far more about books than about himself. Clever and guarded, he hides what he feels behind sarcasm until the summer makes that impossible.",
+      "descriptionTr": "Elio Perlman, piyano çalan, üç dil konuşan ve kitaplar hakkında kendisi hakkında bildiğinden çok daha fazlasını bilen erken olgunlaşmış on yedi yaşında bir gençtir. Zeki ve temkinlidir; hissettiklerini alaycılığın ardına saklar, ta ki yaz bunu imkânsız kılana kadar."
+    },
+    {
+      "name": "Oliver",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/call-me-by-your-name-oliver.jpg",
+      "description": "Oliver is a twenty-four-year-old American doctoral student who arrives at the villa to work on his book. Easy-going and sure of himself on the surface, he signs off every conversation with a breezy \"Later!\" and is more careful about what he wants than he lets anyone see.",
+      "descriptionTr": "Oliver, kitabı üzerinde çalışmak için villaya gelen yirmi dört yaşında Amerikalı bir doktora öğrencisidir. Yüzeyde rahat ve kendinden emindir; her konuşmayı umursamaz bir \"Later!\" ile bitirir ve ne istediği konusunda kimseye gösterdiğinden çok daha dikkatlidir."
+    },
+    {
+      "name": "Mr. Perlman",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/call-me-by-your-name-mr-perlman.jpg",
+      "description": "Mr. Perlman is Elio's father, a professor of Greco-Roman archaeology who fills the house with books, guests and long dinner debates. Warm and observant, he notices more than he says, and when he finally speaks, he says exactly what his son needs to hear.",
+      "descriptionTr": "Mr. Perlman, Elio'nun babasıdır; evi kitaplar, misafirler ve uzun akşam yemeği tartışmalarıyla dolduran bir Greko-Romen arkeolojisi profesörüdür. Sıcak ve dikkatlidir; söylediğinden fazlasını fark eder ve sonunda konuştuğunda tam da oğlunun duyması gerekeni söyler."
+    },
+    {
+      "name": "Marzia",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/call-me-by-your-name-marzia.jpg",
+      "description": "Marzia is a local French girl who spends the summer around Elio, at the river, the dances and the bookshop in town. Direct and affectionate, she likes him openly and asks only that he be honest with her.",
+      "descriptionTr": "Marzia, yazı Elio'nun çevresinde, nehirde, danslarda ve kasabadaki kitapçıda geçiren yerel bir Fransız kızdır. Açık sözlü ve sevecendir; Elio'dan hoşlandığını saklamaz ve ondan yalnızca kendisine dürüst olmasını ister."
+    }
+  ]
+}

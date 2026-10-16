@@ -44,6 +44,12 @@ const DIRECTORS = {
   'david-fincher': { name: 'David Fincher', birthDate: '1962-08-28', bio: 'American film director known for Se7en, Fight Club, Zodiac, The Social Network and Gone Girl.' },
   'tarsem-singh': { name: 'Tarsem Singh', birthDate: '1961-05-26', bio: 'Indian film director known for The Cell, The Fall, Immortals and Mirror Mirror.' },
   'justine-triet': { name: 'Justine Triet', birthDate: '1978-07-17', bio: 'French film director and screenwriter known for Sibyl and Anatomy of a Fall, which won the Palme d\'Or at Cannes.' },
+  'james-mangold': { name: 'James Mangold', birthDate: '1963-12-16', bio: 'American film director and screenwriter known for Cop Land, Girl, Interrupted, Walk the Line, Logan and Ford v Ferrari.' },
+  'scott-derrickson': { name: 'Scott Derrickson', birthDate: '1966-07-16', bio: 'American film director and screenwriter known for The Exorcism of Emily Rose, Sinister, Doctor Strange and The Black Phone.' },
+  'zach-cregger': { name: 'Zach Cregger', birthDate: '1981-01-01', bio: 'American filmmaker and comedian, co-founder of The Whitest Kids U\' Know, who wrote and directed the horror films Barbarian and Weapons.' },
+  'luca-guadagnino': { name: 'Luca Guadagnino', birthDate: '1971-08-10', bio: 'Italian film director known for I Am Love, A Bigger Splash, Call Me by Your Name, Suspiria and Challengers.' },
+  'mary-harron': { name: 'Mary Harron', birthDate: '1953-01-12', bio: 'Canadian film director and screenwriter known for I Shot Andy Warhol, American Psycho, The Notorious Bettie Page and Alias Grace.' },
+  'martin-scorsese': { name: 'Martin Scorsese', birthDate: '1942-11-17', bio: 'American film director known for Mean Streets, Taxi Driver, Raging Bull, Goodfellas and The Departed, for which he won the Academy Award for Best Director.' },
 };
 
 // slug -> yönetmen slug'ı
@@ -59,6 +65,16 @@ const MOVIE_DIRECTOR = {
   'the-fall': 'tarsem-singh',
   'anatomy-of-a-fall': 'justine-triet',
   'requiem-for-a-dream': 'darren-aronofsky',
+  'taxi-driver': 'martin-scorsese',
+  'girl-interrupted': 'james-mangold',
+  sinister: 'scott-derrickson',
+  weapons: 'zach-cregger',
+  'call-me-by-your-name': 'luca-guadagnino',
+  challengers: 'luca-guadagnino',
+  'mickey-17': 'bong-joon-ho',
+  'the-odyssey': 'christopher-nolan',
+  memento: 'christopher-nolan',
+  'american-psycho': 'mary-harron',
 };
 
 const args = process.argv.slice(2);

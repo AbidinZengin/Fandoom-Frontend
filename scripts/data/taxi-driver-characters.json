@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Travis Bickle",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/taxi-driver-travis-bickle.jpg",
+      "description": "Travis Bickle is a former Marine who drives a cab all night because he cannot sleep and has nowhere else to be. Polite, awkward and quietly furious, he watches the city through his windscreen until watching is no longer enough.",
+      "descriptionTr": "Travis Bickle, uyuyamadığı ve gidecek başka bir yeri olmadığı için bütün gece taksi süren eski bir deniz piyadesidir. Kibar, beceriksiz ve içten içe öfkelidir; şehri ön camının ardından izler, ta ki izlemek ona yetmeyene kadar."
+    },
+    {
+      "name": "Iris",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/taxi-driver-iris.jpg",
+      "description": "Iris is a twelve-year-old runaway living on the streets of the East Village under Sport's control. She talks like someone far older, insists she is fine where she is, and becomes the person Travis decides he must save.",
+      "descriptionTr": "Iris, East Village sokaklarında Sport'un kontrolünde yaşayan, on iki yaşında evden kaçmış bir kızdır. Yaşından çok büyük biri gibi konuşur, olduğu yerde iyi olduğunda ısrar eder ve Travis'in kurtarması gerektiğine karar verdiği kişi olur."
+    },
+    {
+      "name": "Betsy",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/taxi-driver-betsy.jpg",
+      "description": "Betsy is a bright, self-assured volunteer on Senator Palantine's presidential campaign. Curious enough to accept a date with the strange cab driver who keeps watching her office, she walks away the moment he shows her where he spends his evenings.",
+      "descriptionTr": "Betsy, Senatör Palantine'in başkanlık kampanyasında çalışan zeki ve kendinden emin bir gönüllüdür. Ofisini gözleyen tuhaf taksi şoförünün buluşma teklifini kabul edecek kadar meraklıdır; ama Travis ona akşamlarını nerede geçirdiğini gösterdiği an çekip gider."
+    },
+    {
+      "name": "Sport",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/taxi-driver-sport.jpg",
+      "description": "Sport is the long-haired pimp who controls Iris, as easy and affectionate in one moment as he is threatening in the next. To Travis he becomes the face of everything rotten in the city.",
+      "descriptionTr": "Sport, Iris'i kontrol eden uzun saçlı pezevenktir; bir an rahat ve sevecen, bir sonraki an tehditkârdır. Travis'in gözünde şehirdeki bütün çürümüşlüğün yüzü hâline gelir."
+    }
+  ]
+}

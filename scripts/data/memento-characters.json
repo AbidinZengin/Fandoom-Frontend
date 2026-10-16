@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Leonard Shelby",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/memento-leonard-shelby.jpg",
+      "description": "Leonard Shelby is a former insurance investigator who cannot make new memories and has organised his whole life around that fact. Methodical, polite and quietly furious, he trusts his system of notes and photographs completely, because the alternative is trusting other people.",
+      "descriptionTr": "Leonard Shelby, yeni anı oluşturamayan ve bütün hayatını bu gerçeğin etrafında düzenlemiş eski bir sigorta müfettişidir. Titiz, kibar ve içten içe öfkelidir; notlarla ve fotoğraflarla kurduğu sisteme tamamen güvenir, çünkü diğer seçenek başka insanlara güvenmektir."
+    },
+    {
+      "name": "Natalie",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/memento-natalie.jpg",
+      "description": "Natalie is a bartender who has recently lost someone of her own and recognises something in Leonard's condition. She offers him help, information and a place to stay, though what she gets out of the arrangement is never quite clear.",
+      "descriptionTr": "Natalie, kısa süre önce kendisi de birini kaybetmiş ve Leonard'ın durumunda bir şey tanıyan bir barmendir. Ona yardım, bilgi ve kalacak bir yer önerir; ama bu düzenden kendisinin ne kazandığı hiçbir zaman tam olarak netleşmez."
+    },
+    {
+      "name": "Teddy",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/memento-teddy.jpg",
+      "description": "Teddy is a chatty, overfamiliar man who keeps turning up wherever Leonard goes and insists they are friends. Leonard's own handwriting tells him not to believe Teddy's lies, and Teddy seems to know a great deal about Leonard's investigation.",
+      "descriptionTr": "Teddy, Leonard nereye giderse orada beliren ve arkadaş olduklarında ısrar eden, geveze ve fazla samimi bir adamdır. Leonard'ın kendi el yazısı ona Teddy'nin yalanlarına inanmamasını söyler; Teddy ise Leonard'ın soruşturması hakkında çok şey biliyor gibidir."
+    }
+  ]
+}

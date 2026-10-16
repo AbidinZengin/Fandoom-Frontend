@@ -1,0 +1,20 @@
+{
+  "wuthering-heights": [
+    {
+      "name": "Nelly Dean",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/wuthering-heights-nelly-dean.jpg",
+      "description": "Nelly Dean is the housekeeper who has watched both families from the inside for decades. She sees more than she says, tells the story in her own order, and is never quite as neutral as she claims to be.",
+      "descriptionTr": "Nelly Dean, onlarca yıldır iki ailenin de içinden bakan kâhyadır. Söylediğinden fazlasını görür, hikâyeyi kendi sırasıyla anlatır ve iddia ettiği kadar tarafsız değildir."
+    }
+  ],
+  "the-silence-of-the-lambs": [
+    {
+      "name": "Jack Crawford",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/the-silence-of-the-lambs-jack-crawford.jpg",
+      "description": "Jack Crawford heads the FBI's behavioural unit and is the one who picks Clarice for the task. Dry and careful, he knows what he is asking of her and asks anyway.",
+      "descriptionTr": "Jack Crawford, FBI'ın davranış bilimleri birimini yönetir ve Clarice'i bu göreve seçen kişidir. Kuru ve dikkatlidir; ondan ne istediğini bilir ve yine de ister."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Ellison Oswalt",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/sinister-ellison-oswalt.jpg",
+      "description": "Ellison Oswalt is a true-crime writer living off one old bestseller and two forgettable follow-ups. He tells himself the new book is for his family, but every night he chooses the reels in the attic over the people downstairs.",
+      "descriptionTr": "Ellison Oswalt, eski bir çok satanla ve ardından gelen iki unutulmuş kitapla geçinen bir gerçek suç yazarıdır. Yeni kitabın ailesi için olduğunu söyler kendine; ama her gece aşağıdaki insanlar yerine tavan arasındaki makaraları seçer."
+    },
+    {
+      "name": "Tracy Oswalt",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/sinister-tracy-oswalt.jpg",
+      "description": "Tracy Oswalt is Ellison's wife, patient enough to follow him from house to house and sharp enough to see that this move feels different. She has one condition for staying: that his work never puts the children at risk.",
+      "descriptionTr": "Tracy Oswalt, Ellison'ın karısıdır; onu evden eve takip edecek kadar sabırlı, bu taşınmanın farklı hissettirdiğini görecek kadar da keskindir. Kalmak için tek bir şartı vardır: kocasının işi çocukları asla tehlikeye atmayacak."
+    },
+    {
+      "name": "Deputy So & So",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/sinister-deputy.jpg",
+      "description": "Deputy So & So is the young local officer whose sheriff wants Ellison gone, and who is quietly thrilled to meet a real author. Eager and a little awkward, he becomes Ellison's only ally in town and starts pulling files on the other murders himself.",
+      "descriptionTr": "Deputy So & So, şerifinin Ellison'ın kasabadan gitmesini istediği, ama gerçek bir yazarla tanışmaktan için için heyecan duyan genç yerel polistir. Hevesli ve biraz beceriksizdir; kasabadaki tek müttefiki olur ve diğer cinayetlerin dosyalarını kendisi çıkarmaya başlar."
+    },
+    {
+      "name": "Bughuul",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/sinister-bughuul.jpg",
+      "description": "Bughuul is the pale, faceless-looking figure who appears somewhere in every reel. Ellison first takes him for a smudge on the film, then for a killer's signature, before the research points to something much older than any of the crimes.",
+      "descriptionTr": "Bughuul, her makaranın bir yerinde beliren solgun, yüzsüz görünümlü figürdür. Ellison onu önce filmdeki bir leke, sonra bir katilin imzası sanır; ta ki araştırması, cinayetlerin hepsinden çok daha eski bir şeye işaret edene kadar."
+    }
+  ]
+}

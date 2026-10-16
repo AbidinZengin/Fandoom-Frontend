@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Bear",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/obsession-bear.jpg",
+      "description": "Baron \"Bear\" Bailey works at a music shop and has loved his coworker Nikki since they were kids, too shy to say it even with his friends coaching him from the sidelines. A cheap novelty toy and a half-joking wish hand him what he wanted, and he is slow to see what it costs.",
+      "descriptionTr": "Baron \"Bear\" Bailey bir müzik dükkânında çalışıyor ve iş arkadaşı Nikki'ye çocukluğundan beri âşık; arkadaşları kenardan cesaret verse de bunu söylemeye bir türlü cesaret edemiyor. Ucuz bir oyuncak ve yarı şaka bir dilek ona istediğini veriyor, ama bunun bedelini görmesi zaman alıyor."
+    },
+    {
+      "name": "Nikki",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/obsession-nikki.jpg",
+      "description": "Nikki Freeman is Bear's coworker and childhood friend, someone he has always seen as just out of reach. After the wish, her affection arrives all at once and keeps growing, until even the people who love her can tell something is wrong with it.",
+      "descriptionTr": "Nikki Freeman, Bear'in iş arkadaşı ve çocukluk arkadaşı; Bear'in hep ulaşılmaz gördüğü biri. Dilekten sonra sevgisi bir anda gelip büyümeye devam ediyor, öyle ki onu sevenler bile bu sevginin bir tuhaflığı olduğunu fark ediyor."
+    },
+    {
+      "name": "Ian",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/obsession-ian.jpg",
+      "description": "Ian is part of the same group of friends and one of the people coaching Bear to finally say something to Nikki. He has a history with her that comes up later, and he is the one who hosts the party.",
+      "descriptionTr": "Ian aynı arkadaş grubundan; Bear'in Nikki'ye sonunda bir şey söylemesi için ona kenardan akıl veren isimlerden biri. Nikki'yle bir geçmişi var ve bu geçmiş daha sonra gündeme geliyor. Partiyi veren de o."
+    },
+    {
+      "name": "Sarah",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/obsession-sarah.jpg",
+      "description": "Sarah Harper is the daughter of the music shop's owner, Carter, and one of the friends who pushes Bear to speak up. When Nikki grows close to Bear almost overnight, Sarah is one of the first to feel uneasy and becomes the group's skeptical voice.",
+      "descriptionTr": "Sarah Harper, müzik dükkânının sahibi Carter'ın kızı ve Bear'in artık konuşması için onu zorlayan arkadaşlardan biri. Nikki bir gecede Bear'e yaklaşınca huzursuzlananların başında geliyor ve grubun şüpheci sesine dönüşüyor."
+    }
+  ]
+}

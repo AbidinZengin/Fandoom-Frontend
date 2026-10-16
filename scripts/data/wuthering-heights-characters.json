@@ -1,0 +1,18 @@
+{
+  "characters": [
+    {
+      "name": "Catherine Earnshaw",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/wuthering-heights-catherine-earnshaw.jpg",
+      "description": "Catherine Earnshaw is the headstrong daughter of Wuthering Heights, raised on open moorland and clever enough to know exactly what her choices will cost. Her closest bond is to the boy her father brought home, and her loyalty to that bond is tested by everything the family wants for her.",
+      "descriptionTr": "Catherine Earnshaw, Wuthering Heights'ın dik başlı kızıdır; açık bozkırda büyümüş ve seçimlerinin nelere mal olacağını tam olarak bilecek kadar akıllıdır. En yakın bağı babasının eve getirdiği çocuğadır ve bu bağa sadakati, ailesinin onun için istediği her şeyle sınanır."
+    },
+    {
+      "name": "Heathcliff",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/wuthering-heights-heathcliff.jpg",
+      "description": "Heathcliff arrives at the Earnshaw farm with no name, no family and no past anyone can trace. He is treated as a servant in the house he grew up in, and what he learns there about pride and belonging shapes everything he later does.",
+      "descriptionTr": "Heathcliff, Earnshaw çiftliğine adı, ailesi ve izi sürülebilir bir geçmişi olmadan gelir. Büyüdüğü evde bir hizmetkâr gibi görülür; orada gurur ve aidiyet hakkında öğrendikleri sonradan yaptığı her şeyi şekillendirir."
+    }
+  ]
+}

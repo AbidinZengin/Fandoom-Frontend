@@ -58,6 +58,23 @@ const MOVIE_SLUGS = [
   'the-shining',
   'a-clockwork-orange',
   'eyes-wide-shut',
+  'obsession',
+  'the-lighthouse',
+  'wuthering-heights',
+  'frankenstein',
+  'project-hail-mary',
+  'the-silence-of-the-lambs',
+  'enemy',
+  'taxi-driver',
+  'girl-interrupted',
+  'sinister',
+  'weapons',
+  'call-me-by-your-name',
+  'challengers',
+  'mickey-17',
+  'the-odyssey',
+  'memento',
+  'american-psycho',
 ];
 
 if (DRY_RUN) {

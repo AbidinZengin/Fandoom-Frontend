@@ -1,0 +1,18 @@
+{
+  "characters": [
+    {
+      "name": "Clarice Starling",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/the-silence-of-the-lambs-clarice-starling.jpg",
+      "description": "Clarice Starling is a trainee at the FBI Academy who grew up poor in West Virginia and has worked for everything she has. She is sent into the hospital basement to do an interview, and discovers that being underestimated is her most useful cover.",
+      "descriptionTr": "Clarice Starling, Batı Virginia'da yoksul büyümüş ve sahip olduğu her şey için çalışmış bir FBI Akademisi stajyeridir. Bir röportaj için hastanenin bodrumuna gönderilir ve hafife alınmanın en işe yarar örtüsü olduğunu keşfeder."
+    },
+    {
+      "name": "Hannibal Lecter",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/the-silence-of-the-lambs-hannibal-lecter.jpg",
+      "description": "Dr. Hannibal Lecter is a brilliant forensic psychiatrist now held in a cell at the end of a long corridor. He is polite, precise and curious about everyone who visits him, and every conversation with him costs something.",
+      "descriptionTr": "Dr. Hannibal Lecter, uzun bir koridorun sonundaki hücrede tutulan parlak bir adli psikiyatristtir. Kibar, kesin ve onu ziyaret eden herkese meraklıdır; onunla yapılan her konuşmanın bir bedeli vardır."
+    }
+  ]
+}

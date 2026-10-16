@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "name": "Justine Gandy",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/weapons-justine-gandy.jpg",
+      "description": "Justine Gandy is the third-grade teacher whose entire class vanished overnight. Parents leave threats on her car and the school tells her to stay home, so she does what she always does under pressure: drinks too much and refuses to stop asking questions.",
+      "descriptionTr": "Justine Gandy, tüm sınıfı bir gecede kaybolan üçüncü sınıf öğretmenidir. Veliler arabasına tehditler bırakır, okul evde kalmasını söyler; o da baskı altında hep yaptığı şeyi yapar: fazla içer ve soru sormayı bırakmaz."
+    },
+    {
+      "name": "Archer Graff",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/weapons-archer-graff.jpg",
+      "description": "Archer Graff is a contractor whose son Matthew was one of the seventeen. Convinced the police are getting nowhere, he maps the direction every child ran and follows the lines himself, whoever he has to push past to do it.",
+      "descriptionTr": "Archer Graff, oğlu Matthew on yedi çocuktan biri olan bir müteahhittir. Polisin hiçbir yere varamadığına inandığı için her çocuğun koştuğu yönü haritaya döker ve kimi itip geçmesi gerekirse geçerek o çizgileri kendisi takip eder."
+    },
+    {
+      "name": "Paul Morgan",
+      "billingOrder": 3,
+      "localImagePath": "scripts/output/character-crops/weapons-paul-morgan.jpg",
+      "description": "Paul Morgan is a Maybrook police officer, newly sober, engaged to the police captain's daughter and still unable to keep away from Justine. He wants to be the steady one in a town falling apart, which proves harder than he expects.",
+      "descriptionTr": "Paul Morgan, Maybrook'ta polis memurudur; içkiyi yeni bırakmış, emniyet amirinin kızıyla nişanlıdır ve hâlâ Justine'den uzak duramaz. Dağılan bir kasabada sağlam duran kişi olmak ister, bu da beklediğinden zor çıkar."
+    },
+    {
+      "name": "Alex Lilly",
+      "billingOrder": 4,
+      "localImagePath": "scripts/output/character-crops/weapons-alex-lilly.jpg",
+      "description": "Alex Lilly is the one child in Justine's class who was still at his desk the next morning. Polite, withdrawn and strangely calm, he says he knows nothing, and the whole town wants to believe that is true.",
+      "descriptionTr": "Alex Lilly, Justine'in sınıfında ertesi sabah hâlâ sırasında oturan tek çocuktur. Kibar, içine kapanık ve tuhaf biçimde sakindir; hiçbir şey bilmediğini söyler ve bütün kasaba buna inanmak ister."
+    }
+  ]
+}

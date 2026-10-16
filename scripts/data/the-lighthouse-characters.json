@@ -1,0 +1,18 @@
+{
+  "characters": [
+    {
+      "name": "Ephraim Winslow",
+      "billingOrder": 1,
+      "localImagePath": "scripts/output/character-crops/the-lighthouse-ephraim-winslow.jpg",
+      "description": "Ephraim Winslow is the young assistant keeper who arrives with a past he would rather not discuss and a plan to last the four weeks without trouble. The work is brutal, the older man is impossible to please, and the one thing he is not allowed near is the light at the top of the stairs.",
+      "descriptionTr": "Ephraim Winslow, geçmişi hakkında konuşmak istemeyen ve dört haftayı sorunsuz atlatmayı planlayan genç yardımcı bekçidir. İş ağırdır, yaşlı adamı memnun etmek imkânsızdır ve yaklaşmasına izin verilmeyen tek şey merdivenin tepesindeki ışıktır."
+    },
+    {
+      "name": "Thomas Wake",
+      "billingOrder": 2,
+      "localImagePath": "scripts/output/character-crops/the-lighthouse-thomas-wake.jpg",
+      "description": "Thomas Wake is the veteran keeper who has spent his life on rocks like this one. He talks to the sea like an old acquaintance, makes the rules of the tower up as he goes, and treats the lamp as something that belongs to him alone.",
+      "descriptionTr": "Thomas Wake, ömrünü bu gibi kayalıklarda geçirmiş kıdemli bekçidir. Denizle eski bir tanıdıkmış gibi konuşur, kulenin kurallarını yürürken uydurur ve lambaya yalnızca kendisine ait bir şeymiş gibi davranır."
+    }
+  ]
+}
