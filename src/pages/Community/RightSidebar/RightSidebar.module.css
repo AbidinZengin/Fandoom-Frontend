@@ -23,6 +23,13 @@
   flex-shrink: 0;
 }
 
+/* Kullanıcı sağ kolonu kapattıysa (≤1200px'te zaten gizli). Sol çubukla aynı
+   sebeple display:none değil: grid izi 0px'e iner, öğe yerinde kalır. */
+.rightSidebar[data-collapsed] {
+  visibility: hidden;
+  overflow: hidden;
+}
+
 @media (max-width: 1200px) {
   .rightSidebar {
     display: none;

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { LocalizedLink } from '../../../shared/i18n/LocalizedLink';
 import { avatarColor } from '../communityAvatar';
 import { timeAgo } from '../Feed/Feed.data';
 import styles from './ThreadAuthor.module.css';
@@ -13,18 +14,35 @@ export function ThreadAuthor({ thread }) {
   const { t } = useTranslation();
   const author = thread.author ?? t('community.feed.anonymous');
   const sub = thread.createdAt && timeAgo(thread.createdAt, t);
+  // Yazarı bilinmeyen (anonim) thread'in gidecek profili yok.
+  const profilePath = thread.author ? `/community/u/${encodeURIComponent(thread.author)}` : null;
+
+  const avatar = thread.authorAvatarUrl ? (
+    <img src={thread.authorAvatarUrl} alt="" className={styles.threadAuthor__avatar} />
+  ) : (
+    <span className={styles.threadAuthor__avatar} style={{ background: avatarColor(author) }}>
+      {author.charAt(0).toUpperCase()}
+    </span>
+  );
 
   return (
     <div className={styles.threadAuthor}>
-      {thread.authorAvatarUrl ? (
-        <img src={thread.authorAvatarUrl} alt="" className={styles.threadAuthor__avatar} />
+      {profilePath ? (
+        // Avatar fare için ek hedef; klavye/okuyucu için tek odak noktası isim linki.
+        <LocalizedLink to={profilePath} tabIndex={-1} aria-hidden="true" className={styles.threadAuthor__link}>
+          {avatar}
+        </LocalizedLink>
       ) : (
-        <span className={styles.threadAuthor__avatar} style={{ background: avatarColor(author) }}>
-          {author.charAt(0).toUpperCase()}
-        </span>
+        avatar
       )}
       <div className={styles.threadAuthor__text}>
-        <span className={styles.threadAuthor__name}>@{author}</span>
+        {profilePath ? (
+          <LocalizedLink to={profilePath} className={`${styles.threadAuthor__name} ${styles.threadAuthor__link}`}>
+            @{author}
+          </LocalizedLink>
+        ) : (
+          <span className={styles.threadAuthor__name}>@{author}</span>
+        )}
         {sub && (
           <>
             <span className={styles.threadAuthor__dot} aria-hidden="true">

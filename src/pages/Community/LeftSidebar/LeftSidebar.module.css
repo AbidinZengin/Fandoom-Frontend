@@ -22,6 +22,39 @@
   flex-shrink: 0;
 }
 
+/* Kullanıcı sol kolonu kapattıysa (yalnız masaüstü; mobil çekmece etkilenmez).
+   display:none DEĞİL: grid öğesi çıkarsa diğerleri bir iz sola kayar. İz 0px'e
+   iner (CommunityLayout), içerik görünmez ve odak/erişilebilirlik ağacından çıkar. */
+@media (min-width: 1201px) {
+  .leftSidebar[data-collapsed] {
+    visibility: hidden;
+    overflow: hidden;
+  }
+}
+
+/* Ray: yalnız logolar, ortalı ve dar. İçerik 72px'e sığar, yatay taşma kesilir. */
+.leftSidebar[data-rail] {
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.leftSidebar__railSignIn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-top: var(--space-sm);
+  border-radius: var(--radius-round);
+  border: 1px solid var(--border);
+  color: var(--fg);
+}
+
+.leftSidebar__railSignIn svg {
+  width: 20px;
+  height: 20px;
+}
+
 .leftSidebar__closeButton {
   display: none;
 }

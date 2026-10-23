@@ -83,6 +83,29 @@
   color: var(--fg-dim);
 }
 
+.profile__counts {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-2xs);
+}
+
+.profile__count {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+}
+
+.profile__countValue {
+  display: inline-block; /* yPercent kayması inline elemanda çalışmaz */
+  color: var(--fg);
+}
+
+.profile__count:hover {
+  color: var(--fg);
+}
+
 /* Outline varsayılan, hover'da beyaza dolar — continueReading__cta/
    SeasonRoute .focus__cta ile aynı buton dili (kullanıcı isteği). */
 .profile__editButton {
@@ -100,7 +123,8 @@
   transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
 }
 
-.profile__editButton:hover {
+.profile__editButton:hover,
+.profile__editButton[data-following] {
   background: var(--fg);
   color: var(--bg);
 }
@@ -131,6 +155,20 @@
   color: var(--fg-muted);
   transition: background var(--duration-fast) ease, color var(--duration-fast) ease,
     border-color var(--duration-fast) ease;
+}
+
+.profile__tabIcon {
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask-image: var(--icon-mask);
+  mask-image: var(--icon-mask);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .profile__tabButton:hover {

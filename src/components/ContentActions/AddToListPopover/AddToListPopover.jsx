@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import { getStoredAuth } from '../../../shared/api/authStorage';
 import { getMyLists, getMyListDetail, createMyList, addToList, removeFromList } from '../../../shared/api/account';
+import { useMyListsStore } from '../../../shared/state/useMyListsStore';
 import styles from './AddToListPopover.module.css';
 
 function ListPlusIcon() {
@@ -119,6 +120,8 @@ export function AddToListPopover({ itemId, itemType }) {
     setError(null);
     try {
       const list = await createMyList({ title: newTitle.trim() });
+      // Yeni liste Community sol kolonundaki "Listelerim"e de düşsün.
+      useMyListsStore.getState().bump();
       const res = await addToList(itemId, itemType, { targetListId: list.id });
       // Yeni liste tek bir öğeyle (bu itemType) doğuyor — dominantType baştan
       // bu türe kilitli sayılır, sonraki fetch'te zaten aynı sonucu türetir.

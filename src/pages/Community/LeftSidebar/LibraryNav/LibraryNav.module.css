@@ -24,9 +24,44 @@
 }
 
 .libraryNav__link {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
   font-size: var(--text-base);
   color: var(--fg-dim);
+}
+
+.libraryNav__link[data-active] {
+  background: var(--surface-2);
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* İkon kutusu: font-size ikon boyutunu belirler (SVG'ler 1em, maske 1em). */
+.libraryNav__icon {
+  display: flex;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+.libraryNav__mask {
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask-image: var(--icon-mask);
+  mask-image: var(--icon-mask);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Ray: yalnız ikonlar, ortalı. */
+.libraryNav[data-rail] .libraryNav__link {
+  justify-content: center;
+  padding: var(--space-xs);
 }

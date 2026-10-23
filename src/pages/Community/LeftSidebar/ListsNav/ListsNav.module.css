@@ -5,6 +5,8 @@
 }
 
 .listsNav__heading {
+  display: block;
+  text-decoration: none;
   font-size: var(--text-xs);
   font-weight: 700;
   text-transform: uppercase;
@@ -20,18 +22,81 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-xs);
 }
 
+/* Banner şeridi: hesap sayfasındaki liste kartıyla (CustomListsSection) aynı dil —
+   kapak kartın kendi arka planı, yoksa dekoratif radial zemin. Sade: sabit ince
+   yükseklik (portal ikon kutusuyla aynı 40px), başlık sol kenarda bölüm
+   başlığı ve portal satırlarıyla AYNI hizada (space-sm), dikey ortalı. */
 .listsNav__link {
-  display: block;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-base);
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: calc(var(--space-xl) + var(--space-xs));
+  padding: 0 var(--space-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 60%), var(--card-bg);
+  background-size: cover;
+  background-position: center;
   color: var(--fg-dim);
+  transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+/* Okunabilirlik karartması soldan sağa: başlık solda, kapak sağda görünür kalır. */
+.listsNav__link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 100%);
+  pointer-events: none;
+}
+
+.listsNav__link[data-has-cover]::before {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.listsNav__link[data-active] {
+  border-color: var(--fg-muted);
+  color: var(--fg);
+}
+
+@media (hover: hover) {
+  .listsNav__link:hover {
+    border-color: var(--border-card-hover);
+    color: var(--fg);
+  }
+}
+
+.listsNav__title {
+  position: relative;
+  min-width: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Ray: yalnız kapak karesi (portal ikonuyla aynı boyut, token türevi), kapak
+   yoksa baş harf. Karartma rayda kalkar, kapak olduğu gibi görünsün. */
+.listsNav[data-rail] .listsNav__link {
+  width: calc(var(--space-xl) + var(--space-xs));
+  justify-content: center;
+  padding: 0;
+}
+
+.listsNav[data-rail] .listsNav__link::before {
+  display: none;
+}
+
+.listsNav__initial {
+  position: relative;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--fg-dim);
 }
 
 .listsNav__empty {

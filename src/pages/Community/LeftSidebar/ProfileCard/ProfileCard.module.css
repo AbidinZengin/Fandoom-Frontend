@@ -6,6 +6,11 @@
   border-bottom: 1px solid var(--border);
 }
 
+.profileCard[data-rail] {
+  justify-content: center;
+  padding-inline: 0;
+}
+
 .profileCard__avatar {
   flex-shrink: 0;
   width: 44px;

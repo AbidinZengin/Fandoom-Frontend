@@ -61,8 +61,8 @@ export function FeedCard({ thread, featured = false, enterDelay = 0 }) {
       )}
       <ThreadMenu thread={thread} shareUrl={shareUrl} />
 
+      <ThreadAuthor thread={thread} />
       <Link to={to} className={styles.feedCard__link}>
-        <ThreadAuthor thread={thread} />
         <h3 className={styles.feedCard__title}>{thread.title}</h3>
       </Link>
 

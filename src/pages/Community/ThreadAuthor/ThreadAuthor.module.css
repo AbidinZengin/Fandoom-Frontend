@@ -39,6 +39,11 @@
   color: var(--fg);
 }
 
+.threadAuthor__link:hover.threadAuthor__name,
+.threadAuthor__link:focus-visible.threadAuthor__name {
+  text-decoration: underline;
+}
+
 .threadAuthor__sub {
   font-size: var(--text-xs);
   color: var(--fg-muted);

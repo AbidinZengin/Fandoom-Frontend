@@ -79,7 +79,11 @@ function PlusIcon() {
 // `id` prop DashboardView'dan gelir (wildcard route'ta useParams ':id'yi
 // çözemez, bkz. DashboardView.jsx yorumu) — prop verilmezse (standalone
 // kullanım ihtimaline karşı) kendi useParams()'ına düşer.
-export function ListDetail({ id: idProp }) {
+// backTo: "Listelerime dön" linkinin hedefi (Account'ta varsayılan).
+// embedded: Community'nin orta kolonuna gömülü kip — kendi siyah zeminini,
+// ekranı kaplayan renk sızıntısını ve sayfa kenar boşluklarını bırakır, geri
+// linki yerine Community breadcrumb'ı (Community › Listelerim › liste) gösterir.
+export function ListDetail({ id: idProp, backTo = '/account', embedded = false }) {
   const { id: idParam } = useParams();
   const id = idProp ?? idParam;
   const { t } = useTranslation();
@@ -174,15 +178,25 @@ export function ListDetail({ id: idProp }) {
   const accentCss = accent.join(',');
 
   return (
-    <div className={styles.detail} style={{ '--list-accent': accentCss }}>
+    <div className={styles.detail} style={{ '--list-accent': accentCss }} data-embedded={embedded || undefined}>
       <div className={styles.detail__wash} aria-hidden="true" />
       <div className={styles.detail__washFade} aria-hidden="true" />
 
       <div className={styles.detail__content}>
-        <LocalizedLink to="/account" className={styles.detail__backLink}>
-          <BackIcon />
-          {t('account.listDetail.backToLists')}
-        </LocalizedLink>
+        {embedded ? (
+          <nav className={styles.detail__breadcrumb} aria-label={t('community.thread.breadcrumb')}>
+            <LocalizedLink to="/community">{t('navbar.community')}</LocalizedLink>
+            <span aria-hidden="true">›</span>
+            <LocalizedLink to={backTo}>{t('community.sidebar.listsHeading')}</LocalizedLink>
+            <span aria-hidden="true">›</span>
+            <span className={styles.detail__breadcrumbCurrent}>{list.title}</span>
+          </nav>
+        ) : (
+          <LocalizedLink to={backTo} className={styles.detail__backLink}>
+            <BackIcon />
+            {t('account.listDetail.backToLists')}
+          </LocalizedLink>
+        )}
 
         <div className={styles.detail__hero}>
           {list.coverImageUrl ? (

@@ -33,6 +33,11 @@
   color: var(--fg-dim);
 }
 
+.portalsNav[data-rail] .portalsNav__link {
+  justify-content: center;
+  padding: var(--space-2xs);
+}
+
 .portalsNav__link[data-active] {
   background: var(--surface-2);
   color: var(--fg);

@@ -88,6 +88,17 @@ export async function getAccountContent() {
   };
 }
 
+// Community kütüphane sekmeleri (Liked/Saved/Watchlist/Following) yalnız AÇILAN
+// sekmeyi çeker — getAccountContent karakter detaylarını da getirdiği için
+// Community'de gereksiz ağır. Aynı kaynaklar, aynı enrichment.
+export async function getLibraryItems(tab) {
+  if (tab === 'watchlist') return getSystemListItems(await getMyLists(), 'WATCHLIST');
+  if (tab === 'saved') return enrichRawItems((await getMyBookmarks({ size: 20 })).content);
+  if (tab === 'following') return enrichRawItems((await getMyFollows({ size: 20 })).content);
+  if (tab === 'liked') return enrichRawItems((await getMyLikes({ size: 20 })).content);
+  return [];
+}
+
 // "Okumaya Devam Et" (Community/ProfileView) AYRI bir kaynak: READLIST
 // sistem listesi, kullanıcı bir şeye tıklamadan BlogPost.jsx'in scroll
 // takibiyle otomatik doldurulur/güncellenir (gerçek progressPercentage).

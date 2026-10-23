@@ -1,0 +1,86 @@
+/* Ayırıcı yalnız masaüstü 3-kolon düzeninde var (≥1201px); altında kolonlar
+   zaten sabit/çekmece (CommunityLayout.module.css kırılımları). */
+.splitter {
+  display: none;
+}
+
+@media (min-width: 1201px) {
+  .splitter {
+    display: block;
+  }
+}
+
+/* Yan çubuklarla aynı sticky konum ve yükseklik: ayırıcı çubuklar gibi sayfayla
+   kaymaz, navbar gizlenince onlarla birlikte yukarı çıkar. */
+.splitter__rail {
+  position: sticky;
+  top: var(--sidebar-top);
+  height: calc(100vh - var(--sidebar-top) - var(--space-md));
+  transition: top var(--nav-shift), height var(--nav-shift);
+}
+
+.splitter__handle {
+  position: absolute;
+  inset: 0;
+  cursor: col-resize;
+  touch-action: none;
+  outline: none;
+}
+
+.splitter__handle::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  transition: background var(--duration-fast) ease;
+}
+
+.splitter__handle:hover::after,
+.splitter__handle:focus-visible::after {
+  background: var(--border-card-hover);
+}
+
+:global([data-dragging='true']) .splitter__handle::after {
+  background: var(--fg-muted);
+}
+
+.splitter__toggle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: var(--radius-round);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--fg-muted);
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.splitter__toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Düğme ayırıcının üstüne gelince, klavyeyle odaklanınca ve kolon kapalıyken
+   (tek geri dönüş yolu) görünür. */
+.splitter:hover .splitter__toggle,
+.splitter__toggle:focus-visible,
+.splitter[data-collapsed] .splitter__toggle {
+  opacity: 1;
+}
+
+.splitter__toggle:hover {
+  color: var(--fg);
+}

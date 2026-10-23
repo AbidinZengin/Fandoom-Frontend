@@ -47,12 +47,36 @@
    değişmeli. */
 .communityLayout__grid {
   --sidebar-top: calc(var(--space-3xl) + var(--space-lg));
+  /* Masaüstü: sol | ayırıcı | akış | ayırıcı | sağ. Kolon genişliği kullanıcı
+     tercihidir (--col-left/--col-right, JS yazar); en fazla viewport'un
+     %30/%28'i olur, böylece kayıtlı geniş değer dar pencerede akışı ezmez.
+     Kapalı kolonun izi 0'a iner, ayırıcı (aç düğmesi) kalır. */
+  --split-width: var(--space-md);
+  --left-track: min(var(--col-left, 260px), 30vw);
+  --right-track: min(var(--col-right, 280px), 28vw);
   display: grid;
-  grid-template-columns: 260px minmax(0, 680px) 280px;
-  gap: var(--space-xl);
-  justify-content: center;
+  grid-template-columns: var(--left-track) var(--split-width) minmax(0, 1fr) var(--split-width) var(--right-track);
   align-items: start;
   margin-top: 0;
+}
+
+.communityLayout__grid[data-left-mode='hidden'] {
+  --left-track: 0px;
+}
+
+/* Ray: yalnız logoların göründüğü dar sol kolon (sabit genişlik, FE sabiti). */
+.communityLayout__grid[data-left-mode='rail'] {
+  --left-track: 72px;
+}
+
+.communityLayout__grid[data-right-mode='hidden'] {
+  --right-track: 0px;
+}
+
+/* Sürüklerken akıştaki video/iframe imleci yutmasın, metin seçilmesin. */
+.communityLayout__grid[data-dragging='true'] .communityLayout__main {
+  pointer-events: none;
+  user-select: none;
 }
 
 /* Navbar aşağı scroll'da kalkınca (Navbar.jsx → html[data-nav-hidden='true'])
@@ -69,9 +93,21 @@
   gap: var(--space-lg);
 }
 
+/* Akış okuma genişliğinde kalır (kullanıcı kararı: ~760px), yan çubuklar
+   daralınca kalan boşluk iki yanda eşit bölünür — ayırıcı imleci birebir izler. */
+@media (min-width: 1201px) {
+  .communityLayout__main {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+  }
+}
+
+/* ≤1200px: ayırıcılar yok, kolonlar sabit; boşluk eski 3 kolonlu düzendeki gibi. */
 @media (max-width: 1200px) {
   .communityLayout__grid {
     grid-template-columns: 260px minmax(0, 1fr);
+    gap: var(--space-xl);
   }
 }
 

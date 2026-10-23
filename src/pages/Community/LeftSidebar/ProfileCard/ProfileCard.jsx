@@ -6,18 +6,25 @@ import styles from './ProfileCard.module.css';
 // görseli yoksa kullanıcı adının ilk harfi decorative fallback olur — bu
 // [veri] kuralının kapsamı DIŞINDA: kullanıcı fotoğrafı değil, standart
 // initials-avatar UI kalıbı.
-export function ProfileCard({ profile }) {
+export function ProfileCard({ profile, rail }) {
   const { t } = useTranslation();
   const initial = profile.username?.charAt(0)?.toUpperCase() ?? '?';
 
   return (
-    <Link to="/community/profile" className={styles.profileCard}>
+    <Link
+      to="/community/profile"
+      className={styles.profileCard}
+      data-rail={rail || undefined}
+      aria-label={rail ? profile.username : undefined}
+      title={rail ? profile.username : undefined}
+    >
       <div
         className={styles.profileCard__avatar}
         style={profile.avatarUrl ? { backgroundImage: `url(${profile.avatarUrl})` } : undefined}
       >
         {!profile.avatarUrl && initial}
       </div>
+      {!rail && (
       <div className={styles.profileCard__info}>
         <span className={styles.profileCard__username}>{profile.username}</span>
         <div className={styles.profileCard__stats}>
@@ -25,6 +32,7 @@ export function ProfileCard({ profile }) {
           <span>{t('community.sidebar.likeCount', { count: profile.stats?.likeCount ?? 0 })}</span>
         </div>
       </div>
+      )}
     </Link>
   );
 }

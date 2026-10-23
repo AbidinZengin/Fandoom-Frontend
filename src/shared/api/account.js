@@ -9,6 +9,12 @@ export async function getMyProfile() {
   return apiClient.get('/me/profile');
 }
 
+// Başkasının herkese açık profili — GET /api/users/{username}/profile (PUBLIC),
+// yanıt şekli getMyProfile ile aynı; username yoksa 404 (ApiError.status).
+export async function getUserProfile(username) {
+  return apiClient.get(`/users/${encodeURIComponent(username)}/profile`);
+}
+
 export async function updateMyProfile(fields) {
   return apiClient.patch('/me/profile', fields);
 }
@@ -58,6 +64,43 @@ export async function followItem(itemType, itemId) {
 
 export async function unfollowItem(itemType, itemId) {
   return apiClient.delete(`/me/follows/${itemType}/${itemId}`);
+}
+
+// 14e-2. KİŞİ TAKİBİ — içerik takibinden (/me/follows) ayrı; yanıt
+// { following, followerCount }. Kendini takip 400, bilinmeyen username 404.
+export async function getMyFollowingStatus(username) {
+  return apiClient.get(`/me/following/${encodeURIComponent(username)}`);
+}
+
+export async function followUser(username) {
+  return apiClient.post(`/me/following/${encodeURIComponent(username)}`);
+}
+
+export async function unfollowUser(username) {
+  return apiClient.delete(`/me/following/${encodeURIComponent(username)}`);
+}
+
+// Takipçi / takip edilen listesi — PUBLIC, en yeni takip önce. PageResponse<
+// { username, avatarUrl, bio, accentColor, following }>; `following` istek
+// sahibinin o satırı takip edip etmediği (oturumsuzken hep false).
+export async function getFollowers(username, { page = 0, size = 20 } = {}) {
+  return apiClient.get(`/users/${encodeURIComponent(username)}/followers?page=${page}&size=${size}`);
+}
+
+export async function getFollowing(username, { page = 0, size = 20 } = {}) {
+  return apiClient.get(`/users/${encodeURIComponent(username)}/following?page=${page}&size=${size}`);
+}
+
+// Community 3 kolon düzeni tercihi — docs/plans/2026-10-23-community-layout-
+// preferences-api-contract.md. GET kayıt yoksa 204 (apiClient → null). PUT TAM
+// yazar: { leftWidth, rightWidth, leftMode, rightMode } zorunlu, yanıt aynı
+// şekil + sunucunun ürettiği updatedAt. Aralık dışı değer 400 + fieldErrors.
+export async function getMyLayoutPrefs() {
+  return apiClient.get('/me/preferences/community-layout');
+}
+
+export async function putMyLayoutPrefs(prefs) {
+  return apiClient.put('/me/preferences/community-layout', prefs);
 }
 
 // 14d. LIKE — GET /api/me/likes (Follow'un birebir kopyası, backend'e

@@ -72,6 +72,55 @@
   height: 14px;
 }
 
+/* Community breadcrumb'ı (ThreadDetail.module.css ile aynı dil): gömülü kipte
+   geri linkinin yerini alır. */
+.detail__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.detail__breadcrumb a {
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .detail__breadcrumb a:hover {
+    color: var(--fg);
+  }
+}
+
+.detail__breadcrumbCurrent {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-dim);
+}
+
+/* Gömülü kip (Community orta kolonu): Account'a özgü siyah zemin, ekranı
+   kaplayan renk sızıntısı ve sayfa kenar boşluğu yok — kolon kendi zeminini
+   (grafit) ve genişliğini verir. */
+.detail[data-embedded] {
+  min-height: 0;
+  background: transparent;
+}
+
+.detail[data-embedded] .detail__wash,
+.detail[data-embedded] .detail__washFade {
+  display: none;
+}
+
+.detail[data-embedded] .detail__content {
+  max-width: none;
+  padding: 0;
+}
+
 /* ── Hero ── */
 .detail__hero {
   position: relative;

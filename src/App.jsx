@@ -9,6 +9,11 @@ import Feed from './pages/Community/Feed/Feed';
 import ThreadDetail from './pages/Community/ThreadDetail/ThreadDetail';
 import Portal from './pages/Community/Portal/Portal';
 import ProfileView from './pages/Community/ProfileView/ProfileView';
+import UserProfile from './pages/Community/UserProfile/UserProfile';
+import Library from './pages/Community/Library/Library';
+import Lists from './pages/Community/Lists/Lists';
+import ListDetailPage from './pages/Community/Lists/ListDetailPage';
+import Settings from './pages/Community/Settings/Settings';
 import GameOfThrones from './pages/Series/GameOfThrones/GameOfThrones';
 import BreakingBad from './pages/Series/BreakingBad/BreakingBad';
 import HouseOfTheDragon from './pages/Series/HouseOfTheDragon/HouseOfTheDragon';
@@ -393,6 +398,11 @@ function App() {
               <Route path="community" element={<Feed />} />
               <Route path="community/profile" element={<ProfileView />} />
               <Route path="community/discussion" element={<Feed surface="DISCUSSION" />} />
+              <Route path="community/u/:username" element={<UserProfile />} />
+              <Route path="community/library/:tab" element={<Library />} />
+              <Route path="community/lists" element={<Lists />} />
+              <Route path="community/lists/:id" element={<ListDetailPage />} />
+              <Route path="community/settings" element={<Settings />} />
               <Route path="community/theories" element={<Feed surface="THEORY" />} />
               <Route path="community/fan-art" element={<Feed surface="FAN_ART" />} />
               {/* Thread detay — layout İÇİNDE: sol/sağ menü sabit kalır, yalnız

@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import gsap from 'gsap';
+import graphIcon from '../../../../assets/icons/graph.png';
+import playIcon from '../../../../assets/icons/play.png';
+import chatIcon from '../../../../assets/icons/chat.png';
 import { LocalizedLink } from '../../../../shared/i18n/LocalizedLink';
 import { EditProfileModal } from './EditProfileModal/EditProfileModal';
+import { FollowListModal } from './FollowListModal/FollowListModal';
 import { getCustomLists } from '../../../Account/Account.data';
 import styles from './ProfileSection.module.css';
 
@@ -27,34 +32,41 @@ function ArrowIcon() {
   );
 }
 
-function StatsIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <line x1="5" y1="20" x2="5" y2="12" />
-      <line x1="12" y1="20" x2="12" y2="6" />
-      <line x1="19" y1="20" x2="19" y2="15" />
-    </svg>
-  );
+// Sekme ikonları kullanıcının kendi siyah PNG'leridir (2026-10-23). Siyah PNG
+// koyu zeminde görünmez ve aktif/soluk duruma göre renk almaz; bu yüzden
+// görselin ALFA KANALI maske, boya currentColor (ThreadIcons.jsx ile aynı yöntem).
+function MaskIcon({ src }) {
+  return <span className={styles.profile__tabIcon} style={{ '--icon-mask': `url(${src})` }} aria-hidden="true" />;
 }
 
-function PlaylistsIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <line x1="4" y1="6" x2="15" y2="6" />
-      <line x1="4" y1="12" x2="15" y2="12" />
-      <line x1="4" y1="18" x2="10" y2="18" />
-      <circle cx="19.5" cy="15" r="2.5" />
-      <line x1="22" y1="15" x2="22" y2="7.5" />
-      <line x1="22" y1="7.5" x2="18" y2="8.5" />
-    </svg>
-  );
-}
+const StatsIcon = () => <MaskIcon src={graphIcon} />;
+const PlaylistsIcon = () => <MaskIcon src={playIcon} />;
+const CommentsIcon = () => <MaskIcon src={chatIcon} />;
 
-function CommentsIcon() {
+// Sayaç değişince yeni rakam artışta aşağıdan, azalışta yukarıdan kayarak
+// gelir (±1 değişimde 0→1 sayma tween'i görünmez, kayma okunur). İlk render
+// animasyonsuz; reduced-motion'da rakam anında değişir.
+function AnimatedCount({ value }) {
+  const ref = useRef(null);
+  const prev = useRef(value);
+
+  useEffect(() => {
+    const direction = value > prev.current ? 1 : -1;
+    const changed = value !== prev.current;
+    prev.current = value;
+    if (!changed) return undefined;
+
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.fromTo(ref.current, { yPercent: direction * 70, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.35, ease: 'power2.out' });
+    });
+    return () => mm.revert();
+  }, [value]);
+
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M4 5.5h16v11H9.5L5 20v-3.5H4z" />
-    </svg>
+    <strong ref={ref} className={styles.profile__countValue}>
+      {value}
+    </strong>
   );
 }
 
@@ -63,10 +75,15 @@ function memberSinceLabel(isoDate) {
   return new Date(isoDate).toLocaleDateString();
 }
 
-export function ProfileSection({ user, continueReading, onProfileUpdate }) {
+// isSelf=false: başkasının herkese açık profili — düzenleme butonu ve özel
+// veri (okumaya devam et) gösterilmez, playlist'ler kendi listelerimizden
+// çekilmez (backend'de kullanıcı bazlı herkese açık liste ucu henüz yok).
+// following/onToggleFollow: yalnız başkasının profilinde Takip Et butonu için.
+export function ProfileSection({ user, continueReading, onProfileUpdate, isSelf = true, following = false, onToggleFollow }) {
   const { t } = useTranslation();
   const trackRef = useRef(null);
   const [editing, setEditing] = useState(false);
+  const [followList, setFollowList] = useState(null);
   const [activeTab, setActiveTab] = useState('stats');
   const [publicLists, setPublicLists] = useState(null);
   const blogs = continueReading ?? [];
@@ -83,7 +100,7 @@ export function ProfileSection({ user, continueReading, onProfileUpdate }) {
   // sadece herkese açık listeler sergilenir, düzenleme/silme yok — o
   // CustomListsSection'ın işi).
   useEffect(() => {
-    if (activeTab !== 'playlists' || publicLists !== null) return undefined;
+    if (!isSelf || activeTab !== 'playlists' || publicLists !== null) return undefined;
     let cancelled = false;
     getCustomLists().then((lists) => {
       if (!cancelled) setPublicLists(lists.filter((l) => l.isPublic));
@@ -91,7 +108,7 @@ export function ProfileSection({ user, continueReading, onProfileUpdate }) {
     return () => {
       cancelled = true;
     };
-  }, [activeTab, publicLists]);
+  }, [isSelf, activeTab, publicLists]);
 
   const scrollByCard = (dir) => {
     const track = trackRef.current;
@@ -126,14 +143,41 @@ export function ProfileSection({ user, continueReading, onProfileUpdate }) {
               {t('account.profile.memberSince', { date: memberSinceLabel(stats.memberSince) })}
             </p>
           )}
+          {user.followerCount != null && (
+            <div className={styles.profile__counts}>
+              <button type="button" className={styles.profile__count} onClick={() => setFollowList('followers')}>
+                <AnimatedCount value={user.followerCount} /> {t('account.profile.followersLabel')}
+              </button>
+              <button type="button" className={styles.profile__count} onClick={() => setFollowList('following')}>
+                <AnimatedCount value={user.followingCount} /> {t('account.profile.followingLabel')}
+              </button>
+            </div>
+          )}
         </div>
-        <button type="button" className={styles.profile__editButton} onClick={() => setEditing(true)}>
-          {t('account.profile.editProfile')}
-        </button>
+        {isSelf && (
+          <button type="button" className={styles.profile__editButton} onClick={() => setEditing(true)}>
+            {t('account.profile.editProfile')}
+          </button>
+        )}
+        {!isSelf && onToggleFollow && (
+          <button
+            type="button"
+            className={styles.profile__editButton}
+            data-following={following || undefined}
+            aria-pressed={following}
+            onClick={onToggleFollow}
+          >
+            {t(following ? 'account.profile.following' : 'account.profile.follow')}
+          </button>
+        )}
       </div>
 
-      {editing && (
+      {isSelf && editing && (
         <EditProfileModal user={user} onClose={() => setEditing(false)} onSaved={handleSaved} />
+      )}
+
+      {followList && (
+        <FollowListModal username={user.username} kind={followList} isSelf={isSelf} onClose={() => setFollowList(null)} />
       )}
 
       {user.bio && <p className={styles.profile__bio}>{user.bio}</p>}
@@ -196,7 +240,8 @@ export function ProfileSection({ user, continueReading, onProfileUpdate }) {
 
       {activeTab === 'playlists' && (
         <div className={styles.profile__tabPanel}>
-          {publicLists === null && <p className={styles.profile__tabEmpty}>{t('blog.loading')}</p>}
+          {!isSelf && <p className={styles.profile__tabEmpty}>{t('account.profile.playlistsUnavailable')}</p>}
+          {isSelf && publicLists === null && <p className={styles.profile__tabEmpty}>{t('blog.loading')}</p>}
           {publicLists?.length === 0 && (
             <p className={styles.profile__tabEmpty}>{t('account.profile.playlistsEmpty')}</p>
           )}
@@ -250,61 +295,63 @@ export function ProfileSection({ user, continueReading, onProfileUpdate }) {
         </div>
       )}
 
-      <div className={styles.profile__continue}>
-        <div className={styles.continueReading__head}>
-          <h2 className={styles.profile__continueHeading}>{t('account.profile.continueReadingHeading')}</h2>
-          {blogs.length > 1 && (
-            <div className={styles.continueReading__navRow}>
-              <button
-                type="button"
-                className={styles.continueReading__navArrow}
-                data-dir="left"
-                onClick={() => scrollByCard(-1)}
-                aria-label={t('common.previous')}
-              >
-                <ArrowIcon />
-              </button>
-              <button
-                type="button"
-                className={styles.continueReading__navArrow}
-                onClick={() => scrollByCard(1)}
-                aria-label={t('common.next')}
-              >
-                <ArrowIcon />
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className={styles.continueReading__track} ref={trackRef}>
-          {/* Her kart KENDİ progressPercentage'ını gösterir — hepsi bağımsız
-              gerçek okuma ilerlemesi taşıyor (bkz. BlogPost.jsx scroll takibi),
-              tek bir "birincil" karta indirgemek yanıltıcı olurdu. */}
-          {blogs.map((blog) => (
-            <div key={blog.id} className={styles.continueReading__cardWrap}>
-              <LocalizedLink to={`/blog/${blog.slug}`} className={styles.continueReading__card}>
-                <img
-                  src={blog.imageUrl}
-                  alt={blog.imageAlt ?? ''}
-                  className={styles.continueReading__cardImage}
-                  loading="lazy"
-                />
-              </LocalizedLink>
-              <p className={styles.continueReading__cardTitle}>{blog.title}</p>
-
-              <div className={styles.continueReading__progressTrack}>
-                <div
-                  className={styles.continueReading__progressFill}
-                  style={{ width: `${blog.progressPercentage ?? 0}%` }}
-                />
+      {isSelf && (
+        <div className={styles.profile__continue}>
+          <div className={styles.continueReading__head}>
+            <h2 className={styles.profile__continueHeading}>{t('account.profile.continueReadingHeading')}</h2>
+            {blogs.length > 1 && (
+              <div className={styles.continueReading__navRow}>
+                <button
+                  type="button"
+                  className={styles.continueReading__navArrow}
+                  data-dir="left"
+                  onClick={() => scrollByCard(-1)}
+                  aria-label={t('common.previous')}
+                >
+                  <ArrowIcon />
+                </button>
+                <button
+                  type="button"
+                  className={styles.continueReading__navArrow}
+                  onClick={() => scrollByCard(1)}
+                  aria-label={t('common.next')}
+                >
+                  <ArrowIcon />
+                </button>
               </div>
-              <LocalizedLink to={`/blog/${blog.slug}`} className={styles.continueReading__cta}>
-                {t('account.profile.continueCta')} <ArrowIcon />
-              </LocalizedLink>
-            </div>
-          ))}
+            )}
+          </div>
+
+          <div className={styles.continueReading__track} ref={trackRef}>
+            {/* Her kart KENDİ progressPercentage'ını gösterir — hepsi bağımsız
+                gerçek okuma ilerlemesi taşıyor (bkz. BlogPost.jsx scroll takibi),
+                tek bir "birincil" karta indirgemek yanıltıcı olurdu. */}
+            {blogs.map((blog) => (
+              <div key={blog.id} className={styles.continueReading__cardWrap}>
+                <LocalizedLink to={`/blog/${blog.slug}`} className={styles.continueReading__card}>
+                  <img
+                    src={blog.imageUrl}
+                    alt={blog.imageAlt ?? ''}
+                    className={styles.continueReading__cardImage}
+                    loading="lazy"
+                  />
+                </LocalizedLink>
+                <p className={styles.continueReading__cardTitle}>{blog.title}</p>
+
+                <div className={styles.continueReading__progressTrack}>
+                  <div
+                    className={styles.continueReading__progressFill}
+                    style={{ width: `${blog.progressPercentage ?? 0}%` }}
+                  />
+                </div>
+                <LocalizedLink to={`/blog/${blog.slug}`} className={styles.continueReading__cta}>
+                  {t('account.profile.continueCta')} <ArrowIcon />
+                </LocalizedLink>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

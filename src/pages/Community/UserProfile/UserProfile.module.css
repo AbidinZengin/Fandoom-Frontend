@@ -1,0 +1,5 @@
+.userProfile__notFound {
+  padding: var(--space-xl) 0;
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink } from '../../../../shared/i18n/LocalizedLink';
+import { useMyListsStore } from '../../../../shared/state/useMyListsStore';
 import {
   getCustomLists,
   createCustomList,
@@ -21,7 +22,11 @@ const TYPE_FILTERS = [
   { key: 'BLOG', labelKey: 'account.content.typeBlog' },
 ];
 
-export function CustomListsSection() {
+// listBasePath: kart linklerinin kökü — Account'ta varsayılan, Community'de kendi
+// route'u (/community/lists) verilir.
+const notifyListsChanged = () => useMyListsStore.getState().bump();
+
+export function CustomListsSection({ listBasePath = '/account/lists' }) {
   const { t } = useTranslation();
   const [lists, setLists] = useState(null);
   const [editorList, setEditorList] = useState(undefined); // undefined=kapalı, null=create, obj=edit
@@ -47,9 +52,11 @@ export function CustomListsSection() {
       await editCustomList(editorList.id, fields);
       setEditorList(undefined);
       refresh();
+      notifyListsChanged();
     } else {
       const created = await createCustomList(fields);
       refresh();
+      notifyListsChanged();
       setEditorList({ ...created, dominantType: chosenType });
     }
   };
@@ -64,6 +71,7 @@ export function CustomListsSection() {
     try {
       await removeCustomList(id);
       refresh();
+      notifyListsChanged();
     } catch (err) {
       setError(err.message ?? t('account.customLists.deleteError'));
     }
@@ -112,7 +120,7 @@ export function CustomListsSection() {
           .map((list) => (
           <li key={list.id}>
             <LocalizedLink
-              to={`/account/lists/${list.id}`}
+              to={`${listBasePath}/${list.id}`}
               className={styles.customLists__card}
               style={list.coverImageUrl ? { backgroundImage: `url(${list.coverImageUrl})` } : undefined}
               data-has-cover={Boolean(list.coverImageUrl) || undefined}
