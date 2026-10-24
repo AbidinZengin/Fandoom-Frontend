@@ -7,6 +7,7 @@ import chatIcon from '../../../../assets/icons/chat.png';
 import { LocalizedLink } from '../../../../shared/i18n/LocalizedLink';
 import { EditProfileModal } from './EditProfileModal/EditProfileModal';
 import { FollowListModal } from './FollowListModal/FollowListModal';
+import { PlaylistCard } from './PlaylistCard/PlaylistCard';
 import { getCustomLists } from '../../../Account/Account.data';
 import styles from './ProfileSection.module.css';
 
@@ -249,26 +250,7 @@ export function ProfileSection({ user, continueReading, onProfileUpdate, isSelf 
             <ul className={styles.profile__playlistGrid}>
               {publicLists.map((list) => (
                 <li key={list.id}>
-                  <LocalizedLink
-                    to={`/account/lists/${list.id}`}
-                    className={styles.profile__playlistCard}
-                    style={
-                      list.coverImageUrl
-                        ? { backgroundImage: `url(${list.coverImageUrl})` }
-                        : undefined
-                    }
-                    data-has-cover={Boolean(list.coverImageUrl) || undefined}
-                  >
-                    <div className={styles.profile__playlistCardBody}>
-                      <p className={styles.profile__playlistCardTitle}>{list.title}</p>
-                      {list.description && (
-                        <p className={styles.profile__playlistCardDescription}>{list.description}</p>
-                      )}
-                      <span className={styles.profile__playlistCardMeta}>
-                        {t('account.customLists.itemsCount', { count: list.itemCount })}
-                      </span>
-                    </div>
-                  </LocalizedLink>
+                  <PlaylistCard list={list} />
                 </li>
               ))}
             </ul>

@@ -139,6 +139,19 @@ export async function getCustomLists() {
   return withType;
 }
 
+// Profil playlist kartındaki poster yığını: listenin ilk `count` öğesinin görseli
+// (üretim → posterUrl, blog → imageUrl). Hata/boş liste → []. Backend liste
+// özetinde önizleme alanı gelene kadar kart başına tek ek istek.
+export async function getListPreviewImages(id, count = 4) {
+  try {
+    const detail = await getMyListDetail(id, { size: count });
+    const items = await enrichRawItems(detail.items?.content);
+    return items.map((item) => (item.itemType === 'BLOG' ? item.imageUrl : item.posterUrl)).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
 export async function createCustomList(fields) {
   return createMyList(fields);
 }

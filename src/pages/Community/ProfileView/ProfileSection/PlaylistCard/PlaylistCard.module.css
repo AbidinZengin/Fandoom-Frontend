@@ -1,0 +1,99 @@
+/* Banner (yatay) kart: renk yalnız tepede ortam ışığıdır, portal atmosfer paneli
+   (Portal.module.css) gibi kapağın tonundan siyah zemine (--surface-0) erir —
+   metin koyu uçta kalır, okunaklıdır. --list-accent ("r,g,b") yüklenene kadar
+   nötr gri tonda durur. */
+.playlistCard {
+  --list-accent: 60, 60, 60;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 2.4 / 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(to bottom, rgb(var(--list-accent)) 0%, var(--surface-0) 100%);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    background var(--duration-slow) ease,
+    transform var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .playlistCard:hover {
+    transform: translateY(calc(var(--space-2xs) * -1));
+  }
+}
+
+.playlistCard:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* Poster destesi: sağda dikey ortalı, kartlar iskambil destesi gibi kısmen üst
+   üste biner (sonraki kart öncekinin üstüne gelir, öncekinin sol kenarı görünür); yatay kaydırılır
+   (scrollbar gizli). Kaydırınca kartlar sol kenarda maskeyle solarak kaybolur.
+   Padding gölgenin kırpılmasını önler. */
+.playlistCard__stack {
+  position: absolute;
+  top: 50%;
+  right: var(--space-lg);
+  width: 44%;
+  height: 68%;
+  transform: translateY(-50%);
+  perspective: 700px;
+  touch-action: pan-y;
+}
+
+/* Kartlar aynı noktada üst üste durur; konum/opaklık/z-index JS'ten gelir (deste fiziği). */
+.playlistCard__poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 var(--space-2xs) var(--space-sm) rgb(0 0 0 / 0.55);
+  will-change: transform, opacity;
+}
+
+
+.playlistCard__body {
+  position: relative;
+  z-index: 1;
+  max-width: 52%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.playlistCard__title {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.playlistCard__description {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.playlistCard__meta {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playlistCard {
+    transition: none;
+  }
+}
