@@ -4,13 +4,17 @@
    yapılır — süre --duration-base. Kapanışta onAnimationEnd kökte dinlenir. */
 .lightbox {
   --lightbox-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Çerçeve dışında kalan dikey pay (bar + künye + boşluklar + padding):
+     çerçeve genişliği `kalan yükseklik * 16/9` ile bulunur. Tam ekranda künye
+     gizlenir, pay küçülür, video büyür. */
+  --chrome-reserve: 170px;
   position: fixed;
   inset: 0;
   z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-2xl) var(--space-page-x);
+  padding: var(--space-xl) var(--space-3xl);
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.9);
   animation: lightboxIn var(--duration-base) var(--lightbox-ease) both;
@@ -40,18 +44,27 @@
   }
 }
 
-/* Çerçeve + alt chrome tek dikey yığın; genişlik hem ekran genişliğine hem
-   yüksekliğine sığar (16:9 çerçeve + ~200px chrome payı). */
+/* Kontrol barı videonun İÇİNDE, altta durur (kullanıcı kararı, 2026-10) ama YouTube'un
+   kendi şeritlerine dokunmaz: üstte başlık/kanal, altta logo + "More videos" +
+   bağlantı şeridi (~64px) açık kalır; bar bu şeridin ÜSTÜNDE oturur. Oynarken
+   boştayken gizlenir. Çerçeve + künye tek dikey yığın. SİNEMATİK boyut (kullanıcı kararı,
+   2026-10): sabit genişlik tavanı YOK — çerçeve ekranın hem genişliğine hem
+   yüksekliğine sığabildiği en büyük 16:9 kutudur. */
 .dialog {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  width: min(100%, 1100px, calc((100dvh - 240px) * 16 / 9));
+  width: min(100%, calc((100dvh - var(--chrome-reserve)) * 16 / 9));
   min-width: min(100%, 320px);
   margin: auto;
 }
 
 /* Kart çerçevesiyle aynı dil: 3px beyaz %70, yumuşak radius + hafif glow. */
+/* Çerçeve + bar + dinleme katmanı aynı koordinat sisteminde (bar çerçeveye göre konumlanır). */
+.stage {
+  position: relative;
+}
+
 .dialog__frame {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -65,6 +78,24 @@
 .dialog__poster {
   position: absolute;
   inset: 0;
+}
+
+/* Orta bölge dinleme katmanı: iframe fare olaylarını yuttuğu için üst sayfa videonun
+   üstündeki hareketi göremez — bu şeffaf katman hareketi (barı uyandırır) ve tıklamayı
+   (oynat/duraklat) yakalar. YouTube'un üst ve alt şeritleri KAPSAM DIŞIDIR, orada
+   YouTube öğeleri tıklanabilir kalır. Bitmiş videoda kaldırılır (uç ekran önerileri). */
+.dialog__capture {
+  position: absolute;
+  top: calc(var(--space-3xl) + var(--space-xs));
+  right: 0;
+  bottom: calc(var(--space-3xl) + var(--space-xs));
+  left: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.dialog__capture[data-idle] {
+  cursor: none;
 }
 
 /* Oynatıcı poster'in üstünde durur, oynamaya başlayınca belirir (poster → video
@@ -85,6 +116,19 @@
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+/* Tam ekran (Fullscreen API, kök elemanda): künye gizlenir, video kalan
+   yüksekliği doldurur. Bar videonun ALTINDA kalır — üstüne bindirilmez
+   (YouTube oynatıcı UI'ı/branding'i kapatılamaz). */
+.lightbox[data-fullscreen] {
+  --chrome-reserve: 56px;
+  padding: var(--space-lg) var(--space-page-x);
+  background: var(--bg);
+}
+
+.lightbox[data-fullscreen] .meta {
+  display: none;
 }
 
 /* Bar + künye çerçeve yerine oturduktan sonra yukarı süzülerek gelir; kapanışta
@@ -113,25 +157,65 @@
 }
 
 /* Glassmorfik kontrol barı (projenin yeni-buton standardı): yarı-saydam katman +
-   blur + ince kenar halkası + iç highlight. Çerçevenin ALTINDA durur, videonun
-   üstüne binmez. */
-.bar {
+   blur + ince kenar halkası + iç highlight. Masaüstünde videonun içinde, YouTube alt
+   şeridinin üstünde; ≤900px'te çerçevenin altında ve sürekli açık (aşağıda). */
+/* Alt bar (oynat kontrolleri) ve sağ üst ayar kümesi (hız, altyazı, ses, tam ekran)
+   aynı cam yüzeyi paylaşır. Cam KOYU: parlak karelerde beyaz ikon/süre okunsun diye
+   zemin açık değil koyu yarı-saydamdır (learned-rules: bulanık zemin üstünde kararma
+   katmanı). */
+.bar,
+.settings {
+  position: absolute;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-xs) var(--space-md);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(14px) saturate(1.4) brightness(1.1);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4) brightness(1.1);
+  background: rgba(8, 8, 8, 0.5);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.35);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.3);
+  animation: chromeIn var(--duration-base) ease var(--duration-fast) backwards;
+  transition:
+    opacity var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+/* Alt bar: YouTube'un alt şeridinin (~64px) ÜSTÜNDE, ortalanmış, çok uzamaz. */
+.bar {
+  right: var(--space-xl);
+  bottom: var(--space-3xl);
+  left: var(--space-xl);
+  max-width: 760px;
+  margin-inline: auto;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-md);
+}
+
+/* Ayar kümesi: sağ üst köşe. YouTube'un üst şeridinde başlık SOLDADIR, bu köşe boş. */
+.settings {
+  top: var(--space-md);
+  right: var(--space-md);
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+}
+
+.bar[data-hidden],
+.settings[data-hidden] {
+  opacity: 0;
+  transform: translateY(var(--space-xs));
+  pointer-events: none;
+}
+
+.lightbox[data-closing] .bar,
+.lightbox[data-closing] .settings {
+  opacity: 0;
 }
 
 .lightbox__button {
-  --button-size: calc(var(--space-xl) + var(--space-xs));
+  --button-size: calc(var(--space-lg) + var(--space-xs));
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -161,19 +245,112 @@
 
 @media (hover: hover) {
   .lightbox__button:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.14);
   }
 }
 
-/* Oynat/duraklat barın birincil eylemi: dolgulu beyaz daire, koyu ikon. */
+/* Hız ve altyazı butonları ikon değil kısa metindir: pill, ikon butonuyla aynı
+   yükseklikte. Açık durumda (aria-pressed) dolgulu. */
+.bar__text {
+  width: auto;
+  min-width: var(--button-size);
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.bar__text[aria-pressed='true'] {
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Ayar düğmesi: dişli ikon + (1× dışındaysa) seçili hız. Hız/kalite listesi dişlinin
+   altında açılan cam yüzeydir; seçili öğe .bar__text[aria-pressed] ile aynı dolgu. */
+.bar__gear {
+  display: flex;
+  width: var(--space-lg);
+  height: var(--space-lg);
+}
+
+.menuWrap {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + var(--space-sm));
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 160px;
+  padding: var(--space-sm);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-md);
+  background: rgba(8, 8, 8, 0.78);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 var(--space-xs) var(--space-lg) rgba(0, 0, 0, 0.4);
+  animation: chromeIn var(--duration-fast) ease backwards;
+}
+
+.menu__heading {
+  margin: 0 0 var(--space-2xs);
+  padding: 0 var(--space-xs);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.menu__item {
+  display: block;
+  width: 100%;
+  padding: var(--space-xs);
+  border: 0;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-align: left;
+  color: var(--fg-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--duration-fast) ease;
+}
+
+.menu__item[aria-pressed='true'] {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.menu__item:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: -2px;
+}
+
+@media (hover: hover) {
+  .menu__item:hover {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.14);
+  }
+}
+
+/* Oynat/duraklat barın birincil eylemi: dolgu yok, ince beyaz halka (zarif, ağır değil). */
 .bar__play {
-  color: var(--bg);
-  background: var(--white);
+  --button-size: calc(var(--space-lg) + var(--space-sm));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
 }
 
 @media (hover: hover) {
   .bar__play:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: inset 0 0 0 1px var(--white);
   }
 }
 
@@ -181,10 +358,10 @@
   flex: 0 0 auto;
   min-width: 9ch;
   margin-inline: var(--space-xs);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-variant-numeric: tabular-nums;
   text-align: center;
-  color: var(--fg);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .bar__seek {
@@ -217,44 +394,62 @@
 }
 
 .bar__slider::-webkit-slider-runnable-track {
-  height: var(--space-2xs);
+  height: calc(var(--space-2xs) / 2);
   border-radius: var(--radius-pill);
   background: linear-gradient(
     to right,
     var(--white) var(--progress, 0%),
-    rgba(255, 255, 255, 0.25) var(--progress, 0%)
+    rgba(255, 255, 255, 0.22) var(--progress, 0%)
   );
 }
 
 .bar__slider::-moz-range-track {
-  height: var(--space-2xs);
+  height: calc(var(--space-2xs) / 2);
   border-radius: var(--radius-pill);
   background: linear-gradient(
     to right,
     var(--white) var(--progress, 0%),
-    rgba(255, 255, 255, 0.25) var(--progress, 0%)
+    rgba(255, 255, 255, 0.22) var(--progress, 0%)
   );
 }
 
 .bar__slider::-webkit-slider-thumb {
-  width: var(--space-md);
-  height: var(--space-md);
-  margin-top: calc((var(--space-2xs) - var(--space-md)) / 2);
+  width: var(--space-xs);
+  height: var(--space-xs);
+  margin-top: calc((var(--space-2xs) / 2 - var(--space-xs)) / 2);
   border: 0;
   border-radius: var(--radius-round);
   background: var(--white);
-  box-shadow: 0 0 var(--space-sm) rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 var(--space-xs) rgba(255, 255, 255, 0.45);
+  transform: scale(0);
+  transition: transform var(--duration-fast) ease;
   -webkit-appearance: none;
   appearance: none;
 }
 
 .bar__slider::-moz-range-thumb {
-  width: var(--space-md);
-  height: var(--space-md);
+  width: var(--space-xs);
+  height: var(--space-xs);
   border: 0;
   border-radius: var(--radius-round);
   background: var(--white);
-  box-shadow: 0 0 var(--space-sm) rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 var(--space-xs) rgba(255, 255, 255, 0.45);
+  transform: scale(0);
+  transition: transform var(--duration-fast) ease;
+}
+
+/* Tutamaç yalnız çubuğa yaklaşınca/odakta/sürüklerken belirir. Vendor
+   pseudo-element'ler aynı seçici listesine KONMAZ (biri geçersizse tümü düşer). */
+.bar__slider:hover::-webkit-slider-thumb,
+.bar__slider:focus-visible::-webkit-slider-thumb,
+.bar__slider:active::-webkit-slider-thumb {
+  transform: scale(1);
+}
+
+.bar__slider:hover::-moz-range-thumb,
+.bar__slider:focus-visible::-moz-range-thumb,
+.bar__slider:active::-moz-range-thumb {
+  transform: scale(1);
 }
 
 .meta {
@@ -307,6 +502,49 @@
   -webkit-backdrop-filter: blur(14px) saturate(1.4);
 }
 
+/* ≤900px: bar videonun içine sığmaz (çerçeve küçük) — çerçevenin ALTINA iner ve sürekli
+   açık kalır; dinleme katmanı gerekmez (dokunma doğrudan YouTube oynatıcısına gider). */
+@media (max-width: 900px) {
+  .lightbox {
+    padding: var(--space-3xl) var(--space-md) var(--space-xl);
+  }
+
+  .stage {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .dialog__capture {
+    display: none;
+  }
+
+  .bar,
+  .settings {
+    position: static;
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  /* Ayar kümesi barın altında, sağa yaslı küçük pill. */
+  .settings {
+    align-self: flex-end;
+  }
+
+  /* Ayar kümesi sayfanın altında kaldığından menü yukarı (videonun üstüne) açılır. */
+  .menu {
+    top: auto;
+    bottom: calc(100% + var(--space-sm));
+  }
+
+  .bar[data-hidden],
+  .settings[data-hidden] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
 /* Dar ekran: slider tam satır olarak barın üstüne geçer, butonlar altta dağılır. */
 @media (max-width: 640px) {
   .lightbox {
@@ -324,13 +562,28 @@
     border-radius: var(--radius-lg);
   }
 
-  .bar__seek {
-    order: -1;
-    flex: 1 0 100%;
+  /* Üst satır: süre + ilerleme çubuğu; altta butonlar dağılır. */
+  .bar__time {
+    order: -2;
+    min-width: 0;
+    margin-inline: 0;
   }
 
-  .bar__time {
-    margin-inline: 0;
+  .bar__seek {
+    order: -1;
+    flex: 1 0 calc(100% - 11ch);
+  }
+
+  .lightbox__button {
+    --button-size: calc(var(--space-xl) + var(--space-xs));
+  }
+
+  .bar__play {
+    --button-size: calc(var(--space-xl) + var(--space-xs));
+  }
+
+  .bar__text {
+    padding: 0 var(--space-xs);
   }
 }
 

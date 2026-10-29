@@ -1,0 +1,358 @@
+/* Netflix landing tarzı eğik poster duvarı: şeritler tek blok olarak -8°
+   eğik durur ve karşıt yönlerde akar; üstüne sis + vignette biner, ortada
+   başlık ve iki buton durur. Şeritler dekoratiftir (aria-hidden). */
+.wall {
+  position: relative;
+  isolation: isolate;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-3xl) var(--space-page-x);
+}
+
+/* Blok bölümden taşar: eğimde köşelerde boşluk görünmesin. */
+.wall__tilt {
+  position: absolute;
+  inset: -35% -25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-md);
+  transform: rotate(-8deg);
+  z-index: 0;
+}
+
+.wall__row {
+  overflow: hidden;
+}
+
+.wall__track {
+  display: flex;
+  gap: var(--space-md);
+  width: max-content;
+  will-change: transform;
+}
+
+.wall__poster {
+  flex: 0 0 auto;
+  width: clamp(130px, 15vw, 220px);
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+
+.wall__poster[data-loaded='true'] {
+  opacity: 0.8;
+}
+
+/* Poster tıklanabilir (Explore kartı açar). Hover'da hafif parıltı —
+   yalnız gerçek hover'lı cihazlarda (learned-rules: dokunmatikte hover yok). */
+.wall__poster {
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    opacity var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    filter var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .wall__poster[data-loaded='true']:hover {
+    opacity: 1;
+    filter: brightness(1.1);
+    box-shadow: 0 0 28px rgba(255, 255, 255, 0.45);
+  }
+}
+
+/* Sis katmanı (learned-rules: yoğun zemin üstünde net ön bileşen →
+   koyu perde): üst/alt kenar --bg'ye erir, ortada metin için koyu radial. */
+.wall__fog {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 48% 60% at 70% 50%, rgba(5, 5, 5, 0.85) 0%, rgba(5, 5, 5, 0.55) 55%, transparent 100%),
+    linear-gradient(to bottom, var(--bg) 0%, transparent 28%, transparent 72%, var(--bg) 100%),
+    linear-gradient(to right, var(--bg) 0%, transparent 18%, transparent 82%, var(--bg) 100%);
+}
+
+.wall__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1360px;
+  display: grid;
+  /* Sol yarı: seçilen kartın ineceği alan. Sağ yarı: başlık + buton. */
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  gap: var(--space-xl);
+  /* Boş alanlar altındaki posterlere tıklamayı geçirir. */
+  pointer-events: none;
+}
+
+/* Kart yuvası: ekranın sol yarısını büyük ölçüde doldurur. Boy görünür alana
+   göre (vh/vw'nin küçüğü) — kart + altındaki Explore butonu bölüme sığar. */
+.wall__slot {
+  /* Sütunun iç (merkeze yakın) kenarına yaslı — kart ortaya biraz yaklaşır. */
+  justify-self: end;
+  height: min(78vh, 66vw);
+  aspect-ratio: 2 / 3;
+  pointer-events: none;
+}
+
+.wall__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-lg);
+  text-align: right;
+}
+
+/* Başlık: büyük harf, iki satır — üst gri, alt beyaz (kullanıcı referansı:
+   'AYNI ÇİZGİDE / DAHA FAZLASI.'). */
+.wall__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0;
+  /* Yerel punto (token yok): uzun cümle iki parçada, her parça kendi içinde kırılır. */
+  font-size: clamp(26px, 4.2vw, 64px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.wall__headingTop,
+.wall__headingBottom {
+  text-wrap: balance;
+}
+
+.wall__headingTop {
+  color: var(--fg-muted);
+}
+
+.wall__headingBottom {
+  color: var(--white);
+}
+
+.wall__depth {
+  margin: 0;
+  max-width: 520px;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--fg-dim);
+}
+
+/* Explore butonu + Series | Movies seçici yan yana; sağa yaslı, buton seçicinin soluna oturur. */
+.wall__actions {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+/* Series | Movies: seçili olan beyaz ve kalın, diğeri soluk. */
+.wall__switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-md);
+}
+
+.wall__switchBtn {
+  padding: var(--space-2xs) 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--fg-faint);
+  cursor: pointer;
+  transition: color var(--duration-fast) ease;
+}
+
+.wall__switchBtn[aria-pressed='true'] {
+  font-weight: 700;
+  color: var(--white);
+}
+
+.wall__switchBtn:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+.wall__switchSep {
+  color: var(--fg-faint);
+}
+
+@media (hover: hover) {
+  .wall__switchBtn[aria-pressed='false']:hover {
+    color: var(--fg-muted);
+  }
+}
+
+/* Düz beyaz dolgulu yuvarlak buton (kullanıcı kararı: glassmorfik değil). */
+.wall__cta {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 52px;
+  padding: var(--space-sm) var(--space-xl);
+  border: 2px solid var(--white);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+/* Seçilen kart: section'a göre mutlak, GSAP konumlar. Perspective flip için. */
+.wall__card {
+  position: absolute;
+  z-index: 3;
+  perspective: 1200px;
+  opacity: 0;
+}
+
+.wall__flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.wall__face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  backface-visibility: hidden;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.25);
+}
+
+.wall__face--back {
+  transform: rotateY(180deg);
+}
+
+.wall__exploreWrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-lg) var(--space-lg);
+  /* Posterin alt kenarına gömülü okunabilirlik perdesi; radius posterle aynı. */
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.wall__explore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: 48px;
+  padding: var(--space-sm) var(--space-lg);
+  border: 2px solid var(--white);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--white);
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.wall__arrow {
+  flex: 0 0 auto;
+  transition: transform var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Hover (yalnız gerçek fare): şeffaf → beyaz dolgu, metin koyulaşır. */
+@media (hover: hover) {
+  .wall__cta:hover,
+  .wall__explore:hover {
+    background: var(--white);
+    color: var(--bg);
+  }
+}
+
+/* Tıklama: ok ileri kayar; odakta da dolgu (klavye) aynı. */
+.wall__cta:focus-visible,
+.wall__explore:focus-visible {
+  background: var(--white);
+  color: var(--bg);
+}
+
+.wall__cta:active .wall__arrow,
+.wall__explore:active .wall__arrow {
+  transform: translateX(var(--space-sm));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wall__cta,
+  .wall__explore,
+  .wall__arrow {
+    transition: none;
+  }
+}
+
+.wall__cta:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  /* Mobil/tablet: kart üstte ortada açılır, yazı altta. Kart alanı HER ZAMAN
+     ayrılır (padding-top) — kart açılıp kapanınca yazılar hiç oynamaz. */
+  .wall__content {
+    --card-w: min(60vw, 240px);
+    grid-template-columns: 1fr;
+    padding-top: calc(var(--card-w) * 1.5 + var(--space-lg));
+  }
+
+  .wall__slot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    justify-self: auto;
+    width: var(--card-w);
+    height: auto;
+  }
+
+  .wall__text {
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .wall__actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 600px) {
+  .wall {
+    min-height: 80vh;
+  }
+}

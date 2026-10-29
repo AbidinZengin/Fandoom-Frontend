@@ -13,49 +13,60 @@
   margin-bottom: var(--space-2xl);
 }
 
-.blog__kicker {
-  display: block;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: var(--space-2xs);
-}
-
+/* Home bölüm başlıklarıyla (BlogSpotlight/CommunitySpotlight) aynı stil:
+   büyük harf, 800, sıkı satır, beyaz. */
 .blog__heading {
   margin: 0;
   font-size: var(--text-h1);
-  font-weight: 700;
-  color: var(--fg);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--white);
 }
 
+/* Home PosterWall "Explore" butonuyla aynı dil (kullanıcı isteği,
+   2026-10-14): beyaz çerçeveli pill, hover'da beyaz dolgu, tıklamada ok
+   ileri kayar. Mor (accent) kullanılmaz. Aktif filtre varken dolu kalır. */
 .blog__filter {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-lg);
-  border: 1px solid var(--border);
+  min-height: 48px;
+  padding: var(--space-sm) var(--space-lg);
+  border: 2px solid var(--white);
   border-radius: var(--radius-pill);
   background: transparent;
-  color: var(--fg);
-  font-size: var(--text-sm);
+  color: var(--white);
+  font-size: var(--text-md);
   font-weight: 600;
-  transition: border-color var(--duration-micro) ease, color var(--duration-micro) ease;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease;
 }
 
-.blog__filter[data-active] {
-  border-color: var(--accent);
-  color: var(--accent);
+.blog__filter[data-active],
+.blog__filter:focus-visible {
+  background: var(--white);
+  color: var(--bg);
 }
 
 @media (hover: hover) {
   .blog__filter:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    background: var(--white);
+    color: var(--bg);
   }
 }
 
+.blog__filterArrow {
+  flex: 0 0 auto;
+  transition: transform var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.blog__filter:active .blog__filterArrow {
+  transform: translateX(var(--space-sm));
+}
+
+/* Rozet buton zeminiyle ters renkte: boş hâlde beyaz, dolu hâlde koyu. */
 .blog__filterBadge {
   display: inline-flex;
   align-items: center;
@@ -64,10 +75,29 @@
   height: 18px;
   padding: 0 5px;
   border-radius: var(--radius-pill);
-  background: var(--accent);
-  color: var(--fg);
+  background: var(--white);
+  color: var(--bg);
   font-size: var(--text-2xs);
   font-weight: 700;
+}
+
+.blog__filter[data-active] .blog__filterBadge {
+  background: var(--bg);
+  color: var(--white);
+}
+
+@media (hover: hover) {
+  .blog__filter:hover .blog__filterBadge {
+    background: var(--bg);
+    color: var(--white);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog__filter,
+  .blog__filterArrow {
+    transition: none;
+  }
 }
 
 .blog__columns {
@@ -95,6 +125,25 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--fg-muted);
+}
+
+/* Editor's Pick / Top 10 / Featured başlığı: Home BlogSpotlight/Community
+   başlıklarının iki ton dili (gri + beyaz, büyük harf, 800), tek satır,
+   orta boy (kullanıcı seçimi B, 2026-10-14). */
+.blog__title {
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.blog__title-muted {
+  color: var(--fg-muted);
+}
+
+.blog__title-strong {
+  color: var(--white);
 }
 
 .blog__sectionLabel::after {

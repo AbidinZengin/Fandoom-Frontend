@@ -3,20 +3,23 @@
    çerçeve yok, metin overlay yok. */
 .featured {
   position: relative;
-  min-height: 88vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: var(--space-2xl);
   overflow: hidden;
   padding: var(--space-3xl) var(--space-page-x);
 }
 
-/* Bölüm başlığı: kartların üstünde, büyük ve sola hizalı (kullanıcı
-   kararı — dev arka plan tipografisi kaldırıldı). Ölçek --text-h1'in
-   üstünde, lokal değer; teslim notunda bildirildi. */
+/* MOCK ruh hali rafı: başlık + poster satırı. */
+.featured__shelf {
+  min-width: 0;
+}
+
+/* Raf başlığı: kartların üstünde, sola hizalı. Beş raf alt alta
+   olduğu için eski tek başlığın dev ölçeği (40-80px) yerine --text-h1. */
 .featured__heading {
-  margin: 0 0 var(--space-xl);
-  font-size: clamp(40px, 6vw, 80px);
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-h1);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.02em;

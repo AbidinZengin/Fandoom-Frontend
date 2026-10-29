@@ -1,0 +1,159 @@
+/* Masonry kartı: CSS sütun akışında bölünmez, sütunlar arası boşluğu üst grid verir. */
+.tile {
+  position: relative;
+  display: block;
+  break-inside: avoid;
+  margin-bottom: var(--feed-gap);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  background: var(--surface-0);
+  transition: border-color var(--duration-fast) ease;
+}
+
+/* Açık kart bu kartın yerinden kalkar: kaynak yerinde boş görünür */
+.tile[data-lifted] {
+  visibility: hidden;
+}
+
+/* Görselli kart: yükseklik görselin (kırpılmış) oranından gelir, oran inline style'dan */
+.tile__media {
+  position: relative;
+  width: 100%;
+  background: var(--bg-soft);
+}
+
+.tile__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Görselli kartlarda okunabilirlik perdesi: alttan yukarı kararır */
+.tile[data-image]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 15%, rgba(0, 0, 0, 0.55) 50%, rgba(0, 0, 0, 0.92) 100%);
+}
+
+.tile__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-lg);
+  /* Açma düğmesi tüm kartı kaplar; yazı üstünde kalıp tıklamayı ona bıraksın */
+  pointer-events: none;
+}
+
+/* Görselli kartta metin görselin alt kenarına biner */
+.tile[data-image] .tile__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Görselsiz kart içeriğe göre uzar, ama çok kısa kalmasın */
+.tile:not([data-image]) .tile__body {
+  min-height: 9rem;
+  justify-content: flex-end;
+}
+
+.tile__portal {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.tile__title {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--text-md);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--white);
+}
+
+.tile__excerpt {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  color: var(--fg-dim);
+}
+
+.tile__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: var(--text-xs);
+  color: var(--fg-dim);
+}
+
+.tile__stat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+/* Beğeni düğmesi gövde içinde, açma katmanının ÜSTÜNDE ve tıklanabilir */
+.tile__like {
+  position: relative;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  margin: calc(-1 * var(--space-2xs)) calc(-1 * var(--space-xs));
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--duration-fast) ease;
+}
+
+.tile__like[aria-pressed='true'] {
+  color: var(--white);
+}
+
+/* Gövdenin ALTINDA (gövde z-index:1, pointer-events:none → tıklama buraya düşer);
+   beğeni düğmesi gövde içinde pointer-events:auto ile üstte kalır. */
+.tile__open {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.tile__open:focus-visible,
+.tile__like:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: -2px;
+}
+
+@media (hover: hover) {
+  .tile:hover {
+    border-color: var(--border-card-hover);
+  }
+
+  .tile__like:hover {
+    color: var(--white);
+  }
+}

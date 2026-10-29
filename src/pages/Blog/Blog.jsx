@@ -13,12 +13,25 @@ import { SeasonReviews } from './SeasonReviews/SeasonReviews';
 import { getBlogFacets, getBlogFilterResults, getBlogHub } from './Blog.data';
 import styles from './Blog.module.css';
 
+// Home bölüm başlıklarının iki ton dili: son kelime beyaz, öncesi gri;
+// tek kelimelik etiket tamamen beyaz kalır.
+function TwoTone({ text }) {
+  const cut = text.lastIndexOf(' ');
+  if (cut < 0) return <span className={styles['blog__title-strong']}>{text}</span>;
+  return (
+    <>
+      <span className={styles['blog__title-muted']}>{text.slice(0, cut)} </span>
+      <span className={styles['blog__title-strong']}>{text.slice(cut + 1)}</span>
+    </>
+  );
+}
+
 const EMPTY_RESULTS = { items: [], page: 0, totalPages: 0, totalElements: 0, loading: false, error: false };
 
 // Blog hub yüzeyi. Kullanıcı wireframe'inden ölçüldü: sol kolon (öne çıkan
 // kutu + top 10 şeridi) / sağ kolon (featured + latest rayları). Editor's
-// Pick ve Top 10 Blogs gerçek veriyle beslenir (Blog.data.js); FEATURED/
-// LATEST şimdilik kapsam dışı — placeholder kalıyor.
+// Pick (carousel) ve Top 10 Blogs gerçek veriyle beslenir (Blog.data.js);
+// FEATURED/LATEST şimdilik aynı listeden MOCK dilimler.
 //
 // Filter paneli açılıp "Apply" ile bir sonuç seti uygulanınca (browseMode)
 // bu küratörlü bölümlerin YERİNE GET /api/blogs/hub sonuç grid'i geçer
@@ -26,7 +39,7 @@ const EMPTY_RESULTS = { items: [], page: 0, totalPages: 0, totalElements: 0, loa
 export default function Blog() {
   const { t } = useTranslation();
   const rootRef = useRef(null);
-  const [hub, setHub] = useState({ spotlight: null, topBlogs: [] });
+  const [hub, setHub] = useState({ spotlights: [], topBlogs: [], featured: [], latest: [] });
 
   const [facets, setFacets] = useState(null);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -182,10 +195,7 @@ export default function Blog() {
     <>
       <section className={styles.blog} ref={rootRef}>
         <header className={styles.blog__head}>
-          <div>
-            <span className={styles.blog__kicker}>Fandoom</span>
-            <h1 className={styles.blog__heading}>{t('blog.heading')}</h1>
-          </div>
+          <h1 className={styles.blog__heading}>{t('blog.heading')}</h1>
 
           <button
             type="button"
@@ -195,6 +205,21 @@ export default function Blog() {
           >
             {t('blog.filterButton')}
             {activeFilterCount > 0 && <span className={styles.blog__filterBadge}>{activeFilterCount}</span>}
+            <svg
+              className={styles.blog__filterArrow}
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3.33"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="4.5" y1="12" x2="19" y2="12" />
+              <polyline points="13.5 6.5 19.5 12 13.5 17.5" />
+            </svg>
           </button>
         </header>
 
@@ -213,25 +238,31 @@ export default function Blog() {
           <div className={styles.blog__columns}>
             <div className={styles.blog__main}>
               <section data-reveal-group>
-                <h2 className={styles.blog__sectionLabel}>{t('blog.editorsPick')}</h2>
-                <SpotlightCard item={hub.spotlight} />
+                <h2 className={styles.blog__title}>
+                  <TwoTone text={t('blog.editorsPick')} />
+                </h2>
+                <SpotlightCard items={hub.spotlights} />
               </section>
 
               <section>
-                <h2 className={styles.blog__sectionLabel}>{t('blog.topBlogs')}</h2>
+                <h2 className={styles.blog__title}>
+                  <TwoTone text={t('blog.topBlogs')} />
+                </h2>
                 <TopBlogsRow items={hub.topBlogs} />
               </section>
             </div>
 
             <aside className={styles.blog__aside}>
               <section data-reveal-group>
-                <h2 className={styles.blog__sectionLabel}>{t('blog.featured')}</h2>
-                <SideList count={3} />
+                <h2 className={styles.blog__title}>
+                  <TwoTone text={t('blog.featured')} />
+                </h2>
+                <SideList items={hub.featured} />
               </section>
 
               <section data-reveal-group>
                 <h2 className={styles.blog__sectionLabel}>{t('blog.latest')}</h2>
-                <SideList count={3} />
+                <SideList items={hub.latest} />
               </section>
             </aside>
           </div>

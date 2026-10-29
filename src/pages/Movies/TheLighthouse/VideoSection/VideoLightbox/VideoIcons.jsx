@@ -75,3 +75,41 @@ export function CloseIcon() {
     </Svg>
   );
 }
+
+export function EnterFullscreenIcon() {
+  return (
+    <Svg>
+      <path
+        d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+export function ExitFullscreenIcon() {
+  return (
+    <Svg>
+      <path
+        d="M9 4v4a1 1 0 0 1-1 1H4M20 9h-4a1 1 0 0 1-1-1V4M15 20v-4a1 1 0 0 1 1-1h4M4 15h4a1 1 0 0 1 1 1v4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+export function GearIcon() {
+  return (
+    <Svg>
+      <path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.55a.5.5 0 0 0 .12-.64l-1.9-3.3a.5.5 0 0 0-.6-.22l-2.36.95a7.4 7.4 0 0 0-1.73-1l-.36-2.5a.5.5 0 0 0-.5-.42h-3.8a.5.5 0 0 0-.5.42l-.36 2.5a7.4 7.4 0 0 0-1.73 1l-2.36-.95a.5.5 0 0 0-.6.22l-1.9 3.3a.5.5 0 0 0 .12.64l2 1.55a7.6 7.6 0 0 0 0 2l-2 1.55a.5.5 0 0 0-.12.64l1.9 3.3c.13.22.4.3.6.22l2.36-.95c.53.4 1.1.74 1.73 1l.36 2.5c.04.24.25.42.5.42h3.8c.25 0 .46-.18.5-.42l.36-2.5a7.4 7.4 0 0 0 1.73-1l2.36.95c.22.08.47 0 .6-.22l1.9-3.3a.5.5 0 0 0-.12-.64L19.4 13ZM12 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Z" />
+    </Svg>
+  );
+}

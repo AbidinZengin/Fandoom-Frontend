@@ -53,21 +53,25 @@
   color: var(--white);
 }
 
-/* Native scroll + scroll-snap (smooth-scroll kütüphanesi yasak). Şerit sayfa
-   dolgusunu aşıp section kenarına kadar kayar; ilk kart yine dolgu hizasında
-   başlar. Dikey dolgu hover scale'inin ve glow'un kırpılmaması için. */
+/* Native scroll + scroll-snap (smooth-scroll kütüphanesi yasak). Şerit sağda
+   sayfa dolgusunu aşıp section kenarına kadar kayar; ilk kart başlıkla AYNI
+   hizada (sol dolgu) başlar. Scrollbar gizli: kartın sağdan kesik görünmesi
+   kaydırma ipucudur. Dikey dolgu hover scale'inin ve glow'un kırpılmaması için. */
 .track {
   display: flex;
   gap: var(--space-lg);
-  margin: var(--space-2xl) calc(-1 * var(--space-page-x)) 0;
+  margin: var(--space-2xl) calc(-1 * var(--space-page-x)) 0 0;
   padding: var(--space-lg) var(--space-page-x);
   overflow-x: auto;
   overflow-y: visible;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
   scroll-padding-inline: var(--space-page-x);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
 }
 
 @media (max-width: 900px) {

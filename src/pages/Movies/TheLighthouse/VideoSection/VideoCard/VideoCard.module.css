@@ -1,7 +1,7 @@
 .card {
   --play-size: 72px;
   flex: 0 0 auto;
-  width: clamp(280px, 34vw, 480px);
+  width: clamp(320px, 42vw, 640px);
   scroll-snap-align: start;
 }
 

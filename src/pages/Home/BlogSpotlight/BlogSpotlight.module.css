@@ -1,0 +1,343 @@
+/* Home blog manşeti — mobil-öncelikli tek kolon, masaüstünde 1.6fr / 1fr. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+  padding: var(--space-3xl) var(--space-page-x);
+}
+
+/* Ambient zemin: aktif blogun bulanık + karartılmış kapağı. Blur sabittir,
+   yalnız opacity animasyonu (compositor). Üst/alt kenarlar zemine erir. */
+.spotlight__ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+
+.spotlight__ambient-image {
+  position: absolute;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(70px) brightness(0.7) saturate(1.3);
+  transition: opacity 1.2s ease;
+  will-change: opacity;
+}
+
+.spotlight__head {
+  margin-bottom: var(--space-xl);
+}
+
+/* İki satırlı büyük harf başlık: üst gri, alt beyaz (PosterWall deseni) */
+.spotlight__heading {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.spotlight__heading-top {
+  color: var(--fg-muted);
+}
+
+.spotlight__heading-bottom {
+  color: var(--white);
+}
+
+.spotlight__grid {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+/* --- Manşet --- */
+.spotlight__lead {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.35);
+  background: var(--bg-soft);
+  color: inherit;
+  text-decoration: none;
+  /* GSAP giriş animasyonu `transform`'u sürer; hover büyütmesi ayrı `scale`
+     özelliğinde olmalı, yoksa CSS geçişi GSAP karelerini yutar. */
+  transition:
+    scale var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.spotlight__lead-image,
+.spotlight__row-image {
+  opacity: 0;
+  object-fit: cover;
+  transition: opacity var(--duration-slow) ease;
+}
+
+.spotlight__lead-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.spotlight .is-loaded {
+  opacity: 1;
+}
+
+.spotlight__ambient .is-loaded {
+  opacity: 0.9;
+}
+
+/* Okunabilirlik perdesi: alt kenardan yukarı kararır */
+.spotlight__lead::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+@keyframes captionIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-xs));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.spotlight__lead-caption {
+  animation: captionIn var(--duration-base) ease both;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+}
+
+/* Düz rozet: koyu dolgu + ince beyaz kenar */
+.spotlight__badge {
+  align-self: flex-start;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.spotlight__identity {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.spotlight__lead-caption .spotlight__identity {
+  font-size: var(--text-xs);
+  color: var(--fg-dim);
+}
+
+.spotlight__lead-title {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--white);
+  max-width: 24ch;
+}
+
+.spotlight__lead-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.spotlight__meta {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+.spotlight__lead-footer .spotlight__meta {
+  color: var(--fg-dim);
+}
+
+.spotlight__cta {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--white);
+}
+
+/* --- Numaralı yan liste: bağımsız kartlar (Community paleti, hairline) --- */
+.spotlight__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Her blog kendi bağımsız kartı: ayrı çerçeve, radius ve dolgu */
+.spotlight__list > li {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  background: var(--surface-0);
+  transition: border-color var(--duration-fast) ease;
+}
+
+.spotlight__row {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr clamp(104px, 28vw, 168px);
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) ease;
+}
+
+.spotlight__row-index {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 1.5em;
+  line-height: 1;
+  color: var(--fg-dim);
+  transition: color var(--duration-fast) ease;
+}
+
+.spotlight__row-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.spotlight__row-title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0;
+  color: var(--fg);
+  transition: color var(--duration-fast) ease;
+}
+
+/* Kapak çerçevesi sabit, içindeki görsel hover'da büyür */
+.spotlight__row-media {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+}
+
+.spotlight__row-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Hover yalnız gerçek hover'lı cihazlarda */
+@media (hover: hover) {
+  .spotlight__lead:hover {
+    scale: 1.01;
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.18);
+  }
+
+  .spotlight__row:hover {
+    background: var(--surface-2);
+  }
+
+  .spotlight__row:hover .spotlight__row-title,
+  .spotlight__row:hover .spotlight__row-index {
+    color: var(--white);
+  }
+
+  .spotlight__row:hover .spotlight__row-image {
+    transform: scale(1.08);
+  }
+
+  .spotlight__list > li:hover {
+    border-color: var(--border-card-hover);
+  }
+}
+
+@media (min-width: 901px) {
+  .spotlight__row {
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .spotlight__row-index {
+    font-size: var(--text-h1);
+  }
+
+  .spotlight__row-title {
+    font-size: var(--text-lg);
+  }
+
+  .spotlight__grid {
+    grid-template-columns: 1.6fr 1fr;
+    align-items: stretch;
+  }
+
+  /* Manşet grid satırının TAM yüksekliğine uzanır */
+  .spotlight__lead {
+    aspect-ratio: auto;
+    min-height: 480px;
+    height: 100%;
+  }
+
+  .spotlight__lead-caption {
+    padding: var(--space-xl);
+  }
+}
+
+/* Aktif (manşette gösterilen) kart: çerçeve açık, numara ve başlık beyaz */
+.spotlight__list > li[data-active='true'] {
+  border-color: var(--border-card-hover);
+}
+
+.spotlight__list > li[data-active='true'] .spotlight__row-index,
+.spotlight__list > li[data-active='true'] .spotlight__row-title {
+  color: var(--white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight__lead-caption {
+    animation: none;
+  }
+
+  .spotlight__ambient-image,
+  .spotlight__lead-image {
+    transition: none;
+  }
+}

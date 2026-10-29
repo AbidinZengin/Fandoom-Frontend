@@ -11,7 +11,7 @@ import styles from './MotionLab.module.css';
 // "rewind + zoom-out" üretir — ayrı bir rewind tween'i YOK, çünkü referans
 // videodaki rewind de gerçek kullanıcının yukarı scroll etmesiydi. Sonraki
 // bölümler ise native scroll + ScrollTrigger enter-reveal (Fandoom'un
-// zaten kullandığı desen, bkz. Home/ContentSection). Yerleşim onaylanınca
+// zaten kullandığı desen). Yerleşim onaylanınca
 // gerçek içerikle hedef component'e taşınır, bu sayfa silinir.
 
 const EXPLORE_CARDS = ['Kyoto', 'Lofoten', 'Marrakesh'];

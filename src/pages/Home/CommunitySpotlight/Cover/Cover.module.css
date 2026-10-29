@@ -1,0 +1,16 @@
+/* Çağıran --cover-opacity (varsayılan 1) ve --cover-duration ile ince ayar yapar. */
+.cover {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--cover-duration, var(--duration-base)) ease;
+}
+
+.cover[data-loaded][data-visible] {
+  opacity: var(--cover-opacity, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover {
+    transition: none;
+  }
+}

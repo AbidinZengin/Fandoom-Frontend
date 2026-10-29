@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-lg);
+  color: inherit;
+  text-decoration: none;
 }
 
 /* Görsel yuvası — kesik çerçeve "beklemede" sinyali (learned-rules [veri]),
@@ -22,6 +24,37 @@
     ),
     var(--bg-soft);
   transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+
+/* Gerçek görsel geldiğinde "beklemede" çerçevesi kalkar. */
+.card__cover[data-filled] {
+  overflow: hidden;
+  border: none;
+  background: var(--bg-soft);
+}
+
+.card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__title {
+  display: -webkit-box;
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--fg);
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card__meta {
+  font-size: var(--text-xs);
+  color: var(--fg-dim);
 }
 
 .card__body {

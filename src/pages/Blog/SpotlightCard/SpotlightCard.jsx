@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLocalizedNavigate';
@@ -14,13 +14,28 @@ import styles from './SpotlightCard.module.css';
 // Deeper") ile AYNI "kesintisiz devir" flip'ini tetikler (kullanıcı isteği:
 // "carousel dive deeper gibi olmalı animasyon olarak") — tek öğe olduğu için
 // sürükleme/stride yok, sadece açılış/dönüş flip'i.
-export function SpotlightCard({ item }) {
+//
+// MOCK carousel: `items` (ilk 5 blog) arasında oklarla döngüsel gezinme;
+// her an tek kart görünür, flip o anki kartın görselinden açılır.
+export function SpotlightCard({ items }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const coverRef = useRef(null);
   const imgRef = useRef(null);
   const openingRef = useRef(false);
   const pendingFlip = useRef(null);
+  const [index, setIndex] = useState(0);
+  const item = items[index] ?? null;
+
+  const go = (direction) => {
+    setIndex((i) => (i + direction + items.length) % items.length);
+  };
+
+  // Kart değişiminde kapak hafifçe erir (ani görsel sıçraması olmasın).
+  useEffect(() => {
+    if (!coverRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    gsap.fromTo(coverRef.current, { opacity: 0.35 }, { opacity: 1, duration: 0.45, ease: 'power2.out' });
+  }, [index]);
 
   // Devredilmeden sökülürsek (route değişmeden unmount) klon asılı kalmasın.
   useEffect(
@@ -236,7 +251,7 @@ export function SpotlightCard({ item }) {
 
   return (
     <div className={styles.spotlight}>
-      <CarouselArrow direction="prev" />
+      <CarouselArrow direction="prev" onClick={() => go(-1)} disabled={items.length < 2} />
 
       <Link
         to={`/blog/${item.slug}`}
@@ -275,7 +290,7 @@ export function SpotlightCard({ item }) {
         </div>
       </Link>
 
-      <CarouselArrow direction="next" />
+      <CarouselArrow direction="next" onClick={() => go(1)} disabled={items.length < 2} />
     </div>
   );
 }

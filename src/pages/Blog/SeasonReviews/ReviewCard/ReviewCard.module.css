@@ -1,6 +1,6 @@
-/* ResultCard.module.css (Blog/FilterResults) ile BİREBİR aynı görsel dil
-   (kullanıcı kararı: "kart görünümü aynı olsun") — bilerek ayrı dosya,
-   ResultCard'a dokunulmadı/paylaşıma açılmadı. */
+/* Top Blogs kartının (TopBlogsRow .row__thumb) çerçeve dili: dikey 2:3,
+   3px beyaz çerçeve, hover'da kartın tamamı hafif büyür (kullanıcı isteği,
+   2026-10-14). Rozet + alt overlay anatomisi korundu. */
 
 .card {
   display: block;
@@ -9,12 +9,13 @@
 
 .card__cover {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
   background: var(--bg-soft);
+  transition: transform var(--duration-fast) ease;
 }
 
 .card__cover[data-pending] {
@@ -29,11 +30,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 @media (hover: hover) {
-  .card:hover .card__image {
+  .card:hover .card__cover {
     transform: scale(1.04);
   }
 }
@@ -116,7 +116,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card__image {
+  .card__cover {
     transition: none;
+  }
+
+  .card:hover .card__cover {
+    transform: none;
   }
 }

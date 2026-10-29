@@ -207,8 +207,8 @@
 }
 
 .story__ledeText {
-  max-width: 62ch;
   margin: var(--space-lg) 0 0;
+  text-align: justify;
   font-size: var(--text-md);
   line-height: 1.8;
   color: var(--fg-dim);
@@ -278,7 +278,10 @@
 }
 
 .section p {
+  /* İki yana yaslı: sağ kenar tırtıklı kalınca blok "sola yatık" görünüyordu,
+     metin görselle aynı genişlikte bir dikdörtgen olarak durur. */
   margin: 0 0 var(--space-md);
+  text-align: justify;
   font-size: var(--text-md);
   line-height: 1.8;
   color: var(--fg-dim);
@@ -318,6 +321,7 @@
 
 .story__verdict p {
   margin: 0 0 var(--space-md);
+  text-align: justify;
   font-size: var(--text-md);
   line-height: 1.8;
   color: var(--fg-dim);

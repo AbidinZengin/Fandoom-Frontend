@@ -3,13 +3,31 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import PosterImage from '../PosterImage/PosterImage';
 import { loadYouTubeApi } from './youtubeApi';
-import { CloseIcon, MuteIcon, NextIcon, PauseIcon, PlayIcon, PreviousIcon, VolumeIcon } from './VideoIcons';
+import {
+  CloseIcon,
+  EnterFullscreenIcon,
+  ExitFullscreenIcon,
+  GearIcon,
+  MuteIcon,
+  NextIcon,
+  PauseIcon,
+  PlayIcon,
+  PreviousIcon,
+  VolumeIcon,
+} from './VideoIcons';
 import styles from './VideoLightbox.module.css';
 
 // YT.PlayerState sabitleri
 const STATE_ENDED = 0;
 const STATE_PLAYING = 1;
 const STATE_BUFFERING = 3;
+
+// Hız menüsü: yalnız YouTube'un belgelenmiş getAvailablePlaybackRates() listesinde
+// olanlar gösterilir.
+const SPEED_STEPS = [0.5, 1, 1.25, 1.5, 2];
+// Oynarken bu kadar süre hareket olmazsa bar gizlenir.
+const IDLE_MS = 2500;
+const FULLSCREEN_SUPPORTED = typeof document !== 'undefined' && document.fullscreenEnabled;
 
 const FLIP_EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
@@ -47,7 +65,7 @@ function formatTime(totalSeconds) {
 // `getOriginRect(index)`: o videonun kartta durduğu kutu — açılışta çerçeve oradan
 // büyür, kapanışta oraya döner.
 export default function VideoLightbox({ videos, initialIndex, getOriginRect, onClose }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [index, setIndex] = useState(initialIndex);
   const [closing, setClosing] = useState(false);
   const [started, setStarted] = useState(false);
@@ -55,14 +73,34 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
   const [muted, setMuted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [rate, setRate] = useState(1);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [speeds, setSpeeds] = useState(SPEED_STEPS);
+  const [captions, setCaptions] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [awake, setAwake] = useState(true);
 
+  const rootRef = useRef(null);
   const frameRef = useRef(null);
   const mountRef = useRef(null);
   const closeRef = useRef(null);
+  const menuWrapRef = useRef(null);
+  const gearRef = useRef(null);
   const playerRef = useRef(null);
   const closingRef = useRef(false);
   const seekingRef = useRef(false);
   const loadedIdRef = useRef(videos[initialIndex].youtubeId);
+  // Oynatıcı yeniden kurulurken (altyazı değişimi) kaldığı yerden devam etmesi için
+  // güncel değerler ref'te de tutulur.
+  const currentRef = useRef(0);
+  const rateRef = useRef(1);
+  const mutedRef = useRef(false);
+  // new YT.Player() hemen döner ama metodları onReady'ye kadar yoktur: hazır olmayan
+  // oynatıcıya (yeniden kurulum anı) komut gönderilmez.
+  const readyRef = useRef(false);
+  const idleTimerRef = useRef(null);
+  // İşaretçi barın üstündeyken ya da klavye odağı barın içindeyken gizlenmez.
+  const barBusyRef = useRef(false);
 
   const video = videos[index];
 
@@ -86,22 +124,34 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
     if (closingRef.current) return;
     closingRef.current = true;
     playerRef.current?.pauseVideo?.();
-    if (prefersReducedMotion()) {
-      onClose();
-      return;
+    const run = () => {
+      if (prefersReducedMotion()) {
+        onClose();
+        return;
+      }
+      const frame = frameRef.current;
+      const origin = getOriginRect?.(index);
+      if (frame && origin) {
+        // Açılış animasyonu bitmiş olsa da ölçüm son (transform'suz) kutuyu almalı.
+        frame.getAnimations().forEach((animation) => animation.cancel());
+        frame.animate([FULL_FRAME, originFrame(frame.getBoundingClientRect(), origin)], {
+          duration: flipDuration(),
+          easing: FLIP_EASE,
+          fill: 'forwards',
+        });
+      }
+      setClosing(true);
+    };
+    // Tam ekrandayken kapatılırsa önce tam ekrandan çıkılır, yerleşim oturunca
+    // kartına geri küçülür (ölçüm tam ekran geometrisinde yapılmasın).
+    if (document.fullscreenElement) {
+      document
+        .exitFullscreen()
+        .catch(() => {})
+        .then(() => requestAnimationFrame(run));
+    } else {
+      run();
     }
-    const frame = frameRef.current;
-    const origin = getOriginRect?.(index);
-    if (frame && origin) {
-      // Açılış animasyonu bitmiş olsa da ölçüm son (transform'suz) kutuyu almalı.
-      frame.getAnimations().forEach((animation) => animation.cancel());
-      frame.animate([FULL_FRAME, originFrame(frame.getBoundingClientRect(), origin)], {
-        duration: flipDuration(),
-        easing: FLIP_EASE,
-        fill: 'forwards',
-      });
-    }
-    setClosing(true);
   }, [getOriginRect, index, onClose]);
 
   // Açılışta sayfa kaymasını kilitler, odağı kapat butonuna alır; kapanışta
@@ -117,17 +167,46 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
     };
   }, []);
 
+  // Tam ekran durumu tarayıcıdan okunur (kullanıcı Esc ile de çıkabilir).
+  useEffect(() => {
+    const root = rootRef.current;
+    const sync = () => setIsFullscreen(document.fullscreenElement === root);
+    document.addEventListener('fullscreenchange', sync);
+    return () => {
+      document.removeEventListener('fullscreenchange', sync);
+      if (document.fullscreenElement === root) document.exitFullscreen().catch(() => {});
+    };
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') requestClose();
+      if (event.key !== 'Escape') return;
+      // Ayar menüsü açıksa Esc önce onu kapatır, lightbox'ı değil.
+      if (menuOpen) {
+        setMenuOpen(false);
+        gearRef.current?.focus();
+        return;
+      }
+      requestClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [requestClose]);
+  }, [requestClose, menuOpen]);
+
+  // Menü dışına tıklayınca kapanır.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const handlePointerDown = (event) => {
+      if (!menuWrapRef.current?.contains(event.target)) setMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [menuOpen]);
 
   // Oynatıcı kurulumu: YT, verilen düğümü iframe ile DEĞİŞTİRİR — React'in kendi
   // düğümünü kaybetmemesi için buraya kapta imperatif oluşturulan bir çocuk verilir,
-  // temizlikte kap boşaltılır (StrictMode çift mount'una dayanıklı).
+  // temizlikte kap boşaltılır (StrictMode çift mount'una dayanıklı). Altyazı değişince
+  // (cc_load_policy yalnız kurulumda okunur) oynatıcı kaldığı saniyeden yeniden kurulur.
   useEffect(() => {
     let cancelled = false;
     const mount = mountRef.current;
@@ -144,6 +223,10 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
           videoId: loadedIdRef.current,
           playerVars: {
             autoplay: 1,
+            start: Math.floor(currentRef.current),
+            cc_load_policy: captions ? 1 : 0,
+            cc_lang_pref: i18n.language.slice(0, 2),
+            hl: i18n.language.slice(0, 2),
             controls: 0,
             disablekb: 1,
             fs: 0,
@@ -156,7 +239,10 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
           events: {
             onReady: (event) => {
               if (cancelled) return;
+              readyRef.current = true;
               setDuration(event.target.getDuration());
+              if (rateRef.current !== 1) event.target.setPlaybackRate(rateRef.current);
+              if (mutedRef.current) event.target.mute();
               event.target.playVideo();
             },
             onStateChange: (event) => {
@@ -175,11 +261,14 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
 
     return () => {
       cancelled = true;
+      readyRef.current = false;
       playerRef.current?.destroy?.();
       playerRef.current = null;
       mount.innerHTML = '';
     };
-  }, []);
+    // i18n.language kurulumda okunur; dil değişiminde yeniden kurmaya gerek yok.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [captions]);
 
   // Önceki/sonraki: aynı oynatıcıda yeni video yüklenir (iframe yeniden kurulmaz).
   useEffect(() => {
@@ -187,6 +276,7 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
     loadedIdRef.current = video.youtubeId;
     setStarted(false);
     setCurrent(0);
+    currentRef.current = 0;
     setDuration(0);
     playerRef.current?.loadVideoById?.(video.youtubeId);
   }, [video.youtubeId]);
@@ -195,17 +285,39 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
   useEffect(() => {
     if (!playing) return undefined;
     const timer = setInterval(() => {
-      const player = playerRef.current;
+      const player = readyRef.current ? playerRef.current : null;
       if (!player || seekingRef.current) return;
-      setCurrent(player.getCurrentTime());
+      const time = player.getCurrentTime();
+      currentRef.current = time;
+      setCurrent(time);
       const total = player.getDuration();
       if (total) setDuration(total);
     }, 250);
     return () => clearInterval(timer);
   }, [playing]);
 
+  // Bar oynarken boştayken gizlenir; işaretçi/odak hareketi uyandırır. Duraklatılmış
+  // ya da başlamamış videoda her zaman görünür.
+  const wake = useCallback(() => {
+    setAwake(true);
+    clearTimeout(idleTimerRef.current);
+    const tick = () => {
+      if (barBusyRef.current) idleTimerRef.current = setTimeout(tick, IDLE_MS);
+      else setAwake(false);
+    };
+    idleTimerRef.current = setTimeout(tick, IDLE_MS);
+  }, []);
+
+  useEffect(() => {
+    if (playing) wake();
+    else clearTimeout(idleTimerRef.current);
+    return () => clearTimeout(idleTimerRef.current);
+  }, [playing, wake]);
+
+  const readyPlayer = () => (readyRef.current ? playerRef.current : null);
+
   const togglePlay = () => {
-    const player = playerRef.current;
+    const player = readyPlayer();
     if (!player) return;
     if (playing) {
       player.pauseVideo();
@@ -217,30 +329,86 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
   };
 
   const toggleMute = () => {
-    const player = playerRef.current;
+    const player = readyPlayer();
     if (!player) return;
     if (muted) player.unMute();
     else player.mute();
+    mutedRef.current = !muted;
     setMuted(!muted);
+  };
+
+  // Menü açılırken oynatıcıdan güncel hız listesi okunur.
+  const toggleMenu = () => {
+    const player = readyPlayer();
+    if (player && !menuOpen) {
+      const rates = player.getAvailablePlaybackRates?.() ?? [1];
+      setSpeeds(SPEED_STEPS.filter((step) => rates.includes(step)));
+    }
+    setMenuOpen((value) => !value);
+  };
+
+  const chooseSpeed = (next) => {
+    const player = readyPlayer();
+    if (!player) return;
+    player.setPlaybackRate(next);
+    rateRef.current = next;
+    setRate(next);
+  };
+
+  const toggleCaptions = () => {
+    // Oynatıcı yeniden kurulacağı için poster'a dönülür, hazır olunca devam eder.
+    setStarted(false);
+    setPlaying(false);
+    setCaptions((value) => !value);
+  };
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else rootRef.current?.requestFullscreen?.().catch(() => {});
   };
 
   const handleSeek = (event) => {
     const value = Number(event.target.value);
     setCurrent(value);
-    playerRef.current?.seekTo(value, true);
+    currentRef.current = value;
+    readyPlayer()?.seekTo(value, true);
   };
 
   const progress = duration ? Math.min(100, (current / duration) * 100) : 0;
   const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+  const barVisible = !playing || awake || menuOpen;
+  // Alt bar ve sağ üst ayar kümesi AYNI uyandırma/gizleme davranışını paylaşır.
+  const chromeProps = {
+    'data-hidden': !barVisible || undefined,
+    onPointerEnter: () => {
+      barBusyRef.current = true;
+      wake();
+    },
+    onPointerLeave: () => {
+      barBusyRef.current = false;
+      wake();
+    },
+    onFocus: (event) => {
+      if (event.target.matches(':focus-visible')) {
+        barBusyRef.current = true;
+        wake();
+      }
+    },
+    onBlur: () => {
+      barBusyRef.current = false;
+    },
+  };
 
   // Zemine (çerçeve/bar dışına) tıklayınca kapanır.
   return createPortal(
     <div
+      ref={rootRef}
       className={styles.lightbox}
       role="dialog"
       aria-modal="true"
       aria-label={video.title}
       data-closing={closing || undefined}
+      data-fullscreen={isFullscreen || undefined}
       onClick={(event) => {
         if (event.target === event.currentTarget) requestClose();
       }}
@@ -260,13 +428,23 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
       </button>
 
       <div className={styles.dialog}>
-        <div ref={frameRef} className={styles.dialog__frame}>
-          <PosterImage key={video.youtubeId} youtubeId={video.youtubeId} className={styles.dialog__poster} />
-          <div ref={mountRef} className={styles.dialog__player} data-started={started || undefined} />
-        </div>
+        <div className={styles.stage}>
+          <div ref={frameRef} className={styles.dialog__frame}>
+            <PosterImage key={video.youtubeId} youtubeId={video.youtubeId} className={styles.dialog__poster} />
+            <div ref={mountRef} className={styles.dialog__player} data-started={started || undefined} />
+          </div>
 
-        <div className={styles.chrome} data-closing={closing || undefined}>
-          <div className={styles.bar}>
+          {started && (
+            <div
+              className={styles.dialog__capture}
+              data-idle={!barVisible || undefined}
+              onPointerMove={wake}
+              onClick={togglePlay}
+              aria-hidden="true"
+            />
+          )}
+
+          <div className={styles.bar} {...chromeProps}>
             <button
               type="button"
               className={styles.lightbox__button}
@@ -320,6 +498,52 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
               />
             </div>
 
+          </div>
+
+          <div className={styles.settings} {...chromeProps}>
+            <div className={styles.menuWrap} ref={menuWrapRef}>
+              <button
+                ref={gearRef}
+                type="button"
+                className={`${styles.lightbox__button} ${styles.bar__text}`}
+                onClick={toggleMenu}
+                aria-expanded={menuOpen}
+                aria-haspopup="true"
+                aria-label={t('series.videoSettings')}
+              >
+                <span className={styles.bar__gear}>
+                  <GearIcon />
+                </span>
+                {rate !== 1 && <span>{rate}×</span>}
+              </button>
+              {menuOpen && (
+                <div className={styles.menu}>
+                  <div role="group" aria-label={t('series.videoSpeedLabel')}>
+                    <p className={styles.menu__heading}>{t('series.videoSpeedLabel')}</p>
+                    {speeds.map((step) => (
+                      <button
+                        key={step}
+                        type="button"
+                        className={styles.menu__item}
+                        aria-pressed={rate === step}
+                        onClick={() => chooseSpeed(step)}
+                      >
+                        {step === 1 ? t('series.videoSpeedNormal') : `${step}×`}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <button
+              type="button"
+              className={`${styles.lightbox__button} ${styles.bar__text}`}
+              onClick={toggleCaptions}
+              aria-pressed={captions}
+              aria-label={t('series.videoCaptions')}
+            >
+              CC
+            </button>
             <button
               type="button"
               className={styles.lightbox__button}
@@ -329,8 +553,20 @@ export default function VideoLightbox({ videos, initialIndex, getOriginRect, onC
             >
               {muted ? <MuteIcon /> : <VolumeIcon />}
             </button>
+            {FULLSCREEN_SUPPORTED && (
+              <button
+                type="button"
+                className={styles.lightbox__button}
+                onClick={toggleFullscreen}
+                aria-label={isFullscreen ? t('series.videoExitFullscreen') : t('series.videoFullscreen')}
+              >
+                {isFullscreen ? <ExitFullscreenIcon /> : <EnterFullscreenIcon />}
+              </button>
+            )}
           </div>
+        </div>
 
+        <div className={styles.chrome} data-closing={closing || undefined}>
           <div className={styles.meta}>
             <h3 className={styles.meta__title}>{video.title}</h3>
             <p className={styles.meta__source}>

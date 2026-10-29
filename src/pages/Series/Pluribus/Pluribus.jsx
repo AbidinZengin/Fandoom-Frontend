@@ -7,6 +7,7 @@ import { fetchProductionDetail, theme } from './Pluribus.data';
 import styles from './Pluribus.module.css';
 import SeasonRoute from './SeasonRoute/SeasonRoute';
 import CharactersRoute from './CharactersRoute/CharactersRoute';
+import Trivia from '../../../components/Trivia/Trivia';
 import { applyAccentGradient } from '../../../shared/theme/accentGradient';
 export default function Pluribus() {
   const { t } = useTranslation();
@@ -72,6 +73,7 @@ export default function Pluribus() {
       </div>
       <SeasonRoute />
       <CharactersRoute />
+      <Trivia seriesId={series.id} title={series.title} />
       <Footer />
     </>
   );

@@ -121,7 +121,6 @@
   padding: 0 var(--space-xs) 0 var(--space-sm);
   list-style: none;
   overflow-y: auto;
-  overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
 }

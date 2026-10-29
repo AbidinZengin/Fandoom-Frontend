@@ -6,7 +6,7 @@ import { fetchProductionDetail } from '../../../shared/api/productions';
 import { resolveGenreNames } from '../../../shared/api/genres';
 import { FeaturedCarousel } from './FeaturedCarousel/FeaturedCarousel';
 import imdbLogo from '../../../assets/logos/IMDB_Logo_2016.svg.webp';
-import { KNOWN_LOGOS, LOGO_LAYOUT, COVER_POSITION } from './SeriesHero.data';
+import { KNOWN_LOGOS, LOGO_LAYOUT, COVER_POSITION, groupByMood } from './SeriesHero.data';
 import styles from './SeriesHero.module.css';
 
 // Tam ekran, çerçevesiz sinematik Hero (2026-09-05 kararı — eski
@@ -309,6 +309,15 @@ export function SeriesHero({ items, basePath = '/series' }) {
         <h3 className={styles.hero__rowLabel}>{t('seriesHub.featuredTitles')}</h3>
         <FeaturedCarousel items={items} basePath={basePath} />
       </div>
+
+      {/* MOCK ruh hali rafları: Featured ile aynı carousel, hub'ın kendi
+          türündeki yapımlarla dolar (boş raf çizilmez). */}
+      {groupByMood(items).map((shelf) => (
+        <div className={styles.hero__row} key={shelf.id}>
+          <h3 className={styles.hero__rowLabel}>{shelf.title}</h3>
+          <FeaturedCarousel items={shelf.productions} basePath={basePath} />
+        </div>
+      ))}
     </div>
   );
 }

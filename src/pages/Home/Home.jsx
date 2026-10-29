@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Hero } from './Hero/Hero';
 import { FeaturedCarousel } from './FeaturedCarousel/FeaturedCarousel';
-import { ContentSection } from './ContentSection/ContentSection';
+import { PosterWall } from './PosterWall/PosterWall';
+import { BlogSpotlight } from './BlogSpotlight/BlogSpotlight';
+import { CommunitySpotlight } from './CommunitySpotlight/CommunitySpotlight';
 import { Footer } from '../../components/Footer/Footer';
-import { theories, news, blogPosts } from './Home.data';
 
 export default function Home() {
   // Explore kapısı: serbest scroll yok — Explore butonu YA DA ilk scroll
-  // niyeti (tekerlek/swipe/klavye) kapıyı açar; sayfa Featured Titles'a
-  // kayar ve giriş dalgası o anda başlar (kullanıcı kararı: scroll
+  // niyeti (tekerlek/swipe/klavye) kapıyı açar; sayfa Hero'nun bir altındaki
+  // bölüme kayar (kullanıcı kararı: scroll
   // denemesi "site bozuk" hissi vermesin).
   const [explored, setExplored] = useState(false);
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (explored) return undefined;
@@ -51,36 +50,12 @@ export default function Home() {
 
   return (
     <>
-      <Hero onExplore={() => setExplored(true)} />
-      <FeaturedCarousel play={explored} />
+      <Hero explored={explored} onExplore={() => setExplored(true)} />
+      <PosterWall />
+            <FeaturedCarousel play={explored} />
 
-      <ContentSection
-        kicker={t('home.theoriesKicker')}
-        heading={t('home.theoriesHeading')}
-        items={theories}
-        renderMeta={(item) => (
-          <>
-            <span>{item.author}</span>
-            <span>&middot;</span>
-            <span>{t('home.votes', { count: item.votes })}</span>
-          </>
-        )}
-      />
-
-      <ContentSection
-        kicker={t('home.newsKicker')}
-        heading={t('home.newsHeading')}
-        items={news}
-        mirror
-        renderMeta={(item) => <span>{item.date}</span>}
-      />
-
-      <ContentSection
-        kicker={t('home.blogKicker')}
-        heading={t('home.blogHeading')}
-        items={blogPosts}
-        renderMeta={(item) => <span>{item.readTime}</span>}
-      />
+      <BlogSpotlight />
+      <CommunitySpotlight />
 
       <Footer />
     </>

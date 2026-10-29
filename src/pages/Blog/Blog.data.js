@@ -5,10 +5,21 @@
 import { fetchBlogHub, fetchBlogHubFacets, fetchBlogs } from '../../shared/api/blogs';
 import { fetchAllGenres } from '../../shared/api/genres';
 
+// MOCK dağıtım: Editor's Pick carousel'i ilk 5 blog, Top Blogs kalanı.
+// FEATURED/LATEST için backend'de alan/sıralama yok — şimdilik aynı listeden
+// sabit dilimler (Latest = listenin başı, Featured = sonu). Tasarım
+// netleşip backend gelince sadece bu fonksiyon değişir.
+const SPOTLIGHT_COUNT = 5;
+const RAIL_COUNT = 3;
+
 export async function getBlogHub() {
   const { content } = await fetchBlogs({ size: 20 });
-  const [spotlight, ...rest] = content;
-  return { spotlight: spotlight ?? null, topBlogs: rest };
+  return {
+    spotlights: content.slice(0, SPOTLIGHT_COUNT),
+    topBlogs: content.slice(SPOTLIGHT_COUNT),
+    featured: content.slice(-RAIL_COUNT),
+    latest: content.slice(0, RAIL_COUNT),
+  };
 }
 
 // Filter panelinin taxonomy kaynağı — hub facets (tek çağrı, oturum boyunca

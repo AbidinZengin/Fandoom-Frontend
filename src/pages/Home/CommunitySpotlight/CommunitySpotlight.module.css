@@ -1,0 +1,310 @@
+/* Home Community vitrini ("mini-Community") — mobil-öncelikli tek kolon;
+   masaüstünde sol metin (5fr) / sağ sahne (7fr). Glass ve mor accent YOK. */
+.community {
+  --feed-gap: var(--space-md);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: var(--space-2xl);
+  padding: var(--space-3xl) var(--space-page-x);
+}
+
+/* Ambient zemin: aktif postun bulanık + karartılmış kapağı. Blur sabittir,
+   yalnız opacity animasyonu (compositor). Üst/alt kenarlar zemine erir. */
+.community__ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+
+.community__ambient-image {
+  --cover-opacity: 0.7;
+  --cover-duration: 1.2s;
+  position: absolute;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+  filter: blur(70px) brightness(0.45) saturate(1.2);
+  will-change: opacity;
+}
+
+/* --- Sol: başlık + CTA + odalar + sayaçlar --- */
+.community__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+}
+
+/* İki satırlı büyük harf başlık: üst gri, alt beyaz (Blog/PosterWall deseni) */
+.community__heading {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.community__heading-top {
+  color: var(--fg-muted);
+}
+
+.community__heading-bottom {
+  color: var(--white);
+}
+
+.community__body {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+/* Pill buton (PosterWall deseni): şeffaf zemin + 2px beyaz kenar, hover'da beyaz dolgu */
+.community__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 52px;
+  padding: var(--space-sm) var(--space-xl);
+  border: 2px solid var(--white);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.community__arrow {
+  flex: 0 0 auto;
+  transition: transform var(--duration-fast) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Oda chip'leri: ikon + ad (portal sayfasına) ve yanında + / ✓ katıl düğmesi */
+.community__rooms {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.community__room {
+  display: inline-flex;
+  align-items: stretch;
+  min-height: 44px;
+  overflow: hidden;
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.35);
+  transition: border-color var(--duration-fast) ease;
+}
+
+.community__room-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-dim);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+/* "+N" chip'inde ikon yok: soldaki dolgu simetrik olsun */
+.community__room-link:not(:has(*)) {
+  padding-left: var(--space-md);
+}
+
+.community__room-join {
+  min-width: 40px;
+  padding: 0 var(--space-md);
+  border: 0;
+  border-left: 1px solid var(--border-card-hover);
+  background: none;
+  font: inherit;
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--fg-dim);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.community__room-join[data-joined] {
+  background: var(--white);
+  color: var(--bg);
+}
+
+.community__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+  margin: 0;
+}
+
+.community__stat {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-2xs);
+}
+
+.community__stat-value {
+  margin: 0;
+  font-size: var(--text-h2);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--white);
+}
+
+.community__stat-label {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* --- Sağ: sahne (kontroller + composer ipucu + post grid'i) --- */
+.community__stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.community__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* Composer ipucu: sahte giriş çubuğu (yazma deneyimi /community'de) */
+.community__teaser {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 52px;
+  padding: var(--space-xs) var(--space-lg);
+  border: 1px solid var(--border-card-hover);
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.35);
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+  text-decoration: none;
+  transition:
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.community__teaser-icon {
+  font-size: var(--text-md);
+  color: var(--fg-dim);
+}
+
+/* Post grid'i: MASONRY. CSS sütunlarıyla akar; kartlar kendi oranında/içeriğine
+   göre uzar. Sütunlar arası boşluk column-gap, dikey boşluk karttaki margin-bottom
+   (ikisi de --feed-gap). Seyrek sekmede (1-3 post) bölüm çökmesin diye minimum
+   yükseklik korunur. Okuma sırası sütun sütundur (üstten alta). */
+.community__grid {
+  column-count: 2;
+  column-gap: var(--feed-gap);
+  min-height: 30rem;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.community__grid[data-loading] {
+  opacity: 0.5;
+}
+
+.community__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  padding: var(--space-xl);
+  border: 1px dashed var(--border-card-hover);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+  text-align: center;
+  text-decoration: none;
+}
+
+.community__cta:focus-visible,
+.community__room-link:focus-visible,
+.community__room-join:focus-visible,
+.community__teaser:focus-visible,
+.community__empty:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+.community__cta:focus-visible {
+  background: var(--white);
+  color: var(--bg);
+}
+
+.community__cta:active .community__arrow {
+  transform: translateX(var(--space-sm));
+}
+
+/* Hover yalnız gerçek hover'lı cihazlarda */
+@media (hover: hover) {
+  .community__cta:hover {
+    background: var(--white);
+    color: var(--bg);
+  }
+
+  .community__room:hover {
+    border-color: var(--white);
+  }
+
+  .community__room-link:hover {
+    color: var(--white);
+  }
+
+  .community__room-join:not([data-joined]):hover {
+    background: var(--white);
+    color: var(--bg);
+  }
+
+  .community__teaser:hover {
+    border-color: var(--white);
+    color: var(--fg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .community__cta,
+  .community__arrow,
+  .community__grid {
+    transition: none;
+  }
+}
+
+@media (min-width: 901px) {
+  .community {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    gap: var(--space-3xl);
+  }
+
+  .community__grid {
+    column-count: 3;
+  }
+}

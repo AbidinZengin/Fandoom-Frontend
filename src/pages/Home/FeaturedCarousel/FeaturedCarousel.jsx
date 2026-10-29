@@ -3,7 +3,7 @@ import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate as useNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import gsap from 'gsap';
 import { armCinematic, CINEMATIC_SLUGS } from '../../../motion/cinematic';
-import { fetchProductions, POSTER_POSITION } from './FeaturedCarousel.data';
+import { fetchMoodShelves, POSTER_POSITION } from './FeaturedCarousel.data';
 import styles from './FeaturedCarousel.module.css';
 
 // Cinematic geçişi olan hedefler: gerçek hero görseli olan seri sayfaları.
@@ -27,140 +27,117 @@ const higherResPoster = (url, size = 'w1280') =>
   url ? url.replace(/\/t\/p\/[^/]+\//, `/t/p/${size}/`) : url;
 
 // Referans (IMDb konsepti) yapısı: ortalanmış ince dikey poster dizisi.
-// Giriş dalgası scroll'la değil Hero'daki Explore ile tetiklenir (`play`):
-// başlık ve kartlar aynı dille sağdan sola akarak yerleşir.
+// MOCK ruh hali rafları: her raf kendi başlığı + poster satırıdır. Giriş
+// dalgası Explore kapısı açıldıktan sonra (`play`) her raf görünüme girince
+// bir kez oynar: başlık ve kartlar sağdan sola akarak yerleşir.
 export function FeaturedCarousel({ play }) {
   const sectionRef = useRef(null);
-  const headingRef = useRef(null);
-  const rowRef = useRef(null);
-  const tlRef = useRef(null);
   const navigate = useNavigate();
-  const [productions, setProductions] = useState([]);
+  const [shelves, setShelves] = useState([]);
 
   useEffect(() => {
     let cancelled = false;
-    fetchProductions().then((data) => {
-      if (!cancelled) setProductions(data.content);
+    fetchMoodShelves().then((data) => {
+      if (!cancelled) setShelves(data);
     });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  // Timeline paused kurulur: elemanlar gizli başlangıçta bekler, Explore
-  // gelince oynar. .from immediateRender ile başlangıç state'ini basar.
-  // productions'a bağımlı: veri asenkron geldiği için kartlar DOM'a
-  // düşmeden timeline kurulamaz (rowRef.current.children boş olurdu).
+  // Raflar asenkron geldiği için timeline'lar veri DOM'a düştükten sonra
+  // kurulur. Raf seçimi hash'li module class'ı yerine data-attribute ile.
   useEffect(() => {
-    if (productions.length === 0) return undefined;
+    if (!play || shelves.length === 0) return undefined;
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const tl = gsap.timeline({
-          paused: true,
-          defaults: { ease: 'power3.out' },
+        sectionRef.current.querySelectorAll('[data-shelf]').forEach((shelf) => {
+          const tl = gsap.timeline({
+            defaults: { ease: 'power3.out' },
+            scrollTrigger: { trigger: shelf, start: 'top 80%', once: true },
+          });
+          tl.from(
+            shelf.firstElementChild,
+            { opacity: 0, x: 140, y: 56, duration: 0.9, clearProps: 'opacity,transform' },
+            0
+          ).from(
+            shelf.lastElementChild.children,
+            {
+              opacity: 0,
+              x: 140,
+              y: 56,
+              duration: 0.9,
+              stagger: 0.12,
+              clearProps: 'opacity,transform',
+            },
+            0.15
+          );
         });
-
-        // Başlık tek blok olarak kartlarla aynı dalgayı paylaşır; kartlar
-        // soldan sağa stagger ile takip eder. 0.35s offset smooth scroll'un
-        // bölüme varışını bekler.
-        tl.from(
-          headingRef.current,
-          { opacity: 0, x: 140, y: 56, duration: 0.9, clearProps: 'opacity,transform' },
-          0.35
-        ).from(
-          rowRef.current.children,
-          {
-            opacity: 0,
-            x: 140,
-            y: 56,
-            duration: 0.9,
-            stagger: 0.12,
-            clearProps: 'opacity,transform',
-          },
-          0.5
-        );
-
-        tlRef.current = tl;
-
-        return () => {
-          tlRef.current = null;
-        };
-      });
-
-      mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set(sectionRef.current, { opacity: 1 });
       });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [productions]);
+  }, [play, shelves]);
 
-  // Explore basıldı: bölüme in, dalgayı başlat.
-  useEffect(() => {
-    if (!play) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    sectionRef.current.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
-    tlRef.current?.play();
-  }, [play]);
+  const renderCard = (p) => {
+    const typeSegment = p.type === 'MOVIE' ? 'movies' : 'series';
+    const href = `/${typeSegment}/${p.slug}`;
+    return (
+      <Link
+        to={href}
+        key={`${p.type}-${p.id}`}
+        className={styles.featured__card}
+        aria-label={p.title}
+        draggable={false}
+        onClick={(e) => {
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+          // Cinematic geçiş (referans: IMDb konsepti) — mevcut sayfa
+          // ~0.3s kararır, sonra route değişir; şerit reveal'ini hedef
+          // sayfanın Hero'su üstlenir. '#root' modül dışı global id
+          // olduğu için string seçici istisnası geçerlidir.
+          if (!CINEMATIC_SLUGS.has(p.slug) || reduced) {
+            return;
+          }
+          e.preventDefault();
+          armCinematic();
+          gsap.to('#root', {
+            opacity: 0.25,
+            duration: 0.3,
+            ease: 'power1.out',
+            onComplete: () => navigate(href),
+          });
+        }}
+      >
+        {/* Düz poster: metin overlay'i yok — kart görselin kendisidir.
+            Poster'i olmayan yapımlar görsel gelene dek koyu zeminde
+            bekler (learned-rules: placeholder/gradient üretilmez). */}
+        <div className={styles['featured__card-media']}>
+          {p.posterUrl && (
+            <img
+              className={styles['featured__card-poster']}
+              src={higherResPoster(p.posterUrl)}
+              style={{ objectPosition: POSTER_POSITION[p.slug] }}
+              alt=""
+              loading="lazy"
+              draggable={false}
+            />
+          )}
+        </div>
+      </Link>
+    );
+  };
 
   return (
     <section className={styles.featured} ref={sectionRef}>
-      <h2 className={styles.featured__heading} ref={headingRef}>
-        Featured Titles
-      </h2>
-
-      <div className={styles.featured__row} ref={rowRef}>
-        {productions.map((p) => {
-          const typeSegment = p.type === 'MOVIE' ? 'movies' : 'series';
-          const href = `/${typeSegment}/${p.slug}`;
-          return (
-            <Link
-              to={href}
-              key={`${p.type}-${p.id}`}
-              className={styles.featured__card}
-              aria-label={p.title}
-              draggable={false}
-              onClick={(e) => {
-                const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-                // Cinematic geçiş (referans: IMDb konsepti) — mevcut sayfa
-                // ~0.3s kararır, sonra route değişir; şerit reveal'ini hedef
-                // sayfanın Hero'su üstlenir. '#root' modül dışı global id
-                // olduğu için string seçici istisnası geçerlidir.
-                if (!CINEMATIC_SLUGS.has(p.slug) || reduced) {
-                  return;
-                }
-                e.preventDefault();
-                armCinematic();
-                gsap.to('#root', {
-                  opacity: 0.25,
-                  duration: 0.3,
-                  ease: 'power1.out',
-                  onComplete: () => navigate(href),
-                });
-              }}
-            >
-              {/* Düz poster: metin overlay'i yok — kart görselin kendisidir.
-                  Poster'i olmayan yapımlar görsel gelene dek koyu zeminde
-                  bekler (learned-rules: placeholder/gradient üretilmez). */}
-              <div className={styles['featured__card-media']}>
-                {p.posterUrl && (
-                  <img
-                    className={styles['featured__card-poster']}
-                    src={higherResPoster(p.posterUrl)}
-                    style={{ objectPosition: POSTER_POSITION[p.slug] }}
-                    alt=""
-                    loading="lazy"
-                    draggable={false}
-                  />
-                )}
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+      {shelves.map((shelf) => (
+        <div key={shelf.id} className={styles.featured__shelf} data-shelf>
+          <h2 className={styles.featured__heading}>{shelf.title}</h2>
+          <div className={styles.featured__row}>{shelf.productions.map(renderCard)}</div>
+        </div>
+      ))}
     </section>
   );
 }

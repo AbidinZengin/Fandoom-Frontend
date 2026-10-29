@@ -6,6 +6,9 @@ import bbLogo from '../../../assets/logos/breaking-bad.svg';
 import hotdLogo from '../../../assets/logos/house-of-the-dragon.webp';
 import gotLogo from '../../../assets/logos/got.webp';
 
+// MOCK ruh hali rafları — Featured şeridinin altındaki alt carousel'ler.
+export { groupByMood } from '../../../shared/data/moodShelves';
+
 export const KNOWN_LOGOS = {
   'breaking-bad': bbLogo,
   'house-of-the-dragon': hotdLogo,

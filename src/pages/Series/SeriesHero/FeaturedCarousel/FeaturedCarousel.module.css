@@ -47,6 +47,7 @@
      hedeflendi (viewport'a bağlı sabit ölçü, container fraksiyonu değil). */
   width: clamp(220px, 25vw, 420px);
   scroll-snap-align: start;
+  transition: transform var(--duration-fast) ease;
 }
 
 .row__rank {
@@ -72,11 +73,12 @@
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
   background: var(--bg-soft);
   padding: 0;
-  transition: transform var(--duration-fast) ease;
 }
 
+/* Büyüme kartın kendisinde: rütbe rakamı posterle birlikte ölçeklenir,
+   hover'da karttan kopmaz (kullanıcı düzeltmesi). */
 @media (hover: hover) {
-  .row__thumb:hover {
+  .row__card:hover {
     transform: scale(1.04);
   }
 }
@@ -115,8 +117,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .row__thumb,
-  .row__thumb:hover {
+  .row__card,
+  .row__card:hover {
     transition: none;
     transform: none;
   }

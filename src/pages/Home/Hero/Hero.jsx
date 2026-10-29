@@ -4,11 +4,18 @@ import gsap from 'gsap';
 import { FandoomLogo } from '../../../components/FandoomLogo/FandoomLogo';
 import styles from './Hero.module.css';
 
-export function Hero({ onExplore }) {
+export function Hero({ explored, onExplore }) {
   const heroRef = useRef(null);
   const { t } = useTranslation();
   const ctaRef = useRef(null);
   const ctaFloatRef = useRef(null);
+
+  // Explore kapısı açıldı: Hero'nun hemen altındaki bölüme in.
+  useEffect(() => {
+    if (!explored) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    heroRef.current.nextElementSibling?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }, [explored]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
