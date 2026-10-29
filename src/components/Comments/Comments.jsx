@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedNavigate } from '../../shared/i18n/useLocalizedNavigate';
 import { getStoredAuth } from '../../shared/api/authStorage';
 import { getComments, postComment, deleteComment, likeComment, unlikeComment } from '../../shared/api/community';
+import { PenNibIcon } from '../../pages/Community/ThreadIcons';
 import styles from './Comments.module.css';
 
 function HeartIcon({ active }) {
@@ -60,6 +61,9 @@ function Avatar({ author, small }) {
 // taşıyor) — referans ekran görüntüsündeki thumbs-down uydurulmadı.
 export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
   const { t } = useTranslation();
+  // Feed'de birden çok kart yorumunu aynı anda açabilir — sabit id çakışırdı.
+  const headingId = useId();
+  const inputRef = useRef(null);
   const navigate = useLocalizedNavigate();
   const isAuthed = Boolean(getStoredAuth()?.token);
   const myUsername = getStoredAuth()?.username;
@@ -83,6 +87,26 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
   // Yanıtlar varsayılan AÇIK gelir (zaten fetch'e gömülü, ekstra istek yok);
   // id burada varsa KAPALI demektir.
   const [collapsedReplies, setCollapsedReplies] = useState({});
+
+  // Neutral yazma kutusu içeriğe göre boyutlanır. useLayoutEffect: boyama
+  // ÖNCESİ çalışır, yoksa metin sarılıp kutu eski boyda bir kare çizilir
+  // (titreme). Ölçüm anında geçiş kapatılıp yükseklik 'auto'ya alınır, eski
+  // px'e geri konur, sonra yeni px'e geçilir — auto'ya geçiş animasyonlanamaz,
+  // doğrudan scrollHeight atamak sıçrama yapardı. Taşma yalnız tavana
+  // (240px) varınca kaydırılır, yoksa büyürken kaydırma çubuğu parlar.
+  useLayoutEffect(() => {
+    const el = inputRef.current;
+    if (!el || variant !== 'neutral') return;
+    const previous = el.offsetHeight;
+    el.style.transition = 'none';
+    el.style.height = 'auto';
+    const wanted = el.scrollHeight + el.offsetHeight - el.clientHeight;
+    el.style.height = `${previous}px`;
+    void el.offsetHeight;
+    el.style.transition = '';
+    el.style.height = `${Math.min(wanted, 240)}px`;
+    el.style.overflowY = wanted > 240 ? 'auto' : 'hidden';
+  }, [body, variant]);
 
   // Optimistic gönderimler await'ten sonra state'e dokunur; konu değiştiyse veya
   // component kalktıysa (anahtar sıfırlanır) sonuç yok sayılır — eski konunun
@@ -307,26 +331,54 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
       </form>
     );
 
+  const isNeutral = variant === 'neutral';
+  // Neutral'da gönder butonu yazma kutusunun İÇİNDE (sağ-alt), Blog'da altında.
+  const submitButton = (
+    <button type="submit" className={styles.form__submit} disabled={body.trim().length < 2}>
+      {t('blog.commentsSubmit')}
+    </button>
+  );
+
   return (
-    <section className={styles.comments} data-variant={variant} aria-labelledby="comments-heading">
-      <h2 className={styles.comments__heading} id="comments-heading">
-        {t('blog.comments')}
-        {totalElements > 0 && <span className={styles.comments__count}>{totalElements}</span>}
-      </h2>
+    <section
+      className={styles.comments}
+      data-variant={variant}
+      aria-labelledby={isNeutral ? undefined : headingId}
+      aria-label={isNeutral ? t('blog.comments') : undefined}
+    >
+      {/* Neutral (Community) bağlamında başlık yok: sayaç zaten kartın aksiyon çubuğunda. */}
+      {!isNeutral && (
+        <h2 className={styles.comments__heading} id={headingId}>
+          {t('blog.comments')}
+          {totalElements > 0 && <span className={styles.comments__count}>{totalElements}</span>}
+        </h2>
+      )}
 
       {isAuthed ? (
         <form className={styles.form} onSubmit={handleSubmit}>
-          <textarea
-            className={styles.form__input}
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            placeholder={t('blog.commentsPlaceholder')}
-            maxLength={2000}
-            rows={3}
-          />
-          <button type="submit" className={styles.form__submit} disabled={body.trim().length < 2}>
-            {t('blog.commentsSubmit')}
-          </button>
+          {/* Neutral: PostComposer'daki kalem ucu, kutunun SOL başında (yazmaya davet eden dekor). */}
+          <div className={styles.form__field}>
+            {isNeutral && (
+              <span className={styles.form__icon} aria-hidden="true">
+                <PenNibIcon />
+              </span>
+            )}
+            <textarea
+              ref={inputRef}
+              className={styles.form__input}
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder={
+                isNeutral && !loading && comments.length === 0
+                  ? t('blog.commentsEmptyCompact')
+                  : t('blog.commentsPlaceholder')
+              }
+              maxLength={2000}
+              rows={isNeutral ? 1 : 3}
+            />
+            {isNeutral && submitButton}
+          </div>
+          {!isNeutral && submitButton}
         </form>
       ) : (
         <button type="button" className={styles.loginPrompt} onClick={() => navigate('/account')}>
@@ -339,7 +391,8 @@ export function Comments({ subjectType = 'BLOG', subjectId, variant }) {
       {loading ? (
         <p className={styles.status}>{t('blog.loading')}</p>
       ) : comments.length === 0 ? (
-        <p className={styles.comments__empty}>{t('blog.commentsEmpty')}</p>
+        // Neutral'da boş durum yazma kutusunun placeholder'ında anlatılır.
+        isNeutral ? null : <p className={styles.comments__empty}>{t('blog.commentsEmpty')}</p>
       ) : (
         <>
           <ul className={styles.list}>

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLang } from '../../../shared/i18n/useLang';
-import { SUPPORTED_LANGS } from '../../../shared/i18n/constants';
+import { useLang } from '../../../../../shared/i18n/useLang';
+import { SUPPORTED_LANGS } from '../../../../../shared/i18n/constants';
 import styles from './LanguageSwitcher.module.css';
 
 // Sayfayı değiştirmeden path'in dil segmentini yer değiştirir

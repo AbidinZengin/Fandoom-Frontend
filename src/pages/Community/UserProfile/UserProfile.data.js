@@ -8,11 +8,11 @@ export { getUserProfile, getMyProfile } from '../../../shared/api/account';
 // Oturumsuzken uç 401 verir; istek hiç atılmaz, takip durumu "takip etmiyor"
 // sayılır. Uç başka bir sebeple düşerse de sayfa düşmez.
 export async function getFollowStatus(username) {
-  if (!getStoredAuth()?.token) return { following: false };
+  if (!getStoredAuth()?.token) return { following: false, status: 'NONE' };
   try {
     return await getMyFollowingStatus(username);
   } catch {
-    return { following: false };
+    return { following: false, status: 'NONE' };
   }
 }
 

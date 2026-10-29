@@ -58,6 +58,17 @@ export function ListEditorModal({ list, onClose, onSubmit }) {
   // 'pending' işlem sürerken) — listenin şu anki içeriğini tek seferde çeker.
   const [itemMembership, setItemMembership] = useState(null);
   const [loadingItems, setLoadingItems] = useState(false);
+  // Taslak: içerik işaretleri Save'e kadar YALNIZ burada tutulur (key → true);
+  // API çağrısı Save'de yapılır, İptal/kapatma hepsini atar.
+  const [draft, setDraft] = useState(null);
+  // Edit'te meta için yalnız DEĞİŞEN alanlar gönderilir — açıklama gibi bir alan
+  // hiç yüklenmediyse (özet cevapta yoksa) boş string ile üzerine yazılmaz.
+  const initial = useRef({
+    title: list?.title ?? '',
+    description: list?.description ?? '',
+    coverImageUrl: list?.coverImageUrl ?? '',
+    isPublic: list?.isPublic ?? false,
+  });
 
   useEffect(() => {
     if (!isEdit) return;
@@ -69,9 +80,16 @@ export function ListEditorModal({ list, onClose, onSubmit }) {
           map[`${raw.itemType}:${raw.itemId}`] = raw.id;
         });
         setItemMembership(map);
+        setDraft(Object.fromEntries(Object.keys(map).map((key) => [key, true])));
+        // Özet liste cevabı açıklamayı taşımıyorsa detaydan tamamla (kullanıcı henüz
+        // yazmadıysa) — alan boş görünüp Save'de silinmesin.
+        if (list.description === undefined && typeof detail.description === 'string') {
+          initial.current.description = detail.description;
+          setDescription((current) => (current === '' ? detail.description : current));
+        }
       })
       .finally(() => setLoadingItems(false));
-  }, [isEdit, list?.id]);
+  }, [isEdit, list?.id, list?.description]);
 
   // Arama: kullanıcı kararı (2026-08-31) — eski "sadece kaydedilenlerden/
   // beğenilerden seç" havuzu yerine seçilen türün TAM kataloğu bir kere
@@ -97,33 +115,41 @@ export function ListEditorModal({ list, onClose, onSubmit }) {
     return !q || c.title.toLowerCase().includes(q);
   });
 
-  const toggleItem = async (candidate) => {
+  const toggleItem = (candidate) => {
     const key = `${candidate.itemType}:${candidate.id}`;
-    const current = itemMembership?.[key];
-    if (current === 'pending') return;
-    const prev = itemMembership;
+    setDraft((current) => ({ ...current, [key]: !current?.[key] }));
+  };
 
-    if (current) {
-      setItemMembership((m) => ({ ...m, [key]: 'pending' }));
-      try {
-        await removeFromList(current);
-        setItemMembership((m) => {
-          const next = { ...m };
-          delete next[key];
-          return next;
-        });
-      } catch {
-        setItemMembership(prev);
+  // Taslaktaki farkı uygular: çıkarılanlar removeFromList, eklenenler addToList.
+  // Kısmi başarıda başarılar baz alınır (tekrar denemede yalnız kalan fark gider)
+  // ve hata fırlatılır — meta o durumda kaydedilmez.
+  const applyItemChanges = async () => {
+    if (!isEdit || !itemMembership || !draft) return;
+    const removes = Object.keys(itemMembership).filter((key) => !draft[key]);
+    const adds = Object.keys(draft).filter((key) => draft[key] && !itemMembership[key]);
+    if (removes.length === 0 && adds.length === 0) return;
+
+    const ops = [
+      ...removes.map((key) => ({ key, run: () => removeFromList(itemMembership[key]).then(() => null) })),
+      ...adds.map((key) => {
+        const [itemType, rawId] = key.split(':');
+        return { key, run: () => addToList(Number(rawId), itemType, { targetListId: list.id }).then((res) => res.id) };
+      }),
+    ];
+    const results = await Promise.allSettled(ops.map((op) => op.run()));
+
+    const next = { ...itemMembership };
+    let failed = 0;
+    results.forEach((result, index) => {
+      if (result.status !== 'fulfilled') {
+        failed += 1;
+        return;
       }
-    } else {
-      setItemMembership((m) => ({ ...m, [key]: 'pending' }));
-      try {
-        const res = await addToList(candidate.id, candidate.itemType, { targetListId: list.id });
-        setItemMembership((m) => ({ ...m, [key]: res.id }));
-      } catch {
-        setItemMembership(prev);
-      }
-    }
+      if (result.value === null) delete next[ops[index].key];
+      else next[ops[index].key] = result.value;
+    });
+    setItemMembership(next);
+    if (failed > 0) throw new Error(t('account.customLists.itemsSaveError', { count: failed }));
   };
 
   const handleCoverFile = async (file) => {
@@ -146,7 +172,21 @@ export function ListEditorModal({ list, onClose, onSubmit }) {
     setError(null);
     setSaving(true);
     try {
-      await onSubmit({ title: title.trim(), description, coverImageUrl, isPublic }, selectedType);
+      if (isEdit) {
+        // Önce içerikler, sonra meta: parent meta'yı kaydedip modalı kapatıp
+        // listeyi yeniler — o an içerikler zaten son halinde olmalı.
+        await applyItemChanges();
+        const current = { title: title.trim(), description, coverImageUrl, isPublic };
+        const changed = Object.fromEntries(
+          Object.entries(current).filter(([key, value]) => value !== initial.current[key])
+        );
+        await onSubmit(changed, selectedType);
+      } else {
+        await onSubmit({ title: title.trim(), description, coverImageUrl, isPublic }, selectedType);
+      }
+      // Create'te modal KAPANMAZ (parent aynı modalı yeni listenin edit moduna
+      // geçirir) — buton "Kaydediliyor"da takılı kalmasın.
+      setSaving(false);
     } catch (err) {
       setError(err.message ?? t('account.customLists.saveError'));
       setSaving(false);
@@ -299,15 +339,14 @@ export function ListEditorModal({ list, onClose, onSubmit }) {
               <ul className={styles.modal__itemsList}>
                 {searchResults.map((candidate) => {
                   const key = `${candidate.itemType}:${candidate.id}`;
-                  const membership = itemMembership?.[key];
+                  const checked = Boolean(draft?.[key]);
                   const thumb = candidate.itemType === 'BLOG' ? candidate.imageUrl : candidate.posterUrl;
                   return (
                     <li key={key}>
                       <label className={styles.modal__itemRow}>
                         <input
                           type="checkbox"
-                          checked={Boolean(membership)}
-                          disabled={membership === 'pending'}
+                          checked={checked}
                           onChange={() => toggleItem(candidate)}
                         />
                         {thumb && <img src={thumb} alt="" className={styles.modal__itemThumb} />}

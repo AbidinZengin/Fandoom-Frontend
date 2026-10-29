@@ -2,7 +2,7 @@ import { TopPortals } from './TopPortals/TopPortals';
 import { TrendingTags } from './TrendingTags/TrendingTags';
 import { RecentActivity } from './RecentActivity/RecentActivity';
 import { WhoToFollow } from './WhoToFollow/WhoToFollow';
-import { getTrendingTags, getRecentActivity, getWhoToFollow } from './RightSidebar.data';
+import { getTrendingTags } from './RightSidebar.data';
 import styles from './RightSidebar.module.css';
 
 // ≤1200px'te tamamen gizlenir (CommunityLayout grid'i 2 koloma düşer) —
@@ -13,8 +13,8 @@ export function RightSidebar({ collapsed }) {
     <aside className={styles.rightSidebar} data-collapsed={collapsed || undefined}>
       <TopPortals />
       <TrendingTags tags={getTrendingTags()} />
-      <RecentActivity items={getRecentActivity()} />
-      <WhoToFollow people={getWhoToFollow()} />
+      <RecentActivity />
+      <WhoToFollow />
     </aside>
   );
 }

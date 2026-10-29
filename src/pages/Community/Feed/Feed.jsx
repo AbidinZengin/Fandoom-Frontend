@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useNavigationType } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import gsap from 'gsap';
 import { PostComposer } from './PostComposer/PostComposer';
 import { SurfaceFilter } from './SurfaceFilter/SurfaceFilter';
 import { SortBar } from './SortBar/SortBar';
@@ -62,10 +63,39 @@ export default function Feed({ surface, portal }) {
   useControlsReveal(controlsRef);
 
   const threads = entry?.threads ?? [];
-  const page = entry?.page ?? 0;
-  const hasMore = entry?.hasMore ?? false;
   const error = errorKey === key;
   const loading = !entry && !error;
+
+  // Tür sekmesi değişince liste/galeri öğeleri sırayla (kademeli) belirir;
+  // composer ve sekme çubuğu yerinde kalır (CommunityLayout'taki sütun geçişi
+  // sekme↔sekme için bu yüzden atlanır). Kart görünümünün (ALL, portal) kademeli
+  // girişi FeedCard'ın kendi CSS animasyonudur — burada tekrarlanmaz. Veri
+  // gelene kadar (iskelet) beklenir; sıralama değişimi animasyon almaz. İlk
+  // render atlanır. useLayoutEffect: öğeler tam opaklıkta boyanmasın.
+  const bodyRef = useRef(null);
+  const animatedSurface = useRef(surface);
+  const showingItems = !loading && !error && threads.length > 0;
+  useLayoutEffect(() => {
+    if (animatedSurface.current === surface || !showingItems) return undefined;
+    animatedSurface.current = surface;
+    if (view === 'card') return undefined;
+
+    const items = bodyRef.current?.firstElementChild?.children;
+    if (!items?.length) return undefined;
+
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.fromTo(
+        items,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: 'power2.out', stagger: { amount: 0.4 }, clearProps: 'opacity' }
+      );
+    });
+    return () => mm.revert();
+  }, [surface, showingItems, view]);
+
+  const page = entry?.page ?? 0;
+  const hasMore = entry?.hasMore ?? false;
   const moreLoading = more.key === key && more.status === 'loading';
   const moreFailed = more.key === key && more.status === 'failed';
 
@@ -152,6 +182,7 @@ export default function Feed({ surface, portal }) {
         <SortBar sort={sort} onChange={setSort} />
       </div>
 
+      <div ref={bodyRef} className={styles.feed__body}>
       {error ? (
         <p className={styles.feed__empty}>{t('community.loadError')}</p>
       ) : loading ? (
@@ -189,6 +220,7 @@ export default function Feed({ surface, portal }) {
           {t('community.feed.loadMore')}
         </button>
       )}
+      </div>
     </>
   );
 }

@@ -69,6 +69,21 @@
   color: var(--fg-muted);
 }
 
+.leftSidebar__logout {
+  padding: var(--space-xs) var(--space-sm);
+  border: none;
+  background: none;
+  font-size: var(--text-base);
+  color: var(--fg-muted);
+  text-align: left;
+}
+
+@media (hover: hover) {
+  .leftSidebar__logout:hover {
+    color: var(--fg);
+  }
+}
+
 .leftSidebar__cta {
   padding: var(--space-md) 0;
   border-bottom: 1px solid var(--border);
@@ -124,10 +139,20 @@
     max-height: none;
     top: 0;
     transform: translateX(-100%);
+    /* Çekmece iOS sheet eğrisiyle kayar. Kapalıyken visibility gizlenir (kayma
+       bitince) — odaklanılamaz/okunamaz; açılırken anında görünür olur. */
+    visibility: hidden;
+    transition:
+      transform 0.55s cubic-bezier(0.32, 0.72, 0, 1),
+      visibility 0s linear 0.55s;
   }
 
   .leftSidebar[data-open='true'] {
     transform: translateX(0);
+    visibility: visible;
+    transition:
+      transform 0.55s cubic-bezier(0.32, 0.72, 0, 1),
+      visibility 0s linear 0s;
   }
 
   .leftSidebar__closeButton {
@@ -152,5 +177,26 @@
     border: none;
     padding: 0;
     background: rgba(0, 0, 0, 0.6);
+    /* Hep monte: açılışta ve kapanışta solar (koşullu render kapanışı kesiyordu). */
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.45s ease,
+      visibility 0s linear 0.45s;
+  }
+
+  .leftSidebar__backdrop[data-open='true'] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.45s ease,
+      visibility 0s linear 0s;
+  }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .leftSidebar,
+  .leftSidebar__backdrop {
+    transition: none;
   }
 }

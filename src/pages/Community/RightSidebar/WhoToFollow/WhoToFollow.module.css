@@ -29,10 +29,19 @@
   gap: var(--space-xs);
 }
 
+.whoToFollow__link {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
 .whoToFollow__avatar {
   flex-shrink: 0;
   width: 32px;
   height: 32px;
+  object-fit: cover;
   border-radius: var(--radius-round);
   background: var(--surface-2);
   display: flex;
@@ -76,4 +85,11 @@
   color: var(--bg);
   font-size: var(--text-xs);
   font-weight: 700;
+}
+
+/* Takip ediliyorsa çerçeveli (TopPortals "Katıldın" ile aynı dil). */
+.whoToFollow__button[data-following] {
+  border: 1px solid var(--white);
+  background: none;
+  color: var(--fg);
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
@@ -30,6 +30,7 @@ export default function ThreadDetail() {
   const lookup = idSlug === undefined ? slug : idSlug.match(/^(\d+)(?:-|$)/)?.[1];
   // status: loading | ready | notFound | error
   const [state, setState] = useState({ status: 'loading', thread: null });
+  const commentsRef = useRef(null);
 
   useEffect(() => {
     if (!lookup) {
@@ -59,6 +60,15 @@ export default function ThreadDetail() {
   }, [lookup]);
 
   const { status, thread } = state;
+
+  // Yorum sayacı: bölüme kaydır, yazma kutusuna odaklan (yoksa giriş butonuna).
+  const scrollToComments = () => {
+    const root = commentsRef.current;
+    if (!root) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    root.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    root.querySelector('textarea, button')?.focus({ preventScroll: true });
+  };
 
   if (status === 'loading') return <FeedSkeleton label={t('community.feed.loading')} count={1} />;
 
@@ -91,9 +101,11 @@ export default function ThreadDetail() {
         <Link to={surfaceInfo?.to ?? '/community'}>{t(SURFACE_LABEL_KEYS[thread.surface] ?? 'navbar.community')}</Link>
       </nav>
 
-      <ThreadBody thread={thread} />
+      <ThreadBody thread={thread} onCommentsClick={scrollToComments} />
 
-      <Comments subjectType="THREAD" subjectId={thread.id} variant="neutral" />
+      <div ref={commentsRef}>
+        <Comments subjectType="THREAD" subjectId={thread.id} variant="neutral" />
+      </div>
     </div>
   );
 }

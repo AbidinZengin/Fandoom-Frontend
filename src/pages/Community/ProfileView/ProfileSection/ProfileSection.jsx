@@ -5,6 +5,7 @@ import graphIcon from '../../../../assets/icons/graph.png';
 import playIcon from '../../../../assets/icons/play.png';
 import chatIcon from '../../../../assets/icons/chat.png';
 import { LocalizedLink } from '../../../../shared/i18n/LocalizedLink';
+import { followLabelKey } from '../../../../shared/follow/followState';
 import { EditProfileModal } from './EditProfileModal/EditProfileModal';
 import { FollowListModal } from './FollowListModal/FollowListModal';
 import { PlaylistCard } from './PlaylistCard/PlaylistCard';
@@ -79,8 +80,8 @@ function memberSinceLabel(isoDate) {
 // isSelf=false: başkasının herkese açık profili — düzenleme butonu ve özel
 // veri (okumaya devam et) gösterilmez, playlist'ler kendi listelerimizden
 // çekilmez (backend'de kullanıcı bazlı herkese açık liste ucu henüz yok).
-// following/onToggleFollow: yalnız başkasının profilinde Takip Et butonu için.
-export function ProfileSection({ user, continueReading, onProfileUpdate, isSelf = true, following = false, onToggleFollow }) {
+// followStatus (NONE | FOLLOWING | REQUESTED)/onToggleFollow: yalnız başkasının profilinde Takip Et butonu için.
+export function ProfileSection({ user, continueReading, onProfileUpdate, isSelf = true, followStatus = 'NONE', onToggleFollow }) {
   const { t } = useTranslation();
   const trackRef = useRef(null);
   const [editing, setEditing] = useState(false);
@@ -164,11 +165,11 @@ export function ProfileSection({ user, continueReading, onProfileUpdate, isSelf 
           <button
             type="button"
             className={styles.profile__editButton}
-            data-following={following || undefined}
-            aria-pressed={following}
+            data-following={followStatus !== 'NONE' || undefined}
+            aria-pressed={followStatus !== 'NONE'}
             onClick={onToggleFollow}
           >
-            {t(following ? 'account.profile.following' : 'account.profile.follow')}
+            {t(followLabelKey(followStatus))}
           </button>
         )}
       </div>

@@ -27,7 +27,9 @@ function CountLabel({ count, labelKey }) {
 // Thread kartının alt çubuğu (FeedCard + ThreadBody ortak), referans düzeni:
 // yorum / beğeni / paylaş / kaydet — ikon + etiketli sayaç. Paylaş için
 // backend'de sayaç YOK (sahte veri yazılmaz), sadece bağlantıyı kopyalar.
-export function ThreadActions({ thread, shareUrl }) {
+// `onCommentsClick` verilirse yorum sayacı buton olur (feed: yerinde aç/kapa,
+// detay: yorumlara kaydır); verilmezse eskisi gibi düz etiket kalır.
+export function ThreadActions({ thread, shareUrl, onCommentsClick, commentsExpanded }) {
   const { t } = useTranslation();
   const { liked, likeCount, saved, saveCount, toggleLike, toggleSave } = useThreadActions(thread);
   const [copied, setCopied] = useState(false);
@@ -52,10 +54,24 @@ export function ThreadActions({ thread, shareUrl }) {
     <div className={styles.threadActions}>
       {/* Sol: ana etkileşimler (yorum, beğeni, paylaş); sağ: kişisel eylem (kaydet). */}
       <div className={styles.threadActions__group}>
-        <span className={styles.threadActions__item}>
-          <CommentIcon />
-          <CountLabel count={commentCount} labelKey="community.feed.comments" />
-        </span>
+        {onCommentsClick ? (
+          <button
+            type="button"
+            className={styles.threadActions__item}
+            data-active={commentsExpanded}
+            aria-expanded={commentsExpanded}
+            aria-label={`${t('blog.commentsToggleAria')} (${commentCount})`}
+            onClick={onCommentsClick}
+          >
+            <CommentIcon />
+            <CountLabel count={commentCount} labelKey="community.feed.comments" />
+          </button>
+        ) : (
+          <span className={styles.threadActions__item}>
+            <CommentIcon />
+            <CountLabel count={commentCount} labelKey="community.feed.comments" />
+          </span>
+        )}
         <button
           type="button"
           className={styles.threadActions__item}

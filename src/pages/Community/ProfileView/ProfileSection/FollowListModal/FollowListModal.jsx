@@ -4,6 +4,7 @@ import { LocalizedLink } from '../../../../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate } from '../../../../../shared/i18n/useLocalizedNavigate';
 import { getStoredAuth } from '../../../../../shared/api/authStorage';
 import { getMyProfile } from '../../../../../shared/api/account';
+import { toFollowStatus, followLabelKey } from '../../../../../shared/follow/followState';
 import { avatarColor } from '../../../communityAvatar';
 import { getFollowList, setFollowing } from './FollowListModal.data';
 import styles from './FollowListModal.module.css';
@@ -23,20 +24,31 @@ function CloseIcon() {
 function FollowRow({ person, isMe, onNavigate }) {
   const { t } = useTranslation();
   const navigate = useLocalizedNavigate();
-  const [following, setFollowingState] = useState(person.following);
+  const [status, setStatus] = useState(toFollowStatus(person));
+  // Çift tık aynı anda iki istek atmasın.
+  const busy = useRef(false);
 
+  // Satırda kişinin gizli olup olmadığı bilinmez: takip etmek (FOLLOWING mi
+  // REQUESTED mi) sunucu yanıtıyla çizilir, bırakmak/geri çekmek iyimser.
   const handleToggle = async () => {
     if (!getStoredAuth()?.token) {
       navigate('/account');
       return;
     }
-    const next = !following;
-    setFollowingState(next);
+    if (busy.current) return;
+    busy.current = true;
+    const prev = status;
     try {
-      const res = await setFollowing(person.username, next);
-      setFollowingState(res.following);
+      if (prev === 'NONE') {
+        setStatus(toFollowStatus(await setFollowing(person.username, true)));
+      } else {
+        setStatus('NONE');
+        await setFollowing(person.username, false);
+      }
     } catch {
-      setFollowingState(!next);
+      setStatus(prev);
+    } finally {
+      busy.current = false;
     }
   };
 
@@ -67,11 +79,11 @@ function FollowRow({ person, isMe, onNavigate }) {
         <button
           type="button"
           className={styles.followList__button}
-          data-following={following || undefined}
-          aria-pressed={following}
+          data-following={status !== 'NONE' || undefined}
+          aria-pressed={status !== 'NONE'}
           onClick={handleToggle}
         >
-          {t(following ? 'account.profile.following' : 'account.profile.follow')}
+          {t(followLabelKey(status))}
         </button>
       )}
     </li>

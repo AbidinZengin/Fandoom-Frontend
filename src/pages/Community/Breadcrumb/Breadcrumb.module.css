@@ -1,0 +1,28 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .breadcrumb a:hover {
+    color: var(--fg);
+  }
+}
+
+.breadcrumb__current {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--fg);
+}

@@ -9,6 +9,27 @@ import { useMyPortalsStore } from '../../useMyPortalsStore';
 import { getTopPortals, setPortalMembership } from './TopPortals.data';
 import styles from './TopPortals.module.css';
 
+// Sitedeki Explore CTA'larının ok SVG'siyle aynı (SeriesHero ArrowIcon).
+function ArrowIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3.33"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={styles.topPortals__allArrow}
+    >
+      <line x1="4.5" y1="12" x2="19" y2="12" />
+      <polyline points="13.5 6.5 19.5 12 13.5 17.5" />
+    </svg>
+  );
+}
+
 // Top Portals — keşif vitrini (PRD, sağ menü): "Gösterişli ve Davetkâr". Büyük
 // (40px) ikon, kalın ad, altında soluk üye sayısı (FOMO), satırın sağında
 // minik [+ Katıl]. Universes'in yerini alır: evren artık klasör (Portal = Oda).
@@ -88,6 +109,10 @@ export function TopPortals() {
           </li>
         ))}
       </ul>
+      <Link to="/portal" className={styles.topPortals__all}>
+        {t('community.sidebar.allPortals')}
+        <ArrowIcon />
+      </Link>
     </section>
   );
 }

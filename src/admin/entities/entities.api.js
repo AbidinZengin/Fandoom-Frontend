@@ -1,4 +1,5 @@
 import { apiClient } from '../../shared/api/client';
+import { searchByType } from '../../shared/api/search';
 
 // Varlık-bağımsız REST çağrıları. Varsayılan: backend'in standart CRUD şekli
 //   by-id   : {entity.path}/{id}            (GET, PUT, DELETE)
@@ -13,9 +14,14 @@ const nestedPath = (entity, parent) => `${parent.entity.path}/${parent.id}/${ent
 // Üst-seviye varlık listesi (series, movies): PageResponse
 // { content, page, size, totalElements, totalPages, last }.
 // `sort=id,desc`: en yeni kayıt üstte (Spring Pageable alan adı bekler).
+// Arama varken ortak /api/search/{tür} ucuna gider (eski `?search=` dalı
+// backend'den kalkıyor); orada sıralama sabit alaka sırasıdır, sort yok
+// sayılır. Tür adı varlığın `key`'iyle aynı (series, movies). 2 karakterden
+// kısa sorgu backend'de boş sonuç döndüğü için düz listede kalınır.
 export function listEntities(entity, { page = 0, size = 20, search = '' } = {}) {
+  const q = search.trim();
+  if (q.length >= 2) return searchByType(entity.key, { q, page, size });
   const params = new URLSearchParams({ page, size, sort: 'id,desc' });
-  if (search.trim()) params.set('search', search.trim());
   return apiClient.get(`${entity.path}?${params}`);
 }
 

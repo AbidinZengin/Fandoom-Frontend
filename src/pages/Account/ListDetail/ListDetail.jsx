@@ -1,13 +1,15 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Flip } from 'gsap/Flip';
 import { LocalizedLink } from '../../../shared/i18n/LocalizedLink';
-import { getCustomListDetail } from '../Account.data';
-import { removeFromList } from '../../../shared/api/account';
+import { useMyListsStore } from '../../../shared/state/useMyListsStore';
+import { reorderListItems } from '../../../shared/api/account';
+import { getCustomListDetail, editCustomList } from '../Account.data';
+import { ListEditorModal } from '../DashboardView/CustomListsSection/ListEditorModal/ListEditorModal';
 import { extractDominantColor } from './dominantColor';
+import { useListAccent } from './useListAccent';
 import { ListItemCard } from './ListItemCard/ListItemCard';
-import { AddItemsPanel } from './AddItemsPanel/AddItemsPanel';
 import styles from './ListDetail.module.css';
 
 const FALLBACK_ACCENT = [60, 60, 60];
@@ -37,6 +39,15 @@ function CheckIcon() {
   );
 }
 
+function ReorderIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="8 9 12 5 16 9" />
+      <polyline points="8 15 12 19 16 15" />
+    </svg>
+  );
+}
+
 function HeartIcon({ active }) {
   return (
     <svg viewBox="0 0 24 24" fill={active ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
@@ -56,26 +67,19 @@ function BookmarkIcon({ active }) {
   );
 }
 
-function PlusIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  );
-}
-
 // Bir CUSTOM listenin detay sayfası — kapak görselinden çıkarılan baskın
-// renk sayfanın arka planına (Spotify "now playing" tarzı) sızar, edit
-// modu sıralama+silme+ekleme'yi TEK modda birleştirir (kullanıcı kararı,
-// bkz. docs/plans/2026-08-31-custom-list-detail-design.md Karar #2).
+// renk sayfanın arka planına (Spotify "now playing" tarzı) sızar. Kalem
+// (edit) TEK bir düzenleme modalı açar (ListEditorModal: başlık, açıklama,
+// kapak, görünürlük, içerik ekle/çıkar) — Save hepsini birlikte kaydeder,
+// İptal hepsini atar (kullanıcı kararı, 2026-10-24). Sıralama AYRI bir moddur
+// (kalemin yanındaki "Sırala"): sürükle-bırak + Flip, ✓ ile kaydedilir.
 //
 // Heart/Bookmark butonları bu turda Faz 1: sadece görsel + optimistic yerel
 // state, backend'de liste-seviyesi beğeni/kaydetme ucu yok (Karar #1).
 //
-// Sıralama SADECE bu oturumda kalıcı — backend'de item sırası için bir alan/
-// endpoint yok (Karar #3, ayrı backend görevi). İçerik ekleme/çıkarma ise
-// mevcut addToList/removeFromList ile GERÇEKTEN persist edilir.
+// Sıra kalıcılığı backend'in PATCH /me/lists/{id}/items/order ucuna bağlı
+// (docs/plans/2026-10-24-custom-list-order-contract.md). Uç yoksa/hata verirse
+// sıra yalnız bu oturumda kalır ve kullanıcıya açıkça söylenir.
 // `id` prop DashboardView'dan gelir (wildcard route'ta useParams ':id'yi
 // çözemez, bkz. DashboardView.jsx yorumu) — prop verilmezse (standalone
 // kullanım ihtimaline karşı) kendi useParams()'ına düşer.
@@ -90,10 +94,18 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
 
   const [list, setList] = useState(null);
   const [accent, setAccent] = useState(FALLBACK_ACCENT);
-  const [editMode, setEditMode] = useState(false);
-  const [addPanelOpen, setAddPanelOpen] = useState(false);
+  // Gömülü kipte (Community) orta bloğun eriyen zemini: kayıtlı accentColor ya da
+  // kapaktan bir kez hesaplanıp kaydedilen CANLI baskın renk (bkz. useListAccent;
+  // sayfa wash'ının piksel ortalamasından ayrı — o koyu görsellerde siyaha yakındı).
+  const panelAccent = useListAccent(list) ?? FALLBACK_ACCENT;
+  const [editorOpen, setEditorOpen] = useState(false);
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
+  // Sıralama modu: orderBackup, İptal'de geri dönülecek sıra (mod açılırken alınır).
+  const [reorderMode, setReorderMode] = useState(false);
+  const [orderBackup, setOrderBackup] = useState(null);
+  const [orderError, setOrderError] = useState(false);
+  const [savingOrder, setSavingOrder] = useState(false);
   const [dragIdx, setDragIdx] = useState(null);
   const [dragOverIdx, setDragOverIdx] = useState(null);
 
@@ -121,20 +133,13 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
     };
   }, [list?.coverImageUrl]);
 
-  // Sürükle-bırak reorder: DOM pozisyonları drop ÖNCESİ (First) yakalanır,
-  // state güncellenip React yeniden diziyi render ettikten SONRA (Last)
-  // GSAP Flip aradaki farkı (Invert) smooth bir tween'e (Play) çevirir —
-  // React'in anlık grid reflow'u yerine tüm kartlar akıcı kayar.
+  // Drop öncesi DOM pozisyonları (First) yakalanır, state güncellenip React diziyi
+  // yeniden render ettikten SONRA (Last) GSAP Flip aradaki farkı tween'e çevirir —
+  // tüm kartlar akıcı kayar.
   useLayoutEffect(() => {
     if (!flipStateRef.current) return;
     Flip.from(flipStateRef.current, { duration: 0.5, ease: 'power2.inOut', absolute: true });
     flipStateRef.current = null;
-  }, [list?.items]);
-
-  const membership = useMemo(() => {
-    const map = new Map();
-    (list?.items ?? []).forEach((item) => map.set(`${item.itemType}:${item.id}`, item.savedItemId));
-    return map;
   }, [list?.items]);
 
   const handleDragStart = (idx) => setDragIdx(idx);
@@ -161,14 +166,42 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
     handleDragEnd();
   };
 
-  const handleRemove = async (savedItemId) => {
-    const prevItems = list.items;
-    setList((prev) => ({ ...prev, items: prev.items.filter((item) => item.savedItemId !== savedItemId) }));
+  const startReorder = () => {
+    setOrderBackup(list.items);
+    setOrderError(false);
+    setReorderMode(true);
+  };
+
+  const cancelReorder = () => {
+    setList((prev) => ({ ...prev, items: orderBackup ?? prev.items }));
+    setReorderMode(false);
+    setOrderBackup(null);
+  };
+
+  // ✓: yeni sırayı backend'e yollar. Uç yoksa/hata verirse sıra bu oturumda kalır
+  // (kullanıcıya açıkça söylenir) — sessizce "kaydedildi" denmez.
+  const saveReorder = async () => {
+    setSavingOrder(true);
+    setOrderError(false);
     try {
-      await removeFromList(savedItemId);
+      await reorderListItems(list.id, list.items.map((item) => item.savedItemId));
     } catch {
-      setList((prev) => ({ ...prev, items: prevItems }));
+      setOrderError(true);
+    } finally {
+      setSavingOrder(false);
+      setReorderMode(false);
+      setOrderBackup(null);
     }
+  };
+
+  // Modal Save'i: içerik değişiklikleri modalın içinde uygulanır, buraya yalnız
+  // DEĞİŞEN meta alanları gelir (boşsa PATCH atılmaz). Sonra detay yenilenir ve
+  // listeler sayfası/sidebar'ı haberdar edilir.
+  const handleEditSubmit = async (fields) => {
+    if (Object.keys(fields).length > 0) await editCustomList(list.id, fields);
+    setEditorOpen(false);
+    await refresh();
+    useMyListsStore.getState().bump();
   };
 
   if (!list) {
@@ -178,7 +211,11 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
   const accentCss = accent.join(',');
 
   return (
-    <div className={styles.detail} style={{ '--list-accent': accentCss }} data-embedded={embedded || undefined}>
+    <div
+      className={styles.detail}
+      style={{ '--list-accent': accentCss, '--panel-accent': panelAccent.join(',') }}
+      data-embedded={embedded || undefined}
+    >
       <div className={styles.detail__wash} aria-hidden="true" />
       <div className={styles.detail__washFade} aria-hidden="true" />
 
@@ -198,6 +235,7 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
           </LocalizedLink>
         )}
 
+        <div className={styles.detail__panel}>
         <div className={styles.detail__hero}>
           {list.coverImageUrl ? (
             <img src={list.coverImageUrl} alt="" className={styles.detail__heroImage} />
@@ -208,21 +246,33 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
           )}
           <div className={styles.detail__heroGradient} />
 
-          <button
-            type="button"
-            className={styles.detail__editToggle}
-            data-active={editMode || undefined}
-            onClick={() => setEditMode((v) => !v)}
-            aria-label={editMode ? t('account.listDetail.finishEditing') : t('account.listDetail.startEditing')}
-          >
-            {editMode ? <CheckIcon /> : <PencilIcon />}
-          </button>
+          <div className={styles.detail__heroTools}>
+            {list.items.length > 1 && (
+              <button
+                type="button"
+                className={styles.detail__editToggle}
+                data-active={reorderMode || undefined}
+                onClick={reorderMode ? saveReorder : startReorder}
+                disabled={savingOrder}
+                aria-label={reorderMode ? t('account.settings.save') : t('account.listDetail.startReorder')}
+                aria-pressed={reorderMode}
+              >
+                {reorderMode ? <CheckIcon /> : <ReorderIcon />}
+              </button>
+            )}
+            <button
+              type="button"
+              className={styles.detail__editToggle}
+              onClick={() => setEditorOpen(true)}
+              disabled={reorderMode}
+              aria-label={t('account.listDetail.startEditing')}
+            >
+              <PencilIcon />
+            </button>
+          </div>
 
           <div className={styles.detail__heroBottom}>
             <div className={styles.detail__heroText}>
-              <span className={styles.detail__visibility} data-visibility={list.isPublic ? 'public' : 'private'}>
-                {list.isPublic ? t('account.customLists.public') : t('account.customLists.private')}
-              </span>
               <h1 className={styles.detail__title}>{list.title}</h1>
               <p className={styles.detail__meta}>{t('account.customLists.itemsCount', { count: list.items.length })}</p>
             </div>
@@ -254,9 +304,18 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
 
         {list.description && <p className={styles.detail__description}>{list.description}</p>}
 
-        {editMode && <p className={styles.detail__editHint}>{t('account.listDetail.dragHint')}</p>}
+        {reorderMode && (
+          <div className={styles.detail__reorderBar}>
+            <p className={styles.detail__editHint}>{t('account.listDetail.dragHint')}</p>
+            <button type="button" className={styles.detail__reorderCancel} onClick={cancelReorder}>
+              {t('account.settings.cancel')}
+            </button>
+          </div>
+        )}
 
-        {list.items.length === 0 && !editMode ? (
+        {orderError && <p className={styles.detail__orderError}>{t('account.listDetail.orderSaveError')}</p>}
+
+        {list.items.length === 0 ? (
           <p className={styles.detail__empty}>{t('account.content.emptyState')}</p>
         ) : (
           <ul ref={gridRef} className={styles.detail__grid}>
@@ -265,37 +324,21 @@ export function ListDetail({ id: idProp, backTo = '/account', embedded = false }
                 key={item.savedItemId}
                 item={item}
                 index={idx}
-                editMode={editMode}
+                editMode={reorderMode}
                 isDragging={dragIdx === idx}
                 isDragOver={dragOverIdx === idx}
-                onRemove={() => handleRemove(item.savedItemId)}
                 onDragStart={() => handleDragStart(idx)}
                 onDragOver={(e) => handleDragOver(e, idx)}
                 onDrop={() => handleDrop(idx)}
                 onDragEnd={handleDragEnd}
               />
             ))}
-            {editMode && (
-              <li className={styles.detail__addCard}>
-                <button type="button" onClick={() => setAddPanelOpen(true)}>
-                  <PlusIcon />
-                  {t('account.listDetail.addItemsCta')}
-                </button>
-              </li>
-            )}
           </ul>
         )}
+        </div>
       </div>
 
-      {addPanelOpen && (
-        <AddItemsPanel
-          listId={list.id}
-          listType={list.dominantType}
-          membership={membership}
-          onClose={() => setAddPanelOpen(false)}
-          onChanged={refresh}
-        />
-      )}
+      {editorOpen && <ListEditorModal list={list} onClose={() => setEditorOpen(false)} onSubmit={handleEditSubmit} />}
     </div>
   );
 }

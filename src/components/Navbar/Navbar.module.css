@@ -6,7 +6,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 8px clamp(20px, 4vw, 56px);
+  --navbar-pad-x: clamp(20px, 4vw, 56px);
+  padding: 8px var(--navbar-pad-x);
   /* Hafif koyu zemin — scroll'da değişmez, her durumda bu değer geçerli */
   background: rgba(5, 5, 5, 0.3);
 }
@@ -86,24 +87,7 @@
 }
 
 .navbar__search {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 8px 16px;
-  color: var(--fg);
-  font-size: 13px;
-  width: 190px;
-  transition: width 0.25s ease, border-color 0.25s ease;
-}
-
-.navbar__search:focus {
-  outline: none;
-  width: 240px;
-  border-color: var(--accent);
-}
-
-.navbar__search::placeholder {
-  color: var(--fg-muted);
+  flex-shrink: 0;
 }
 
 .navbar__icon {
@@ -120,6 +104,32 @@
     color: var(--fg);
     background: rgba(255, 255, 255, 0.06);
   }
+}
+
+/* Mobil arama ikonu: masaüstünde arama kutusu var, ikon yalnız ≤900px'te görünür. */
+.navbar__searchButton {
+  display: none;
+  border: none;
+  background: none;
+}
+
+/* Mobil arama şeridi: masaüstünde yok. ≤900px'te header'ın tüm yüksekliğini
+   kaplayan opak şerit, sağ kenardan sola doğru genişler ("yana açılır"). */
+.navbar__mobileSearch {
+  display: none;
+}
+
+.navbar__mobileSearchClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  border-radius: var(--radius-round);
+  background: none;
+  color: var(--fg-dim);
 }
 
 /* --- Mobil menü (≤900px) --- */
@@ -146,8 +156,9 @@
   flex-direction: column;
   gap: var(--space-xl);
   padding: var(--space-xs) var(--space-page-x) var(--space-2xl);
-  /* Neredeyse tam opak koyu zemin — arkadaki sayfa okunmaz olmalı. */
-  background: rgba(5, 5, 5, 0.97);
+  /* Tam opak zemin: arkadaki sayfa sızmaz, açılış/kapanışta Navbar ile menü
+     başlığı üst üste binip çift logo/ikon göstermez. */
+  background: var(--bg);
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -169,27 +180,6 @@
   border-radius: var(--radius-round);
   background: none;
   color: var(--fg-dim);
-}
-
-.navbar__overlay-search {
-  width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--fg);
-  font-family: inherit;
-  font-size: var(--text-base);
-  flex-shrink: 0;
-}
-
-.navbar__overlay-search:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-.navbar__overlay-search::placeholder {
-  color: var(--fg-muted);
 }
 
 .navbar__overlay-nav {
@@ -228,7 +218,38 @@
     display: none;
   }
 
-  .navbar__burger {
+  .navbar__burger,
+  .navbar__searchButton {
     display: flex;
+  }
+
+  /* Şerit HEP tam genişlikte; yana açılma clip-path ile (sağ kenardan sola).
+     width/overflow geçişi kapalıyken 44px'lik X'i şeridin dışına taşırıp
+     hamburger ikonunun üstünde titretiyordu. Alt kenar -100vh: sonuç paneli
+     şeridin altına taşar, kırpılmaz. */
+  .navbar__mobileSearch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding-inline: var(--navbar-pad-x);
+    background: var(--bg);
+    clip-path: inset(0 0 -100vh 100%);
+    transition: clip-path var(--duration-base) cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .navbar__mobileSearch[data-open] {
+    clip-path: inset(0 0 -100vh 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar__mobileSearch {
+    transition: none;
   }
 }

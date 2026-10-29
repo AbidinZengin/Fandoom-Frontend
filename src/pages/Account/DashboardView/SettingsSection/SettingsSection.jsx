@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from './LanguageSwitcher/LanguageSwitcher';
+import { getIsPrivate, setIsPrivate } from './SettingsSection.data';
 import styles from './SettingsSection.module.css';
 
 const INITIAL_SETTINGS = {
@@ -41,6 +43,33 @@ export function SettingsSection() {
   const { t } = useTranslation();
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
   const [savedToastVisible, setSavedToastVisible] = useState(false);
+  // Gizli hesap sayfadaki tek gerçek ayar: Save'e bağlı değil, anahtar çevrilince
+  // anında PATCH'lenir (optimistic, hatada geri alınır). Yüklenene kadar kilitli.
+  const [isPrivate, setIsPrivateState] = useState(null);
+  const [privateError, setPrivateError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    getIsPrivate()
+      .then((value) => {
+        if (!cancelled) setIsPrivateState(value);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handlePrivateChange = async (next) => {
+    setPrivateError(false);
+    setIsPrivateState(next);
+    try {
+      await setIsPrivate(next);
+    } catch {
+      setIsPrivateState(!next);
+      setPrivateError(true);
+    }
+  };
 
   const patch = (key, value) => setSettings((prev) => ({ ...prev, [key]: value }));
 
@@ -53,6 +82,14 @@ export function SettingsSection() {
 
   return (
     <section className={styles.settings}>
+      <div className={styles.settings__group}>
+        <h2 className={styles.settings__groupHeading}>{t('account.settings.preferencesHeading')}</h2>
+        <div className={styles.settings__row}>
+          <span className={styles.settings__rowLabel}>{t('account.settings.language')}</span>
+          <LanguageSwitcher />
+        </div>
+      </div>
+
       <div className={styles.settings__group}>
         <ToggleRow
           label={t('account.settings.spoilerShieldHeading')}
@@ -97,6 +134,19 @@ export function SettingsSection() {
 
       <div className={styles.settings__group}>
         <h2 className={styles.settings__groupHeading}>{t('account.settings.visibilityHeading')}</h2>
+        {isPrivate !== null && (
+          <ToggleRow
+            label={t('account.settings.privateAccount')}
+            description={t('account.settings.privateAccountDesc')}
+            checked={isPrivate}
+            onChange={handlePrivateChange}
+          />
+        )}
+        {privateError && (
+          <p className={styles.settings__toast} role="alert">
+            {t('account.settings.privateAccountError')}
+          </p>
+        )}
         <ToggleRow
           label={t('account.settings.publicWatchlist')}
           checked={settings.publicWatchlist}

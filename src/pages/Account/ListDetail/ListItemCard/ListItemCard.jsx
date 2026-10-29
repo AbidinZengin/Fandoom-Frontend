@@ -79,9 +79,11 @@ export function ListItemCard({
           <span className={styles.card__dragHandle}>
             <DragHandleIcon />
           </span>
-          <button type="button" className={styles.card__removeButton} onClick={onRemove} aria-label={t('account.listDetail.removeItem')}>
-            <RemoveIcon />
-          </button>
+          {onRemove && (
+            <button type="button" className={styles.card__removeButton} onClick={onRemove} aria-label={t('account.listDetail.removeItem')}>
+              <RemoveIcon />
+            </button>
+          )}
         </div>
       ) : (
         <LocalizedLink to={href} className={styles.card__media} data-variant={isBlog ? 'blog' : 'poster'}>

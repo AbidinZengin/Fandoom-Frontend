@@ -42,6 +42,12 @@ export async function updateMyList(id, payload) {
   return apiClient.patch(`/me/lists/${id}`, payload);
 }
 
+// Liste öğelerinin yeni sırası — gövde: { savedItemIds: [...] } (YENİ sıra).
+// Backend ucu henüz yoksa 404/405 döner; çağıran bunu "oturumda kalır" diye ele alır.
+export async function reorderListItems(listId, savedItemIds) {
+  return apiClient.patch(`/me/lists/${listId}/items/order`, { savedItemIds });
+}
+
 export async function deleteMyList(id) {
   return apiClient.delete(`/me/lists/${id}`);
 }
@@ -78,6 +84,45 @@ export async function followUser(username) {
 
 export async function unfollowUser(username) {
   return apiClient.delete(`/me/following/${encodeURIComponent(username)}`);
+}
+
+// Gizli hesap onay akışı — takip/durum yanıtı { following, status, followerCount },
+// status: NONE | FOLLOWING | REQUESTED (gizli profile takip REQUESTED döner).
+// DELETE following/{username} takibi bırakır VEYA bekleyen isteği geri çeker.
+// Gelen istekler PageResponse<{ username, avatarUrl, bio, accentColor, following }>.
+export async function getMyFollowRequests({ page = 0, size = 20 } = {}) {
+  return apiClient.get(`/me/follow-requests?page=${page}&size=${size}`);
+}
+
+export async function acceptFollowRequest(username) {
+  return apiClient.post(`/me/follow-requests/${encodeURIComponent(username)}/accept`);
+}
+
+export async function rejectFollowRequest(username) {
+  return apiClient.delete(`/me/follow-requests/${encodeURIComponent(username)}`);
+}
+
+export async function removeFollower(username) {
+  return apiClient.delete(`/me/followers/${encodeURIComponent(username)}`);
+}
+
+// Bildirimler — NotificationResponse { id, type: FOLLOW | FOLLOW_REQUEST |
+// FOLLOW_ACCEPTED, read, createdAt, actor: { username, avatarUrl, followStatus } }.
+// Bilinmeyen type'ı çağıran sessizce atlar (backend enum'u genişleyebilir).
+export async function getMyNotifications({ page = 0, size = 20, unreadOnly = false } = {}) {
+  return apiClient.get(`/me/notifications?page=${page}&size=${size}&unreadOnly=${unreadOnly}`);
+}
+
+export async function getUnreadNotificationCount() {
+  return apiClient.get('/me/notifications/unread-count');
+}
+
+export async function markNotificationRead(id) {
+  return apiClient.post(`/me/notifications/${id}/read`);
+}
+
+export async function markAllNotificationsRead() {
+  return apiClient.post('/me/notifications/read-all');
 }
 
 // Takipçi / takip edilen listesi — PUBLIC, en yeni takip önce. PageResponse<

@@ -1,0 +1,50 @@
+/* Yalnız mobilde (≤768px): sol sidebar çekmecede gizli olduğu için kitaplık
+   sekmeleri sayfanın tepesinde durur. Alt çubukla aynı cam/Apple dili
+   (yarı saydam kapsül aktif durum). Masaüstünde sekmeleri sol sidebar değiştirir. */
+.library__tabs {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .library__tabs {
+    display: flex;
+    align-self: flex-start;
+    max-width: 100%;
+    padding: var(--space-2xs);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .library__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .library__tab {
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    white-space: nowrap;
+    transition: color var(--duration-fast) ease, background var(--duration-fast) ease;
+  }
+
+  .library__tab[data-active] {
+    background: rgba(255, 255, 255, 0.16);
+    color: var(--white);
+  }
+
+  .library__tab:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: -2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .library__tab {
+    transition: none;
+  }
+}

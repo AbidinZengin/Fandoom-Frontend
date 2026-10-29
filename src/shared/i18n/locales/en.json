@@ -1,5 +1,19 @@
 {
   "navbar": {
+    "closeSearch": "Close",
+    "notifications": {
+      "ariaLabel": "Notifications",
+      "heading": "Notifications",
+      "readAll": "Mark all as read",
+      "follow": "@{{username}} started following you.",
+      "followRequest": "@{{username}} wants to follow you.",
+      "followAccepted": "@{{username}} accepted your follow request.",
+      "accept": "Accept",
+      "reject": "Decline",
+      "empty": "No notifications yet.",
+      "loading": "Loading",
+      "error": "Couldn't load notifications."
+    },
     "series": "Series",
     "movies": "Movies",
     "news": "News",
@@ -17,6 +31,18 @@
     "openMenuAriaLabel": "Open menu",
     "closeMenuAriaLabel": "Close menu"
   },
+  "search": {
+    "groups": {
+      "movies": "Movies",
+      "series": "Series",
+      "characters": "Characters",
+      "portals": "Portals",
+      "blogs": "Blogs"
+    },
+    "allResults": "All results for \"{{q}}\"",
+    "noResults": "No results for \"{{q}}\"",
+    "error": "Search is unavailable right now"
+  },
   "footer": {
     "tagline": "Theories. News. Blogs. Built for fans.",
     "exploreHeading": "Explore",
@@ -27,13 +53,14 @@
   },
   "home": {
     "heroCta": "Explore",
-    "theoriesKicker": "Community",
-    "theoriesHeading": "Top Theories",
-    "votes": "{{count}} votes",
-    "newsKicker": "Newsroom",
-    "newsHeading": "Latest News",
-    "blogKicker": "Editorial",
-    "blogHeading": "Featured Blog Posts"
+    "posterWallHeadingTop": "Follow a single scene,",
+    "posterWallHeadingBottom": "and you find yourself inside a whole world.",
+    "posterWallDepth": "First a line, then a character, then a name on the map. Wherever you start, the rest opens up on its own.",
+    "posterWallViewAll": "View all",
+    "posterWallExplore": "Explore {{title}}",
+    "communityHeadingTop": "Dive into",
+    "communityHeadingBottom": "the Fandom",
+    "blogSpotlightAll": "All blogs"
   },
   "common": {
     "previous": "Previous",
@@ -57,9 +84,20 @@
     "latest": "Latest",
     "minRead": "{{count}} min read",
     "learnMore": "Learn More",
+    "formats": {
+      "REVIEW": "Review",
+      "RECAP": "Recap",
+      "ANALYSIS": "Analysis",
+      "RANKING": "Ranking",
+      "INTERVIEW": "Interview",
+      "BEHIND_THE_SCENES": "Behind the Scenes",
+      "CHARACTER": "Character"
+    },
     "articleNavAriaLabel": "Article navigation",
     "comments": "Comments",
     "commentsEmpty": "No comments yet — be the first to write one.",
+    "commentsEmptyCompact": "Be the first to comment",
+    "commentsToggleAria": "Show or hide comments",
     "commentsPlaceholder": "Write a comment...",
     "commentsSubmit": "Post",
     "commentsLoginPrompt": "Log in to comment",
@@ -131,7 +169,6 @@
     "charactersHeading": "Characters",
     "charactersTitleLead": "The Faces",
     "charactersTitleAction": "of the Story.",
-    "noCharactersYet": "No characters yet.",
     "videosHeading": "Videos",
     "videosTitleLead": "More to",
     "videosTitleAction": "Watch.",
@@ -145,6 +182,13 @@
     "videoMute": "Mute",
     "videoUnmute": "Unmute",
     "videoSeek": "Seek",
+    "videoSettings": "Settings",
+    "videoSpeedLabel": "Speed",
+    "videoSpeedNormal": "Normal",
+    "videoCaptions": "Subtitles",
+    "videoFullscreen": "Fullscreen",
+    "videoExitFullscreen": "Exit fullscreen",
+    "noCharactersYet": "No characters yet.",
     "characterAnalysisHeading": "Character Analysis",
     "backToCharacters": "← Characters",
     "characterBioLabel": "Character Bio",
@@ -211,6 +255,13 @@
   "community": {
     "emptyState": "Nothing here yet — be the first to start a thread.",
     "loadError": "Something went wrong loading this. Please try again.",
+    "mobileNav": {
+      "ariaLabel": "Community navigation",
+      "feed": "Feed",
+      "portals": "Portals",
+      "menu": "Menu",
+      "signIn": "Sign in"
+    },
     "myLibrary": "My Library",
     "sidebar": {
       "theoryCount": "{{count}} theories",
@@ -218,6 +269,7 @@
       "portalsHeading": "My portals",
       "portalsEmpty": "Portals you join will show up here.",
       "topPortalsHeading": "Top portals",
+      "allPortals": "Explore all",
       "libraryHeading": "My Library",
       "liked": "Liked",
       "saved": "Saved",
@@ -300,8 +352,15 @@
       "submit": "Post",
       "error": "Couldn't post, try again."
     },
+    "portals": {
+      "crumb": "Portals",
+      "empty": "There are no portals to list yet.",
+      "popular": "Popular Portals",
+      "searchPlaceholder": "Search portals",
+      "noResults": "No portals match your search."
+    },
     "portal": {
-      "join": "Join",
+      "join":"Join",
       "joinShort": "+ Join",
       "joined": "Joined",
       "members_one": "Member",
@@ -380,6 +439,7 @@
       "userNotFound": "This user could not be found.",
       "follow": "+ Follow",
       "following": "Following",
+      "requested": "Requested",
       "continueReadingHeading": "Continue Reading",
       "continueCta": "Continue",
       "editModalTitle": "Edit Profile",
@@ -437,6 +497,7 @@
       "deleteError": "Could not delete list",
       "uploadError": "Image upload failed",
       "saveError": "Could not save list",
+      "itemsSaveError": "{{count}} item(s) could not be saved, try again",
       "itemsHeading": "Items",
       "typePickerLabel": "What type of content is this list for?",
       "typePickerHint": "Pick a type above to see content you can add.",
@@ -447,6 +508,8 @@
       "backToLists": "My Custom Lists",
       "startEditing": "Edit list",
       "finishEditing": "Finish editing",
+      "startReorder": "Reorder items",
+      "orderSaveError": "Order could not be saved; it only applies to this session.",
       "dragHint": "Drag to reorder",
       "removeItem": "Remove from list",
       "addItemsCta": "Add Content",
@@ -473,7 +536,12 @@
       "securityHeading": "Security",
       "loginAlerts": "Login alerts",
       "newDeviceApproval": "New device approval",
+      "preferencesHeading": "Preferences",
+      "language": "Language",
       "visibilityHeading": "Visibility",
+      "privateAccount": "Private account",
+      "privateAccountDesc": "Only people you approve can follow you.",
+      "privateAccountError": "Couldn't save the privacy setting.",
       "publicWatchlist": "Make my watchlist public",
       "publicCharacters": "Make my favorite characters public",
       "cancel": "Cancel",

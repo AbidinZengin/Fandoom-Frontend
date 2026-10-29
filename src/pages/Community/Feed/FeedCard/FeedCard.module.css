@@ -61,6 +61,43 @@
   }
 }
 
+/* Yorum paneli: grid 0fr → 1fr ile yükseklik yumuşak açılır (PostComposer
+   Collapse deseni). Kapalıyken boş çocuk kartın gap'ini de yerdiği için üst
+   margin gap kadar eksiye çekilir, açılırken sıfırlanır. */
+.feedCard__comments {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: calc(var(--space-sm) * -1);
+  opacity: 0;
+  transition:
+    grid-template-rows var(--duration-base) cubic-bezier(0.33, 1, 0.68, 1),
+    margin-top var(--duration-base) cubic-bezier(0.33, 1, 0.68, 1),
+    opacity var(--duration-fast) ease;
+}
+
+.feedCard__comments[data-open='true'] {
+  grid-template-rows: 1fr;
+  margin-top: 0;
+  opacity: 1;
+}
+
+.feedCard__commentsInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.feedCard__commentsInner > * {
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedCard__comments {
+    transition: none;
+  }
+}
+
 .feedCard__link {
   display: flex;
   flex-direction: column;

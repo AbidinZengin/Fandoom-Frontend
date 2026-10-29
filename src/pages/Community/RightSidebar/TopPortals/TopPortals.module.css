@@ -57,6 +57,39 @@
   color: var(--fg-muted);
 }
 
+/* Liste sonu CTA: tam genişlik solid beyaz pill (learned-rules [topluluk-görsel]:
+   birincil CTA solid beyaz) + ok; hover'da ok sağa kayar. */
+.topPortals__all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--white);
+  background: var(--white);
+  color: var(--bg);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.topPortals__allArrow {
+  transition: transform var(--duration-fast) ease;
+}
+
+@media (hover: hover) {
+  .topPortals__all:hover .topPortals__allArrow {
+    transform: translateX(var(--space-2xs));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topPortals__allArrow {
+    transition: none;
+  }
+}
+
 /* Minik birincil CTA: solid beyaz (learned-rules [topluluk-görsel]); üyeyken çerçeveli. */
 .topPortals__join {
   flex: none;

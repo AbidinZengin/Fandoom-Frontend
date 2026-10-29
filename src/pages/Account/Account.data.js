@@ -174,7 +174,10 @@ export async function getCustomListDetail(id) {
   const [lists, detail] = await Promise.all([getCustomLists(), getMyListDetail(id, { size: 200 })]);
   const meta = lists.find((l) => String(l.id) === String(id));
   const items = await enrichRawItems(detail.items?.content);
-  return { ...meta, items };
+  // Özet satırda olmayan meta alanları (ör. description) detay cevabından
+  // tamamlanır; özet satır varsa o önceliklidir.
+  const { items: _rawItems, ...detailMeta } = detail;
+  return { ...detailMeta, ...meta, items };
 }
 
 // Bir listeye eklenebilecek TAM katalog, tek türe daraltılmış — ListEditorModal

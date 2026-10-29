@@ -23,6 +23,106 @@
   color: var(--bg);
 }
 
+/* Community düzeni: kartın içinde/altında kartla AYNI genişlik ve hiza —
+   sayfa padding'i, max-width ve ortalama yok. Başlık kompakt bold satır;
+   yazma kutusu tek satır başlar, odak/metinle büyür; boş durum kutusuz,
+   yazma kutusunun hemen altında soluk tek satır. */
+.comments[data-variant='neutral'] {
+  max-width: none;
+  margin-inline: 0;
+  padding: 0;
+}
+
+.comments[data-variant='neutral'] .comments__heading {
+  margin-bottom: var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.comments[data-variant='neutral'] .form {
+  margin-bottom: var(--space-md);
+}
+
+/* Yükseklik JS'ten (Comments.jsx autosize) px olarak gelir; geçiş burada.
+   Odakta büyüme YOK — kutu yalnız yazılan satır sayısına göre uzar. */
+.comments[data-variant='neutral'] .form__input {
+  min-height: 44px;
+  max-height: 240px;
+  resize: none;
+  overflow-y: hidden;
+  transition:
+    height var(--duration-micro) cubic-bezier(0.33, 1, 0.68, 1),
+    border-color var(--duration-fast) ease;
+}
+
+.form__field {
+  position: relative;
+  display: flex;
+}
+
+.form__field .form__input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Kalem ucu kutunun ilk satırıyla hizalı (min-height 44px'in dikey ortası), beyaz. */
+.form__icon {
+  position: absolute;
+  left: var(--space-md);
+  top: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--white);
+  font-size: var(--text-lg);
+  pointer-events: none;
+}
+
+.comments[data-variant='neutral'] .form__input {
+  padding-left: calc(var(--space-md) + var(--space-lg) + var(--space-2xs));
+}
+
+.comments[data-variant='neutral'] .form__input {
+  padding-right: calc(var(--space-lg) * 4);
+}
+
+/* Gönder: kutunun sağ-alt köşesinde, kutu uzadıkça altta kalır. */
+.comments[data-variant='neutral'] .form__field .form__submit {
+  position: absolute;
+  right: var(--space-xs);
+  bottom: var(--space-xs);
+  padding: var(--space-2xs) var(--space-md);
+}
+
+.comments[data-variant='neutral'] .form__input:focus-visible {
+  border-color: var(--fg-muted);
+}
+
+/* Yanıt dallanması: avatardan avatara eğri dirsekler yerine yanıt grubunun
+   solunda TEK ince çizgi (Reddit/YouTube deseni) — gövdeyle birlikte girintili. */
+.comments[data-variant='neutral'] .item__rail,
+.comments[data-variant='neutral'] .replyItem::before,
+.comments[data-variant='neutral'] .replyItem::after {
+  display: none;
+}
+
+.comments[data-variant='neutral'] .replies {
+  margin-top: var(--space-sm);
+  padding-left: var(--space-sm);
+  border-left: 1px solid var(--border);
+}
+
+.comments[data-variant='neutral'] .loginPrompt {
+  margin-bottom: var(--space-sm);
+}
+
+.comments[data-variant='neutral'] .comments__empty {
+  padding: 0;
+  border: none;
+  text-align: left;
+  color: var(--fg-faint);
+}
+
 .comments__heading {
   display: flex;
   align-items: baseline;

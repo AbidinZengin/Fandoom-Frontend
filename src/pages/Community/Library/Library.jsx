@@ -7,6 +7,8 @@ import { getStoredAuth } from '../../../shared/api/authStorage';
 import { ContentSection } from '../../Account/DashboardView/ContentSection/ContentSection';
 import { getLibraryItems } from '../../Account/Account.data';
 import { RequireSession } from '../RequireSession/RequireSession';
+import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
+import styles from './Library.module.css';
 
 // Kütüphane sekmeleri artık Community'nin orta kolonunda (/community/library/:tab).
 // İçerik ve başlık metinleri Account'taki ContentSection ile aynıdır.
@@ -45,6 +47,18 @@ export default function Library() {
 
   return (
     <RequireSession>
+      <nav className={styles.library__tabs} aria-label={t('community.sidebar.libraryHeading')}>
+        {Object.keys(TABS).map((key) => (
+          <Link
+            key={key}
+            to={`/community/library/${key}`}
+            className={styles.library__tab}
+            data-active={key === tab || undefined}
+          >
+            {t(`community.sidebar.${key}`)}
+          </Link>
+        ))}
+      </nav>
       <ContentSection heading={t(config.headingKey)} items={items} ctaLabel={t(config.ctaKey)} />
     </RequireSession>
   );

@@ -1,5 +1,19 @@
 {
   "navbar": {
+    "closeSearch": "Kapat",
+    "notifications": {
+      "ariaLabel": "Bildirimler",
+      "heading": "Bildirimler",
+      "readAll": "Tümünü okundu say",
+      "follow": "@{{username}} seni takip etmeye başladı.",
+      "followRequest": "@{{username}} seni takip etmek istiyor.",
+      "followAccepted": "@{{username}} takip isteğini kabul etti.",
+      "accept": "Kabul et",
+      "reject": "Reddet",
+      "empty": "Henüz bildirimin yok.",
+      "loading": "Yükleniyor",
+      "error": "Bildirimler yüklenemedi."
+    },
     "series": "Diziler",
     "movies": "Filmler",
     "news": "Haberler",
@@ -17,6 +31,18 @@
     "openMenuAriaLabel": "Menüyü aç",
     "closeMenuAriaLabel": "Menüyü kapat"
   },
+  "search": {
+    "groups": {
+      "movies": "Filmler",
+      "series": "Diziler",
+      "characters": "Karakterler",
+      "portals": "Portallar",
+      "blogs": "Bloglar"
+    },
+    "allResults": "\"{{q}}\" için tüm sonuçlar",
+    "noResults": "\"{{q}}\" için sonuç yok",
+    "error": "Arama şu an yapılamıyor"
+  },
   "footer": {
     "tagline": "Teoriler. Haberler. Bloglar. Hayranlar için.",
     "exploreHeading": "Keşfet",
@@ -27,13 +53,14 @@
   },
   "home": {
     "heroCta": "Keşfet",
-    "theoriesKicker": "Topluluk",
-    "theoriesHeading": "En Çok Konuşulan Teoriler",
-    "votes": "{{count}} oy",
-    "newsKicker": "Haber Merkezi",
-    "newsHeading": "Son Haberler",
-    "blogKicker": "Editöryel",
-    "blogHeading": "Öne Çıkan Blog Yazıları"
+    "posterWallHeadingTop": "Bir sahnenin peşine düşersin,",
+    "posterWallHeadingBottom": "kendini bir dünyanın içinde bulursun.",
+    "posterWallDepth": "Önce tek bir replik, sonra bir karakter, sonra haritadaki bir isim. Nereden başlarsan başla, gerisi kendiliğinden açılıyor.",
+    "posterWallViewAll": "Tümünü gör",
+    "posterWallExplore": "Keşfet: {{title}}",
+    "communityHeadingTop": "Fandom'un",
+    "communityHeadingBottom": "içine dal",
+    "blogSpotlightAll": "Tüm bloglar"
   },
   "common": {
     "previous": "Önceki",
@@ -57,9 +84,20 @@
     "seasonReviews": "Sezon İncelemeleri",
     "minRead": "{{count}} dk okuma",
     "learnMore": "Daha Fazla",
+    "formats": {
+      "REVIEW": "İnceleme",
+      "RECAP": "Özet",
+      "ANALYSIS": "Analiz",
+      "RANKING": "Sıralama",
+      "INTERVIEW": "Röportaj",
+      "BEHIND_THE_SCENES": "Kamera Arkası",
+      "CHARACTER": "Karakter"
+    },
     "articleNavAriaLabel": "Makale gezinmesi",
     "comments": "Yorumlar",
     "commentsEmpty": "Henüz yorum yok — ilk yorumu sen yaz.",
+    "commentsEmptyCompact": "İlk yorumu sen yaz",
+    "commentsToggleAria": "Yorumları aç veya kapat",
     "commentsPlaceholder": "Bir yorum yaz...",
     "commentsSubmit": "Gönder",
     "commentsLoginPrompt": "Yorum yapmak için giriş yap",
@@ -131,7 +169,6 @@
     "charactersHeading": "Karakterler",
     "charactersTitleLead": "Hikâyenin",
     "charactersTitleAction": "Yüzleri.",
-    "noCharactersYet": "Henüz karakter yok.",
     "videosHeading": "Videolar",
     "videosTitleLead": "Daha Fazla",
     "videosTitleAction": "İzle.",
@@ -145,6 +182,13 @@
     "videoMute": "Sesi kapat",
     "videoUnmute": "Sesi aç",
     "videoSeek": "Zamanı ayarla",
+    "videoSettings": "Ayarlar",
+    "videoSpeedLabel": "Hız",
+    "videoSpeedNormal": "Normal",
+    "videoCaptions": "Altyazı",
+    "videoFullscreen": "Tam ekran",
+    "videoExitFullscreen": "Tam ekrandan çık",
+    "noCharactersYet": "Henüz karakter yok.",
     "characterAnalysisHeading": "Karakter Analizi",
     "backToCharacters": "← Karakterler",
     "characterBioLabel": "Karakter Biyografisi",
@@ -211,6 +255,13 @@
   "community": {
     "emptyState": "Burada henüz bir şey yok — bir konu başlatan ilk kişi sen ol.",
     "loadError": "Yüklenirken bir sorun oluştu. Lütfen tekrar dene.",
+    "mobileNav": {
+      "ariaLabel": "Community gezintisi",
+      "feed": "Akış",
+      "portals": "Portallar",
+      "menu": "Menü",
+      "signIn": "Giriş"
+    },
     "myLibrary": "Kitaplığım",
     "sidebar": {
       "theoryCount": "{{count}} teori",
@@ -218,6 +269,7 @@
       "portalsHeading": "Portallarım",
       "portalsEmpty": "Katıldığın portallar burada görünür.",
       "topPortalsHeading": "Öne Çıkan Portallar",
+      "allPortals": "Tümünü keşfet",
       "libraryHeading": "Kitaplığım",
       "liked": "Beğendiklerim",
       "saved": "Kaydettiklerim",
@@ -300,6 +352,13 @@
       "submit": "Paylaş",
       "error": "Gönderilemedi, tekrar dene."
     },
+    "portals": {
+      "crumb": "Portallar",
+      "empty": "Henüz listelenecek bir portal yok.",
+      "popular": "Popüler Portallar",
+      "searchPlaceholder": "Portal ara",
+      "noResults": "Aramana uyan portal bulunamadı."
+    },
     "portal": {
       "join": "Katıl",
       "joinShort": "+ Katıl",
@@ -380,6 +439,7 @@
       "userNotFound": "Bu kullanıcı bulunamadı.",
       "follow": "+ Takip Et",
       "following": "Takip Ediliyor",
+      "requested": "İstek Gönderildi",
       "continueReadingHeading": "Okumaya Devam Et",
       "continueCta": "Devam Et",
       "editModalTitle": "Profili Düzenle",
@@ -437,6 +497,7 @@
       "deleteError": "Liste silinemedi",
       "uploadError": "Görsel yüklenemedi",
       "saveError": "Liste kaydedilemedi",
+      "itemsSaveError": "{{count}} içerik kaydedilemedi, tekrar dene",
       "itemsHeading": "İçerikler",
       "typePickerLabel": "Bu liste hangi tür için?",
       "typePickerHint": "Ekleyebileceğin içerikleri görmek için yukarıdan bir tür seç.",
@@ -447,6 +508,8 @@
       "backToLists": "Özel Listelerim",
       "startEditing": "Listeyi düzenle",
       "finishEditing": "Düzenlemeyi bitir",
+      "startReorder": "Sırayı düzenle",
+      "orderSaveError": "Sıra kaydedilemedi, yalnız bu oturumda geçerli.",
       "dragHint": "Sürükleyerek sıralamayı değiştir",
       "removeItem": "Listeden çıkar",
       "addItemsCta": "İçerik Ekle",
@@ -473,7 +536,12 @@
       "securityHeading": "Güvenlik",
       "loginAlerts": "Giriş uyarıları",
       "newDeviceApproval": "Yeni cihaz onayı",
+      "preferencesHeading": "Tercihler",
+      "language": "Dil",
       "visibilityHeading": "Görünürlük",
+      "privateAccount": "Gizli hesap",
+      "privateAccountDesc": "Seni yalnızca onayladığın kişiler takip edebilir.",
+      "privateAccountError": "Gizlilik ayarı kaydedilemedi.",
       "publicWatchlist": "İzleme listemi herkese açık yap",
       "publicCharacters": "Favori karakterlerimi herkese açık yap",
       "cancel": "Vazgeç",

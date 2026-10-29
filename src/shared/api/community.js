@@ -65,6 +65,13 @@ export async function getPortals({ sort = 'trending', q, page = 0, size = 20 } =
   return apiClient.get(`/community/portals?${params}`);
 }
 
+// PUBLIC — topluluk üyeleri, sayfalı. Satır: { username, avatarUrl, bio,
+// accentColor, following } — `following` istek sahibine göre (oturumsuzken false).
+// Sıralama backend'de sabit; `sort` parametresi yok sayılır (teyit edildi).
+export async function getUsers({ page = 0, size = 50 } = {}) {
+  return apiClient.get(`/community/users?page=${page}&size=${size}`);
+}
+
 // AUTH — kullanıcının üye olduğu portallar, DÜZ LİSTE (sayfalama yok), hepsinde
 // isMember=true; ARCHIVED görünür, HIDDEN görünmez. Varsayılan sıra: joinedAt azalan.
 export async function getMyPortals() {

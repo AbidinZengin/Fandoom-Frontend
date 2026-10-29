@@ -12,7 +12,7 @@ import styles from './ThreadBody.module.css';
 // başlık → metin → medya mozaiği → aksiyon çubuğu. [[topluluk-spoiler]]:
 // tıkla-aç, HOVER değil — metin ve medya aynı kapının arkasında. Medya yoksa
 // FAN_ART için kesik çerçeveli "beklemede" iskeleti durur (learned-rules [veri]).
-export function ThreadBody({ thread }) {
+export function ThreadBody({ thread, onCommentsClick }) {
   const { t } = useTranslation();
   const [revealed, setRevealed] = useState(!thread.spoilerFlagged);
   const hasMedia = thread.media?.length > 0;
@@ -46,7 +46,7 @@ export function ThreadBody({ thread }) {
         ? revealed && <ThreadMedia media={thread.media} />
         : thread.surface === 'FAN_ART' && <div className={styles.threadBody__placeholder} aria-hidden="true" />}
 
-      <ThreadActions thread={thread} shareUrl={window.location.href} />
+      <ThreadActions thread={thread} shareUrl={window.location.href} onCommentsClick={onCommentsClick} />
     </article>
   );
 }

@@ -48,6 +48,14 @@
   }
 }
 
+/* Akış gövdesi (liste/iskelet/boş durum + "daha fazla"): tür geçişinde tek
+   parça animasyon alır; boşluk, orta sütunun (communityLayout__main) gap'iyle aynı. */
+.feed__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
 .feed__list {
   display: flex;
   flex-direction: column;

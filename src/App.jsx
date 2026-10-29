@@ -8,6 +8,7 @@ import CommunityLayout from './pages/Community/CommunityLayout';
 import Feed from './pages/Community/Feed/Feed';
 import ThreadDetail from './pages/Community/ThreadDetail/ThreadDetail';
 import Portal from './pages/Community/Portal/Portal';
+import PortalsIndex from './pages/Community/PortalsIndex/PortalsIndex';
 import ProfileView from './pages/Community/ProfileView/ProfileView';
 import UserProfile from './pages/Community/UserProfile/UserProfile';
 import Library from './pages/Community/Library/Library';
@@ -254,6 +255,7 @@ function App() {
                   `:entity` rotası, public `/:lang/series/:slug` ile (lang=admin) puan eşitliğine
                   düşüp ana sayfaya yönleniyordu. Yeni üst-seviye varlık = buraya bir satır. */}
               <Route path="series/*" element={<AdminEntityRoute />} />
+              <Route path="movies/*" element={<AdminEntityRoute />} />
             </Route>
             <Route element={<AdminLayout />}>
               <Route path="/admin/series-hero" element={<SeriesHeroList />} />
@@ -397,12 +399,12 @@ function App() {
             <Route element={<CommunityLayout />}>
               <Route path="community" element={<Feed />} />
               <Route path="community/profile" element={<ProfileView />} />
-              <Route path="community/discussion" element={<Feed surface="DISCUSSION" />} />
               <Route path="community/u/:username" element={<UserProfile />} />
               <Route path="community/library/:tab" element={<Library />} />
               <Route path="community/lists" element={<Lists />} />
               <Route path="community/lists/:id" element={<ListDetailPage />} />
               <Route path="community/settings" element={<Settings />} />
+              <Route path="community/discussion" element={<Feed surface="DISCUSSION" />} />
               <Route path="community/theories" element={<Feed surface="THEORY" />} />
               <Route path="community/fan-art" element={<Feed surface="FAN_ART" />} />
               {/* Thread detay — layout İÇİNDE: sol/sağ menü sabit kalır, yalnız
@@ -410,6 +412,7 @@ function App() {
                   Birincil: hibrit URL (id ile sorgulanır, slug süs). Eski
                   /community/<yüzey>/:slug linkleri ThreadDetail'de kanonik
                   URL'e replace edilir — paylaşılmış linkler kırılmaz. */}
+              <Route path="portal" element={<PortalsIndex />} />
               <Route path="portal/:portalSlug" element={<Portal />} />
               <Route path="portal/:portalSlug/post/:idSlug" element={<ThreadDetail />} />
               <Route path="community/discussion/:slug" element={<ThreadDetail />} />

@@ -1,0 +1,106 @@
+/* Yalnız mobilde (≤768px, Community kırılımı) — alt kenarda yüzen cam ada.
+   Apple tab bar dili: yarı saydam koyu zemin + arka plan bulanıklığı, ince
+   iç çizgi, aktif öğe yumuşak yarı saydam kapsül (düz renkli pill DEĞİL).
+   z-index çekmece (50) ve backdrop'un (45) altında: menü açılınca bar arkada kalır. */
+.mobileNav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobileNav {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--space-md) + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 40;
+    display: flex;
+    gap: var(--space-2xs);
+    max-width: calc(100vw - var(--space-lg));
+    padding: var(--space-2xs);
+    border-radius: var(--radius-pill);
+    background: rgba(28, 28, 30, 0.62);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 12px 32px -8px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .mobileNav__item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 64px;
+    padding: var(--space-xs) var(--space-md);
+    border: none;
+    border-radius: var(--radius-pill);
+    background: none;
+    font-family: inherit;
+    font-size: var(--text-2xs);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.55);
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      color var(--duration-fast) ease,
+      background var(--duration-fast) ease,
+      transform var(--duration-micro) ease;
+  }
+
+  .mobileNav__item:active {
+    transform: scale(0.94);
+  }
+
+  .mobileNav__item[data-active] {
+    color: var(--white);
+  }
+
+  /* Kayan aktif pill (Feed SegmentedControl deseni): ölçüsü JS'ten
+     --pill-x/--pill-w ile gelir, transition yalnız data-ready sonrası
+     açılır (ilk konum animasyonsuz). */
+  .mobileNav__pill {
+    position: absolute;
+    top: var(--space-2xs);
+    bottom: var(--space-2xs);
+    left: 0;
+    width: var(--pill-w, 0);
+    transform: translateX(var(--pill-x, 0));
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.16);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .mobileNav[data-pill] .mobileNav__pill {
+    opacity: 1;
+  }
+
+  .mobileNav[data-ready='true'] .mobileNav__pill {
+    transition:
+      transform 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+      width 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+      opacity var(--duration-fast) ease;
+  }
+
+  .mobileNav__item:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: -2px;
+  }
+
+  .mobileNav__icon {
+    display: flex;
+    font-size: var(--text-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileNav__item,
+  .mobileNav[data-ready='true'] .mobileNav__pill {
+    transition: none;
+  }
+}

@@ -1,0 +1,253 @@
+/* Nötr palet (Community yüzeyleri): --accent varsayılanı mor olduğu için
+   arama hiçbir yerde accent kullanmaz (kullanıcı kararı: ana sayfada mor yok). */
+
+.searchbox {
+  position: relative;
+}
+
+.searchbox__field {
+  position: relative;
+}
+
+.searchbox__icon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-sm);
+  transform: translateY(-50%);
+  color: var(--fg-muted);
+  pointer-events: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.searchbox__field:focus-within .searchbox__icon {
+  color: var(--searchbox-accent, var(--fg));
+}
+
+.searchbox__input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--fg);
+  font-family: inherit;
+  transition: width var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.searchbox__input:focus {
+  outline: none;
+  /* Yapım sayfasında yapımın accent'i, ana sayfada nötr. */
+  border-color: var(--searchbox-accent, var(--border-card-hover));
+}
+
+.searchbox__input::placeholder {
+  color: var(--fg-muted);
+}
+
+/* Tarayıcının kendi temizleme çarpısı koyu zeminde kaybolan mavi bir ikon. */
+.searchbox__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* ── bar: masaüstü navbar ── */
+.searchbox--bar .searchbox__input {
+  width: 190px;
+  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-xl);
+  font-size: var(--text-sm);
+}
+
+.searchbox--bar .searchbox__input:focus {
+  width: 240px;
+}
+
+/* Yüzen cam panel — EpisodeBrief `.brief__genrePill` glassmorfik deseninin
+   panel uyarlaması (learned-rules: yeni yüzeyler glassmorfik). Pill'den
+   daha koyu tint: uzun liste metni okunmalı. Halka ::before'da olduğu için
+   scroll içteki __scroll'da, panel taşmayı kırpar. */
+.searchbox--bar .searchbox__panel,
+.searchbox--inline .searchbox__panel {
+  position: absolute;
+  top: calc(100% + var(--space-md));
+  right: 0;
+  width: 380px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  /* Beyaz cam katmanı YOK — koyu zemin üstünde griye dönüyordu (kullanıcı:
+     "çirkin gri"). Navbar'ın koyu tint'i + blur: arkadaki renk sızar,
+     yüzey gri değil derin kalır. */
+  background: rgba(5, 5, 5, 0.45);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 4px 14px rgba(0, 0, 0, 0.3);
+  transform-origin: top right;
+  animation: searchbox-float-in var(--duration-micro) ease-out;
+}
+
+.searchbox--bar .searchbox__panel::before,
+.searchbox--inline .searchbox__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.04) 40%,
+    rgba(255, 255, 255, 0.04) 60%,
+    rgba(255, 255, 255, 0.14) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.searchbox--bar .searchbox__scroll,
+.searchbox--inline .searchbox__scroll {
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  padding: var(--space-xs);
+  scrollbar-width: thin;
+}
+
+@keyframes searchbox-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .searchbox--bar .searchbox__panel,
+  .searchbox--inline .searchbox__panel {
+    animation: none;
+  }
+}
+
+/* ── inline: mobil navbar — kutu yana doğru açılır, genişliği kabı doldurur;
+   sonuçlar masaüstüyle aynı cam panelde, kabın tam genişliğinde açılır ── */
+.searchbox--inline {
+  flex: 1;
+  min-width: 0;
+}
+
+.searchbox--inline .searchbox__input {
+  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-xl);
+  font-size: var(--text-sm);
+}
+
+.searchbox--inline .searchbox__panel {
+  left: 0;
+  right: 0;
+  width: auto;
+  transform-origin: top center;
+}
+
+/* ── içerik ── */
+.searchbox__group {
+  margin: 0;
+  padding: var(--space-sm) var(--space-sm) var(--space-2xs);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.searchbox__hit {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  color: var(--fg-dim);
+  text-decoration: none;
+  transition: background var(--duration-micro) ease;
+}
+
+.searchbox__hit[data-active],
+.searchbox__all[data-active] {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--white);
+}
+
+.searchbox__thumb {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  /* Poster oranı (2:3) — katalog kartlarının diliyle aynı. */
+  width: 36px;
+  height: 54px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  color: var(--fg-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.searchbox__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.searchbox__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.searchbox__title {
+  overflow: hidden;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.searchbox__subtitle {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+
+.searchbox__empty {
+  margin: 0;
+  padding: var(--space-md) var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.searchbox__all {
+  display: block;
+  margin-top: var(--space-2xs);
+  padding: var(--space-sm);
+  border-top: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+  text-decoration: none;
+}
+
+/* ── yapım accent'i (yalnız yapım sayfalarında; ana sayfada nötr) ── */
+.searchbox[data-accent] .searchbox__panel::before {
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--searchbox-accent) 70%, transparent) 0%,
+    rgba(255, 255, 255, 0.04) 45%,
+    rgba(255, 255, 255, 0.04) 60%,
+    color-mix(in srgb, var(--searchbox-accent) 35%, transparent) 100%
+  );
+}
+
+.searchbox[data-accent] .searchbox__hit[data-active],
+.searchbox[data-accent] .searchbox__all[data-active] {
+  background: color-mix(in srgb, var(--searchbox-accent) 16%, transparent);
+}

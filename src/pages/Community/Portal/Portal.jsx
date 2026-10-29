@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../../shared/i18n/LocalizedLink';
 import { useLocalizedNavigate } from '../../../shared/i18n/useLocalizedNavigate';
 import { getStoredAuth } from '../../../shared/api/authStorage';
+import { Breadcrumb } from '../Breadcrumb/Breadcrumb';
 import Feed from '../Feed/Feed';
 import { useMyPortalsStore } from '../useMyPortalsStore';
 import { FeedSkeleton } from '../Feed/FeedSkeleton/FeedSkeleton';
@@ -111,11 +112,24 @@ export default function Portal() {
   // accentColor'lı portal: orta sütunun TÜM içeriği tek bir radius'lu panelde
   // toplanır; sis panelin içinde tepeden aşağı erir (Spotify çalma listesi düzeni).
   // accentColor'suz portallar eski akışta kalır.
-  return themeColor ? (
-    <div className={styles.portal__panel} style={{ '--portal-theme': themeColor }}>
-      {content}
-    </div>
-  ) : (
-    content
+  // Fragment: breadcrumb ve içerik `<main>`'in doğrudan çocuğu kalır (route
+  // geçişinde yalnız içerik fade'lenir, breadcrumb sabit — bkz. Breadcrumb).
+  return (
+    <>
+      <Breadcrumb
+        items={[
+          { label: t('navbar.community'), to: '/community' },
+          { label: t('community.portals.crumb'), to: '/portal' },
+          { label: portal.name },
+        ]}
+      />
+      {themeColor ? (
+        <div className={styles.portal__panel} style={{ '--portal-theme': themeColor }}>
+          {content}
+        </div>
+      ) : (
+        content
+      )}
+    </>
   );
 }

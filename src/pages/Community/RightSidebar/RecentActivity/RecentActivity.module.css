@@ -33,6 +33,16 @@
   border-bottom: none;
 }
 
+.recentActivity__link {
+  display: block;
+}
+
+@media (hover: hover) {
+  .recentActivity__link:hover .recentActivity__thread {
+    color: var(--fg);
+  }
+}
+
 .recentActivity__line {
   margin: 0;
   font-size: var(--text-sm);

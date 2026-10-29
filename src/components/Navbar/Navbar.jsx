@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LocalizedLink as Link } from '../../shared/i18n/LocalizedLink';
@@ -6,7 +6,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FandoomLogo } from '../FandoomLogo/FandoomLogo';
 import { registerNavbarHide } from '../../motion/cinematic';
-import { LanguageSwitcher } from './LanguageSwitcher/LanguageSwitcher';
+import { getStoredAuth } from '../../shared/api/authStorage';
+import { SearchBox } from './SearchBox/SearchBox';
+import { NotificationBell } from './NotificationBell/NotificationBell';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
@@ -33,13 +35,59 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
   const overlayRef = useRef(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const closingRef = useRef(false);
+  const mobileSearchRef = useRef(null);
   const { pathname } = useLocation();
   const { t } = useTranslation();
 
   // Menüden bir linke gidilince overlay kendi kendine kapanır.
   useEffect(() => {
     setMenuOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
+
+  // Mobil arama şeridi açılınca kutuya odaklanır; Esc ya da şeridin dışına
+  // dokunmak kapatır.
+  useEffect(() => {
+    if (!searchOpen) return undefined;
+    mobileSearchRef.current?.querySelector('input')?.focus();
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setSearchOpen(false);
+    };
+    const handlePointerDown = (event) => {
+      if (!mobileSearchRef.current?.contains(event.target)) setSearchOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [searchOpen]);
+
+  // Yavaş, animasyonlu kapanış: overlay yukarı kayıp solar, bitince unmount
+  // edilir (reduced-motion'da anında). Kapat butonu ve Escape buradan geçer.
+  const closeMenu = useCallback(() => {
+    const overlay = overlayRef.current;
+    if (!overlay || closingRef.current) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setMenuOpen(false);
+      return;
+    }
+    closingRef.current = true;
+    gsap.to(overlay, {
+      clipPath: 'inset(0% 0% 100% 0%)',
+      duration: 0.8,
+      ease: 'power3.inOut',
+      overwrite: true,
+      onComplete: () => {
+        closingRef.current = false;
+        setMenuOpen(false);
+      },
+    });
+  }, []);
 
   // Overlay açıkken arkadaki sayfa kaymaz; Escape kapatır.
   useEffect(() => {
@@ -49,7 +97,7 @@ export function Navbar() {
     document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') setMenuOpen(false);
+      if (event.key === 'Escape') closeMenu();
     };
     window.addEventListener('keydown', handleKeyDown);
 
@@ -57,10 +105,12 @@ export function Navbar() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [menuOpen]);
+  }, [menuOpen, closeMenu]);
 
-  // Menü öğeleri kademeli girer — utility register (0.35s), Hero/Intro'nun
-  // sinematik temposu değil: menü gezinme aracıdır, sahne değil.
+  // Overlay yukarıdan perde gibi açılır (clip-path, 0.9s inOut), öğeler ardından
+  // kademeli girer. Kullanıcı isteği (2026-10-29): menü yavaş açılıp kapanmalı.
+  // Neden opacity/kayma DEĞİL: saydam geçişte arkadaki Navbar ile menü başlığı
+  // üst üste binip çift logo/ikon gösteriyordu; opak perde alttakini örter.
   useEffect(() => {
     if (!menuOpen) return undefined;
 
@@ -68,12 +118,18 @@ export function Navbar() {
       const mm = gsap.matchMedia();
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.fromTo(
+          overlayRef.current,
+          { clipPath: 'inset(0% 0% 100% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'power3.inOut', clearProps: 'clipPath' },
+        );
         gsap.from('[data-menu-item]', {
           opacity: 0,
           y: 24,
-          duration: 0.35,
+          duration: 0.7,
           ease: 'power2.out',
-          stagger: 0.06,
+          stagger: 0.1,
+          delay: 0.4,
         });
       });
     }, overlayRef);
@@ -209,13 +265,30 @@ export function Navbar() {
         </nav>
 
         <div className={styles.navbar__actions}>
-          <input
-            className={styles.navbar__search}
-            type="search"
-            placeholder={t('navbar.searchPlaceholder')}
-          />
-          <LanguageSwitcher />
-          <Link to="/account" className={styles.navbar__icon} aria-label={t('navbar.accountAriaLabel')}>
+          <div className={styles.navbar__search}>
+            <SearchBox />
+          </div>
+          {/* Yalnız ≤900px: masaüstündeki arama kutusunun yerine ikon; dokununca
+              ekranı kaplayan arama sayfası açılır. */}
+          <button
+            type="button"
+            className={`${styles.navbar__icon} ${styles.navbar__searchButton}`}
+            onClick={() => setSearchOpen(true)}
+            aria-label={t('navbar.searchPlaceholder')}
+            aria-haspopup="dialog"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="M20 20l-4.2-4.2" strokeLinecap="round" />
+            </svg>
+          </button>
+          <NotificationBell />
+          {/* Ayrı hesap sayfası yok: oturum açıksa profile, değilse giriş kapısına. */}
+          <Link
+            to={getStoredAuth()?.token ? '/community/profile' : '/account'}
+            className={styles.navbar__icon}
+            aria-label={t('navbar.accountAriaLabel')}
+          >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6">
               <circle cx="12" cy="8" r="3.4" />
               <path d="M4.5 19.5c1.6-3.3 4.4-5 7.5-5s5.9 1.7 7.5 5" strokeLinecap="round" />
@@ -235,6 +308,27 @@ export function Navbar() {
             </svg>
           </button>
         </div>
+        {/* Yalnız ≤900px: arama ikonuna basınca navbar satırının tamamını kaplayan
+            şerit sağdan sola doğru açılır (masaüstü kutusuyla aynı SearchBox,
+            sonuçlar aynı cam panelde). Kapalıyken inert: odaklanılamaz. */}
+        <div
+          className={styles.navbar__mobileSearch}
+          ref={mobileSearchRef}
+          data-open={searchOpen || undefined}
+          inert={!searchOpen}
+        >
+          <SearchBox variant="inline" />
+          <button
+            type="button"
+            className={styles.navbar__mobileSearchClose}
+            onClick={() => setSearchOpen(false)}
+            aria-label={t('navbar.closeSearch')}
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
       </header>
 
       {/* Overlay header'ın DIŞINDA: navbar'a GSAP transform uygulanıyor ve
@@ -246,11 +340,10 @@ export function Navbar() {
             <Link to="/" className={styles.navbar__logo} aria-label={t('navbar.homeAriaLabel')}>
               <FandoomLogo showTagline={false} scale={0.16} />
             </Link>
-            <LanguageSwitcher />
             <button
               type="button"
               className={styles.navbar__close}
-              onClick={() => setMenuOpen(false)}
+              onClick={closeMenu}
               aria-label={t('navbar.closeMenuAriaLabel')}
             >
               <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -258,13 +351,6 @@ export function Navbar() {
               </svg>
             </button>
           </div>
-
-          <input
-            className={styles['navbar__overlay-search']}
-            type="search"
-            placeholder={t('navbar.searchPlaceholder')}
-            data-menu-item
-          />
 
           <nav className={styles['navbar__overlay-nav']}>
             {NAV_LINKS.map((item) => (
@@ -292,6 +378,7 @@ export function Navbar() {
           </nav>
         </div>
       )}
+
     </>
   );
 }

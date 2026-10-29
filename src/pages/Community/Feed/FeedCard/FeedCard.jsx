@@ -10,6 +10,7 @@ import { ThreadMenu } from '../../ThreadMenu/ThreadMenu';
 import { ThreadMedia } from '../../ThreadMedia/ThreadMedia';
 import { ThreadActions } from '../../ThreadActions/ThreadActions';
 import { RichText } from '../../RichText/RichText';
+import { Comments } from '../../../../components/Comments/Comments';
 import { StarIcon } from '../../ThreadIcons';
 import styles from './FeedCard.module.css';
 
@@ -28,6 +29,8 @@ export function FeedCard({ thread, featured = false, enterDelay = 0 }) {
   const lang = useLang();
   const excerptRef = useRef(null);
   const [revealed, setRevealed] = useState(!thread.spoilerFlagged);
+  const [commentsOpen, setCommentsOpen] = useState(false);
+  const [commentsMounted, setCommentsMounted] = useState(false);
   // Özet 3 satıra sığmayıp kesildiyse alt kenarı soldurulur; genişlik değişince
   // (responsive) yeniden ölçülür.
   const [truncated, setTruncated] = useState(false);
@@ -91,7 +94,24 @@ export function FeedCard({ thread, featured = false, enterDelay = 0 }) {
       {/* Link'in DIŞINDA: galeri/video/+N butonları anchor içinde iç içe interaktif olmasın. */}
       {showMedia && <ThreadMedia media={thread.media} />}
 
-      <ThreadActions thread={thread} shareUrl={shareUrl} />
+      <ThreadActions
+        thread={thread}
+        shareUrl={shareUrl}
+        commentsExpanded={commentsOpen}
+        onCommentsClick={() => {
+          setCommentsMounted(true);
+          setCommentsOpen((open) => !open);
+        }}
+      />
+
+      {/* Panel hep DOM'da (0fr), açılışta yüksekliği yumuşakça açılır; Comments içeriği ise
+          ilk açılışta mount olur — kart başına otomatik fetch (N+1) yok. Kapanınca
+          unmount edilmez (yeniden açılışta taslak/liste kaybolmaz), inert ile erişilemez. */}
+      <div className={styles.feedCard__comments} data-open={commentsOpen} inert={!commentsOpen}>
+        <div className={styles.feedCard__commentsInner}>
+          {commentsMounted && <Comments subjectType="THREAD" subjectId={thread.id} variant="neutral" />}
+        </div>
+      </div>
     </article>
   );
 }

@@ -160,11 +160,35 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.4) 45%, rgba(0, 0, 0, 0.05) 100%);
 }
 
-.detail__editToggle {
+/* Gömülü kip (Community): hero + açıklama + öğe grid'i tek panelde toplanır;
+   panelin zemini kapağın canlı baskın renginden (--panel-accent, 'r,g,b') siyaha
+   (--surface-0) erir — portal atmosfer paneliyle (Portal.module.css) aynı dil.
+   Renk yalnız tepede ortam ışığıdır, aşağı indikçe siyah zemine yerleşir.
+   448px = --space-3xl * 7. Account'ta (gömülü değil) panel şeffaf kalır. */
+.detail[data-embedded] .detail__panel {
+  --panel-fade: calc(var(--space-3xl) * 7);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(to bottom, rgb(var(--panel-accent)) 0%, var(--surface-0) var(--panel-fade));
+  transition: background var(--duration-slow) ease;
+}
+
+@media (max-width: 768px) {
+  .detail[data-embedded] .detail__panel {
+    padding: var(--space-md);
+  }
+}
+
+.detail__heroTools {
   position: absolute;
   top: var(--space-md);
   right: var(--space-md);
   z-index: 2;
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.detail__editToggle {
   width: 40px;
   height: 40px;
   display: grid;
@@ -187,6 +211,10 @@
   color: var(--bg);
 }
 
+.detail__editToggle:disabled {
+  opacity: 0.4;
+}
+
 .detail__heroBottom {
   position: absolute;
   bottom: var(--space-lg);
@@ -204,18 +232,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-}
-
-.detail__visibility {
-  align-self: flex-start;
-  margin-bottom: var(--space-2xs);
-  padding: var(--space-2xs) var(--space-sm);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--fg);
 }
 
 .detail__title {
@@ -283,10 +299,36 @@
   line-height: 1.7;
 }
 
-.detail__editHint {
+.detail__reorderBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
   margin: 0 0 var(--space-md);
+}
+
+.detail__editHint {
+  margin: 0;
   font-size: var(--text-sm);
   color: var(--fg-muted);
+}
+
+.detail__reorderCancel {
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.detail__orderError {
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--fg-dim);
 }
 
 .detail__empty {
@@ -302,31 +344,4 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: var(--space-lg);
-}
-
-.detail__addCard button {
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  border: 1.5px dashed rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--fg-muted);
-  font-size: var(--text-xs);
-  transition: border-color var(--duration-fast) ease, background var(--duration-fast) ease, color var(--duration-fast) ease;
-}
-
-.detail__addCard button:hover {
-  border-color: rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--fg);
-}
-
-.detail__addCard svg {
-  width: 28px;
-  height: 28px;
 }

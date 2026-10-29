@@ -49,7 +49,8 @@ export function CustomListsSection({ listBasePath = '/account/lists' }) {
   // (list.dominantType), submit sadece meta günceller.
   const handleSubmit = async (fields, chosenType) => {
     if (editorList) {
-      await editCustomList(editorList.id, fields);
+      // Modal yalnız değişen alanları gönderir; boşsa (sadece içerik değişti) PATCH atılmaz.
+      if (Object.keys(fields).length > 0) await editCustomList(editorList.id, fields);
       setEditorList(undefined);
       refresh();
       notifyListsChanged();

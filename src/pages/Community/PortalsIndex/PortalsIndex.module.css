@@ -1,0 +1,309 @@
+.portalsIndex {
+  --portal-card-width: calc(var(--space-3xl) * 4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.portalsIndex__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.portalsIndex__subheading {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--fg);
+}
+
+.portalsIndex__search {
+  flex: 1;
+  min-width: 0;
+  max-width: calc(var(--space-3xl) * 5);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-card);
+  background: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--text-sm);
+}
+
+.portalsIndex__search::placeholder {
+  color: var(--fg-muted);
+}
+
+.portalsIndex__search:focus-visible {
+  outline: none;
+  border-color: var(--fg);
+}
+
+.portalsIndex__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.portalsIndex__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.portalsIndex__message {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+/* ---- Büyük vitrin kartı (General Chat): banner/rengi yok → koyu soft mesh ----
+   Marka gradyanının (--brand-gradient) kırmızı/mor tonları, siyah zemine eritilmiş
+   radyal lekeler olarak kullanılır; carousel kartlarının koyu tonlarıyla aynı ailede. */
+.portalsIndex__featured {
+  position: relative;
+  display: flex;
+  min-height: calc(var(--space-3xl) * 4);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-0);
+  background-image:
+    radial-gradient(ellipse at 15% 20%, color-mix(in srgb, var(--brand-red) 32%, transparent), transparent 55%),
+    radial-gradient(ellipse at 85% 85%, color-mix(in srgb, var(--brand-purple) 34%, transparent), transparent 55%),
+    radial-gradient(ellipse at 60% 10%, color-mix(in srgb, var(--brand-blue) 18%, transparent), transparent 50%);
+  border: 1px solid var(--border-card);
+  overflow: hidden;
+}
+
+.portalsIndex__featuredLink {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  padding: var(--space-lg);
+  padding-right: calc(var(--space-3xl) * 2);
+}
+
+.portalsIndex__featuredName {
+  font-size: var(--text-h2);
+  font-weight: 800;
+  color: var(--white);
+}
+
+.portalsIndex__featuredDescription {
+  max-width: calc(var(--space-3xl) * 8);
+  font-size: var(--text-base);
+  color: var(--white);
+}
+
+.portalsIndex__featuredJoin {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+/* ---- Carousel ---- */
+/* Hiç eşleşme yokken şerit yükseklikte de kapanır (0fr hilesi: auto yükseklik
+   geçişi yok); mesaj boş bir kartlık alanın altında kalmasın. */
+.portalsIndex__carousel {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows var(--duration-base) ease,
+    opacity var(--duration-base) ease;
+}
+
+.portalsIndex__carousel[data-empty] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portalsIndex__carousel {
+    transition: none;
+  }
+}
+
+/* overflow-x:auto yanına overflow-y:visible (learned-rules carousel kuralı);
+   kenar boşlukları scroll-snap hizası için. */
+.portalsIndex__viewport {
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.portalsIndex__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.portalsIndex__track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--space-md);
+}
+
+/* Renkli görsel kart: banner tam kapak, alttan accentColor'a eriyen gradyan
+   (metin zemini). Banner/renk yoksa --surface-0'a düşer. */
+/* Slot: süzmede daralıp açılan kap. İç kart sabit genişlikte kalır (sıkışmaz,
+   yalnız kırpılır); gap'i telafi için kapalıyken negatif margin. */
+.portalsIndex__slot {
+  flex: none;
+  width: var(--portal-card-width);
+  overflow: hidden;
+  scroll-snap-align: start;
+  border-radius: var(--radius-lg);
+  transition:
+    width var(--duration-base) ease,
+    margin-right var(--duration-base) ease,
+    opacity var(--duration-base) ease;
+}
+
+.portalsIndex__slot[data-hidden] {
+  width: 0;
+  margin-right: calc(var(--space-md) * -1);
+  opacity: 0;
+  scroll-snap-align: none;
+}
+
+.portalsIndex__card {
+  position: relative;
+  width: var(--portal-card-width);
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--portal-theme, var(--surface-2));
+  background-image: var(--portal-banner, none);
+  background-size: cover;
+  background-position: center;
+}
+
+.portalsIndex__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--portal-theme, var(--surface-0)) 0%,
+    color-mix(in srgb, var(--portal-theme, var(--surface-0)) 60%, transparent) 45%,
+    transparent 75%
+  );
+  pointer-events: none;
+}
+
+.portalsIndex__card[data-skeleton] {
+  background: none;
+  border: 1px dashed var(--border-card);
+}
+
+.portalsIndex__card[data-skeleton]::before {
+  display: none;
+}
+
+.portalsIndex__featured[data-skeleton] {
+  background: none;
+  border: 1px dashed var(--border-card);
+}
+
+.portalsIndex__featured[data-skeleton]::before {
+  display: none;
+}
+
+.portalsIndex__cardLink {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-md);
+}
+
+.portalsIndex__cardText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.portalsIndex__cardJoin {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+.portalsIndex__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--white);
+}
+
+.portalsIndex__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  color: var(--white);
+}
+
+.portalsIndex__stats {
+  font-size: var(--text-xs);
+  color: var(--white);
+  opacity: 0.8;
+}
+
+/* Minik birincil CTA: solid beyaz (learned-rules [topluluk-görsel]); üyeyken çerçeveli. */
+.portalsIndex__join {
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--white);
+  background: var(--white);
+  color: var(--bg);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.portalsIndex__join[data-joined] {
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--white);
+}
+
+@media (hover: hover) {
+  .portalsIndex__cardLink:hover .portalsIndex__name,
+  .portalsIndex__featuredLink:hover .portalsIndex__featuredName {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 768px) {
+  .portalsIndex__featuredLink {
+    padding-right: var(--space-lg);
+    padding-top: calc(var(--space-3xl));
+  }
+
+  .portalsIndex {
+    --portal-card-width: calc(var(--space-3xl) * 3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portalsIndex__slot {
+    transition: none;
+  }
+}

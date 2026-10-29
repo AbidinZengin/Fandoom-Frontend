@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ProfileSection } from '../ProfileView/ProfileSection/ProfileSection';
 import { getStoredAuth } from '../../../shared/api/authStorage';
 import { useLocalizedNavigate } from '../../../shared/i18n/useLocalizedNavigate';
+import { toFollowStatus } from '../../../shared/follow/followState';
 import { getUserProfile, getMyProfile, getFollowStatus, setFollowing } from './UserProfile.data';
 import styles from './UserProfile.module.css';
 
@@ -18,7 +19,7 @@ export default function UserProfile() {
   const navigate = useLocalizedNavigate();
   const [user, setUser] = useState(null);
   const [isSelf, setIsSelf] = useState(false);
-  const [following, setFollowingState] = useState(false);
+  const [followStatus, setFollowStatus] = useState('NONE');
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function UserProfile() {
         if (cancelled) return;
         setUser(profile);
         setIsSelf(Boolean(me) && me.username === profile.username);
-        setFollowingState(follow.following);
+        setFollowStatus(toFollowStatus(follow));
         setStatus('ready');
       })
       .catch(() => {
@@ -48,20 +49,27 @@ export default function UserProfile() {
       navigate('/account');
       return;
     }
-    const next = !following;
-    // Takipçi sayacı da optimistic oynar; sunucunun followerCount'u gelince
-    // gerçek değere eşitlenir, hata olursa geri alınır.
+    const prev = followStatus;
+    // NONE → takip et (gizli profilde istek), FOLLOWING/REQUESTED → bırak/geri çek.
+    // İyimser tahmin profilin isPrivate'ından gelir, sunucu yanıtı kesinleştirir.
+    const next = prev === 'NONE' ? (user.isPrivate ? 'REQUESTED' : 'FOLLOWING') : 'NONE';
+    // Takipçi sayacı yalnız onaylı takipte oynar (istek sayıya girmez); sunucunun
+    // followerCount'u gelince gerçek değere eşitlenir, hata olursa geri alınır.
     const bumpFollowers = (delta) =>
       setUser((u) => (u.followerCount == null ? u : { ...u, followerCount: Math.max(0, u.followerCount + delta) }));
-    setFollowingState(next);
-    bumpFollowers(next ? 1 : -1);
+    const bumpFor = (from, to) => {
+      if (to === 'FOLLOWING') bumpFollowers(1);
+      else if (from === 'FOLLOWING') bumpFollowers(-1);
+    };
+    setFollowStatus(next);
+    bumpFor(prev, next);
     try {
-      const res = await setFollowing(user.username, next);
-      setFollowingState(res.following);
+      const res = await setFollowing(user.username, prev === 'NONE');
+      setFollowStatus(prev === 'NONE' ? toFollowStatus(res) : 'NONE');
       if (res.followerCount != null) setUser((u) => ({ ...u, followerCount: res.followerCount }));
     } catch {
-      setFollowingState(!next);
-      bumpFollowers(next ? -1 : 1);
+      setFollowStatus(prev);
+      bumpFor(next, prev);
     }
   };
 
@@ -75,7 +83,7 @@ export default function UserProfile() {
       user={user}
       isSelf={isSelf}
       onProfileUpdate={setUser}
-      following={following}
+      followStatus={followStatus}
       onToggleFollow={handleToggleFollow}
     />
   );
