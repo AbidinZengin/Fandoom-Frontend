@@ -363,6 +363,7 @@ birebir korunur ki site tek dille konuşsun.
 
 ### Renk
 
+- **[renk]** Home BlogSpotlight'ta brand-gradient KULLANILMAZ (aktif kart çizgisi dahil) — kullanıcı: "bir daha o branding gradient rengi kullanmayacaksın". Aktiflik beyaz/nötr çerçeve ve metin tonuyla gösterilir. Aynı dosyada full-bleed dev manşet + dev başlık denemesi ("aşırı büyümüş image") reddedildi, manşet kart içinde kalır. _(2026-10, Home/BlogSpotlight — kullanıcı düzeltmesi)_
 - **[renk]** brand-gradient başlıklarda yalnızca kilit noktalarda
   kullanılır (hero başlığı, tekil vurgu kelimesi) — her section
   başlığına yayılmaz, nadirliği değerini korur. _(2026-07, tercih anketi)_
@@ -379,6 +380,17 @@ birebir korunur ki site tek dille konuşsun.
   anketi; 2026-07 GoT zemin düzeltmesiyle güncellendi)_
 
 ### Yüzey & Etkileşim
+
+- **[yüzey]** Görsel üstünde açılan açılır paneller (arama dropdown'u vb.) ne opak
+  siyah (`--card-bg`) ne de beyaz-alfa cam katmanlı (koyu zeminde "çirkin gri")
+  olur: tetikleyiciden boşlukla ayrılan YÜZEN panel, navbar'ın koyu tint'i
+  (`rgba(5,5,5,~0.45)`) + `backdrop-filter: blur saturate` (brightness YOK),
+  ince sönük gradient halka, derin yumuşak gölge, `--radius-lg`, kısa float-in;
+  satır hover'ı çok hafif beyaz-alfa (~0.06), thumbnail'lar poster oranında (2:3).
+  _(2026-10, Navbar SearchBox)_
+- **[etkileşim]** Arama panelinde boş durum ("sonuç yok") ile "tüm sonuçlar"
+  satırı AYNI ANDA görünmez; "tüm sonuçlar" yalnız sonuç varken çıkar.
+  _(2026-10, Navbar SearchBox)_
 
 - **[yüzey]** Kart/yüzey karakteri yumuşak + parlaktır: belirgin
   radius, hafif glow/gölge — keskin köşeli editoryal stil değil.
@@ -450,6 +462,7 @@ birebir korunur ki site tek dille konuşsun.
   ambient katman + net kart + kartın kendi okunabilirlik perdesi) artık
   bu tekniğin GENEL kuralı — sadece Billboard'a özel değil. _(2026-08,
   kullanıcı kararı, referans: Pinterest "Dark" UI konsepti)_
+- **[etkileşim]** Home PosterWall: sağ yarıda başlık + ALTINDA normal boyutlu TEK pill buton (`/series`, şimdilik); başlık bloğu SAĞA yaslı; başlık BÜYÜK HARF, kalın, İKİ SATIR — üst satır gri (`--fg-muted`), alt satır beyaz (referans: 'AYNI ÇİZGİDE / DAHA FAZLASI.' ekran görüntüsü). Buton deseni: şeffaf zemin + 2px beyaz kenar + `--radius-pill`, hover'da beyaz dolgu + koyu metin, sonunda projenin ortak ok ikonu (Movies hero ArrowIcon), TIKLANINCA ok ileri kayar — glassmorfik DEĞİL, düz beyaz dolgu da DEĞİL. Poster hover'da parıltı verir; tıklanınca kart rotateY 360 ile SOL yuvaya iner (kart büyür: ekranın sol yarısını nerdeyse doldurur, boy ~min(68vh,60vw)), altında aynı desende 'Explore <yapım>' butonu çıkar (kapat: Esc / boş alan). _(2026-10, Home/PosterWall — kullanıcı kararı)_ Metin: slogan/ürün-reklamı tonu REDDEDİLDİ (kullanıcı: 'çok AI', 'ürün reklamı gibi'); atmosfer veren, uzun, hikâye anlatır cümle + altında tek yumuşak cümle (özellik listesi değil). Duvar yalnız DİZİ posterleri (film bölümü ayrı, ayna yerleşim, sonra).
 - **[etkileşim]** Dokunmatik cihazlarda (`@media (hover: none)`) hover'a
   bağlı efektler devreden çıkar: grayscale posterler baştan RENKLİ başlar,
   uzama/scale/glow hover efektleri kapalıdır — genişlik değil hover
@@ -969,6 +982,18 @@ bölümdeki kural etiketleri dahil.
   tanımlı değildi (serbest-canvas pivotunda `.story` sarmalayıcısı
   kaybolmuştu) — başlıklar sessizce düz Montserrat render ediyordu, bu
   raporla fark edilip düzeltildi. _(2026-08, Blog editör paneli)_
+- **[blog-okuma]** BlogPost okuma düzeni denemesi TAMAMEN reddedildi, sayfa
+  eski hâline döndü: scroll ilerleme çubuğu ("bar'a hiç gerek yoktu"),
+  geniş/dar dönüşümlü gövde görselleri ("orantısız"), sidebar içindekiler
+  ("In this article") listesi, bölüm numaraları, metnin ortasına alınmış
+  alıntı bandı ve 66ch dar metin kolonu. Bunları blog sayfasına tekrar
+  önerme; monotonluk sorunu yeniden açılırsa önce referans iste. _(2026-10,
+  BlogPost — kullanıcı düzeltmesi)_
+- **[blog-okuma]** Blog gövdesi (giriş, bölüm ve sonuç paragrafları) İKİ
+  YANA YASLI (`text-align: justify`) ve görselle aynı genişliktedir; satıra
+  `ch` sınırı konmaz. Sola yaslı tırtıklı kenar "sola yatık, çirkin"
+  bulundu, 68ch sınır da reddedildi ("karakter sayısı eski haline gelsin,
+  görsel genişliğine"). _(2026-10, BlogPost — kullanıcı kararı)_
 
 ### İçerik Kartları / Window Carousel
 
@@ -1223,3 +1248,5 @@ tartışılmaması için) önceden kilitlendi.
   gerektiren yan görevlerde uygun; per-request FEED SIRALAMASI agent'a
   YAPTIRILMAZ (maliyet/gecikme/determinizm) — çekirdek skorlama formülde
   kalır. _(2026-07, Community mimari planlama)_
+
+- **[topluluk-yorum]** Community yorum alanında ("neutral" Comments) ayrı "Comments" başlığı YOK (sayaç kartın aksiyon çubuğunda); yazma kutusu odakta BÜYÜMEZ, yalnız satır sayısına göre pürüzsüz uzar; boş durum ("İlk yorumu sen yaz") kutunun placeholder'ında anlatılır, ayrı satır olmaz; yanıt dallanması eğri dirsekler değil grubun solunda tek ince çizgidir. _(2026-10, Comments — kullanıcı düzeltmesi)_
